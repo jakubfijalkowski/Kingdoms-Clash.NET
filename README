@@ -1,2 +1,12 @@
 More info at: http://blog.fiolek.org(only in Polish)
-Wi�cej informacji na: http://blog.fiolek.org
+Więcej informacji na: http://blog.fiolek.org
+
+Opis struktury katalogów:
+  * Content - content gry(chwilowo brak)
+  * Lib - używane biblioteki
+  * Src - źródła
+  |\
+  | * ClashEngine.NET - silnik gry
+  | * ClashEngine.NET.Tests - testy jednostkowe dla silnika
+  | * Kingdoms Clash.NET - właściwa gra
+  | * Kingdoms Clash.NET.Tests - testy jednostkowe gry
