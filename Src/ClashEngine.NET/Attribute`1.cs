@@ -3,9 +3,9 @@
 namespace ClashEngine.NET
 {
 	/// <summary>
-	/// Atrybut encji gry. Silnie typowana.
+	/// Atrybut encji gry. Silnie typowany.
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="T">Typ atrybutu.</typeparam>
 	public class Attribute<T>
 		: Attribute, IEquatable<Attribute<T>>
 		where T : class

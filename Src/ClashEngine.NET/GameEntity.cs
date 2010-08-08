@@ -85,6 +85,16 @@ namespace ClashEngine.NET
 				c.Update(delta);
 			}
 		}
+
+		/// <summary>
+		/// Wyszukuje atrybutu po ID.
+		/// </summary>
+		/// <param name="id">Identyfikator.</param>
+		/// <returns>Atrybut lub null, gdy nie znaleziono.</returns>
+		public Attribute GetAttribute(string id)
+		{
+			return this._Attributes.Find((a) => a.Id == id);
+		}
 		#endregion
 	}
 }

@@ -45,5 +45,19 @@ namespace ClashEngine.NET.Tests
 		{
 			Assert.Throws<Exceptions.AlreadyExistsException>(() => this.Entity.AddAttribute(this.Attribute.Object));
 		}
+
+		[Test]
+		public void GettingExistingAttribute()
+		{
+			var attrib = this.Entity.GetAttribute(this.Attribute.Object.Id);
+			Assert.AreEqual(attrib, this.Attribute.Object);
+		}
+
+		[Test]
+		public void GettingNonExistionAttribute()
+		{
+			var attrib = this.Entity.GetAttribute("FancyAttribute");
+			Assert.IsNull(attrib);
+		}
 	}
 }
