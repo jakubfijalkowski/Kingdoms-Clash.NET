@@ -1,9 +1,12 @@
-﻿namespace ClashEngine.NET
+﻿using System;
+
+namespace ClashEngine.NET
 {
 	/// <summary>
 	/// Bazowa klasa dla komponentów.
 	/// </summary>
 	public abstract class Component
+		: IEquatable<Component>
 	{
 		/// <summary>
 		/// Identyfikator(nazwa) komponentu.
@@ -29,5 +32,12 @@
 		/// </summary>
 		/// <param name="delta">Czas od ostatniego uaktualnienia.</param>
 		public abstract void Update(double delta);
+
+		#region IEquatable<Component> members
+		bool IEquatable<Component>.Equals(Component other)
+		{
+			return this.Id.Equals(other.Id);
+		}
+		#endregion
 	}
 }
