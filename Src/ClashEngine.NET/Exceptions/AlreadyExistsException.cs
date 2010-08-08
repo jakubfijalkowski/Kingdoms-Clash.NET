@@ -13,7 +13,7 @@ namespace ClashEngine.NET.Exceptions
 		/// </summary>
 		/// <param name="what">CO już istnieje..</param>
 		public AlreadyExistsException(string what)
-			: base(string.Format("{0} already exists"))
+			: base(string.Format("{0} already exists", what))
 		{ }
 	}
 }
