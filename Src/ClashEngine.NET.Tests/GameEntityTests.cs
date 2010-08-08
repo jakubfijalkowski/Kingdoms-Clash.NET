@@ -4,9 +4,10 @@ using NUnit.Framework;
 namespace ClashEngine.NET.Tests
 {
 	[TestFixture(Description = "Testowanie tworzenia encji i komponentów")]
-	public class GameEntityComponents
+	public class GameEntityTests
 	{
 		Mock<Component> Component = new Mock<Component>("MoqComponent");
+		Mock<Attribute> Attribute = new Mock<Attribute>("MoqAttribute", 0.0);
 		GameEntity Entity = new GameEntity("MoqEntity");
 
 		[Test]
@@ -18,11 +19,31 @@ namespace ClashEngine.NET.Tests
 		}
 
 		[Test]
+		public void MultipleSameComponentsAdd()
+		{
+			Assert.Throws<Exceptions.AlreadyExistsException>(() => this.Entity.AddComponent(this.Component.Object));
+		}
+
+		[Test]
 		public void ComponentsUpdate()
 		{
 			this.Component.Setup((c) => c.Update(0.0));
 			this.Entity.Update(0.0);
 			this.Component.Verify((c) => c.Update(0.0));
+		}
+
+		[Test]
+		public void AttributeAdds()
+		{
+			this.Entity.AddAttribute(this.Attribute.Object);
+			Assert.AreEqual(this.Entity.Attributes.Count, 1);
+			Assert.AreEqual(this.Entity.Attributes[0], this.Attribute.Object);
+		}
+
+		[Test]
+		public void MultipleSameAttributesAdd()
+		{
+			Assert.Throws<Exceptions.AlreadyExistsException>(() => this.Entity.AddAttribute(this.Attribute.Object));
 		}
 	}
 }

@@ -43,6 +43,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attribute.cs" />
+    <Compile Include="Attribute`1.cs" />
+    <Compile Include="Exceptions\AlreadyExistsException.cs" />
     <Compile Include="GameEntity.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="RenderableComponent.cs" />
