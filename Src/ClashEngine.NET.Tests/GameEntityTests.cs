@@ -13,9 +13,13 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void ComponentAdds()
 		{
+			this.Component.Setup(c => c.Init());
 			this.Entity.AddComponent(this.Component.Object);
+			this.Component.Verify();
+
 			Assert.AreEqual(this.Entity.Components.Count, 1);
 			Assert.AreEqual(this.Entity.Components[0], this.Component.Object);
+			Assert.AreEqual(this.Component.Object.Owner, this.Entity);
 		}
 
 		[Test]
@@ -27,9 +31,9 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void ComponentsUpdate()
 		{
-			this.Component.Setup((c) => c.Update(0.0));
+			this.Component.Setup(c => c.Update(0.0));
 			this.Entity.Update(0.0);
-			this.Component.Verify((c) => c.Update(0.0));
+			this.Component.Verify();
 		}
 
 		[Test]
