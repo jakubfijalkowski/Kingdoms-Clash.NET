@@ -28,6 +28,13 @@ namespace ClashEngine.NET
 		}
 
 		/// <summary>
+		/// Wywoływane przy inicjalizacji komponentu w GameEntity. Służy np. do dodawania atrybutów.
+		/// </summary>
+		/// <remarks>W tym miejscu właściwość Owner ma już poprawną wartość.</remarks>
+		public virtual void Init()
+		{ }
+
+		/// <summary>
 		/// Wywoływane przy uaktualnieniu.
 		/// </summary>
 		/// <param name="delta">Czas od ostatniego uaktualnienia.</param>

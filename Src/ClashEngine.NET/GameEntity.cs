@@ -58,6 +58,8 @@ namespace ClashEngine.NET
 				throw new Exceptions.AlreadyExistsException(string.Format("component '{0}'", component.Id));
 			}
 			this._Components.Add(component);
+			component.Owner = this;
+			component.Init();
 		}
 
 		/// <summary>
