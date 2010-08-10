@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace ClashEngine.NET.Tests
 {
-	[TestFixture("Testy managera ekranów")]
+	[TestFixture(Description = "Testy managera ekranów")]
 	public class ScreensManagerTests
 	{
 		private ScreensManager Manager { get; set; }
