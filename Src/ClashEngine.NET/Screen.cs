@@ -33,6 +33,7 @@ namespace ClashEngine.NET
 	{
 		private bool _IsPopup = false;
 		private bool _IsFullscreen = false;
+		private ScreenState State_ = ScreenState.Closed;
 
 		#region Properties
 		/// <summary>
@@ -77,7 +78,12 @@ namespace ClashEngine.NET
 		/// <summary>
 		/// Aktualny stan ekranu.
 		/// </summary>
-		public ScreenState State { get; internal set; }
+		public ScreenState State
+		{
+			get { return this.State_; }
+			internal set { this.State_ = value; }
+		}
+
 		#endregion
 
 		#region Events
