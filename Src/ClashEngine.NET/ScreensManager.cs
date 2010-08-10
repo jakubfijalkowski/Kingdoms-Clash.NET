@@ -8,16 +8,16 @@ namespace ClashEngine.NET
 	/// </summary>
 	public class ScreensManager
 	{
-		private List<Screen> _ScreensList = new List<Screen>();
+		private List<Screen> _Screens = new List<Screen>();
 
 		#region Properties
 		/// <summary>
 		/// Lista ekranów w managerze.
 		/// Bardziej przypomina stos/kolejkę LIFO(ostatni ekran na liście jest pierwszym "w rzeczywistości").
 		/// </summary>
-		public ReadOnlyCollection<Screen> ScreensList
+		public ReadOnlyCollection<Screen> Screens
 		{
-			get { return this._ScreensList.AsReadOnly(); }
+			get { return this._Screens.AsReadOnly(); }
 		}
 		#endregion
 
