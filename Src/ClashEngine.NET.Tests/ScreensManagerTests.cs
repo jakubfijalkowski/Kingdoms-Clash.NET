@@ -22,7 +22,6 @@ namespace ClashEngine.NET.Tests
 			this.Screen1.Object.IsFullscreen = true;
 
 			this.Screen2 = new Mock<Screen>();
-			this.Screen2.Object.IsFullscreen = true;
 
 			this.Screen3 = new Mock<Screen>();
 			this.Screen3.Object.IsFullscreen = true;
@@ -131,10 +130,12 @@ namespace ClashEngine.NET.Tests
 		public void DoesScreenClose()
 		{
 			this.Screen1.Setup(s => s.StateChanged());
+
+			this.Manager.MakeActive(this.Screen1.Object);
 			this.Manager.Close(this.Screen1.Object);
 
 			Assert.AreEqual(ScreenState.Closed, this.Screen1.Object.State);
-			this.Screen1.Verify();
+			this.Screen1.VerifyAll();
 		}
 
 		[Test]
@@ -144,7 +145,7 @@ namespace ClashEngine.NET.Tests
 			this.Manager.MakeActive(this.Screen2.Object);
 
 			Assert.AreEqual(ScreenState.Active, this.Screen2.Object.State);
-			this.Screen2.Verify();
+			this.Screen2.VerifyAll();
 		}
 
 		[Test]
@@ -155,7 +156,7 @@ namespace ClashEngine.NET.Tests
 			this.Manager.MakeInactive(this.Screen3.Object);
 
 			Assert.AreEqual(ScreenState.Inactive, this.Screen3.Object.State);
-			this.Screen3.Verify();
+			this.Screen3.VerifyAll();
 		}
 
 		[Test]
@@ -179,6 +180,66 @@ namespace ClashEngine.NET.Tests
 			this.Manager.MakeInactive(this.Screen1.Object);
 			Assert.AreEqual(ScreenState.Active, this.Screen2.Object.State);
 			Assert.AreEqual(ScreenState.Inactive, this.Screen3.Object.State);
+		}
+		#endregion
+
+		#region Rendering and updating
+		[Test]
+		public void IsCorrectScreenUpdated1([Values(1.0)] double delta)
+		{
+			this.Screen1.Setup(s => s.Update(delta));
+
+			this.Manager.MakeActive(this.Screen3.Object);
+			this.Manager.MakeActive(this.Screen2.Object);
+			this.Manager.MakeActive(this.Screen1.Object);
+
+			this.Manager.Update(delta);
+
+			this.Screen1.VerifyAll();
+		}
+
+		[Test]
+		public void IsCorrectScreenUpdated2([Values(1.0)] double delta)
+		{
+			this.Screen2.Setup(s => s.Update(delta));
+
+			this.Manager.MakeActive(this.Screen3.Object);
+			this.Manager.MakeActive(this.Screen2.Object);
+			this.Manager.MakeInactive(this.Screen1.Object);
+
+			this.Manager.Update(delta);
+
+			this.Screen2.VerifyAll();
+		}
+
+		[Test]
+		public void IsCorrectScreenRendered()
+		{
+			this.Screen1.Setup(s => s.Render());
+
+			this.Manager.MakeActive(this.Screen3.Object);
+			this.Manager.MakeActive(this.Screen2.Object);
+			this.Manager.MakeActive(this.Screen1.Object);
+
+			this.Manager.Render();
+
+			this.Screen1.VerifyAll();
+		}
+
+		[Test]
+		public void AreCorrectScreensRendered()
+		{
+			this.Screen2.Setup(s => s.Render());
+			this.Screen3.Setup(s => s.Render());
+
+			this.Manager.MakeActive(this.Screen3.Object);
+			this.Manager.MakeActive(this.Screen2.Object);
+			this.Manager.MakeInactive(this.Screen1.Object);
+
+			this.Manager.Render();
+
+			this.Screen3.VerifyAll();
+			this.Screen2.VerifyAll();
 		}
 		#endregion
 	}

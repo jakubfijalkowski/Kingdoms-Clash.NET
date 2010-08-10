@@ -23,6 +23,7 @@ namespace ClashEngine.NET
 		#endregion
 
 		#region Methods
+		#region List management
 		/// <summary>
 		/// Dodaje ekran do listy.
 		/// </summary>
@@ -56,7 +57,9 @@ namespace ClashEngine.NET
 			}
 			this._Screens.Remove(screen);
 		}
+		#endregion
 
+		#region Moving
 		/// <summary>
 		/// Przesuwa ekran na wierzch.
 		/// </summary>
@@ -89,7 +92,9 @@ namespace ClashEngine.NET
 			this._Screens.RemoveAt(position);
 			this._Screens.Insert((newPos > 0 ? newPos - 1 : newPos), screen);
 		}
+		#endregion
 
+		#region Changing state
 		/// <summary>
 		/// Zmienia ekran wskazany ekran na aktywny(tylko jeśli nie zasłania go nic innego).
 		/// </summary>
@@ -163,7 +168,7 @@ namespace ClashEngine.NET
 					{
 						this._Screens[i].State = ScreenState.Active;
 						this._Screens[i].StateChanged();
-						if (this._Screens[i].IsFullscreen) //Pełnoekranowy, i tak dalej nic nie będzie widać.
+						if (!this._Screens[i].IsPopup) //Pełnoekranowy, i tak dalej nic nie będzie widać.
 						{
 							break;
 						}
@@ -201,6 +206,22 @@ namespace ClashEngine.NET
 				screen.StateChanged();
 			}
 		}
+		#endregion
+
+		#region Rendering/updating
+		/// <summary>
+		/// Uaktualnia wszystkie ekrany, które powinny zostać uaktualnione(State == Active).
+		/// </summary>
+		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
+		public void Update(double delta)
+		{ }
+
+		/// <summary>
+		/// Odrysowywuje wszystkie ekrany, które powinny być odrysowane.
+		/// </summary>
+		public void Render()
+		{ }
+		#endregion
 		#endregion
 	}
 }
