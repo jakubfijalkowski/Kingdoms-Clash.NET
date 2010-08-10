@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ClashEngine.NET
+namespace ClashEngine.NET.EntitiesManager
 {
 	/// <summary>
 	/// Bazowa klasa dla komponentów.

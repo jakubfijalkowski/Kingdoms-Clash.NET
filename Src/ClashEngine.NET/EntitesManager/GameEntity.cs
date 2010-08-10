@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace ClashEngine.NET
+namespace ClashEngine.NET.EntitiesManager
 {
 	/// <summary>
 	/// Encja gry - kontener na komponenty i atrybuty.

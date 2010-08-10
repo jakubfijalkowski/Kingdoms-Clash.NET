@@ -1,6 +1,8 @@
 ﻿using Moq;
 using NUnit.Framework;
 
+using ClashEngine.NET.EntitiesManager;
+
 namespace ClashEngine.NET.Tests
 {
 	[TestFixture(Description = "Testowanie tworzenia encji i komponentów")]

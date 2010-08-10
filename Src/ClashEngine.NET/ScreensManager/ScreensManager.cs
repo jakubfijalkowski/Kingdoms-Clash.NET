@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System;
 
-namespace ClashEngine.NET
+namespace ClashEngine.NET.ScreensManager
 {
 	/// <summary>
 	/// Manager ekranów.

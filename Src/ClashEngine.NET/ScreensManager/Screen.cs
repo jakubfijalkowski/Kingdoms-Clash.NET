@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ClashEngine.NET
+namespace ClashEngine.NET.ScreensManager
 {
 	/// <summary>
 	/// Stan ekranu.
