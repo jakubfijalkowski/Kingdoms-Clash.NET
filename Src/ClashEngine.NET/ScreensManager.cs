@@ -214,13 +214,33 @@ namespace ClashEngine.NET
 		/// </summary>
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
 		public void Update(double delta)
-		{ }
+		{
+			foreach (Screen screen in this._Screens)
+			{
+				if (screen.State == ScreenState.Active)
+				{
+					screen.Update(delta);
+				}
+			}
+		}
 
 		/// <summary>
 		/// Odrysowywuje wszystkie ekrany, które powinny być odrysowane.
+		/// Renderowanie odbywa się od końca - ekran na początku listy jest odrysowywany na końcu.
 		/// </summary>
 		public void Render()
-		{ }
+		{
+			//Szukamy pierwszego pełnoekranowego ekranu(masło maślane x2...), który nie jest zamknięty.
+			int firstFullscreen = 0;
+			for(; firstFullscreen < this._Screens.Count
+				&& !(this._Screens[firstFullscreen].IsFullscreen && this._Screens[firstFullscreen].State != ScreenState.Closed);
+				++firstFullscreen);
+
+			for (; firstFullscreen >= 0; --firstFullscreen)
+			{
+				this._Screens[firstFullscreen].Render();
+			}
+		}
 		#endregion
 		#endregion
 	}
