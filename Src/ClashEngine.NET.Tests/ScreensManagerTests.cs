@@ -59,19 +59,19 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void ThrowsExectpionOnAddingNull()
 		{
-			Assert.Throws<ArgumentException>(() => this.Manager.AddScreen(null));
+			Assert.Throws<ArgumentNullException>(() => this.Manager.AddScreen(null));
 		}
 
 		[Test]
 		public void ThrowsExectpionOnRemovingNull()
 		{
-			Assert.Throws<ArgumentException>(() => this.Manager.RemoveScreen(null));
+			Assert.Throws<ArgumentNullException>(() => this.Manager.RemoveScreen(null));
 		}
 
 		[Test]
 		public void ThrowsExectpionOnAddingExistingScreen()
 		{
-			Assert.Throws<ArgumentException>(() => this.Manager.AddScreen(this.Screen1.Object));
+			Assert.Throws<Exceptions.AlreadyExistsException>(() => this.Manager.AddScreen(this.Screen1.Object));
 		}
 
 		[Test]
@@ -99,13 +99,13 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void ThrowsExectpionOnMovingToFrontNull()
 		{
-			Assert.Throws<ArgumentException>(() => this.Manager.MoveToFront(null));
+			Assert.Throws<ArgumentNullException>(() => this.Manager.MoveToFront(null));
 		}
 
 		[Test]
 		public void ThrowsExectpionOnMovingNull()
 		{
-			Assert.Throws<ArgumentException>(() => this.Manager.MoveTo(null, 0));
+			Assert.Throws<ArgumentNullException>(() => this.Manager.MoveTo(null, 0));
 		}
 
 		[Test]
@@ -125,7 +125,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void DoesScreenClose()
 		{
-			this.Screen1.SetupProperty(p => p.State).Setup(s => s.StateChanged());
+			this.Screen1.Setup(s => s.StateChanged());
 			this.Manager.Close(this.Screen1.Object);
 
 			Assert.AreEqual(ScreenState.Closed, this.Screen1.Object.State);
@@ -135,7 +135,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void DoesScreenMakeActive()
 		{
-			this.Screen2.SetupProperty(p => p.State).Setup(s => s.StateChanged());
+			this.Screen2.Setup(s => s.StateChanged());
 			this.Manager.MakeActive(this.Screen2.Object);
 
 			Assert.AreEqual(ScreenState.Active, this.Screen2.Object.State);
@@ -145,7 +145,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void DoesScreenMakeInactive()
 		{
-			this.Screen3.SetupProperty(p => p.State).Setup(s => s.StateChanged());
+			this.Screen3.Setup(s => s.StateChanged());
 			this.Manager.MakeInactive(this.Screen3.Object);
 
 			Assert.AreEqual(ScreenState.Inactive, this.Screen3.Object.State);
