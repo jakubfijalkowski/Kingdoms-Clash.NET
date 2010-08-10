@@ -19,8 +19,13 @@ namespace ClashEngine.NET.Tests
 		{
 			this.Manager = new ScreensManager();
 			this.Screen1 = new Mock<Screen>();
-			this.Screen3 = new Mock<Screen>();
+			this.Screen1.Object.IsFullscreen = true;
+
 			this.Screen2 = new Mock<Screen>();
+			this.Screen2.Object.IsFullscreen = true;
+
+			this.Screen3 = new Mock<Screen>();
+			this.Screen3.Object.IsFullscreen = true;
 
 			this.Manager.AddScreen(this.Screen1.Object);
 			this.Manager.AddScreen(this.Screen2.Object);
@@ -146,10 +151,34 @@ namespace ClashEngine.NET.Tests
 		public void DoesScreenMakeInactive()
 		{
 			this.Screen3.Setup(s => s.StateChanged());
+			this.Manager.MakeActive(this.Screen3.Object);
 			this.Manager.MakeInactive(this.Screen3.Object);
 
 			Assert.AreEqual(ScreenState.Inactive, this.Screen3.Object.State);
 			this.Screen3.Verify();
+		}
+
+		[Test]
+		public void ActivatingScreenCorrectlyDeactivateOther()
+		{
+			this.Manager.MakeActive(this.Screen3.Object);
+			this.Manager.MakeActive(this.Screen2.Object);
+			this.Manager.MakeActive(this.Screen1.Object);
+			Assert.AreEqual(ScreenState.Inactive, this.Screen2.Object.State);
+			Assert.AreEqual(ScreenState.Inactive, this.Screen3.Object.State);
+		}
+
+		[Test]
+		public void DeactivatingScreenCorrectlyActivateOther()
+		{
+			//Najpierw aktywujemy
+			this.Manager.MakeActive(this.Screen3.Object);
+			this.Manager.MakeActive(this.Screen2.Object);
+			this.Manager.MakeActive(this.Screen1.Object);
+
+			this.Manager.MakeInactive(this.Screen1.Object);
+			Assert.AreEqual(ScreenState.Active, this.Screen2.Object.State);
+			Assert.AreEqual(ScreenState.Inactive, this.Screen3.Object.State);
 		}
 		#endregion
 	}
