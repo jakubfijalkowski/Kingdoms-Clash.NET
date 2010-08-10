@@ -69,9 +69,9 @@ namespace ClashEngine.NET.Tests
 		}
 
 		[Test]
-		public void ThrowsExectpionOnAddingNonExistingScreen()
+		public void ThrowsExectpionOnAddingExistingScreen()
 		{
-			Assert.Throws<ArgumentException>(() => this.Manager.AddScreen(new Mock<Screen>().Object));
+			Assert.Throws<ArgumentException>(() => this.Manager.AddScreen(this.Screen1.Object));
 		}
 
 		[Test]
@@ -92,8 +92,8 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void DoesScreenMoveToSpecifiedPosition()
 		{
-			this.Manager.MoveTo(this.Screen3.Object, 2);
-			Assert.AreEqual(this.Screen3.Object, this.Manager.Screens[this.Manager.Screens.Count - 2]);
+			this.Manager.MoveTo(this.Screen1.Object, 2);
+			Assert.AreEqual(this.Screen1.Object, this.Manager.Screens[1]);
 		}
 
 		[Test]
