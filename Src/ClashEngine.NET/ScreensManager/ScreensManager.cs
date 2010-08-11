@@ -36,7 +36,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 			else if (this._Screens.Contains(screen))
 			{
-				throw new Exceptions.AlreadyExistsException("screen");
+				throw new Exceptions.ArgumentAlreadyExistsException("screen");
 			}
 			this._Screens.Add(screen);
 		}

@@ -77,7 +77,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void ThrowsExectpionOnAddingExistingScreen()
 		{
-			Assert.Throws<Exceptions.AlreadyExistsException>(() => this.Manager.AddScreen(this.Screen1.Object));
+			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Manager.AddScreen(this.Screen1.Object));
 		}
 
 		[Test]

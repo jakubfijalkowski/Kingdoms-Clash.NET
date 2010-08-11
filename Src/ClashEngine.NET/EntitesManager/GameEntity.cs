@@ -49,13 +49,13 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <summary>
 		/// Dodaje komponent do encji.
 		/// </summary>
-		/// <exception cref="Exceptions.AlreadyExistsException">Rzucane gdy taki komponent został już dodany.</exception>
+		/// <exception cref="Exceptions.ArgumentAlreadyExistsException">Rzucane gdy taki komponent został już dodany.</exception>
 		/// <param name="component">Komponent. Musi być unikatowy.</param>
 		public void AddComponent(Component component)
 		{
 			if (this._Components.Contains(component))
 			{
-				throw new Exceptions.AlreadyExistsException(string.Format("component '{0}'", component.Id));
+				throw new Exceptions.ArgumentAlreadyExistsException("component");
 			}
 			this._Components.Add(component);
 			component.Owner = this;
@@ -65,13 +65,13 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <summary>
 		/// Dodaje atrybut do encji.
 		/// </summary>
-		/// <exception cref="Exceptions.AlreadyExistsException">Rzucane gdy taki atrybut został już dodany.</exception>
+		/// <exception cref="Exceptions.ArgumentAlreadyExistsException">Rzucane gdy taki atrybut został już dodany.</exception>
 		/// <param name="attribute">Atrybut. Musi być unikatowy.</param>
 		public void AddAttribute(Attribute attribute)
 		{
 			if (this._Attributes.Contains(attribute))
 			{
-				throw new Exceptions.AlreadyExistsException(string.Format("attribute '{0}'", attribute.Id));
+				throw new Exceptions.ArgumentAlreadyExistsException("attribute");
 			}
 			this._Attributes.Add(attribute);
 		}

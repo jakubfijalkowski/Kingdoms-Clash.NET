@@ -27,7 +27,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void MultipleSameComponentsAdd()
 		{
-			Assert.Throws<Exceptions.AlreadyExistsException>(() => this.Entity.AddComponent(this.Component.Object));
+			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.AddComponent(this.Component.Object));
 		}
 
 		[Test]
@@ -49,7 +49,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void MultipleSameAttributesAdd()
 		{
-			Assert.Throws<Exceptions.AlreadyExistsException>(() => this.Entity.AddAttribute(this.Attribute.Object));
+			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.AddAttribute(this.Attribute.Object));
 		}
 
 		[Test]
