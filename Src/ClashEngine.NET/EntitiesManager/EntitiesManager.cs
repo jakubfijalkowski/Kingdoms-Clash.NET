@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System;
 
 namespace ClashEngine.NET.EntitiesManager
 {
@@ -54,6 +54,10 @@ namespace ClashEngine.NET.EntitiesManager
 			this.Entities_.Remove(entity);
 		}
 
+		/// <summary>
+		/// Uaktualnia eszystkie encje.
+		/// </summary>
+		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
 		public void Update(double delta)
 		{
 			foreach (GameEntity entity in this.Entities_)
@@ -62,6 +66,10 @@ namespace ClashEngine.NET.EntitiesManager
 			}
 		}
 
+		/// <summary>
+		/// Renderuje wszystkie renderowalne komponenty encji.
+		/// Do zaimplementowania.
+		/// </summary>
 		public void Render()
 		{ }
 		#endregion
