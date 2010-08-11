@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System;
 
 namespace ClashEngine.NET.EntitiesManager
 {
 	public class EntitiesManager
 	{
 		#region Properties
-		private List<GameEntity> Entities_;
+		private List<GameEntity> Entities_ = new List<GameEntity>();
 
 		/// <summary>
 		/// Lista encji.
@@ -18,14 +19,48 @@ namespace ClashEngine.NET.EntitiesManager
 		#endregion
 
 		#region Methods
+		/// <summary>
+		/// Dodaje encję.
+		/// Nie można dodawać dwóch IDENTYCZNYCH(ten sam obiekt) encji - wiele encji o tym samym ID jest dozwolone.
+		/// </summary>
+		/// <param name="entity">Encja do dodania.</param>
 		public void AddEntity(GameEntity entity)
-		{ }
+		{
+			if (entity == null)
+			{
+				throw new ArgumentNullException("entity");
+			}
+			else if (this.Entities_.Contains(entity))
+			{
+				throw new Exceptions.ArgumentAlreadyExistsException("entity");
+			}
+			this.Entities_.Add(entity);
+		}
 
+		/// <summary>
+		/// Usuwa encję.
+		/// </summary>
+		/// <param name="entity">Encja do usunięcia.</param>
 		public void RemoveEntity(GameEntity entity)
-		{ }
+		{
+			if (entity == null)
+			{
+				throw new ArgumentNullException("entity");
+			}
+			else if (!this.Entities_.Contains(entity))
+			{
+				throw new Exceptions.ArgumentNotExistsException("entity");
+			}
+			this.Entities_.Remove(entity);
+		}
 
 		public void Update(double delta)
-		{ }
+		{
+			foreach (GameEntity entity in this.Entities_)
+			{
+				entity.Update(delta);
+			}
+		}
 
 		public void Render()
 		{ }

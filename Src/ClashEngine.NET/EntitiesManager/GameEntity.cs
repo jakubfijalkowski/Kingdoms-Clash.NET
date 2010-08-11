@@ -80,7 +80,7 @@ namespace ClashEngine.NET.EntitiesManager
 		/// Uaktualnia wszystkie komponenty.
 		/// </summary>
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
-		public void Update(double delta)
+		public virtual void Update(double delta)
 		{
 			foreach (Component c in this.Components)
 			{
