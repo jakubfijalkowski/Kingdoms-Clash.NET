@@ -53,7 +53,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 			else if (!this._Screens.Contains(screen))
 			{
-				throw new ArgumentException("Screen does not exists", "screen");
+				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
 			this._Screens.Remove(screen);
 		}
@@ -82,7 +82,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 			else if (!this._Screens.Contains(screen))
 			{
-				throw new ArgumentException("Screen does not exists", "screen");
+				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
 			int position = this._Screens.IndexOf(screen);
 			if (position > newPos && newPos > 0)
@@ -108,7 +108,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 			else if (!this._Screens.Contains(screen))
 			{
-				throw new ArgumentException("Screen does not exists", "screen");
+				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
 			//Sprawdzamy, czy nic nie zasłania ekranu.
 			for (int i = this._Screens.IndexOf(screen); i > 0; i--)
@@ -153,7 +153,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 			else if (!this._Screens.Contains(screen))
 			{
-				throw new ArgumentException("Screen does not exists", "screen");
+				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
 			if (screen.State != ScreenState.Active)
 			{
@@ -194,7 +194,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 			else if (!this._Screens.Contains(screen))
 			{
-				throw new ArgumentException("Screen does not exists", "screen");
+				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
 			if (screen.State == ScreenState.Active)
 			{

@@ -83,7 +83,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void ThrowsExectpionOnRemovingNonExistingScreen()
 		{
-			Assert.Throws<ArgumentException>(() => this.Manager.RemoveScreen(new Mock<Screen>().Object));
+			Assert.Throws<Exceptions.ArgumentNotExistsException>(() => this.Manager.RemoveScreen(new Mock<Screen>().Object));
 		}
 		#endregion
 
@@ -117,13 +117,13 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void ThrowsExectpionOnMovingToFrontNonExistingScreen()
 		{
-			Assert.Throws<ArgumentException>(() => this.Manager.MoveToFront(new Mock<Screen>().Object));
+			Assert.Throws<Exceptions.ArgumentNotExistsException>(() => this.Manager.MoveToFront(new Mock<Screen>().Object));
 		}
 
 		[Test]
 		public void ThrowsExectpionOnMovingNonExistingScreen()
 		{
-			Assert.Throws<ArgumentException>(() => this.Manager.MoveTo(new Mock<Screen>().Object, 0));
+			Assert.Throws<Exceptions.ArgumentNotExistsException>(() => this.Manager.MoveTo(new Mock<Screen>().Object, 0));
 		}
 		#endregion
 

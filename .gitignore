@@ -3,3 +3,5 @@
 *.user
 *.suo
 *.bat
+TestResult.xml
+*.VisualState.xml

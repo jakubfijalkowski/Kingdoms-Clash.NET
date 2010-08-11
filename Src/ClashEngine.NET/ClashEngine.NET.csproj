@@ -49,6 +49,7 @@
     <Compile Include="EntitesManager\GameEntity.cs" />
     <Compile Include="EntitesManager\RenderableComponent.cs" />
     <Compile Include="Exceptions\ArgumentAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\ArgumentNotExistsException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreensManager\Screen.cs" />
     <Compile Include="ScreensManager\ScreensManager.cs" />
