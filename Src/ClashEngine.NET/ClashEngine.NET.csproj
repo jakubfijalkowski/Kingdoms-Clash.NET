@@ -43,11 +43,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntitesManager\Attribute.cs" />
-    <Compile Include="EntitesManager\Attribute`1.cs" />
-    <Compile Include="EntitesManager\Component.cs" />
-    <Compile Include="EntitesManager\GameEntity.cs" />
-    <Compile Include="EntitesManager\RenderableComponent.cs" />
+    <Compile Include="EntitiesManager\Attribute.cs" />
+    <Compile Include="EntitiesManager\Attribute`1.cs" />
+    <Compile Include="EntitiesManager\Component.cs" />
+    <Compile Include="EntitiesManager\EntitiesManager.cs" />
+    <Compile Include="EntitiesManager\GameEntity.cs" />
+    <Compile Include="EntitiesManager\RenderableComponent.cs" />
     <Compile Include="Exceptions\ArgumentAlreadyExistsException.cs" />
     <Compile Include="Exceptions\ArgumentNotExistsException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
