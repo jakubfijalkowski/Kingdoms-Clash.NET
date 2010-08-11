@@ -19,6 +19,11 @@ namespace ClashEngine.NET.EntitiesManager
 		public string Id { get; private set; }
 
 		/// <summary>
+		/// Manager encji.
+		/// </summary>
+		public EntitiesManager Manager { get; internal set; }
+
+		/// <summary>
 		/// Lista komponentów.
 		/// </summary>
 		public ReadOnlyCollection<Component> Components

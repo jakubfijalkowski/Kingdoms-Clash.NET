@@ -1,7 +1,7 @@
-﻿using ClashEngine.NET.EntitiesManager;
-using NUnit.Framework;
+﻿using System;
+using ClashEngine.NET.EntitiesManager;
 using Moq;
-using System;
+using NUnit.Framework;
 
 namespace ClashEngine.NET.Tests
 {
@@ -42,6 +42,14 @@ namespace ClashEngine.NET.Tests
 
 			//Powrót do poprzedniego stanu
 			this.Manager.AddEntity(this.Entity1.Object);
+		}
+
+		[Test]
+		public void PropertiesAreCorrect()
+		{
+			Assert.AreEqual(this.Manager, this.Entity1.Object.Manager);
+			Assert.AreEqual(this.Manager, this.Entity2.Object.Manager);
+			Assert.AreEqual(this.Manager, this.Entity3.Object.Manager);
 		}
 
 		[Test]

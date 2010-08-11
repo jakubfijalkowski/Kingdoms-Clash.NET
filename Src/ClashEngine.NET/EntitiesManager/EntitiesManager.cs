@@ -35,6 +35,7 @@ namespace ClashEngine.NET.EntitiesManager
 				throw new Exceptions.ArgumentAlreadyExistsException("entity");
 			}
 			this.Entities_.Add(entity);
+			entity.Manager = this;
 		}
 
 		/// <summary>
