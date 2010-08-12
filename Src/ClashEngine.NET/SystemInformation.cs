@@ -179,8 +179,11 @@ namespace ClashEngine.NET
 
 			foreach (var item in this.Get("Win32_PhysicalMemoryArray"))
 			{
-				this.MemorySize = (uint)item["MaxCapacity"];
-				break;
+				if ((ushort)item["Use"] == 0x3)
+				{
+					this.MemorySize = (uint)item["MaxCapacity"];
+					break;
+				}
 			}
 
 			foreach (var item in this.Get("Win32_VideoController"))
