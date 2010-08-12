@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Management;
 using OpenTK.Graphics.OpenGL;
-using System.Runtime.InteropServices;
 
 namespace ClashEngine.NET
 {
@@ -62,6 +61,11 @@ namespace ClashEngine.NET
 		/// Czy proces jest 64-bitowy.
 		/// </summary>
 		public bool Is64BitProcess { get; private set; }
+
+		/// <summary>
+		/// Wesja CLR.
+		/// </summary>
+		public Version CLRVersion { get; private set; }
 		#endregion
 
 		#region RAM
@@ -83,9 +87,9 @@ namespace ClashEngine.NET
 		public uint VRAMSize { get; private set; }
 
 		/// <summary>
-		/// Wersja zainstalowanych sterowników.
+		/// Wersja zainstalowanych sterowników karty graficznej.
 		/// </summary>
-		public string DriverVersion { get; private set; }
+		public string GraphicsDriverVersion { get; private set; }
 		#endregion
 
 		#region Processor
@@ -171,6 +175,7 @@ namespace ClashEngine.NET
 			this.System = Environment.OSVersion;
 			this.Is64BitOS = Environment.Is64BitOperatingSystem;
 			this.Is64BitProcess = Environment.Is64BitProcess;
+			this.CLRVersion = Environment.Version;
 
 			foreach (var item in this.Get("Win32_PhysicalMemoryArray"))
 			{
@@ -182,7 +187,7 @@ namespace ClashEngine.NET
 			{
 				this.GraphicsCardName = (string)item["Caption"];
 				this.VRAMSize = (uint)item["AdapterRAM"];
-				this.DriverVersion = (string)item["DriverVersion"];
+				this.GraphicsDriverVersion = (string)item["DriverVersion"];
 				break;
 			}
 
