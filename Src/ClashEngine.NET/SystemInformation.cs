@@ -185,7 +185,7 @@ namespace ClashEngine.NET
 
 			foreach (var item in this.Get("Win32_VideoController"))
 			{
-				this.GraphicsCardName = (string)item["Caption"];
+				this.GraphicsCardName = (string)item["Name"];
 				this.VRAMSize = (uint)item["AdapterRAM"];
 				this.GraphicsDriverVersion = (string)item["DriverVersion"];
 				break;
