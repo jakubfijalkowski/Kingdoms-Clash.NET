@@ -177,13 +177,10 @@ namespace ClashEngine.NET
 			this.Is64BitProcess = Environment.Is64BitProcess;
 			this.CLRVersion = Environment.Version;
 
-			foreach (var item in this.Get("Win32_PhysicalMemoryArray"))
+			foreach (var item in this.Get("Win32_PhysicalMemoryArray", "Use = 3"))
 			{
-				if ((ushort)item["Use"] == 0x3)
-				{
-					this.MemorySize = (uint)item["MaxCapacity"];
-					break;
-				}
+				this.MemorySize = (uint)item["MaxCapacity"];
+				break;
 			}
 
 			foreach (var item in this.Get("Win32_VideoController"))
