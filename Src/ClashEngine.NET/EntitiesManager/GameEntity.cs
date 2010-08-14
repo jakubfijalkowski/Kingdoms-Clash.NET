@@ -10,6 +10,7 @@ namespace ClashEngine.NET.EntitiesManager
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 		private List<Component> _Components = new List<Component>();
+		private List<RenderableComponent> _RenderableComponents = new List<RenderableComponent>();
 		private List<Attribute> _Attributes = new List<Attribute>();
 
 		#region Properties
@@ -63,6 +64,10 @@ namespace ClashEngine.NET.EntitiesManager
 				throw new Exceptions.ArgumentAlreadyExistsException("component");
 			}
 			this._Components.Add(component);
+			if (component is RenderableComponent)
+			{
+				this._RenderableComponents.Add(component as RenderableComponent);
+			}
 			component.Owner = this;
 			component.Init();
 		}
@@ -82,18 +87,6 @@ namespace ClashEngine.NET.EntitiesManager
 		}
 
 		/// <summary>
-		/// Uaktualnia wszystkie komponenty.
-		/// </summary>
-		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
-		public virtual void Update(double delta)
-		{
-			foreach (Component c in this.Components)
-			{
-				c.Update(delta);
-			}
-		}
-
-		/// <summary>
 		/// Wyszukuje atrybutu po ID.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
@@ -101,6 +94,29 @@ namespace ClashEngine.NET.EntitiesManager
 		public Attribute GetAttribute(string id)
 		{
 			return this._Attributes.Find((a) => a.Id == id);
+		}
+
+		/// <summary>
+		/// Uaktualnia wszystkie komponenty.
+		/// </summary>
+		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
+		public virtual void Update(double delta)
+		{
+			foreach (Component c in this._Components)
+			{
+				c.Update(delta);
+			}
+		}
+
+		/// <summary>
+		/// Rysuje encję.
+		/// </summary>
+		public virtual void Render()
+		{
+			foreach (RenderableComponent c in this._RenderableComponents)
+			{
+				c.Render();
+			}
 		}
 		#endregion
 	}

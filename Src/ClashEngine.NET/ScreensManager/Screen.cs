@@ -34,6 +34,7 @@ namespace ClashEngine.NET.ScreensManager
 		private bool _IsPopup = false;
 		private bool _IsFullscreen = false;
 		private ScreenState State_ = ScreenState.Closed;
+		private EntitiesManager.EntitiesManager Entites_ = new EntitiesManager.EntitiesManager();
 
 		#region Properties
 		/// <summary>
@@ -84,6 +85,13 @@ namespace ClashEngine.NET.ScreensManager
 			internal set { this.State_ = value; }
 		}
 
+		/// <summary>
+		/// Manager encji ekranu.
+		/// </summary>
+		public EntitiesManager.EntitiesManager Entities
+		{
+			get { return this.Entites_; }
+		}
 		#endregion
 
 		#region Events
@@ -92,13 +100,17 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		/// <param name="delta">Czas od ostatniego uaktualnienia.</param>
 		public virtual void Update(double delta)
-		{ }
+		{
+			this.Entites_.Update(delta);
+		}
 
 		/// <summary>
 		/// Ekran ma się odrysować.
 		/// </summary>
 		public virtual void Render()
-		{ }
+		{
+			this.Entites_.Render();
+		}
 
 		/// <summary>
 		/// Zmienił się stan ekranu.
