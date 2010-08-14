@@ -8,50 +8,60 @@ namespace ClashEngine.NET.Tests
 	[TestFixture(Description = "Testowanie tworzenia encji i komponentów")]
 	public class GameEntityTests
 	{
-		Mock<Component> Component = new Mock<Component>("MoqComponent");
-		Mock<Attribute> Attribute = new Mock<Attribute>("MoqAttribute", 0.0);
-		GameEntity Entity = new GameEntity("MoqEntity");
+		Mock<Component> Component;
+		Mock<RenderableComponent> RenderableComponent;
+		Mock<Attribute> Attribute;
 
-		[Test]
-		public void ComponentAdds()
+		GameEntity Entity;
+
+		[SetUp]
+		public void SetUp()
 		{
+			this.Component = new Mock<Component>("Component");
 			this.Component.Setup(c => c.Init());
+
+			this.RenderableComponent = new Mock<RenderableComponent>("RenderableComponent");
+			this.RenderableComponent.Setup(c => c.Init());
+
+			this.Attribute = new Mock<Attribute>("Attribute", 0.0);
+			this.Entity = new GameEntity("Entity");
+
 			this.Entity.AddComponent(this.Component.Object);
-			this.Component.Verify();
-
-			Assert.AreEqual(this.Entity.Components.Count, 1);
-			Assert.AreEqual(this.Entity.Components[0], this.Component.Object);
-			Assert.AreEqual(this.Component.Object.Owner, this.Entity);
-		}
-
-		[Test]
-		public void MultipleSameComponentsAdd()
-		{
-			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.AddComponent(this.Component.Object));
-		}
-
-		[Test]
-		public void ComponentsUpdate()
-		{
-			this.Component.Setup(c => c.Update(0.0));
-			this.Entity.Update(0.0);
-			this.Component.Verify();
-		}
-
-		[Test]
-		public void AttributeAdds()
-		{
+			this.Entity.AddComponent(this.RenderableComponent.Object);
 			this.Entity.AddAttribute(this.Attribute.Object);
-			Assert.AreEqual(this.Entity.Attributes.Count, 1);
+		}
+
+		#region Adding
+		[Test]
+		public void DoComponentsAdd()
+		{
+			Assert.AreEqual(2, this.Entity.Components.Count);
+			this.Component.Verify(c => c.Init());
+			this.RenderableComponent.Verify(c => c.Init());
+		}
+
+		[Test]
+		public void DoesAttributeAdd()
+		{
+			Assert.AreEqual(1, this.Entity.Attributes.Count);
 			Assert.AreEqual(this.Entity.Attributes[0], this.Attribute.Object);
 		}
 
 		[Test]
-		public void MultipleSameAttributesAdd()
+		public void ThrowsExceptionOnAddingSameComponentManyTimes()
+		{
+			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.AddComponent(this.Component.Object));
+			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.AddComponent(this.RenderableComponent.Object));
+		}
+
+		[Test]
+		public void ThrowsExceptionOnAddingSameAttributeManyTimes()
 		{
 			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.AddAttribute(this.Attribute.Object));
 		}
+		#endregion
 
+		#region Getting data
 		[Test]
 		public void GettingExistingAttribute()
 		{
@@ -60,10 +70,32 @@ namespace ClashEngine.NET.Tests
 		}
 
 		[Test]
-		public void GettingNonExistionAttribute()
+		public void GettingNonExistionAttributeReturnsNull()
 		{
 			var attrib = this.Entity.GetAttribute("FancyAttribute");
 			Assert.IsNull(attrib);
 		}
+
+		#endregion
+
+		#region Other
+		[Test]
+		public void DoComponentsUpdate([Values(0.0)] double delta)
+		{
+			this.Component.Setup(c => c.Update(delta));
+			this.RenderableComponent.Setup(c => c.Update(delta));
+			this.Entity.Update(delta);
+			this.Component.VerifyAll();
+			this.RenderableComponent.VerifyAll();
+		}
+
+		[Test]
+		public void DoesComponentRender()
+		{
+			this.RenderableComponent.Setup(c => c.Render());
+			this.Entity.Render();
+			this.RenderableComponent.VerifyAll();
+		}
+		#endregion
 	}
 }
