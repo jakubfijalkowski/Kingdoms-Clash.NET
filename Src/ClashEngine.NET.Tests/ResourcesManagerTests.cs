@@ -1,7 +1,7 @@
 ﻿using System;
+using ClashEngine.NET.ResourcesManager;
 using Moq;
 using NUnit.Framework;
-using ClashEngine.NET.ResourcesManager;
 
 namespace ClashEngine.NET.Tests
 {
@@ -28,8 +28,15 @@ namespace ClashEngine.NET.Tests
 			this.Manager.Load("resource 2", this.Resource2.Object);
 		}
 
+		[TearDown]
+		public void TearDown()
+		{
+			this.Manager.Free(this.Resource1.Object);
+			this.Manager.Free(this.Resource2.Object);
+		}
+
 		#region Loading/freeing
-		[Test]
+		[Test(Description = "Sprawdza dodawanie przez metodę niegeneryczną, metody generycznej nie da się użyć z Moq")]
 		public void DoResourcesLoad()
 		{
 			Assert.AreEqual(2, this.Manager.TotalCount);
@@ -37,6 +44,18 @@ namespace ClashEngine.NET.Tests
 			this.Resource2.Verify(r => r.Load());
 		}
 
+		[Test(Description = "Sprawdza dodawanie przez metodę generyczną bez użycia Moq, wymaga testu DoesResourceFreeByResource")]
+		public void DoResourcesLoadNonMoq()
+		{
+			int old = this.Manager.TotalCount;
+			var res = this.Manager.Load<MockResource>("resource 3");
+			Assert.AreEqual(old + 1, this.Manager.TotalCount);
+
+			//Wracamy do stanu sprzed - nie mam pomysłu jak uniezależnić resztę od tego testu, więc jest tak a nie inaczej
+			//Do zmiany w przyszłości
+			this.Manager.Free(res);
+		}
+		
 		[Test]
 		public void LoadingExistingResourceReturnsExistingObject()
 		{
@@ -83,6 +102,20 @@ namespace ClashEngine.NET.Tests
 			//Wracamy do stanu "sprzed" - można to zrobić lepiej?
 			this.Manager.Load("resource 1", this.Resource1.Object);
 		}
+
+		[Test]
+		public void FreeingResourcesWithInvalidParameterThrowsException()
+		{
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Free((string)null));
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Free(string.Empty));
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Free((Resource)null));
+		}
+
+		[Test]
+		public void FreeingNonExistingResourcesThrowsException()
+		{
+			Assert.Throws<Exceptions.NotFoundException>(() => this.Manager.Free("invalid resource"));
+		}
 		#endregion
 
 		#region Mock classes
@@ -93,14 +126,10 @@ namespace ClashEngine.NET.Tests
 			: ResourcesManager.Resource
 		{
 			public override void Load()
-			{
-				throw new NotImplementedException();
-			}
+			{ }
 
 			public override void Free()
-			{
-				throw new NotImplementedException();
-			}
+			{ }
 		}
 
 		/// <summary>
@@ -110,14 +139,10 @@ namespace ClashEngine.NET.Tests
 			: ResourcesManager.Resource
 		{
 			public override void Load()
-			{
-				throw new NotImplementedException();
-			}
+			{ }
 
 			public override void Free()
-			{
-				throw new NotImplementedException();
-			}
+			{ }
 		}
 		#endregion
 	}
