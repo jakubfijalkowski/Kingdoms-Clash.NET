@@ -45,6 +45,7 @@
     <Compile Include="EntitiesManagerTests.cs" />
     <Compile Include="GameEntityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourcesManagerTests.cs" />
     <Compile Include="ScreensManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>
