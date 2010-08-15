@@ -9,7 +9,7 @@ namespace ClashEngine.NET.ResourcesManager
 	/// </summary>
 	public class ResourcesManager
 	{
-		private Dictionary<string, Resource> Resources;
+		private Dictionary<string, Resource> Resources = new Dictionary<string, Resource>();
 
 		#region Singleton implementation
 		private static ResourcesManager _Instance = null;
@@ -64,6 +64,7 @@ namespace ClashEngine.NET.ResourcesManager
 		/// <summary>
 		/// Ładuje zasób do już istniejącego.
 		/// Jeśli zasób już był załadowany, zwraca go i obiekt podany w parametrze jest nieruszony, w przeciwnym razie zwraca parametr.
+		/// Typ zwracanego zasobu NIE MUSI się zgadzać z typem parametru res.
 		/// </summary>
 		/// <param name="filename">Nazwa pliku.</param>
 		/// <param name="res">Zasób.</param>

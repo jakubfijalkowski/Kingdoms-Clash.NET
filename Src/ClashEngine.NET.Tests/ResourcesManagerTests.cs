@@ -1,6 +1,7 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
+using ClashEngine.NET.ResourcesManager;
 
 namespace ClashEngine.NET.Tests
 {
@@ -32,6 +33,31 @@ namespace ClashEngine.NET.Tests
 		public void DoResourcesLoad()
 		{
 			Assert.AreEqual(2, this.Manager.TotalCount);
+			this.Resource1.Verify(r => r.Load());
+			this.Resource2.Verify(r => r.Load());
+		}
+
+		[Test]
+		public void LoadingExistingResourceReturnsExistingObject()
+		{
+			Assert.AreEqual(this.Resource1.Object, this.Manager.Load("resource 1", new MockResource())); //Wersja niegeneryczna
+			Assert.AreEqual(this.Resource1.Object, this.Manager.Load<MockResource>("resource 1")); //Wersja generyczna.
+		}
+
+		[Test]
+		public void LoadingExistingResourceUsingInvalidTypeThrowsException()
+		{
+			Assert.Throws<InvalidCastException>(() => this.Manager.Load<MockResource2>("resource 1"));
+		}
+
+		[Test]
+		public void LoadingResourcesWithEmptyOrNullStringThrowsException()
+		{
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Load(null, new MockResource()));
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Load(string.Empty, new MockResource())); //Wersja niegeneryczna
+
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Load<MockResource>(null));
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Load<MockResource>(string.Empty)); //Wersja generyczna
 		}
 
 		[Test]
@@ -40,17 +66,47 @@ namespace ClashEngine.NET.Tests
 			int old = this.Manager.TotalCount;
 			this.Manager.Free(this.Resource1.Object);
 			Assert.AreEqual(old - 1, this.Manager.TotalCount);
+			this.Resource1.Verify(r => r.Free());
+
+			//Wracamy do stanu "sprzed" - można to zrobić lepiej?
+			this.Manager.Load("resource 1", this.Resource1.Object);
+		}
+
+		[Test]
+		public void DoesResourceFreeById()
+		{
+			int old = this.Manager.TotalCount;
+			this.Manager.Free(this.Resource1.Object.Id);
+			Assert.AreEqual(old - 1, this.Manager.TotalCount);
+			this.Resource1.Verify(r => r.Free());
 
 			//Wracamy do stanu "sprzed" - można to zrobić lepiej?
 			this.Manager.Load("resource 1", this.Resource1.Object);
 		}
 		#endregion
 
-		#region Mock class
+		#region Mock classes
 		/// <summary>
-		/// Klasa zasobu do użycia przez Moq.
+		/// Klasa zasobu nie-abstrakcyjna(ale pusta) do użycia przez Moq #1.
 		/// </summary>
-		private class MockResource
+		public class MockResource
+			: ResourcesManager.Resource
+		{
+			public override void Load()
+			{
+				throw new NotImplementedException();
+			}
+
+			public override void Free()
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		/// <summary>
+		/// Klasa zasobu nie-abstrakcyjna(ale pusta) do użycia przez Moq #2.
+		/// </summary>
+		public class MockResource2
 			: ResourcesManager.Resource
 		{
 			public override void Load()
