@@ -3,13 +3,16 @@ using System.Collections.Generic;
 
 namespace ClashEngine.NET.ResourcesManager
 {
+	using ClashEngine.NET.Interfaces.ResourcesManager;
+
 	/// <summary>
 	/// Manager zasobów.
 	/// Zaimplementowany jako singleton - instancja pobierana przez właściwość Instance.
 	/// </summary>
 	public class ResourcesManager
+		: IResourcesManager
 	{
-		private Dictionary<string, Resource> Resources = new Dictionary<string, Resource>();
+		private Dictionary<string, IResource> Resources = new Dictionary<string, IResource>();
 
 		#region Singleton implementation
 		private static ResourcesManager _Instance = null;
@@ -59,13 +62,13 @@ namespace ClashEngine.NET.ResourcesManager
 		/// <param name="filename">Nazwa pliku do załadowania.</param>
 		/// <returns>Załadowany zasób.</returns>
 		public T Load<T>(string filename)
-			where T: Resource, new()
+			where T : class, IResource, new()
 		{
 			if (string.IsNullOrWhiteSpace(filename))
 			{
 				throw new ArgumentNullException("filename");
 			}
-			Resource res;
+			IResource res;
 			if (this.Resources.TryGetValue(filename, out res)) //Znaleziono istniejący
 			{
 				if (!(res is T))
@@ -91,7 +94,7 @@ namespace ClashEngine.NET.ResourcesManager
 		/// <param name="filename">Nazwa pliku.</param>
 		/// <exception cref="ArgumentNullException">Rzucane gdy filename jest puste lub res jest równe null.</exception>
 		/// <param name="res">Zasób.</param>
-		public Resource Load(string filename, Resource res)
+		public IResource Load(string filename, IResource res)
 		{
 			if (string.IsNullOrWhiteSpace(filename))
 			{
@@ -101,7 +104,7 @@ namespace ClashEngine.NET.ResourcesManager
 			{
 				throw new ArgumentNullException("res");
 			}
-			Resource res1;
+			IResource res1;
 			if (this.Resources.TryGetValue(filename, out res1))
 			{
 				return res1;
@@ -119,7 +122,7 @@ namespace ClashEngine.NET.ResourcesManager
 		/// <exception cref="ArgumentNullException">Rzucane gdy res jest równe null.</exception>
 		/// <exception cref="Exceptions.NotFoundException">Rzucane gdy nie znaleziono zasobu w managerze.</exception>
 		/// <param name="res">Zasób.</param>
-		public void Free(Resource res)
+		public void Free(IResource res)
 		{
 			if (res == null)
 			{
@@ -144,7 +147,7 @@ namespace ClashEngine.NET.ResourcesManager
 			{
 				throw new ArgumentNullException("id");
 			}
-			Resource res;
+			IResource res;
 			if (!this.Resources.TryGetValue(id, out res))
 			{
 				throw new Exceptions.NotFoundException("Resource with id" + id);

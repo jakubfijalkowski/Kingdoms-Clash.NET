@@ -2,10 +2,13 @@
 
 namespace ClashEngine.NET.ResourcesManager
 {
+	using Interfaces.ResourcesManager;
+
 	/// <summary>
 	/// Klasa bazowa dla zasobów.
 	/// </summary>
 	public abstract class Resource
+		: IResource
 	{
 		#region Properties
 		/// <summary>
@@ -20,7 +23,7 @@ namespace ClashEngine.NET.ResourcesManager
 		/// Do użytku wewnętrznego(jakoś trzeba zainicjalizować identyfikator w klasach dziedziczących).
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
-		internal void Init(string id)
+		public void Init(string id)
 		{
 			this.Id = id;
 		}

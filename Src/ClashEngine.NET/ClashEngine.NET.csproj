@@ -53,6 +53,8 @@
     <Compile Include="Exceptions\ArgumentAlreadyExistsException.cs" />
     <Compile Include="Exceptions\ArgumentNotExistsException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
+    <Compile Include="Interfaces\ResourcesManager\IResource.cs" />
+    <Compile Include="Interfaces\ResourcesManager\IResourcesManager.cs" />
     <Compile Include="Interfaces\ScreensManager\IScreen.cs" />
     <Compile Include="Interfaces\ScreensManager\IScreensManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
