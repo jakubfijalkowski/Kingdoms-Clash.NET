@@ -71,7 +71,7 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
 		public void Update(double delta)
 		{
-			foreach (GameEntity entity in this.Entities_)
+			foreach (IGameEntity entity in this.Entities_)
 			{
 				entity.Update(delta);
 			}
@@ -79,10 +79,14 @@ namespace ClashEngine.NET.EntitiesManager
 
 		/// <summary>
 		/// Renderuje wszystkie renderowalne komponenty encji.
-		/// Do zaimplementowania.
 		/// </summary>
 		public void Render()
-		{ }
+		{
+			foreach (IGameEntity entity in this.Entities_)
+			{
+				entity.Render();
+			}
+		}
 		#endregion
 	}
 }

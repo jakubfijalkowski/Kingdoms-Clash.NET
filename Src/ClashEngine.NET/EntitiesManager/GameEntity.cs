@@ -134,7 +134,7 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
 		public virtual void Update(double delta)
 		{
-			foreach (Component c in this._Components)
+			foreach (IComponent c in this._Components)
 			{
 				c.Update(delta);
 			}
@@ -145,7 +145,7 @@ namespace ClashEngine.NET.EntitiesManager
 		/// </summary>
 		public virtual void Render()
 		{
-			foreach (RenderableComponent c in this._RenderableComponents)
+			foreach (IRenderableComponent c in this._RenderableComponents)
 			{
 				c.Render();
 			}
