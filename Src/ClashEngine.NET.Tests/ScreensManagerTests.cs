@@ -4,6 +4,7 @@ using Moq;
 using NUnit.Framework;
 
 using ClashEngine.NET.ScreensManager;
+using ClashEngine.NET.Interfaces.ScreensManager;
 
 namespace ClashEngine.NET.Tests
 {

@@ -2,26 +2,7 @@
 
 namespace ClashEngine.NET.ScreensManager
 {
-	/// <summary>
-	/// Stan ekranu.
-	/// </summary>
-	public enum ScreenState
-	{
-		/// <summary>
-		/// Aktywny.
-		/// </summary>
-		Active,
-
-		/// <summary>
-		/// Nieaktywny(np. zasłonięty przez inny nie-popup.
-		/// </summary>
-		Inactive,
-
-		/// <summary>
-		/// Zamknięty(nieodrysowywany ani nieuaktualniany, ale pozostający w managerze).
-		/// </summary>
-		Closed
-	}
+	using Interfaces.ScreensManager;
 
 	/// <summary>
 	/// Bazowa klasa dla "ekranów"(np. menu, plansza).
@@ -30,6 +11,7 @@ namespace ClashEngine.NET.ScreensManager
 	/// Jeśli ekran ma ustawioną właściwość IsFullscreen na true ekrany pod nie są odrysowywane - względy wydajnościowe.
 	/// </summary>
 	public abstract class Screen
+		: IScreen
 	{
 		private bool _IsPopup = false;
 		private bool _IsFullscreen = false;
@@ -40,7 +22,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// <summary>
 		/// Manager - rodzic.
 		/// </summary>
-		public ScreensManager Manager { get; internal set; }
+		public IScreensManager Manager { get; private set; }
 
 		/// <summary>
 		/// Czy ekran jest ekranem "wyskakującym", czyli nie zasłania reszty a co za tym idzie pozwala na ich aktualizację.
@@ -82,7 +64,7 @@ namespace ClashEngine.NET.ScreensManager
 		public ScreenState State
 		{
 			get { return this.State_; }
-			internal set { this.State_ = value; }
+			private set { this.State_ = value; }
 		}
 
 		/// <summary>
@@ -91,6 +73,28 @@ namespace ClashEngine.NET.ScreensManager
 		public EntitiesManager.EntitiesManager Entities
 		{
 			get { return this.Entites_; }
+		}
+		#endregion
+
+		#region Object management
+		/// <summary>
+		/// Inicjalizuje obiekt.
+		/// </summary>
+		/// <param name="screensManager">Manager ekranów.</param>
+		public void Init(IScreensManager screensManager)
+		{
+			this.Manager = screensManager;
+			this.State = ScreenState.Closed;
+		}
+
+		/// <summary>
+		/// Zmienia stan ekranu.
+		/// </summary>
+		/// <param name="state">Nowy stan.</param>
+		public void ChangeState(ScreenState state)
+		{
+			this.State = state;
+			this.StateChanged();
 		}
 		#endregion
 

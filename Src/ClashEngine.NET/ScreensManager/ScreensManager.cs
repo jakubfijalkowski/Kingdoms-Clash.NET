@@ -4,19 +4,22 @@ using System.Collections.ObjectModel;
 
 namespace ClashEngine.NET.ScreensManager
 {
+	using Interfaces.ScreensManager;
+
 	/// <summary>
 	/// Manager ekranów.
 	/// </summary>
 	public class ScreensManager
+		: IScreensManager
 	{
-		private List<Screen> _Screens = new List<Screen>();
+		private List<IScreen> _Screens = new List<IScreen>();
 
 		#region Properties
 		/// <summary>
 		/// Lista ekranów w managerze.
 		/// Bardziej przypomina stos/kolejkę FIFO(pierwszy ekran na liście jest pierwszym "w rzeczywistości").
 		/// </summary>
-		public ReadOnlyCollection<Screen> Screens
+		public ReadOnlyCollection<IScreen> Screens
 		{
 			get { return this._Screens.AsReadOnly(); }
 		}
@@ -28,7 +31,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// Dodaje ekran do listy.
 		/// </summary>
 		/// <param name="screen">Ekran do dodania.</param>
-		public void AddScreen(Screen screen)
+		public void AddScreen(IScreen screen)
 		{
 			if (screen == null)
 			{
@@ -39,13 +42,14 @@ namespace ClashEngine.NET.ScreensManager
 				throw new Exceptions.ArgumentAlreadyExistsException("screen");
 			}
 			this._Screens.Add(screen);
+			screen.Init(this);
 		}
 
 		/// <summary>
 		/// Usuwa ekran z managera.
 		/// </summary>
 		/// <param name="screen">Ekran do usunięcia.</param>
-		public void RemoveScreen(Screen screen)
+		public void RemoveScreen(IScreen screen)
 		{
 			if (screen == null)
 			{
@@ -64,7 +68,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// Przesuwa ekran na wierzch.
 		/// </summary>
 		/// <param name="screen">Ekran.</param>
-		public void MoveToFront(Screen screen)
+		public void MoveToFront(IScreen screen)
 		{
 			this.MoveTo(screen, 0);
 		}
@@ -74,7 +78,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		/// <param name="screen">Ekran.</param>
 		/// <param name="newPos">Nowa pozycja na liście(licząc od końca!).</param>
-		public void MoveTo(Screen screen, int newPos)
+		public void MoveTo(IScreen screen, int newPos)
 		{
 			if (screen == null)
 			{
@@ -100,7 +104,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		/// <param name="screen">Ekran.</param>
 		/// <returns>Czy zmieniono stan ekranu.</returns>
-		public bool MakeActive(Screen screen)
+		public bool MakeActive(IScreen screen)
 		{
 			if (screen == null)
 			{
@@ -125,8 +129,7 @@ namespace ClashEngine.NET.ScreensManager
 				{
 					if (this._Screens[i].State == ScreenState.Active)
 					{
-						this._Screens[i].State = ScreenState.Inactive;
-						this._Screens[i].StateChanged();
+						this._Screens[i].ChangeState(ScreenState.Inactive);
 						if (this._Screens[i].IsFullscreen) //Pełnoekranowy, i tak dalej nic nie będzie widać.
 						{
 							break;
@@ -134,8 +137,7 @@ namespace ClashEngine.NET.ScreensManager
 					}
 				}
 			}
-			screen.State = ScreenState.Active;
-			screen.StateChanged();
+			screen.ChangeState(ScreenState.Active);
 			return true;
 		}
 
@@ -145,7 +147,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		/// <param name="screen">Ekran.</param>
 		/// <returns>Czy zmieniono stan ekranu.</returns>
-		public bool MakeInactive(Screen screen)
+		public bool MakeInactive(IScreen screen)
 		{
 			if (screen == null)
 			{
@@ -166,8 +168,7 @@ namespace ClashEngine.NET.ScreensManager
 				{
 					if (this._Screens[i].State == ScreenState.Inactive)
 					{
-						this._Screens[i].State = ScreenState.Active;
-						this._Screens[i].StateChanged();
+						this._Screens[i].ChangeState(ScreenState.Active);
 						if (!this._Screens[i].IsPopup) //Pełnoekranowy, i tak dalej nic nie będzie widać.
 						{
 							break;
@@ -176,8 +177,7 @@ namespace ClashEngine.NET.ScreensManager
 				}
 			}
 
-			screen.State = ScreenState.Inactive;
-			screen.StateChanged();
+			screen.ChangeState(ScreenState.Inactive);
 			return true;
 		}
 
@@ -186,7 +186,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// Przed zamknięciem ekran jest dezaktywowany.
 		/// </summary>
 		/// <param name="screen">Ekran.</param>
-		public void Close(Screen screen)
+		public void Close(IScreen screen)
 		{
 			if (screen == null)
 			{
@@ -202,8 +202,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 			if (screen.State != ScreenState.Closed)
 			{
-				screen.State = ScreenState.Closed;
-				screen.StateChanged();
+				screen.ChangeState(ScreenState.Closed);
 			}
 		}
 		#endregion
@@ -215,7 +214,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
 		public void Update(double delta)
 		{
-			foreach (Screen screen in this._Screens)
+			foreach (IScreen screen in this._Screens)
 			{
 				if (screen.State == ScreenState.Active)
 				{
