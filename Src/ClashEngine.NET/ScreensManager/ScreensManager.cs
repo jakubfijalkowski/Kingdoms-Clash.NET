@@ -12,6 +12,8 @@ namespace ClashEngine.NET.ScreensManager
 	public class ScreensManager
 		: IScreensManager
 	{
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
+
 		private List<IScreen> _Screens = new List<IScreen>();
 
 		#region Properties
@@ -43,6 +45,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 			this._Screens.Add(screen);
 			screen.Init(this);
+			Logger.Trace("Screen added");
 		}
 
 		/// <summary>
@@ -60,6 +63,7 @@ namespace ClashEngine.NET.ScreensManager
 				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
 			this._Screens.Remove(screen);
+			Logger.Trace("Screen removed");
 		}
 		#endregion
 
@@ -95,6 +99,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 			this._Screens.RemoveAt(position);
 			this._Screens.Insert((newPos > 0 ? newPos - 1 : newPos), screen);
+			Logger.Trace("Screen moved to front");
 		}
 		#endregion
 
@@ -119,10 +124,12 @@ namespace ClashEngine.NET.ScreensManager
 			{
 				if (this._Screens[i].State != ScreenState.Closed && !this._Screens[i].IsPopup)
 				{
+					Logger.Warn("Cannot activate screen - it is covered by other screen");
 					return false;
 				}
 			}
 			//Pełnoekranowy ekran(masło maślane...), więc musimy aktywować ekrany "za".
+			int deactivatedCounter = 0;
 			if (screen.IsFullscreen)
 			{
 				for (int i = this._Screens.IndexOf(screen); i < this._Screens.Count; i++)
@@ -130,6 +137,7 @@ namespace ClashEngine.NET.ScreensManager
 					if (this._Screens[i].State == ScreenState.Active)
 					{
 						this._Screens[i].ChangeState(ScreenState.Inactive);
+						++deactivatedCounter;
 						if (this._Screens[i].IsFullscreen) //Pełnoekranowy, i tak dalej nic nie będzie widać.
 						{
 							break;
@@ -138,6 +146,7 @@ namespace ClashEngine.NET.ScreensManager
 				}
 			}
 			screen.ChangeState(ScreenState.Active);
+			Logger.Warn("Screen activated({0} deactivated)", deactivatedCounter);
 			return true;
 		}
 
@@ -162,6 +171,7 @@ namespace ClashEngine.NET.ScreensManager
 				return false;
 			}
 			//Jeśli jest na pełnym ekranie musimy aktywować ekrany które są za nim.
+			int activatedCounter = 0;
 			if (screen.IsFullscreen)
 			{
 				for (int i = this._Screens.IndexOf(screen); i < this._Screens.Count; i++)
@@ -169,7 +179,8 @@ namespace ClashEngine.NET.ScreensManager
 					if (this._Screens[i].State == ScreenState.Inactive)
 					{
 						this._Screens[i].ChangeState(ScreenState.Active);
-						if (!this._Screens[i].IsPopup) //Pełnoekranowy, i tak dalej nic nie będzie widać.
+						++activatedCounter;
+						if (!this._Screens[i].IsFullscreen) //Pełnoekranowy, i tak dalej nic nie będzie widać.
 						{
 							break;
 						}
@@ -178,6 +189,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 
 			screen.ChangeState(ScreenState.Inactive);
+			Logger.Trace("Screen deactivated({0} activated)", activatedCounter);
 			return true;
 		}
 
@@ -203,6 +215,7 @@ namespace ClashEngine.NET.ScreensManager
 			if (screen.State != ScreenState.Closed)
 			{
 				screen.ChangeState(ScreenState.Closed);
+				Logger.Trace("Screen closed");
 			}
 		}
 		#endregion
