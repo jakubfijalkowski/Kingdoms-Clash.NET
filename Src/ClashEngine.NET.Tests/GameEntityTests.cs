@@ -17,14 +17,14 @@ namespace ClashEngine.NET.Tests
 		[SetUp]
 		public void SetUp()
 		{
+			this.Entity = new GameEntity("Entity");
 			this.Component = new Mock<Component>("Component");
-			this.Component.Setup(c => c.Init());
+			this.Component.Setup(c => c.Init(this.Entity));
 
 			this.RenderableComponent = new Mock<RenderableComponent>("RenderableComponent");
-			this.RenderableComponent.Setup(c => c.Init());
+			this.RenderableComponent.Setup(c => c.Init(this.Entity));
 
 			this.Attribute = new Mock<Attribute>("Attribute", 0.0);
-			this.Entity = new GameEntity("Entity");
 
 			this.Entity.AddComponent(this.Component.Object);
 			this.Entity.AddComponent(this.RenderableComponent.Object);
@@ -36,8 +36,8 @@ namespace ClashEngine.NET.Tests
 		public void DoComponentsAdd()
 		{
 			Assert.AreEqual(2, this.Entity.Components.Count);
-			this.Component.Verify(c => c.Init());
-			this.RenderableComponent.Verify(c => c.Init());
+			this.Component.Verify(c => c.Init(this.Entity));
+			this.RenderableComponent.Verify(c => c.Init(this.Entity));
 		}
 
 		[Test]

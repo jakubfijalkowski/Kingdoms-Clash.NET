@@ -2,20 +2,21 @@
 
 namespace ClashEngine.NET.EntitiesManager
 {
+	using Interfaces.EntitiesManager;
+
 	/// <summary>
 	/// Atrybut encji gry. Silnie typowany.
 	/// </summary>
 	/// <typeparam name="T">Typ atrybutu.</typeparam>
 	public class Attribute<T>
-		: Attribute, IEquatable<Attribute<T>>
-		where T : class
+		: Attribute, IAttribute<T>
 	{
 		/// <summary>
 		/// Wartość atrybutu.
 		/// </summary>
 		public new T Value
 		{
-			get { return base.Value as T; }
+			get { return (T)base.Value; }
 			set { base.Value = value; }
 		}
 
@@ -29,7 +30,7 @@ namespace ClashEngine.NET.EntitiesManager
 		{ }
 
 		#region IEquatable<Attribute<T>> Members
-		bool IEquatable<Attribute<T>>.Equals(Attribute<T> other)
+		bool IEquatable<IAttribute<T>>.Equals(IAttribute<T> other)
 		{
 			return this.Id.Equals(other.Id);
 		}

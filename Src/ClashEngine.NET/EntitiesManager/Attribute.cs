@@ -2,11 +2,13 @@
 
 namespace ClashEngine.NET.EntitiesManager
 {
+	using Interfaces.EntitiesManager;
+
 	/// <summary>
 	/// Atrybut encji gry.
 	/// </summary>
 	public class Attribute
-		: IEquatable<Attribute>
+		: IAttribute
 	{
 		/// <summary>
 		/// Identyfikator atrybutu.
@@ -29,8 +31,8 @@ namespace ClashEngine.NET.EntitiesManager
 			this.Value = value;
 		}
 
-		#region IEquatable<Attribute> Members
-		bool IEquatable<Attribute>.Equals(Attribute other)
+		#region IEquatable<IAttribute> Members
+		bool IEquatable<IAttribute>.Equals(IAttribute other)
 		{
 			return this.Id.Equals(other.Id);
 		}

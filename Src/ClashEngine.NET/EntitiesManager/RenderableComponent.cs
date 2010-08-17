@@ -1,10 +1,12 @@
 ﻿namespace ClashEngine.NET.EntitiesManager
 {
+	using Interfaces.EntitiesManager;
+
 	/// <summary>
 	/// Bazowa klasa dla komponentów które potrafią się renderować.
 	/// </summary>
 	public abstract class RenderableComponent
-		: Component
+		: Component, IRenderableComponent
 	{
 		/// <summary>
 		/// Inicjalizuje nowy komponent.

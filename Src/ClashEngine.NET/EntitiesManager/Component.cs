@@ -2,11 +2,13 @@
 
 namespace ClashEngine.NET.EntitiesManager
 {
+	using Interfaces.EntitiesManager;
+
 	/// <summary>
 	/// Bazowa klasa dla komponentów.
 	/// </summary>
 	public abstract class Component
-		: IEquatable<Component>
+		: IComponent
 	{
 		/// <summary>
 		/// Identyfikator(nazwa) komponentu.
@@ -16,7 +18,7 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <summary>
 		/// Właściciel komponentu.
 		/// </summary>
-		public GameEntity Owner { get; internal set; }
+		public IGameEntity Owner { get; private set; }
 
 		/// <summary>
 		/// Inicjalizuje nowy komponent.
@@ -30,9 +32,10 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <summary>
 		/// Wywoływane przy inicjalizacji komponentu w GameEntity. Służy np. do dodawania atrybutów.
 		/// </summary>
-		/// <remarks>W tym miejscu właściwość Owner ma już poprawną wartość.</remarks>
-		public virtual void Init()
-		{ }
+		public virtual void Init(IGameEntity owner)
+		{
+			this.Owner = owner;
+		}
 
 		/// <summary>
 		/// Wywoływane przy uaktualnieniu.
@@ -41,7 +44,7 @@ namespace ClashEngine.NET.EntitiesManager
 		public abstract void Update(double delta);
 
 		#region IEquatable<Component> members
-		bool IEquatable<Component>.Equals(Component other)
+		bool IEquatable<IComponent>.Equals(IComponent other)
 		{
 			return this.Id.Equals(other.Id);
 		}

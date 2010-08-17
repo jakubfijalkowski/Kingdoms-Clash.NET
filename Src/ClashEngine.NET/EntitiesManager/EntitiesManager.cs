@@ -4,15 +4,21 @@ using System.Collections.ObjectModel;
 
 namespace ClashEngine.NET.EntitiesManager
 {
+	using Interfaces.EntitiesManager;
+
+	/// <summary>
+	/// Manager encji gry.
+	/// </summary>
 	public class EntitiesManager
+		: IEntitiesManager
 	{
 		#region Properties
-		private List<GameEntity> Entities_ = new List<GameEntity>();
+		private List<IGameEntity> Entities_ = new List<IGameEntity>();
 
 		/// <summary>
 		/// Lista encji.
 		/// </summary>
-		public ReadOnlyCollection<GameEntity> Entities
+		public ReadOnlyCollection<IGameEntity> Entities
 		{
 			get { return this.Entities_.AsReadOnly(); }
 		}
@@ -24,7 +30,7 @@ namespace ClashEngine.NET.EntitiesManager
 		/// Nie można dodawać dwóch IDENTYCZNYCH(ten sam obiekt) encji - wiele encji o tym samym ID jest dozwolone.
 		/// </summary>
 		/// <param name="entity">Encja do dodania.</param>
-		public void AddEntity(GameEntity entity)
+		public void AddEntity(IGameEntity entity)
 		{
 			if (entity == null)
 			{
@@ -35,14 +41,14 @@ namespace ClashEngine.NET.EntitiesManager
 				throw new Exceptions.ArgumentAlreadyExistsException("entity");
 			}
 			this.Entities_.Add(entity);
-			entity.Manager = this;
+			entity.Init(this);
 		}
 
 		/// <summary>
 		/// Usuwa encję.
 		/// </summary>
 		/// <param name="entity">Encja do usunięcia.</param>
-		public void RemoveEntity(GameEntity entity)
+		public void RemoveEntity(IGameEntity entity)
 		{
 			if (entity == null)
 			{

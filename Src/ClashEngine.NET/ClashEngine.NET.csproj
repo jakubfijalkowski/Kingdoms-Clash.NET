@@ -53,6 +53,12 @@
     <Compile Include="Exceptions\ArgumentAlreadyExistsException.cs" />
     <Compile Include="Exceptions\ArgumentNotExistsException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
+    <Compile Include="Interfaces\EntitiesManager\IAttribute.cs" />
+    <Compile Include="Interfaces\EntitiesManager\IAttribute`1.cs" />
+    <Compile Include="Interfaces\EntitiesManager\IComponent.cs" />
+    <Compile Include="Interfaces\EntitiesManager\IEntitiesManager.cs" />
+    <Compile Include="Interfaces\EntitiesManager\IGameEntity.cs" />
+    <Compile Include="Interfaces\EntitiesManager\IRenderableComponent.cs" />
     <Compile Include="Interfaces\ResourcesManager\IResource.cs" />
     <Compile Include="Interfaces\ResourcesManager\IResourcesManager.cs" />
     <Compile Include="Interfaces\ScreensManager\IScreen.cs" />
