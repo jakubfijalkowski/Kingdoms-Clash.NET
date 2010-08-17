@@ -4,20 +4,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace ClashEngine.NET
 {
-	/// <summary>
-	/// Architektura procesora.
-	/// </summary>
-	public enum ProcessorArchitecture
-		: ushort
-	{
-		x86 = 0,
-		MIPS,
-		Alpha,
-		PowerPC,
-		Itanium = 6,
-		x64 = 9
-	}
-
+	using Interfaces;
 	/// <summary>
 	/// Informacje o systemie - system, procesor, pamięć itp.
 	/// Obsługuję tylko jedną kartę graficzną, jeden procesor i jeden tablicę pamięci(RAM).
@@ -25,6 +12,7 @@ namespace ClashEngine.NET
 	/// Do pobierania używa WMI.
 	/// </summary>
 	public class SystemInformation
+		: ISystemInformation
 	{
 		#region Singleton
 		private static SystemInformation Instance_;
