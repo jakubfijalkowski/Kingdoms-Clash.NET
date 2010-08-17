@@ -5,6 +5,8 @@ using NUnit.Framework;
 
 namespace ClashEngine.NET.Tests
 {
+	using Interfaces.ResourcesManager;
+
 	[TestFixture(Description = "Testy managera zasobów")]
 	public class ResourcesManagerTests
 	{
@@ -125,8 +127,10 @@ namespace ClashEngine.NET.Tests
 		public class MockResource
 			: ResourcesManager.Resource
 		{
-			public override void Load()
-			{ }
+			public override ResourceLoadingState Load()
+			{
+				return ResourceLoadingState.Success;
+			}
 
 			public override void Free()
 			{ }
@@ -138,8 +142,10 @@ namespace ClashEngine.NET.Tests
 		public class MockResource2
 			: ResourcesManager.Resource
 		{
-			public override void Load()
-			{ }
+			public override ResourceLoadingState Load()
+			{
+				return ResourceLoadingState.Success;
+			}
 
 			public override void Free()
 			{ }

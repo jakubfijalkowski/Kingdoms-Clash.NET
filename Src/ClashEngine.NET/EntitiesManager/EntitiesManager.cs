@@ -12,6 +12,8 @@ namespace ClashEngine.NET.EntitiesManager
 	public class EntitiesManager
 		: IEntitiesManager
 	{
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
+
 		#region Properties
 		private List<IGameEntity> Entities_ = new List<IGameEntity>();
 
@@ -40,8 +42,9 @@ namespace ClashEngine.NET.EntitiesManager
 			{
 				throw new Exceptions.ArgumentAlreadyExistsException("entity");
 			}
-			this.Entities_.Add(entity);
 			entity.Init(this);
+			this.Entities_.Add(entity);
+			Logger.Info("Entity {0} added to manager", entity.Id);
 		}
 
 		/// <summary>
@@ -59,6 +62,7 @@ namespace ClashEngine.NET.EntitiesManager
 				throw new Exceptions.ArgumentNotExistsException("entity");
 			}
 			this.Entities_.Remove(entity);
+			Logger.Info("Entity {0} removed from manager", entity.Id);
 		}
 
 		/// <summary>

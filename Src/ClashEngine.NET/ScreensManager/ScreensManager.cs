@@ -45,7 +45,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 			this._Screens.Add(screen);
 			screen.Init(this);
-			Logger.Trace("Screen added");
+			Logger.Info("Screen added");
 		}
 
 		/// <summary>
@@ -63,7 +63,7 @@ namespace ClashEngine.NET.ScreensManager
 				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
 			this._Screens.Remove(screen);
-			Logger.Trace("Screen removed");
+			Logger.Info("Screen removed");
 		}
 		#endregion
 
