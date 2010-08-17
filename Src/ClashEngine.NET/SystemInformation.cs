@@ -149,7 +149,7 @@ namespace ClashEngine.NET
 			{
 				if (string.IsNullOrEmpty(this.Extensions_))
 				{
-					this.Extensions_ = GL.GetString(StringName.Version);
+					this.Extensions_ = GL.GetString(StringName.Extensions);
 				}
 				return this.Extensions_;
 			}
