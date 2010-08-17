@@ -1,6 +1,27 @@
 ﻿namespace ClashEngine.NET.Interfaces.ResourcesManager
 {
 	/// <summary>
+	/// Stan załadowania zasobu.
+	/// </summary>
+	public enum ResourceLoadingState
+	{
+		/// <summary>
+		/// Załadowano prawidłowo.
+		/// </summary>
+		Success,
+		
+		/// <summary>
+		/// Nie można było załadować.
+		/// </summary>
+		Failure,
+		
+		/// <summary>
+		/// Użyto domyślnego zasobu.
+		/// </summary>
+		DefaultUsed
+	}
+
+	/// <summary>
 	/// Interfejs bazowy dla zasobu.
 	/// </summary>
 	public interface IResource
@@ -24,7 +45,8 @@
 		/// <summary>
 		/// Ładuje zasób.
 		/// </summary>
-		void Load();
+		/// <returns>Stan załadowania zasobu.</returns>
+		ResourceLoadingState Load();
 
 		/// <summary>
 		/// Zwalnia zasób.

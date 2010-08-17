@@ -12,7 +12,7 @@ namespace ClashEngine.NET.ResourcesManager
 	public class ResourcesManager
 		: IResourcesManager
 	{
-		private Dictionary<string, IResource> Resources = new Dictionary<string, IResource>();
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
 		#region Singleton implementation
 		private static ResourcesManager _Instance = null;
@@ -32,6 +32,8 @@ namespace ClashEngine.NET.ResourcesManager
 			}
 		}
 		#endregion
+
+		private Dictionary<string, IResource> Resources = new Dictionary<string, IResource>();
 
 		#region Properties
 		/// <summary>
@@ -79,10 +81,7 @@ namespace ClashEngine.NET.ResourcesManager
 			}
 			//Nie znaleziono
 			T newRes = new T();
-			newRes.Init(filename);
-			newRes.Load();
-			this.Resources.Add(filename, newRes);
-
+			this.LoadResource(filename, newRes);
 			return newRes;
 		}
 
@@ -109,10 +108,8 @@ namespace ClashEngine.NET.ResourcesManager
 			{
 				return res1;
 			}
-			res.Init(filename);
-			res.Load();
-			this.Resources.Add(filename, res);
 
+			this.LoadResource(filename, res);
 			return res;
 		}
 
@@ -133,6 +130,7 @@ namespace ClashEngine.NET.ResourcesManager
 				throw new Exceptions.NotFoundException("Resource with id" + res.Id);
 			}
 			res.Free();
+			Logger.Info("Resource '{0}' freed", res.Id);
 		}
 
 		/// <summary>
@@ -154,7 +152,33 @@ namespace ClashEngine.NET.ResourcesManager
 			}
 			this.Resources.Remove(id);
 			res.Free();
+			Logger.Info("Resource '{0}' freed", res.Id);
 		}
 		#endregion
+
+		/// <summary>
+		/// Uogólnia ładowanie zasobu - logowanie w jedynm miejscu.
+		/// </summary>
+		/// <param name="res"></param>
+		private void LoadResource(string id, IResource res)
+		{
+			res.Init(id);
+			switch (res.Load())
+			{
+			case ResourceLoadingState.Success:
+				this.Resources.Add(id, res);
+				Logger.Info("Resource '{0}' of type '{1}' loaded succesfully.", id, res.GetType().ToString());
+				break;
+
+			case ResourceLoadingState.Failure:
+				Logger.Error("Cannot load resource '{0}' of type '{1}'", id, res.GetType().ToString());
+				break;
+
+			case ResourceLoadingState.DefaultUsed:
+				this.Resources.Add(id, res);
+				Logger.Warn("Cannot load resource '{0}' of type '{1}'. Default used.", id, res.GetType().ToString());
+				break;
+			}
+		}
 	}
 }

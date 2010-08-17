@@ -31,7 +31,8 @@ namespace ClashEngine.NET.ResourcesManager
 		/// <summary>
 		/// Ładuje zasób.
 		/// </summary>
-		public abstract void Load();
+		/// <returns>Stan załadowania zasobu.</returns>
+		public abstract ResourceLoadingState Load();
 
 		/// <summary>
 		/// Zwalnia zasób.
