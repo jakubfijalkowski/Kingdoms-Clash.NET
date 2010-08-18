@@ -225,6 +225,7 @@ namespace ClashEngine.NET
 				: base(width, height, mode, name, (fullscreen ? OpenTK.GameWindowFlags.Fullscreen : OpenTK.GameWindowFlags.Default),
 				OpenTK.DisplayDevice.Default, int.MaxValue, int.MaxValue, OpenTK.Graphics.GraphicsContextFlags.Default)
 			{
+				this.WindowBorder = OpenTK.WindowBorder.Fixed;
 				base.VSync = (useVSync ? OpenTK.VSyncMode.On : OpenTK.VSyncMode.Off);
 				this.Parent = parent;
 			}
@@ -233,7 +234,6 @@ namespace ClashEngine.NET
 			{
 				Logger.Trace("Initializing...");
 				this.Parent.Init();
-				base.OnLoad(e);
 				Logger.Trace("Initialized");
 			}
 
@@ -241,20 +241,18 @@ namespace ClashEngine.NET
 			{
 				Logger.Trace("Deinitializing...");
 				this.Parent.DeInit();
-				base.OnUnload(e);
 				Logger.Trace("Deinitialized");
 			}
 
 			protected override void OnUpdateFrame(OpenTK.FrameEventArgs e)
 			{
 				this.Parent.Update(e.Time);
-				base.OnUpdateFrame(e);
 			}
 
 			protected override void OnRenderFrame(OpenTK.FrameEventArgs e)
 			{
 				this.Parent.Render();
-				base.OnRenderFrame(e);
+				this.SwapBuffers();
 			}
 		}
 		#endregion
