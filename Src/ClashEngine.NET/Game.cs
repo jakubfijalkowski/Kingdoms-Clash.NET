@@ -5,6 +5,7 @@ namespace ClashEngine.NET
 	using Interfaces;
 	using Interfaces.ResourcesManager;
 	using Interfaces.ScreensManager;
+	using System.Collections.Generic;
 
 	/// <summary>
 	/// Klasa gry.
@@ -144,6 +145,43 @@ namespace ClashEngine.NET
 			}
 		}
 		#endregion
+
+		#region Input
+		/// <summary>
+		/// Klawiatura.
+		/// Zwraca obiekt klawiatury lub null, gdy nie ma klawiatury.
+		/// </summary>
+		public OpenTK.Input.KeyboardDevice Keyboard
+		{
+			get
+			{
+				return this.Window.Keyboard;
+			}
+		}
+
+		/// <summary>
+		/// Mysz.
+		/// Zwraca obiekt myszy lub null, gdy w systemie nie ma myszy.
+		/// </summary>
+		public OpenTK.Input.MouseDevice Mouse
+		{
+			get
+			{
+				return this.Window.Mouse;
+			}
+		}
+
+		/// <summary>
+		/// Pobiera listę wszystkich joysticków w systemie.
+		/// </summary>
+		public IList<OpenTK.Input.JoystickDevice> Joysticks
+		{
+			get
+			{
+				return this.Window.Joysticks;
+			}
+		}
+		#endregion
 		#endregion
 
 		#region Methods
@@ -202,6 +240,14 @@ namespace ClashEngine.NET
 			this.Window.Run(updatesPerSecond, framesPerSecond);
 		}
 		#endregion
+
+		/// <summary>
+		/// Zamyka grę.
+		/// </summary>
+		public void Exit()
+		{
+			this.Window.Exit();
+		}
 		#endregion
 		#endregion
 

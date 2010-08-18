@@ -1,4 +1,6 @@
-﻿namespace ClashEngine.NET.Interfaces
+﻿using System.Collections.Generic;
+
+namespace ClashEngine.NET.Interfaces
 {
 	/// <summary>
 	/// Bazowy interfejs dla obiektu gry.
@@ -54,6 +56,23 @@
 		/// </summary>
 		OpenTK.Graphics.GraphicsMode Mode { get; }
 		#endregion
+
+		#region Input
+		/// <summary>
+		/// Klawiatura.
+		/// </summary>
+		OpenTK.Input.KeyboardDevice Keyboard { get; }
+		
+		/// <summary>
+		/// Mysz.
+		/// </summary>
+		OpenTK.Input.MouseDevice Mouse { get; }
+		
+		/// <summary>
+		/// Joysticki.
+		/// </summary>
+		IList<OpenTK.Input.JoystickDevice> Joysticks { get; }
+		#endregion
 		#endregion
 
 		#region Methods
@@ -97,6 +116,11 @@
 		/// <param name="updatesPerSecond">Liczba uaktualnień na sekundę.</param>
 		/// <param name="framesPerSecond">Liczba klatek na sekundę.</param>
 		void Run(double updatesPerSecond, double framesPerSecond);
+
+		/// <summary>
+		/// Zamyka grę.
+		/// </summary>
+		void Exit();
 		#endregion
 	}
 }
