@@ -11,7 +11,17 @@ namespace ClashEngine.NET.Interfaces.Resources
 		/// <summary>
 		/// Pobiera identyfikator(OpenGL) tekstury.
 		/// </summary>
-		int GetID { get; }
+		int TextureId { get; }
+
+		/// <summary>
+		/// Szerokość w pikselach.
+		/// </summary>
+		int Widgth { get; }
+
+		/// <summary>
+		/// Wysokość w pikselach.
+		/// </summary>
+		int Heigth { get; }
 
 		/// <summary>
 		/// Pobiera koordynaty tekstury.

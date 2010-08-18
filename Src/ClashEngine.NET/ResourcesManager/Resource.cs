@@ -23,8 +23,9 @@ namespace ClashEngine.NET.ResourcesManager
 		/// Do użytku wewnętrznego(jakoś trzeba zainicjalizować identyfikator w klasach dziedziczących).
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
-		public void Init(string id)
+		public virtual void Init(string id)
 		{
+			this.Free();
 			this.Id = id;
 		}
 
