@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 
 namespace ClashEngine.NET.Interfaces.ShadersManager
 {
@@ -27,12 +28,18 @@ namespace ClashEngine.NET.Interfaces.ShadersManager
 		/// <summary>
 		/// Identyfikator shadera.
 		/// </summary>
-		int ShaderId { get; }
+		IntPtr ShaderId { get; }
 
 		/// <summary>
 		/// Typ shadera.
 		/// </summary>
 		ShaderType Type { get; }
+
+		/// <summary>
+		/// Używana wersja shaderów.
+		/// Akceptowalne wartości: 0(najnowszy), 1, 2, 3, 4.
+		/// </summary>
+		int ShaderVersion { get; set; }
 
 		//Wstępnie tylko jeden, później będzie rozbudowane o więcej.
 		#region Uniform binding

@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3A6CAB6A-27B7-4A22-88B6-F1D6CECBAA03}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Kingdoms_Clash.NET</RootNamespace>
     <AssemblyName>Kingdoms Clash.NET</AssemblyName>
