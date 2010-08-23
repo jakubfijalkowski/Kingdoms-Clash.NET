@@ -6,6 +6,7 @@ namespace ClashEngine.NET
 	using Interfaces.ResourcesManager;
 	using Interfaces.ScreensManager;
 	using System.Collections.Generic;
+	using OpenTK.Graphics.OpenGL;
 
 	/// <summary>
 	/// Klasa gry.
@@ -279,6 +280,8 @@ namespace ClashEngine.NET
 			protected override void OnLoad(EventArgs e)
 			{
 				Logger.Trace("Initializing...");
+				//Ustawiamy viewport
+				GL.Viewport(this.ClientRectangle);
 				this.Parent.Init();
 				Logger.Trace("Initialized");
 			}

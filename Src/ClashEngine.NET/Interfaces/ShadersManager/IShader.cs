@@ -28,7 +28,7 @@ namespace ClashEngine.NET.Interfaces.ShadersManager
 		/// <summary>
 		/// Identyfikator shadera.
 		/// </summary>
-		IntPtr ShaderId { get; }
+		int ShaderId { get; }
 
 		/// <summary>
 		/// Typ shadera.
@@ -40,15 +40,5 @@ namespace ClashEngine.NET.Interfaces.ShadersManager
 		/// Akceptowalne wartości: 0(najnowszy), 1, 2, 3, 4.
 		/// </summary>
 		int ShaderVersion { get; set; }
-
-		//Wstępnie tylko jeden, później będzie rozbudowane o więcej.
-		#region Uniform binding
-		/// <summary>
-		/// Ustawia parametr.
-		/// </summary>
-		/// <param name="name">Nazwa.</param>
-		/// <param name="matrix">Macierz.</param>
-		void Set(string name, Matrix4 matrix);
-		#endregion
 	}
 }

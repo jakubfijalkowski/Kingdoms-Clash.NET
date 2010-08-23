@@ -25,6 +25,11 @@
 			base.Init();
 		}
 
+		public override void Render()
+		{
+			base.Render();
+		}
+
 		static void Main(string[] args)
 		{
 			using (var game = new Game())
