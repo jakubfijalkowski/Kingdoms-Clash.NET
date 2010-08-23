@@ -156,6 +156,7 @@ namespace ClashEngine.NET.ResourcesManager
 		}
 		#endregion
 
+		#region Others
 		/// <summary>
 		/// Uogólnia ładowanie zasobu - logowanie w jedynm miejscu.
 		/// </summary>
@@ -180,5 +181,18 @@ namespace ClashEngine.NET.ResourcesManager
 				break;
 			}
 		}
+
+		#region IDisposable members
+		public void Dispose()
+		{
+			foreach (var res in this.Resources)
+			{
+				res.Value.Free();
+				Logger.Info("Resource {0} freed", res.Key);
+			}
+			this.Resources.Clear();
+		}
+		#endregion
+		#endregion
 	}
 }

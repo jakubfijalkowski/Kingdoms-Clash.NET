@@ -255,5 +255,16 @@ namespace ClashEngine.NET.ScreensManager
 		}
 		#endregion
 		#endregion
+
+		#region IDisposable members
+		public void Dispose()
+		{
+			foreach (var res in this._Screens)
+			{
+				this.Close(res);
+			}
+			this._Screens.Clear();
+		}
+		#endregion
 	}
 }

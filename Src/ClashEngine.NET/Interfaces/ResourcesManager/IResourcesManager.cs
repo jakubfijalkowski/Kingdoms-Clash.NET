@@ -6,6 +6,7 @@ namespace ClashEngine.NET.Interfaces.ResourcesManager
 	/// Interfejs bazowy dla managera zasobów.
 	/// </summary>
 	public interface IResourcesManager
+		: IDisposable
 	{
 		#region Properties
 		/// <summary>

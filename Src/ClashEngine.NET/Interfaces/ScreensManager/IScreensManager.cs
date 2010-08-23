@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 
 namespace ClashEngine.NET.Interfaces.ScreensManager
 {
 	public interface IScreensManager
+		: IDisposable
 	{
 		#region Properties
 		/// <summary>

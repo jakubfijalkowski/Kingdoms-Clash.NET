@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using OpenTK.Graphics.OpenGL;
 
 namespace ClashEngine.NET
 {
 	using Interfaces;
 	using Interfaces.ResourcesManager;
 	using Interfaces.ScreensManager;
-	using System.Collections.Generic;
-	using OpenTK.Graphics.OpenGL;
 
 	/// <summary>
 	/// Klasa gry.
+	/// Używać tylko JEDNEJ klasy dziedziczącej po Game i NIE wywoływać żadnych metod z singletonów po wyłączeniu gry!
 	/// Przy inicjalizacji domyślnie używa najnowszej możliwej wersji OpenGL.
 	/// </summary>
 	public abstract class Game
@@ -195,10 +196,14 @@ namespace ClashEngine.NET
 
 		/// <summary>
 		/// Deinicjalizacja gry.
-		/// Wywoływana np. przy zamykaniu okna.
+		/// Wywoływana przy zamykaniu okna.
+		/// Zwalnia niezwolnione zasoby i zamyka wszystkie ekrany.
 		/// </summary>
 		public virtual void DeInit()
-		{ }
+		{
+			this.ScreensManager.Dispose();
+			this.ResourcesManager.Dispose();
+		}
 
 		/// <summary>
 		/// Metoda do uaktualnień.
