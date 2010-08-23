@@ -8,6 +8,11 @@
 	{
 		#region Properties
 		/// <summary>
+		/// Identyfikator shader programu.
+		/// </summary>
+		int ShaderProgramId { get; }
+
+		/// <summary>
 		/// Plik źródłowy z kodem fragment shadera.
 		/// </summary>
 		string FragmentShaderFile { get; }
