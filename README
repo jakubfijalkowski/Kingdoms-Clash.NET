@@ -2,11 +2,19 @@ More info at: http://blog.fiolek.org(only in Polish)
 Więcej informacji na: http://blog.fiolek.org
 
 Opis struktury katalogów:
-  * Content - content gry(chwilowo brak)
+  * Content - content gry
   * Lib - używane biblioteki
   * Src - źródła
   |\
   | * ClashEngine.NET - silnik gry
+  | |\
+  | | * Components - wbudowane komponenty
+  | | * EntitiesManager - manager encji
+  | | * Exceptions - wyjątki używane w silniku
+  | | * Interfaces - interfejs silnika(struktura podobna do Src/ClashEngine.NET)
+  | | * Resources - zasoby wbudowane w silnik
+  | | * ResourcesManager - manager zasobów
+  | | * ScreensManager - manager ekranów 
   | * ClashEngine.NET.Tests - testy jednostkowe dla silnika
   | * Kingdoms Clash.NET - właściwa gra
   | * Kingdoms Clash.NET.Tests - testy jednostkowe gry
