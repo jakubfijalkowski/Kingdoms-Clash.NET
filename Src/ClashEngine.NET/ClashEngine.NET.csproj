@@ -55,6 +55,7 @@
     <Compile Include="Exceptions\ArgumentNotExistsException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Interfaces\Components\ISprite.cs" />
     <Compile Include="Interfaces\EntitiesManager\IAttribute.cs" />
     <Compile Include="Interfaces\EntitiesManager\IAttribute`1.cs" />
     <Compile Include="Interfaces\EntitiesManager\IComponent.cs" />
