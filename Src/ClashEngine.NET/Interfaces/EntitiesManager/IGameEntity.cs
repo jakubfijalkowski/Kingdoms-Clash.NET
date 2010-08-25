@@ -64,6 +64,15 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 		IAttribute<T> GetAttribute<T>(string id);
 
 		/// <summary>
+		/// Wyszukuje albo tworzy atrybut o podanym ID i typie.
+		/// </summary>
+		/// <typeparam name="T">Wymagany typ atrybutu.</typeparam>
+		/// <param name="id">Identyfikator.</param>
+		/// <exception cref="System.InvalidCastException">Rzucane gdy atrybut istnieje ale ma inny typ niż rządany.</exception>
+		/// <returns>Atrybut.</returns>
+		IAttribute<T> GetOrCreateAttribute<T>(string id);
+
+		/// <summary>
 		/// Uaktualnia wszystkie komponenty.
 		/// </summary>
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>

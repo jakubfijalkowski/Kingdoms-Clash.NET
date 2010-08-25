@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Bazowy interfejs dla komponentów które potrafią się odrysować.
 	/// </summary>
-	interface IRenderableComponent
+	public interface IRenderableComponent
 		: IComponent
 	{
 		/// <summary>
