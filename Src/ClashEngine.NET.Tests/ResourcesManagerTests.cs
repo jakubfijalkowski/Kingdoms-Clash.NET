@@ -19,12 +19,12 @@ namespace ClashEngine.NET.Tests
 		{
 			this.Manager = ResourcesManager.ResourcesManager.Instance;
 
-			this.Resource1 = new Mock<MockResource>();
+			this.Resource1 = new Mock<MockResource>("resource 1");
 			this.Resource1.Setup(r => r.Load());
 			this.Resource1.Setup(r => r.Free());
 			this.Manager.Load("resource 1", this.Resource1.Object);
 
-			this.Resource2 = new Mock<MockResource>();
+			this.Resource2 = new Mock<MockResource>("resource 2");
 			this.Resource2.Setup(r => r.Load());
 			this.Resource2.Setup(r => r.Free());
 			this.Manager.Load("resource 2", this.Resource2.Object);
@@ -127,6 +127,16 @@ namespace ClashEngine.NET.Tests
 		public class MockResource
 			: ResourcesManager.Resource
 		{
+			public MockResource()
+			{
+
+			}
+
+			public MockResource(string id)
+			{
+				base.Init(id);
+			}
+
 			public override ResourceLoadingState Load()
 			{
 				return ResourceLoadingState.Success;

@@ -125,7 +125,46 @@ namespace ClashEngine.NET.EntitiesManager
 			{
 				return attr as IAttribute<T>;
 			}
-			throw new InvalidCastException("Cannot cast attribute to IAttribute<> with type " + typeof(T).ToString());
+			throw new InvalidCastException(string.Format("Cannot cast attribute {0} to type {1}", id, typeof(T).ToString()));
+		}
+
+		/// <summary>
+		/// Wyszukuje albo tworzy atrybut o podanym ID i typie.
+		/// </summary>
+		/// <param name="id">Identyfikator.</param>
+		/// <returns>Atrybut.</returns>
+		public IAttribute GetOrCreateAttribute(string id)
+		{
+			IAttribute attr = this.GetAttribute(id);
+			if (attr == null)
+			{
+				attr = new Attribute(id, null);
+				this.AddAttribute(attr);
+			}
+			return attr;
+		}
+
+		/// <summary>
+		/// Wyszukuje albo tworzy atrybut o podanym ID i typie.
+		/// </summary>
+		/// <typeparam name="T">Wymagany typ atrybutu.</typeparam>
+		/// <param name="id">Identyfikator.</param>
+		/// <exception cref="System.InvalidCastException">Rzucane gdy atrybut istnieje ale ma inny typ niż rządany.</exception>
+		/// <returns>Atrybut.</returns>
+		public IAttribute<T> GetOrCreateAttribute<T>(string id)
+		{
+			IAttribute attr = this.GetAttribute(id);
+			if (attr == null)
+			{
+				IAttribute<T> a = new Attribute<T>(id, default(T));
+				this.AddAttribute(a);
+				return a;
+			}
+			else if(!(attr is IAttribute<T>))
+			{
+				throw new InvalidCastException(string.Format("Cannot cast attribute {0} to type {1}", id, typeof(T).ToString()));
+			}
+			return attr as IAttribute<T>;
 		}
 
 		/// <summary>

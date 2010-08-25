@@ -11,6 +11,7 @@ namespace ClashEngine.NET.Tests
 		Mock<Component> Component;
 		Mock<RenderableComponent> RenderableComponent;
 		Mock<Attribute> Attribute;
+		Mock<Attribute<int>> GenericAttribute;
 
 		GameEntity Entity;
 
@@ -25,10 +26,12 @@ namespace ClashEngine.NET.Tests
 			this.RenderableComponent.Setup(c => c.Init(this.Entity));
 
 			this.Attribute = new Mock<Attribute>("Attribute", 0.0);
+			this.GenericAttribute = new Mock<Attribute<int>>("GenericAttribute", 1);
 
 			this.Entity.AddComponent(this.Component.Object);
 			this.Entity.AddComponent(this.RenderableComponent.Object);
 			this.Entity.AddAttribute(this.Attribute.Object);
+			this.Entity.AddAttribute(this.GenericAttribute.Object);
 		}
 
 		#region Adding
@@ -43,8 +46,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void DoesAttributeAdd()
 		{
-			Assert.AreEqual(1, this.Entity.Attributes.Count);
-			Assert.AreEqual(this.Entity.Attributes[0], this.Attribute.Object);
+			Assert.AreEqual(2, this.Entity.Attributes.Count);
 		}
 
 		[Test]
@@ -58,6 +60,20 @@ namespace ClashEngine.NET.Tests
 		public void ThrowsExceptionOnAddingSameAttributeManyTimes()
 		{
 			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.AddAttribute(this.Attribute.Object));
+		}
+
+		[Test]
+		public void GettingExistingAttributeWithGetOrCreateMethodsReturnsThisAttribute()
+		{
+			Assert.AreEqual(this.Attribute.Object, this.Entity.GetOrCreateAttribute(this.Attribute.Object.Id));
+			Assert.AreEqual(this.GenericAttribute.Object, this.Entity.GetOrCreateAttribute<int>(this.GenericAttribute.Object.Id));
+		}
+
+		[Test]
+		public void GettingExisitngAttributeWithIncorrectTypeThrowsException()
+		{
+			Assert.Throws<System.InvalidCastException>(() => this.Entity.GetAttribute<float>(this.GenericAttribute.Object.Id));
+			Assert.Throws<System.InvalidCastException>(() => this.Entity.GetOrCreateAttribute<float>(this.GenericAttribute.Object.Id));
 		}
 		#endregion
 
