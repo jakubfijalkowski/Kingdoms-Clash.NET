@@ -1,13 +1,9 @@
 ﻿using System.Drawing;
+
 namespace ClashEngine.NET.Interfaces.Components
 {
 	/// <summary>
-	/// Sprite - komponent prezentujący teksturę w miejscu encji gry.
-	/// 
-	/// Wymagane atrybuty komponentu:
-	/// PointF Position - pozycja
-	/// SizeF Size - rozmiar
-	/// float Rotation - rotacja
+	/// Sprite - duszek - komponent prezentujący teksturę w miejscu encji gry.
 	/// </summary>
 	public interface ISprite
 		: EntitiesManager.IRenderableComponent

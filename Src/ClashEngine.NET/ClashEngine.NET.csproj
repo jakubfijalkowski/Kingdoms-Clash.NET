@@ -45,6 +45,7 @@
     <Reference Include="System.Management" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Sprite.cs" />
     <Compile Include="EntitiesManager\Attribute.cs" />
     <Compile Include="EntitiesManager\Attribute`1.cs" />
     <Compile Include="EntitiesManager\Component.cs" />
