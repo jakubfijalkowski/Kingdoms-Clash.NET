@@ -17,6 +17,12 @@ namespace ClashEngine.NET.ResourcesManager
 		public string Id { get; private set; }
 
 		/// <summary>
+		/// Ścieżka do zasobu.
+		/// Absolutna, chyba, że metoda Init zostanie przeładowana.
+		/// </summary>
+		public string FileName { get; private set; }
+
+		/// <summary>
 		/// Manager-rodzic zasobu.
 		/// </summary>
 		public IResourcesManager Manager { get; private set; }
@@ -34,6 +40,7 @@ namespace ClashEngine.NET.ResourcesManager
 			this.Free();
 			this.Id = id;
 			this.Manager = manager;
+			this.FileName = Path.GetFullPath(Path.Combine(this.Manager.ContentDirectory, this.Id));
 		}
 
 		/// <summary>

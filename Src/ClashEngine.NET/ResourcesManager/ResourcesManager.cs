@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ClashEngine.NET.ResourcesManager
 {
@@ -34,6 +35,7 @@ namespace ClashEngine.NET.ResourcesManager
 		#endregion
 
 		private Dictionary<string, IResource> Resources = new Dictionary<string, IResource>();
+		private string ContentDirectory_ = Path.GetFullPath(".");
 
 		#region Properties
 		/// <summary>
@@ -44,6 +46,21 @@ namespace ClashEngine.NET.ResourcesManager
 			get
 			{
 				return this.Resources.Count;
+			}
+		}
+
+		/// <summary>
+		/// Ścieżka do zasobów.
+		/// Absolutna.
+		/// Może być podawana jako ścieżka relatywna.
+		/// </summary>
+		public string ContentDirectory
+		{
+			get { return this.ContentDirectory_; }
+			set
+			{
+				this.ContentDirectory_ = Path.GetFullPath(value);
+				Logger.Info("Changing content directory to {0}", this.ContentDirectory_);
 			}
 		}
 		#endregion

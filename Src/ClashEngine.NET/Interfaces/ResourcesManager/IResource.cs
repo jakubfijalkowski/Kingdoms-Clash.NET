@@ -33,6 +33,12 @@
 		string Id { get; }
 
 		/// <summary>
+		/// Ścieżka do zasobu.
+		/// Od implementacji zależy czy jest absolutna czy relatywna.
+		/// </summary>
+		string FileName { get; }
+
+		/// <summary>
 		/// Manager-rodzic zasobu.
 		/// </summary>
 		IResourcesManager Manager { get; }
@@ -41,7 +47,7 @@
 		#region Methods
 		/// <summary>
 		/// Inicjalizuje zasób.
-		/// MUSI ustawiać właściwość Id na tą wskazywaną przez parametr.
+		/// MUSI ustawiać właściwość Id na tą wskazywaną przez parametr i MUSI ustawiać właściwość FileName na manager.ContentDirectory + Id.
 		/// Jeśli wywoływana jest więcej niż jeden raz zasób przed tym powinien zostać zwolniony.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>

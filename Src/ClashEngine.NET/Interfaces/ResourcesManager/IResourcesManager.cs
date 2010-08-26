@@ -13,6 +13,12 @@ namespace ClashEngine.NET.Interfaces.ResourcesManager
 		/// Pobiera liczbę wszystkich zasobów dodanych do managera.
 		/// </summary>
 		int TotalCount { get; }
+
+		/// <summary>
+		/// Ścieżka do zasobów.
+		/// Może być podawana jako ścieżka relatywna.
+		/// </summary>
+		string ContentDirectory { get; set; }
 		#endregion
 
 		#region Basic operations

@@ -36,12 +36,14 @@ namespace Kingdoms_Clash.NET
 			Logger.Info("OpenGL version: {0}, GLSL version: {1}", si.OpenGLVersion, si.GLSLVersion);
 			Logger.Info("Supported extensions: {0}", si.Extensions);
 #endif
+			this.ResourcesManager.ContentDirectory = "./Content";
+
 			this.Character = new GameEntity("Character");
-			this.Character.AddComponent(new Sprite("CharacterSprite", this.ResourcesManager.Load<Texture>("Content/SampleSprite.png")));
+			this.Character.AddComponent(new Sprite("CharacterSprite", this.ResourcesManager.Load<Texture>("SampleSprite.png")));
 			this.Character.GetOrCreateAttribute<Vector2>("Position").Value = new Vector2(this.Width / 2.0f, this.Height / 2.0f);
 			this.Character.GetOrCreateAttribute<Vector2>("Size").Value = new Vector2(100.0f, 100.0f);
 
-			this.MainShader = this.ResourcesManager.Load<ShaderProgram>("Content/SampleShader");
+			this.MainShader = this.ResourcesManager.Load<ShaderProgram>("SampleShader");
 
 			GL.Enable(EnableCap.Texture2D);
 			GL.Enable(EnableCap.Blend);

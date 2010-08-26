@@ -81,7 +81,7 @@ namespace ClashEngine.NET.Resources
 			Bitmap bm;
 			try
 			{
-				bm = new Bitmap(this.Id);
+				bm = new Bitmap(this.FileName);
 
 				BitmapData data = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 				this.TextureId = GL.GenTexture();

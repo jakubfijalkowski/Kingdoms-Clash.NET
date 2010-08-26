@@ -61,8 +61,8 @@ namespace ClashEngine.NET.Resources
 		public override void Init(string id, IResourcesManager manager)
 		{
 			base.Init(id, manager);
-			this.FragmentShaderFile = id + ".frag";
-			this.VertexShaderFile = id + ".vert";
+			this.FragmentShaderFile = this.FileName + ".frag";
+			this.VertexShaderFile = this.FileName + ".vert";
 		}
 
 		/// <summary>
