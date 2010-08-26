@@ -1,20 +1,23 @@
 ﻿using System;
+using System.IO;
 using OpenTK.Graphics.OpenGL;
 
 namespace ClashEngine.NET.Resources
 {
 	using Interfaces.Resources;
 	using Interfaces.ResourcesManager;
-	using System.IO;
 
 	/// <summary>
 	/// Shader program w GLSL.
 	/// Przy inicjalizowaniu automatycznie przypisuje FragmentShaderFile i VertexShaderFile na wartość {Id}.frag i {Id}.vert.
+	/// Jest thread-safe.
 	/// </summary>
 	public class ShaderProgram
 		: ResourcesManager.Resource, IShaderProgram
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
+
+		private object PadLock = new object();
 		
 		#region Properties
 		/// <summary>
@@ -52,7 +55,10 @@ namespace ClashEngine.NET.Resources
 		/// </summary>
 		public void Bind()
 		{
-			GL.UseProgram(this.ShaderProgramId);
+			lock (this.PadLock)
+			{
+				GL.UseProgram(this.ShaderProgramId);
+			}
 		}
 		#endregion
 		#endregion
@@ -71,71 +77,74 @@ namespace ClashEngine.NET.Resources
 		/// <returns>Stan załadowania zasobu.</returns>
 		public override ResourceLoadingState Load()
 		{
-			string fragmentSource = string.Empty;
-			string vertexSource = string.Empty;
-
-			#region Loading source
-			try
+			lock (this.PadLock)
 			{
-				using (FileStream fragFs = new FileStream(this.FragmentShaderFile, FileMode.Open, FileAccess.Read),
-					vertFs = new FileStream(this.VertexShaderFile, FileMode.Open, FileAccess.Read))
+				string fragmentSource = string.Empty;
+				string vertexSource = string.Empty;
+
+				#region Loading source
+				try
 				{
-					using (StreamReader fragReader = new StreamReader(fragFs),
-						vertReader = new StreamReader(vertFs))
+					using (FileStream fragFs = new FileStream(this.FragmentShaderFile, FileMode.Open, FileAccess.Read),
+						vertFs = new FileStream(this.VertexShaderFile, FileMode.Open, FileAccess.Read))
 					{
-						fragmentSource = fragReader.ReadToEnd();
-						vertexSource = vertReader.ReadToEnd();
+						using (StreamReader fragReader = new StreamReader(fragFs),
+							vertReader = new StreamReader(vertFs))
+						{
+							fragmentSource = fragReader.ReadToEnd();
+							vertexSource = vertReader.ReadToEnd();
+						}
 					}
 				}
-			}
-			catch (Exception ex)
-			{
-				Logger.ErrorException("Cannot load shader sources.", ex);
-				return ResourceLoadingState.Failure;
-			}
-			Logger.Trace("Shader source loaded");
-			#endregion
+				catch (Exception ex)
+				{
+					Logger.ErrorException("Cannot load shader sources.", ex);
+					return ResourceLoadingState.Failure;
+				}
+				Logger.Trace("Shader source loaded");
+				#endregion
 
-			#region Creating shaders
-			this.FragmentShaderId = GL.CreateShader(ShaderType.FragmentShader);
-			this.VertexShaderId = GL.CreateShader(ShaderType.VertexShader);
-			if (Error("Cannot create shaders. Error: {0}"))
-			{
-				return ResourceLoadingState.Failure;
-			}
+				#region Creating shaders
+				this.FragmentShaderId = GL.CreateShader(ShaderType.FragmentShader);
+				this.VertexShaderId = GL.CreateShader(ShaderType.VertexShader);
+				if (Error("Cannot create shaders. Error: {0}"))
+				{
+					return ResourceLoadingState.Failure;
+				}
 
-			GL.ShaderSource(this.FragmentShaderId, fragmentSource);
-			GL.CompileShader(this.FragmentShaderId);
-			if (Error("Cannot compile fragment shader. Error: {0}"))
-			{
-				Logger.Error("Compilation log: {0}", GL.GetShaderInfoLog(this.FragmentShaderId));
-				return ResourceLoadingState.Failure;
-			}
-			Logger.Trace("Fragment shader compiled succesfully");
+				GL.ShaderSource(this.FragmentShaderId, fragmentSource);
+				GL.CompileShader(this.FragmentShaderId);
+				if (Error("Cannot compile fragment shader. Error: {0}"))
+				{
+					Logger.Error("Compilation log: {0}", GL.GetShaderInfoLog(this.FragmentShaderId));
+					return ResourceLoadingState.Failure;
+				}
+				Logger.Trace("Fragment shader compiled succesfully");
 
-			GL.ShaderSource(this.VertexShaderId, vertexSource);
-			GL.CompileShader(this.VertexShaderId);
-			if (Error("Cannot compile vertex shader. Error: {0}"))
-			{
-				Logger.Error("Compilation log: {0}", GL.GetShaderInfoLog(this.VertexShaderId));
-				return ResourceLoadingState.Failure;
-			}
-			Logger.Trace("Vertex shader compiled succesfully");
-			#endregion
+				GL.ShaderSource(this.VertexShaderId, vertexSource);
+				GL.CompileShader(this.VertexShaderId);
+				if (Error("Cannot compile vertex shader. Error: {0}"))
+				{
+					Logger.Error("Compilation log: {0}", GL.GetShaderInfoLog(this.VertexShaderId));
+					return ResourceLoadingState.Failure;
+				}
+				Logger.Trace("Vertex shader compiled succesfully");
+				#endregion
 
-			#region Creating program
-			this.ShaderProgramId = GL.CreateProgram();
-			GL.AttachShader(this.ShaderProgramId, this.VertexShaderId);
-			GL.AttachShader(this.ShaderProgramId, this.FragmentShaderId);
-			GL.LinkProgram(this.ShaderProgramId);
-			if (Error("Cannot create shader program. Error: {0}"))
-			{
-				return ResourceLoadingState.Failure;
-			}
-			#endregion
+				#region Creating program
+				this.ShaderProgramId = GL.CreateProgram();
+				GL.AttachShader(this.ShaderProgramId, this.VertexShaderId);
+				GL.AttachShader(this.ShaderProgramId, this.FragmentShaderId);
+				GL.LinkProgram(this.ShaderProgramId);
+				if (Error("Cannot create shader program. Error: {0}"))
+				{
+					return ResourceLoadingState.Failure;
+				}
+				#endregion
 
-			Logger.Trace("Shader program created succesfully");
-			return ResourceLoadingState.Success;
+				Logger.Trace("Shader program created succesfully");
+				return ResourceLoadingState.Success;
+			}
 		}
 
 		/// <summary>
@@ -143,9 +152,12 @@ namespace ClashEngine.NET.Resources
 		/// </summary>
 		public override void Free()
 		{
-			GL.DeleteProgram(this.ShaderProgramId);
-			GL.DeleteShader(this.VertexShaderId);
-			GL.DeleteShader(this.FragmentShaderId);
+			lock (this.PadLock)
+			{
+				GL.DeleteProgram(this.ShaderProgramId);
+				GL.DeleteShader(this.VertexShaderId);
+				GL.DeleteShader(this.FragmentShaderId);
+			}
 		}
 		#endregion
 

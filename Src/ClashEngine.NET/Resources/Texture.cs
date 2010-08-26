@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
+using OpenTK.Graphics.OpenGL;
 
 namespace ClashEngine.NET.Resources
 {
-	using System.Drawing.Imaging;
 	using Interfaces.Resources;
-	using OpenTK.Graphics.OpenGL;
 	
 	/// <summary>
 	/// Tekstura.
 	/// Obsługiwane formaty: BMP, GIF, EXIF, JPG, PNG, TIFF.
+	/// Jest thread-safe.
 	/// </summary>
 	public class Texture
 		: ResourcesManager.Resource, ITexture
@@ -32,6 +33,8 @@ namespace ClashEngine.NET.Resources
 		/// Czy użyto domyślnej tekstury?
 		/// </summary>
 		private bool DefaultUsed = false;
+
+		private object PadLock = new object();
 
 		#region ITexture members
 		/// <summary>
@@ -66,7 +69,10 @@ namespace ClashEngine.NET.Resources
 		/// </summary>
 		public void Bind()
 		{
-			GL.BindTexture(TextureTarget.Texture2D, this.TextureId);
+			lock (this.PadLock)
+			{
+				GL.BindTexture(TextureTarget.Texture2D, this.TextureId);
+			}
 		}
 		#endregion
 
@@ -78,42 +84,45 @@ namespace ClashEngine.NET.Resources
 		/// <returns>Stan załadowania zasobu.</returns>
 		public override Interfaces.ResourcesManager.ResourceLoadingState Load()
 		{
-			Bitmap bm;
-			try
+			lock (this.PadLock)
 			{
-				bm = new Bitmap(this.FileName);
-
-				BitmapData data = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-				this.TextureId = GL.GenTexture();
-				this.Bind();
-				GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bm.Width, bm.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-				bm.UnlockBits(data);
-
-				//Ustawiamy filtrowanie - w grach 2D linearne nas zadowala.
-				GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-				GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-
-				bm.Dispose(); //Od razu zwalniamy, nie mamy potrzeby trzymać tego w pamięci.
-			}
-			catch (Exception ex)
-			{
-				Logger.WarnException("Cannot load texture. Using default.", ex);
-
-				if (DefaultTexture == null)
+				Bitmap bm;
+				try
 				{
-					DefaultTexture = new DefaultTexture();
-					DefaultTexture.Load();
+					bm = new Bitmap(this.FileName);
+
+					BitmapData data = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+					this.TextureId = GL.GenTexture();
+					this.Bind();
+					GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bm.Width, bm.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+					bm.UnlockBits(data);
+
+					//Ustawiamy filtrowanie - w grach 2D linearne nas zadowala.
+					GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+					GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+					bm.Dispose(); //Od razu zwalniamy, nie mamy potrzeby trzymać tego w pamięci.
 				}
-				this.DefaultUsed = true;
-				this.TextureId = DefaultTexture.TextureId;
-				this.Widgth = DefaultTexture.Widgth;
-				this.Heigth = DefaultTexture.Heigth;
+				catch (Exception ex)
+				{
+					Logger.WarnException("Cannot load texture. Using default.", ex);
 
-				++DefaultTexturesCount;
+					if (DefaultTexture == null)
+					{
+						DefaultTexture = new DefaultTexture();
+						DefaultTexture.Load();
+					}
+					this.DefaultUsed = true;
+					this.TextureId = DefaultTexture.TextureId;
+					this.Widgth = DefaultTexture.Widgth;
+					this.Heigth = DefaultTexture.Heigth;
 
-				return Interfaces.ResourcesManager.ResourceLoadingState.DefaultUsed;
+					++DefaultTexturesCount;
+
+					return Interfaces.ResourcesManager.ResourceLoadingState.DefaultUsed;
+				}
+				return Interfaces.ResourcesManager.ResourceLoadingState.Success;
 			}
-			return Interfaces.ResourcesManager.ResourceLoadingState.Success;
 		}
 
 		/// <summary>
@@ -121,17 +130,21 @@ namespace ClashEngine.NET.Resources
 		/// </summary>
 		public override void Free()
 		{
-			if (!this.DefaultUsed)
+			lock (this.PadLock)
 			{
-				GL.DeleteTexture(this.TextureId);
-			}
-			else
-			{
-				--DefaultTexturesCount;
-				if (DefaultTexturesCount == 0)
+				if (!this.DefaultUsed)
 				{
-					DefaultTexture.Free();
-					DefaultTexture = null;
+					GL.BindTexture(TextureTarget.Texture2D, 0); //Odbindowujemy jakąkolwiek teksturę - nie przechowujemy nigdzie która jest zbindowana.
+					GL.DeleteTexture(this.TextureId);
+				}
+				else
+				{
+					--DefaultTexturesCount;
+					if (DefaultTexturesCount == 0)
+					{
+						DefaultTexture.Free();
+						DefaultTexture = null;
+					}
 				}
 			}
 		}

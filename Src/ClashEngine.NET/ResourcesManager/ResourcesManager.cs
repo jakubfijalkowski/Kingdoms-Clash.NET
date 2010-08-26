@@ -10,6 +10,13 @@ namespace ClashEngine.NET.ResourcesManager
 	/// Manager zasobów.
 	/// Zaimplementowany jako singleton - instancja pobierana przez właściwość Instance.
 	/// </summary>
+	/// <remarks>
+	///	Makra:
+	///		FORCEHOTREPLACEMANAGER - wymusza użycie managera zasobów obsługującego "hot replace" plików.
+	///		FORCENOTUSINGHOTREPLACEMANAGER - wymusza nieużywanie managera zasobów obsługującego "hot replace".
+	///	Domyślnie w wersji Debug używany jest manager obsługujący "hot replace", a w Release - nie.
+	///	Jeśli pozwolimy używać takiego managera musimy zapewnić, że klasy zasobów będą thread-safe.
+	/// </remarks>
 	public class ResourcesManager
 		: IResourcesManager
 	{
@@ -27,14 +34,19 @@ namespace ClashEngine.NET.ResourcesManager
 			{
 				if (_Instance == null)
 				{
-					_Instance = new ResourcesManager();
+#if (DEBUG || FORCEHOTREPLACEMANAGER) && !FORCENOTUSINGHOTREPLACEMANAGER
+					//Debug - używamy managera udostępniającego "gorącą podmianę"
+					_Instance = new HotReplaceResourcesManager();
+#else
+					_Instance = new ResourcesManager(); 
+#endif
 				}
 				return _Instance;
 			}
 		}
 		#endregion
 
-		private Dictionary<string, IResource> Resources = new Dictionary<string, IResource>();
+		protected Dictionary<string, IResource> Resources = new Dictionary<string, IResource>();
 		private string ContentDirectory_ = Path.GetFullPath(".");
 
 		#region Properties
@@ -54,7 +66,7 @@ namespace ClashEngine.NET.ResourcesManager
 		/// Absolutna.
 		/// Może być podawana jako ścieżka relatywna.
 		/// </summary>
-		public string ContentDirectory
+		public virtual string ContentDirectory
 		{
 			get { return this.ContentDirectory_; }
 			set
@@ -66,7 +78,7 @@ namespace ClashEngine.NET.ResourcesManager
 		#endregion
 
 		#region Ctors
-		private ResourcesManager()
+		protected ResourcesManager()
 		{ }
 		#endregion
 
@@ -74,6 +86,8 @@ namespace ClashEngine.NET.ResourcesManager
 		/// <summary>
 		/// Ładuje zasób lub pobiera z już załadowanych.
 		/// Jeśli zasób był już załadowany i typ jest różny od rządanego rzuca wyjątkiem.
+		/// UWAGA! NIE PODAWAĆ znaków takich jak "\" lub "/" na początku nazwy pliku!
+		/// Tworząc Id zamieniane są wszystkie znaki "\" na "/".
 		/// </summary>
 		/// <typeparam name="T">Rządany typ zasobu.</typeparam>
 		/// <exception cref="InvalidCastException">Rzucane gdy rządany typ jest różny od typu załadowanego zasobu.</exception>
@@ -106,6 +120,8 @@ namespace ClashEngine.NET.ResourcesManager
 		/// Ładuje zasób do już istniejącego.
 		/// Jeśli zasób już był załadowany, zwraca go i obiekt podany w parametrze jest nieruszony, w przeciwnym razie zwraca parametr.
 		/// Typ zwracanego zasobu NIE MUSI się zgadzać z typem parametru res.
+		/// UWAGA! NIE PODAWAĆ znaków takich jak "\" lub "/" na początku nazwy pliku!
+		/// Tworząc Id zamieniane są wszystkie znaki "\" na "/".
 		/// </summary>
 		/// <param name="filename">Nazwa pliku.</param>
 		/// <exception cref="ArgumentNullException">Rzucane gdy filename jest puste lub res jest równe null.</exception>
@@ -194,7 +210,7 @@ namespace ClashEngine.NET.ResourcesManager
 		/// <param name="res"></param>
 		private void LoadResource(string id, IResource res)
 		{
-			res.Init(id, this);
+			res.Init(id.Replace('\\', '/'), this);
 			switch (res.Load())
 			{
 			case ResourceLoadingState.Success:
