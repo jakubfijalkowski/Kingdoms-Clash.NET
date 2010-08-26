@@ -58,9 +58,9 @@ namespace ClashEngine.NET.Resources
 		#endregion
 
 		#region Resource members
-		public override void Init(string id)
+		public override void Init(string id, IResourcesManager manager)
 		{
-			base.Init(id);
+			base.Init(id, manager);
 			this.FragmentShaderFile = id + ".frag";
 			this.VertexShaderFile = id + ".vert";
 		}

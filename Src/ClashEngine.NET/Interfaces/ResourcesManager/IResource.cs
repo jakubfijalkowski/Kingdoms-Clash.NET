@@ -31,6 +31,11 @@
 		/// Identyfikator zasobu - nazwa pliku z zasobem.
 		/// </summary>
 		string Id { get; }
+
+		/// <summary>
+		/// Manager-rodzic zasobu.
+		/// </summary>
+		IResourcesManager Manager { get; }
 		#endregion
 
 		#region Methods
@@ -40,7 +45,8 @@
 		/// Jeśli wywoływana jest więcej niż jeden raz zasób przed tym powinien zostać zwolniony.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
-		void Init(string id);
+		/// <param name="manager">Manager-rodzic danego zasobu.</param>
+		void Init(string id, IResourcesManager manager);
 
 		/// <summary>
 		/// Ładuje zasób.

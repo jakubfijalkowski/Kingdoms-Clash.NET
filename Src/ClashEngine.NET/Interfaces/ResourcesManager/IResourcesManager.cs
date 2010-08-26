@@ -12,10 +12,7 @@ namespace ClashEngine.NET.Interfaces.ResourcesManager
 		/// <summary>
 		/// Pobiera liczbę wszystkich zasobów dodanych do managera.
 		/// </summary>
-		int TotalCount
-		{
-			get;
-		}
+		int TotalCount { get; }
 		#endregion
 
 		#region Basic operations

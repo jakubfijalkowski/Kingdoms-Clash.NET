@@ -19,12 +19,12 @@ namespace ClashEngine.NET.Tests
 		{
 			this.Manager = ResourcesManager.ResourcesManager.Instance;
 
-			this.Resource1 = new Mock<MockResource>("resource 1");
+			this.Resource1 = new Mock<MockResource>("resource 1", this.Manager);
 			this.Resource1.Setup(r => r.Load());
 			this.Resource1.Setup(r => r.Free());
 			this.Manager.Load("resource 1", this.Resource1.Object);
 
-			this.Resource2 = new Mock<MockResource>("resource 2");
+			this.Resource2 = new Mock<MockResource>("resource 2", this.Manager);
 			this.Resource2.Setup(r => r.Load());
 			this.Resource2.Setup(r => r.Free());
 			this.Manager.Load("resource 2", this.Resource2.Object);
@@ -42,6 +42,8 @@ namespace ClashEngine.NET.Tests
 		public void DoResourcesLoad()
 		{
 			Assert.AreEqual(2, this.Manager.TotalCount);
+			Assert.AreEqual(this.Manager, this.Resource1.Object.Manager);
+			Assert.AreEqual(this.Manager, this.Resource2.Object.Manager);
 			this.Resource1.Verify(r => r.Load());
 			this.Resource2.Verify(r => r.Load());
 		}
@@ -118,6 +120,12 @@ namespace ClashEngine.NET.Tests
 		{
 			Assert.Throws<Exceptions.NotFoundException>(() => this.Manager.Free("invalid resource"));
 		}
+
+		[Test]
+		public void FreeingNonLoadedResourcesThrowsException()
+		{
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Free(new MockResource2()));
+		}
 		#endregion
 
 		#region Mock classes
@@ -132,9 +140,9 @@ namespace ClashEngine.NET.Tests
 
 			}
 
-			public MockResource(string id)
+			public MockResource(string id, IResourcesManager manager)
 			{
-				base.Init(id);
+				base.Init(id, manager);
 			}
 
 			public override ResourceLoadingState Load()

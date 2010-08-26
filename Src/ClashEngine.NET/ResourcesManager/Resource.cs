@@ -15,6 +15,11 @@ namespace ClashEngine.NET.ResourcesManager
 		/// Identyfikator zasobu - nazwa pliku z zasobem.
 		/// </summary>
 		public string Id { get; private set; }
+
+		/// <summary>
+		/// Manager-rodzic zasobu.
+		/// </summary>
+		public IResourcesManager Manager { get; private set; }
 		#endregion
 
 		#region Methods
@@ -23,10 +28,12 @@ namespace ClashEngine.NET.ResourcesManager
 		/// Do użytku wewnętrznego(jakoś trzeba zainicjalizować identyfikator w klasach dziedziczących).
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
-		public virtual void Init(string id)
+		/// <param name="manager">Manager-rodzic danego zasobu.</param>
+		public virtual void Init(string id, IResourcesManager manager)
 		{
 			this.Free();
 			this.Id = id;
+			this.Manager = manager;
 		}
 
 		/// <summary>

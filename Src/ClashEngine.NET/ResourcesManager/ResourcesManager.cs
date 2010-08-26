@@ -92,6 +92,7 @@ namespace ClashEngine.NET.ResourcesManager
 		/// </summary>
 		/// <param name="filename">Nazwa pliku.</param>
 		/// <exception cref="ArgumentNullException">Rzucane gdy filename jest puste lub res jest równe null.</exception>
+		/// <exception cref="ArgumentException">Rzucane gdy próbowano załadować już załadowany zasób z innego managera.</exception>
 		/// <param name="res">Zasób.</param>
 		public IResource Load(string filename, IResource res)
 		{
@@ -102,6 +103,10 @@ namespace ClashEngine.NET.ResourcesManager
 			else if (res == null)
 			{
 				throw new ArgumentNullException("res");
+			}
+			else if (res.Manager != null && res.Manager != this)
+			{
+				throw new ArgumentException("res", "Crossing managers is prohibited");
 			}
 			IResource res1;
 			if (this.Resources.TryGetValue(filename, out res1))
@@ -116,14 +121,23 @@ namespace ClashEngine.NET.ResourcesManager
 		/// <summary>
 		/// Zwalnia zasób.
 		/// </summary>
-		/// <exception cref="ArgumentNullException">Rzucane gdy res jest równe null.</exception>
+		/// <exception cref="ArgumentNullException">Rzucane gdy res jest równe null -albo- gdy zasób nie był załadowany(Id jest puste lub Manager == null).</exception>
 		/// <exception cref="Exceptions.NotFoundException">Rzucane gdy nie znaleziono zasobu w managerze.</exception>
+		/// <exception cref="ArgumentException">Rzucane gdy próbowano załadować już załadowany zasób z innego managera.</exception>
 		/// <param name="res">Zasób.</param>
 		public void Free(IResource res)
 		{
 			if (res == null)
 			{
 				throw new ArgumentNullException("res");
+			}
+			else if (string.IsNullOrEmpty(res.Id) || res.Manager == null)
+			{
+				throw new ArgumentNullException("res", "Resource not loaded");
+			}
+			else if (res.Manager != this)
+			{
+				throw new ArgumentException("res", "Crossing managers is prohibited");
 			}
 			if (!this.Resources.Remove(res.Id))
 			{
@@ -163,7 +177,7 @@ namespace ClashEngine.NET.ResourcesManager
 		/// <param name="res"></param>
 		private void LoadResource(string id, IResource res)
 		{
-			res.Init(id);
+			res.Init(id, this);
 			switch (res.Load())
 			{
 			case ResourceLoadingState.Success:
