@@ -32,6 +32,7 @@ namespace ClashEngine.NET.ResourcesManager
 		{
 			Logger.Debug("Using resources manager supporting \"hot replace\"");
 			this.Watcher = new FileSystemWatcher(base.ContentDirectory);
+			this.Watcher.NotifyFilter = NotifyFilters.LastWrite;
 			this.Watcher.Changed += new FileSystemEventHandler(Watcher_Changed);
 			this.Watcher.EnableRaisingEvents = true;
 		}
