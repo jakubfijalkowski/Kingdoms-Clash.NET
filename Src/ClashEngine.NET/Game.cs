@@ -300,6 +300,7 @@ namespace ClashEngine.NET
 
 			protected override void OnUpdateFrame(OpenTK.FrameEventArgs e)
 			{
+				MainThreadCallbacksManager.Instance.Call();
 				this.Parent.Update(e.Time);
 			}
 

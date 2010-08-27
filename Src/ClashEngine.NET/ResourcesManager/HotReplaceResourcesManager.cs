@@ -43,9 +43,15 @@ namespace ClashEngine.NET.ResourcesManager
 			if (base.Resources.TryGetValue(id.Replace('\\', '/'), out res))
 			{
 				//Zwalniamy i tworzymy od nowa.
-				Logger.Debug("Resource {0} modified. Reloading.", id);
-				res.Free();
-				res.Load();
+				Logger.Debug("Resource {0} modified. Reloading. {1}", id, e.ChangeType);
+
+				//Musimy to wywołać na głównym wątku - kontekst OpenGL jest thread-specific
+				MainThreadCallbacksManager.Instance.Add(() =>
+					{
+						res.Free();
+						res.Load();
+						return true;
+					});
 			}
 		}
 	}

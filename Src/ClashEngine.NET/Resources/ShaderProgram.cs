@@ -10,8 +10,11 @@ namespace ClashEngine.NET.Resources
 	/// <summary>
 	/// Shader program w GLSL.
 	/// Przy inicjalizowaniu automatycznie przypisuje FragmentShaderFile i VertexShaderFile na wartość {Id}.frag i {Id}.vert.
-	/// Jest thread-safe.
+	/// Jest thread-safe(ale zależne od kontekstu OpenGL).
 	/// </summary>
+	/// <remarks>
+	/// Musi być używane tylko z wątku, w którym jest aktywny kontekst OpenGL, w innych nie "zadziała".
+	/// </remarks>
 	public class ShaderProgram
 		: ResourcesManager.Resource, IShaderProgram
 	{

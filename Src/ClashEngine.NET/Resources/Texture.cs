@@ -10,8 +10,11 @@ namespace ClashEngine.NET.Resources
 	/// <summary>
 	/// Tekstura.
 	/// Obsługiwane formaty: BMP, GIF, EXIF, JPG, PNG, TIFF.
-	/// Jest thread-safe.
+	/// Jest thread-safe(ale zależne od kontekstu OpenGL).
 	/// </summary>
+	/// <remarks>
+	/// Musi być używane tylko z wątku, w którym jest aktywny kontekst OpenGL, w innych nie "zadziała".
+	/// </remarks>
 	public class Texture
 		: ResourcesManager.Resource, ITexture
 	{
