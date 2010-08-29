@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ClashEngine.NET.ScreensManager;
+﻿using ClashEngine.NET.Components;
 using ClashEngine.NET.EntitiesManager;
-using ClashEngine.NET.Components;
-using ClashEngine.NET.ResourcesManager;
 using ClashEngine.NET.Resources;
+using ClashEngine.NET.ResourcesManager;
+using ClashEngine.NET.ScreensManager;
 using OpenTK;
 
 namespace Kingdoms_Clash.NET

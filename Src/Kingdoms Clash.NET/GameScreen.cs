@@ -33,7 +33,10 @@ namespace Kingdoms_Clash.NET
 
 			if (this.CheckCollisions())
 			{
-				this.Manager.AddScreen(new GameOverScreen()); //Wyświetlamy ekran "game over".
+				var screen = new GameOverScreen();
+				this.Manager.AddScreen(screen);
+				this.Manager.MoveToFront(screen);
+				this.Manager.MakeActive(screen); //Wyświetlamy ekran "game over".
 			}
 
 			this.CheckEnemyShips(delta);
