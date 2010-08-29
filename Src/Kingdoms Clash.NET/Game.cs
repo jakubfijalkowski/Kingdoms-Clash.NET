@@ -6,6 +6,7 @@ using ClashEngine.NET.Interfaces.Resources;
 using ClashEngine.NET.Resources;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using ClashEngine.NET;
 
 namespace Kingdoms_Clash.NET
 {

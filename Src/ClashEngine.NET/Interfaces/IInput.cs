@@ -1,4 +1,5 @@
 ﻿using OpenTK.Input;
+using System.Collections.Generic;
 
 namespace ClashEngine.NET.Interfaces
 {
@@ -17,6 +18,11 @@ namespace ClashEngine.NET.Interfaces
 		/// Mysz.
 		/// </summary>
 		MouseDevice Mouse { get; }
+
+		/// <summary>
+		/// Lista joysticków zainstalowanych w systemie.
+		/// </summary>
+		IList<JoystickDevice> Joysticks { get; }
 		#endregion
 	}
 }
