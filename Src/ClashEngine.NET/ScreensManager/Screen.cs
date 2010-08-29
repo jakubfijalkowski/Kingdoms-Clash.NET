@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenTK.Input;
 
 namespace ClashEngine.NET.ScreensManager
 {
@@ -121,6 +122,58 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		public virtual void StateChanged()
 		{ }
+
+		#region Keyboard
+		/// <summary>
+		/// Zdarzenie naciśnięcia klawisza.
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
+		public bool KeyDown(KeyboardKeyEventArgs e)
+		{ return false; }
+
+		/// <summary>
+		/// Zdarzenie zwolnienia klawisza.
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
+		public bool KeyUp(KeyboardKeyEventArgs e)
+		{ return false; }
+		#endregion
+
+		#region Mouse
+		/// <summary>
+		/// Zdarzenie naciśnięcia przycisku myszy.
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
+		public bool MouseButtonDown(MouseButtonEventArgs e)
+		{ return false; }
+
+		/// <summary>
+		/// Zdarzenie zwolnienia przycisku myszy.
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
+		public bool MouseButtonUp(MouseButtonEventArgs e)
+		{ return false; }
+
+		/// <summary>
+		/// Zdarzenie poruszenia myszy.
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns>Czy zostało obsłużonę.</returns>
+		public bool MouseMove(MouseMoveEventArgs e)
+		{ return false; }
+
+		/// <summary>
+		/// Zdarzenie "przekręcenia" kółka myszy.
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns>Czy zostało obsłużonę.</returns>
+		public bool MouseWheelChanged(MouseWheelEventArgs e)
+		{ return false; }
+		#endregion
 		#endregion
 	}
 }
