@@ -144,9 +144,9 @@ namespace ClashEngine.NET.ScreensManager
 					return false;
 				}
 			}
-			//Pełnoekranowy ekran(masło maślane...), więc musimy aktywować ekrany "za".
+			//Jeśli nie jest popupem, musimy deaktywować ekrany "za".
 			int deactivatedCounter = 0;
-			if (screen.IsFullscreen)
+			if (!screen.IsPopup)
 			{
 				for (int i = this._Screens.IndexOf(screen); i < this._Screens.Count; i++)
 				{
@@ -186,9 +186,9 @@ namespace ClashEngine.NET.ScreensManager
 			{
 				return false;
 			}
-			//Jeśli jest na pełnym ekranie musimy aktywować ekrany które są za nim.
+			//Jeśli nie jest "popupem" musimy aktywować ekrany które są za nim.
 			int activatedCounter = 0;
-			if (screen.IsFullscreen)
+			if (!screen.IsPopup)
 			{
 				for (int i = this._Screens.IndexOf(screen); i < this._Screens.Count; i++)
 				{
