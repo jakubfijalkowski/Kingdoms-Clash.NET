@@ -33,8 +33,7 @@ namespace Kingdoms_Clash.NET
 
 			if (this.CheckCollisions())
 			{
-				//TODO zaimplementować obsługę kolizji.
-				throw new NotImplementedException();
+				this.Manager.AddScreen(new GameOverScreen()); //Wyświetlamy ekran "game over".
 			}
 
 			this.CheckEnemyShips(delta);
