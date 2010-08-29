@@ -8,6 +8,7 @@ namespace ClashEngine.NET.ScreensManager
 
 	/// <summary>
 	/// Manager ekranów.
+	/// Zobacz <see cref="Screen"/> dla większej ilości informacji.
 	/// </summary>
 	public class ScreensManager
 		: IScreensManager
@@ -254,6 +255,12 @@ namespace ClashEngine.NET.ScreensManager
 			}
 		}
 		#endregion
+		#endregion
+
+		#region Firing events
+		/*private void FireKeyPress()
+		{
+		}*/
 		#endregion
 
 		#region IDisposable members

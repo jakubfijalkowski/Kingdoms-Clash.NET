@@ -11,6 +11,11 @@ namespace ClashEngine.NET.ScreensManager
 	/// To zachowanie można zmienić ustawiając właściwość IsPopup na true, wtedy ekran "pod" nadal będzie aktualizowany.
 	/// Jeśli ekran ma ustawioną właściwość IsFullscreen na true ekrany pod nie są odrysowywane - względy wydajnościowe.
 	/// </summary>
+	/// <remarks>
+	///	Zdarzenia klawiatury i myszki powinny być obsługiwane w odpowiednich metodach zdarzeń, nie w metodzie Update.
+	///	Umożliwi to wysyłanie zdarzeń tylko do aktywnych ekranów i przesyłanie zdarzenia będzie mogło zostać przerwane, czego nie umożliwia metoda Update.
+	///	Ekran sam powinien sprawdzać, czy np. naciśnięcie przycisku myszy jest nad nim(dotyczy to ekranów typu popup, fullscreen, jak wiadomo, jest tylko jeden).
+	/// </remarks>
 	public abstract class Screen
 		: IScreen
 	{

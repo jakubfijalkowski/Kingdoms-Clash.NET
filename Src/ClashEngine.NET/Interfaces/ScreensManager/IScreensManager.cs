@@ -3,6 +3,10 @@ using System.Collections.ObjectModel;
 
 namespace ClashEngine.NET.Interfaces.ScreensManager
 {
+	/// <summary>
+	/// Bazowy interfejs dla managera ekranów.
+	/// Implementacja powinna wysyłać zdarzenia myszy i klawiatury do odpowiednich ekranów.
+	/// </summary>
 	public interface IScreensManager
 		: IDisposable
 	{
