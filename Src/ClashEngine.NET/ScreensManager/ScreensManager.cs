@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using OpenTK.Input;
 
 namespace ClashEngine.NET.ScreensManager
 {
@@ -29,6 +30,20 @@ namespace ClashEngine.NET.ScreensManager
 		#endregion
 
 		#region Methods
+		/// <summary>
+		/// Inicjalizuje nowy manager i 
+		/// </summary>
+		public ScreensManager()
+		{
+			Input.Instance.Keyboard.KeyDown += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(FireKeyDown);
+			Input.Instance.Keyboard.KeyUp += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(FireKeyUp);
+
+			Input.Instance.Mouse.ButtonDown += new EventHandler<MouseButtonEventArgs>(FireMouseButtonDown);
+			Input.Instance.Mouse.ButtonUp += new EventHandler<MouseButtonEventArgs>(FireMouseButtonUp);
+			Input.Instance.Mouse.Move += new EventHandler<MouseMoveEventArgs>(FireMouseMove);
+			Input.Instance.Mouse.WheelChanged += new EventHandler<MouseWheelEventArgs>(FireMouseWheelChanged);
+		}
+
 		#region List management
 		/// <summary>
 		/// Dodaje ekran do listy.
@@ -258,9 +273,55 @@ namespace ClashEngine.NET.ScreensManager
 		#endregion
 
 		#region Firing events
-		/*private void FireKeyPress()
+		//Metody obsługujące zdarzenia.
+		#region Keyboard
+		void FireKeyDown(object sender, KeyboardKeyEventArgs e)
 		{
-		}*/
+			this.FireEvent(s => s.KeyDown(e));
+		}
+
+		void FireKeyUp(object sender, KeyboardKeyEventArgs e)
+		{
+			this.FireEvent(s => s.KeyUp(e));
+		}
+		#endregion
+
+		#region Mouse
+		void FireMouseButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			this.FireEvent(s => s.MouseButtonDown(e));
+		}
+
+		void FireMouseButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			this.FireEvent(s => s.MouseButtonUp(e));
+		}
+
+		void FireMouseMove(object sender, MouseMoveEventArgs e)
+		{
+			this.FireEvent(s => s.MouseMove(e));
+		}
+
+		void FireMouseWheelChanged(object sender, MouseWheelEventArgs e)
+		{
+			this.FireEvent(s => s.MouseWheelChanged(e));
+		}
+		#endregion
+
+		/// <summary>
+		/// Metoda pomocnicza do wysyłania zdarzeń.
+		/// </summary>
+		/// <param name="e"></param>
+		private void FireEvent(Func<IScreen, bool> e)
+		{
+			foreach (IScreen screen in this._Screens)
+			{
+				if (screen.State == ScreenState.Active && e(screen))
+				{
+					break;
+				}
+			}
+		}
 		#endregion
 
 		#region IDisposable members

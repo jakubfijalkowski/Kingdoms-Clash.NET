@@ -40,7 +40,7 @@ namespace ClashEngine.NET
 		/// <param name="height">Wysokość okna.</param>
 		/// <param name="fullscreen">Czy używać pełnego ekranu.</param>
 		/// <param name="useVSync">Czy używać synchronizacji pionowej.</param>
-		/// <param name="mode">Tryb graficzny.</param>
+		/// <param name="mode">Tryb graficzny.</param>s
 		public Game(string name, int width, int height, bool fullscreen, bool useVSync, OpenTK.Graphics.GraphicsMode mode)
 		{
 			Logger.Info("Creating game object");
@@ -49,9 +49,9 @@ namespace ClashEngine.NET
 			Logger.Info("Fullscreen: {0}", fullscreen);
 			Logger.Info("VSync: {0}", (useVSync ? "on" : "off"));
 			this.Name = name;
-			this.ScreensManager = new ClashEngine.NET.ScreensManager.ScreensManager();
 			this.Window = new GameWindow(this, name, width, height, fullscreen, useVSync, mode);
 			(Input as Input).Init(this.Window.Keyboard, this.Window.Mouse, this.Window.Joysticks);
+			this.ScreensManager = new ClashEngine.NET.ScreensManager.ScreensManager();
 			Logger.Info("Window created");
 		}
 
