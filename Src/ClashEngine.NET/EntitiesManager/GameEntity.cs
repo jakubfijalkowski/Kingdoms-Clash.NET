@@ -64,6 +64,7 @@ namespace ClashEngine.NET.EntitiesManager
 		public void Init(IEntitiesManager entitiesManager)
 		{
 			this.Manager = entitiesManager;
+			this.InitEntity();
 			Logger.Info("Game entity {0} initialized", this.Id);
 		}
 
@@ -189,6 +190,14 @@ namespace ClashEngine.NET.EntitiesManager
 				c.Render();
 			}
 		}
+		#endregion
+
+		#region Other
+		/// <summary>
+		/// Inicjalizacja encji - wywoływane po inicjalizacji encji w managerze(metoda Init).
+		/// </summary>
+		public virtual void InitEntity()
+		{ }
 		#endregion
 	}
 }
