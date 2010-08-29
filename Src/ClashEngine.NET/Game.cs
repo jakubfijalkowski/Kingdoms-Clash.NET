@@ -184,13 +184,17 @@ namespace ClashEngine.NET
 		/// </summary>
 		/// <param name="delta">Czas od ostatniego uaktualnienia.</param>
 		public virtual void Update(double delta)
-		{ }
+		{
+			this.ScreensManager.Update(delta);
+		}
 
 		/// <summary>
 		/// Odrysowywanie.
 		/// </summary>
 		public virtual void Render()
-		{ }
+		{
+			this.ScreensManager.Render();
+		}
 
 		#region Running
 		/// <summary>
