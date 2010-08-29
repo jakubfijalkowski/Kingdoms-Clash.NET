@@ -134,7 +134,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		public bool KeyDown(KeyboardKeyEventArgs e)
+		public virtual bool KeyDown(KeyboardKeyEventArgs e)
 		{ return false; }
 
 		/// <summary>
@@ -142,7 +142,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		public bool KeyUp(KeyboardKeyEventArgs e)
+		public virtual bool KeyUp(KeyboardKeyEventArgs e)
 		{ return false; }
 		#endregion
 
@@ -152,7 +152,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		public bool MouseButtonDown(MouseButtonEventArgs e)
+		public virtual bool MouseButtonDown(MouseButtonEventArgs e)
 		{ return false; }
 
 		/// <summary>
@@ -160,7 +160,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		public bool MouseButtonUp(MouseButtonEventArgs e)
+		public virtual bool MouseButtonUp(MouseButtonEventArgs e)
 		{ return false; }
 
 		/// <summary>
@@ -168,7 +168,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns>Czy zostało obsłużonę.</returns>
-		public bool MouseMove(MouseMoveEventArgs e)
+		public virtual bool MouseMove(MouseMoveEventArgs e)
 		{ return false; }
 
 		/// <summary>
@@ -176,7 +176,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns>Czy zostało obsłużonę.</returns>
-		public bool MouseWheelChanged(MouseWheelEventArgs e)
+		public virtual bool MouseWheelChanged(MouseWheelEventArgs e)
 		{ return false; }
 		#endregion
 		#endregion
