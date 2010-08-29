@@ -66,32 +66,32 @@ namespace Kingdoms_Clash.NET
 		{
 			var pos = this.Character.GetOrCreateAttribute<Vector2>("Position");
 			//Poruszanie
-			if (this.Keyboard[OpenTK.Input.Key.Up])
+			if (this.Input.Keyboard[OpenTK.Input.Key.Up])
 			{
 				pos.Value = new Vector2(pos.Value.X, pos.Value.Y - (float)(MovingSpeed * delta));
 			}
-			if (this.Keyboard[OpenTK.Input.Key.Down])
+			if (this.Input.Keyboard[OpenTK.Input.Key.Down])
 			{
 				pos.Value = new Vector2(pos.Value.X, pos.Value.Y + (float)(MovingSpeed * delta));
 			}
-			if (this.Keyboard[OpenTK.Input.Key.Left])
+			if (this.Input.Keyboard[OpenTK.Input.Key.Left])
 			{
 				pos.Value = new Vector2(pos.Value.X - (float)(MovingSpeed * delta), pos.Value.Y);
 			}
-			if (this.Keyboard[OpenTK.Input.Key.Right])
+			if (this.Input.Keyboard[OpenTK.Input.Key.Right])
 			{
 				pos.Value = new Vector2(pos.Value.X + (float)(MovingSpeed * delta), pos.Value.Y);
 			}
-			if (this.Keyboard[OpenTK.Input.Key.Escape])
+			if (this.Input.Keyboard[OpenTK.Input.Key.Escape])
 			{
 				this.Exit();
 			}
 
 			//Wyliczamy kąt rotacji - nie mam pojęcia czy to najlepsze rozwiązanie, matematyka u mnie kuleje :|
-			float a = this.Mouse.Y - pos.Value.Y;
-			float c = (new Vector2(this.Mouse.X , this.Mouse.Y) - pos.Value).Length;
+			float a = this.Input.Mouse.Y - pos.Value.Y;
+			float c = (new Vector2(this.Input.Mouse.X, this.Input.Mouse.Y) - pos.Value).Length;
 			float angle = 0.0f;
-			if (this.Mouse.X < pos.Value.X)
+			if (this.Input.Mouse.X < pos.Value.X)
 			{
 				a = -a;
 				angle -= MathHelper.Pi / 2;

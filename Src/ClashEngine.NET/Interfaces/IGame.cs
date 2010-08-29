@@ -57,22 +57,10 @@ namespace ClashEngine.NET.Interfaces
 		OpenTK.Graphics.GraphicsMode Mode { get; }
 		#endregion
 
-		#region Input
 		/// <summary>
-		/// Klawiatura.
+		/// Wejście.
 		/// </summary>
-		OpenTK.Input.KeyboardDevice Keyboard { get; }
-		
-		/// <summary>
-		/// Mysz.
-		/// </summary>
-		OpenTK.Input.MouseDevice Mouse { get; }
-		
-		/// <summary>
-		/// Joysticki.
-		/// </summary>
-		IList<OpenTK.Input.JoystickDevice> Joysticks { get; }
-		#endregion
+		IInput Input { get; }
 		#endregion
 
 		#region Methods

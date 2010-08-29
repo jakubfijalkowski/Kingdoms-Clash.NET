@@ -52,6 +52,7 @@ namespace ClashEngine.NET
 			this.Name = name;
 			this.ScreensManager = new ClashEngine.NET.ScreensManager.ScreensManager();
 			this.Window = new GameWindow(this, name, width, height, fullscreen, useVSync, mode);
+			(Input as Input).Init(this.Window.Keyboard, this.Window.Mouse, this.Window.Joysticks);
 			Logger.Info("Window created");
 		}
 
@@ -148,42 +149,16 @@ namespace ClashEngine.NET
 		}
 		#endregion
 
-		#region Input
 		/// <summary>
-		/// Klawiatura.
-		/// Zwraca obiekt klawiatury lub null, gdy nie ma klawiatury.
+		/// Wejście.
 		/// </summary>
-		public OpenTK.Input.KeyboardDevice Keyboard
+		public IInput Input
 		{
 			get
 			{
-				return this.Window.Keyboard;
+				return NET.Input.Instance;
 			}
 		}
-
-		/// <summary>
-		/// Mysz.
-		/// Zwraca obiekt myszy lub null, gdy w systemie nie ma myszy.
-		/// </summary>
-		public OpenTK.Input.MouseDevice Mouse
-		{
-			get
-			{
-				return this.Window.Mouse;
-			}
-		}
-
-		/// <summary>
-		/// Pobiera listę wszystkich joysticków w systemie.
-		/// </summary>
-		public IList<OpenTK.Input.JoystickDevice> Joysticks
-		{
-			get
-			{
-				return this.Window.Joysticks;
-			}
-		}
-		#endregion
 		#endregion
 
 		#region Methods
