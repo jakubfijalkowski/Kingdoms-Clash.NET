@@ -1,5 +1,5 @@
-﻿using OpenTK.Input;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using OpenTK.Input;
 
 namespace ClashEngine.NET.Interfaces
 {

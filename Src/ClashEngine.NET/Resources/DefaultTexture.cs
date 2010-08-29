@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
-
-namespace ClashEngine.NET.Resources
+﻿namespace ClashEngine.NET.Resources
 {
-	using Interfaces.Resources;
 	using OpenTK.Graphics.OpenGL;
 
 	/// <summary>

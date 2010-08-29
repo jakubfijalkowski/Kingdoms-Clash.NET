@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ClashEngine.NET.Interfaces
+﻿namespace ClashEngine.NET.Interfaces
 {
 	/// <summary>
 	/// Callback.

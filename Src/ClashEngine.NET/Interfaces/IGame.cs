@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ClashEngine.NET.Interfaces
+﻿namespace ClashEngine.NET.Interfaces
 {
 	/// <summary>
 	/// Bazowy interfejs dla obiektu gry.
