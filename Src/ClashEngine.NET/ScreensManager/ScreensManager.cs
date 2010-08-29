@@ -243,8 +243,9 @@ namespace ClashEngine.NET.ScreensManager
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
 		public void Update(double delta)
 		{
-			foreach (IScreen screen in this._Screens)
+			for (int i = 0; i < this._Screens.Count; i++)
 			{
+				IScreen screen = this._Screens[i];
 				if (screen.State == ScreenState.Active)
 				{
 					screen.Update(delta);
