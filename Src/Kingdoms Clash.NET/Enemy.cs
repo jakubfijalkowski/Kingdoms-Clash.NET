@@ -11,6 +11,8 @@ namespace Kingdoms_Clash.NET
 	public class Enemy
 		: GameEntity
 	{
+		public static readonly Vector2 Size = new Vector2(94, 90);
+
 		static readonly Random Random = new Random();
 
 		const int MinX = 20;
@@ -28,7 +30,7 @@ namespace Kingdoms_Clash.NET
 		{
 			this.AddComponent(new Sprite("EnemyShip", ResourcesManager.Instance.Load<Texture>("EnemyShip.png")));
 
-			this.GetOrCreateAttribute<Vector2>("Size").Value = new Vector2(94, 90);
+			this.GetOrCreateAttribute<Vector2>("Size").Value = Size;
 			this.Position = this.GetOrCreateAttribute<Vector2>("Position");
 			this.Position.Value = new Vector2(Random.Next(MinX, MaxX), 0);
 		}

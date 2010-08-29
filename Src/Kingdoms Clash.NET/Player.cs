@@ -12,9 +12,11 @@ namespace Kingdoms_Clash.NET
 	class Player
 		: GameEntity
 	{
+		public static readonly Vector2 Size = new Vector2(105, 64);
+
 		const double MovingSpeed = 300.0;
 
-		IAttribute<Vector2> Position;
+		public IAttribute<Vector2> Position;
 
 		public Player()
 			: base("Player")
@@ -24,7 +26,7 @@ namespace Kingdoms_Clash.NET
 		{
 			this.AddComponent(new Sprite("PlayerShip", ResourcesManager.Instance.Load<Texture>("PlayerShip.png")));
 
-			this.GetOrCreateAttribute<Vector2>("Size").Value = new Vector2(105, 64);
+			this.GetOrCreateAttribute<Vector2>("Size").Value = Size;
 			this.Position = this.GetOrCreateAttribute<Vector2>("Position");
 			this.Position.Value = new Vector2((800.0f - 105.0f) / 2, 600.0f - 64.0f);
 		}
