@@ -9,8 +9,6 @@ namespace Kingdoms_Clash.NET
 	class SimpleGame
 		: Game
 	{
-		Player player;
-
 		public SimpleGame()
 			: base("SimpleGame.NET", 800, 600, false)
 		{ }
@@ -32,8 +30,9 @@ namespace Kingdoms_Clash.NET
 
 			GL.ClearColor(0.0f, 0.3f, 0.0f, 1.0f);
 
-			player = new Player();
-			player.InitEntity();
+			var screen = new GameScreen();
+			this.ScreensManager.AddScreen(screen);
+			this.ScreensManager.MakeActive(screen);
 
 			base.Init();
 		}
@@ -41,7 +40,6 @@ namespace Kingdoms_Clash.NET
 		public override void Render()
 		{
 			GL.Clear(ClearBufferMask.ColorBufferBit);
-			player.Render();
 			base.Render();
 		}
 

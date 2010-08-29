@@ -1,0 +1,41 @@
+﻿using ClashEngine.NET.Components;
+using ClashEngine.NET.EntitiesManager;
+using ClashEngine.NET.Interfaces.EntitiesManager;
+using ClashEngine.NET.Resources;
+using ClashEngine.NET.ResourcesManager;
+using OpenTK;
+using System;
+
+namespace Kingdoms_Clash.NET
+{
+	public class Enemy
+		: GameEntity
+	{
+		static readonly Random Random = new Random();
+
+		const int MinX = 20;
+		const int MaxX = 780 - 90;
+
+		const double MovingSpeed = 150.0;
+
+		public IAttribute<Vector2> Position { get; private set; }
+
+		public Enemy()
+			: base("Enemy")
+		{ }
+
+		public override void InitEntity()
+		{
+			this.AddComponent(new Sprite("EnemyShip", ResourcesManager.Instance.Load<Texture>("EnemyShip.png")));
+
+			this.GetOrCreateAttribute<Vector2>("Size").Value = new Vector2(94, 90);
+			this.Position = this.GetOrCreateAttribute<Vector2>("Position");
+			this.Position.Value = new Vector2(Random.Next(MinX, MaxX), 0);
+		}
+
+		public override void Update(double delta)
+		{
+			this.Position.Value = new Vector2(this.Position.Value.X, this.Position.Value.Y + (float)(MovingSpeed * delta));
+		}
+	}
+}
