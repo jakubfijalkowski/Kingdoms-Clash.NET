@@ -12,7 +12,7 @@ namespace Kingdoms_Clash.NET
 	{
 		public GameOverScreen()
 		{
-			this.IsFullscreen = true;
+			//this.IsFullscreen = true;
 			this.Entities.AddEntity(new GameOverEntity());
 		}
 	}

@@ -37,6 +37,15 @@ namespace Kingdoms_Clash.NET
 			base.Init();
 		}
 
+		public override void Update(double delta)
+		{
+			if (this.Input.Keyboard[OpenTK.Input.Key.Escape])
+			{
+				this.Exit();
+			}
+			base.Update(delta);
+		}
+
 		public override void Render()
 		{
 			GL.Clear(ClearBufferMask.ColorBufferBit);
