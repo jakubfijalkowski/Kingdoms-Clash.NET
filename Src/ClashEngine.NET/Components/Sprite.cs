@@ -103,7 +103,7 @@ namespace ClashEngine.NET.Components
 
 			GL.PushMatrix();
 			var rotation = Matrix4.CreateRotationZ(this.Rotation.Value);
-			var translation = Matrix4.CreateTranslation(new Vector3(this.Position.Value));
+			var translation = Matrix4.CreateTranslation(new Vector3(this.Position.Value + (this.Size.Value / 2)));
 			GL.MultMatrix(ref translation);
 			GL.MultMatrix(ref rotation);
 
