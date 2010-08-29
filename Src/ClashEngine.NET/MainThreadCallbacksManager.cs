@@ -14,7 +14,7 @@ namespace ClashEngine.NET
 		private List<MainThreadCallback> Callbacks = new List<MainThreadCallback>();
 
 		#region Singleton
-		private static IMainThreadCallbacksManager Instance_;
+		private static IMainThreadCallbacksManager _Instance;
 
 		/// <summary>
 		/// Instancja managera.
@@ -23,11 +23,11 @@ namespace ClashEngine.NET
 		{
 			get
 			{
-				if (Instance_ == null)
+				if (_Instance == null)
 				{
-					Instance_ = new MainThreadCallbacksManager();
+					_Instance = new MainThreadCallbacksManager();
 				}
-				return Instance_;
+				return _Instance;
 			}
 		}
 

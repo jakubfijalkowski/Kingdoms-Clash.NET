@@ -259,6 +259,10 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		public void Render()
 		{
+			if (this._Screens.Count == 0)
+			{
+				return;
+			}
 			//Szukamy pierwszego pełnoekranowego ekranu(masło maślane x2...), który nie jest zamknięty.
 			int firstFullscreen = 0;
 			for(; firstFullscreen < this._Screens.Count

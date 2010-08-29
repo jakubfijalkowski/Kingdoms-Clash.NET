@@ -22,7 +22,7 @@ namespace ClashEngine.NET.ScreensManager
 		private bool _IsPopup = false;
 		private bool _IsFullscreen = false;
 		private ScreenState State_ = ScreenState.Closed;
-		private EntitiesManager.EntitiesManager Entites_ = new EntitiesManager.EntitiesManager();
+		private EntitiesManager.EntitiesManager _Entites = new EntitiesManager.EntitiesManager();
 
 		#region Properties
 		/// <summary>
@@ -78,7 +78,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		public EntitiesManager.EntitiesManager Entities
 		{
-			get { return this.Entites_; }
+			get { return this._Entites; }
 		}
 		#endregion
 
@@ -111,7 +111,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// <param name="delta">Czas od ostatniego uaktualnienia.</param>
 		public virtual void Update(double delta)
 		{
-			this.Entites_.Update(delta);
+			this._Entites.Update(delta);
 		}
 
 		/// <summary>
@@ -119,7 +119,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		public virtual void Render()
 		{
-			this.Entites_.Render();
+			this._Entites.Render();
 		}
 
 		/// <summary>

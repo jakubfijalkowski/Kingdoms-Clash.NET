@@ -15,7 +15,7 @@ namespace ClashEngine.NET
 		: ISystemInformation
 	{
 		#region Singleton
-		private static SystemInformation Instance_;
+		private static SystemInformation _Instance;
 
 		/// <summary>
 		/// Instancja informacji o systemie.
@@ -24,11 +24,11 @@ namespace ClashEngine.NET
 		{
 			get
 			{
-				if (Instance_ == null)
+				if (_Instance == null)
 				{
-					Instance_ = new SystemInformation();
+					_Instance = new SystemInformation();
 				}
-				return Instance_;
+				return _Instance;
 			}
 		}
 		#endregion

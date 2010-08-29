@@ -11,9 +11,9 @@ namespace ClashEngine.NET
 	public class Input
 		: IInput
 	{
-		private KeyboardDevice Keyboard_;
-		private MouseDevice Mouse_;
-		private IList<JoystickDevice> Joysticks_;
+		private KeyboardDevice _Keyboard;
+		private MouseDevice _Mouse;
+		private IList<JoystickDevice> _Joysticks;
 
 		#region Singleton
 		private static Input Instance_;
@@ -40,7 +40,7 @@ namespace ClashEngine.NET
 		/// </summary>
 		public KeyboardDevice Keyboard
 		{
-			get { return this.Keyboard_; }
+			get { return this._Keyboard; }
 		}
 
 		/// <summary>
@@ -48,7 +48,7 @@ namespace ClashEngine.NET
 		/// </summary>
 		public MouseDevice Mouse
 		{
-			get { return this.Mouse_; }
+			get { return this._Mouse; }
 		}
 
 		/// <summary>
@@ -56,7 +56,7 @@ namespace ClashEngine.NET
 		/// </summary>
 		public IList<JoystickDevice> Joysticks
 		{
-			get { return this.Joysticks_; }
+			get { return this._Joysticks; }
 		}
 		#endregion
 
@@ -70,9 +70,9 @@ namespace ClashEngine.NET
 		/// <param name="joysticks"></param>
 		internal void Init(KeyboardDevice keyboard, MouseDevice mouse, IList<JoystickDevice> joysticks)
 		{
-			this.Keyboard_ = keyboard;
-			this.Mouse_ = mouse;
-			this.Joysticks_ = joysticks;
+			this._Keyboard = keyboard;
+			this._Mouse = mouse;
+			this._Joysticks = joysticks;
 		}
 		#endregion
 	}

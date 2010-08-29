@@ -47,7 +47,7 @@ namespace ClashEngine.NET.ResourcesManager
 		#endregion
 
 		protected Dictionary<string, IResource> Resources = new Dictionary<string, IResource>();
-		private string ContentDirectory_ = Path.GetFullPath(".");
+		private string _ContentDirectory = Path.GetFullPath(".");
 
 		#region Properties
 		/// <summary>
@@ -68,11 +68,11 @@ namespace ClashEngine.NET.ResourcesManager
 		/// </summary>
 		public virtual string ContentDirectory
 		{
-			get { return this.ContentDirectory_; }
+			get { return this._ContentDirectory; }
 			set
 			{
-				this.ContentDirectory_ = Path.GetFullPath(value);
-				Logger.Info("Changing content directory to {0}", this.ContentDirectory_);
+				this._ContentDirectory = Path.GetFullPath(value);
+				Logger.Info("Changing content directory to {0}", this._ContentDirectory);
 			}
 		}
 		#endregion

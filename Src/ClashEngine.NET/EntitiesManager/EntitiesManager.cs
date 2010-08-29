@@ -14,15 +14,15 @@ namespace ClashEngine.NET.EntitiesManager
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
-		#region Properties
-		private List<IGameEntity> Entities_ = new List<IGameEntity>();
+		private List<IGameEntity> _Entities = new List<IGameEntity>();
 
+		#region Properties
 		/// <summary>
 		/// Lista encji.
 		/// </summary>
 		public ReadOnlyCollection<IGameEntity> Entities
 		{
-			get { return this.Entities_.AsReadOnly(); }
+			get { return this._Entities.AsReadOnly(); }
 		}
 		#endregion
 
@@ -38,12 +38,12 @@ namespace ClashEngine.NET.EntitiesManager
 			{
 				throw new ArgumentNullException("entity");
 			}
-			else if (this.Entities_.Contains(entity))
+			else if (this._Entities.Contains(entity))
 			{
 				throw new Exceptions.ArgumentAlreadyExistsException("entity");
 			}
 			entity.Init(this);
-			this.Entities_.Add(entity);
+			this._Entities.Add(entity);
 			Logger.Info("Entity {0} added to manager", entity.Id);
 		}
 
@@ -57,11 +57,11 @@ namespace ClashEngine.NET.EntitiesManager
 			{
 				throw new ArgumentNullException("entity");
 			}
-			else if (!this.Entities_.Contains(entity))
+			else if (!this._Entities.Contains(entity))
 			{
 				throw new Exceptions.ArgumentNotExistsException("entity");
 			}
-			this.Entities_.Remove(entity);
+			this._Entities.Remove(entity);
 			Logger.Info("Entity {0} removed from manager", entity.Id);
 		}
 
@@ -71,7 +71,7 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
 		public void Update(double delta)
 		{
-			foreach (IGameEntity entity in this.Entities_)
+			foreach (IGameEntity entity in this._Entities)
 			{
 				entity.Update(delta);
 			}
@@ -82,7 +82,7 @@ namespace ClashEngine.NET.EntitiesManager
 		/// </summary>
 		public void Render()
 		{
-			foreach (IGameEntity entity in this.Entities_)
+			foreach (IGameEntity entity in this._Entities)
 			{
 				entity.Render();
 			}
