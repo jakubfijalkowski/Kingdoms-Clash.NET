@@ -1,4 +1,5 @@
 ﻿using ClashEngine.NET;
+using ClashEngine.NET.Utilities;
 using OpenTK.Graphics.OpenGL;
 
 namespace Kingdoms_Clash.NET
@@ -10,7 +11,7 @@ namespace Kingdoms_Clash.NET
 		: Game
 	{
 		public SimpleGame()
-			: base("SimpleGame.NET", 800, 600, false)
+			: base("SimpleGame.NET", 800, 600, false, false)
 		{ }
 
 		public override void Init()
@@ -31,8 +32,8 @@ namespace Kingdoms_Clash.NET
 			GL.ClearColor(0.0f, 0.3f, 0.0f, 1.0f);
 
 			var screen = new GameScreen();
-			this.ScreensManager.AddScreen(screen);
-			this.ScreensManager.MakeActive(screen);
+			this.ScreensManager.AddAndMakeActive(screen);
+			this.ScreensManager.AddAndMakeActive(new FPSCounter() { LogStatistics = 20.0f });
 
 			base.Init();
 		}

@@ -34,7 +34,7 @@ namespace Kingdoms_Clash.NET
 			if (this.CheckCollisions())
 			{
 				var screen = new GameOverScreen();
-				this.Manager.AddScreen(screen);
+				this.Manager.Add(screen);
 				this.Manager.MoveToFront(screen);
 				this.Manager.MakeActive(screen); //Wyświetlamy ekran "game over".
 			}
