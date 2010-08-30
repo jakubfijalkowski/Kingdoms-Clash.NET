@@ -75,6 +75,7 @@
     <Compile Include="Interfaces\Resources\ITexturesAtlas.cs" />
     <Compile Include="Interfaces\ScreensManager\IScreen.cs" />
     <Compile Include="Interfaces\ScreensManager\IScreensManager.cs" />
+    <Compile Include="Interfaces\Utilities\IFPSCounter.cs" />
     <Compile Include="MainThreadCallbacksManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourcesManager\HotReplaceResourcesManager.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="ScreensManager\Screen.cs" />
     <Compile Include="ScreensManager\ScreensManager.cs" />
     <Compile Include="SystemInformation.cs" />
+    <Compile Include="Utilities\FPSCounter.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

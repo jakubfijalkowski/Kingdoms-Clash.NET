@@ -27,13 +27,19 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 		/// Dodaje ekran do listy.
 		/// </summary>
 		/// <param name="screen">Ekran do dodania.</param>
-		void AddScreen(IScreen screen);
+		void Add(IScreen screen);
+
+		/// <summary>
+		/// Dodaje ekran do listy i od razu go aktywuje.
+		/// </summary>
+		/// <param name="screen">Ekran do dodania.</param>
+		void AddAndMakeActive(IScreen screen);
 
 		/// <summary>
 		/// Usuwa ekran z managera.
 		/// </summary>
 		/// <param name="screen">Ekran do usunięcia.</param>
-		void RemoveScreen(IScreen screen);
+		void Remove(IScreen screen);
 		#endregion
 
 		#region Moving

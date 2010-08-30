@@ -29,9 +29,9 @@ namespace ClashEngine.NET.Tests
 			this.Screen3 = new Mock<Screen>();
 			this.Screen3.Object.IsFullscreen = true;
 
-			this.Manager.AddScreen(this.Screen1.Object);
-			this.Manager.AddScreen(this.Screen2.Object);
-			this.Manager.AddScreen(this.Screen3.Object);
+			this.Manager.Add(this.Screen1.Object);
+			this.Manager.Add(this.Screen2.Object);
+			this.Manager.Add(this.Screen3.Object);
 		}
 
 		#region Adding/removing
@@ -56,35 +56,35 @@ namespace ClashEngine.NET.Tests
 		public void DoesScreenRemove()
 		{
 			int oldCount = this.Manager.Screens.Count;
-			this.Manager.RemoveScreen(this.Screen3.Object);
+			this.Manager.Remove(this.Screen3.Object);
 			Assert.AreEqual(oldCount - 1, this.Manager.Screens.Count);
 
 			//Wracamy do stanu sprzed - czy takie rozwiązanie jest poprawne? Jak to inaczej sprawdzić?
-			this.Manager.AddScreen(this.Screen3.Object);
+			this.Manager.Add(this.Screen3.Object);
 		}
 
 		[Test]
 		public void ThrowsExectpionOnAddingNull()
 		{
-			Assert.Throws<ArgumentNullException>(() => this.Manager.AddScreen(null));
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Add(null));
 		}
 
 		[Test]
 		public void ThrowsExectpionOnRemovingNull()
 		{
-			Assert.Throws<ArgumentNullException>(() => this.Manager.RemoveScreen(null));
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Remove(null));
 		}
 
 		[Test]
 		public void ThrowsExectpionOnAddingExistingScreen()
 		{
-			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Manager.AddScreen(this.Screen1.Object));
+			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Manager.Add(this.Screen1.Object));
 		}
 
 		[Test]
 		public void ThrowsExectpionOnRemovingNonExistingScreen()
 		{
-			Assert.Throws<Exceptions.ArgumentNotExistsException>(() => this.Manager.RemoveScreen(new Mock<Screen>().Object));
+			Assert.Throws<Exceptions.ArgumentNotExistsException>(() => this.Manager.Remove(new Mock<Screen>().Object));
 		}
 		#endregion
 

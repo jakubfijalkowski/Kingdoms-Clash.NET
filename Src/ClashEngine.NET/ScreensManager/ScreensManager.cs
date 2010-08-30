@@ -49,7 +49,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// Dodaje ekran do listy.
 		/// </summary>
 		/// <param name="screen">Ekran do dodania.</param>
-		public void AddScreen(IScreen screen)
+		public void Add(IScreen screen)
 		{
 			if (screen == null)
 			{
@@ -65,10 +65,20 @@ namespace ClashEngine.NET.ScreensManager
 		}
 
 		/// <summary>
+		/// Dodaje ekran do listy i od razu go aktywuje.
+		/// </summary>
+		/// <param name="screen">Ekran do dodania.</param>
+		public void AddAndMakeActive(IScreen screen)
+		{
+			this.Add(screen);
+			this.MakeActive(screen);
+		}
+
+		/// <summary>
 		/// Usuwa ekran z managera.
 		/// </summary>
 		/// <param name="screen">Ekran do usunięcia.</param>
-		public void RemoveScreen(IScreen screen)
+		public void Remove(IScreen screen)
 		{
 			if (screen == null)
 			{
@@ -268,6 +278,10 @@ namespace ClashEngine.NET.ScreensManager
 			for(; firstFullscreen < this._Screens.Count
 				&& !(this._Screens[firstFullscreen].IsFullscreen && this._Screens[firstFullscreen].State != ScreenState.Closed);
 				++firstFullscreen);
+			if (firstFullscreen == this._Screens.Count) //Gdy mamy tylko jeden ekran nie-fullscreen firstFullscreen dojdzie do 1, co później objawi się ArgumentOutOfRangeException
+			{
+				--firstFullscreen;
+			}
 
 			for (; firstFullscreen >= 0; --firstFullscreen)
 			{
