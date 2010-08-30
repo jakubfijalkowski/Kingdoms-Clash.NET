@@ -12,7 +12,7 @@ namespace Kingdoms_Clash.NET
 	class Player
 		: GameEntity
 	{
-		public static readonly Vector2 Size = new Vector2(105, 64);
+		public static readonly Vector2 Size = new Vector2(105/2, 64/2);
 
 		const double MovingSpeed = 300.0;
 
@@ -28,7 +28,7 @@ namespace Kingdoms_Clash.NET
 
 			this.GetOrCreateAttribute<Vector2>("Size").Value = Size;
 			this.Position = this.GetOrCreateAttribute<Vector2>("Position");
-			this.Position.Value = new Vector2((800.0f - 105.0f) / 2, 600.0f - 64.0f);
+			this.Position.Value = new Vector2((800.0f - Size.X) / 2, 600.0f - Size.Y);
 		}
 
 		public override void Update(double delta)
@@ -48,9 +48,9 @@ namespace Kingdoms_Clash.NET
 			{
 				newX = 0.0f;
 			}
-			else if (newX > 800.0f - 105.0f)
+			else if (newX > 800.0f - Size.X)
 			{
-				newX = 800.0f - 105.0f;
+				newX = 800.0f - Size.X;
 			}
 			this.Position.Value = new Vector2(newX, this.Position.Value.Y);
 

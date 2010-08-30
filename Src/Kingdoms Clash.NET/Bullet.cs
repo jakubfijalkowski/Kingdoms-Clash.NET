@@ -10,7 +10,7 @@ namespace Kingdoms_Clash.NET
 	class Bullet
 		: GameEntity
 	{
-		public static Vector2 Size = new Vector2(10, 32);
+		public static Vector2 Size = new Vector2(10/2, 32/2);
 
 		const double MoveSpeed = 500.0f;
 

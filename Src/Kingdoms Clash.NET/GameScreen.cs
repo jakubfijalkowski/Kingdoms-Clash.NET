@@ -118,6 +118,7 @@ namespace Kingdoms_Clash.NET
 						this.Bullets.RemoveAt(j);
 						--i;
 						--j;
+						break;
 					}
 				}
 			}

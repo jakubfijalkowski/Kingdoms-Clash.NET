@@ -1,17 +1,17 @@
-﻿using ClashEngine.NET.Components;
+﻿using System;
+using ClashEngine.NET.Components;
 using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Interfaces.EntitiesManager;
 using ClashEngine.NET.Resources;
 using ClashEngine.NET.ResourcesManager;
 using OpenTK;
-using System;
 
 namespace Kingdoms_Clash.NET
 {
 	public class Enemy
 		: GameEntity
 	{
-		public static readonly Vector2 Size = new Vector2(94, 90);
+		public static readonly Vector2 Size = new Vector2(94/2, 90/2);
 
 		static readonly Random Random = new Random();
 
