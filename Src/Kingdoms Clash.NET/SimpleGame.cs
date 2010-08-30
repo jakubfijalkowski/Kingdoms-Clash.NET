@@ -31,9 +31,9 @@ namespace Kingdoms_Clash.NET
 
 			GL.ClearColor(0.0f, 0.3f, 0.0f, 1.0f);
 
+			this.ScreensManager.AddAndMakeActive(new FPSCounter() { LogStatistics = 20.0f });
 			var screen = new GameScreen();
 			this.ScreensManager.AddAndMakeActive(screen);
-			this.ScreensManager.AddAndMakeActive(new FPSCounter() { LogStatistics = 20.0f });
 
 			base.Init();
 		}
