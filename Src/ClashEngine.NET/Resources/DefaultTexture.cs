@@ -41,7 +41,7 @@
 		/// <returns>Stan załadowania zasobu.</returns>
 		public override Interfaces.ResourcesManager.ResourceLoadingState Load()
 		{
-			Logger.Info("Creating default texture...");
+			Logger.Trace("Creating default texture...");
 			this.TextureId = GL.GenTexture();
 			this.Widgth = this.Heigth = 16;
 			this.Bind();

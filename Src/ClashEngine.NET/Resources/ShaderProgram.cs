@@ -122,7 +122,7 @@ namespace ClashEngine.NET.Resources
 					Logger.Error("Compilation log: {0}", GL.GetShaderInfoLog(this.FragmentShaderId));
 					return ResourceLoadingState.Failure;
 				}
-				Logger.Trace("Fragment shader compiled succesfully");
+				Logger.Debug("Fragment shader compiled succesfully");
 
 				GL.ShaderSource(this.VertexShaderId, vertexSource);
 				GL.CompileShader(this.VertexShaderId);
@@ -131,7 +131,7 @@ namespace ClashEngine.NET.Resources
 					Logger.Error("Compilation log: {0}", GL.GetShaderInfoLog(this.VertexShaderId));
 					return ResourceLoadingState.Failure;
 				}
-				Logger.Trace("Vertex shader compiled succesfully");
+				Logger.Debug("Vertex shader compiled succesfully");
 				#endregion
 
 				#region Creating program

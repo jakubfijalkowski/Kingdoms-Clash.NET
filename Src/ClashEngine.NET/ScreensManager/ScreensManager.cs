@@ -61,7 +61,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 			this._Screens.Add(screen);
 			screen.Init(this);
-			Logger.Info("Screen added");
+			Logger.Trace("Screen added");
 		}
 
 		/// <summary>
@@ -89,7 +89,7 @@ namespace ClashEngine.NET.ScreensManager
 				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
 			this._Screens.Remove(screen);
-			Logger.Info("Screen removed");
+			Logger.Trace("Screen removed");
 		}
 		#endregion
 
@@ -172,7 +172,7 @@ namespace ClashEngine.NET.ScreensManager
 				}
 			}
 			screen.ChangeState(ScreenState.Active);
-			Logger.Warn("Screen activated({0} deactivated)", deactivatedCounter);
+			Logger.Info("Screen activated({0} deactivated)", deactivatedCounter);
 			return true;
 		}
 
@@ -215,7 +215,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 
 			screen.ChangeState(ScreenState.Inactive);
-			Logger.Trace("Screen deactivated({0} activated)", activatedCounter);
+			Logger.Info("Screen deactivated({0} activated)", activatedCounter);
 			return true;
 		}
 
@@ -241,7 +241,7 @@ namespace ClashEngine.NET.ScreensManager
 			if (screen.State != ScreenState.Closed)
 			{
 				screen.ChangeState(ScreenState.Closed);
-				Logger.Trace("Screen closed");
+				Logger.Info("Screen closed");
 			}
 		}
 		#endregion

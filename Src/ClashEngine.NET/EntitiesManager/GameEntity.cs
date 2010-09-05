@@ -65,7 +65,7 @@ namespace ClashEngine.NET.EntitiesManager
 		{
 			this.Manager = entitiesManager;
 			this.InitEntity();
-			Logger.Info("Game entity {0} initialized", this.Id);
+			Logger.Debug("Game entity {0} initialized", this.Id);
 		}
 
 		/// <summary>
@@ -85,7 +85,7 @@ namespace ClashEngine.NET.EntitiesManager
 				this._RenderableComponents.Add(component as RenderableComponent);
 			}
 			component.Init(this);
-			Logger.Info("Component {0} added to entity {1}", component.Id, this.Id);
+			Logger.Trace("Component {0} added to entity {1}", component.Id, this.Id);
 		}
 
 		/// <summary>
@@ -100,7 +100,7 @@ namespace ClashEngine.NET.EntitiesManager
 				throw new Exceptions.ArgumentAlreadyExistsException("attribute");
 			}
 			this._Attributes.Add(attribute);
-			Logger.Info("Attribute {0} added to entity {1}", attribute.Id, this.Id);
+			Logger.Trace("Attribute {0} added to entity {1}", attribute.Id, this.Id);
 		}
 
 		/// <summary>

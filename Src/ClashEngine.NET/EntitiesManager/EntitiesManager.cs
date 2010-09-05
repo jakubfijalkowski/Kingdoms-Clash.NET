@@ -44,7 +44,7 @@ namespace ClashEngine.NET.EntitiesManager
 			}
 			entity.Init(this);
 			this._Entities.Add(entity);
-			Logger.Info("Entity {0} added to manager", entity.Id);
+			Logger.Trace("Entity {0} added to manager", entity.Id);
 		}
 
 		/// <summary>
@@ -62,7 +62,7 @@ namespace ClashEngine.NET.EntitiesManager
 				throw new Exceptions.ArgumentNotExistsException("entity");
 			}
 			this._Entities.Remove(entity);
-			Logger.Info("Entity {0} removed from manager", entity.Id);
+			Logger.Trace("Entity {0} removed from manager", entity.Id);
 		}
 
 		/// <summary>
