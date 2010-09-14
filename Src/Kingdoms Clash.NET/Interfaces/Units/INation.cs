@@ -2,6 +2,8 @@
 
 namespace Kingdoms_Clash.NET.Interfaces.Units
 {
+	using Player;
+
 	/// <summary>
 	/// Nacja.
 	/// </summary>
@@ -10,6 +12,14 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// <summary>
 		/// Dostępne jednostki nacji.
 		/// </summary>
-		IList<IUnit> AvailableUnits { get; }
+		IList<IUnitDescription> AvailableUnits { get; }
+
+		/// <summary>
+		/// Tworzy jednostkę na podstawie id.
+		/// </summary>
+		/// <param name="id">Identyfikator jednostki.</param>
+		/// <param name="owner">Właściciel.</param>
+		/// <returns>Nowoutworzona jednostka.</returns>
+		IUnit CreateUnit(IUnitDescription id, IPlayer owner);
 	}
 }

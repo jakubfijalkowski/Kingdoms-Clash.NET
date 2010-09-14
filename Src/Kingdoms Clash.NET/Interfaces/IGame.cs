@@ -1,5 +1,6 @@
 ﻿namespace Kingdoms_Clash.NET.Interfaces
 {
+	using Controllers;
 	using Map;
 	using Player;
 
@@ -18,5 +19,15 @@
 		/// Mapa.
 		/// </summary>
 		IMap Map { get; }
+
+		/// <summary>
+		/// Kontroler(tryb) gry.
+		/// </summary>
+		IGameController Controller { get; }
+
+		/// <summary>
+		/// Ekran rozgrywki.
+		/// </summary>
+		IGameScreen GameScreen { get; }
 	}
 }
