@@ -50,15 +50,18 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\Controllers\IGameController.cs" />
     <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="Interfaces\IGameScreen.cs" />
-    <Compile Include="Interfaces\Map\IDefaultMap.cs" />
     <Compile Include="Interfaces\Map\IMap.cs" />
     <Compile Include="Interfaces\Player\IHuman.cs" />
     <Compile Include="Interfaces\Player\IPlayer.cs" />
+    <Compile Include="Interfaces\Resources\IResource.cs" />
+    <Compile Include="Interfaces\Resources\IWood.cs" />
     <Compile Include="Interfaces\Units\INation.cs" />
     <Compile Include="Interfaces\Units\ISoldier.cs" />
     <Compile Include="Interfaces\Units\IUnit.cs" />
+    <Compile Include="Interfaces\Units\IUnitDescription.cs" />
     <Compile Include="Interfaces\Units\IWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="NLog.config">
