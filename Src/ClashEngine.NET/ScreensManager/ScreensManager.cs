@@ -31,17 +31,20 @@ namespace ClashEngine.NET.ScreensManager
 
 		#region Methods
 		/// <summary>
-		/// Inicjalizuje nowy manager i 
+		/// Inicjalizuje nowy manager i dodaje zdarzenia dla wejścia.
 		/// </summary>
-		public ScreensManager()
+		public ScreensManager(bool addEvents = true)
 		{
-			Input.Instance.Keyboard.KeyDown += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(FireKeyDown);
-			Input.Instance.Keyboard.KeyUp += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(FireKeyUp);
+			if (addEvents)
+			{
+				Input.Instance.Keyboard.KeyDown += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(FireKeyDown);
+				Input.Instance.Keyboard.KeyUp += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(FireKeyUp);
 
-			Input.Instance.Mouse.ButtonDown += new EventHandler<MouseButtonEventArgs>(FireMouseButtonDown);
-			Input.Instance.Mouse.ButtonUp += new EventHandler<MouseButtonEventArgs>(FireMouseButtonUp);
-			Input.Instance.Mouse.Move += new EventHandler<MouseMoveEventArgs>(FireMouseMove);
-			Input.Instance.Mouse.WheelChanged += new EventHandler<MouseWheelEventArgs>(FireMouseWheelChanged);
+				Input.Instance.Mouse.ButtonDown += new EventHandler<MouseButtonEventArgs>(FireMouseButtonDown);
+				Input.Instance.Mouse.ButtonUp += new EventHandler<MouseButtonEventArgs>(FireMouseButtonUp);
+				Input.Instance.Mouse.Move += new EventHandler<MouseMoveEventArgs>(FireMouseMove);
+				Input.Instance.Mouse.WheelChanged += new EventHandler<MouseWheelEventArgs>(FireMouseWheelChanged);
+			}
 		}
 
 		#region List management
