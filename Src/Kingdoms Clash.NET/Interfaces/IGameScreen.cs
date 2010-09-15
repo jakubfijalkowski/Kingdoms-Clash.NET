@@ -5,7 +5,7 @@ namespace Kingdoms_Clash.NET.Interfaces
 	/// <summary>
 	/// Ekran gry.
 	/// </summary>
-	interface IGameScreen
+	public interface IGameScreen
 		: IScreen
 	{
 	}

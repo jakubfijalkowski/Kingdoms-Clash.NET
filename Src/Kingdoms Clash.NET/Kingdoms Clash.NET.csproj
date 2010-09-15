@@ -54,16 +54,18 @@
     <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="Interfaces\IGameScreen.cs" />
     <Compile Include="Interfaces\Map\IMap.cs" />
-    <Compile Include="Interfaces\Player\IHuman.cs" />
     <Compile Include="Interfaces\Player\IPlayer.cs" />
     <Compile Include="Interfaces\Resources\IResource.cs" />
-    <Compile Include="Interfaces\Resources\IWood.cs" />
     <Compile Include="Interfaces\Units\INation.cs" />
     <Compile Include="Interfaces\Units\ISoldier.cs" />
     <Compile Include="Interfaces\Units\IUnit.cs" />
     <Compile Include="Interfaces\Units\IUnitDescription.cs" />
     <Compile Include="Interfaces\Units\IWorker.cs" />
+    <Compile Include="Interfaces\Units\IWorkerDescription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Units\Sample\SampleNation.cs" />
+    <Compile Include="Units\Sample\SampleWorkerDescription.cs" />
+    <Compile Include="Units\Worker.cs" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
