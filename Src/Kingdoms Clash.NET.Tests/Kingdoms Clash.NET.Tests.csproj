@@ -43,8 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SampleNationTests.cs" />
+    <Compile Include="WorkerTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClashEngine.NET\ClashEngine.NET.csproj">
+      <Project>{B4B721BF-B415-4A71-AE0F-A2F379B1A730}</Project>
+      <Name>ClashEngine.NET</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kingdoms Clash.NET\Kingdoms Clash.NET.csproj">
       <Project>{3A6CAB6A-27B7-4A22-88B6-F1D6CECBAA03}</Project>
       <Name>Kingdoms Clash.NET</Name>

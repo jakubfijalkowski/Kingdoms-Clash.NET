@@ -89,7 +89,16 @@ namespace Kingdoms_Clash.NET.Units
 
 			this.Description = description;
 			this.Owner = owner;
-			this.MaxCargoSize = description.MaxCargoSize;
+		}
+
+		/// <summary>
+		/// Inicjalizuje jednostkę - ustawia wszystkie parametry.
+		/// </summary>
+		public override void InitEntity()
+		{
+			this.Health_.Value= this.Description.Health;
+			this.Speed_.Value = this.Description.Speed;
+			this.MaxCargoSize_.Value = (this.Description as IWorkerDescription).MaxCargoSize;
 		}
 	}
 }
