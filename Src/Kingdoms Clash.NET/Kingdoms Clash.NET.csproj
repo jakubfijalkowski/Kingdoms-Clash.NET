@@ -75,6 +75,8 @@
     <Compile Include="Interfaces\Map\IMap.cs" />
     <Compile Include="Interfaces\Player\IPlayer.cs" />
     <Compile Include="Interfaces\Resources\IResource.cs" />
+    <Compile Include="Interfaces\Units\Components\IGatherer.cs" />
+    <Compile Include="Interfaces\Units\Components\IMovable.cs" />
     <Compile Include="Interfaces\Units\INation.cs" />
     <Compile Include="Interfaces\Units\IUnit.cs" />
     <Compile Include="Interfaces\Units\IUnitComponent.cs" />

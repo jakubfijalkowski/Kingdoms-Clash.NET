@@ -1,4 +1,5 @@
-﻿using ClashEngine.NET.EntitiesManager;
+﻿using System.Linq;
+using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Interfaces.EntitiesManager;
 
 namespace Kingdoms_Clash.NET.Units
@@ -34,6 +35,17 @@ namespace Kingdoms_Clash.NET.Units
 		{
 			get { return this.Health_.Value; }
 			set { this.Health_.Value = value; }
+		}
+
+		/// <summary>
+		/// Sprawdza czy jednostka posiada komponent o takim typie i, jeśli tak, zwraca go.
+		/// </summary>
+		/// <typeparam name="T">Typ komponentu.</typeparam>
+		/// <returns>Komponent lub null, gdy nie znaleziono.</returns>
+		public IUnitComponent GetUnitComponent<T>()
+			where T : IUnitComponent
+		{
+			return this.Components.Where(c => c is T).SingleOrDefault() as IUnitComponent;
 		}
 		#endregion
 

@@ -5,7 +5,6 @@ using NUnit.Framework;
 
 namespace Kingdoms_Clash.NET.Tests
 {
-
 	[TestFixture(Description = "Testy dla klasy Unit")]
 	public class UnitTests
 	{

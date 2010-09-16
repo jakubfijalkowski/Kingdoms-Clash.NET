@@ -29,5 +29,13 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// Życie.
 		/// </summary>
 		int Health { get; set; }
+
+		/// <summary>
+		/// Sprawdza czy jednostka posiada komponent o takim typie i, jeśli tak, zwraca go.
+		/// </summary>
+		/// <typeparam name="T">Typ komponentu.</typeparam>
+		/// <returns>Komponent lub null, gdy nie znaleziono.</returns>
+		IUnitComponent GetUnitComponent<T>()
+			where T : IUnitComponent;
 	}
 }
