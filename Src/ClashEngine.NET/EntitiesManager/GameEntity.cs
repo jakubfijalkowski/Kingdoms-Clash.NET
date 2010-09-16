@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace ClashEngine.NET.EntitiesManager
 {
@@ -31,18 +30,20 @@ namespace ClashEngine.NET.EntitiesManager
 
 		/// <summary>
 		/// Lista komponentów.
+		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
 		/// </summary>
-		public ReadOnlyCollection<IComponent> Components
+		public IList<IComponent> Components
 		{
-			get { return this._Components.AsReadOnly(); }
+			get { return this._Components; }
 		}
 
 		/// <summary>
 		/// Lista atrybutów.
+		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
 		/// </summary>
-		public ReadOnlyCollection<IAttribute> Attributes
+		public IList<IAttribute> Attributes
 		{
-			get { return this._Attributes.AsReadOnly(); }
+			get { return this._Attributes; }
 		}
 		#endregion
 

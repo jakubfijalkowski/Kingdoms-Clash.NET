@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using OpenTK.Input;
 
 namespace ClashEngine.NET.ScreensManager
@@ -21,12 +20,10 @@ namespace ClashEngine.NET.ScreensManager
 		#region Properties
 		/// <summary>
 		/// Lista ekranów w managerze.
+		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
 		/// Bardziej przypomina stos/kolejkę FIFO(pierwszy ekran na liście jest pierwszym "w rzeczywistości").
 		/// </summary>
-		public ReadOnlyCollection<IScreen> Screens
-		{
-			get { return this._Screens.AsReadOnly(); }
-		}
+		public IList<IScreen> Screens { get { return this._Screens; } }
 		#endregion
 
 		#region Methods

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace ClashEngine.NET.Interfaces.ScreensManager
 {
@@ -13,12 +13,10 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 		#region Properties
 		/// <summary>
 		/// Lista ekranów w managerze.
+		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
 		/// Bardziej przypomina stos/kolejkę FIFO(pierwszy ekran na liście jest pierwszym "w rzeczywistości").
 		/// </summary>
-		ReadOnlyCollection<IScreen> Screens
-		{
-			get;
-		}
+		IList<IScreen> Screens { get; }
 		#endregion
 
 		#region Methods

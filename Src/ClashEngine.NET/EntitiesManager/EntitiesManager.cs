@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace ClashEngine.NET.EntitiesManager
 {
@@ -19,10 +18,11 @@ namespace ClashEngine.NET.EntitiesManager
 		#region Properties
 		/// <summary>
 		/// Lista encji.
+		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
 		/// </summary>
-		public ReadOnlyCollection<IGameEntity> Entities
+		public IList<IGameEntity> Entities
 		{
-			get { return this._Entities.AsReadOnly(); }
+			get { return this._Entities; }
 		}
 		#endregion
 

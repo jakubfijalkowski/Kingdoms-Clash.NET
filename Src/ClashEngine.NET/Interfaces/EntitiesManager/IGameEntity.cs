@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 
 namespace ClashEngine.NET.Interfaces.EntitiesManager
 {
@@ -20,13 +20,15 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 
 		/// <summary>
 		/// Lista komponentów.
+		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
 		/// </summary>
-		ReadOnlyCollection<IComponent> Components { get; }
+		IList<IComponent> Components { get; }
 
 		/// <summary>
 		/// Lista atrybutów.
+		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
 		/// </summary>
-		ReadOnlyCollection<IAttribute> Attributes { get; }
+		IList<IAttribute> Attributes { get; }
 		#endregion
 
 		#region Methods

@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 
 namespace ClashEngine.NET.Interfaces.EntitiesManager
 {
@@ -10,8 +10,9 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 		#region Properties
 		/// <summary>
 		/// Lista encji.
+		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
 		/// </summary>
-		ReadOnlyCollection<IGameEntity> Entities { get; }
+		IList<IGameEntity> Entities { get; }
 		#endregion
 
 		#region Methods
