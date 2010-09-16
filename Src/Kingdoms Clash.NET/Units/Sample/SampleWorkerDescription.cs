@@ -9,19 +9,9 @@ namespace Kingdoms_Clash.NET.Units.Sample
 	/// Przykładowy pracownik.
 	/// </summary>
 	public class SampleWorkerDescription
-		: IWorkerDescription
+		: IUnitDescription
 	{
-		#region IWorkerDescription Members
-
-		public int MaxCargoSize
-		{
-			get { return 10; }
-		}
-
-		#endregion
-
 		#region IUnitDescription Members
-
 		public string Id
 		{
 			get { return "Sample worker"; }
@@ -32,21 +22,15 @@ namespace Kingdoms_Clash.NET.Units.Sample
 			get { throw new NotImplementedException(); }
 		}
 
-		public UnitType Type
+		public IList<IUnitComponent> Components
 		{
-			get { return UnitType.Worker; }
+			get { return new List<IUnitComponent>(); }
 		}
 
 		public int Health
 		{
 			get { return 100; }
 		}
-
-		public int Speed
-		{
-			get { return 5; }
-		}
-
 		#endregion
 	}
 }

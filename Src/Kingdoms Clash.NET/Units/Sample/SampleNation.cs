@@ -27,14 +27,7 @@ namespace Kingdoms_Clash.NET.Units.Sample
 		{
 			if (this.AvailableUnits.Contains(id))
 			{
-				if (id is IWorkerDescription)
-				{
-					return new Worker(id as IWorkerDescription, owner);
-				}
-				else
-				{
-					return null;
-				}
+				return new Unit(id, owner);
 			}
 			return null;
 		}

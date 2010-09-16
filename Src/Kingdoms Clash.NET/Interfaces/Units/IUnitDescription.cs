@@ -7,11 +7,11 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 	/// <summary>
 	/// Typ jednostki.
 	/// </summary>
-	public enum UnitType
-	{
-		Worker,
-		Soldier
-	}
+	//public enum UnitType
+	//{
+	//    Worker,
+	//    Soldier
+	//}
 
 	/// <summary>
 	/// Opis/identyfikator jednostki.
@@ -29,20 +29,19 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		IList<IResource> Costs { get; }
 
 		/// <summary>
+		/// Komponenty, z których składa się jednostka.
+		/// </summary>
+		IList<IUnitComponent> Components { get; }
+
+		/// <summary>
 		/// Typ jednostki.
 		/// </summary>
-		UnitType Type { get; }
+		//UnitType Type { get; }
 
-		#region Statistics
 		/// <summary>
 		/// Życie.
+		/// Tylko ta "statystyka" jest wymagana przez jednostkę, reszta jest zależna od komponentów z których jednostka będzie się składać.
 		/// </summary>
 		int Health { get; }
-
-		/// <summary>
-		/// Szybkość jednostki.
-		/// </summary>
-		int Speed { get; }
-		#endregion
 	}
 }
