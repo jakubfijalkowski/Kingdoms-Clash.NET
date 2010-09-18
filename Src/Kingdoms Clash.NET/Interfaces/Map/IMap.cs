@@ -21,7 +21,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Map
 		/// Musi być stały dla danej mapy.
 		/// </summary>
 		/// <remarks>
-		/// TODO: określić jednostkę.
+		/// Rozmiar mapy w pikselach jest obliczana ze wzoru: Size * IConfiguration.PixelsWidthPerUnit.
 		/// </remarks>
 		int Size { get; }
 
