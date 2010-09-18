@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
+    <Compile Include="Controllers\NormalGame.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="Interfaces\Controllers\IGameController.cs" />
     <Compile Include="Interfaces\IConfiguration.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Interfaces\Units\IUnitComponent.cs" />
     <Compile Include="Interfaces\Units\IUnitDescription.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Maps\DefaultMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Units\Sample\SampleNation.cs" />
     <Compile Include="Units\Sample\SampleWorkerDescription.cs" />

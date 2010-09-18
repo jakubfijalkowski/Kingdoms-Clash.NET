@@ -21,9 +21,9 @@ namespace Kingdoms_Clash.NET.Interfaces.Map
 		/// Musi być stały dla danej mapy.
 		/// </summary>
 		/// <remarks>
-		/// Rozmiar mapy w pikselach jest obliczana ze wzoru: Size * IConfiguration.PixelsWidthPerUnit.
+		/// Jedna "jednostka" gry odpowiada jednemu "ekranowi"(czyli szerokości okna w pikselach).
 		/// </remarks>
-		int Size { get; }
+		float Size { get; }
 
 		/// <summary>
 		/// Sprawdza czy pomiędzy dwoma punktami jest jakiś zasób.
@@ -33,5 +33,11 @@ namespace Kingdoms_Clash.NET.Interfaces.Map
 		/// <param name="position">Pozycja na której odnaleziono zasób.</param>
 		/// <returns>Pakunek z zasobem lub null, gdy nie znaleziono.</returns>
 		IResource CheckForResource(float beginig, float end, out float position);
+
+		/// <summary>
+		/// Resetuje stan gry(zaczyna ją od nowa).
+		/// Po resecie mapa powinna być tak samo dziewicza jak przed.
+		/// </summary>
+		void Reset();
 	}
 }

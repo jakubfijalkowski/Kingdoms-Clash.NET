@@ -12,6 +12,7 @@ namespace Kingdoms_Clash.NET.Interfaces
 	public interface IGameState
 		: IScreen
 	{
+		#region Properties
 		/// <summary>
 		/// Tablica dwóch, aktualnie grających, graczy.
 		/// </summary>
@@ -26,5 +27,13 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Kontroler(tryb) gry.
 		/// </summary>
 		IGameController Controller { get; }
+		#endregion
+
+		#region Methods
+		/// <summary>
+		/// Resetuje stan gry(zaczyna od początku).
+		/// </summary>
+		void Reset();
+		#endregion
 	}
 }

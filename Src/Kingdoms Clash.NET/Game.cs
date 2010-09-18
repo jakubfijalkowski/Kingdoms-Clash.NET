@@ -12,10 +12,7 @@ namespace Kingdoms_Clash.NET
 		: Game, IGame
 	{
 		#region IGame Members
-		public IGameState Game
-		{
-			get { throw new System.NotImplementedException(); }
-		}
+		public IGameState Game { get; private set; }
 
 		public IMenuState Menu
 		{
@@ -31,7 +28,8 @@ namespace Kingdoms_Clash.NET
 
 		public override void Init()
 		{
-			//this.ScreensManager.AddAndMakeActive(this.Game);
+			this.Game = new GameState();
+			this.ScreensManager.AddAndMakeActive(this.Game);
 			//this.ScreensManager.AddAndMakeActive(this.Menu);
 			this.ScreensManager.AddAndMakeActive(new FPSCounter() { LogStatistics = 10.0f });
 			base.Init();

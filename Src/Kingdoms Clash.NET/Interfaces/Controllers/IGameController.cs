@@ -6,8 +6,8 @@
 	public interface IGameController
 	{
 		/// <summary>
-		/// Gra.
+		/// Resetuje stan gry(zaczynamy ją od nowa).
 		/// </summary>
-		IGame Game { get; }
+		void Reset();
 	}
 }
