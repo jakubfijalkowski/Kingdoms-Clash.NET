@@ -3,9 +3,9 @@
 namespace Kingdoms_Clash.NET.Interfaces
 {
 	/// <summary>
-	/// Ekran gry.
+	/// Ekran menu.
 	/// </summary>
-	public interface IGameScreen
+	public interface IMenuState
 		: IScreen
 	{
 	}
