@@ -87,7 +87,8 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 		/// <summary>
 		/// Zdarzenie zmiany stanu ekranu.
 		/// </summary>
-		void StateChanged();
+		/// <param name="oldState">Stan sprzed zmiany.</param>
+		void StateChanged(ScreenState oldState);
 
 		#region Keyboard
 		/// <summary>

@@ -99,8 +99,9 @@ namespace ClashEngine.NET.ScreensManager
 		/// <param name="state">Nowy stan.</param>
 		public void ChangeState(ScreenState state)
 		{
+			ScreenState old = this.State;
 			this.State = state;
-			this.StateChanged();
+			this.StateChanged(old);
 		}
 		#endregion
 
@@ -125,7 +126,8 @@ namespace ClashEngine.NET.ScreensManager
 		/// <summary>
 		/// Zmienił się stan ekranu.
 		/// </summary>
-		public virtual void StateChanged()
+		/// <param name="oldState">Stan sprzed zmiany.</param>
+		public virtual void StateChanged(ScreenState oldState)
 		{ }
 
 		#region Keyboard

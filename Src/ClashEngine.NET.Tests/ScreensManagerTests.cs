@@ -132,7 +132,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void DoesScreenClose()
 		{
-			this.Screen1.Setup(s => s.StateChanged());
+			this.Screen1.Setup(s => s.StateChanged(ScreenState.Closed));
 
 			this.Manager.MakeActive(this.Screen1.Object);
 			this.Manager.Close(this.Screen1.Object);
@@ -144,7 +144,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void DoesScreenMakeActive()
 		{
-			this.Screen2.Setup(s => s.StateChanged());
+			this.Screen2.Setup(s => s.StateChanged(ScreenState.Closed));
 			this.Manager.MakeActive(this.Screen2.Object);
 
 			Assert.AreEqual(ScreenState.Active, this.Screen2.Object.State);
@@ -154,7 +154,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void DoesScreenMakeInactive()
 		{
-			this.Screen3.Setup(s => s.StateChanged());
+			this.Screen3.Setup(s => s.StateChanged(ScreenState.Closed));
 			this.Manager.MakeActive(this.Screen3.Object);
 			this.Manager.MakeInactive(this.Screen3.Object);
 
