@@ -42,7 +42,7 @@ namespace ClashEngine.NET.Utilities
 	/// Przechowuje w sobie dwa VBO - jeden na dane wierzchołków drugi na indeksy, ponieważ i tak przeważnie używa się ich w parach.
 	/// </summary>
 	public class VBO
-		: Interfaces.Utilities.IVBO
+		: Interfaces.Utilities.IVBO, IDisposable
 	{
 		/// <summary>
 		/// Indeksy VBO.
@@ -93,6 +93,8 @@ namespace ClashEngine.NET.Utilities
 			this.IndeciesCount = indecies.Length;
 			this.VerticesCount = vertices.Length;
 
+			GL.EnableClientState(ArrayCap.VertexArray);
+
 			GL.GenBuffers(2, this.VBOIds);
 
 			this.Bind();
@@ -120,6 +122,9 @@ namespace ClashEngine.NET.Utilities
 			this.IndeciesCount = indecies.Length;
 			this.VerticesCount = vertices.Length;
 
+			GL.EnableClientState(ArrayCap.VertexArray);
+			GL.EnableClientState(ArrayCap.ColorArray);
+
 			GL.GenBuffers(2, this.VBOIds);
 
 			this.Bind();
@@ -146,6 +151,10 @@ namespace ClashEngine.NET.Utilities
 
 			this.IndeciesCount = indecies.Length;
 			this.VerticesCount = vertices.Length;
+
+
+			GL.EnableClientState(ArrayCap.VertexArray);
+			GL.EnableClientState(ArrayCap.TextureCoordArray);
 
 			GL.GenBuffers(2, this.VBOIds);
 
@@ -197,6 +206,13 @@ namespace ClashEngine.NET.Utilities
 			{
 				GL.TexCoordPointer(c, TexCoordPointerType.Float, size, sizeof(float) * (v + c));
 			}
+		}
+		#endregion
+
+		#region IDisposable Members
+		public void Dispose()
+		{
+			GL.DeleteBuffers(2, this.VBOIds);
 		}
 		#endregion
 	}
