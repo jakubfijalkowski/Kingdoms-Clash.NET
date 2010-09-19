@@ -1,4 +1,7 @@
-﻿using ClashEngine.NET.EntitiesManager;
+﻿using ClashEngine.NET.Components;
+using ClashEngine.NET.EntitiesManager;
+using ClashEngine.NET.Interfaces.Components;
+using OpenTK;
 
 namespace Kingdoms_Clash.NET.Maps
 {
@@ -10,6 +13,8 @@ namespace Kingdoms_Clash.NET.Maps
 	public class DefaultMap
 		: GameEntity, IMap
 	{
+		ITerrain Terrain;
+
 		#region IMap Members
 		/// <summary>
 		/// Nazwa mapy.
@@ -42,5 +47,17 @@ namespace Kingdoms_Clash.NET.Maps
 		public DefaultMap()
 			: base("Map.Default_Map")
 		{ }
+
+		public override void InitEntity()
+		{
+			this.Terrain = new Terrain(0.5f,
+				new TerrainVertex { Position = new Vector2(0.0f, 0.0f), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
+				new TerrainVertex { Position = new Vector2(0.1f, 0.0f), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
+				new TerrainVertex { Position = new Vector2(0.5f, -0.5f), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
+				new TerrainVertex { Position = new Vector2(0.9f, 0.0f), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
+				new TerrainVertex { Position = new Vector2(1.0f, 0.0f), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) });
+
+			this.AddComponent(this.Terrain);
+		}
 	}
 }
