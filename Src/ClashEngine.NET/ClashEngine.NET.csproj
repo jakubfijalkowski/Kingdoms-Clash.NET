@@ -45,6 +45,7 @@
     <Reference Include="System.Management" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Cameras\OrthoCamera.cs" />
     <Compile Include="Components\Sprite.cs" />
     <Compile Include="Components\Terrain.cs" />
     <Compile Include="EntitiesManager\Attribute.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Input.cs" />
+    <Compile Include="Interfaces\Components\Cameras\IOrthoCamera.cs" />
     <Compile Include="Interfaces\Components\ITerrain.cs" />
     <Compile Include="Interfaces\IInput.cs" />
     <Compile Include="Interfaces\IMainThreadCallbacksManager.cs" />

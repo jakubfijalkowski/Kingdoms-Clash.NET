@@ -59,7 +59,7 @@ namespace ClashEngine.NET.Components
 			uint[] indecies = new uint[(terrain.Length - 1) * 6];
 
 			//Budujemy tablicę wierzchołków
-			float lowest = this.GetLowestVertex() - height; //Położenie krawędzi dolnej.
+			float lowest = this.GetLowestVertex() + height; //Położenie krawędzi dolnej.
 			for (int i = 0, j = 0; j < vertices.Length; ++i, j += 2)
 			{
 				vertices[j].Position = terrain[i].Position;
@@ -95,15 +95,15 @@ namespace ClashEngine.NET.Components
 
 		#region Initialization
 		/// <summary>
-		/// Pobiera najniżej położony wierzchołek.
+		/// Pobiera najniżej położony wierzchołek(czyli z największą współrzędną Y).
 		/// </summary>
 		/// <returns>Współrzędna Y tego wierzchołka.</returns>
 		private float GetLowestVertex()
 		{
-			float lowest = float.MaxValue;
+			float lowest = float.MinValue;
 			foreach (var vertex in this.Vertices)
 			{
-				if (vertex.Position.Y < lowest)
+				if (vertex.Position.Y > lowest)
 				{
 					lowest = vertex.Position.Y;
 				}
