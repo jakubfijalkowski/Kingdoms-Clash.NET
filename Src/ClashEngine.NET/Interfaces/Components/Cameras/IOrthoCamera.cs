@@ -56,5 +56,19 @@ namespace ClashEngine.NET.Interfaces.Components.Cameras
 		/// </summary>
 		/// <param name="pt">Lewy górny róg kamery.</param>
 		void MoveTo(PointF pt);
+
+		/// <summary>
+		/// Inicjalizuje kamerę.
+		/// </summary>
+		/// <param name="borders">Krawędzie kamery.
+		/// Width nie może być większe od size.Width i
+		/// Height nie może być większe od size.Height.
+		/// </param>
+		/// <param name="size">Rozmiar.</param>
+		/// <param name="speed">Szybkość poruszania się kamery.</param>
+		/// <param name="updateAlways">Czy zawsze uaktualniać macierz projekcji?</param>
+		/// <param name="zNear"><see cref="IOrthoCamera.ZNear"/></param>
+		/// <param name="zFar"><see cref="IOrthoCamera.ZFar"/></param>
+		void Init(RectangleF borders, SizeF size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f);
 	}
 }

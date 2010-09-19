@@ -51,7 +51,7 @@ namespace ClashEngine.NET.Components.Cameras
 		/// Inicjalizuje kamerę.
 		/// Domyślnie ustawiana jest w lewym górnym rogu granic.
 		/// </summary>
-		/// <param name="borders"> Krawędzie kamery.
+		/// <param name="borders">Krawędzie kamery.
 		/// Width nie może być większe od size.Width i
 		/// Height nie może być większe od size.Height.
 		/// </param>
@@ -64,18 +64,7 @@ namespace ClashEngine.NET.Components.Cameras
 		public OrthoCamera(RectangleF borders, SizeF size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f)
 			: base("OrthoCamera")
 		{
-			if (size.Width > borders.Width || size.Height > borders.Height)
-			{
-				throw new ArgumentException("Size is greater than borders", "size");
-			}
-			this.Borders = borders;
-			this.Size = size;
-			this.CameraSpeed = speed;
-			this.ZNear = zNear;
-			this.ZFar = zFar;
-			this.UpdateAlways = updateAlways;
-			this.CurrentPosition = new PointF(borders.Left, borders.Top);
-
+			this.Init(borders, size, speed, updateAlways, zNear, zFar);
 			this.UpdateMatrix();
 		}
 
@@ -148,6 +137,34 @@ namespace ClashEngine.NET.Components.Cameras
 			GL.Ortho(this.CurrentPosition.X, this.CurrentPosition.X + this.Size.Width, this.CurrentPosition.Y + this.Size.Height, this.CurrentPosition.Y, this.ZNear, this.ZFar);
 
 			GL.MatrixMode(MatrixMode.Modelview);
+		}
+
+		/// <summary>
+		/// Inicjalizuje kamerę.
+		/// Domyślnie ustawiana jest w lewym górnym rogu granic.
+		/// </summary>
+		/// <param name="borders">Krawędzie kamery.
+		/// Width nie może być większe od size.Width i
+		/// Height nie może być większe od size.Height.
+		/// </param>
+		/// <param name="size">Rozmiar.</param>
+		/// <param name="speed">Szybkość poruszania się kamery.</param>
+		/// <param name="updateAlways">Czy zawsze uaktualniać macierz projekcji?</param>
+		/// <param name="zNear"><see cref="OrthoCamera.ZNear"/></param>
+		/// <param name="zFar"><see cref="OrthoCamera.ZFar"/></param>
+		public void Init(RectangleF borders, SizeF size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f)
+		{
+			if (size.Width > borders.Width || size.Height > borders.Height)
+			{
+				throw new ArgumentException("Size is greater than borders", "size");
+			}
+			this.Borders = borders;
+			this.Size = size;
+			this.CameraSpeed = speed;
+			this.ZNear = zNear;
+			this.ZFar = zFar;
+			this.UpdateAlways = updateAlways;
+			this.CurrentPosition = new PointF(borders.Left, borders.Top);
 		}
 	}
 }
