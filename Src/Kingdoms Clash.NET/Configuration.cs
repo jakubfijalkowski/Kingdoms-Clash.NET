@@ -1,4 +1,6 @@
-﻿namespace Kingdoms_Clash.NET
+﻿using System.Drawing;
+
+namespace Kingdoms_Clash.NET
 {
 	/// <summary>
 	/// Konfiguracja gry.
@@ -26,14 +28,9 @@
 
 		#region IConfiguration Members
 		/// <summary>
-		/// Szerokość okna.
+		/// Rozmiar okna.
 		/// </summary>
-		public int WindowWidth { get; set; }
-
-		/// <summary>
-		/// Wysokość okna.
-		/// </summary>
-		public int WindowHeight { get; set; }
+		public Size WindowSize { get; private set; }
 
 		/// <summary>
 		/// Czy okno ma być pełnoekranowe.
@@ -41,32 +38,31 @@
 		public bool Fullscreen { get; set; }
 
 		/// <summary>
-		/// Określa ile pikseli przypada na jedną jednostkę gry.
-		/// Aktualnie zahardcodowane na stałą wartość.
-		/// TODO: dopisać obliczanie.
+		/// Rozmiary ekranu.
 		/// </summary>
-		public float PixelsWidthPerUnit
-		{
-			get { return 10; }
-		}
+		public SizeF ScreenSize { get; private set; }
 
 		/// <summary>
-		/// Określa ile pikseli przypada na jedną jednostkę gry.
-		/// Aktualnie zahardcodowane na stałą wartość.
-		/// TODO: dopisać obliczanie.
+		/// Szybkość poruszania się kamery.
 		/// </summary>
-		public float PixelsHeightPerUnit
-		{
-			get { return 10; }
-		}
+		public float CameraSpeed { get; private set; }
+
+		/// <summary>
+		/// Margines górny dla map.
+		/// </summary>
+		public float MapMargin { get; private set; }
 		#endregion
 
 		private Configuration()
 		{
 			Logger.Trace("Loading configuration");
-			this.WindowWidth = 800;
-			this.WindowHeight = 600;
+			this.WindowSize = new Size(800, 600);
 			this.Fullscreen = false;
+
+			this.ScreenSize = new SizeF(1.0f, 1.0f);
+			this.CameraSpeed = 1.0f;
+
+			this.MapMargin = 0.5f;
 		}
 	}
 }

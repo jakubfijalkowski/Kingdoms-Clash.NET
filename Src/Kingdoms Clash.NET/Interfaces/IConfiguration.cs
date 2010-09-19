@@ -1,4 +1,6 @@
-﻿namespace Kingdoms_Clash.NET.Interfaces
+﻿using System.Drawing;
+
+namespace Kingdoms_Clash.NET.Interfaces
 {
 	/// <summary>
 	/// Konfiguracja gry.
@@ -7,14 +9,9 @@
 	public interface IConfiguration
 	{
 		/// <summary>
-		/// Szerokość okna.
+		/// Rozmiar okna.
 		/// </summary>
-		int WindowWidth { get; }
-
-		/// <summary>
-		/// Wysokość okna.
-		/// </summary>
-		int WindowHeight { get; }
+		Size WindowSize { get; }
 
 		/// <summary>
 		/// Czy okno ma być pełnoekranowe.
@@ -22,15 +19,18 @@
 		bool Fullscreen { get; }
 
 		/// <summary>
-		/// Określa ile pikseli przypada na jedną jednostkę gry.
-		/// Obliczane na podstawie aktualnej rozdzielczości.
+		/// Rozmiary ekranu.
 		/// </summary>
-		float PixelsWidthPerUnit { get; }
+		SizeF ScreenSize { get; }
 
 		/// <summary>
-		/// Określa ile pikseli przypada na jedną jednostkę gry.
-		/// Obliczane na podstawie aktualnej rozdzielczości.
+		/// Szybkość poruszania się kamery.
 		/// </summary>
-		float PixelsHeightPerUnit { get; }
+		float CameraSpeed { get; }
+
+		/// <summary>
+		/// Margines górny dla map.
+		/// </summary>
+		float MapMargin { get; }
 	}
 }

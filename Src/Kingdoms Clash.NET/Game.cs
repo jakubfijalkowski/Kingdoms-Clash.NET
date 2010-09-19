@@ -22,16 +22,22 @@ namespace Kingdoms_Clash.NET
 
 		public KingdomsClashNetGame()
 			: base("Kingdom's Clash.NET",
-					Configuration.Instance.WindowWidth, Configuration.Instance.WindowHeight,
-					Configuration.Instance.Fullscreen, true)
+					Configuration.Instance.WindowSize.Width, Configuration.Instance.WindowSize.Height,
+					Configuration.Instance.Fullscreen,
+#if DEBUG
+ 			false
+#else
+			true
+#endif
+			)
 		{ }
 
 		public override void Init()
 		{
 			this.Game = new GameState();
+			this.ScreensManager.AddAndMakeActive(new FPSCounter() { LogStatistics = 10.0f });
 			this.ScreensManager.AddAndMakeActive(this.Game);
 			//this.ScreensManager.AddAndMakeActive(this.Menu);
-			this.ScreensManager.AddAndMakeActive(new FPSCounter() { LogStatistics = 10.0f });
 			base.Init();
 		}
 

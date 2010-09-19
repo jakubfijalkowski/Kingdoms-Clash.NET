@@ -26,21 +26,29 @@ namespace Kingdoms_Clash.NET.Maps
 
 		/// <summary>
 		/// Rozmiar mapy.
-		/// Domyślna mapa jest szeroka tylko na jeden ekran.
+		/// Domyślna mapa jest szeroka tylko na dwie jednostki.
 		/// </summary>
-		public float Size
+		public float Width
 		{
-			get { return 1.0f; }
+			get { return 2.0f; }
+		}
+
+		/// <summary>
+		/// Wysokość mapy.
+		/// </summary>
+		public float Height
+		{
+			get { return 0.5f; }
 		}
 
 		public Interfaces.Resources.IResource CheckForResource(float beginig, float end, out float position)
 		{
-			position = 0.0f;
-			return null;
+			throw new System.NotImplementedException();
 		}
 
 		public void Reset()
 		{
+			//throw new System.NotImplementedException();
 		}
 		#endregion
 
@@ -50,12 +58,13 @@ namespace Kingdoms_Clash.NET.Maps
 
 		public override void InitEntity()
 		{
-			this.Terrain = new Terrain(0.5f,
-				new TerrainVertex { Position = new Vector2(0.0f, 0.0f), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
-				new TerrainVertex { Position = new Vector2(0.1f, 0.0f), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
-				new TerrainVertex { Position = new Vector2(0.5f, -0.5f), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
-				new TerrainVertex { Position = new Vector2(0.9f, 0.0f), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
-				new TerrainVertex { Position = new Vector2(1.0f, 0.0f), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) });
+			float margin = Configuration.Instance.MapMargin;
+			this.Terrain = new Terrain(this.Height - 0.3f,
+				new TerrainVertex { Position = new Vector2(0.0f, margin), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
+				new TerrainVertex { Position = new Vector2(0.1f, margin), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
+				new TerrainVertex { Position = new Vector2(1.0f, margin + 0.3f), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
+				new TerrainVertex { Position = new Vector2(1.9f, margin), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
+				new TerrainVertex { Position = new Vector2(2.0f, margin), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) });
 
 			this.AddComponent(this.Terrain);
 		}

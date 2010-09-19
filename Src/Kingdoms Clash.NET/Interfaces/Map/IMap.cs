@@ -17,13 +17,18 @@ namespace Kingdoms_Clash.NET.Interfaces.Map
 		string Name { get; }
 		
 		/// <summary>
-		/// Rozmiar mapy.
+		/// Szerokość mapy.
 		/// Musi być stały dla danej mapy.
 		/// </summary>
 		/// <remarks>
 		/// Jedna "jednostka" gry odpowiada jednemu "ekranowi"(czyli szerokości okna w pikselach).
 		/// </remarks>
-		float Size { get; }
+		float Width { get; }
+
+		/// <summary>
+		/// Wysokość mapy(samej mapy, bez marginesu górnego!).
+		/// </summary>
+		float Height { get; }
 
 		/// <summary>
 		/// Sprawdza czy pomiędzy dwoma punktami jest jakiś zasób.
