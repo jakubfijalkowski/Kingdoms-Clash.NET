@@ -40,6 +40,11 @@ namespace ClashEngine.NET.Components.Cameras
 		/// Dalsza płaszczyzna kamery. Odpowiada parametrowi zFar GL.Ortho.
 		/// </summary>
 		public float ZFar { get; private set; }
+
+		/// <summary>
+		/// Czy zawsze(co aktualizację komponentu, nie co przesunięcie) aktualizować macierz projekcji?
+		/// </summary>
+		public bool UpdateAlways { get; private set; }
 		#endregion
 
 		/// <summary>
@@ -52,10 +57,11 @@ namespace ClashEngine.NET.Components.Cameras
 		/// </param>
 		/// <param name="size">Rozmiar.</param>
 		/// <param name="speed">Szybkość poruszania się kamery.</param>
+		/// <param name="updateAlways">Czy zawsze uaktualniać macierz projekcji?</param>
 		/// <param name="zNear"><see cref="OrthoCamera.ZNear"/></param>
 		/// <param name="zFar"><see cref="OrthoCamera.ZFar"/></param>
 		/// <exception cref="ArgumentException">Rozmiar jest większy od granic ekranu.</exception>
-		public OrthoCamera(RectangleF borders, SizeF size, float speed, float zNear = 0.0f, float zFar = 1.0f)
+		public OrthoCamera(RectangleF borders, SizeF size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f)
 			: base("OrthoCamera")
 		{
 			if (size.Width > borders.Width || size.Height > borders.Height)
@@ -67,6 +73,7 @@ namespace ClashEngine.NET.Components.Cameras
 			this.CameraSpeed = speed;
 			this.ZNear = zNear;
 			this.ZFar = zFar;
+			this.UpdateAlways = updateAlways;
 			this.CurrentPosition = new PointF(borders.Left, borders.Top);
 
 			this.UpdateMatrix();
@@ -124,7 +131,7 @@ namespace ClashEngine.NET.Components.Cameras
 			}
 
 			//Uaktualniamy tylko jeśli pozycja się różni.
-			if (this.CurrentPosition != pt)
+			if (this.CurrentPosition != pt || this.UpdateAlways)
 			{
 				this.CurrentPosition = pt;
 				this.UpdateMatrix();

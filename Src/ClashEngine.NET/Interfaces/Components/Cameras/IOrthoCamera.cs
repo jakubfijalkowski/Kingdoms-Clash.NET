@@ -46,6 +46,11 @@ namespace ClashEngine.NET.Interfaces.Components.Cameras
 		float ZFar { get; }
 
 		/// <summary>
+		/// Czy zawsze(co aktualizację komponentu, nie co przesunięcie) aktualizować macierz projekcji?
+		/// </summary>
+		bool UpdateAlways { get; }
+
+		/// <summary>
 		/// Przesuwa kamerę na wskazaną pozycję.
 		/// Automatycznie koryguje pozycję jeśli kamera wychodzi poza granice.
 		/// </summary>
