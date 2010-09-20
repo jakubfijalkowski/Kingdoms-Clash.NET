@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -42,13 +43,40 @@ namespace ClashEngine.NET.Components
 
 		#region Constructors
 		/// <summary>
+		/// Inicjalizuje nowego duszka domyslnymi wartościami - jest niezdatny do użytku.
+		/// </summary>
+		/// <param name="id">Identyfikator.</param>
+		public Sprite(string id)
+			: base(id)
+		{
+			this.Texture = null;
+			this.TextureCoordinates = RectangleF.Empty;
+		}
+
+		/// <summary>
 		/// Inicjalizuje nowego duszka.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
 		/// <param name="texture">Tekstura która zostanie pokryty.</param>
+		/// <exception cref="ArgumentNullException">Nie podano tekstury.</exception>
 		public Sprite(string id, ITexture texture)
 			: base(id)
 		{
+			this.Init(texture);
+		}
+
+		/// <summary>
+		/// Inicjalizuje duszka daną teksturą.
+		/// Jeśli duszek był już zainicjalizowany, nadpisuje poprzednie ustawienia(ale nie zmienia atrybutów!).
+		/// </summary>
+		/// <param name="texture">Tekstura która zostanie pokryty.</param>
+		/// <exception cref="ArgumentNullException">Nie podano tekstury.</exception>
+		public void Init(ITexture texture)
+		{
+			if (texture == null)
+			{
+				throw new ArgumentNullException();
+			}
 			this.Texture = texture;
 			this.TextureCoordinates = texture.Coordinates;
 		}
