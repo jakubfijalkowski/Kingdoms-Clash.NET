@@ -11,6 +11,12 @@ namespace Kingdoms_Clash.NET.Units.Sample
 	public class SampleWorkerDescription
 		: IUnitDescription
 	{
+		IList<IUnitComponent> Components_ = new List<IUnitComponent>(new IUnitComponent[]
+		{
+			new Kingdoms_Clash.NET.Units.Components.Movable(),
+			new Kingdoms_Clash.NET.Units.Components.StaticImage()
+		});
+
 		#region IUnitDescription Members
 		public string Id
 		{
@@ -24,12 +30,30 @@ namespace Kingdoms_Clash.NET.Units.Sample
 
 		public IList<IUnitComponent> Components
 		{
-			get { return new List<IUnitComponent>(); }
+			get { return this.Components_; }
 		}
 
 		public int Health
 		{
 			get { return 100; }
+		}
+
+		public T GetAttribute<T>(string name)
+			where T : IConvertible
+		{
+			switch (name)
+			{
+			case "Speed":
+				return (T)(IConvertible)0.2f;
+
+			case "ImageHeight":
+			case "ImageWidth":
+				return (T)(IConvertible)0.05f;
+
+			case "ImagePath":
+				return (T)(IConvertible)"SampleSprite.png";
+			}
+			return default(T);
 		}
 		#endregion
 	}

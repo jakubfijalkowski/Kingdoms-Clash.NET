@@ -34,6 +34,7 @@ namespace Kingdoms_Clash.NET
 
 		public override void Init()
 		{
+			this.ResourcesManager.ContentDirectory = "Content";
 			this.Game = new GameState();
 			this.ScreensManager.AddAndMakeActive(new FPSCounter() { LogStatistics = 10.0f });
 			this.ScreensManager.AddAndMakeActive(this.Game);

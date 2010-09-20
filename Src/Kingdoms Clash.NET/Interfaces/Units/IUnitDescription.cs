@@ -1,18 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Kingdoms_Clash.NET.Interfaces.Units
 {
 	using Resources;
-
-	/// <summary>
-	/// Typ jednostki.
-	/// </summary>
-	//public enum UnitType
-	//{
-	//    Worker,
-	//    Soldier
-	//}
-
+	
 	/// <summary>
 	/// Opis/identyfikator jednostki.
 	/// </summary>
@@ -34,14 +26,18 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		IList<IUnitComponent> Components { get; }
 
 		/// <summary>
-		/// Typ jednostki.
-		/// </summary>
-		//UnitType Type { get; }
-
-		/// <summary>
 		/// Życie.
 		/// Tylko ta "statystyka" jest wymagana przez jednostkę, reszta jest zależna od komponentów z których jednostka będzie się składać.
 		/// </summary>
 		int Health { get; }
+
+		/// <summary>
+		/// Pobiera atrybut o wskazanej.
+		/// </summary>
+		/// <typeparam name="T">Typ atrybutu.</typeparam>
+		/// <param name="name">Nazwa.</param>
+		/// <returns>Atrybut.</returns>
+		T GetAttribute<T>(string name)
+			where T : IConvertible;
 	}
 }

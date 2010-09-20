@@ -1,6 +1,7 @@
-﻿using ClashEngine.NET.Interfaces.ScreensManager;
-using ClashEngine.NET.ScreensManager;
+﻿using System.Drawing;
 using ClashEngine.NET.Cameras;
+using ClashEngine.NET.Interfaces.ScreensManager;
+using ClashEngine.NET.ScreensManager;
 using OpenTK.Graphics.OpenGL;
 
 namespace Kingdoms_Clash.NET
@@ -11,7 +12,6 @@ namespace Kingdoms_Clash.NET
 	using Interfaces.Player;
 
 	using Maps;
-	using System.Drawing;
 
 	/// <summary>
 	/// Główny stan(ekran) gry.
@@ -72,8 +72,12 @@ namespace Kingdoms_Clash.NET
 
 			this.Entities.AddEntity(this.Map);
 			this.Entities.AddEntity(this.Camera);
-
+			
 			GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+			Kingdoms_Clash.NET.Units.Sample.SampleNation sn = new Units.Sample.SampleNation();
+			var unit = sn.CreateUnit(sn.AvailableUnits[0], null);
+			this.Entities.AddEntity(unit);
 		}
 
 		/// <summary>

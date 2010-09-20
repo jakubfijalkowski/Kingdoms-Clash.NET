@@ -71,7 +71,7 @@ namespace Kingdoms_Clash.NET.Units
 			this.Health_.Value = this.Description.Health;
 			foreach (var component in this.Description.Components)
 			{
-				this.AddComponent(component);
+				this.AddComponent(component.Clone() as IUnitComponent);
 			}
 		}
 	}

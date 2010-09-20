@@ -7,8 +7,8 @@
 		: IUnitComponent
 	{
 		/// <summary>
-		/// Szybkość wyrażona w jednostce j/sec.
+		/// Szybkość poruszania się jednostki.
 		/// </summary>
-		int Speed { get; }
+		float Speed { get; }
 	}
 }
