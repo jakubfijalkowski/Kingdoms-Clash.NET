@@ -10,7 +10,7 @@ namespace ClashEngine.NET.Interfaces.PhysicsManager
 		: IEquatable<IVelocity>
 	{
 		/// <summary>
-		/// Nazwa prędkości(unikatowa dla danej prędkości).
+		/// Nazwa(unikatowa dla danej prędkości).
 		/// </summary>
 		string Name { get; }
 

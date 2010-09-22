@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using OpenTK;
 
 namespace ClashEngine.NET.Interfaces.PhysicsManager
 {
@@ -10,24 +10,17 @@ namespace ClashEngine.NET.Interfaces.PhysicsManager
 	/// 
 	/// Wszystkie właściwości powinny być zaimplementowane na atrybutach.
 	/// </summary>
-	public interface IPhysics
+	public interface IPhysicalObject
 		: IComponent
 	{
 		/// <summary>
-		/// Lista tylko do odczytu z prędkościami od których jest zależny dany obiekt.
+		/// Lista z prędkościami od których jest zależny dany obiekt.
 		/// </summary>
-		IList<IVelocity> Velocities { get; }
+		IVelocitiesCollection Velocities { get; }
 
 		/// <summary>
-		/// Dodaje kolejną prędkość do komponentu.
+		/// Pozycja obiektu.
 		/// </summary>
-		/// <param name="velocity">Prędkość.</param>
-		void Add(IVelocity velocity);
-		
-		/// <summary>
-		/// Usuwa wskazaną prędkość.
-		/// </summary>
-		/// <param name="velocity">Prędkość do usunięcia.</param>
-		void Remove(IVelocity velocity);
+		Vector2 Position { get; set; }
 	}
 }

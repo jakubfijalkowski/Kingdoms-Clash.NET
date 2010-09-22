@@ -4,6 +4,7 @@ using ClashEngine.NET.Interfaces.EntitiesManager;
 
 namespace Kingdoms_Clash.NET.Units
 {
+	using ClashEngine.NET.PhysicsManager;
 	using Interfaces.Player;
 	using Interfaces.Units;
 	
@@ -69,6 +70,7 @@ namespace Kingdoms_Clash.NET.Units
 		public override void InitEntity()
 		{
 			this.Health_.Value = this.Description.Health;
+			this.AddComponent(new PhysicalObject());
 			foreach (var component in this.Description.Components)
 			{
 				this.AddComponent(component.Clone() as IUnitComponent);
