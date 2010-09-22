@@ -1,0 +1,24 @@
+﻿using System.Collections.Generic;
+using OpenTK;
+
+namespace ClashEngine.NET.Interfaces.PhysicsManager
+{
+	/// <summary>
+	/// Manager fizyki.
+	/// Określa globalne parametry dla obiektów.
+	/// 
+	/// Powinien być jeden na całą aplikację.
+	/// </summary>
+	public interface IPhysicsManager
+	{
+		/// <summary>
+		/// Prędkości.
+		/// </summary>
+		IList<IVelocity> Velocities { get; }
+
+		/// <summary>
+		/// Suma wektorów prędkości.
+		/// </summary>
+		Vector2 CalculatedVelocity { get; }
+	}
+}
