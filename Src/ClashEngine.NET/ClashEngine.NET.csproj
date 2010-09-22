@@ -75,6 +75,7 @@
     <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="Interfaces\ISystemInformation.cs" />
     <Compile Include="Interfaces\PhysicsManager\IPhysics.cs" />
+    <Compile Include="Interfaces\PhysicsManager\IPhysicsManager.cs" />
     <Compile Include="Interfaces\PhysicsManager\IVelocity.cs" />
     <Compile Include="Interfaces\ResourcesManager\IResource.cs" />
     <Compile Include="Interfaces\ResourcesManager\IResourcesManager.cs" />

@@ -20,5 +20,17 @@ namespace ClashEngine.NET.Interfaces.PhysicsManager
 		/// Suma wektorów prędkości.
 		/// </summary>
 		Vector2 CalculatedVelocity { get; }
+
+		/// <summary>
+		/// Dodaje prędkość do listy.
+		/// </summary>
+		/// <param name="velocity">Prędkość.</param>
+		void Add(IVelocity velocity);
+
+		/// <summary>
+		/// Usuwa prędkość z listy.
+		/// </summary>
+		/// <param name="velocity">Prędkość.</param>
+		void Remove(IVelocity velocity);
 	}
 }
