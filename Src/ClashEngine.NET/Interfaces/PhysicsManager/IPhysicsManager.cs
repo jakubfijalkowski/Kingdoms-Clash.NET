@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using OpenTK;
+﻿using OpenTK;
 
 namespace ClashEngine.NET.Interfaces.PhysicsManager
 {
@@ -14,23 +13,12 @@ namespace ClashEngine.NET.Interfaces.PhysicsManager
 		/// <summary>
 		/// Prędkości.
 		/// </summary>
-		IList<IVelocity> Velocities { get; }
+		IVelocitiesCollection Velocities { get; }
 
 		/// <summary>
-		/// Suma wektorów prędkości.
+		/// Sumuje wektory prędkości.
+		/// Pozwala na wyłączenie wskazanych prędkości.
 		/// </summary>
-		Vector2 CalculatedVelocity { get; }
-
-		/// <summary>
-		/// Dodaje prędkość do listy.
-		/// </summary>
-		/// <param name="velocity">Prędkość.</param>
-		void Add(IVelocity velocity);
-
-		/// <summary>
-		/// Usuwa prędkość z listy.
-		/// </summary>
-		/// <param name="velocity">Prędkość.</param>
-		void Remove(IVelocity velocity);
+		Vector2 CalculateVelocities(params string[] exclude);
 	}
 }

@@ -66,7 +66,7 @@ namespace ClashEngine.NET.PhysicsManager
 
 		public override void Update(double delta)
 		{
-			this.Position += (float)delta * this.LocalVelocity;
+			this.Position += (float)delta * (this.LocalVelocity + PhysicsManager.Instance.CalculateVelocities(null));
 		}
 		#endregion
 
