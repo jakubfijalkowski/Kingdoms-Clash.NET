@@ -13,7 +13,6 @@ namespace Kingdoms_Clash.NET.Units.Sample
 	{
 		IList<IUnitComponent> Components_ = new List<IUnitComponent>(new IUnitComponent[]
 		{
-			new Kingdoms_Clash.NET.Units.Components.Movable(),
 			new Kingdoms_Clash.NET.Units.Components.StaticImage()
 		});
 
