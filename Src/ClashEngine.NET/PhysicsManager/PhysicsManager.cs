@@ -5,6 +5,7 @@ using OpenTK;
 namespace ClashEngine.NET.PhysicsManager
 {
 	using Interfaces.PhysicsManager;
+	using Interfaces.Components;
 
 	/// <summary>
 	/// Manager fizyki.
@@ -34,6 +35,11 @@ namespace ClashEngine.NET.PhysicsManager
 		#endregion
 
 		#region IPhysicsManager Members
+		/// <summary>
+		/// Teren.
+		/// </summary>
+		public ITerrain Terrain { get; set; }
+
 		/// <summary>
 		/// Prędkości.
 		/// </summary>

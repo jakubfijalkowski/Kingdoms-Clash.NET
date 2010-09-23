@@ -68,7 +68,7 @@ namespace Kingdoms_Clash.NET
 			this.CameraSpeed = 1.0f;
 
 			this.MapMargin = 0.5f;
-			this.Gravity = 0.4f;
+			this.Gravity = 1.5f;
 		}
 	}
 }

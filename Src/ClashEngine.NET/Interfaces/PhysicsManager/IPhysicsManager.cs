@@ -2,6 +2,8 @@
 
 namespace ClashEngine.NET.Interfaces.PhysicsManager
 {
+	using Interfaces.Components;
+
 	/// <summary>
 	/// Manager fizyki.
 	/// Określa globalne parametry dla obiektów.
@@ -10,6 +12,11 @@ namespace ClashEngine.NET.Interfaces.PhysicsManager
 	/// </summary>
 	public interface IPhysicsManager
 	{
+		/// <summary>
+		/// Teren.
+		/// </summary>
+		ITerrain Terrain { get; set; }
+
 		/// <summary>
 		/// Prędkości.
 		/// </summary>

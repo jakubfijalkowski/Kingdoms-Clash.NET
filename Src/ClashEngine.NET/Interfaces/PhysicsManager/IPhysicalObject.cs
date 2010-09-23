@@ -7,6 +7,7 @@ namespace ClashEngine.NET.Interfaces.PhysicsManager
 	/// <summary>
 	/// Komponent fizyczny.
 	/// Po dodaniu do encji staje się ona zależna od wszystkich czynników zewnętrznych.
+	/// Kolizje są oparte na AABB.
 	/// 
 	/// Wszystkie właściwości powinny być zaimplementowane na atrybutach.
 	/// </summary>
@@ -22,5 +23,10 @@ namespace ClashEngine.NET.Interfaces.PhysicsManager
 		/// Pozycja obiektu.
 		/// </summary>
 		Vector2 Position { get; set; }
+
+		/// <summary>
+		/// Rozmiar obiektu.
+		/// </summary>
+		Vector2 Size { get; set; }
 	}
 }
