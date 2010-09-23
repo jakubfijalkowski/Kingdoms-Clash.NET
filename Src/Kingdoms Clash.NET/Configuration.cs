@@ -51,6 +51,11 @@ namespace Kingdoms_Clash.NET
 		/// Margines górny dla map.
 		/// </summary>
 		public float MapMargin { get; private set; }
+
+		/// <summary>
+		/// Wartość grawitacji.
+		/// </summary>
+		public float Gravity { get; private set; }
 		#endregion
 
 		private Configuration()
@@ -63,6 +68,7 @@ namespace Kingdoms_Clash.NET
 			this.CameraSpeed = 1.0f;
 
 			this.MapMargin = 0.5f;
+			this.Gravity = 0.4f;
 		}
 	}
 }

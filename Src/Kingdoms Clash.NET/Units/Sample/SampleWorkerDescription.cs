@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Kingdoms_Clash.NET.Units.Components;
 
 namespace Kingdoms_Clash.NET.Units.Sample
 {
@@ -13,7 +14,8 @@ namespace Kingdoms_Clash.NET.Units.Sample
 	{
 		IList<IUnitComponent> Components_ = new List<IUnitComponent>(new IUnitComponent[]
 		{
-			new Kingdoms_Clash.NET.Units.Components.StaticImage()
+			new GroundUnit(),
+			new StaticImage()
 		});
 
 		#region IUnitDescription Members

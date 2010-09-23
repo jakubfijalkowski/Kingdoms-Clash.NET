@@ -8,6 +8,7 @@ namespace Kingdoms_Clash.NET.Interfaces
 	/// </summary>
 	public interface IConfiguration
 	{
+		#region Window
 		/// <summary>
 		/// Rozmiar okna.
 		/// </summary>
@@ -22,7 +23,9 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Rozmiary ekranu.
 		/// </summary>
 		SizeF ScreenSize { get; }
+		#endregion
 
+		#region Gameplay
 		/// <summary>
 		/// Szybkość poruszania się kamery.
 		/// </summary>
@@ -32,5 +35,11 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Margines górny dla map.
 		/// </summary>
 		float MapMargin { get; }
+
+		/// <summary>
+		/// Wartość grawitacji.
+		/// </summary>
+		float Gravity { get; }
+		#endregion
 	}
 }
