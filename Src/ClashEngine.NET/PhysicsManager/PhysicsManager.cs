@@ -12,6 +12,8 @@ namespace ClashEngine.NET.PhysicsManager
 	public class PhysicsManager
 		: IPhysicsManager
 	{
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
+		
 		#region Singleton
 		private static PhysicsManager Instance_ = null;
 
@@ -66,6 +68,34 @@ namespace ClashEngine.NET.PhysicsManager
 		/// </summary>
 		private class VelocitiesCollection
 			: List<IVelocity>, IVelocitiesCollection
-		{ }
+		{
+			new public void Add(IVelocity item)
+			{
+				if (this.Contains(item))
+				{
+					throw new Exceptions.ArgumentAlreadyExistsException("item");
+				}
+				Logger.Debug("Global velocity '{0}' added", item.Name);
+				base.Add(item);
+			}
+
+			new public void Clear()
+			{
+				Logger.Debug("Global velocities list cleared");
+				base.Clear();
+			}
+
+			new public bool Remove(IVelocity item)
+			{
+				int i = base.IndexOf(item);
+				if (i > -1)
+				{
+					Logger.Debug("Global velocity '{0}' removed", item.Name);
+					base.RemoveAt(i);
+					return true;
+				}
+				return false;
+			}
+		}
 	}
 }

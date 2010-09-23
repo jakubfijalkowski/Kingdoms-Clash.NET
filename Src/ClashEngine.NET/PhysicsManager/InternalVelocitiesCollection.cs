@@ -11,6 +11,8 @@ namespace ClashEngine.NET.PhysicsManager
 	internal class InternalVelocitiesCollection
 		: IVelocitiesCollection
 	{
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
+		
 		private List<IVelocity> InternalList = new List<IVelocity>();
 		private PhysicalObject Parent;
 
@@ -21,12 +23,14 @@ namespace ClashEngine.NET.PhysicsManager
 			{
 				throw new Exceptions.ArgumentAlreadyExistsException("item");
 			}
+			Logger.Debug("Velocity '{0}' added to {1}", item.Name, this.Parent.Id);
 			this.InternalList.Add(item);
 			this.Parent.LocalVelocity += item.Value;
 		}
 
 		public void Clear()
 		{
+			Logger.Debug("Velocities in object {0} cleared", this.Parent.Id);
 			this.InternalList.Clear();
 			this.Parent.LocalVelocity = Vector2.Zero;
 		}
@@ -56,6 +60,7 @@ namespace ClashEngine.NET.PhysicsManager
 			int i = this.InternalList.IndexOf(item);
 			if (i > -1)
 			{
+				Logger.Debug("Velocity '{0}' removed from {1}", item.Name, this.Parent.Id);
 				this.Parent.LocalVelocity -= this.InternalList[i].Value;
 				this.InternalList.RemoveAt(i);
 				return true;
