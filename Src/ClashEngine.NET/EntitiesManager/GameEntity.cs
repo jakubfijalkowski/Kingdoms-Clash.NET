@@ -13,8 +13,7 @@ namespace ClashEngine.NET.EntitiesManager
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
-		private List<IComponent> _Components = new List<IComponent>();
-		private List<IRenderableComponent> _RenderableComponents = new List<IRenderableComponent>();
+		private IComponentsCollection _Components;
 		private IAttributesCollection _Attributes;
 
 		#region Properties
@@ -32,7 +31,7 @@ namespace ClashEngine.NET.EntitiesManager
 		/// Lista komponentów.
 		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
 		/// </summary>
-		public IList<IComponent> Components
+		public IComponentsCollection Components
 		{
 			get { return this._Components; }
 		}
@@ -54,6 +53,7 @@ namespace ClashEngine.NET.EntitiesManager
 		public GameEntity(string id)
 		{
 			Logger.Trace("Creating new game entity with id {0}", id);
+			this._Components = new ComponentsCollection(this);
 			this._Attributes = new AttributesCollection(this);
 			this.Id = id;
 		}
@@ -67,26 +67,6 @@ namespace ClashEngine.NET.EntitiesManager
 			this.Manager = entitiesManager;
 			this.InitEntity();
 			Logger.Debug("Game entity {0} initialized", this.Id);
-		}
-
-		/// <summary>
-		/// Dodaje komponent do encji.
-		/// </summary>
-		/// <exception cref="Exceptions.ArgumentAlreadyExistsException">Rzucane gdy taki komponent został już dodany.</exception>
-		/// <param name="component">Komponent. Musi być unikatowy.</param>
-		public void AddComponent(IComponent component)
-		{
-			if (this._Components.Contains(component))
-			{
-				throw new Exceptions.ArgumentAlreadyExistsException("component");
-			}
-			this._Components.Add(component);
-			if (component is RenderableComponent)
-			{
-				this._RenderableComponents.Add(component as RenderableComponent);
-			}
-			component.Init(this);
-			Logger.Trace("Component {0} added to entity {1}", component.Id, this.Id);
 		}
 
 		/// <summary>
@@ -106,7 +86,7 @@ namespace ClashEngine.NET.EntitiesManager
 		/// </summary>
 		public virtual void Render()
 		{
-			foreach (IRenderableComponent c in this._RenderableComponents)
+			foreach (IRenderableComponent c in this.Components.RenderableComponents)
 			{
 				c.Render();
 			}

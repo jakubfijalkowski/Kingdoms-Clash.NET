@@ -28,8 +28,8 @@ namespace ClashEngine.NET.Tests
 			this.Attribute = new Mock<Attribute>("Attribute", 0.0);
 			this.GenericAttribute = new Mock<Attribute<int>>("GenericAttribute", 1);
 
-			this.Entity.AddComponent(this.Component.Object);
-			this.Entity.AddComponent(this.RenderableComponent.Object);
+			this.Entity.Components.Add(this.Component.Object);
+			this.Entity.Components.Add(this.RenderableComponent.Object);
 			this.Entity.Attributes.Add(this.Attribute.Object);
 			this.Entity.Attributes.Add(this.GenericAttribute.Object);
 		}
@@ -52,8 +52,8 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void ThrowsExceptionOnAddingSameComponentManyTimes()
 		{
-			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.AddComponent(this.Component.Object));
-			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.AddComponent(this.RenderableComponent.Object));
+			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.Components.Add(this.Component.Object));
+			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.Components.Add(this.RenderableComponent.Object));
 		}
 
 		[Test]

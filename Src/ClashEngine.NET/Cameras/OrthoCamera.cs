@@ -31,7 +31,7 @@ namespace ClashEngine.NET.Cameras
 
 		public override void InitEntity()
 		{
-			this.AddComponent(this.Camera);
+			this.Components.Add(this.Camera);
 		}
 	}
 }

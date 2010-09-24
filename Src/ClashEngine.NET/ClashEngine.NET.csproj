@@ -53,6 +53,7 @@
     <Compile Include="EntitiesManager\AttributesCollection.cs" />
     <Compile Include="EntitiesManager\Attribute`1.cs" />
     <Compile Include="EntitiesManager\Component.cs" />
+    <Compile Include="EntitiesManager\ComponentsCollection.cs" />
     <Compile Include="EntitiesManager\EntitiesManager.cs" />
     <Compile Include="EntitiesManager\GameEntity.cs" />
     <Compile Include="EntitiesManager\RenderableComponent.cs" />
@@ -65,6 +66,8 @@
     <Compile Include="Interfaces\Components\Cameras\IOrthoCamera.cs" />
     <Compile Include="Interfaces\Components\ITerrain.cs" />
     <Compile Include="Interfaces\EntitiesManager\IAttributesCollection.cs" />
+    <Compile Include="Interfaces\EntitiesManager\IComponentsCollection.cs" />
+    <Compile Include="Interfaces\EntitiesManager\IRenderableComponentsCollection.cs" />
     <Compile Include="Interfaces\IInput.cs" />
     <Compile Include="Interfaces\IMainThreadCallbacksManager.cs" />
     <Compile Include="Interfaces\Components\ISprite.cs" />

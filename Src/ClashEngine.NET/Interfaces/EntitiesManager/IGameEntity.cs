@@ -20,9 +20,8 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 
 		/// <summary>
 		/// Lista komponentów.
-		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
 		/// </summary>
-		IList<IComponent> Components { get; }
+		IComponentsCollection Components { get; }
 
 		/// <summary>
 		/// Kolekcja atrybutów.
@@ -36,12 +35,6 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 		/// </summary>
 		/// <param name="entitiesManager">Właściciel encji.</param>
 		void Init(IEntitiesManager entitiesManager);
-
-		/// <summary>
-		/// Dodaje komponent do encji.
-		/// </summary>
-		/// <param name="component">Komponent. Musi być unikatowy.</param>
-		void AddComponent(IComponent component);
 
 		/// <summary>
 		/// Uaktualnia wszystkie komponenty.
