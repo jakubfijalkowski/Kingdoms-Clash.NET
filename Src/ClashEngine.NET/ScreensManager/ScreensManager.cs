@@ -15,7 +15,7 @@ namespace ClashEngine.NET.ScreensManager
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
-		private List<IScreen> _Screens = new List<IScreen>();
+		private List<IScreen> Screens = new List<IScreen>();
 
 		#region Properties
 		/// <summary>
@@ -23,10 +23,9 @@ namespace ClashEngine.NET.ScreensManager
 		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
 		/// Bardziej przypomina stos/kolejkę FIFO(pierwszy ekran na liście jest pierwszym "w rzeczywistości").
 		/// </summary>
-		public IList<IScreen> Screens { get { return this._Screens; } }
+		//public IList<IScreen> Screens { get { return this._Screens; } }
 		#endregion
 
-		#region Methods
 		/// <summary>
 		/// Inicjalizuje nowy manager i dodaje zdarzenia dla wejścia.
 		/// </summary>
@@ -44,6 +43,67 @@ namespace ClashEngine.NET.ScreensManager
 			}
 		}
 
+		#region IScreensManager Members
+		#region ICollection<IScreen> Members
+		/// <summary>
+		/// Czyśli kolekcję.
+		/// </summary>
+		public void Clear()
+		{
+			this.Screens.Clear();
+		}
+
+		/// <summary>
+		/// Sprawdza, czy w kolekcji znajduje się wskazany ekran. 
+		/// </summary>
+		/// <param name="item">Ekran.</param>
+		/// <returns></returns>
+		public bool Contains(IScreen item)
+		{
+			return this.Screens.Contains(item);
+		}
+
+		/// <summary>
+		/// Kopiuje kolekcje do tablicy.
+		/// </summary>
+		/// <param name="array">Tablica wyjściowa.</param>
+		/// <param name="arrayIndex">Początkowy indeks.</param>
+		public void CopyTo(IScreen[] array, int arrayIndex)
+		{
+			this.Screens.CopyTo(array, arrayIndex);
+		}
+
+		/// <summary>
+		/// Lista ekranów.
+		/// </summary>
+		public int Count
+		{
+			get { return this.Screens.Count; }
+		}
+
+		/// <summary>
+		/// Czy jest tylko do odczytu - zawsze fałsz.
+		/// </summary>
+		public bool IsReadOnly
+		{
+			get { return false; }
+		}
+		#endregion
+
+		#region IEnumerable<IScreen> Members
+		public IEnumerator<IScreen> GetEnumerator()
+		{
+			return this.Screens.GetEnumerator();
+		}
+		#endregion
+
+		#region IEnumerable Members
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return this.Screens.GetEnumerator();
+		}
+		#endregion
+
 		#region List management
 		/// <summary>
 		/// Dodaje ekran do listy.
@@ -55,11 +115,11 @@ namespace ClashEngine.NET.ScreensManager
 			{
 				throw new ArgumentNullException("screen");
 			}
-			else if (this._Screens.Contains(screen))
+			else if (this.Screens.Contains(screen))
 			{
 				throw new Exceptions.ArgumentAlreadyExistsException("screen");
 			}
-			this._Screens.Add(screen);
+			this.Screens.Add(screen);
 			screen.Init(this);
 			Logger.Trace("Screen added");
 		}
@@ -78,18 +138,31 @@ namespace ClashEngine.NET.ScreensManager
 		/// Usuwa ekran z managera.
 		/// </summary>
 		/// <param name="screen">Ekran do usunięcia.</param>
-		public void Remove(IScreen screen)
+		public bool Remove(IScreen screen)
 		{
 			if (screen == null)
 			{
 				throw new ArgumentNullException("screen");
 			}
-			else if (!this._Screens.Contains(screen))
+			bool deleted = this.Screens.Remove(screen);
+			if (deleted)
 			{
-				throw new Exceptions.ArgumentNotExistsException("screen");
+				Logger.Trace("Screen removed");
 			}
-			this._Screens.Remove(screen);
-			Logger.Trace("Screen removed");
+			return deleted;
+		}
+
+		/// <summary>
+		/// Pobiera ekran ze wskazanej pozycji.
+		/// </summary>
+		/// <param name="index">Indeks.</param>
+		/// <returns></returns>
+		public IScreen this[int index]
+		{
+			get
+			{
+				return this.Screens[index];
+			}
 		}
 		#endregion
 
@@ -114,17 +187,17 @@ namespace ClashEngine.NET.ScreensManager
 			{
 				throw new ArgumentNullException("screen");
 			}
-			else if (!this._Screens.Contains(screen))
+			else if (!this.Screens.Contains(screen))
 			{
 				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
-			int position = this._Screens.IndexOf(screen);
+			int position = this.Screens.IndexOf(screen);
 			if (position > newPos && newPos > 0)
 			{
 				newPos -= 1;
 			}
-			this._Screens.RemoveAt(position);
-			this._Screens.Insert((newPos > 0 ? newPos - 1 : newPos), screen);
+			this.Screens.RemoveAt(position);
+			this.Screens.Insert((newPos > 0 ? newPos - 1 : newPos), screen);
 			Logger.Trace("Screen moved to front");
 		}
 		#endregion
@@ -141,14 +214,14 @@ namespace ClashEngine.NET.ScreensManager
 			{
 				throw new ArgumentNullException("screen");
 			}
-			else if (!this._Screens.Contains(screen))
+			else if (!this.Screens.Contains(screen))
 			{
 				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
 			//Sprawdzamy, czy nic nie zasłania ekranu.
-			for (int i = this._Screens.IndexOf(screen); i > 0; i--)
+			for (int i = this.Screens.IndexOf(screen); i > 0; i--)
 			{
-				if (this._Screens[i].State != ScreenState.Closed && !this._Screens[i].IsPopup)
+				if (this.Screens[i].State != ScreenState.Closed && !this.Screens[i].IsPopup)
 				{
 					Logger.Warn("Cannot activate screen - it is covered by other screen");
 					return false;
@@ -158,13 +231,13 @@ namespace ClashEngine.NET.ScreensManager
 			int deactivatedCounter = 0;
 			if (!screen.IsPopup)
 			{
-				for (int i = this._Screens.IndexOf(screen); i < this._Screens.Count; i++)
+				for (int i = this.Screens.IndexOf(screen); i < this.Screens.Count; i++)
 				{
-					if (this._Screens[i].State == ScreenState.Active)
+					if (this.Screens[i].State == ScreenState.Active)
 					{
-						this._Screens[i].ChangeState(ScreenState.Inactive);
+						this.Screens[i].ChangeState(ScreenState.Inactive);
 						++deactivatedCounter;
-						if (this._Screens[i].IsFullscreen) //Pełnoekranowy, i tak dalej nic nie będzie widać.
+						if (this.Screens[i].IsFullscreen) //Pełnoekranowy, i tak dalej nic nie będzie widać.
 						{
 							break;
 						}
@@ -188,7 +261,7 @@ namespace ClashEngine.NET.ScreensManager
 			{
 				throw new ArgumentNullException("screen");
 			}
-			else if (!this._Screens.Contains(screen))
+			else if (!this.Screens.Contains(screen))
 			{
 				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
@@ -200,13 +273,13 @@ namespace ClashEngine.NET.ScreensManager
 			int activatedCounter = 0;
 			if (!screen.IsPopup)
 			{
-				for (int i = this._Screens.IndexOf(screen); i < this._Screens.Count; i++)
+				for (int i = this.Screens.IndexOf(screen); i < this.Screens.Count; i++)
 				{
-					if (this._Screens[i].State == ScreenState.Inactive)
+					if (this.Screens[i].State == ScreenState.Inactive)
 					{
-						this._Screens[i].ChangeState(ScreenState.Active);
+						this.Screens[i].ChangeState(ScreenState.Active);
 						++activatedCounter;
-						if (!this._Screens[i].IsFullscreen) //Pełnoekranowy, i tak dalej nic nie będzie widać.
+						if (!this.Screens[i].IsFullscreen) //Pełnoekranowy, i tak dalej nic nie będzie widać.
 						{
 							break;
 						}
@@ -230,7 +303,7 @@ namespace ClashEngine.NET.ScreensManager
 			{
 				throw new ArgumentNullException("screen");
 			}
-			else if (!this._Screens.Contains(screen))
+			else if (!this.Screens.Contains(screen))
 			{
 				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
@@ -253,9 +326,9 @@ namespace ClashEngine.NET.ScreensManager
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
 		public void Update(double delta)
 		{
-			for (int i = 0; i < this._Screens.Count; i++)
+			for (int i = 0; i < this.Screens.Count; i++)
 			{
-				IScreen screen = this._Screens[i];
+				IScreen screen = this.Screens[i];
 				if (screen.State == ScreenState.Active)
 				{
 					screen.Update(delta);
@@ -269,26 +342,25 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		public void Render()
 		{
-			if (this._Screens.Count == 0)
+			if (this.Screens.Count == 0)
 			{
 				return;
 			}
 			//Szukamy pierwszego pełnoekranowego ekranu(masło maślane x2...), który nie jest zamknięty.
 			int firstFullscreen = 0;
-			for(; firstFullscreen < this._Screens.Count
-				&& !(this._Screens[firstFullscreen].IsFullscreen && this._Screens[firstFullscreen].State != ScreenState.Closed);
+			for(; firstFullscreen < this.Screens.Count
+				&& !(this.Screens[firstFullscreen].IsFullscreen && this.Screens[firstFullscreen].State != ScreenState.Closed);
 				++firstFullscreen);
-			if (firstFullscreen == this._Screens.Count) //Gdy mamy tylko jeden ekran nie-fullscreen firstFullscreen dojdzie do 1, co później objawi się ArgumentOutOfRangeException
+			if (firstFullscreen == this.Screens.Count) //Gdy mamy tylko jeden ekran nie-fullscreen firstFullscreen dojdzie do 1, co później objawi się ArgumentOutOfRangeException
 			{
 				--firstFullscreen;
 			}
 
 			for (; firstFullscreen >= 0; --firstFullscreen)
 			{
-				this._Screens[firstFullscreen].Render();
+				this.Screens[firstFullscreen].Render();
 			}
 		}
-		#endregion
 		#endregion
 
 		#region Firing events
@@ -333,7 +405,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// <param name="e"></param>
 		private void FireEvent(Func<IScreen, bool> e)
 		{
-			foreach (IScreen screen in this._Screens)
+			foreach (IScreen screen in this.Screens)
 			{
 				if (screen.State == ScreenState.Active && e(screen))
 				{
@@ -346,12 +418,13 @@ namespace ClashEngine.NET.ScreensManager
 		#region IDisposable members
 		public void Dispose()
 		{
-			foreach (var res in this._Screens)
+			foreach (var res in this.Screens)
 			{
 				this.Close(res);
 			}
-			this._Screens.Clear();
+			this.Screens.Clear();
 		}
+		#endregion
 		#endregion
 	}
 }

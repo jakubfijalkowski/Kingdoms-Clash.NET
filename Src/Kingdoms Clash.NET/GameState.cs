@@ -74,14 +74,14 @@ namespace Kingdoms_Clash.NET
 
 			this.InitPhysicsManager();
 
-			this.Entities.AddEntity(this.Map);
-			this.Entities.AddEntity(this.Camera);
+			this.Entities.Add(this.Map);
+			this.Entities.Add(this.Camera);
 			
 			GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 			Kingdoms_Clash.NET.Units.Sample.SampleNation sn = new Units.Sample.SampleNation();
 			var unit = sn.CreateUnit(sn.AvailableUnits[0], null);
-			this.Entities.AddEntity(unit);
+			this.Entities.Add(unit);
 		}
 
 		/// <summary>

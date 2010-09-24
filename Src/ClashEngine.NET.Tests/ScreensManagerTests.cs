@@ -38,26 +38,23 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void DoScreensAdd()
 		{
-			Assert.AreEqual(3, this.Manager.Screens.Count);
+			Assert.AreEqual(3, this.Manager.Count);
 		}
 
 		[Test]
 		public void DoScreensAddInCorrectOrder()
 		{
-			List<Screen> screensList = new List<Screen>();
-			screensList.Add(Screen1.Object);
-			screensList.Add(Screen2.Object);
-			screensList.Add(Screen3.Object);
-
-			CollectionAssert.AreEqual(screensList, this.Manager.Screens);
+			Assert.AreEqual(this.Screen1.Object, this.Manager[0]);
+			Assert.AreEqual(this.Screen2.Object, this.Manager[1]);
+			Assert.AreEqual(this.Screen3.Object, this.Manager[2]);
 		}
 
 		[Test]
 		public void DoesScreenRemove()
 		{
-			int oldCount = this.Manager.Screens.Count;
+			int oldCount = this.Manager.Count;
 			this.Manager.Remove(this.Screen3.Object);
-			Assert.AreEqual(oldCount - 1, this.Manager.Screens.Count);
+			Assert.AreEqual(oldCount - 1, this.Manager.Count);
 
 			//Wracamy do stanu sprzed - czy takie rozwiązanie jest poprawne? Jak to inaczej sprawdzić?
 			this.Manager.Add(this.Screen3.Object);
@@ -93,14 +90,14 @@ namespace ClashEngine.NET.Tests
 		public void DoesScreenMoveToFront()
 		{
 			this.Manager.MoveToFront(this.Screen1.Object);
-			Assert.AreEqual(this.Screen1.Object, this.Manager.Screens[0]);
+			Assert.AreEqual(this.Screen1.Object, this.Manager[0]);
 		}
 
 		[Test]
 		public void DoesScreenMoveToSpecifiedPosition()
 		{
 			this.Manager.MoveTo(this.Screen1.Object, 2);
-			Assert.AreEqual(this.Screen1.Object, this.Manager.Screens[1]);
+			Assert.AreEqual(this.Screen1.Object, this.Manager[1]);
 		}
 
 		[Test]

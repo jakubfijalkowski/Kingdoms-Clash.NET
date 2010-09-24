@@ -6,29 +6,9 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 	/// Bazowy interfejs dla managera encji.
 	/// </summary>
 	public interface IEntitiesManager
+		: ICollection<IGameEntity>
 	{
-		#region Properties
-		/// <summary>
-		/// Lista encji.
-		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
-		/// </summary>
-		IList<IGameEntity> Entities { get; }
-		#endregion
-
 		#region Methods
-		/// <summary>
-		/// Dodaje encję.
-		/// Nie można dodawać dwóch IDENTYCZNYCH(ten sam obiekt) encji - wiele encji o tym samym ID jest dozwolone.
-		/// </summary>
-		/// <param name="entity">Encja do dodania.</param>
-		void AddEntity(IGameEntity entity);
-
-		/// <summary>
-		/// Usuwa encję.
-		/// </summary>
-		/// <param name="entity">Encja do usunięcia.</param>
-		void RemoveEntity(IGameEntity entity);
-
 		/// <summary>
 		/// Uaktualnia eszystkie encje.
 		/// </summary>

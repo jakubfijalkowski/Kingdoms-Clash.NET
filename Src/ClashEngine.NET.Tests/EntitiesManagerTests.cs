@@ -21,27 +21,27 @@ namespace ClashEngine.NET.Tests
 			this.Entity2 = new Mock<GameEntity>("Entity2");
 			this.Entity3 = new Mock<GameEntity>("Entity3");
 
-			this.Manager.AddEntity(this.Entity1.Object);
-			this.Manager.AddEntity(this.Entity2.Object);
-			this.Manager.AddEntity(this.Entity3.Object);
+			this.Manager.Add(this.Entity1.Object);
+			this.Manager.Add(this.Entity2.Object);
+			this.Manager.Add(this.Entity3.Object);
 		}
 
 		#region Adding/removing
 		[Test]
 		public void DoEntitesAdd()
 		{
-			Assert.AreEqual(3, this.Manager.Entities.Count);
+			Assert.AreEqual(3, this.Manager.Count);
 		}
 
 		[Test]
 		public void DoEntitiesRemove()
 		{
-			int cnt = this.Manager.Entities.Count;
-			this.Manager.RemoveEntity(this.Entity1.Object);
-			Assert.AreEqual(cnt - 1, this.Manager.Entities.Count);
+			int cnt = this.Manager.Count;
+			this.Manager.Remove(this.Entity1.Object);
+			Assert.AreEqual(cnt - 1, this.Manager.Count);
 
 			//Powrót do poprzedniego stanu
-			this.Manager.AddEntity(this.Entity1.Object);
+			this.Manager.Add(this.Entity1.Object);
 		}
 
 		[Test]
@@ -55,25 +55,25 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void AddingNullThrowsException()
 		{
-			Assert.Throws<ArgumentNullException>(() => this.Manager.AddEntity(null));
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Add(null));
 		}
 
 		[Test]
 		public void RemovingNullThrowsException()
 		{
-			Assert.Throws<ArgumentNullException>(() => this.Manager.RemoveEntity(null));
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Remove(null));
 		}
 
 		[Test]
 		public void AddingExistingEntityThrowsException()
 		{
-			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Manager.AddEntity(this.Entity3.Object));
+			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Manager.Add(this.Entity3.Object));
 		}
 
 		[Test]
 		public void RemovingNonExistingEntityThrowsException()
 		{
-			Assert.Throws<Exceptions.ArgumentNotExistsException>(() => this.Manager.RemoveEntity(new Mock<GameEntity>("TmpEntity").Object));
+			Assert.Throws<Exceptions.ArgumentNotExistsException>(() => this.Manager.Remove(new Mock<GameEntity>("TmpEntity").Object));
 		}
 		#endregion
 

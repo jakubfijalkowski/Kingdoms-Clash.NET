@@ -8,25 +8,10 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 	/// Implementacja powinna wysyłać zdarzenia myszy i klawiatury do odpowiednich ekranów.
 	/// </summary>
 	public interface IScreensManager
-		: IDisposable
+		: IDisposable, ICollection<IScreen>
 	{
-		#region Properties
-		/// <summary>
-		/// Lista ekranów w managerze.
-		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
-		/// Bardziej przypomina stos/kolejkę FIFO(pierwszy ekran na liście jest pierwszym "w rzeczywistości").
-		/// </summary>
-		IList<IScreen> Screens { get; }
-		#endregion
-
 		#region Methods
 		#region List management
-		/// <summary>
-		/// Dodaje ekran do listy.
-		/// </summary>
-		/// <param name="screen">Ekran do dodania.</param>
-		void Add(IScreen screen);
-
 		/// <summary>
 		/// Dodaje ekran do listy i od razu go aktywuje.
 		/// </summary>
@@ -34,10 +19,11 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 		void AddAndMakeActive(IScreen screen);
 
 		/// <summary>
-		/// Usuwa ekran z managera.
+		/// Pobiera ekran ze wskazanej pozycji.
 		/// </summary>
-		/// <param name="screen">Ekran do usunięcia.</param>
-		void Remove(IScreen screen);
+		/// <param name="index">Indeks.</param>
+		/// <returns></returns>
+		IScreen this[int index] { get; }
 		#endregion
 
 		#region Moving

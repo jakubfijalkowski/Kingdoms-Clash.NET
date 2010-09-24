@@ -13,65 +13,16 @@ namespace ClashEngine.NET.EntitiesManager
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
-		private List<IGameEntity> _Entities = new List<IGameEntity>();
+		private List<IGameEntity> Entities = new List<IGameEntity>();
 
-		#region Properties
-		/// <summary>
-		/// Lista encji.
-		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
-		/// </summary>
-		public IList<IGameEntity> Entities
-		{
-			get { return this._Entities; }
-		}
-		#endregion
-
-		#region Methods
-		/// <summary>
-		/// Dodaje encję.
-		/// Nie można dodawać dwóch IDENTYCZNYCH(ten sam obiekt) encji - wiele encji o tym samym ID jest dozwolone.
-		/// </summary>
-		/// <param name="entity">Encja do dodania.</param>
-		public void AddEntity(IGameEntity entity)
-		{
-			if (entity == null)
-			{
-				throw new ArgumentNullException("entity");
-			}
-			else if (this._Entities.Contains(entity))
-			{
-				throw new Exceptions.ArgumentAlreadyExistsException("entity");
-			}
-			entity.Init(this);
-			this._Entities.Add(entity);
-			Logger.Trace("Entity {0} added to manager", entity.Id);
-		}
-
-		/// <summary>
-		/// Usuwa encję.
-		/// </summary>
-		/// <param name="entity">Encja do usunięcia.</param>
-		public void RemoveEntity(IGameEntity entity)
-		{
-			if (entity == null)
-			{
-				throw new ArgumentNullException("entity");
-			}
-			else if (!this._Entities.Contains(entity))
-			{
-				throw new Exceptions.ArgumentNotExistsException("entity");
-			}
-			this._Entities.Remove(entity);
-			Logger.Trace("Entity {0} removed from manager", entity.Id);
-		}
-
+		#region IEntitiesManager Members
 		/// <summary>
 		/// Uaktualnia eszystkie encje.
 		/// </summary>
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
 		public void Update(double delta)
 		{
-			foreach (IGameEntity entity in this._Entities)
+			foreach (IGameEntity entity in this.Entities)
 			{
 				entity.Update(delta);
 			}
@@ -82,10 +33,108 @@ namespace ClashEngine.NET.EntitiesManager
 		/// </summary>
 		public void Render()
 		{
-			foreach (IGameEntity entity in this._Entities)
+			foreach (IGameEntity entity in this.Entities)
 			{
 				entity.Render();
 			}
+		}
+		#endregion
+
+		#region ICollection<IGameEntity> Members
+		/// <summary>
+		/// Liczba encji.
+		/// </summary>
+		public int Count
+		{
+			get { return this.Entities.Count; }
+		}
+
+		/// <summary>
+		/// Czy jest tylko do odczytu.
+		/// </summary>
+		public bool IsReadOnly
+		{
+			get { return false; }
+		}
+
+		/// <summary>
+		/// Dodaje encję.
+		/// Nie można dodawać dwóch IDENTYCZNYCH(ten sam obiekt) encji - wiele encji o tym samym ID jest dozwolone.
+		/// </summary>
+		/// <param name="entity">Encja do dodania.</param>
+		public void Add(IGameEntity entity)
+		{
+			if (entity == null)
+			{
+				throw new ArgumentNullException("entity");
+			}
+			else if (this.Entities.Contains(entity))
+			{
+				throw new Exceptions.ArgumentAlreadyExistsException("entity");
+			}
+			entity.Init(this);
+			this.Entities.Add(entity);
+			Logger.Trace("Entity {0} added to manager", entity.Id);
+		}
+
+		/// <summary>
+		/// Usuwa encję.
+		/// </summary>
+		/// <param name="entity">Encja do usunięcia.</param>
+		public bool Remove(IGameEntity entity)
+		{
+			if (entity == null)
+			{
+				throw new ArgumentNullException("entity");
+			}
+			var deleted = this.Entities.Remove(entity);
+			if (deleted)
+			{
+				Logger.Trace("Entity {0} removed from manager", entity.Id);
+			}
+			return deleted;
+		}
+
+		/// <summary>
+		/// Usuwa wszystkie encje z kolekcji.
+		/// </summary>
+		public void Clear()
+		{
+			this.Entities.Clear();
+		}
+		
+		/// <summary>
+		/// Sprawdza, czy kolekcja zawiera daną encję.
+		/// </summary>
+		/// <param name="item">Encja.</param>
+		/// <returns></returns>
+		public bool Contains(IGameEntity item)
+		{
+			return this.Entities.Contains(item);
+		}
+
+		/// <summary>
+		/// Kopiuje encje do tablicy.
+		/// </summary>
+		/// <param name="array">Tablica wyjściowa.</param>
+		/// <param name="arrayIndex">Początkowy indeks.</param>
+		public void CopyTo(IGameEntity[] array, int arrayIndex)
+		{
+			this.Entities.CopyTo(array, arrayIndex);
+		}
+		#endregion
+
+		#region IEnumerable<IGameEntity> Members
+		public IEnumerator<IGameEntity> GetEnumerator()
+		{
+			return this.Entities.GetEnumerator();
+		}
+		#endregion
+
+		#region IEnumerable Members
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return this.Entities.GetEnumerator();
 		}
 		#endregion
 	}
