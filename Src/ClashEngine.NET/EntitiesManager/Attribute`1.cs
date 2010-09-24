@@ -28,12 +28,5 @@ namespace ClashEngine.NET.EntitiesManager
 		public Attribute(string id, T value)
 			: base(id, value)
 		{ }
-
-		#region IEquatable<Attribute<T>> Members
-		bool IEquatable<IAttribute<T>>.Equals(IAttribute<T> other)
-		{
-			return this.Id.Equals(other.Id);
-		}
-		#endregion
 	}
 }

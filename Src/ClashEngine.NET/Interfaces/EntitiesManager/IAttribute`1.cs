@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace ClashEngine.NET.Interfaces.EntitiesManager
+﻿namespace ClashEngine.NET.Interfaces.EntitiesManager
 {
 	/// <summary>
 	/// Bazowy interfejs dla silnie typowanych atrybutów encji gry.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public interface IAttribute<T>
-		: IAttribute, IEquatable<IAttribute<T>>
+		: IAttribute
 	{
 		new T Value { get; set; }
 	}

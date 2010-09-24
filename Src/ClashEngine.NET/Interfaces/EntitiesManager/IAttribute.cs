@@ -1,12 +1,9 @@
-﻿using System;
-
-namespace ClashEngine.NET.Interfaces.EntitiesManager
+﻿namespace ClashEngine.NET.Interfaces.EntitiesManager
 {
 	/// <summary>
 	/// Bazowy interfejs dla atrybutów encji.
 	/// </summary>
 	public interface IAttribute
-		: IEquatable<IAttribute>
 	{
 		/// <summary>
 		/// Identyfikator atrybutu.

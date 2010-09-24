@@ -42,12 +42,5 @@ namespace ClashEngine.NET.EntitiesManager
 		/// </summary>
 		/// <param name="delta">Czas od ostatniego uaktualnienia.</param>
 		public abstract void Update(double delta);
-
-		#region IEquatable<Component> members
-		bool IEquatable<IComponent>.Equals(IComponent other)
-		{
-			return this.Id.Equals(other.Id);
-		}
-		#endregion
 	}
 }

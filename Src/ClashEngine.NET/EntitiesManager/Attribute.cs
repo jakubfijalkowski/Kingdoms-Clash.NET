@@ -30,12 +30,5 @@ namespace ClashEngine.NET.EntitiesManager
 			this.Id = id;
 			this.Value = value;
 		}
-
-		#region IEquatable<IAttribute> Members
-		bool IEquatable<IAttribute>.Equals(IAttribute other)
-		{
-			return this.Id.Equals(other.Id);
-		}
-		#endregion
 	}
 }

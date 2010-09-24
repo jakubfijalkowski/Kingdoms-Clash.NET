@@ -1,12 +1,9 @@
-﻿using System;
-
-namespace ClashEngine.NET.Interfaces.EntitiesManager
+﻿namespace ClashEngine.NET.Interfaces.EntitiesManager
 {
 	/// <summary>
 	/// Bazowy interfejs dla komponentów.
 	/// </summary>
 	public interface IComponent
-		: IEquatable<IComponent>
 	{
 		/// <summary>
 		/// Identyfikator(nazwa) komponentu.
