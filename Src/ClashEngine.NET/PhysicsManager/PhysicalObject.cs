@@ -60,11 +60,11 @@ namespace ClashEngine.NET.PhysicsManager
 		{
 			base.Init(owner);
 
-			this.Velocities_ = this.Owner.GetOrCreateAttribute<IVelocitiesCollection>("Velocities");
+			this.Velocities_ = this.Owner.Attributes.GetOrCreate<IVelocitiesCollection>("Velocities");
 			this.Velocities_.Value = new InternalVelocitiesCollection(this); //Tego nie mogło być, więc musimy utworzyć nowe.
 
-			this.Position_ = this.Owner.GetOrCreateAttribute<Vector2>("Position");
-			this.Size_ = this.Owner.GetOrCreateAttribute<Vector2>("Size");
+			this.Position_ = this.Owner.Attributes.GetOrCreate<Vector2>("Position");
+			this.Size_ = this.Owner.Attributes.GetOrCreate<Vector2>("Size");
 		}
 
 		public override void Update(double delta)

@@ -25,10 +25,9 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 		IList<IComponent> Components { get; }
 
 		/// <summary>
-		/// Lista atrybutów.
-		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
+		/// Kolekcja atrybutów.
 		/// </summary>
-		IList<IAttribute> Attributes { get; }
+		IAttributesCollection Attributes { get; }
 		#endregion
 
 		#region Methods
@@ -43,43 +42,6 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 		/// </summary>
 		/// <param name="component">Komponent. Musi być unikatowy.</param>
 		void AddComponent(IComponent component);
-
-		/// <summary>
-		/// Dodaje atrybut do encji.
-		/// </summary>
-		/// <param name="attribute">Atrybut. Musi być unikatowy.</param>
-		void AddAttribute(IAttribute attribute);
-
-		/// <summary>
-		/// Wyszukuje atrybutu po ID.
-		/// </summary>
-		/// <param name="id">Identyfikator.</param>
-		/// <returns>Atrybut lub null, gdy nie znaleziono.</returns>
-		IAttribute GetAttribute(string id);
-
-		/// <summary>
-		/// Wyszukuje atrybutu po ID.
-		/// </summary>
-		/// <param name="id">Identyfikator.</param>
-		/// <typeparam name="T">Typ atrybutu.</typeparam>
-		/// <returns>Atrybut lub null, gdy nie znaleziono.</returns>
-		IAttribute<T> GetAttribute<T>(string id);
-
-		/// <summary>
-		/// Wyszukuje albo tworzy atrybut o podanym ID i typie.
-		/// </summary>
-		/// <param name="id">Identyfikator.</param>
-		/// <returns>Atrybut.</returns>
-		IAttribute GetOrCreateAttribute(string id);
-
-		/// <summary>
-		/// Wyszukuje albo tworzy atrybut o podanym ID i typie.
-		/// </summary>
-		/// <typeparam name="T">Wymagany typ atrybutu.</typeparam>
-		/// <param name="id">Identyfikator.</param>
-		/// <exception cref="System.InvalidCastException">Rzucane gdy atrybut istnieje ale ma inny typ niż rządany.</exception>
-		/// <returns>Atrybut.</returns>
-		IAttribute<T> GetOrCreateAttribute<T>(string id);
 
 		/// <summary>
 		/// Uaktualnia wszystkie komponenty.

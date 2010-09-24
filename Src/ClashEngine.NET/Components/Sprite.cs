@@ -103,9 +103,9 @@ namespace ClashEngine.NET.Components
 		{
 			base.Init(owner);
 
-			this.Position = this.Owner.GetOrCreateAttribute<Vector2>("Position");
-			this.Size = this.Owner.GetOrCreateAttribute<Vector2>("Size");
-			this.Rotation = this.Owner.GetOrCreateAttribute<float>("Rotation");
+			this.Position = this.Owner.Attributes.GetOrCreate<Vector2>("Position");
+			this.Size = this.Owner.Attributes.GetOrCreate<Vector2>("Size");
+			this.Rotation = this.Owner.Attributes.GetOrCreate<float>("Rotation");
 		}
 
 		/// <summary>

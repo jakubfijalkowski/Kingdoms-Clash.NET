@@ -50,6 +50,7 @@
     <Compile Include="Components\Sprite.cs" />
     <Compile Include="Components\Terrain.cs" />
     <Compile Include="EntitiesManager\Attribute.cs" />
+    <Compile Include="EntitiesManager\AttributesCollection.cs" />
     <Compile Include="EntitiesManager\Attribute`1.cs" />
     <Compile Include="EntitiesManager\Component.cs" />
     <Compile Include="EntitiesManager\EntitiesManager.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Interfaces\Cameras\IOrthoCamera.cs" />
     <Compile Include="Interfaces\Components\Cameras\IOrthoCamera.cs" />
     <Compile Include="Interfaces\Components\ITerrain.cs" />
+    <Compile Include="Interfaces\EntitiesManager\IAttributesCollection.cs" />
     <Compile Include="Interfaces\IInput.cs" />
     <Compile Include="Interfaces\IMainThreadCallbacksManager.cs" />
     <Compile Include="Interfaces\Components\ISprite.cs" />

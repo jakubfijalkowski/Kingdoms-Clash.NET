@@ -30,8 +30,8 @@ namespace ClashEngine.NET.Tests
 
 			this.Entity.AddComponent(this.Component.Object);
 			this.Entity.AddComponent(this.RenderableComponent.Object);
-			this.Entity.AddAttribute(this.Attribute.Object);
-			this.Entity.AddAttribute(this.GenericAttribute.Object);
+			this.Entity.Attributes.Add(this.Attribute.Object);
+			this.Entity.Attributes.Add(this.GenericAttribute.Object);
 		}
 
 		#region Adding
@@ -59,21 +59,21 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void ThrowsExceptionOnAddingSameAttributeManyTimes()
 		{
-			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.AddAttribute(this.Attribute.Object));
+			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.Attributes.Add(this.Attribute.Object));
 		}
 
 		[Test]
 		public void GettingExistingAttributeWithGetOrCreateMethodsReturnsThisAttribute()
 		{
-			Assert.AreEqual(this.Attribute.Object, this.Entity.GetOrCreateAttribute(this.Attribute.Object.Id));
-			Assert.AreEqual(this.GenericAttribute.Object, this.Entity.GetOrCreateAttribute<int>(this.GenericAttribute.Object.Id));
+			Assert.AreEqual(this.Attribute.Object, this.Entity.Attributes.GetOrCreate(this.Attribute.Object.Id));
+			Assert.AreEqual(this.GenericAttribute.Object, this.Entity.Attributes.GetOrCreate<int>(this.GenericAttribute.Object.Id));
 		}
 
 		[Test]
 		public void GettingExisitngAttributeWithIncorrectTypeThrowsException()
 		{
-			Assert.Throws<System.InvalidCastException>(() => this.Entity.GetAttribute<float>(this.GenericAttribute.Object.Id));
-			Assert.Throws<System.InvalidCastException>(() => this.Entity.GetOrCreateAttribute<float>(this.GenericAttribute.Object.Id));
+			Assert.Throws<System.InvalidCastException>(() => this.Entity.Attributes.Get<float>(this.GenericAttribute.Object.Id));
+			Assert.Throws<System.InvalidCastException>(() => this.Entity.Attributes.GetOrCreate<float>(this.GenericAttribute.Object.Id));
 		}
 		#endregion
 
@@ -81,14 +81,14 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void GettingExistingAttribute()
 		{
-			var attrib = this.Entity.GetAttribute(this.Attribute.Object.Id);
+			var attrib = this.Entity.Attributes[this.Attribute.Object.Id];
 			Assert.AreEqual(attrib, this.Attribute.Object);
 		}
 
 		[Test]
 		public void GettingNonExistionAttributeReturnsNull()
 		{
-			var attrib = this.Entity.GetAttribute("FancyAttribute");
+			var attrib = this.Entity.Attributes["FancyAttribute"];
 			Assert.IsNull(attrib);
 		}
 

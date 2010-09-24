@@ -15,7 +15,7 @@ namespace ClashEngine.NET.EntitiesManager
 
 		private List<IComponent> _Components = new List<IComponent>();
 		private List<IRenderableComponent> _RenderableComponents = new List<IRenderableComponent>();
-		private List<IAttribute> _Attributes = new List<IAttribute>();
+		private IAttributesCollection _Attributes;
 
 		#region Properties
 		/// <summary>
@@ -38,10 +38,9 @@ namespace ClashEngine.NET.EntitiesManager
 		}
 
 		/// <summary>
-		/// Lista atrybutów.
-		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
+		/// Kolekcja atrybutów.
 		/// </summary>
-		public IList<IAttribute> Attributes
+		public IAttributesCollection Attributes
 		{
 			get { return this._Attributes; }
 		}
@@ -55,6 +54,7 @@ namespace ClashEngine.NET.EntitiesManager
 		public GameEntity(string id)
 		{
 			Logger.Trace("Creating new game entity with id {0}", id);
+			this._Attributes = new AttributesCollection(this);
 			this.Id = id;
 		}
 
@@ -87,86 +87,6 @@ namespace ClashEngine.NET.EntitiesManager
 			}
 			component.Init(this);
 			Logger.Trace("Component {0} added to entity {1}", component.Id, this.Id);
-		}
-
-		/// <summary>
-		/// Dodaje atrybut do encji.
-		/// </summary>
-		/// <exception cref="Exceptions.ArgumentAlreadyExistsException">Rzucane gdy taki atrybut został już dodany.</exception>
-		/// <param name="attribute">Atrybut. Musi być unikatowy.</param>
-		public void AddAttribute(IAttribute attribute)
-		{
-			if (this._Attributes.Contains(attribute))
-			{
-				throw new Exceptions.ArgumentAlreadyExistsException("attribute");
-			}
-			this._Attributes.Add(attribute);
-			Logger.Trace("Attribute {0} added to entity {1}", attribute.Id, this.Id);
-		}
-
-		/// <summary>
-		/// Wyszukuje atrybutu po ID.
-		/// </summary>
-		/// <param name="id">Identyfikator.</param>
-		/// <returns>Atrybut lub null, gdy nie znaleziono.</returns>
-		public IAttribute GetAttribute(string id)
-		{
-			return this._Attributes.Find((a) => a.Id == id);
-		}
-
-		/// <summary>
-		/// Wyszukuje atrybutu po ID.
-		/// </summary>
-		/// <param name="id">Identyfikator.</param>
-		/// <typeparam name="T">Typ atrybutu.</typeparam>
-		/// <returns>Atrybut lub null, gdy nie znaleziono.</returns>
-		public IAttribute<T> GetAttribute<T>(string id)
-		{
-			IAttribute attr = this.GetAttribute(id);
-			if (attr is IAttribute<T>)
-			{
-				return attr as IAttribute<T>;
-			}
-			throw new InvalidCastException(string.Format("Cannot cast attribute {0} to type {1}", id, typeof(T).ToString()));
-		}
-
-		/// <summary>
-		/// Wyszukuje albo tworzy atrybut o podanym ID i typie.
-		/// </summary>
-		/// <param name="id">Identyfikator.</param>
-		/// <returns>Atrybut.</returns>
-		public IAttribute GetOrCreateAttribute(string id)
-		{
-			IAttribute attr = this.GetAttribute(id);
-			if (attr == null)
-			{
-				attr = new Attribute(id, null);
-				this.AddAttribute(attr);
-			}
-			return attr;
-		}
-
-		/// <summary>
-		/// Wyszukuje albo tworzy atrybut o podanym ID i typie.
-		/// </summary>
-		/// <typeparam name="T">Wymagany typ atrybutu.</typeparam>
-		/// <param name="id">Identyfikator.</param>
-		/// <exception cref="System.InvalidCastException">Rzucane gdy atrybut istnieje ale ma inny typ niż rządany.</exception>
-		/// <returns>Atrybut.</returns>
-		public IAttribute<T> GetOrCreateAttribute<T>(string id)
-		{
-			IAttribute attr = this.GetAttribute(id);
-			if (attr == null)
-			{
-				IAttribute<T> a = new Attribute<T>(id, default(T));
-				this.AddAttribute(a);
-				return a;
-			}
-			else if(!(attr is IAttribute<T>))
-			{
-				throw new InvalidCastException(string.Format("Cannot cast attribute {0} to type {1}", id, typeof(T).ToString()));
-			}
-			return attr as IAttribute<T>;
 		}
 
 		/// <summary>
