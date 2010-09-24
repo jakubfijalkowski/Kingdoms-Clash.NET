@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using OpenTK;
 
 namespace ClashEngine.NET.Cameras
 {
@@ -23,7 +24,7 @@ namespace ClashEngine.NET.Cameras
 		/// Inicjalizuje kamerę.
 		/// Zobacz: <see cref="Interfaces.Components.Cameras.IOrthoCamera"/>
 		/// </summary>
-		public OrthoCamera(RectangleF borders, SizeF size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f)
+		public OrthoCamera(RectangleF borders, Vector2 size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f)
 			: base("OrthoCamera")
 		{
 			this.Camera = new Components.Cameras.OrthoCamera(borders, size, speed, updateAlways, zNear, zFar);

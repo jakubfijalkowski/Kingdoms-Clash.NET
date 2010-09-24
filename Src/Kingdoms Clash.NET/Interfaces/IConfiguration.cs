@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using OpenTK;
 
 namespace Kingdoms_Clash.NET.Interfaces
 {
@@ -22,7 +23,7 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// <summary>
 		/// Rozmiary ekranu.
 		/// </summary>
-		SizeF ScreenSize { get; }
+		Vector2 ScreenSize { get; }
 		#endregion
 
 		#region Gameplay

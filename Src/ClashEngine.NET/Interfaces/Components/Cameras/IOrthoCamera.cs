@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using OpenTK;
 
 namespace ClashEngine.NET.Interfaces.Components.Cameras
 {
@@ -23,12 +24,12 @@ namespace ClashEngine.NET.Interfaces.Components.Cameras
 		/// <summary>
 		/// Rozmiar kamery.
 		/// </summary>
-		SizeF Size { get; }
+		Vector2 Size { get; }
 
 		/// <summary>
 		/// Aktualna pozycja(lewy górny róg).
 		/// </summary>
-		PointF CurrentPosition { get; }
+		Vector2 CurrentPosition { get; }
 
 		/// <summary>
 		/// Szybkość poruszania kamery.
@@ -55,7 +56,7 @@ namespace ClashEngine.NET.Interfaces.Components.Cameras
 		/// Automatycznie koryguje pozycję jeśli kamera wychodzi poza granice.
 		/// </summary>
 		/// <param name="pt">Lewy górny róg kamery.</param>
-		void MoveTo(PointF pt);
+		void MoveTo(Vector2 pt);
 
 		/// <summary>
 		/// Inicjalizuje kamerę.
@@ -69,6 +70,6 @@ namespace ClashEngine.NET.Interfaces.Components.Cameras
 		/// <param name="updateAlways">Czy zawsze uaktualniać macierz projekcji?</param>
 		/// <param name="zNear"><see cref="IOrthoCamera.ZNear"/></param>
 		/// <param name="zFar"><see cref="IOrthoCamera.ZFar"/></param>
-		void Init(RectangleF borders, SizeF size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f);
+		void Init(RectangleF borders, Vector2 size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f);
 	}
 }

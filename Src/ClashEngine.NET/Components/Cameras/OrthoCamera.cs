@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace ClashEngine.NET.Components.Cameras
@@ -19,12 +20,12 @@ namespace ClashEngine.NET.Components.Cameras
 		/// <summary>
 		/// Rozmiar kamery.
 		/// </summary>
-		public SizeF Size { get; private set; }
+		public Vector2 Size { get; private set; }
 
 		/// <summary>
 		/// Aktualna pozycja(lewy górny róg).
 		/// </summary>
-		public PointF CurrentPosition { get; private set; }
+		public Vector2 CurrentPosition { get; private set; }
 
 		/// <summary>
 		/// Szybkość poruszania kamery.
@@ -61,7 +62,7 @@ namespace ClashEngine.NET.Components.Cameras
 		/// <param name="zNear"><see cref="OrthoCamera.ZNear"/></param>
 		/// <param name="zFar"><see cref="OrthoCamera.ZFar"/></param>
 		/// <exception cref="ArgumentException">Rozmiar jest większy od granic ekranu.</exception>
-		public OrthoCamera(RectangleF borders, SizeF size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f)
+		public OrthoCamera(RectangleF borders, Vector2 size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f)
 			: base("OrthoCamera")
 		{
 			this.Init(borders, size, speed, updateAlways, zNear, zFar);
@@ -74,7 +75,7 @@ namespace ClashEngine.NET.Components.Cameras
 		/// <param name="delta"></param>
 		public override void Update(double delta)
 		{
-			PointF pt = this.CurrentPosition;
+			Vector2 pt = this.CurrentPosition;
 			if (Input.Instance.Keyboard[OpenTK.Input.Key.Left])
 			{
 				pt.X -= (float)(delta * this.CameraSpeed);
@@ -99,24 +100,24 @@ namespace ClashEngine.NET.Components.Cameras
 		/// Jeśli pozycja jest poza zakresem automatycznie ją koryguje.
 		/// </summary>
 		/// <param name="pt">Lewy górny róg ekranu.</param>
-		public void MoveTo(PointF pt)
+		public void MoveTo(Vector2 pt)
 		{
 			if (pt.X < this.Borders.Left)
 			{
 				pt.X = this.Borders.Left;
 			}
-			else if (pt.X + this.Size.Width > this.Borders.Right)
+			else if (pt.X + this.Size.X > this.Borders.Right)
 			{
-				pt.X = this.Borders.Right - this.Size.Width;
+				pt.X = this.Borders.Right - this.Size.X;
 			}
 
 			if (pt.Y < this.Borders.Top)
 			{
 				pt.Y = this.Borders.Top;
 			}
-			else if (pt.Y + this.Size.Height > this.Borders.Bottom)
+			else if (pt.Y + this.Size.Y > this.Borders.Bottom)
 			{
-				pt.Y = this.Borders.Bottom - this.Size.Height;
+				pt.Y = this.Borders.Bottom - this.Size.Y;
 			}
 
 			//Uaktualniamy tylko jeśli pozycja się różni.
@@ -134,7 +135,7 @@ namespace ClashEngine.NET.Components.Cameras
 		{
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
-			GL.Ortho(this.CurrentPosition.X, this.CurrentPosition.X + this.Size.Width, this.CurrentPosition.Y + this.Size.Height, this.CurrentPosition.Y, this.ZNear, this.ZFar);
+			GL.Ortho(this.CurrentPosition.X, this.CurrentPosition.X + this.Size.X, this.CurrentPosition.Y + this.Size.Y, this.CurrentPosition.Y, this.ZNear, this.ZFar);
 
 			GL.MatrixMode(MatrixMode.Modelview);
 		}
@@ -152,9 +153,9 @@ namespace ClashEngine.NET.Components.Cameras
 		/// <param name="updateAlways">Czy zawsze uaktualniać macierz projekcji?</param>
 		/// <param name="zNear"><see cref="OrthoCamera.ZNear"/></param>
 		/// <param name="zFar"><see cref="OrthoCamera.ZFar"/></param>
-		public void Init(RectangleF borders, SizeF size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f)
+		public void Init(RectangleF borders, Vector2 size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f)
 		{
-			if (size.Width > borders.Width || size.Height > borders.Height)
+			if (size.X > borders.Width || size.Y > borders.Height)
 			{
 				throw new ArgumentException("Size is greater than borders", "size");
 			}
@@ -164,7 +165,7 @@ namespace ClashEngine.NET.Components.Cameras
 			this.ZNear = zNear;
 			this.ZFar = zFar;
 			this.UpdateAlways = updateAlways;
-			this.CurrentPosition = new PointF(borders.Left, borders.Top);
+			this.CurrentPosition = new Vector2(borders.Left, borders.Top);
 		}
 	}
 }

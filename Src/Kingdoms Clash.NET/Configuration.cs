@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using OpenTK;
 
 namespace Kingdoms_Clash.NET
 {
@@ -40,7 +41,7 @@ namespace Kingdoms_Clash.NET
 		/// <summary>
 		/// Rozmiary ekranu.
 		/// </summary>
-		public SizeF ScreenSize { get; private set; }
+		public Vector2 ScreenSize { get; private set; }
 
 		/// <summary>
 		/// Szybkość poruszania się kamery.
@@ -64,7 +65,7 @@ namespace Kingdoms_Clash.NET
 			this.WindowSize = new Size(800, 600);
 			this.Fullscreen = false;
 
-			this.ScreenSize = new SizeF(1.0f, 1.0f);
+			this.ScreenSize = new Vector2(1.0f, 1.0f);
 			this.CameraSpeed = 1.0f;
 
 			this.MapMargin = 0.5f;
