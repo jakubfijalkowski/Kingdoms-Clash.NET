@@ -14,6 +14,7 @@ namespace ClashEngine.NET.PhysicsManager
 	public class PhysicalObject
 		: Component, IPhysicalObject
 	{
+		private bool IsDynamic = false;
 		private IAttribute<Body> Body_ = null;
 
 		#region IPhysicalObject Members
@@ -27,9 +28,15 @@ namespace ClashEngine.NET.PhysicsManager
 		}
 		#endregion
 
-		public PhysicalObject()
+		/// <summary>
+		/// Inicjalizuje komponent.
+		/// </summary>
+		/// <param name="isDynamic">True, jeśli obiekt ma być obiektem dynamicznym(odsyłam do dokumentacji FarseerPhysics lub Box2D).</param>
+		public PhysicalObject(bool isDynamic = false)
 			: base("PhysicalObject")
-		{ }
+		{
+			this.IsDynamic = isDynamic;
+		}
 
 		public override void Init(IGameEntity owner)
 		{
@@ -37,6 +44,7 @@ namespace ClashEngine.NET.PhysicsManager
 
 			this.Body_ = this.Owner.Attributes.GetOrCreate<Body>("Body");
 			this.Body = PhysicsManager.Instance.World.CreateBody();
+			this.Body.BodyType = (this.IsDynamic ? BodyType.Dynamic : BodyType.Static);
 
 			this.Owner.Attributes.Replace("Position", new PhysicalPositionAttribute("Position", this.Body));
 		}

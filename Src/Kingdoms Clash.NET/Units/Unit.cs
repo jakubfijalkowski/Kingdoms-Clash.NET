@@ -69,6 +69,8 @@ namespace Kingdoms_Clash.NET.Units
 		public override void InitEntity()
 		{
 			this.Health_.Value = this.Description.Health;
+			this.Components.Add(new ClashEngine.NET.PhysicsManager.PhysicalObject(true));
+
 			foreach (var component in this.Description.Components)
 			{
 				this.Components.Add(component.Clone() as IUnitComponent);
