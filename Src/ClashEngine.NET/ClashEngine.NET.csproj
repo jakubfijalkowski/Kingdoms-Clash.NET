@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FarseerPhysics3">
+      <HintPath>..\..\Lib\FarseerPhysics3.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=1.0.0.505, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\NLog.dll</HintPath>
@@ -99,6 +102,7 @@
     <Compile Include="ScreensManager\Screen.cs" />
     <Compile Include="ScreensManager\ScreensManager.cs" />
     <Compile Include="SystemInformation.cs" />
+    <Compile Include="Utilities\XNAOpenTKCoverter.cs" />
     <Compile Include="Utilities\FPSCounter.cs" />
     <Compile Include="Utilities\VBO.cs" />
   </ItemGroup>
