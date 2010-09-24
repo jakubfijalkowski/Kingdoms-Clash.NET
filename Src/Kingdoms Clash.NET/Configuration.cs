@@ -12,17 +12,17 @@ namespace Kingdoms_Clash.NET
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
 
 		#region Singleton
-		private static Interfaces.IConfiguration Instance_;
+		private static Interfaces.IConfiguration _Instance;
 
 		public static Interfaces.IConfiguration Instance
 		{
 			get
 			{
-				if (Instance_ == null)
+				if (_Instance == null)
 				{
-					Instance_ = new Configuration();
+					_Instance = new Configuration();
 				}
-				return Instance_;
+				return _Instance;
 			}
 		}
 		#endregion

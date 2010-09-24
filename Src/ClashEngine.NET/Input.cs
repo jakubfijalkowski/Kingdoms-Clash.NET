@@ -16,7 +16,7 @@ namespace ClashEngine.NET
 		private IList<JoystickDevice> _Joysticks;
 
 		#region Singleton
-		private static Input Instance_;
+		private static Input _Instance;
 
 		/// <summary>
 		/// Instancja.
@@ -25,11 +25,11 @@ namespace ClashEngine.NET
 		{
 			get
 			{
-				if (Instance_ == null)
+				if (_Instance == null)
 				{
-					Instance_ = new Input();
+					_Instance = new Input();
 				}
-				return Instance_;
+				return _Instance;
 			}
 		}
 		#endregion
