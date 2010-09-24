@@ -3,8 +3,6 @@ using ClashEngine.NET.Cameras;
 using ClashEngine.NET.Interfaces.ScreensManager;
 using ClashEngine.NET.ScreensManager;
 using OpenTK.Graphics.OpenGL;
-using ClashEngine.NET.Interfaces.PhysicsManager;
-using ClashEngine.NET.PhysicsManager;
 
 namespace Kingdoms_Clash.NET
 {
@@ -72,8 +70,6 @@ namespace Kingdoms_Clash.NET
 			this.Camera = new OrthoCamera(new RectangleF(0.0f, 0.0f, this.Map.Width, this.Map.Height + Configuration.Instance.MapMargin),
 				Configuration.Instance.ScreenSize, Configuration.Instance.CameraSpeed, true);
 
-			this.InitPhysicsManager();
-
 			this.Entities.Add(this.Map);
 			this.Entities.Add(this.Camera);
 			
@@ -101,15 +97,5 @@ namespace Kingdoms_Clash.NET
 			GL.Clear(ClearBufferMask.ColorBufferBit);
 			base.Render();
 		}
-
-		#region Private methods
-		private void InitPhysicsManager()
-		{
-			IPhysicsManager pm = PhysicsManager.Instance;
-
-			pm.Velocities.Clear();
-			pm.Velocities.Add(new Velocity("Gravity", new OpenTK.Vector2(0.0f, Configuration.Instance.Gravity)));
-		}
-		#endregion
 	}
 }

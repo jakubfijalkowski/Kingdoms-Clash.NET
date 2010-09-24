@@ -1,11 +1,8 @@
 ﻿using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Interfaces.EntitiesManager;
-using ClashEngine.NET.Interfaces.PhysicsManager;
-using ClashEngine.NET.PhysicsManager;
 
 namespace Kingdoms_Clash.NET.Units.Components
 {
-	using Interfaces.Units;
 	using Interfaces.Units.Components;
 
 	/// <summary>
@@ -15,10 +12,6 @@ namespace Kingdoms_Clash.NET.Units.Components
 	public class GroundUnit
 		: Component, IGroundUnit
 	{
-		#region Privates
-		private IVelocity Velocity_ = null;
-		#endregion
-
 		public GroundUnit()
 			: base("GroundUnit")
 		{ }
@@ -27,11 +20,6 @@ namespace Kingdoms_Clash.NET.Units.Components
 		public override void Init(IGameEntity owner)
 		{
 			base.Init(owner);
-
-			this.Velocity_ = new Velocity("Velocity", new OpenTK.Vector2((this.Owner as IUnit).Description.GetAttribute<float>("Speed"), 0.0f));
-
-			IVelocitiesCollection velocities = this.Owner.GetOrCreateAttribute<IVelocitiesCollection>("Velocities").Value;
-			velocities.Add(this.Velocity_);
 		}
 
 		public override void Update(double delta)
@@ -44,7 +32,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 		/// </summary>
 		public OpenTK.Vector2 Velocity
 		{
-			get	{ return this.Velocity_.Value; }
+			get	{ return new OpenTK.Vector2(); }
 		}
 		#endregion
 

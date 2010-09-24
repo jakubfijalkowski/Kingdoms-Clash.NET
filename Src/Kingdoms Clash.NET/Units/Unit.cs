@@ -4,7 +4,6 @@ using ClashEngine.NET.Interfaces.EntitiesManager;
 
 namespace Kingdoms_Clash.NET.Units
 {
-	using ClashEngine.NET.PhysicsManager;
 	using Interfaces.Player;
 	using Interfaces.Units;
 	
@@ -58,7 +57,7 @@ namespace Kingdoms_Clash.NET.Units
 		public Unit(IUnitDescription description, IPlayer owner)
 			: base(description.Id)
 		{
-			this.Health_ = this.GetOrCreateAttribute<int>("Health");
+			this.Health_ = this.Attributes.GetOrCreate<int>("Health");
 
 			this.Description = description;
 			this.Owner = owner;
@@ -70,10 +69,9 @@ namespace Kingdoms_Clash.NET.Units
 		public override void InitEntity()
 		{
 			this.Health_.Value = this.Description.Health;
-			this.AddComponent(new PhysicalObject());
 			foreach (var component in this.Description.Components)
 			{
-				this.AddComponent(component.Clone() as IUnitComponent);
+				this.Components.Add(component.Clone() as IUnitComponent);
 			}
 		}
 	}

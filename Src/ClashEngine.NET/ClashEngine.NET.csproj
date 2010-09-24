@@ -79,10 +79,6 @@
     <Compile Include="Interfaces\EntitiesManager\IRenderableComponent.cs" />
     <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="Interfaces\ISystemInformation.cs" />
-    <Compile Include="Interfaces\PhysicsManager\IPhysicalObject.cs" />
-    <Compile Include="Interfaces\PhysicsManager\IPhysicsManager.cs" />
-    <Compile Include="Interfaces\PhysicsManager\IVelocitiesCollection.cs" />
-    <Compile Include="Interfaces\PhysicsManager\IVelocity.cs" />
     <Compile Include="Interfaces\ResourcesManager\IResource.cs" />
     <Compile Include="Interfaces\ResourcesManager\IResourcesManager.cs" />
     <Compile Include="Interfaces\Resources\IShaderProgram.cs" />
@@ -93,10 +89,6 @@
     <Compile Include="Interfaces\Utilities\IFPSCounter.cs" />
     <Compile Include="Interfaces\Utilities\IVBO.cs" />
     <Compile Include="MainThreadCallbacksManager.cs" />
-    <Compile Include="PhysicsManager\InternalVelocitiesCollection.cs" />
-    <Compile Include="PhysicsManager\PhysicalObject.cs" />
-    <Compile Include="PhysicsManager\PhysicsManager.cs" />
-    <Compile Include="PhysicsManager\Velocity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourcesManager\HotReplaceResourcesManager.cs" />
     <Compile Include="ResourcesManager\Resource.cs" />
