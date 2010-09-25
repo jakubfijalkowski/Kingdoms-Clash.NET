@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Collision.Shapes;
 
 namespace ClashEngine.NET.Components
 {
@@ -11,6 +13,8 @@ namespace ClashEngine.NET.Components
 	/// Komponent-teren 2D.
 	/// Buduje teren za pomocą wierzchołków wierzchniej warstwy(to co jest "pod" jest dedukowane automatycznie) i wysokości terenu jako trójkątu.
 	/// Wysokość jest wysokością od najniżej położonego wierzchołka.
+	/// 
+	/// Jeśli do encji został wcześniej dodany komponent PhysicalObject automatycznie dodaje do niego odpowiednie dane.
 	/// </summary>
 	public class Terrain
 		: RenderableComponent, ITerrain
@@ -54,19 +58,26 @@ namespace ClashEngine.NET.Components
 
 			this.Height = height;
 			this.Vertices = new List<TerrainVertex>(terrain);
+		}
 
-			Vertex2DPC[] vertices = new Vertex2DPC[terrain.Length * 2];
-			uint[] indecies = new uint[(terrain.Length - 1) * 6];
+		public override void Init(Interfaces.EntitiesManager.IGameEntity owner)
+		{
+			base.Init(owner);
+
+			this.AddShapes();
+
+			Vertex2DPC[] vertices = new Vertex2DPC[this.Vertices.Count * 2];
+			uint[] indecies = new uint[(this.Vertices.Count - 1) * 6];
 
 			//Budujemy tablicę wierzchołków
-			float lowest = this.GetLowestVertex() + height; //Położenie krawędzi dolnej.
+			float lowest = this.GetLowestVertex() + this.Height; //Położenie krawędzi dolnej.
 			for (int i = 0, j = 0; j < vertices.Length; ++i, j += 2)
 			{
-				vertices[j].Position = terrain[i].Position;
-				vertices[j + 1].Position = terrain[i].Position;
+				vertices[j].Position = this.Vertices[i].Position;
+				vertices[j + 1].Position = this.Vertices[i].Position;
 				vertices[j + 1].Position.Y = lowest;
 
-				vertices[j].Color = vertices[j + 1].Color = terrain[i].Color;
+				vertices[j].Color = vertices[j + 1].Color = this.Vertices[i].Color;
 			}
 
 			//Budujemy tablicę indeksów
@@ -79,7 +90,7 @@ namespace ClashEngine.NET.Components
 			indecies[indecies.Length - 2] = (uint)(vertices.Length - 2);
 			indecies[indecies.Length - 1] = (uint)(vertices.Length - 1);
 
-			for (uint i = 1, j = 3; i < terrain.Length - 1; i += 1, j += 6)
+			for (uint i = 1, j = 3; i < this.Vertices.Count - 1; i += 1, j += 6)
 			{
 				indecies[j + 0] = (i * 2);
 				indecies[j + 1] = (i * 2) - 1;
@@ -109,6 +120,24 @@ namespace ClashEngine.NET.Components
 				}
 			}
 			return lowest;
+		}
+
+		/// <summary>
+		/// Gdy mamy otworzone ciało obiektu fizycznego dodajemy do niego odpowiednie figury.
+		/// </summary>
+		private void AddShapes()
+		{
+			var bodyAttr = this.Owner.Attributes.Get<Body>("Body");
+			if (bodyAttr != null)
+			{				
+				for (int i = 0; i < this.Vertices.Count - 1; i++)
+				{
+					PolygonShape sector = new PolygonShape();
+					sector.SetAsEdge(this.Vertices[i].Position.ToXNA(), this.Vertices[i + 1].Position.ToXNA());
+
+					bodyAttr.Value.CreateFixture(sector).Friction = 1f;
+				}
+			}
 		}
 		#endregion
 

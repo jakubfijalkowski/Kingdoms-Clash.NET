@@ -66,6 +66,7 @@ namespace Kingdoms_Clash.NET.Maps
 				new TerrainVertex { Position = new Vector2(1.9f, margin), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
 				new TerrainVertex { Position = new Vector2(2.0f, margin), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) });
 
+			this.Components.Add(new ClashEngine.NET.PhysicsManager.PhysicalObject());
 			this.Components.Add(this.Terrain);
 		}
 	}
