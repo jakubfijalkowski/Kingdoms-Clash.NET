@@ -3,6 +3,9 @@
 	/// <summary>
 	/// Bazowy interfejs dla obiektu gry.
 	/// </summary>
+	/// <remarks>
+	/// Odpowiedzialny jest za wejście, wyświetlanie i fizykę.
+	/// </remarks>
 	public interface IGame
 	{
 		#region Properties
@@ -59,6 +62,11 @@
 		/// Wejście.
 		/// </summary>
 		IInput Input { get; }
+
+		/// <summary>
+		/// Krok czasowy fizyki.
+		/// </summary>
+		float PhysicsTimeStep { get; set; }
 		#endregion
 
 		#region Methods
