@@ -18,5 +18,10 @@ namespace ClashEngine.NET.Interfaces.PhysicsManager
 		/// Odpowiada World.Gravity.
 		/// </summary>
 		Vector2 Gravity { get; set; }
+
+		/// <summary>
+		/// Krok czasowy obliczeń.
+		/// </summary>
+		float TimeStep { get; set; }
 	}
 }

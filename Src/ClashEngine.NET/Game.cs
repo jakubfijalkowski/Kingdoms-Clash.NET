@@ -6,6 +6,7 @@ namespace ClashEngine.NET
 	using Interfaces;
 	using Interfaces.ResourcesManager;
 	using Interfaces.ScreensManager;
+	using Phy = PhysicsManager;
 
 	/// <summary>
 	/// Klasa gry.
@@ -16,8 +17,6 @@ namespace ClashEngine.NET
 		: IGame, IDisposable
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
-
-		private const float DefaultPhysicsTimeStep = 1f / 60f;
 
 		#region Privates
 		/// <summary>
@@ -66,8 +65,6 @@ namespace ClashEngine.NET
 			(Input as Input).Init(this.Window.Keyboard, this.Window.Mouse, this.Window.Joysticks);
 			this.ScreensManager = new ClashEngine.NET.ScreensManager.ScreensManager();
 			Logger.Info("Window created");
-
-			this.PhysicsTimeStep = DefaultPhysicsTimeStep;
 		}
 		#endregion
 
@@ -174,11 +171,6 @@ namespace ClashEngine.NET
 				return NET.Input.Instance;
 			}
 		}
-
-		/// <summary>
-		/// Krok czasowy fizyki. Domyślnie 60Hz.
-		/// </summary>
-		public float PhysicsTimeStep { get; set; }
 		#endregion
 
 		#region Methods
@@ -207,10 +199,10 @@ namespace ClashEngine.NET
 		public virtual void Update(double delta)
 		{
 			this.Accumulator += (float)delta;
-			while (this.Accumulator >= this.PhysicsTimeStep)
+			while (this.Accumulator >= Phy.PhysicsManager.Instance.TimeStep)
 			{
-				PhysicsManager.PhysicsManager.Instance.World.Step(this.PhysicsTimeStep);
-				this.Accumulator -= this.PhysicsTimeStep;
+				PhysicsManager.PhysicsManager.Instance.World.Step(Phy.PhysicsManager.Instance.TimeStep);
+				this.Accumulator -= Phy.PhysicsManager.Instance.TimeStep;
 			}
 			this.ScreensManager.Update(delta);
 		}

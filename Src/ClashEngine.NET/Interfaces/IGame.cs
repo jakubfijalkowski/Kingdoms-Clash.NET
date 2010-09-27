@@ -62,11 +62,6 @@
 		/// Wejście.
 		/// </summary>
 		IInput Input { get; }
-
-		/// <summary>
-		/// Krok czasowy fizyki.
-		/// </summary>
-		float PhysicsTimeStep { get; set; }
 		#endregion
 
 		#region Methods

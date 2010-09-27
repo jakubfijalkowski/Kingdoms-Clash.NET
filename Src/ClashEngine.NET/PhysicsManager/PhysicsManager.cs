@@ -11,6 +11,8 @@
 	public class PhysicsManager
 		: IPhysicsManager
 	{
+		private const float DefaultPhysicsTimeStep = 1f / 60f;
+
 		#region Singleton
 		private static PhysicsManager _Instance = null;
 
@@ -51,11 +53,17 @@
 				this.World.Gravity = value.ToXNA();
 			}
 		}
+
+		/// <summary>
+		/// Krok czasowy fizyki.
+		/// </summary>
+		public float TimeStep { get; set; }
 		#endregion
 
 		private PhysicsManager()
 		{
 			this.World = new FarseerPhysics.Dynamics.World(new Microsoft.Xna.Framework.Vector2(0.0f, 10.0f));
+			this.TimeStep = DefaultPhysicsTimeStep;
 		}
 	}
 }
