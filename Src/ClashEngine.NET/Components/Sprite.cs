@@ -14,31 +14,44 @@ namespace ClashEngine.NET.Components
 	/// Sprite - duszek - wyświetla teksturę w miejscu encji.
 	/// 
 	/// Wymagane atrybuty komponentu:
-	/// Vector2 Position - pozycja
+	/// Vector2 Position - pozycja(lewy górny róg)
 	/// Vector2 Size - rozmiar
-	/// float Rotation - rotacja
+	/// float Rotation - rotacja(w radianach)
 	/// </summary>
-	/// <remarks>
-	/// Rotacja nie jest zaimplementowana najwydajeniej - do zmiany.
-	/// </remarks>
 	public class Sprite
 		: RenderableComponent, ISprite
 	{
+		private IAttribute<Vector2> Position_;
+		private IAttribute<Vector2> Size_;
+		private IAttribute<float> Rotation_;
+
 		#region Properties
 		/// <summary>
-		/// Pozycja duszka.
+		/// Pozycja(lewy górny róg) duszka.
 		/// </summary>
-		public IAttribute<Vector2> Position { get; private set; }
+		public Vector2 Position
+		{
+			get { return this.Position_.Value; }
+			set { this.Position_.Value = value; }
+		}
 
 		/// <summary>
 		/// Rozmiar.
 		/// </summary>
-		public IAttribute<Vector2> Size { get; private set; }
+		public Vector2 Size
+		{
+			get { return this.Size_.Value; }
+			set { this.Size_.Value = value; }
+		}
 
 		/// <summary>
 		/// Rotacja.
 		/// </summary>
-		public IAttribute<float> Rotation { get; private set; }
+		public float Rotation
+		{
+			get { return this.Rotation_.Value; }
+			set { this.Rotation_.Value = value; }
+		}
 		#endregion
 
 		#region Constructors
@@ -103,9 +116,9 @@ namespace ClashEngine.NET.Components
 		{
 			base.Init(owner);
 
-			this.Position = this.Owner.Attributes.GetOrCreate<Vector2>("Position");
-			this.Size = this.Owner.Attributes.GetOrCreate<Vector2>("Size");
-			this.Rotation = this.Owner.Attributes.GetOrCreate<float>("Rotation");
+			this.Position_ = this.Owner.Attributes.GetOrCreate<Vector2>("Position");
+			this.Size_ = this.Owner.Attributes.GetOrCreate<Vector2>("Size");
+			this.Rotation_ = this.Owner.Attributes.GetOrCreate<float>("Rotation");
 		}
 
 		/// <summary>
@@ -130,29 +143,31 @@ namespace ClashEngine.NET.Components
 			this.Texture.Bind();
 
 			GL.PushMatrix();
-			var rotation = Matrix4.CreateRotationZ(this.Rotation.Value);
-			var translation = Matrix4.CreateTranslation(new Vector3(this.Position.Value + (this.Size.Value / 2)));
-			GL.MultMatrix(ref translation);
-			GL.MultMatrix(ref rotation);
+			//var rotation = Matrix4.CreateRotationZ(this.Rotation);
+			//var translation = Matrix4.CreateTranslation(new Vector3(this.Position + (this.Size / 2)));
+			//GL.MultMatrix(ref translation);
+			//GL.MultMatrix(ref rotation);
 
-
+			GL.Translate(new Vector3(this.Position + (this.Size / 2)));
+			GL.Rotate(MathHelper.RadiansToDegrees(this.Rotation), 0f, 0f, 1f);
+			
 			GL.Begin(BeginMode.Quads);
 			{
 				GL.TexCoord2(this.TextureCoordinates.Left, this.TextureCoordinates.Top);
 				//GL.Vertex2(this.Position.Value);
-				GL.Vertex2(-this.Size.Value / 2);
+				GL.Vertex2(-this.Size / 2);
 
 				GL.TexCoord2(this.TextureCoordinates.Right, this.TextureCoordinates.Top);
 				//GL.Vertex2(this.Position.Value.X + this.Size.Value.X, this.Position.Value.Y);
-				GL.Vertex2(this.Size.Value.X / 2, -this.Size.Value.Y / 2);
+				GL.Vertex2(this.Size.X / 2, -this.Size.Y / 2);
 
 				GL.TexCoord2(this.TextureCoordinates.Right, this.TextureCoordinates.Bottom);
 				//GL.Vertex2(this.Position.Value.X + this.Size.Value.X, this.Position.Value.Y + this.Size.Value.Y);
-				GL.Vertex2(this.Size.Value / 2);
+				GL.Vertex2(this.Size / 2);
 
 				GL.TexCoord2(this.TextureCoordinates.Left, this.TextureCoordinates.Bottom);
 				//GL.Vertex2(this.Position.Value.X, this.Position.Value.Y + this.Size.Value.Y);
-				GL.Vertex2(-this.Size.Value.X / 2, this.Size.Value.Y / 2);
+				GL.Vertex2(-this.Size.X / 2, this.Size.Y / 2);
 			}
 			GL.End();
 			GL.PopMatrix();

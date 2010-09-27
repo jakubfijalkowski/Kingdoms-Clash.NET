@@ -37,7 +37,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 			string imagePath = (this.Owner as IUnit).Description.GetAttribute<string>("ImagePath");
 
 			base.Init(ResourcesManager.Instance.Load<Texture>(imagePath));
-			base.Size.Value = new OpenTK.Vector2(width, height);
+			base.Size = new OpenTK.Vector2(width, height);
 		}
 
 		#region ICloneable Members
