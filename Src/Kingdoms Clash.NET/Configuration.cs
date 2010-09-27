@@ -10,6 +10,7 @@ namespace Kingdoms_Clash.NET
 		: Interfaces.IConfiguration
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
+		private const float ScreenWidth = 100.0f;
 
 		#region Singleton
 		private static Interfaces.IConfiguration _Instance;
@@ -65,11 +66,13 @@ namespace Kingdoms_Clash.NET
 			this.WindowSize = new Size(800, 600);
 			this.Fullscreen = false;
 
-			this.ScreenSize = new Vector2(1.0f, 1.0f);
-			this.CameraSpeed = 1.0f;
+			float aspect = (float)this.WindowSize.Width / this.WindowSize.Height;
 
-			this.MapMargin = 0.5f;
-			this.Gravity = 10f;
+			this.ScreenSize = new Vector2(ScreenWidth, ScreenWidth / aspect);
+			this.CameraSpeed = 100.0f;
+
+			this.MapMargin = this.ScreenSize.Y / 2f;
+			this.Gravity = 300f;
 		}
 	}
 }

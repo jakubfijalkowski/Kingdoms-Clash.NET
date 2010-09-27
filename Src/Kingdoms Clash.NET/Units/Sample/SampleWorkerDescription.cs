@@ -45,11 +45,11 @@ namespace Kingdoms_Clash.NET.Units.Sample
 			switch (name)
 			{
 			case "Speed":
-				return (T)(IConvertible)0.2f;
+				return (T)(IConvertible)20f;
 
 			case "ImageHeight":
 			case "ImageWidth":
-				return (T)(IConvertible)0.05f;
+				return (T)(IConvertible)8f;
 
 			case "ImagePath":
 				return (T)(IConvertible)"SampleSprite.png";

@@ -26,8 +26,17 @@ namespace Kingdoms_Clash.NET.Units.Components
 			//TODO: do usunięcia!
 			var body = this.Owner.Attributes.Get<FarseerPhysics.Dynamics.Body>("Body").Value;
 			//body.IgnoreGravity = true;
-			FarseerPhysics.Collision.Shapes.PolygonShape poly = new FarseerPhysics.Collision.Shapes.PolygonShape();
-			poly.SetAsBox((this.Owner as IUnit).Description.GetAttribute<float>("ImageWidth") / 2f, (this.Owner as IUnit).Description.GetAttribute<float>("ImageHeight") / 2.0f);
+
+			float w = (this.Owner as IUnit).Description.GetAttribute<float>("ImageWidth");
+			float h = (this.Owner as IUnit).Description.GetAttribute<float>("ImageHeight");
+			FarseerPhysics.Common.Vertices verts = new FarseerPhysics.Common.Vertices();
+			verts.Add(new Microsoft.Xna.Framework.Vector2());
+			verts.Add(new Microsoft.Xna.Framework.Vector2(w, 0f));
+			verts.Add(new Microsoft.Xna.Framework.Vector2(w, h));
+			verts.Add(new Microsoft.Xna.Framework.Vector2(0f, h));
+			
+			FarseerPhysics.Collision.Shapes.PolygonShape poly = new FarseerPhysics.Collision.Shapes.PolygonShape(verts);
+			//poly.SetAsBox((this.Owner as IUnit).Description.GetAttribute<float>("ImageWidth") / 2f, (this.Owner as IUnit).Description.GetAttribute<float>("ImageHeight") / 2.0f);
 			var f = body.CreateFixture(poly);
 			f.Friction = 1.0f;
 			body.SleepingAllowed = false;
@@ -47,7 +56,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 		/// </summary>
 		public OpenTK.Vector2 Velocity
 		{
-			get	{ return new OpenTK.Vector2(0.2f, /*Configuration.Instance.Gravity*/0.0f); }
+			get { return new OpenTK.Vector2((this.Owner as IUnit).Description.GetAttribute<float>("Speed"), /*Configuration.Instance.Gravity*/0.0f); }
 		}
 		#endregion
 

@@ -66,6 +66,7 @@ namespace Kingdoms_Clash.NET
 			Logger.Debug("Creating default game state");
 			this.Map = new DefaultMap();
 			this.Controller = new Controllers.NormalGame();
+			ClashEngine.NET.PhysicsManager.PhysicsManager.Instance.Gravity = new OpenTK.Vector2(0f, Configuration.Instance.Gravity);
 
 			this.Camera = new OrthoCamera(new RectangleF(0.0f, 0.0f, this.Map.Width, this.Map.Height + Configuration.Instance.MapMargin),
 				Configuration.Instance.ScreenSize, Configuration.Instance.CameraSpeed, true);

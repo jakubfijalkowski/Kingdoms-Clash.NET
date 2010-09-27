@@ -30,7 +30,7 @@ namespace Kingdoms_Clash.NET.Maps
 		/// </summary>
 		public float Width
 		{
-			get { return 2.0f; }
+			get { return 200f; }
 		}
 
 		/// <summary>
@@ -38,7 +38,7 @@ namespace Kingdoms_Clash.NET.Maps
 		/// </summary>
 		public float Height
 		{
-			get { return 0.5f; }
+			get { return 37.5f; }
 		}
 
 		public Interfaces.Resources.IResource CheckForResource(float beginig, float end, out float position)
@@ -59,12 +59,13 @@ namespace Kingdoms_Clash.NET.Maps
 		public override void InitEntity()
 		{
 			float margin = Configuration.Instance.MapMargin;
-			this.Terrain = new Terrain(this.Height - 0.3f,
-				new TerrainVertex { Position = new Vector2(0.0f, margin), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
-				new TerrainVertex { Position = new Vector2(0.1f, margin), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
-				new TerrainVertex { Position = new Vector2(1.0f, margin + 0.3f), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
-				new TerrainVertex { Position = new Vector2(1.9f, margin), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
-				new TerrainVertex { Position = new Vector2(2.0f, margin), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) });
+			float holeHeight = this.Height * 0.9f;
+			this.Terrain = new Terrain(this.Height - holeHeight,
+				new TerrainVertex { Position = new Vector2(0f, margin), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
+				new TerrainVertex { Position = new Vector2(20f, margin), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
+				new TerrainVertex { Position = new Vector2(100f, margin + holeHeight), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
+				new TerrainVertex { Position = new Vector2(180f, margin), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) },
+				new TerrainVertex { Position = new Vector2(200f, margin), Color = new Vector4(0.0f, 0.6f, 0.0f, 1.0f) });
 
 			this.Components.Add(new ClashEngine.NET.PhysicsManager.PhysicalObject());
 			this.Components.Add(this.Terrain);
