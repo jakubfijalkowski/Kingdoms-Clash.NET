@@ -11,7 +11,7 @@ namespace ClashEngine.NET.PhysicsManager
 	/// Wewnętrzna klasa zamieniająca normalne atrybuty w atrybuty "fizyczne" - pobierane z obiektów fizycznych.
 	/// Pobiera atrybut z FarseerPhysics.Dynamics.Body.
 	/// </summary>
-	internal class PhysicalPositionAttribute
+	class PhysicalPositionAttribute
 		: IAttribute<Vector2>
 	{
 		private Body Body;

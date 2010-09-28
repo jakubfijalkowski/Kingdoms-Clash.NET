@@ -8,7 +8,7 @@ namespace ClashEngine.NET.EntitiesManager
 	/// <summary>
 	/// Kolekcja komponentów.
 	/// </summary>
-	public class ComponentsCollection
+	class ComponentsCollection
 		: IComponentsCollection
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");

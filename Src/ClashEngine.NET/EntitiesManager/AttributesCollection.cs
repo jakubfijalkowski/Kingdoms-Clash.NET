@@ -8,7 +8,7 @@ namespace ClashEngine.NET.EntitiesManager
 	/// <summary>
 	/// Kolekcja atrybutów encji.
 	/// </summary>
-	public class AttributesCollection
+	class AttributesCollection
 		: IAttributesCollection
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
