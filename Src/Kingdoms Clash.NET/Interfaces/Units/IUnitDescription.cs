@@ -5,7 +5,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 	using Resources;
 	
 	/// <summary>
-	/// Opis/identyfikator jednostki.
+	/// Opis jednostki.
 	/// Jednostka do opisu wymaga tylko trzech właściwości: Health, Width, Height. Reszta jest opcjonalna(ale może być wymagana przez komponenty!).
 	/// </summary>
 	public interface IUnitDescription

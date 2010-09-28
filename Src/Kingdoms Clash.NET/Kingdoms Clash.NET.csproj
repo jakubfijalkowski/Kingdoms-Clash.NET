@@ -96,6 +96,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Units\UnitAttribute.cs" />
     <Compile Include="Units\UnitAttributesCollection.cs" />
+    <Compile Include="Units\UnitDescription.cs" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -113,7 +114,6 @@
     <Folder Include="Controllers\" />
     <Folder Include="Maps\" />
     <Folder Include="Units\Components\" />
-    <Folder Include="Units\Sample\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
