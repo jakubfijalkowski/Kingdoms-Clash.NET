@@ -27,7 +27,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// </summary>
 		/// <typeparam name="T">Rządany typ atrybutu.</typeparam>
 		/// <param name="id">Identyfikator.</param>
-		/// <returns>Wartość atrybutu lub null, gdy nie odnaleziono.</returns>
+		/// <returns>Wartość atrybutu lub domyślną wartość dla T, gdy nie odnaleziono.</returns>
 		T Get<T>(string id);
 	}
 }
