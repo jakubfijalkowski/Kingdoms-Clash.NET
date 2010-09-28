@@ -74,7 +74,7 @@ namespace ClashEngine.NET.EntitiesManager
 		/// Dodaje komponent do kolekcji.
 		/// Musi być unikatowy.
 		/// </summary>
-		/// <exception cref="Exceptions.ArgumentAlreadyExistsException">Rzucane gdy doadwany komponent już istnieje.</exception>
+		/// <exception cref="Exceptions.ArgumentAlreadyExistsException">Rzucane gdy dodawany komponent już istnieje.</exception>
 		/// <param name="item">Komponent.</param>
 		public void Add(IComponent item)
 		{

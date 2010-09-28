@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Cameras\OrthoCamera.cs" />
     <Compile Include="Components\Cameras\OrthoCamera.cs" />
+    <Compile Include="Components\Physical\BoundingBox.cs" />
     <Compile Include="Components\Sprite.cs" />
     <Compile Include="Components\Terrain.cs" />
     <Compile Include="EntitiesManager\Attribute.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Interfaces\Cameras\IOrthoCamera.cs" />
     <Compile Include="Interfaces\Components\Cameras\IOrthoCamera.cs" />
     <Compile Include="Interfaces\Components\ITerrain.cs" />
+    <Compile Include="Interfaces\Components\Physical\IBoundingBox.cs" />
     <Compile Include="Interfaces\EntitiesManager\IAttributesCollection.cs" />
     <Compile Include="Interfaces\EntitiesManager\IComponentsCollection.cs" />
     <Compile Include="Interfaces\EntitiesManager\IRenderableComponentsCollection.cs" />
