@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Kingdoms_Clash.NET.Interfaces.Units
 {
@@ -7,6 +6,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 	
 	/// <summary>
 	/// Opis/identyfikator jednostki.
+	/// Jednostka do opisu wymaga tylko trzech właściwości: Health, Width, Height. Reszta jest opcjonalna(ale może być wymagana przez komponenty!).
 	/// </summary>
 	public interface IUnitDescription
 	{
@@ -26,18 +26,23 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		IList<IUnitComponent> Components { get; }
 
 		/// <summary>
+		/// Lista atrybutów jednostki.
+		/// </summary>
+		IUnitAttributesCollection Attributes { get; }
+
+		/// <summary>
 		/// Życie.
-		/// Tylko ta "statystyka" jest wymagana przez jednostkę, reszta jest zależna od komponentów z których jednostka będzie się składać.
 		/// </summary>
 		int Health { get; }
 
 		/// <summary>
-		/// Pobiera atrybut o wskazanej.
+		/// Szerokość jednostki.
 		/// </summary>
-		/// <typeparam name="T">Typ atrybutu.</typeparam>
-		/// <param name="name">Nazwa.</param>
-		/// <returns>Atrybut.</returns>
-		T GetAttribute<T>(string name)
-			where T : IConvertible;
+		float Width { get; }
+
+		/// <summary>
+		/// Wysokość jednostki.
+		/// </summary>
+		float Height { get; }
 	}
 }

@@ -88,6 +88,8 @@
     <Compile Include="Interfaces\Units\Components\IStaticImage.cs" />
     <Compile Include="Interfaces\Units\INation.cs" />
     <Compile Include="Interfaces\Units\IUnit.cs" />
+    <Compile Include="Interfaces\Units\IUnitAttribute.cs" />
+    <Compile Include="Interfaces\Units\IUnitAttributesCollection.cs" />
     <Compile Include="Interfaces\Units\IUnitComponent.cs" />
     <Compile Include="Interfaces\Units\IUnitDescription.cs" />
     <Compile Include="Game.cs" />
