@@ -42,6 +42,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttributesCollectionTests.cs" />
     <Compile Include="ComponentsCollectionTests.cs" />
     <Compile Include="EntitiesManagerTests.cs" />
     <Compile Include="GameEntityTests.cs" />

@@ -71,9 +71,9 @@ namespace ClashEngine.NET.Tests
 		}
 
 		[Test]
-		public void RemovingNonExistingEntityThrowsException()
+		public void RemovingNonExistingEntityReturnsFalse()
 		{
-			Assert.Throws<Exceptions.ArgumentNotExistsException>(() => this.Manager.Remove(new Mock<GameEntity>("TmpEntity").Object));
+			Assert.IsFalse(this.Manager.Remove(new Mock<GameEntity>("TmpEntity").Object));
 		}
 		#endregion
 

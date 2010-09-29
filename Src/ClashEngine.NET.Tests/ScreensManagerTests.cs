@@ -79,9 +79,9 @@ namespace ClashEngine.NET.Tests
 		}
 
 		[Test]
-		public void ThrowsExectpionOnRemovingNonExistingScreen()
+		public void RemovingNonExistingScreenReturnsFalse()
 		{
-			Assert.Throws<Exceptions.ArgumentNotExistsException>(() => this.Manager.Remove(new Mock<Screen>().Object));
+			Assert.IsFalse(this.Manager.Remove(new Mock<Screen>().Object));
 		}
 		#endregion
 
