@@ -35,13 +35,13 @@ namespace ClashEngine.NET.Tests
 		}
 
 		#region Adding
-		[Test]
-		public void DoComponentsAdd()
-		{
-			Assert.AreEqual(2, this.Entity.Components.Count);
-			this.Component.Verify(c => c.Init(this.Entity));
-			this.RenderableComponent.Verify(c => c.Init(this.Entity));
-		}
+		//[Test]
+		//public void DoComponentsAdd()
+		//{
+		//    Assert.AreEqual(2, this.Entity.Components.Count);
+		//    this.Component.Verify(c => c.Init(this.Entity));
+		//    this.RenderableComponent.Verify(c => c.Init(this.Entity));
+		//}
 
 		[Test]
 		public void DoesAttributeAdd()
@@ -49,12 +49,12 @@ namespace ClashEngine.NET.Tests
 			Assert.AreEqual(2, this.Entity.Attributes.Count);
 		}
 
-		[Test]
-		public void ThrowsExceptionOnAddingSameComponentManyTimes()
-		{
-			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.Components.Add(this.Component.Object));
-			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.Components.Add(this.RenderableComponent.Object));
-		}
+		//[Test]
+		//public void ThrowsExceptionOnAddingSameComponentManyTimes()
+		//{
+		//    Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.Components.Add(this.Component.Object));
+		//    Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Entity.Components.Add(this.RenderableComponent.Object));
+		//}
 
 		[Test]
 		public void ThrowsExceptionOnAddingSameAttributeManyTimes()

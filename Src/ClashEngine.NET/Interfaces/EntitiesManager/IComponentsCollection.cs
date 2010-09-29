@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ClashEngine.NET.Interfaces.EntitiesManager
 {
@@ -29,12 +30,26 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 			where T : IComponent;
 
 		/// <summary>
+		/// Pobiera listę komponentów o wskazanym typie.
+		/// </summary>
+		/// <param name="componentType">Typ komponentu.</param>
+		/// <returns>Lista.</returns>
+		IEnumerable<IComponent> Get(Type componentType);
+
+		/// <summary>
 		/// Pobiera pierwszy komponent o wskazanym typie.
 		/// </summary>
 		/// <typeparam name="T">Typ.</typeparam>
 		/// <returns>Komponent lub null, gdy nie znaleziono.</returns>
 		T GetSingle<T>()
 			where T : IComponent;
+
+		/// <summary>
+		/// Pobiera pierwszy komponent o wskazanym typie.
+		/// </summary>
+		/// <param name="componentType">Typ komponentu.</param>
+		/// <returns>Komponent lub null, gdy nie znaleziono.</returns>
+		IComponent GetSingle(Type componentType);
 
 		/// <summary>
 		/// Sprawdza, czy kolekcja zawiera komponent o wskazanym id.

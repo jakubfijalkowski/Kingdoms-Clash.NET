@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ClashEngine.NET.EntitiesManager
@@ -39,6 +40,16 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <summary>
 		/// Pobiera listę komponentów o wskazanym typie.
 		/// </summary>
+		/// <param name="componentType">Typ komponentu.</param>
+		/// <returns>Lista.</returns>
+		public IEnumerable<IComponent> Get(Type componentType)
+		{
+			return this.Components.Where(c => c.GetType().IsSubclassOf(componentType)).Select(c => c);
+		}
+
+		/// <summary>
+		/// Pobiera listę komponentów o wskazanym typie.
+		/// </summary>
 		/// <typeparam name="T">Typ komponentów.</typeparam>
 		/// <returns>Lista.</returns>
 		public IEnumerable<T> Get<T>()
@@ -56,6 +67,16 @@ namespace ClashEngine.NET.EntitiesManager
 			where T : IComponent
 		{
 			return this.Components.OfType<T>().FirstOrDefault();
+		}
+
+		/// <summary>
+		/// Pobiera pierwszy komponent o wskazanym typie.
+		/// </summary>
+		/// <param name="componentType">Typ komponentu.</param>
+		/// <returns>Komponent lub null, gdy nie znaleziono.</returns>
+		public IComponent GetSingle(Type componentType)
+		{
+			return this.Components.Where(c => c.GetType().IsSubclassOf(componentType)).FirstOrDefault();
 		}
 
 		/// <summary>
