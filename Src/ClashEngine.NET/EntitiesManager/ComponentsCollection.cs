@@ -37,6 +37,28 @@ namespace ClashEngine.NET.EntitiesManager
 		}
 
 		/// <summary>
+		/// Pobiera listę komponentów o wskazanym typie.
+		/// </summary>
+		/// <typeparam name="T">Typ komponentów.</typeparam>
+		/// <returns>Lista.</returns>
+		public IEnumerable<T> Get<T>()
+			where T : IComponent
+		{
+			return this.Components.OfType<T>();
+		}
+
+		/// <summary>
+		/// Pobiera pierwszy komponent o wskazanym typie.
+		/// </summary>
+		/// <typeparam name="T">Typ.</typeparam>
+		/// <returns>Komponent lub null, gdy nie znaleziono.</returns>
+		public T GetSingle<T>()
+			where T : IComponent
+		{
+			return this.Components.OfType<T>().FirstOrDefault();
+		}
+
+		/// <summary>
 		/// Sprawdza, czy kolekcja zawiera komponent o wskazanym id.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>

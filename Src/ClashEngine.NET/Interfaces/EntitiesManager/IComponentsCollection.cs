@@ -21,6 +21,22 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 		IComponent this[string id] { get; }
 
 		/// <summary>
+		/// Pobiera listę komponentów o wskazanym typie.
+		/// </summary>
+		/// <typeparam name="T">Typ komponentów.</typeparam>
+		/// <returns>Lista.</returns>
+		IEnumerable<T> Get<T>()
+			where T : IComponent;
+
+		/// <summary>
+		/// Pobiera pierwszy komponent o wskazanym typie.
+		/// </summary>
+		/// <typeparam name="T">Typ.</typeparam>
+		/// <returns>Komponent lub null, gdy nie znaleziono.</returns>
+		T GetSingle<T>()
+			where T : IComponent;
+
+		/// <summary>
 		/// Sprawdza, czy kolekcja zawiera komponent o wskazanym id.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>

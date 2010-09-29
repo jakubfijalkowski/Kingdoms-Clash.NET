@@ -64,7 +64,7 @@ namespace ClashEngine.NET.Components.Physical
 			var body = base.Owner.Attributes.Get<Body>("Body");
 			if (body == null)
 			{
-				throw new Exceptions.NotFoundException("Body", "Component PhysicalObject not added!", null);
+				throw new Exceptions.NotFoundException("Body", "Component PhysicalObject not added", null);
 			}
 			Vertices verts = new Vertices(4);
 			verts.Add(this.Position.ToXNA());
