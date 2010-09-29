@@ -13,6 +13,11 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 		: IGameEntity
 	{
 		/// <summary>
+		/// Nazwa gracza.
+		/// </summary>
+		string Name { get; }
+
+		/// <summary>
 		/// Nacja gracza.
 		/// </summary>
 		INation Nation { get; }
