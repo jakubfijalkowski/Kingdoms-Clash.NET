@@ -53,21 +53,28 @@ namespace Kingdoms_Clash.NET.Units
 		/// <summary>
 		/// Inicjalizuje nowy obiekt pozostawiając parametry niezainicjalizowane.
 		/// </summary>
-		public UnitDescription()
-			: this(0, 0f, 0f)
+		/// <param name="id">Identyfikator jednostki.</param>
+		public UnitDescription(string id)
+			: this(id, 0, 0f, 0f)
 		{ }
 
 		/// <summary>
 		/// Inicjalizuje nowy obiekt.
 		/// </summary>
+		/// <param name="id">Identyfikator jednostki.</param>
 		/// <param name="health">Życie jednostki.</param>
 		/// <param name="width">Szerokość jednostki.</param>
 		/// <param name="height">Wysokość jednostki.</param>
-		public UnitDescription(int health, float width, float height)
+		public UnitDescription(string id, int health, float width, float height)
 		{
 			this.Costs = new List<IResource>();
 			this.Components = new List<IUnitComponent>();
 			this.Attributes = new UnitAttributesCollection();
+
+			this.Id = id;
+			this.Health = health;
+			this.Width = width;
+			this.Height = height;
 		}
 		#endregion
 	}

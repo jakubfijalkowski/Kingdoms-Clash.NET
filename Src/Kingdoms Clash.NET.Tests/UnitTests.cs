@@ -13,7 +13,7 @@ namespace Kingdoms_Clash.NET.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			this.Description = new UnitDescription(100, 5f, 10f);
+			this.Description = new UnitDescription("sth", 100, 5f, 10f);
 			this.Unit = new Unit(this.Description, null);
 			this.Unit.Init(null);
 		}
