@@ -42,8 +42,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleNationTests.cs" />
     <Compile Include="UnitAttributesCollectionTests.cs" />
     <Compile Include="UnitTests.cs" />
   </ItemGroup>
