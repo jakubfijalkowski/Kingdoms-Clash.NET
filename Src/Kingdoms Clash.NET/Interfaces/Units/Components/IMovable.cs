@@ -1,9 +1,9 @@
 ﻿namespace Kingdoms_Clash.NET.Interfaces.Units.Components
 {
 	/// <summary>
-	/// Komponent jednostki określający, że jednostka jest naziemna.
+	/// Komponent jednostki określający, że jednostka potrafi się poruszać.
 	/// </summary>
-	public interface IGroundUnit
+	public interface IMovable
 		: IUnitComponent
 	{
 		/// <summary>
