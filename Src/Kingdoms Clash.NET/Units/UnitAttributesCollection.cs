@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Kingdoms_Clash.NET.Units
 {
@@ -6,11 +7,13 @@ namespace Kingdoms_Clash.NET.Units
 
 	/// <summary>
 	/// Kolekcja atrybutów jednostek.
-	/// Wsyzstkie porównywania są prowadzone po Id, więc nie mogą istnieć dwa elementy o tym samym Id.
+	/// Wszystkie porównywania są prowadzone po Id, więc nie mogą istnieć dwa elementy o tym samym Id.
 	/// </summary>
+	[DebuggerDisplay("Count = {Count}")]
 	public class UnitAttributesCollection
 		: IUnitAttributesCollection, ICollection<IUnitAttribute>
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IUnitAttribute> Attributes = new List<IUnitAttribute>();
 
 		#region IUnitAttributesCollection Members

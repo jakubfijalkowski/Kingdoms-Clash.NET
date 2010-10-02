@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Interfaces.EntitiesManager;
 
@@ -9,6 +10,10 @@ namespace Kingdoms_Clash.NET.Player
 	using Interfaces.Resources;
 	using Interfaces.Units;
 
+	/// <summary>
+	/// Gracz - człowiek.
+	/// </summary>
+	[DebuggerDisplay("{this,nq}")]
 	public class Human
 		: GameEntity, IHuman
 	{
@@ -86,6 +91,11 @@ namespace Kingdoms_Clash.NET.Player
 		public override void OnInit()
 		{
 			this.Health_ = this.Attributes.GetOrCreate<int>("Health");
+		}
+
+		public override string ToString()
+		{
+			return string.Format("Human player called {0}", this.Name);
 		}
 	}
 }

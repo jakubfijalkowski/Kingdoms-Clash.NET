@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using ClashEngine.NET.Components;
 using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Interfaces.Components;
@@ -9,6 +10,10 @@ namespace Kingdoms_Clash.NET.Maps
 {
 	using Interfaces.Map;
 
+	/// <summary>
+	/// Domyślna mapa.
+	/// </summary>
+	[DebuggerDisplay("Default map")]
 	public class DefaultMap
 		: GameEntity, IMap
 	{

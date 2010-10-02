@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Kingdoms_Clash.NET.Units
 {
@@ -9,6 +10,7 @@ namespace Kingdoms_Clash.NET.Units
 	/// Opis jednostki.
 	/// Jednostka do opisu wymaga tylko trzech właściwości: Health, Width, Height. Reszta jest opcjonalna(ale może być wymagana przez komponenty!).
 	/// </summary>
+	[DebuggerDisplay("Id = {Id,nq}")]
 	public class UnitDescription
 		: IUnitDescription
 	{

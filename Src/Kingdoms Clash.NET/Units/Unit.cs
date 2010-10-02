@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using ClashEngine.NET.Components.Physical;
 using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.PhysicsManager;
@@ -9,6 +10,10 @@ namespace Kingdoms_Clash.NET.Units
 	using Interfaces.Player;
 	using Interfaces.Units;
 
+	/// <summary>
+	/// Jednostka.
+	/// </summary>
+	[DebuggerDisplay("{Description.Id,nq}, Player = {Owner.Name,nq}, Health = {Health}")]
 	public class Unit
 		: GameEntity, IUnit
 	{
