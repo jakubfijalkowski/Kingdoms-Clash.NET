@@ -13,6 +13,13 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 		: IGameEntity
 	{
 		/// <summary>
+		/// Identyfikator gracza.
+		/// Nie może istnieć wielu graczy(aktualnie grających!) o tym samym ID.
+		/// Maksymalna wartość: 32.
+		/// </summary>
+		byte PlayerID { get; }
+
+		/// <summary>
 		/// Nazwa gracza.
 		/// </summary>
 		string Name { get; }

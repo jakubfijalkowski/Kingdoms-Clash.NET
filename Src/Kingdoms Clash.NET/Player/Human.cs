@@ -16,6 +16,11 @@ namespace Kingdoms_Clash.NET.Player
 
 		#region IPlayer Members
 		/// <summary>
+		/// Identyfikator gracza.
+		/// </summary>
+		public byte PlayerID { get; private set; }
+
+		/// <summary>
 		/// Nazwa gracza.
 		/// </summary>
 		public string Name { get; private set; }
@@ -55,19 +60,25 @@ namespace Kingdoms_Clash.NET.Player
 		/// <summary>
 		/// Inicjalizuje nowego gracza.
 		/// </summary>
+		/// <param name="id">Numeryczny identyfikator gracza.</param>
 		/// <param name="name">Nazwa.</param>
 		/// <param name="nation">Jego nacja.</param>
-		public Human(string name, INation nation/*, IEnumerable<IResource> startResources*/)
-			: base("Player.Human." + name)
+		public Human(byte id, string name, INation nation/*, IEnumerable<IResource> startResources*/)
+			: base("Player.Human." + id)
 		{
+			if (id >= 32)
+			{
+				throw new ArgumentOutOfRangeException("id");
+			}
 			if (string.IsNullOrWhiteSpace(name))
 			{
 				throw new ArgumentNullException("name");
 			}
-			else if (nation == null)
+			if (nation == null)
 			{
 				throw new ArgumentNullException("nation");
 			}
+			this.PlayerID = id;
 			this.Name = name;
 			this.Nation = nation;
 		}

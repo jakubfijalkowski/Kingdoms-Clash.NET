@@ -2,6 +2,7 @@
 using ClashEngine.NET.Components.Physical;
 using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.PhysicsManager;
+using FarseerPhysics.Dynamics;
 
 namespace Kingdoms_Clash.NET.Units
 {
@@ -35,16 +36,16 @@ namespace Kingdoms_Clash.NET.Units
 		/// <param name="description">Opis.</param>
 		/// <param name="owner">Właściciel.</param>
 		public Unit(IUnitDescription description, IPlayer owner)
-			: base(string.Format("Unit.{0}.{1}", (owner == null ? "player" : owner.Name), description.Id))
+			: base(string.Format("Unit.{0}.{1}", owner.Name, description.Id))
 		{
 			if (description == null)
 			{
 				throw new ArgumentNullException("description");
 			}
-			//else if (owner == null)
-			//{
-			//    throw new ArgumentNullException("owner");
-			//}
+			else if (owner == null)
+			{
+				throw new ArgumentNullException("owner");
+			}
 			this.Description = description;
 			this.Owner = owner;
 		}
@@ -55,6 +56,16 @@ namespace Kingdoms_Clash.NET.Units
 
 			this.Components.Add(new PhysicalObject(true));
 			this.Components.Add(new BoundingBox(new OpenTK.Vector2(this.Description.Width, this.Description.Height)));
+
+			//Ustawiamy właściwości ciała tak, by poruszało się po naszej myśli
+			var body = this.Attributes.Get<FarseerPhysics.Dynamics.Body>("Body");
+			body.Value.SleepingAllowed = false;
+			body.Value.FixedRotation = true;
+
+			//Ustawiamy maskę kolizji tak by kolidowało tylko z innymi graczami
+			var f = body.Value.FixtureList[0];
+			f.CollisionCategories = (CollisionCategory)(1 << this.Owner.PlayerID);
+			f.CollidesWith = CollisionCategory.All & ~f.CollisionCategories;
 
 			foreach (var component in this.Description.Components)
 			{
