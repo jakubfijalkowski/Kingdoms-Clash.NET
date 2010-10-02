@@ -65,8 +65,6 @@ namespace ClashEngine.NET.EntitiesManager
 		public void Init(IEntitiesManager entitiesManager)
 		{
 			this.Manager = entitiesManager;
-			this.InitEntity();
-			Logger.Debug("Game entity {0} initialized", this.Id);
 		}
 
 		/// <summary>
@@ -93,11 +91,17 @@ namespace ClashEngine.NET.EntitiesManager
 		}
 		#endregion
 
-		#region Other
+		#region Events
 		/// <summary>
-		/// Inicjalizacja encji - wywoływane po inicjalizacji encji w managerze(metoda Init).
+		/// Zdarzenie wywoływane przy inicjalizacji encji(dodaniu do managera).
 		/// </summary>
-		public virtual void InitEntity()
+		public virtual void OnInit()
+		{ }
+
+		/// <summary>
+		/// Zdarzenie wywoływane przy deinicjalizacji encji(usunięcie z managera).
+		/// </summary>
+		public virtual void OnDeinit()
 		{ }
 		#endregion
 	}

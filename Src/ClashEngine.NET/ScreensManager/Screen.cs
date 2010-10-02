@@ -130,6 +130,18 @@ namespace ClashEngine.NET.ScreensManager
 		public virtual void StateChanged(ScreenState oldState)
 		{ }
 
+		/// <summary>
+		/// Zdarzenie wywoływane przy inicjalizacji ekranu(dodaniu do managera).
+		/// </summary>
+		public virtual void OnInit()
+		{ }
+
+		/// <summary>
+		/// Zdarzenie wywoływane przy deinicjalizacji ekranu(usunięcie z managera).
+		/// </summary>
+		public virtual void OnDeinit()
+		{ }
+
 		#region Keyboard
 		/// <summary>
 		/// Zdarzenie naciśnięcia klawisza.

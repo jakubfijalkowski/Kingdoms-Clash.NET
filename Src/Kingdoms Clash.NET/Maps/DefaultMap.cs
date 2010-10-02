@@ -42,7 +42,7 @@ namespace Kingdoms_Clash.NET.Maps
 			: base("Map.DefaultMap")
 		{ }
 
-		public override void InitEntity()
+		public override void OnInit()
 		{
 			float margin = Cfg.Instance.MapMargin;
 			float maxH = Cfg.Instance.ScreenSize.Y - margin - 20f;

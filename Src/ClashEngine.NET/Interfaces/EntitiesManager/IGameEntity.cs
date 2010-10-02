@@ -47,5 +47,17 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 		/// </summary>
 		void Render();
 		#endregion
+
+		#region Events
+		/// <summary>
+		/// Zdarzenie wywoływane przy inicjalizacji encji(dodaniu do managera).
+		/// </summary>
+		void OnInit();
+
+		/// <summary>
+		/// Zdarzenie wywoływane przy deinicjalizacji encji(usunięcie z managera).
+		/// </summary>
+		void OnDeinit();
+		#endregion
 	}
 }

@@ -18,8 +18,16 @@ namespace ClashEngine.NET.Tests
 		{
 			this.Manager = new EntitiesManager.EntitiesManager();
 			this.Entity1 = new Mock<GameEntity>("Entity1");
+			this.Entity1.Setup(e => e.OnInit());
+			this.Entity1.Setup(e => e.OnDeinit());
+
 			this.Entity2 = new Mock<GameEntity>("Entity2");
+			this.Entity2.Setup(e => e.OnInit());
+			this.Entity2.Setup(e => e.OnDeinit());
+
 			this.Entity3 = new Mock<GameEntity>("Entity3");
+			this.Entity3.Setup(e => e.OnInit());
+			this.Entity3.Setup(e => e.OnDeinit());
 
 			this.Manager.Add(this.Entity1.Object);
 			this.Manager.Add(this.Entity2.Object);
@@ -28,17 +36,26 @@ namespace ClashEngine.NET.Tests
 
 		#region Adding/removing
 		[Test]
-		public void DoEntitesAdd()
+		public void EntitiesAdded()
 		{
 			Assert.AreEqual(3, this.Manager.Count);
 		}
 
 		[Test]
-		public void DoEntitiesRemove()
+		public void EntitiesInitialized()
+		{
+			this.Entity1.Verify(e => e.OnInit());
+			this.Entity2.Verify(e => e.OnInit());
+			this.Entity3.Verify(e => e.OnInit());
+		}
+
+		[Test]
+		public void EntitiesRemove()
 		{
 			int cnt = this.Manager.Count;
 			this.Manager.Remove(this.Entity1.Object);
 			Assert.AreEqual(cnt - 1, this.Manager.Count);
+			this.Entity1.Verify(e => e.OnDeinit());
 
 			//Powrót do poprzedniego stanu
 			this.Manager.Add(this.Entity1.Object);
@@ -79,7 +96,7 @@ namespace ClashEngine.NET.Tests
 
 		#region Updating/Rendering
 		[Test]
-		public void DoAllEntitesUpdate([Values(1.0)] double delta)
+		public void EntitiesUpdate([Values(1.0)] double delta)
 		{
 			this.Entity1.Setup(e => e.Update(delta));
 			this.Entity2.Setup(e => e.Update(delta));
@@ -87,9 +104,23 @@ namespace ClashEngine.NET.Tests
 
 			this.Manager.Update(delta);
 
-			this.Entity1.VerifyAll();
-			this.Entity2.VerifyAll();
-			this.Entity3.VerifyAll();
+			this.Entity1.Verify(e => e.Update(delta));
+			this.Entity2.Verify(e => e.Update(delta));
+			this.Entity3.Verify(e => e.Update(delta));
+		}
+
+		[Test]
+		public void EntitiesRender()
+		{
+			this.Entity1.Setup(e => e.Render());
+			this.Entity2.Setup(e => e.Render());
+			this.Entity3.Setup(e => e.Render());
+
+			this.Manager.Render();
+
+			this.Entity1.Verify(e => e.Render());
+			this.Entity2.Verify(e => e.Render());
+			this.Entity3.Verify(e => e.Render());
 		}
 		#endregion
 	}

@@ -22,11 +22,17 @@ namespace ClashEngine.NET.Tests
 		{
 			this.Manager = new ScreensManager.ScreensManager(false);
 			this.Screen1 = new Mock<Screen>();
+			this.Screen1.Setup(s => s.OnInit());
+			this.Screen1.Setup(s => s.OnDeinit());
 			this.Screen1.Object.IsFullscreen = true;
 
 			this.Screen2 = new Mock<Screen>();
+			this.Screen2.Setup(s => s.OnInit());
+			this.Screen2.Setup(s => s.OnDeinit());
 
 			this.Screen3 = new Mock<Screen>();
+			this.Screen3.Setup(s => s.OnInit());
+			this.Screen3.Setup(s => s.OnDeinit());
 			this.Screen3.Object.IsFullscreen = true;
 
 			this.Manager.Add(this.Screen1.Object);
@@ -36,13 +42,21 @@ namespace ClashEngine.NET.Tests
 
 		#region Adding/removing
 		[Test]
-		public void DoScreensAdd()
+		public void ScreensAdded()
 		{
 			Assert.AreEqual(3, this.Manager.Count);
 		}
 
 		[Test]
-		public void DoScreensAddInCorrectOrder()
+		public void ScreensInitialized()
+		{
+			this.Screen1.Verify(s => s.OnInit());
+			this.Screen2.Verify(s => s.OnInit());
+			this.Screen3.Verify(s => s.OnInit());
+		}
+
+		[Test]
+		public void ScreensAddedInCorrectOrder()
 		{
 			Assert.AreEqual(this.Screen1.Object, this.Manager[0]);
 			Assert.AreEqual(this.Screen2.Object, this.Manager[1]);
@@ -50,10 +64,11 @@ namespace ClashEngine.NET.Tests
 		}
 
 		[Test]
-		public void DoesScreenRemove()
+		public void ScreenRemoves()
 		{
 			int oldCount = this.Manager.Count;
 			this.Manager.Remove(this.Screen3.Object);
+			this.Screen3.Verify(s => s.OnDeinit());
 			Assert.AreEqual(oldCount - 1, this.Manager.Count);
 
 			//Wracamy do stanu sprzed - czy takie rozwiązanie jest poprawne? Jak to inaczej sprawdzić?
@@ -135,7 +150,7 @@ namespace ClashEngine.NET.Tests
 			this.Manager.Close(this.Screen1.Object);
 
 			Assert.AreEqual(ScreenState.Closed, this.Screen1.Object.State);
-			this.Screen1.VerifyAll();
+			this.Screen1.Verify();
 		}
 
 		[Test]
@@ -145,7 +160,7 @@ namespace ClashEngine.NET.Tests
 			this.Manager.MakeActive(this.Screen2.Object);
 
 			Assert.AreEqual(ScreenState.Active, this.Screen2.Object.State);
-			this.Screen2.VerifyAll();
+			this.Screen2.Verify(s => s.StateChanged(ScreenState.Closed));
 		}
 
 		[Test]
@@ -156,7 +171,7 @@ namespace ClashEngine.NET.Tests
 			this.Manager.MakeInactive(this.Screen3.Object);
 
 			Assert.AreEqual(ScreenState.Inactive, this.Screen3.Object.State);
-			this.Screen3.VerifyAll();
+			this.Screen3.Verify(s => s.StateChanged(ScreenState.Closed));
 		}
 
 		[Test]
@@ -195,7 +210,7 @@ namespace ClashEngine.NET.Tests
 
 			this.Manager.Update(delta);
 
-			this.Screen1.VerifyAll();
+			this.Screen1.Verify(s => s.Update(delta));
 		}
 
 		[Test]
@@ -209,7 +224,7 @@ namespace ClashEngine.NET.Tests
 
 			this.Manager.Update(delta);
 
-			this.Screen2.VerifyAll();
+			this.Screen2.Verify(s => s.Update(delta));
 		}
 
 		[Test]
@@ -223,7 +238,7 @@ namespace ClashEngine.NET.Tests
 
 			this.Manager.Render();
 
-			this.Screen1.VerifyAll();
+			this.Screen1.Verify(s => s.Render());
 		}
 
 		[Test]
@@ -238,8 +253,8 @@ namespace ClashEngine.NET.Tests
 
 			this.Manager.Render();
 
-			this.Screen3.VerifyAll();
-			this.Screen2.VerifyAll();
+			this.Screen3.Verify(s => s.Render());
+			this.Screen2.Verify(s => s.Render());
 		}
 		#endregion
 	}

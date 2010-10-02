@@ -74,6 +74,7 @@ namespace ClashEngine.NET.EntitiesManager
 			}
 			entity.Init(this);
 			this.Entities.Add(entity);
+			entity.OnInit();
 			Logger.Trace("Entity {0} added to manager", entity.Id);
 		}
 
@@ -92,6 +93,7 @@ namespace ClashEngine.NET.EntitiesManager
 			{
 				Logger.Trace("Entity {0} removed from manager", entity.Id);
 			}
+			entity.OnDeinit();
 			return deleted;
 		}
 
@@ -100,6 +102,10 @@ namespace ClashEngine.NET.EntitiesManager
 		/// </summary>
 		public void Clear()
 		{
+			foreach (var e in this.Entities)
+			{
+				e.OnDeinit();
+			}
 			this.Entities.Clear();
 		}
 		
@@ -137,5 +143,10 @@ namespace ClashEngine.NET.EntitiesManager
 			return this.Entities.GetEnumerator();
 		}
 		#endregion
+
+		~EntitiesManager()
+		{
+			this.Clear();
+		}
 	}
 }

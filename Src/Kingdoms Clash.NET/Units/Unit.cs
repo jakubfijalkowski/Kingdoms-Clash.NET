@@ -49,7 +49,7 @@ namespace Kingdoms_Clash.NET.Units
 			this.Owner = owner;
 		}
 
-		public override void InitEntity()
+		public override void OnInit()
 		{
 			this.Health = this.Description.Health;
 

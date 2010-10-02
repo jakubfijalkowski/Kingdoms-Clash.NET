@@ -17,32 +17,6 @@ namespace ClashEngine.NET.ScreensManager
 
 		private List<IScreen> Screens = new List<IScreen>();
 
-		#region Properties
-		/// <summary>
-		/// Lista ekranów w managerze.
-		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
-		/// Bardziej przypomina stos/kolejkę FIFO(pierwszy ekran na liście jest pierwszym "w rzeczywistości").
-		/// </summary>
-		//public IList<IScreen> Screens { get { return this._Screens; } }
-		#endregion
-
-		/// <summary>
-		/// Inicjalizuje nowy manager i dodaje zdarzenia dla wejścia.
-		/// </summary>
-		public ScreensManager(bool addEvents = true)
-		{
-			if (addEvents)
-			{
-				Input.Instance.Keyboard.KeyDown += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(FireKeyDown);
-				Input.Instance.Keyboard.KeyUp += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(FireKeyUp);
-
-				Input.Instance.Mouse.ButtonDown += new EventHandler<MouseButtonEventArgs>(FireMouseButtonDown);
-				Input.Instance.Mouse.ButtonUp += new EventHandler<MouseButtonEventArgs>(FireMouseButtonUp);
-				Input.Instance.Mouse.Move += new EventHandler<MouseMoveEventArgs>(FireMouseMove);
-				Input.Instance.Mouse.WheelChanged += new EventHandler<MouseWheelEventArgs>(FireMouseWheelChanged);
-			}
-		}
-
 		#region IScreensManager Members
 		#region ICollection<IScreen> Members
 		/// <summary>
@@ -50,6 +24,10 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		public void Clear()
 		{
+			foreach (var s in this.Screens)
+			{
+				s.OnDeinit();
+			}
 			this.Screens.Clear();
 		}
 
@@ -121,6 +99,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 			this.Screens.Add(screen);
 			screen.Init(this);
+			screen.OnInit();
 			Logger.Trace("Screen added");
 		}
 
@@ -149,6 +128,7 @@ namespace ClashEngine.NET.ScreensManager
 			{
 				Logger.Trace("Screen removed");
 			}
+			screen.OnDeinit();
 			return deleted;
 		}
 
@@ -426,5 +406,27 @@ namespace ClashEngine.NET.ScreensManager
 		}
 		#endregion
 		#endregion
+
+		/// <summary>
+		/// Inicjalizuje nowy manager i dodaje zdarzenia dla wejścia.
+		/// </summary>
+		public ScreensManager(bool addEvents = true)
+		{
+			if (addEvents)
+			{
+				Input.Instance.Keyboard.KeyDown += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(FireKeyDown);
+				Input.Instance.Keyboard.KeyUp += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(FireKeyUp);
+
+				Input.Instance.Mouse.ButtonDown += new EventHandler<MouseButtonEventArgs>(FireMouseButtonDown);
+				Input.Instance.Mouse.ButtonUp += new EventHandler<MouseButtonEventArgs>(FireMouseButtonUp);
+				Input.Instance.Mouse.Move += new EventHandler<MouseMoveEventArgs>(FireMouseMove);
+				Input.Instance.Mouse.WheelChanged += new EventHandler<MouseWheelEventArgs>(FireMouseWheelChanged);
+			}
+		}
+
+		~ScreensManager()
+		{
+			this.Clear();
+		}
 	}
 }

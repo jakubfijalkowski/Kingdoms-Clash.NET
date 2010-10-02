@@ -90,6 +90,16 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 		/// <param name="oldState">Stan sprzed zmiany.</param>
 		void StateChanged(ScreenState oldState);
 
+		/// <summary>
+		/// Zdarzenie wywoływane przy inicjalizacji komponentu(dodaniu do managera).
+		/// </summary>
+		void OnInit();
+
+		/// <summary>
+		/// Zdarzenie wywoływane przy deinicjalizacji komponentu(usunięcie z managera).
+		/// </summary>
+		void OnDeinit();
+
 		#region Keyboard
 		/// <summary>
 		/// Zdarzenie naciśnięcia klawisza.

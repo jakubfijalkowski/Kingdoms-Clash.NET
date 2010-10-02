@@ -30,7 +30,7 @@ namespace ClashEngine.NET.Cameras
 			this.Camera = new Components.Cameras.OrthoCamera(borders, size, speed, updateAlways, zNear, zFar);
 		}
 
-		public override void InitEntity()
+		public override void OnInit()
 		{
 			this.Components.Add(this.Camera);
 		}
