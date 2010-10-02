@@ -19,12 +19,14 @@ namespace Kingdoms_Clash.NET.Units.Components
 
 		public override void OnInit()
 		{
-			string path = (this.Owner as IUnitDescription).Attributes.Get("Image") as string;
+			string path = (this.Owner as IUnit).Description.Attributes.Get("Image") as string;
 
 			base.Init(ResourcesManager.Instance.Load<Texture>(path));
 			this.Owner.Attributes.GetOrCreate<Vector2>("Size").Value = new Vector2(
-				(this.Owner as IUnitDescription).Width,
-				(this.Owner as IUnitDescription).Height);
+				(this.Owner as IUnit).Description.Width,
+				(this.Owner as IUnit).Description.Height);
+
+			base.OnInit();
 		}
 
 		#region ICloneable Members

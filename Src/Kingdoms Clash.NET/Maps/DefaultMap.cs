@@ -74,7 +74,8 @@ namespace Kingdoms_Clash.NET.Maps
 					Color = new Vector4(0.2f, 1f, 0.2f, 1f)
 				},
 			};
-			this.Components.Add(new Terrain((this.Height * Cfg.Instance.ScreenSize.Y) - maxH));
+			this.Components.Add(new ClashEngine.NET.PhysicsManager.PhysicalObject());
+			this.Components.Add(new Terrain((this.Height * Cfg.Instance.ScreenSize.Y) - maxH, vertices));
 		}
 	}
 }

@@ -54,7 +54,7 @@ namespace Kingdoms_Clash.NET.Units
 			this.Health = this.Description.Health;
 
 			this.Components.Add(new PhysicalObject(true));
-			this.Components.Add(new BoundingBox(new OpenTK.Vector2(this.Description.Width, this.Description.Health)));
+			this.Components.Add(new BoundingBox(new OpenTK.Vector2(this.Description.Width, this.Description.Height)));
 
 			foreach (var component in this.Description.Components)
 			{
