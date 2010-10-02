@@ -94,6 +94,7 @@
     <Compile Include="Interfaces\Units\IUnitDescription.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Interfaces\Units\IUnitDescriptionsCollection.cs" />
+    <Compile Include="Maps\DefaultMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Units\Components\Movable.cs" />
     <Compile Include="Units\Components\Sprite.cs" />
@@ -118,7 +119,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Maps\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
