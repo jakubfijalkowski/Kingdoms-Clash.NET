@@ -1,8 +1,16 @@
-﻿using ClashEngine.NET.Interfaces.EntitiesManager;
+﻿using System;
+using ClashEngine.NET.Interfaces.EntitiesManager;
 
 namespace Kingdoms_Clash.NET.Interfaces.Units
 {
 	using Player;
+
+	/// <summary>
+	/// Handler dla zdarzenia kolizji jednostek.
+	/// </summary>
+	/// <param name="a">Pierwsza jednostka.</param>
+	/// <param name="b">Druga jednostka.</param>
+	public delegate void UserCollideEventHandler(IUnit a, IUnit b);
 
 	/// <summary>
 	/// Bazowy interfejs jednostki.
@@ -29,5 +37,10 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// Życie.
 		/// </summary>
 		int Health { get; set; }
+
+		/// <summary>
+		/// Zdarzenie kolizji jednostek.
+		/// </summary>
+		UserCollideEventHandler Collide { get; set; }
 	}
 }

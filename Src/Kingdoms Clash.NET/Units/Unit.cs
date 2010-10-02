@@ -27,6 +27,11 @@ namespace Kingdoms_Clash.NET.Units
 		/// Życie.
 		/// </summary>
 		public int Health { get; set; }
+
+		/// <summary>
+		/// Zdarzenie kolizji jednostek.
+		/// </summary>
+		public UserCollideEventHandler Collide { get; set; }
 		#endregion
 
 		/// <summary>
@@ -62,10 +67,23 @@ namespace Kingdoms_Clash.NET.Units
 			body.Value.SleepingAllowed = false;
 			body.Value.FixedRotation = true;
 
+			body.Value.UserData = this;
+
 			//Ustawiamy maskę kolizji tak by kolidowało tylko z innymi graczami
 			var f = body.Value.FixtureList[0];
 			f.CollisionCategories = (CollisionCategory)(1 << this.Owner.PlayerID);
 			f.CollidesWith = CollisionCategory.All & ~f.CollisionCategories;
+
+			//I zdarzenia kolizji pomiędzy jednostkami
+			f.OnCollision = (fixtureA, fixtureB, contact) =>
+			{
+				if (this.Collide != null && fixtureA.Body.UserData is IUnit && fixtureB.Body.UserData is IUnit)
+				{
+					this.Collide(fixtureA.Body.UserData as IUnit, fixtureB.Body.UserData as IUnit);
+					return false;
+				}
+				return true;
+			};
 
 			foreach (var component in this.Description.Components)
 			{
