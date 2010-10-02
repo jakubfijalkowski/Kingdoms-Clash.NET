@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using FarseerPhysics.Dynamics;
 using FarseerPhysics.Collision.Shapes;
+using FarseerPhysics.Dynamics;
 
 namespace ClashEngine.NET.Components
 {
@@ -60,10 +60,8 @@ namespace ClashEngine.NET.Components
 			this.Vertices = new List<TerrainVertex>(terrain);
 		}
 
-		public override void Init(Interfaces.EntitiesManager.IGameEntity owner)
+		public override void OnInit()
 		{
-			base.Init(owner);
-
 			this.AddShapes();
 
 			Vertex2DPC[] vertices = new Vertex2DPC[this.Vertices.Count * 2];

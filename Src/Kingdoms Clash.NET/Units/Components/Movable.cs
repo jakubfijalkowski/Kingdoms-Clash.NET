@@ -34,10 +34,8 @@ namespace Kingdoms_Clash.NET.Units.Components
 		/// Inicjalizuje komponent ustawiając prędkość pobraną z atrybutów jednostki.
 		/// </summary>
 		/// <param name="owner"></param>
-		public override void Init(IGameEntity owner)
+		public override void OnInit()
 		{
-			base.Init(owner);
-
 			this.Velocity_ = this.Owner.Attributes.GetOrCreate<OpenTK.Vector2>("Velocity");
 			this.Velocity = new OpenTK.Vector2((this.Owner as IUnit).Description.Attributes.Get<float>("Velocity"), 0f);
 

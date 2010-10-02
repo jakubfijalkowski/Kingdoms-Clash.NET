@@ -112,10 +112,8 @@ namespace ClashEngine.NET.Components
 		/// Pobiera wymagane atrybuty.
 		/// </summary>
 		/// <param name="owner"></param>
-		public override void Init(IGameEntity owner)
+		public override void OnInit()
 		{
-			base.Init(owner);
-
 			this.Position_ = this.Owner.Attributes.GetOrCreate<Vector2>("Position");
 			this.Size_ = this.Owner.Attributes.GetOrCreate<Vector2>("Size");
 			this.Rotation_ = this.Owner.Attributes.GetOrCreate<float>("Rotation");

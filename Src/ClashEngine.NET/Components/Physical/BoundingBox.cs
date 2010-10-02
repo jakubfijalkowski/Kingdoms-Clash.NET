@@ -57,10 +57,8 @@ namespace ClashEngine.NET.Components.Physical
 		}
 		#endregion
 
-		public override void Init(Interfaces.EntitiesManager.IGameEntity owner)
+		public override void OnInit()
 		{
-			base.Init(owner);
-
 			var body = base.Owner.Attributes.Get<Body>("Body");
 			if (body == null)
 			{

@@ -38,10 +38,8 @@ namespace ClashEngine.NET.PhysicsManager
 			this.IsDynamic = isDynamic;
 		}
 
-		public override void Init(IGameEntity owner)
+		public override void OnInit()
 		{
-			base.Init(owner);
-
 			this.Body_ = this.Owner.Attributes.GetOrCreate<Body>("Body");
 			this.Body = PhysicsManager.Instance.World.CreateBody();
 			this.Body.BodyType = (this.IsDynamic ? BodyType.Dynamic : BodyType.Static);

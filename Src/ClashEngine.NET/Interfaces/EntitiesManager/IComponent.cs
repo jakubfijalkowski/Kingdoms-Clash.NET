@@ -16,7 +16,7 @@
 		IGameEntity Owner { get; }
 
 		/// <summary>
-		/// Wywoływane przy inicjalizacji komponentu w GameEntity. Służy np. do dodawania atrybutów.
+		/// Wywoływane przy inicjalizacji komponentu w GameEntity.
 		/// </summary>
 		/// <param name="owner">Właściciel komponentu.</param>
 		void Init(IGameEntity owner);
@@ -26,5 +26,17 @@
 		/// </summary>
 		/// <param name="delta">Czas od ostatniego uaktualnienia.</param>
 		void Update(double delta);
+
+		#region Events
+		/// <summary>
+		/// Zdarzenie wywoływane przy inicjalizacji komponentu(dodaniu do managera).
+		/// </summary>
+		void OnInit();
+
+		/// <summary>
+		/// Zdarzenie wywoływane przy deinicjalizacji komponentu(usunięcie z managera).
+		/// </summary>
+		void OnDeinit();
+		#endregion
 	}
 }

@@ -131,6 +131,7 @@ namespace ClashEngine.NET.EntitiesManager
 			{
 				this._RenderableComponentsCollection.InternalAdd(item as IRenderableComponent);
 			}
+			item.OnInit();
 			Logger.Debug("Component {0} added to entity {1}", item.Id, this.Parent.Id);
 		}
 
@@ -150,6 +151,7 @@ namespace ClashEngine.NET.EntitiesManager
 				}
 				Logger.Debug("Component {0} removed from entity {1}", item.Id, this.Parent.Id);
 			}
+			item.OnDeinit();
 			return deleted;
 		}
 
@@ -158,6 +160,10 @@ namespace ClashEngine.NET.EntitiesManager
 		/// </summary>
 		public void Clear()
 		{
+			foreach (var c in this.Components)
+			{
+				c.OnDeinit();
+			}
 			this._RenderableComponentsCollection.InternalClear();
 			this.Components.Clear();
 		}
@@ -217,6 +223,11 @@ namespace ClashEngine.NET.EntitiesManager
 		internal ComponentsCollection(IGameEntity parent)
 		{
 			this.Parent = parent;
+		}
+
+		~ComponentsCollection()
+		{
+			this.Clear();
 		}
 
 		private class RenderableComponentsCollection

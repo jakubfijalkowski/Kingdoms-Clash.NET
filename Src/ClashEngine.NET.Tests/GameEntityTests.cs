@@ -1,7 +1,6 @@
-﻿using Moq;
+﻿using ClashEngine.NET.EntitiesManager;
+using Moq;
 using NUnit.Framework;
-
-using ClashEngine.NET.EntitiesManager;
 
 namespace ClashEngine.NET.Tests
 {
@@ -20,10 +19,12 @@ namespace ClashEngine.NET.Tests
 		{
 			this.Entity = new GameEntity("Entity");
 			this.Component = new Mock<Component>("Component");
-			this.Component.Setup(c => c.Init(this.Entity));
+			//this.Component.Setup(c => c.Init(this.Entity));
+			this.Component.Setup(c => c.OnInit());
 
 			this.RenderableComponent = new Mock<RenderableComponent>("RenderableComponent");
-			this.RenderableComponent.Setup(c => c.Init(this.Entity));
+			//this.RenderableComponent.Setup(c => c.Init(this.Entity));
+			this.RenderableComponent.Setup(c => c.OnInit());
 
 			this.Attribute = new Mock<Attribute>("Attribute", 0.0);
 			this.GenericAttribute = new Mock<Attribute<int>>("GenericAttribute", 1);

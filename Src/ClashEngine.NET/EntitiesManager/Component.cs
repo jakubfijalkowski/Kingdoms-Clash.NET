@@ -32,7 +32,7 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <summary>
 		/// Wywoływane przy inicjalizacji komponentu w GameEntity. Służy np. do dodawania atrybutów.
 		/// </summary>
-		public virtual void Init(IGameEntity owner)
+		public void Init(IGameEntity owner)
 		{
 			this.Owner = owner;
 		}
@@ -42,5 +42,19 @@ namespace ClashEngine.NET.EntitiesManager
 		/// </summary>
 		/// <param name="delta">Czas od ostatniego uaktualnienia.</param>
 		public abstract void Update(double delta);
+
+		#region Events
+		/// <summary>
+		/// Zdarzenie wywoływane przy inicjalizacji komponentu(dodaniu do managera).
+		/// </summary>
+		public virtual void OnInit()
+		{ }
+
+		/// <summary>
+		/// Zdarzenie wywoływane przy deinicjalizacji komponentu(usunięcie z managera).
+		/// </summary>
+		public virtual void OnDeinit()
+		{ }
+		#endregion
 	}
 }

@@ -21,13 +21,16 @@ namespace ClashEngine.NET.Tests
 			this.Collection = new ComponentsCollection(ent);
 
 			this.Component1 = new Mock<Component>("Component1") { CallBase = true };
-			this.Component1.Setup(c => c.Init(ent));
+			//this.Component1.Setup(c => c.Init(ent));
+			this.Component1.Setup(c => c.OnInit());
 
 			this.Component2 = new Mock<Component>("Component2") { CallBase = true };
-			this.Component2.Setup(c => c.Init(ent));
+			//this.Component2.Setup(c => c.Init(ent));
+			this.Component2.Setup(c => c.OnInit());
 
 			this.Component3 = new Mock<OtherComponent>("Component3") { CallBase = true };
-			this.Component3.Setup(c => c.Init(ent));
+			//this.Component3.Setup(c => c.Init(ent));
+			this.Component3.Setup(c => c.OnInit());
 
 			this.Collection.Add(this.Component1.Object);
 			this.Collection.Add(this.Component2.Object);
@@ -111,5 +114,13 @@ namespace ClashEngine.NET.Tests
 		{
 			this.Id = id;
 		}
+
+		#region Events
+		public virtual void OnInit()
+		{ }
+
+		public virtual void OnDeinit()
+		{ }
+		#endregion
 	}
 }

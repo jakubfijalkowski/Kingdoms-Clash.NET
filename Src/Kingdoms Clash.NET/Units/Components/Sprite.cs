@@ -17,10 +17,8 @@ namespace Kingdoms_Clash.NET.Units.Components
 			: base("Sprite")
 		{ }
 
-		public override void Init(ClashEngine.NET.Interfaces.EntitiesManager.IGameEntity owner)
+		public override void OnInit()
 		{
-			base.Init(owner);
-
 			string path = (this.Owner as IUnitDescription).Attributes.Get("Image") as string;
 
 			base.Init(ResourcesManager.Instance.Load<Texture>(path));
