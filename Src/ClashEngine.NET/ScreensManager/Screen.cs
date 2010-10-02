@@ -4,6 +4,7 @@ using OpenTK.Input;
 namespace ClashEngine.NET.ScreensManager
 {
 	using Interfaces.ScreensManager;
+using System.Diagnostics;
 
 	/// <summary>
 	/// Bazowa klasa dla "ekranów"(np. menu, plansza).
@@ -16,6 +17,7 @@ namespace ClashEngine.NET.ScreensManager
 	///	Umożliwi to wysyłanie zdarzeń tylko do aktywnych ekranów i przesyłanie zdarzenia będzie mogło zostać przerwane, czego nie umożliwia metoda Update.
 	///	Ekran sam powinien sprawdzać, czy np. naciśnięcie przycisku myszy jest nad nim(dotyczy to ekranów typu popup, fullscreen, jak wiadomo, jest tylko jeden).
 	/// </remarks>
+	[DebuggerDisplay("{this.GetType().Name,nq}, State = {State}{(IsPopup ? \", Popup\" : \"\"),nq}{(IsFullscreen ? \", Fullscreen\" : \"\"),nq}")]
 	public abstract class Screen
 		: IScreen
 	{

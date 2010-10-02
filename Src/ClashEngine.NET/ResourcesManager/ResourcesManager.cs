@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace ClashEngine.NET.ResourcesManager
 {
-	using ClashEngine.NET.Interfaces.ResourcesManager;
+	using Interfaces.ResourcesManager;
 
 	/// <summary>
 	/// Manager zasobów.
@@ -17,6 +18,7 @@ namespace ClashEngine.NET.ResourcesManager
 	///	Domyślnie w wersji Debug używany jest manager obsługujący "hot replace", a w Release - nie.
 	///	Jeśli pozwolimy używać takiego managera musimy zapewnić, że klasy zasobów będą thread-safe.
 	/// </remarks>
+	[DebuggerDisplay("Resources = {TotalCount}")]
 	public class ResourcesManager
 		: IResourcesManager
 	{
@@ -46,7 +48,10 @@ namespace ClashEngine.NET.ResourcesManager
 		}
 		#endregion
 
+		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		protected Dictionary<string, IResource> Resources = new Dictionary<string, IResource>();
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private string _ContentDirectory = Path.GetFullPath(".");
 
 		#region Properties

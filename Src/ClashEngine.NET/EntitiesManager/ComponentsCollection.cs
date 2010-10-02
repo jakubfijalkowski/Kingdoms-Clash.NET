@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace ClashEngine.NET.EntitiesManager
@@ -9,13 +10,16 @@ namespace ClashEngine.NET.EntitiesManager
 	/// <summary>
 	/// Kolekcja komponentów.
 	/// </summary>
+	[DebuggerDisplay("Count = {Count}")]
 	class ComponentsCollection
 		: IComponentsCollection
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 		
+		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IComponent> Components = new List<IComponent>();
 		private IGameEntity Parent = null;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private RenderableComponentsCollection _RenderableComponentsCollection = new RenderableComponentsCollection();
 
 		#region IComponentsCollection Members
@@ -230,9 +234,11 @@ namespace ClashEngine.NET.EntitiesManager
 			this.Clear();
 		}
 
+		[DebuggerDisplay("Count = {Count}")]
 		private class RenderableComponentsCollection
 			: IRenderableComponentsCollection
 		{
+			[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 			private List<IRenderableComponent> Components = new List<IRenderableComponent>();
 
 			#region ICollection<IRenderableComponent> Members

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ClashEngine.NET.EntitiesManager
 {
@@ -8,11 +9,13 @@ namespace ClashEngine.NET.EntitiesManager
 	/// <summary>
 	/// Manager encji gry.
 	/// </summary>
+	[DebuggerDisplay("Count = {Count}")]
 	public class EntitiesManager
 		: IEntitiesManager
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
+		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IGameEntity> Entities = new List<IGameEntity>();
 
 		#region IEntitiesManager Members

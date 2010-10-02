@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics;
 
 namespace ClashEngine.NET.EntitiesManager
 {
@@ -7,6 +7,7 @@ namespace ClashEngine.NET.EntitiesManager
 	/// <summary>
 	/// Atrybut encji gry.
 	/// </summary>
+	[DebuggerDisplay("{Id,nq} = {Value,nq}")]
 	public class Attribute
 		: IAttribute
 	{

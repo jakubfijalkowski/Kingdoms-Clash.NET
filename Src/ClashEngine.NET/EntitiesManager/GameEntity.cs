@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Diagnostics;
 
 namespace ClashEngine.NET.EntitiesManager
 {
@@ -8,12 +7,15 @@ namespace ClashEngine.NET.EntitiesManager
 	/// <summary>
 	/// Encja gry - kontener na komponenty i atrybuty.
 	/// </summary>
+	[DebuggerDisplay("Entity {Id} with {Components.Count} components and {Attributes.Count} attributes")]
 	public class GameEntity
 		: IGameEntity
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private IComponentsCollection _Components;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private IAttributesCollection _Attributes;
 
 		#region Properties

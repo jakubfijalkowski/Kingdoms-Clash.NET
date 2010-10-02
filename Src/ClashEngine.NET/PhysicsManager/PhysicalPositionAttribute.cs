@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using FarseerPhysics.Dynamics;
 using OpenTK;
 
@@ -11,13 +12,14 @@ namespace ClashEngine.NET.PhysicsManager
 	/// Wewnętrzna klasa zamieniająca normalne atrybuty w atrybuty "fizyczne" - pobierane z obiektów fizycznych.
 	/// Pobiera atrybut z FarseerPhysics.Dynamics.Body.
 	/// </summary>
+	[DebuggerDisplay("{Id,nq} = {Value}")]
 	class PhysicalPositionAttribute
 		: IAttribute<Vector2>
 	{
 		private Body Body;
 
 		#region IAttribute<Vector2> Members
-		Vector2 IAttribute<Vector2>.Value
+		public Vector2 Value
 		{
 			get
 			{
@@ -26,7 +28,7 @@ namespace ClashEngine.NET.PhysicsManager
 			set
 			{
 				this.Body.Position = value.ToXNA();
-			}
+			} 
 		}
 		#endregion
 

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Diagnostics;
 
 namespace ClashEngine.NET.ResourcesManager
 {
@@ -7,6 +8,7 @@ namespace ClashEngine.NET.ResourcesManager
 	/// <summary>
 	/// Klasa bazowa dla zasobów.
 	/// </summary>
+	[DebuggerDisplay("{this.GetType().Name,nq}, Id = {Id,nq}")]
 	public abstract class Resource
 		: IResource
 	{

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics;
 
 namespace ClashEngine.NET.EntitiesManager
 {
@@ -7,6 +7,7 @@ namespace ClashEngine.NET.EntitiesManager
 	/// <summary>
 	/// Bazowa klasa dla komponentów.
 	/// </summary>
+	[DebuggerDisplay("Component {Id} of type {this.GetType().Name,nq}")]
 	public abstract class Component
 		: IComponent
 	{

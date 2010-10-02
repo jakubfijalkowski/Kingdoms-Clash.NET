@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using OpenTK.Input;
 
 namespace ClashEngine.NET.ScreensManager
@@ -10,11 +11,13 @@ namespace ClashEngine.NET.ScreensManager
 	/// Manager ekranów.
 	/// Zobacz <see cref="Screen"/> dla większej ilości informacji.
 	/// </summary>
+	[DebuggerDisplay("Count = {Count}")]
 	public class ScreensManager
 		: IScreensManager
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
+		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IScreen> Screens = new List<IScreen>();
 
 		#region IScreensManager Members

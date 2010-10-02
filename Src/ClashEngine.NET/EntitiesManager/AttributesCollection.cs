@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ClashEngine.NET.EntitiesManager
 {
@@ -8,11 +9,13 @@ namespace ClashEngine.NET.EntitiesManager
 	/// <summary>
 	/// Kolekcja atrybutów encji.
 	/// </summary>
+	[DebuggerDisplay("Count = {Count}")]
 	class AttributesCollection
 		: IAttributesCollection
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
+		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IAttribute> Attributes = new List<IAttribute>();
 		private IGameEntity Parent = null;
 
@@ -177,7 +180,7 @@ namespace ClashEngine.NET.EntitiesManager
 			get { return false; }
 		}
 		#endregion
-
+		
 		#region IEnumerable<IAttribute> Members
 		public IEnumerator<IAttribute> GetEnumerator()
 		{
