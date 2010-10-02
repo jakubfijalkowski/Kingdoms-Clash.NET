@@ -48,11 +48,31 @@ namespace Kingdoms_Clash.NET.Maps
 			float maxH = Cfg.Instance.ScreenSize.Y - margin - 20f;
 			TerrainVertex[] vertices = new TerrainVertex[]
 			{
-				new TerrainVertex { Position = new Vector2(0f, margin + 0f), Color = new Vector4(0.2f, 1f, 0.2f, 1f)},
-				new TerrainVertex { Position = new Vector2(20f, margin + 0f), Color = new Vector4(0.2f, 1f, 0.2f, 1f)},
-				new TerrainVertex { Position = new Vector2(100f, margin + maxH), Color = new Vector4(0.2f, 1f, 0.2f, 1f)},
-				new TerrainVertex { Position = new Vector2(180f, margin + 0f), Color = new Vector4(0.2f, 1f, 0.2f, 1f)},
-				new TerrainVertex { Position = new Vector2(200f, margin + 0f), Color = new Vector4(0.2f, 1f, 0.2f, 1f)},
+				new TerrainVertex
+				{
+					Position = new Vector2(0f, margin + 0f),
+					Color = new Vector4(0.2f, 1f, 0.2f, 1f)
+				},
+				new TerrainVertex
+				{
+					Position = new Vector2(Cfg.Instance.CastleSize.X, margin + 0f),
+					Color = new Vector4(0.2f, 1f, 0.2f, 1f)
+				},
+				new TerrainVertex
+				{
+					Position = new Vector2((200f - Cfg.Instance.CastleSize.X - 20f) / 2 + 20f, margin + maxH),
+					Color = new Vector4(0.2f, 1f, 0.2f, 1f)
+				},
+				new TerrainVertex
+				{
+					Position = new Vector2(200f - Cfg.Instance.CastleSize.X, margin + 0f),
+					Color = new Vector4(0.2f, 1f, 0.2f, 1f)
+				},
+				new TerrainVertex
+				{
+					Position = new Vector2(200f, margin + 0f),
+					Color = new Vector4(0.2f, 1f, 0.2f, 1f)
+				},
 			};
 			this.Components.Add(new Terrain((this.Height * Cfg.Instance.ScreenSize.Y) - maxH));
 		}

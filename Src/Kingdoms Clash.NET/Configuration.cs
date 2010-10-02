@@ -58,6 +58,11 @@ namespace Kingdoms_Clash.NET
 		/// Wartość grawitacji.
 		/// </summary>
 		public float Gravity { get; private set; }
+
+		/// <summary>
+		/// Rozmiary zamku.
+		/// </summary>
+		public Vector2 CastleSize { get; private set; }
 		#endregion
 
 		private Configuration()
@@ -73,6 +78,7 @@ namespace Kingdoms_Clash.NET
 
 			this.MapMargin = this.ScreenSize.Y / 2f;
 			this.Gravity = 300f;
+			this.CastleSize = new Vector2(20f, 30f);
 		}
 	}
 }

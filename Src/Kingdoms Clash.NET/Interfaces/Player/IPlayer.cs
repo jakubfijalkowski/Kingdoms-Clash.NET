@@ -28,7 +28,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 		IList<IUnit> Units { get; }
 
 		/// <summary>
-		/// Zasoby użytkownika.
+		/// Zasoby, które gracz aktualnie posiada.
 		/// </summary>
 		IList<IResource> Resources { get; }
 
@@ -36,6 +36,6 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 		/// Zdrowie bohatera(jego zamku).
 		/// Powinno być zaimplementowane na bazie IAttribute.
 		/// </summary>
-		int Health { get; }
+		int Health { get; set; }
 	}
 }

@@ -41,6 +41,11 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Wartość grawitacji.
 		/// </summary>
 		float Gravity { get; }
+
+		/// <summary>
+		/// Rozmiary zamku.
+		/// </summary>
+		Vector2 CastleSize { get; }
 		#endregion
 	}
 }
