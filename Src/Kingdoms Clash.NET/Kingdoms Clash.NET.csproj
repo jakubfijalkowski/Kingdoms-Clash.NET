@@ -97,6 +97,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Interfaces\Units\IUnitDescriptionsCollection.cs" />
     <Compile Include="Maps\DefaultMap.cs" />
+    <Compile Include="Player\Castle.cs" />
     <Compile Include="Player\Human.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Units\Components\Movable.cs" />

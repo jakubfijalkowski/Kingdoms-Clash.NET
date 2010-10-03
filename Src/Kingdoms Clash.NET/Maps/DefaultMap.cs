@@ -25,13 +25,15 @@ namespace Kingdoms_Clash.NET.Maps
 
 		public float Width
 		{
-			get { return 2f; }
+			get { return 200f; }
 		}
 
 		public float Height
 		{
-			get { return 0.5f; }
+			get { return 37.5f; }
 		}
+
+		public float CastlePlacePosition { get; private set; }
 
 		public Interfaces.Resources.IResource CheckForResource(float beginig, float end, out float position)
 		{
@@ -49,8 +51,8 @@ namespace Kingdoms_Clash.NET.Maps
 
 		public override void OnInit()
 		{
-			float margin = Cfg.Instance.MapMargin;
-			float maxH = Cfg.Instance.ScreenSize.Y - margin - 20f;
+			float margin = this.CastlePlacePosition = Math.Max(Cfg.Instance.MapMargin, Cfg.Instance.ScreenSize.Y - this.Height); //Margines, wyrównujemy mapę tak, by sięgała dołu ekranu ale nie była mniejsza niż margines
+			float maxH = 20f;
 			TerrainVertex[] vertices = new TerrainVertex[]
 			{
 				new TerrainVertex

@@ -1,3 +1,3 @@
-﻿Wytyczne przy budowaniu projektu:
-   1 jednostka gry odpowiada jednemu metrowi
-   Mapa nie może być węższa niż 1 ekran(zobacz: Configuration.ScreenSize.X).
+﻿1 jednostka gry odpowiada jednemu metrowi
+Mapa nie może być węższa niż 1 ekran(zobacz: Configuration.ScreenSize.X).
+Przy rozpoczynaniu gry należy najpierw w pełni zainicjalizować kontroler, potem mapę, graczy a na samym końcu dodać wszystkie możliwe encje do kolekcji.

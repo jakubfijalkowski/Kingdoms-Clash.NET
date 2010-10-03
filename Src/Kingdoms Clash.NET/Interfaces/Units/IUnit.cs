@@ -10,7 +10,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 	/// </summary>
 	/// <param name="a">Pierwsza jednostka.</param>
 	/// <param name="b">Druga jednostka.</param>
-	public delegate void UserCollideEventHandler(IUnit a, IUnit b);
+	public delegate void UnitCollideEventHandler(IUnit a, IUnit b);
 
 	/// <summary>
 	/// Bazowy interfejs jednostki.
@@ -41,6 +41,6 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// <summary>
 		/// Zdarzenie kolizji jednostek.
 		/// </summary>
-		UserCollideEventHandler Collide { get; set; }
+		event UnitCollideEventHandler Collide;
 	}
 }

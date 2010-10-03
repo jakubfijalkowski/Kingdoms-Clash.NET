@@ -1,20 +1,20 @@
 ﻿using System;
 using ClashEngine.NET.ScreensManager;
 using Kingdoms_Clash.NET.Interfaces;
+using Kingdoms_Clash.NET.Interfaces.Units;
 using Kingdoms_Clash.NET.Player;
 using Kingdoms_Clash.NET.Units;
 using Kingdoms_Clash.NET.Units.Components;
 using OpenTK.Graphics.OpenGL;
-using Kingdoms_Clash.NET.Interfaces.Units;
 
 namespace Kingdoms_Clash.NET
 {
 	class GameState
-		: Screen, IGameState
+		: Screen, IGameStateScreen
 	{
-		private static readonly Nation TestNation = new Nation("Test", new UnitDescription[] { });
-		private static readonly Human PlayerA = new Human(0, "PlayerA", TestNation);
-		private static readonly Human PlayerB = new Human(1, "PlayerB", TestNation);
+		private static readonly Nation TestNation = new Nation("Test", "NonExisting", new UnitDescription[] { });
+		private static readonly Human PlayerA = new Human("PlayerA", TestNation);
+		private static readonly Human PlayerB = new Human("PlayerB", TestNation);
 
 		private IUnit UnitA;
 		private IUnit UnitB;
@@ -26,10 +26,7 @@ namespace Kingdoms_Clash.NET
 			get { throw new NotImplementedException(); }
 		}
 
-		public Interfaces.Map.IMap Map
-		{
-			get { throw new NotImplementedException(); }
-		}
+		public Interfaces.Map.IMap Map { get; private set; }
 
 		public Interfaces.Controllers.IGameController Controller
 		{
@@ -45,10 +42,16 @@ namespace Kingdoms_Clash.NET
 
 		public override void OnInit()
 		{
+			PlayerA.Type = Interfaces.Player.PlayerType.First;
+			PlayerB.Type = Interfaces.Player.PlayerType.Second;
+			PlayerA.GameState = PlayerB.GameState = this;
+
 			ClashEngine.NET.PhysicsManager.PhysicsManager.Instance.Gravity = new OpenTK.Vector2(0f, Configuration.Instance.Gravity);
 
 			this.Entities.Add(new ClashEngine.NET.Cameras.OrthoCamera(new System.Drawing.RectangleF(0f, 0f, 200f, 75f), new OpenTK.Vector2(100f, 75f), 100f, true));
-			this.Entities.Add(new Kingdoms_Clash.NET.Maps.DefaultMap());
+			this.Entities.Add(this.Map = new Kingdoms_Clash.NET.Maps.DefaultMap());
+			this.Entities.Add(PlayerA);
+			this.Entities.Add(PlayerB);
 
 			var ud = new UnitDescription("Test", 100, 5f, 5f);
 			ud.Components.Add(new Movable());
@@ -56,12 +59,6 @@ namespace Kingdoms_Clash.NET
 			(ud.Attributes as UnitAttributesCollection).Add(new UnitAttribute<float>("Velocity", 10f));
 			(ud.Attributes as UnitAttributesCollection).Add(new UnitAttribute("Image", "NonExisting"));
 			this.Entities.Add(this.UnitA = new Unit(ud, PlayerA));
-			this.UnitA.Collide = (a, b) =>
-			{
-				if (a == b)
-				{
-				}
-			};
 		}
 
 		public override void Render()

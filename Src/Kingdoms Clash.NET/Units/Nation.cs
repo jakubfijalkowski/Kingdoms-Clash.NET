@@ -19,6 +19,11 @@ namespace Kingdoms_Clash.NET.Units
 		public string Name { get; private set; }
 
 		/// <summary>
+		/// Ścieżka do obrazka zamku.
+		/// </summary>
+		public string CastleImage { get; private set; }
+
+		/// <summary>
 		/// Dostępne jednostki nacji.
 		/// </summary>
 		public IUnitDescriptionsCollection AvailableUnits { get; private set; }
@@ -45,9 +50,11 @@ namespace Kingdoms_Clash.NET.Units
 		/// Inicjalizuje nową nacje.
 		/// </summary>
 		/// <param name="name">Nazwa nacji.</param>
-		public Nation(string name, IEnumerable<IUnitDescription> descriptions)
+		/// <param name="image">Ścieżka do obrazka zamku.</param>
+		public Nation(string name, string image, IEnumerable<IUnitDescription> descriptions)
 		{
 			this.Name = name;
+			this.CastleImage = image;
 			this.AvailableUnits = new UnitDescriptionsCollection(descriptions);
 			Logger.Debug("Nation {0} created", this.Name);
 		}

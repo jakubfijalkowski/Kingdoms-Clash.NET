@@ -9,7 +9,7 @@
 		/// <summary>
 		/// Ekran rozgrywki.
 		/// </summary>
-		IGameState Game { get; }
+		IGameStateScreen Game { get; }
 
 		/// <summary>
 		/// Ekran głównego menu.

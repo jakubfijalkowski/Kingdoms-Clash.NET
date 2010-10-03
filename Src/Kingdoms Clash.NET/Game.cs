@@ -12,7 +12,7 @@ namespace Kingdoms_Clash.NET
 		: Game, IGame
 	{
 		#region IGame Members
-		public IGameState Game { get; private set; }
+		public IGameStateScreen Game { get; private set; }
 
 		public IMenuState Menu
 		{

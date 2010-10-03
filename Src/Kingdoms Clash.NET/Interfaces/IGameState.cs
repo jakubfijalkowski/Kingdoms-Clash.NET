@@ -7,10 +7,9 @@ namespace Kingdoms_Clash.NET.Interfaces
 	using Player;
 
 	/// <summary>
-	/// Ekran(stan) gry.
+	/// Stan gry.
 	/// </summary>
 	public interface IGameState
-		: IScreen
 	{
 		#region Properties
 		/// <summary>
@@ -36,4 +35,11 @@ namespace Kingdoms_Clash.NET.Interfaces
 		void Reset();
 		#endregion
 	}
+
+	/// <summary>
+	/// Ekran stanu gry.
+	/// </summary>
+	public interface IGameStateScreen
+		: IGameState, IScreen
+	{ }
 }

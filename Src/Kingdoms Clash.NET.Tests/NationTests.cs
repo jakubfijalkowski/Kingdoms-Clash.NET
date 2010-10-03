@@ -17,7 +17,7 @@ namespace Kingdoms_Clash.NET.Tests
 			this.Description1 = new UnitDescription("Unit1", 100, 5f, 5f);
 			this.Description2 = new UnitDescription("Unit2", 100, 5f, 5f);
 
-			this.Nation = new Nation("TestNation", new IUnitDescription[] { this.Description1, this.Description2 });
+			this.Nation = new Nation("TestNation", "NonExisting", new IUnitDescription[] { this.Description1, this.Description2 });
 		}
 
 		[Test]

@@ -36,7 +36,7 @@ namespace Kingdoms_Clash.NET.Units
 		/// <summary>
 		/// Zdarzenie kolizji jednostek.
 		/// </summary>
-		public UserCollideEventHandler Collide { get; set; }
+		public event UnitCollideEventHandler Collide;
 		#endregion
 
 		/// <summary>
@@ -68,15 +68,15 @@ namespace Kingdoms_Clash.NET.Units
 			this.Components.Add(new BoundingBox(new OpenTK.Vector2(this.Description.Width, this.Description.Height)));
 
 			//Ustawiamy właściwości ciała tak, by poruszało się po naszej myśli
-			var body = this.Attributes.Get<FarseerPhysics.Dynamics.Body>("Body");
-			body.Value.SleepingAllowed = false;
-			body.Value.FixedRotation = true;
+			var body = this.Attributes.Get<Body>("Body").Value; //Musi istnieć - odpowiedni komponent został dodany
+			body.SleepingAllowed = false;
+			body.FixedRotation = true;
 
-			body.Value.UserData = this;
+			body.UserData = this;
 
 			//Ustawiamy maskę kolizji tak by kolidowało tylko z innymi graczami
-			var f = body.Value.FixtureList[0];
-			f.CollisionCategories = (CollisionCategory)(1 << this.Owner.PlayerID);
+			var f = body.FixtureList[0];
+			f.CollisionCategories = (CollisionCategory)(1 << (int)this.Owner.Type);
 			f.CollidesWith = CollisionCategory.All & ~f.CollisionCategories;
 
 			//I zdarzenia kolizji pomiędzy jednostkami

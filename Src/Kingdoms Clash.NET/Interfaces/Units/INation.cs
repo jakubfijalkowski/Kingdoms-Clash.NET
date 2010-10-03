@@ -13,6 +13,11 @@
 		string Name { get; }
 
 		/// <summary>
+		/// Ścieżka do obrazka zamku.
+		/// </summary>
+		string CastleImage { get; }
+
+		/// <summary>
 		/// Dostępne jednostki nacji.
 		/// </summary>
 		IUnitDescriptionsCollection AvailableUnits { get; }
