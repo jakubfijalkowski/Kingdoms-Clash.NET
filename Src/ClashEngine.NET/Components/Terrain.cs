@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Dynamics;
+using OpenTK.Graphics.OpenGL;
 
 namespace ClashEngine.NET.Components
 {
@@ -141,6 +142,7 @@ namespace ClashEngine.NET.Components
 
 		public override void Render()
 		{
+			GL.BindTexture(TextureTarget.Texture2D, 0);
 			this.TerrainVBO.Draw();
 		}
 

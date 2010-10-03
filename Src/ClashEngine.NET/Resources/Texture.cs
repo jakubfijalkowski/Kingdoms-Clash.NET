@@ -92,11 +92,12 @@ namespace ClashEngine.NET.Resources
 				Bitmap bm;
 				try
 				{
+					GL.Enable(EnableCap.Texture2D);
+
 					bm = new Bitmap(this.FileName);
 
 					BitmapData data = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-					GL.Enable(EnableCap.Texture2D);
 					this.TextureId = GL.GenTexture();
 					this.Bind();
 					GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bm.Width, bm.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);

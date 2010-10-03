@@ -112,12 +112,7 @@ namespace Kingdoms_Clash.NET.Player
 			this.Components.Add(new BoundingBox(Configuration.Instance.CastleSize));
 			this.Components.Add(new Sprite("CastleImage", ResourcesManager.Instance.Load<Texture>(this.Nation.CastleImage)));
 
-			var position = this.Attributes.Get<Vector2>("Position");
-			position.Value = new Vector2(
-				(this.Type == PlayerType.First ? 0f : this.GameState.Map.Width - Configuration.Instance.CastleSize.X),
-				this.GameState.Map.CastlePlacePosition - Configuration.Instance.CastleSize.Y
-				);
-
+			this.Attributes.Get<Vector2>("Position").Value = (this.Type == PlayerType.First ? this.GameState.Map.FirstCastle : this.GameState.Map.SecondCastle);
 			this.Attributes.Get<Vector2>("Size").Value = Configuration.Instance.CastleSize;
 
 			//Gdy zderzy się z jednostką to wysyła odpowiednie zdarzenie

@@ -1,4 +1,5 @@
 ﻿using ClashEngine.NET.Interfaces.EntitiesManager;
+using OpenTK;
 
 namespace Kingdoms_Clash.NET.Interfaces.Map
 {
@@ -15,21 +16,24 @@ namespace Kingdoms_Clash.NET.Interfaces.Map
 		/// Nazwa mapy.
 		/// </summary>
 		string Name { get; }
-		
-		/// <summary>
-		/// Szerokość mapy w metrach.
-		/// Musi być stały dla danej mapy.
-		float Width { get; }
 
 		/// <summary>
-		/// Wysokość mapy(samej mapy, bez marginesu górnego!) w metrach.
+		/// Rozmiar mapy.
+		/// Zawsze stały.
 		/// </summary>
-		float Height { get; }
+		Vector2 Size { get; }
 
 		/// <summary>
-		/// Wysokość, na której znajdują się zamki.
+		/// Pozycja pierwszego zamku. Uwzględnia wszystkie przesunięcia(włącznie z rozmiarem zamku).
+		/// Zawsze wskazuje na lewy górny róg.
 		/// </summary>
-		float CastlePlacePosition { get; }
+		Vector2 FirstCastle { get; }
+
+		/// <summary>
+		/// Pozycja drugiego zamku. Uwzględnia wszystkie przesunięcia(włącznie z rozmiarem zamku).
+		/// Zawsze wskazuje na lewy górny róg.
+		/// </summary>
+		Vector2 SecondCastle { get; }
 
 		/// <summary>
 		/// Sprawdza czy pomiędzy dwoma punktami jest jakiś zasób.

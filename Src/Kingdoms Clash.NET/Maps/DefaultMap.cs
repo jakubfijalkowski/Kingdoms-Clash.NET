@@ -23,17 +23,11 @@ namespace Kingdoms_Clash.NET.Maps
 			get { return "Default map"; }
 		}
 
-		public float Width
-		{
-			get { return 200f; }
-		}
+		public Vector2 Size { get { return new Vector2(200f, 37.8f); } }
 
-		public float Height
-		{
-			get { return 37.5f; }
-		}
+		public Vector2 FirstCastle { get; private set; }
 
-		public float CastlePlacePosition { get; private set; }
+		public Vector2 SecondCastle { get; private set; }
 
 		public Interfaces.Resources.IResource CheckForResource(float beginig, float end, out float position)
 		{
@@ -51,38 +45,42 @@ namespace Kingdoms_Clash.NET.Maps
 
 		public override void OnInit()
 		{
-			float margin = this.CastlePlacePosition = Math.Max(Cfg.Instance.MapMargin, Cfg.Instance.ScreenSize.Y - this.Height); //Margines, wyrównujemy mapę tak, by sięgała dołu ekranu ale nie była mniejsza niż margines
+			float margin = Math.Max(Cfg.Instance.MapMargin, Cfg.Instance.ScreenSize.Y - this.Size.Y); //Margines, wyrównujemy mapę tak, by sięgała dołu ekranu ale nie była mniejsza niż margines
 			float maxH = 20f;
+
+			this.FirstCastle = new Vector2(0f, margin - Cfg.Instance.CastleSize.Y);
+			this.SecondCastle = new Vector2(this.Size.X - Cfg.Instance.CastleSize.X, margin - Cfg.Instance.CastleSize.Y);
+
 			TerrainVertex[] vertices = new TerrainVertex[]
 			{
 				new TerrainVertex
 				{
 					Position = new Vector2(0f, margin + 0f),
-					Color = new Vector4(0.2f, 1f, 0.2f, 1f)
+					Color = new Vector4(0f, 0.6f, 0f, 1f)
 				},
 				new TerrainVertex
 				{
 					Position = new Vector2(Cfg.Instance.CastleSize.X, margin + 0f),
-					Color = new Vector4(0.2f, 1f, 0.2f, 1f)
+					Color = new Vector4(0f, 0.6f, 0f, 1f)
 				},
 				new TerrainVertex
 				{
 					Position = new Vector2((200f - Cfg.Instance.CastleSize.X - 20f) / 2 + 20f, margin + maxH),
-					Color = new Vector4(0.2f, 1f, 0.2f, 1f)
+					Color = new Vector4(0f, 0.6f, 0f, 1f)
 				},
 				new TerrainVertex
 				{
 					Position = new Vector2(200f - Cfg.Instance.CastleSize.X, margin + 0f),
-					Color = new Vector4(0.2f, 1f, 0.2f, 1f)
+					Color = new Vector4(0f, 0.6f, 0f, 1f)
 				},
 				new TerrainVertex
 				{
 					Position = new Vector2(200f, margin + 0f),
-					Color = new Vector4(0.2f, 1f, 0.2f, 1f)
+					Color = new Vector4(0f, 0.6f, 0f, 1f)
 				},
 			};
 			this.Components.Add(new ClashEngine.NET.PhysicsManager.PhysicalObject());
-			this.Components.Add(new Terrain((this.Height * Cfg.Instance.ScreenSize.Y) - maxH, vertices));
+			this.Components.Add(new Terrain(this.Size.Y - maxH, vertices));
 		}
 	}
 }
