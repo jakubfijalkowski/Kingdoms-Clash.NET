@@ -75,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
-    <Compile Include="GameState.cs" />
+    <Compile Include="SinglePlayer.cs" />
     <Compile Include="Interfaces\Controllers\IGameController.cs" />
     <Compile Include="Interfaces\IConfiguration.cs" />
     <Compile Include="Interfaces\IGame.cs" />

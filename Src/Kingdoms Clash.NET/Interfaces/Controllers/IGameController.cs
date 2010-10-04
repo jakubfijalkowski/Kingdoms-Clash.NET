@@ -1,6 +1,5 @@
 ﻿namespace Kingdoms_Clash.NET.Interfaces.Controllers
 {
-	using Map;
 	using Player;
 	using Units;
 
@@ -36,9 +35,9 @@
 		/// <summary>
 		/// Metoda-zdarzenie odpowiedzialna za kolizje gracza(jego zamku) z jednostką.
 		/// </summary>
-		/// <param name="player">Gracz(zamek gracza).</param>
 		/// <param name="unit">Jednostka, która się z nim zderzyła.</param>
-		void HandleCollision(IPlayer player, IUnit unit);
+		/// <param name="player">Gracz(zamek gracza).</param>
+		void HandleCollision(IUnit unit, IPlayer player);
 
 		/// <summary>
 		/// Metoda-zdarzenie odpowiedzialna za kolizję jednostka-jednostka.

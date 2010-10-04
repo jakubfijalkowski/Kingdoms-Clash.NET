@@ -31,6 +31,15 @@ namespace Kingdoms_Clash.NET.Interfaces
 
 		#region Methods
 		/// <summary>
+		/// Inicjalizuje stan gry.
+		/// </summary>
+		/// <param name="playerA">Pierwszy gracz.</param>
+		/// <param name="playerB">Drugi gracz.</param>
+		/// <param name="map">Mapa.</param>
+		/// <param name="controller">Kontroler gry.</param>
+		void Initialize(IPlayer playerA, IPlayer playerB, IMap map, IGameController controller);
+
+		/// <summary>
 		/// Resetuje stan gry(zaczyna od początku).
 		/// </summary>
 		void Reset();

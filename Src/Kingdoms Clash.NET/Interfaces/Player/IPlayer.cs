@@ -50,7 +50,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 		/// <summary>
 		/// Stan gry do której należy gracz.
 		/// </summary>
-		IGameState GameState { get; }
+		IGameState GameState { get; set; }
 
 		/// <summary>
 		/// Nacja gracza.

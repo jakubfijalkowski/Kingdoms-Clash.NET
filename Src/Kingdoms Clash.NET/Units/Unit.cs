@@ -59,7 +59,6 @@ namespace Kingdoms_Clash.NET.Units
 
 		/// <summary>
 		/// Inicjalizuje nową jednostkę.
-		/// TODO: usunąć sprawdzenie owner == null
 		/// </summary>
 		/// <param name="description">Opis.</param>
 		/// <param name="owner">Właściciel.</param>
