@@ -97,6 +97,7 @@ namespace Kingdoms_Clash.NET
 			this.Entities.Add(this.Players[1]);
 
 			//Od tej chwili to kontroler jest odpowiedzialny za wszystko.
+			this.Controller.OnGameStarted();
 		}
 		#endregion
 	}

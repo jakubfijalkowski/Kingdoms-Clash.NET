@@ -51,6 +51,11 @@
 		/// Resetuje stan gry do wartości początkowych.
 		/// </summary>
 		void Reset();
+
+		/// <summary>
+		/// Wywoływane przy rozpoczęciu gry, pozwala ustawić początkowe wartości.
+		/// </summary>
+		void OnGameStarted();
 		#endregion
 	}
 }
