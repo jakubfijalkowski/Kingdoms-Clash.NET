@@ -5,6 +5,7 @@ namespace Kingdoms_Clash.NET.Interfaces
 	using Controllers;
 	using Map;
 	using Player;
+	using Units;
 
 	/// <summary>
 	/// Stan gry.
@@ -33,6 +34,12 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Resetuje stan gry(zaczyna od początku).
 		/// </summary>
 		void Reset();
+
+		/// <summary>
+		/// Dodaje jednostkę do gry.
+		/// </summary>
+		/// <param name="unit">Jednostka.</param>
+		void AddUnit(IUnit unit);
 		#endregion
 	}
 

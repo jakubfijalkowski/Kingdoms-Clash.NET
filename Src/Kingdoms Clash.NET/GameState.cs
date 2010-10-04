@@ -41,7 +41,7 @@ namespace Kingdoms_Clash.NET
 		#endregion
 
 		public override void OnInit()
-		{
+		{ 
 			PlayerA.Type = Interfaces.Player.PlayerType.First;
 			PlayerB.Type = Interfaces.Player.PlayerType.Second;
 			PlayerA.GameState = PlayerB.GameState = this;

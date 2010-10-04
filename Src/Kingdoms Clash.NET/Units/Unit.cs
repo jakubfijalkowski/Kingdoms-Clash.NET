@@ -2,8 +2,10 @@
 using System.Diagnostics;
 using ClashEngine.NET.Components.Physical;
 using ClashEngine.NET.EntitiesManager;
+using ClashEngine.NET.Interfaces.EntitiesManager;
 using ClashEngine.NET.PhysicsManager;
 using FarseerPhysics.Dynamics;
+using OpenTK;
 
 namespace Kingdoms_Clash.NET.Units
 {
@@ -17,6 +19,9 @@ namespace Kingdoms_Clash.NET.Units
 	public class Unit
 		: GameEntity, IUnit
 	{
+		private IAttribute<int> Health_;
+		private IAttribute<Vector2> Position_;
+
 		#region IUnit Members
 		/// <summary>
 		/// Opis(typ/identyfikator) jednostki.
@@ -31,7 +36,20 @@ namespace Kingdoms_Clash.NET.Units
 		/// <summary>
 		/// Życie.
 		/// </summary>
-		public int Health { get; set; }
+		public int Health
+		{
+			get { return this.Health_.Value; }
+			set { this.Health_.Value = value; }
+		}
+
+		/// <summary>
+		/// Pozycja jednostki.
+		/// </summary>
+		public Vector2 Position
+		{
+			get { return this.Position_.Value; }
+			set { this.Position_.Value = value; }
+		}
 
 		/// <summary>
 		/// Zdarzenie kolizji jednostek.
@@ -62,10 +80,14 @@ namespace Kingdoms_Clash.NET.Units
 
 		public override void OnInit()
 		{
-			this.Health = this.Description.Health;
-
+			//Najpierw komponenty fizyczne, by dało się pobrać prawidłowy atrybut prędkości.
 			this.Components.Add(new PhysicalObject(true));
 			this.Components.Add(new BoundingBox(new OpenTK.Vector2(this.Description.Width, this.Description.Height)));
+
+			this.Health_ = this.Attributes.GetOrCreate<int>("Health");
+			this.Position_ = this.Attributes.GetOrCreate<Vector2>("Position");
+
+			this.Health = this.Description.Health;
 
 			//Ustawiamy właściwości ciała tak, by poruszało się po naszej myśli
 			var body = this.Attributes.Get<Body>("Body").Value; //Musi istnieć - odpowiedni komponent został dodany

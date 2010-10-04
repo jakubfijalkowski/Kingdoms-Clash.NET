@@ -1,5 +1,5 @@
-﻿using System;
-using ClashEngine.NET.Interfaces.EntitiesManager;
+﻿using ClashEngine.NET.Interfaces.EntitiesManager;
+using OpenTK;
 
 namespace Kingdoms_Clash.NET.Interfaces.Units
 {
@@ -18,7 +18,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 	/// <remarks>
 	/// Wszystkie atrybuty/statystyki jednostki powinny być implementowane przez IAttribute i atrybuty encji.
 	/// Umożliwi to dostęp do nich z poziomu komponentów.
-	/// Jedynie życie jednostki jest wyeksponowane na zewnątrz, ale też powinno być tak zaimplementowane.
+	/// Jedynie życie jednostki i pozycja są wyeksponowane na zewnątrz, ale też powinny być tak zaimplementowane.
 	/// </remarks>
 	public interface IUnit
 		: IGameEntity
@@ -37,6 +37,11 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// Życie.
 		/// </summary>
 		int Health { get; set; }
+
+		/// <summary>
+		/// Pozycja jednostki.
+		/// </summary>
+		Vector2 Position { get; }
 
 		/// <summary>
 		/// Zdarzenie kolizji jednostek.
