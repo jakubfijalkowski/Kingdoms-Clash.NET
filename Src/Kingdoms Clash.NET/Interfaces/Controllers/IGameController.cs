@@ -57,6 +57,11 @@
 		/// <param name="unitA">Jednostka.</param>
 		/// <param name="unitB">Jednostka.</param>
 		void HandleCollision(IUnit unitA, IUnit unitB);
+
+		/// <summary>
+		/// Resetuje stan gry do wartości początkowych.
+		/// </summary>
+		void Reset();
 		#endregion
 	}
 }

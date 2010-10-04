@@ -38,6 +38,10 @@ namespace Kingdoms_Clash.NET
 			throw new NotImplementedException();
 		}
 
+		public void AddUnit(IUnit unit)
+		{
+		}
+
 		#endregion
 
 		public override void OnInit()
