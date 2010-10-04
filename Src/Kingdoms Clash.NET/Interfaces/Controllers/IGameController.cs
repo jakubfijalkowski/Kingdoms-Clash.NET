@@ -12,16 +12,6 @@
 	{
 		#region Properties
 		/// <summary>
-		/// Gracze - zawsze dwóch.
-		/// </summary>
-		IPlayer[] Players { get; }
-
-		/// <summary>
-		/// Mapa.
-		/// </summary>
-		IMap Map { get; }
-
-		/// <summary>
 		/// Stan gry. Ustawiany przez IGameState.
 		/// </summary>
 		IGameState GameState { get; set; }
