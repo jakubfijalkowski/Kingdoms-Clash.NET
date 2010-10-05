@@ -77,7 +77,7 @@ namespace Kingdoms_Clash.NET
 			this.CameraSpeed = 100.0f;
 
 			this.MapMargin = this.ScreenSize.Y / 2f;
-			this.Gravity = 300f;
+			this.Gravity = 100f;
 			this.CastleSize = new Vector2(20f, 30f);
 		}
 	}

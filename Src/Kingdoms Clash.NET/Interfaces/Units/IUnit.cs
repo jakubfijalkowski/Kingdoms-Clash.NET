@@ -41,7 +41,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// <summary>
 		/// Pozycja jednostki.
 		/// </summary>
-		Vector2 Position { get; }
+		Vector2 Position { get; set; }
 
 		/// <summary>
 		/// Zdarzenie kolizji jednostek.

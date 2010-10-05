@@ -25,9 +25,10 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
 		public void Update(double delta)
 		{
-			foreach (IGameEntity entity in this.Entities)
+			//Zastosowanie for pozwoli na modyfikacje(dodanie na koniec) kolekcji w trakcie działania.
+			for (int i = 0; i < this.Entities.Count; i++)
 			{
-				entity.Update(delta);
+				this.Entities[i].Update(delta);
 			}
 		}
 

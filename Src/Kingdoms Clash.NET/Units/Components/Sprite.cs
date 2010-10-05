@@ -10,6 +10,10 @@ namespace Kingdoms_Clash.NET.Units.Components
 	/// <summary>
 	/// Jednostka posiada obrazek(sprite).
 	/// </summary>
+	/// <remarks>
+	/// Wymagane atrybuty:
+	/// string Image - ścieżka do obrazka jednostki
+	/// </remarks>
 	public class Sprite
 		: ClashEngine.NET.Components.Sprite, ISprite
 	{

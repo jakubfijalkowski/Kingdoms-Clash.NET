@@ -11,7 +11,7 @@ namespace Kingdoms_Clash.NET.Units
 	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
 	public class UnitAttributesCollection
-		: IUnitAttributesCollection, ICollection<IUnitAttribute>
+		: IUnitAttributesCollection
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IUnitAttribute> Attributes = new List<IUnitAttribute>();

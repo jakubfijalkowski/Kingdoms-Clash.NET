@@ -7,6 +7,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 	/// Metoda przechowywania atrybutów jest dowolna.
 	/// </summary>
 	public interface IUnitAttributesCollection
+		: ICollection<IUnitAttribute>
 	{
 		/// <summary>
 		/// Pobiera atrybut o wskazanym identyfikatorze.

@@ -1,4 +1,7 @@
-﻿using ClashEngine.NET.ScreensManager;
+﻿using System;
+using System.Collections.Generic;
+using ClashEngine.NET.Cameras;
+using ClashEngine.NET.ScreensManager;
 
 namespace Kingdoms_Clash.NET
 {
@@ -19,6 +22,11 @@ namespace Kingdoms_Clash.NET
 		/// TODO: usunąć.
 		/// </summary>
 		private bool Initialized = false;
+
+		/// <summary>
+		/// Jednostki czekające na usunięcie.
+		/// </summary>
+		private List<IUnit> ToRemove = new List<IUnit>();
 
 		#region IGameState Members
 		#region Properties
@@ -46,8 +54,6 @@ namespace Kingdoms_Clash.NET
 		/// <param name="playerB">Drugi gracz.</param>
 		public void Initialize(IPlayer playerA, IPlayer playerB, IMap map, IGameController controller)
 		{
-			this.Reset();
-
 			this.Players = new IPlayer[] { playerA, playerB };
 			this.Map = map;
 			this.Controller = controller;
@@ -60,7 +66,7 @@ namespace Kingdoms_Clash.NET
 		/// </summary>
 		public void Reset()
 		{
-			throw new System.NotImplementedException();
+			this.Controller.Reset();
 		}
 
 		/// <summary>
@@ -73,6 +79,16 @@ namespace Kingdoms_Clash.NET
 
 			unit.Collide += this.Controller.HandleCollision;
 		}
+
+		/// <summary>
+		/// Usuwa jednostkę z gry.
+		/// Musimy zapewnić poprawny przebieg encji, więc dodajemy do kolejki oczekujących na usunięcie.
+		/// </summary>
+		/// <param name="unit">Jednostka.</param>
+		public void RemoveUnit(IUnit unit)
+		{
+			this.ToRemove.Add(unit);
+		}
 		#endregion
 		#endregion
 
@@ -84,13 +100,23 @@ namespace Kingdoms_Clash.NET
 				throw new System.NotSupportedException("Initialize first");
 			}
 
+			ClashEngine.NET.PhysicsManager.PhysicsManager.Instance.Gravity = new OpenTK.Vector2(0f, Configuration.Instance.Gravity);
+
 			this.Controller.GameState = this;
 
 			this.Players[0].GameState = this;
+			this.Players[0].Type = PlayerType.First;
 			this.Players[0].Collide += this.Controller.HandleCollision;
 
 			this.Players[1].GameState = this;
+			this.Players[1].Type = PlayerType.Second;
 			this.Players[1].Collide += this.Controller.HandleCollision;
+
+			this.Entities.Add(new OrthoCamera(
+				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + Configuration.Instance.MapMargin, Configuration.Instance.ScreenSize.Y)),
+				Configuration.Instance.ScreenSize,
+				Configuration.Instance.CameraSpeed,
+				true));
 
 			this.Entities.Add(this.Map);
 			this.Entities.Add(this.Players[0]);
@@ -98,6 +124,24 @@ namespace Kingdoms_Clash.NET
 
 			//Od tej chwili to kontroler jest odpowiedzialny za wszystko.
 			this.Controller.OnGameStarted();
+		}
+
+		public override void Update(double delta)
+		{
+			this.Controller.Update(delta);
+
+			foreach (var unit in this.ToRemove)
+			{
+				this.Entities.Remove(unit);
+			}
+			this.ToRemove.Clear();
+			base.Update(delta);
+		}
+
+		public override void Render()
+		{
+			OpenTK.Graphics.OpenGL.GL.Clear(OpenTK.Graphics.OpenGL.ClearBufferMask.ColorBufferBit);
+			base.Render();
 		}
 		#endregion
 	}

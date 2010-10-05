@@ -47,6 +47,11 @@ namespace ClashEngine.NET.PhysicsManager
 			this.Owner.Attributes.Replace("Position", new PhysicalPositionAttribute("Position", this.Body));
 		}
 
+		public override void OnDeinit()
+		{
+			PhysicsManager.Instance.World.RemoveBody(this.Body);
+		}
+
 		public override void Update(double delta)
 		{ }
 	}

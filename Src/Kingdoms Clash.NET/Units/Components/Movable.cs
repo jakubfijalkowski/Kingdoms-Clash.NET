@@ -11,6 +11,10 @@ namespace Kingdoms_Clash.NET.Units.Components
 	/// <summary>
 	/// Komponent jednostki określający, że jednostka potrafi się poruszać.
 	/// </summary>
+	/// <remarks>
+	/// Wymagane atrybuty:
+	/// float Velocity - prędkość jednostki.
+	/// </remarks>
 	public class Movable
 		: Component, IMovable
 	{
@@ -38,6 +42,10 @@ namespace Kingdoms_Clash.NET.Units.Components
 		{
 			this.Velocity_ = this.Owner.Attributes.GetOrCreate<OpenTK.Vector2>("Velocity");
 			this.Velocity = new OpenTK.Vector2((this.Owner as IUnit).Description.Attributes.Get<float>("Velocity"), 0f);
+			if ((this.Owner as IUnit).Owner.Type == Interfaces.Player.PlayerType.Second) //Jeśli to drugi gracz musimy mu ustawić prędkość w drugą stronę!
+			{
+				this.Velocity *= -1f;
+			}
 
 			this.Body = this.Owner.Attributes.Get<Body>("Body");
 		}

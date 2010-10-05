@@ -104,7 +104,9 @@ namespace ClashEngine.NET.EntitiesManager
 		/// Zdarzenie wywoływane przy deinicjalizacji encji(usunięcie z managera).
 		/// </summary>
 		public virtual void OnDeinit()
-		{ }
+		{
+			this.Components.Clear();
+		}
 		#endregion
 	}
 }

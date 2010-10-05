@@ -116,16 +116,18 @@ namespace Kingdoms_Clash.NET.Player
 			this.Attributes.Get<Vector2>("Size").Value = Configuration.Instance.CastleSize;
 
 			//Gdy zderzy się z jednostką to wysyła odpowiednie zdarzenie
-			this.Attributes.Get<Body>("Body").Value.FixtureList[0].OnCollision = (fixtureA, fixtureB, contact) =>
+			var f = this.Attributes.Get<Body>("Body").Value.FixtureList[0];
+			f.Body.UserData = this;
+			f.OnCollision = (fA, fB, contact) =>
 				{
-					if (fixtureA.UserData is IUnit && fixtureB.UserData is IPlayer && this.Collide != null)
+					if (fA.Body.UserData is IUnit && fB.Body.UserData is IPlayer && this.Collide != null)
 					{
-						this.Collide(fixtureA.UserData as IUnit, fixtureB.UserData as IPlayer);
+						this.Collide(fA.Body.UserData as IUnit, fB.Body.UserData as IPlayer);
 						return true;	
 					}
-					else if (fixtureA.UserData is IPlayer && fixtureB.UserData is IUnit && this.Collide != null)
+					else if (fA.Body.UserData is IPlayer && fB.Body.UserData is IUnit && this.Collide != null)
 					{
-						this.Collide(fixtureB.UserData as IUnit, fixtureA.UserData as IPlayer);
+						this.Collide(fB.Body.UserData as IUnit, fA.Body.UserData as IPlayer);
 						return true;
 					}
 					return false;
