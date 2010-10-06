@@ -14,6 +14,8 @@ namespace Kingdoms_Clash.NET
 	public class KingdomsClashNetGame
 		: Game, IGame
 	{
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
+		
 		#region IGame Members
 		public IGameStateScreen Game { get; private set; }
 
@@ -37,6 +39,16 @@ namespace Kingdoms_Clash.NET
 
 		public override void Init()
 		{
+#if !DEBUG
+			Logger.Info("System information: ");
+			var si = SystemInformation.Instance;
+			Logger.Info("OS: {0}, CLR: {1}", si.System.ToString(), si.CLRVersion.ToString());
+			Logger.Info("RAM size: {0}", si.MemorySize);
+			Logger.Info("Processor: {0} {1}MHz, arch: {2}, cores: {3}", si.ProcessorName, si.ProcessorSpeed, si.ProcessorArchitecture.ToString(), si.NumberOfCores);
+			Logger.Info("Graphics card: {0}, VRAM: {1}, drivers version: {2}", si.GraphicsCardName, si.VRAMSize, si.GraphicsDriverVersion);
+			Logger.Info("OpenGL version: {0}, GLSL version: {1}", si.OpenGLVersion, si.GLSLVersion);
+#endif
+
 			this.ResourcesManager.ContentDirectory = "Content";
 
 			IUnitDescription testUnit = new UnitDescription("TestUnit", 10, 2f, 3f);
@@ -84,9 +96,17 @@ namespace Kingdoms_Clash.NET
 		#region Main
 		static void Main(string[] args)
 		{
-			using (var game = new KingdomsClashNetGame())
+			try
 			{
-				game.Run();
+				using (var game = new KingdomsClashNetGame())
+				{
+					game.Run();
+				}
+			}
+			catch (System.Exception ex)
+			{
+				Logger.Fatal("Fatal error: {0}", ex.Message);
+				Logger.Fatal("Stack trace: {0}", ex.StackTrace);
 			}
 		}
 		#endregion
