@@ -232,39 +232,100 @@ namespace ClashEngine.NET.ScreensManager
 		#endregion
 
 		#region ICollection<IScreen> Members
+		/// <summary>
+		/// Dodaje ekran do kolekcji.
+		/// </summary>
+		/// <param name="item">Ekran.</param>
+		/// <exception cref="ArgumentNullException">item == null</exception>
+		/// <exception cref="Exceptions.ArgumentAlreadyExistsException">Ekran o Id równym wskazanemu już istnieje.</exception>
 		public void Add(IScreen item)
 		{
-			throw new NotImplementedException();
+			if (item == null)
+			{
+				throw new ArgumentNullException("item");
+			}
+			if (this.Contains(item))
+			{
+				throw new Exceptions.ArgumentAlreadyExistsException("item");
+			}
+			this.Screens.Add(item);
+			item.Manager = this;
+			item.State = ScreenState.Deactivated;
+			item.OnInit();
 		}
 
-		public void Clear()
-		{
-			throw new NotImplementedException();
-		}
-
-		public bool Contains(IScreen item)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void CopyTo(IScreen[] array, int arrayIndex)
-		{
-			throw new NotImplementedException();
-		}
-
-		public int Count
-		{
-			get { throw new NotImplementedException(); }
-		}
-
-		public bool IsReadOnly
-		{
-			get { throw new NotImplementedException(); }
-		}
-
+		/// <summary>
+		/// Usuwa ekran z kolekcji(o takim samym id).
+		/// </summary>
+		/// <param name="item">Ekran.</param>
+		/// <returns>Czy usunięto.</returns>
 		public bool Remove(IScreen item)
 		{
-			throw new NotImplementedException();
+			if (item == null)
+			{
+				throw new ArgumentNullException("item");
+			}
+			return this.Screens.RemoveAll(s =>
+				{
+					if (s.Id == item.Id)
+					{
+						s.OnDeinit();
+						return true;
+					}
+					return false;
+				}) > 0;
+		}
+
+		/// <summary>
+		/// Czyści kolekcję.
+		/// </summary>
+		public void Clear()
+		{
+			foreach (var screen in this.Screens)
+			{
+				screen.OnDeinit();
+			}
+			this.Screens.Clear();
+		}
+
+		/// <summary>
+		/// Sprawdza, czy w kolekcji znajduje się ekran o Id równym wskazanemu.
+		/// </summary>
+		/// <param name="item">Ekran do porównywania.</param>
+		/// <returns>Czy zawiera, czy nie.</returns>
+		public bool Contains(IScreen item)
+		{
+			if (item == null)
+			{
+				throw new ArgumentNullException("item");
+			}
+			return this.Screens.Find(s => s.Id == item.Id) != null;
+		}
+
+		/// <summary>
+		/// Kopiuje kolekcje do tablicy.
+		/// </summary>
+		/// <param name="array">Tablica.</param>
+		/// <param name="arrayIndex">Indeks początkowy.</param>
+		public void CopyTo(IScreen[] array, int arrayIndex)
+		{
+			this.Screens.CopyTo(array, arrayIndex);
+		}
+
+		/// <summary>
+		/// Pobiera liczbę ekranów w kolekcji.
+		/// </summary>
+		public int Count
+		{
+			get { return this.Screens.Count; }
+		}
+
+		/// <summary>
+		/// Czy kolekcja jest tylko do odczytu - zawsze false.
+		/// </summary>
+		public bool IsReadOnly
+		{
+			get { return false; }
 		}
 		#endregion
 

@@ -73,8 +73,8 @@ namespace Kingdoms_Clash.NET
 				new Maps.DefaultMap(),
 				new Controllers.ClassicGame());
 
-			this.ScreensManager.AddAndMakeActive(new FPSCounter() { LogStatistics = 10.0f });
-			this.ScreensManager.AddAndMakeActive(this.Game);
+			this.ScreensManager.AddAndActivate(new FPSCounter() { LogStatistics = 10.0f });
+			this.ScreensManager.AddAndActivate(this.Game);
 			//this.ScreensManager.AddAndMakeActive(this.Menu);
 			base.Init();
 		}

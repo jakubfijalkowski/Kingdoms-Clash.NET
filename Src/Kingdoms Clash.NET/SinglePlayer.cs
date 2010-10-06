@@ -144,5 +144,9 @@ namespace Kingdoms_Clash.NET
 			base.Render();
 		}
 		#endregion
+
+		public SinglePlayer()
+			: base("GameScreen", ClashEngine.NET.Interfaces.ScreensManager.ScreenType.Fullscreen)
+		{ }
 	}
 }

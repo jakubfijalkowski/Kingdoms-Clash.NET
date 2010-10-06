@@ -80,6 +80,7 @@ namespace ClashEngine.NET.Utilities
 		#endregion
 
 		public FPSCounter()
+			: base("FPSCounter", Interfaces.ScreensManager.ScreenType.Popup)
 		{
 			this.CurrentFPS = 0;
 			this.MinFPS = int.MaxValue;
@@ -87,8 +88,6 @@ namespace ClashEngine.NET.Utilities
 			this.AverageFPS = 0.0f;
 			this.RenderStatistics = false;
 			this.LogStatistics = 0.0f;
-
-			this.IsPopup = true;
 		}
 
 		#region Screen members
