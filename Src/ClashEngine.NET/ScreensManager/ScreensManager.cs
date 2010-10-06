@@ -21,53 +21,250 @@ namespace ClashEngine.NET.ScreensManager
 		private List<IScreen> Screens = new List<IScreen>();
 
 		#region IScreensManager Members
-		#region ICollection<IScreen> Members
 		/// <summary>
-		/// Czyśli kolekcję.
+		/// Dodaje ekran do listy i od razu go aktywuje.
+		/// <see cref="Add(IScreen)"/>
 		/// </summary>
+		/// <param name="screen">Ekran do dodania.</param>
+		public void AddAndActivate(IScreen screen)
+		{
+			this.Add(screen);
+			this.Activate(screen);
+		}
+
+		/// <summary>
+		/// Pobiera ekran o wskazanym Id.
+		/// </summary>
+		/// <param name="index">Identyfikator ekranu.</param>
+		/// <returns>Ekran, bądź null, gdy nie znaleziono</returns>
+		public IScreen this[string id]
+		{
+			get { return this.Screens.Find(s => s.Id == id); }
+		}
+
+		/// <summary>
+		/// Przesuwa ekran we wskazane miejsce.
+		/// </summary>
+		/// <param name="screen">Ekran.</param>
+		/// <param name="newPos">Nowa pozycja na liście(licząc od końca!).</param>
+		/// <exception cref="Exceptions.NotFoundException">Nie znaleziono wskazanego ekranu.</exception>
+		/// <exception cref="ArgumentNullException">Parametr screen == null.</exception>
+		/// <exception cref="ArgumentException">Ekran nie jest w managerze.</exception>
+		public void MoveTo(IScreen screen, int newPos)
+		{
+			if (screen == null)
+			{
+				throw new ArgumentNullException("screen");
+			}
+			int idx = this.Screens.IndexOf(screen);
+			if (idx == -1)
+			{
+				throw new ArgumentException("Not member of manager", "screen");
+			}
+			this.Screens.RemoveAt(idx);
+			if (screen.State == ScreenState.Activated ||
+				(screen.State < ScreenState.Hidden && screen.Type == ScreenType.Fullscreen)) //Tylko, gdy ekran był aktywny coś się może zmienić
+			{
+				this.SetStates(0, idx);
+			}
+
+			this.Screens.Insert(newPos, screen);
+			screen.State = this.CheckStateAt(newPos);
+
+			//Jeśli jest to popup to nie musimy nic pod zmieniać
+			//Tak samo gdy stan tego ekranu to "ukryty" - reszta już musi być ukryta
+			if (screen.Type != ScreenType.Popup && screen.State != ScreenState.Hidden)
+			{
+				this.SetStates(newPos);
+			}
+		}
+
+		/// <summary>
+		/// Przesuwa ekran na wierzch.
+		/// </summary>
+		/// <param name="screen">Ekran.</param>
+		/// <exception cref="Exceptions.NotFoundException">Nie znaleziono wskazanego ekranu.</exception>
+		public void MoveToFront(IScreen screen)
+		{
+			this.MoveTo(screen, 0);
+		}
+
+		/// <summary>
+		/// Przesuwa ekran we wskazane miejsce.
+		/// </summary>
+		/// <param name="id">Identyfikator ekranu.</param>
+		/// <param name="newPos">Nowa pozycja na liście(licząc od końca!).</param>
+		/// <exception cref="Exceptions.NotFoundException">Nie znaleziono wskazanego ekranu.</exception>
+		public void MoveTo(string id, int newPos)
+		{
+			this.MoveTo(this.GetOrThrow(id), newPos);
+		}
+
+		/// <summary>
+		/// Przesuwa ekran na wierzch.
+		/// </summary>
+		/// <param name="id">Identyfikator ekranu.</param>
+		/// <exception cref="Exceptions.NotFoundException">Nie znaleziono wskazanego ekranu.</exception>
+		public void MoveToFront(string id)
+		{
+			this.MoveTo(this.GetOrThrow(id), 0);
+		}
+
+		/// <summary>
+		/// Aktywuje(jeśli może) wskazany ekran.
+		/// </summary>
+		/// <param name="screen">Ekran.</param>
+		/// <exception cref="Exceptions.NotFoundException">Nie znaleziono wskazanego ekranu.</exception>
+		/// <exception cref="ArgumentNullException">Parametr screen == null.</exception>
+		/// <exception cref="ArgumentException">Ekran nie jest w managerze.</exception>
+		public void Activate(IScreen screen)
+		{
+			if (screen == null)
+			{
+				throw new ArgumentNullException("screen");
+			}
+			int idx = this.Screens.IndexOf(screen);
+			if (idx == -1)
+			{
+				throw new ArgumentException("Not member of manager", "screen");
+			}
+
+			if (screen.State != ScreenState.Deactivated) //Nie aktywować tylko niekatywny
+			{
+				return;
+			}
+			screen.State = this.CheckStateAt(idx);
+
+			//Jeśli jest to popup to nie musimy nic pod zmieniać
+			//Tak samo gdy stan tego ekranu to "ukryty" - reszta już musi być ukryta
+			if (screen.Type != ScreenType.Popup && screen.State != ScreenState.Hidden)
+			{
+				this.SetStates(idx);
+			}
+		}
+
+		/// <summary>
+		/// Deaktywuje wskazany ekran.
+		/// </summary>
+		/// <param name="screen">Ekran.</param>
+		/// <exception cref="Exceptions.NotFoundException">Nie znaleziono wskazanego ekranu.</exception>
+		/// <exception cref="ArgumentNullException">Parametr screen == null.</exception>
+		/// <exception cref="ArgumentException">Ekran nie jest w managerze.</exception>
+		public void Deactivate(IScreen screen)
+		{
+			if (screen == null)
+			{
+				throw new ArgumentNullException("screen");
+			}
+			int idx = this.Screens.IndexOf(screen);
+			if (idx == -1)
+			{
+				throw new ArgumentException("Not member of manager", "screen");
+			}
+			if (screen.State == ScreenState.Deactivated)
+			{
+				return;
+			}
+
+			var oldState = screen.State;
+			screen.State = ScreenState.Deactivated;
+
+			if (oldState == ScreenState.Activated)
+			{
+				this.SetStates(idx);
+			}
+		}
+
+		/// <summary>
+		/// Aktywuje(jeśli może) wskazany ekran.
+		/// </summary>
+		/// <param name="id">Identyfikator ekranu.</param>
+		/// <exception cref="Exceptions.NotFoundException">Nie znaleziono wskazanego ekranu.</exception>
+		public void Activate(string id)
+		{
+			this.Activate(this.GetOrThrow(id));
+		}
+
+		/// <summary>
+		/// Deaktywuje wskazany ekran.
+		/// </summary>
+		/// <param name="id">Identyfikator ekranu.</param>
+		/// <exception cref="Exceptions.NotFoundException">Nie znaleziono wskazanego ekranu.</exception>
+		public void Deactivate(string id)
+		{
+			this.Deactivate(this.GetOrThrow(id));
+		}
+
+		/// <summary>
+		/// Uaktualnia wszystkie ekrany, które powinny zostać uaktualnione(State == Active).
+		/// </summary>
+		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
+		public void Update(double delta)
+		{
+			for (int i = 0; i < this.Screens.Count; i++)
+			{
+				if (this.Screens[i].State == ScreenState.Deactivated)
+				{
+					continue;
+				}
+				else if (this.Screens[i].State >= ScreenState.Covered)
+				{
+					break;
+				}
+				this.Screens[i].Update(delta);
+			}
+		}
+
+		/// <summary>
+		/// Odrysowywuje wszystkie ekrany, które powinny być odrysowane.
+		/// Renderowanie odbywa się od końca - ekran na początku listy jest odrysowywany na końcu.
+		/// </summary>
+		public void Render()
+		{
+			for (int i = this.Screens.FindLastIndex(s => s.State <= ScreenState.Covered); i >= 0; i--)
+			{
+				if (this.Screens[i].State != ScreenState.Deactivated)
+				{
+					this.Screens[i].Render();
+				}
+			}
+		}
+		#endregion
+
+		#region ICollection<IScreen> Members
+		public void Add(IScreen item)
+		{
+			throw new NotImplementedException();
+		}
+
 		public void Clear()
 		{
-			foreach (var s in this.Screens)
-			{
-				s.OnDeinit();
-			}
-			this.Screens.Clear();
+			throw new NotImplementedException();
 		}
 
-		/// <summary>
-		/// Sprawdza, czy w kolekcji znajduje się wskazany ekran. 
-		/// </summary>
-		/// <param name="item">Ekran.</param>
-		/// <returns></returns>
 		public bool Contains(IScreen item)
 		{
-			return this.Screens.Contains(item);
+			throw new NotImplementedException();
 		}
 
-		/// <summary>
-		/// Kopiuje kolekcje do tablicy.
-		/// </summary>
-		/// <param name="array">Tablica wyjściowa.</param>
-		/// <param name="arrayIndex">Początkowy indeks.</param>
 		public void CopyTo(IScreen[] array, int arrayIndex)
 		{
-			this.Screens.CopyTo(array, arrayIndex);
+			throw new NotImplementedException();
 		}
 
-		/// <summary>
-		/// Lista ekranów.
-		/// </summary>
 		public int Count
 		{
-			get { return this.Screens.Count; }
+			get { throw new NotImplementedException(); }
 		}
 
-		/// <summary>
-		/// Czy jest tylko do odczytu - zawsze fałsz.
-		/// </summary>
 		public bool IsReadOnly
 		{
-			get { return false; }
+			get { throw new NotImplementedException(); }
+		}
+
+		public bool Remove(IScreen item)
+		{
+			throw new NotImplementedException();
 		}
 		#endregion
 
@@ -82,267 +279,6 @@ namespace ClashEngine.NET.ScreensManager
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return this.Screens.GetEnumerator();
-		}
-		#endregion
-
-		#region List management
-		/// <summary>
-		/// Dodaje ekran do listy.
-		/// </summary>
-		/// <param name="screen">Ekran do dodania.</param>
-		public void Add(IScreen screen)
-		{
-			if (screen == null)
-			{
-				throw new ArgumentNullException("screen");
-			}
-			else if (this.Screens.Contains(screen))
-			{
-				throw new Exceptions.ArgumentAlreadyExistsException("screen");
-			}
-			this.Screens.Add(screen);
-			screen.Init(this);
-			screen.OnInit();
-			Logger.Trace("Screen added");
-		}
-
-		/// <summary>
-		/// Dodaje ekran do listy i od razu go aktywuje.
-		/// </summary>
-		/// <param name="screen">Ekran do dodania.</param>
-		public void AddAndMakeActive(IScreen screen)
-		{
-			this.Add(screen);
-			this.MakeActive(screen);
-		}
-
-		/// <summary>
-		/// Usuwa ekran z managera.
-		/// </summary>
-		/// <param name="screen">Ekran do usunięcia.</param>
-		public bool Remove(IScreen screen)
-		{
-			if (screen == null)
-			{
-				throw new ArgumentNullException("screen");
-			}
-			bool deleted = this.Screens.Remove(screen);
-			if (deleted)
-			{
-				Logger.Trace("Screen removed");
-			}
-			screen.OnDeinit();
-			return deleted;
-		}
-
-		/// <summary>
-		/// Pobiera ekran ze wskazanej pozycji.
-		/// </summary>
-		/// <param name="index">Indeks.</param>
-		/// <returns></returns>
-		public IScreen this[int index]
-		{
-			get
-			{
-				return this.Screens[index];
-			}
-		}
-		#endregion
-
-		#region Moving
-		/// <summary>
-		/// Przesuwa ekran na wierzch.
-		/// </summary>
-		/// <param name="screen">Ekran.</param>
-		public void MoveToFront(IScreen screen)
-		{
-			this.MoveTo(screen, 0);
-		}
-
-		/// <summary>
-		/// Przesuwa ekran we wskazane miejsce.
-		/// </summary>
-		/// <param name="screen">Ekran.</param>
-		/// <param name="newPos">Nowa pozycja na liście(licząc od końca!).</param>
-		public void MoveTo(IScreen screen, int newPos)
-		{
-			if (screen == null)
-			{
-				throw new ArgumentNullException("screen");
-			}
-			else if (!this.Screens.Contains(screen))
-			{
-				throw new Exceptions.ArgumentNotExistsException("screen");
-			}
-			int position = this.Screens.IndexOf(screen);
-			if (position > newPos && newPos > 0)
-			{
-				newPos -= 1;
-			}
-			this.Screens.RemoveAt(position);
-			this.Screens.Insert((newPos > 0 ? newPos - 1 : newPos), screen);
-			Logger.Trace("Screen moved to front");
-		}
-		#endregion
-
-		#region Changing state
-		/// <summary>
-		/// Zmienia ekran wskazany ekran na aktywny(tylko jeśli nie zasłania go nic innego).
-		/// </summary>
-		/// <param name="screen">Ekran.</param>
-		/// <returns>Czy zmieniono stan ekranu.</returns>
-		public bool MakeActive(IScreen screen)
-		{
-			if (screen == null)
-			{
-				throw new ArgumentNullException("screen");
-			}
-			else if (!this.Screens.Contains(screen))
-			{
-				throw new Exceptions.ArgumentNotExistsException("screen");
-			}
-			//Sprawdzamy, czy nic nie zasłania ekranu.
-			for (int i = this.Screens.IndexOf(screen); i > 0; i--)
-			{
-				if (this.Screens[i].State != ScreenState.Closed && !this.Screens[i].IsPopup)
-				{
-					Logger.Warn("Cannot activate screen - it is covered by other screen");
-					return false;
-				}
-			}
-			//Jeśli nie jest popupem, musimy deaktywować ekrany "za".
-			int deactivatedCounter = 0;
-			if (!screen.IsPopup)
-			{
-				for (int i = this.Screens.IndexOf(screen); i < this.Screens.Count; i++)
-				{
-					if (this.Screens[i].State == ScreenState.Active)
-					{
-						this.Screens[i].ChangeState(ScreenState.Inactive);
-						++deactivatedCounter;
-						if (this.Screens[i].IsFullscreen) //Pełnoekranowy, i tak dalej nic nie będzie widać.
-						{
-							break;
-						}
-					}
-				}
-			}
-			screen.ChangeState(ScreenState.Active);
-			Logger.Info("Screen activated({0} deactivated)", deactivatedCounter);
-			return true;
-		}
-
-		/// <summary>
-		/// Zmienia ekran na nieaktywny.
-		/// Ekran musi być aktywny by stać się nieaktywnym.
-		/// </summary>
-		/// <param name="screen">Ekran.</param>
-		/// <returns>Czy zmieniono stan ekranu.</returns>
-		public bool MakeInactive(IScreen screen)
-		{
-			if (screen == null)
-			{
-				throw new ArgumentNullException("screen");
-			}
-			else if (!this.Screens.Contains(screen))
-			{
-				throw new Exceptions.ArgumentNotExistsException("screen");
-			}
-			if (screen.State != ScreenState.Active)
-			{
-				return false;
-			}
-			//Jeśli nie jest "popupem" musimy aktywować ekrany które są za nim.
-			int activatedCounter = 0;
-			if (!screen.IsPopup)
-			{
-				for (int i = this.Screens.IndexOf(screen); i < this.Screens.Count; i++)
-				{
-					if (this.Screens[i].State == ScreenState.Inactive)
-					{
-						this.Screens[i].ChangeState(ScreenState.Active);
-						++activatedCounter;
-						if (!this.Screens[i].IsFullscreen) //Pełnoekranowy, i tak dalej nic nie będzie widać.
-						{
-							break;
-						}
-					}
-				}
-			}
-
-			screen.ChangeState(ScreenState.Inactive);
-			Logger.Info("Screen deactivated({0} activated)", activatedCounter);
-			return true;
-		}
-
-		/// <summary>
-		/// Zamyka ekran.
-		/// Przed zamknięciem ekran jest dezaktywowany.
-		/// </summary>
-		/// <param name="screen">Ekran.</param>
-		public void Close(IScreen screen)
-		{
-			if (screen == null)
-			{
-				throw new ArgumentNullException("screen");
-			}
-			else if (!this.Screens.Contains(screen))
-			{
-				throw new Exceptions.ArgumentNotExistsException("screen");
-			}
-			if (screen.State == ScreenState.Active)
-			{
-				this.MakeInactive(screen);
-			}
-			if (screen.State != ScreenState.Closed)
-			{
-				screen.ChangeState(ScreenState.Closed);
-				Logger.Info("Screen closed");
-			}
-		}
-		#endregion
-
-		#region Rendering/updating
-		/// <summary>
-		/// Uaktualnia wszystkie ekrany, które powinny zostać uaktualnione(State == Active).
-		/// </summary>
-		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
-		public void Update(double delta)
-		{
-			for (int i = 0; i < this.Screens.Count; i++)
-			{
-				IScreen screen = this.Screens[i];
-				if (screen.State == ScreenState.Active)
-				{
-					screen.Update(delta);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Odrysowywuje wszystkie ekrany, które powinny być odrysowane.
-		/// Renderowanie odbywa się od końca - ekran na początku listy jest odrysowywany na końcu.
-		/// </summary>
-		public void Render()
-		{
-			if (this.Screens.Count == 0)
-			{
-				return;
-			}
-			//Szukamy pierwszego pełnoekranowego ekranu(masło maślane x2...), który nie jest zamknięty.
-			int firstFullscreen = 0;
-			for(; firstFullscreen < this.Screens.Count
-				&& !(this.Screens[firstFullscreen].IsFullscreen && this.Screens[firstFullscreen].State != ScreenState.Closed);
-				++firstFullscreen);
-			if (firstFullscreen == this.Screens.Count) //Gdy mamy tylko jeden ekran nie-fullscreen firstFullscreen dojdzie do 1, co później objawi się ArgumentOutOfRangeException
-			{
-				--firstFullscreen;
-			}
-
-			for (; firstFullscreen >= 0; --firstFullscreen)
-			{
-				this.Screens[firstFullscreen].Render();
-			}
 		}
 		#endregion
 
@@ -381,33 +317,13 @@ namespace ClashEngine.NET.ScreensManager
 			this.FireEvent(s => s.MouseWheelChanged(e));
 		}
 		#endregion
-
-		/// <summary>
-		/// Metoda pomocnicza do wysyłania zdarzeń.
-		/// </summary>
-		/// <param name="e"></param>
-		private void FireEvent(Func<IScreen, bool> e)
-		{
-			foreach (IScreen screen in this.Screens)
-			{
-				if (screen.State == ScreenState.Active && e(screen))
-				{
-					break;
-				}
-			}
-		}
 		#endregion
 
 		#region IDisposable members
 		public void Dispose()
 		{
-			foreach (var res in this.Screens)
-			{
-				this.Close(res);
-			}
-			this.Screens.Clear();
+			this.Clear();
 		}
-		#endregion
 		#endregion
 
 		/// <summary>
@@ -431,5 +347,110 @@ namespace ClashEngine.NET.ScreensManager
 		{
 			this.Clear();
 		}
+
+		#region Private methods
+		/// <summary>
+		/// Metoda pomocnicza do wysyłania zdarzeń.
+		/// </summary>
+		/// <param name="e"></param>
+		private void FireEvent(Func<IScreen, bool> e)
+		{
+			foreach (IScreen screen in this.Screens)
+			{
+				if (screen.State == ScreenState.Activated && e(screen))
+				{
+					break;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Pobiera ekran albo rzuca wyjątek.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		/// <exception cref="Exceptions.NotFoundException">Nie znaleziono wskazanego ekranu.</exception>
+		private IScreen GetOrThrow(string id)
+		{
+			var screen = this[id];
+			if (screen == null)
+			{
+				throw new Exceptions.NotFoundException("screen");
+			}
+			return screen;
+		}
+
+		/// <summary>
+		/// Sprawdza jaki stan powinien mieć ekran na danej pozycji.
+		/// </summary>
+		/// <param name="position"></param>
+		/// <returns></returns>
+		ScreenState CheckStateAt(int position)
+		{
+			ScreenState state = ScreenState.Activated;
+			for (int i = 0; i < position; i++)
+			{
+				if (this.Screens[i].State != ScreenState.Deactivated)
+				{
+					if (this.Screens[i].Type == ScreenType.Normal)
+					{
+						state = ScreenState.Covered;
+					}
+					else if (this.Screens[i].Type == ScreenType.Fullscreen)
+					{
+						state = ScreenState.Hidden;
+						break;
+					}
+				}
+			}
+			return state;
+		}
+
+		/// <summary>
+		/// Zmienia stany ekranów w danym zakresie pobierając stan z pierwszego ekranu.
+		/// </summary>
+		/// <param name="startIdx"></param>
+		/// <param name="endIdx"></param>
+		void SetStates(int startIdx, int endIdx)
+		{
+			ScreenState state = this.Screens[startIdx].State;
+			if (state == ScreenState.Deactivated)
+			{
+				state = ScreenState.Activated;
+			}
+			else if (this.Screens[startIdx].Type == ScreenType.Fullscreen)
+			{
+				state = ScreenState.Hidden;
+			}
+			else if (this.Screens[startIdx].Type == ScreenType.Normal)
+			{
+				state = ScreenState.Covered;
+			}
+			for (int i = startIdx + 1; i < endIdx; i++)
+			{
+				if (this.Screens[i].State != ScreenState.Deactivated)
+				{
+					this.Screens[i].State = state;
+					if (this.Screens[i].Type == ScreenType.Fullscreen)
+					{
+						state = ScreenState.Hidden;
+					}
+					else if (state < ScreenState.Covered && this.Screens[i].Type == ScreenType.Normal)
+					{
+						state = ScreenState.Covered;
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Zmienia stany ekranów począwszy od wskazanego do końca pobierając z niego stan.
+		/// </summary>
+		/// <param name="startIdx"></param>
+		void SetStates(int startIdx)
+		{
+			this.SetStates(startIdx, this.Screens.Count);
+		}
+		#endregion
 	}
 }

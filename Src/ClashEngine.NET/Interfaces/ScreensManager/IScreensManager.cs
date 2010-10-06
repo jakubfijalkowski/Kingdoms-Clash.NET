@@ -11,7 +11,6 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 	public interface IScreensManager
 		: IDisposable, ICollection<IScreen>
 	{
-		#region Methods
 		#region List management
 		/// <summary>
 		/// Dodaje ekran do listy i od razu go aktywuje.
@@ -83,7 +82,7 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 
 		#region Rendering/updating
 		/// <summary>
-		/// Uaktualnia wszystkie ekrany, które powinny zostać uaktualnione(State == Active).
+		/// Uaktualnia wszystkie ekrany, które powinny zostać uaktualnione(State == Activated).
 		/// </summary>
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
 		void Update(double delta);
@@ -93,7 +92,6 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 		/// Renderowanie odbywa się od końca - ekran na początku listy jest odrysowywany na końcu.
 		/// </summary>
 		void Render();
-		#endregion
 		#endregion
 	}
 }
