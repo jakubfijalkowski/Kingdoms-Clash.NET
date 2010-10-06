@@ -49,7 +49,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// <param name="newPos">Nowa pozycja na liście(licząc od końca!).</param>
 		/// <exception cref="Exceptions.NotFoundException">Nie znaleziono wskazanego ekranu.</exception>
 		/// <exception cref="ArgumentNullException">Parametr screen == null.</exception>
-		/// <exception cref="ArgumentException">Ekran nie jest w managerze.</exception>
+		/// <exception cref="Exceptions.ArgumentNotExistsException">Ekran nie jest w managerze.</exception>
 		public void MoveTo(IScreen screen, int newPos)
 		{
 			if (screen == null)
@@ -59,7 +59,7 @@ namespace ClashEngine.NET.ScreensManager
 			int idx = this.Screens.IndexOf(screen);
 			if (idx == -1)
 			{
-				throw new ArgumentException("Not member of manager", "screen");
+				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
 			this.Screens.RemoveAt(idx);
 			if (screen.State == ScreenState.Activated ||
@@ -77,6 +77,7 @@ namespace ClashEngine.NET.ScreensManager
 			{
 				this.SetStates(newPos);
 			}
+			Logger.Debug("Screen {0} moved to position {1}({2})", screen.Id, newPos, screen.State);
 		}
 
 		/// <summary>
@@ -84,6 +85,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		/// <param name="screen">Ekran.</param>
 		/// <exception cref="Exceptions.NotFoundException">Nie znaleziono wskazanego ekranu.</exception>
+		/// <exception cref="Exceptions.ArgumentNotExistsException">Ekran nie jest w managerze.</exception>
 		public void MoveToFront(IScreen screen)
 		{
 			this.MoveTo(screen, 0);
@@ -116,7 +118,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// <param name="screen">Ekran.</param>
 		/// <exception cref="Exceptions.NotFoundException">Nie znaleziono wskazanego ekranu.</exception>
 		/// <exception cref="ArgumentNullException">Parametr screen == null.</exception>
-		/// <exception cref="ArgumentException">Ekran nie jest w managerze.</exception>
+		/// <exception cref="Exceptions.ArgumentNotExistsException">Ekran nie jest w managerze.</exception>
 		public void Activate(IScreen screen)
 		{
 			if (screen == null)
@@ -141,6 +143,8 @@ namespace ClashEngine.NET.ScreensManager
 			{
 				this.SetStates(idx);
 			}
+
+			Logger.Debug("Screen {0} activated({1})", screen.Id, screen.State);
 		}
 
 		/// <summary>
@@ -149,7 +153,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// <param name="screen">Ekran.</param>
 		/// <exception cref="Exceptions.NotFoundException">Nie znaleziono wskazanego ekranu.</exception>
 		/// <exception cref="ArgumentNullException">Parametr screen == null.</exception>
-		/// <exception cref="ArgumentException">Ekran nie jest w managerze.</exception>
+		/// <exception cref="Exceptions.ArgumentNotExistsException">Ekran nie jest w managerze.</exception>
 		public void Deactivate(IScreen screen)
 		{
 			if (screen == null)
@@ -159,7 +163,7 @@ namespace ClashEngine.NET.ScreensManager
 			int idx = this.Screens.IndexOf(screen);
 			if (idx == -1)
 			{
-				throw new ArgumentException("Not member of manager", "screen");
+				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
 			if (screen.State == ScreenState.Deactivated)
 			{
@@ -173,6 +177,7 @@ namespace ClashEngine.NET.ScreensManager
 			{
 				this.SetStates(idx);
 			}
+			Logger.Debug("Screen {0} deactivated", screen.Id);
 		}
 
 		/// <summary>
@@ -252,6 +257,7 @@ namespace ClashEngine.NET.ScreensManager
 			item.Manager = this;
 			item.State = ScreenState.Deactivated;
 			item.OnInit();
+			Logger.Debug("Screen {0} added to manager", item.Id);
 		}
 
 		/// <summary>
@@ -270,6 +276,7 @@ namespace ClashEngine.NET.ScreensManager
 					if (s.Id == item.Id)
 					{
 						s.OnDeinit();
+						Logger.Debug("Screen {0} removed from manager", item.Id);
 						return true;
 					}
 					return false;
@@ -286,6 +293,7 @@ namespace ClashEngine.NET.ScreensManager
 				screen.OnDeinit();
 			}
 			this.Screens.Clear();
+			Logger.Debug("Screens manager cleared");
 		}
 
 		/// <summary>

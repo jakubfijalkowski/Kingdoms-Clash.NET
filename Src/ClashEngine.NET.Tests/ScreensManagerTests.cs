@@ -8,254 +8,203 @@ using ClashEngine.NET.Interfaces.ScreensManager;
 
 namespace ClashEngine.NET.Tests
 {
-	//[TestFixture(Description = "Testy managera ekranów")]
-	//public class ScreensManagerTests
-	//{
-	//    private ScreensManager.ScreensManager Manager { get; set; }
+	[TestFixture(Description = "Testy managera ekranów")]
+	public class ScreensManagerTests
+	{
+		private ScreensManager.ScreensManager Manager { get; set; }
 
-	//    private Mock<Screen> Screen1 { get; set; }
-	//    private Mock<Screen> Screen3 { get; set; }
-	//    private Mock<Screen> Screen2 { get; set; }
+		private Mock<Screen> Screen1 { get; set; }
+		private Mock<Screen> Screen3 { get; set; }
+		private Mock<Screen> Screen2 { get; set; }
 
-	//    [SetUp]
-	//    public void SetUp()
-	//    {
-	//        this.Manager = new ScreensManager.ScreensManager(false);
-	//        this.Screen1 = new Mock<Screen>();
-	//        this.Screen1.Setup(s => s.OnInit());
-	//        this.Screen1.Setup(s => s.OnDeinit());
-	//        this.Screen1.Object.IsFullscreen = true;
+		private IScreen[] ScreensList;
 
-	//        this.Screen2 = new Mock<Screen>();
-	//        this.Screen2.Setup(s => s.OnInit());
-	//        this.Screen2.Setup(s => s.OnDeinit());
+		[SetUp]
+		public void SetUp()
+		{
+			this.Manager = new ScreensManager.ScreensManager(false);
+			this.Screen1 = new Mock<Screen>("Screen1", ScreenType.Fullscreen);
+			this.Screen1.Setup(s => s.OnInit());
+			this.Screen1.Setup(s => s.OnDeinit());
 
-	//        this.Screen3 = new Mock<Screen>();
-	//        this.Screen3.Setup(s => s.OnInit());
-	//        this.Screen3.Setup(s => s.OnDeinit());
-	//        this.Screen3.Object.IsFullscreen = true;
+			this.Screen2 = new Mock<Screen>("Screen2", ScreenType.Normal);
+			this.Screen2.Setup(s => s.OnInit());
+			this.Screen2.Setup(s => s.OnDeinit());
 
-	//        this.Manager.Add(this.Screen1.Object);
-	//        this.Manager.Add(this.Screen2.Object);
-	//        this.Manager.Add(this.Screen3.Object);
-	//    }
+			this.Screen3 = new Mock<Screen>("Screen3", ScreenType.Fullscreen);
+			this.Screen3.Setup(s => s.OnInit());
+			this.Screen3.Setup(s => s.OnDeinit());
 
-	//    #region Adding/removing
-	//    [Test]
-	//    public void ScreensAdded()
-	//    {
-	//        Assert.AreEqual(3, this.Manager.Count);
-	//    }
+			this.Manager.Add(this.Screen1.Object);
+			this.Manager.Add(this.Screen2.Object);
+			this.Manager.Add(this.Screen3.Object);
 
-	//    [Test]
-	//    public void ScreensInitialized()
-	//    {
-	//        this.Screen1.Verify(s => s.OnInit());
-	//        this.Screen2.Verify(s => s.OnInit());
-	//        this.Screen3.Verify(s => s.OnInit());
-	//    }
+			this.ScreensList = new IScreen[]
+			{
+				this.Screen1.Object,
+				this.Screen2.Object,
+				this.Screen3.Object
+			};
+		}
 
-	//    [Test]
-	//    public void ScreensAddedInCorrectOrder()
-	//    {
-	//        Assert.AreEqual(this.Screen1.Object, this.Manager[0]);
-	//        Assert.AreEqual(this.Screen2.Object, this.Manager[1]);
-	//        Assert.AreEqual(this.Screen3.Object, this.Manager[2]);
-	//    }
+		[TearDown]
+		public void TearDown()
+		{
+			this.Manager.Clear();
+		}
 
-	//    [Test]
-	//    public void ScreenRemoves()
-	//    {
-	//        int oldCount = this.Manager.Count;
-	//        this.Manager.Remove(this.Screen3.Object);
-	//        this.Screen3.Verify(s => s.OnDeinit());
-	//        Assert.AreEqual(oldCount - 1, this.Manager.Count);
+		#region Adding/removing
+		[Test]
+		public void ScreensAdded()
+		{
+			Assert.AreEqual(3, this.Manager.Count);
+		}
 
-	//        //Wracamy do stanu sprzed - czy takie rozwiązanie jest poprawne? Jak to inaczej sprawdzić?
-	//        this.Manager.Add(this.Screen3.Object);
-	//    }
+		[Test]
+		public void ScreensInitialized()
+		{
+			this.Screen1.Verify(s => s.OnInit());
+			this.Screen2.Verify(s => s.OnInit());
+			this.Screen3.Verify(s => s.OnInit());
+		}
 
-	//    [Test]
-	//    public void ThrowsExectpionOnAddingNull()
-	//    {
-	//        Assert.Throws<ArgumentNullException>(() => this.Manager.Add(null));
-	//    }
+		[Test]
+		public void ScreenRemoves()
+		{
+			int oldCount = this.Manager.Count;
+			this.Manager.Remove(this.Screen3.Object);
+			this.Screen3.Verify(s => s.OnDeinit());
+			Assert.AreEqual(oldCount - 1, this.Manager.Count);
+		}
 
-	//    [Test]
-	//    public void ThrowsExectpionOnRemovingNull()
-	//    {
-	//        Assert.Throws<ArgumentNullException>(() => this.Manager.Remove(null));
-	//    }
+		[Test]
+		public void ThrowsExectpionOnAddingNull()
+		{
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Add(null));
+		}
 
-	//    [Test]
-	//    public void ThrowsExectpionOnAddingExistingScreen()
-	//    {
-	//        Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Manager.Add(this.Screen1.Object));
-	//    }
+		[Test]
+		public void ThrowsExectpionOnRemovingNull()
+		{
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Remove(null));
+		}
 
-	//    [Test]
-	//    public void RemovingNonExistingScreenReturnsFalse()
-	//    {
-	//        Assert.IsFalse(this.Manager.Remove(new Mock<Screen>().Object));
-	//    }
-	//    #endregion
+		[Test]
+		public void ThrowsExectpionOnAddingExistingScreen()
+		{
+			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Manager.Add(this.Screen1.Object));
+		}
 
-	//    #region List management
-	//    [Test]
-	//    public void DoesScreenMoveToFront()
-	//    {
-	//        this.Manager.MoveToFront(this.Screen1.Object);
-	//        Assert.AreEqual(this.Screen1.Object, this.Manager[0]);
-	//    }
+		[Test]
+		public void RemovingNonExistingScreenReturnsFalse()
+		{
+			Assert.IsFalse(this.Manager.Remove(new Mock<Screen>("NonExisting", ScreenType.Normal).Object));
+		}
+		#endregion
 
-	//    [Test]
-	//    public void DoesScreenMoveToSpecifiedPosition()
-	//    {
-	//        this.Manager.MoveTo(this.Screen1.Object, 2);
-	//        Assert.AreEqual(this.Screen1.Object, this.Manager[1]);
-	//    }
+		#region List management
+		[Test]
+		public void ThrowsExectpionOnMovingToFrontNull()
+		{
+			Assert.Throws<ArgumentNullException>(() => this.Manager.MoveToFront(null as IScreen));
+		}
 
-	//    [Test]
-	//    public void ThrowsExectpionOnMovingToFrontNull()
-	//    {
-	//        Assert.Throws<ArgumentNullException>(() => this.Manager.MoveToFront(null));
-	//    }
+		[Test]
+		public void ThrowsExectpionOnMovingNull()
+		{
+			Assert.Throws<ArgumentNullException>(() => this.Manager.MoveTo(null as IScreen, 0));
+		}
 
-	//    [Test]
-	//    public void ThrowsExectpionOnMovingNull()
-	//    {
-	//        Assert.Throws<ArgumentNullException>(() => this.Manager.MoveTo(null, 0));
-	//    }
+		[Test]
+		public void ThrowsExectpionOnMovingToFrontNonExistingScreen()
+		{
+			Assert.Throws<Exceptions.ArgumentNotExistsException>(() => this.Manager.MoveToFront(new Mock<Screen>("NonExisting", ScreenType.Normal).Object));
+		}
 
-	//    [Test]
-	//    public void ThrowsExectpionOnMovingToFrontNonExistingScreen()
-	//    {
-	//        Assert.Throws<Exceptions.ArgumentNotExistsException>(() => this.Manager.MoveToFront(new Mock<Screen>().Object));
-	//    }
+		[Test]
+		public void ThrowsExectpionOnMovingNonExistingScreen()
+		{
+			Assert.Throws<Exceptions.ArgumentNotExistsException>(() => this.Manager.MoveTo(new Mock<Screen>("NonExisting", ScreenType.Normal).Object, 0));
+		}
+		#endregion
 
-	//    [Test]
-	//    public void ThrowsExectpionOnMovingNonExistingScreen()
-	//    {
-	//        Assert.Throws<Exceptions.ArgumentNotExistsException>(() => this.Manager.MoveTo(new Mock<Screen>().Object, 0));
-	//    }
-	//    #endregion
+		#region State changing
+		//[Test]
 
-	//    #region State changing
-	//    [Test]
-	//    public void DoesScreenClose()
-	//    {
-	//        this.Screen1.Setup(s => s.StateChanged(ScreenState.Closed));
+		#endregion
 
-	//        this.Manager.MakeActive(this.Screen1.Object);
-	//        this.Manager.Close(this.Screen1.Object);
+		#region Rendering and updating
+		[Test]
+		public void IsCorrectScreenUpdated1([Values(1.0)] double delta)
+		{
+			this.Screen1.Setup(s => s.Update(delta));
 
-	//        Assert.AreEqual(ScreenState.Closed, this.Screen1.Object.State);
-	//        this.Screen1.Verify();
-	//    }
+			this.Manager.Activate(this.Screen3.Object);
+			this.Manager.Activate(this.Screen2.Object);
+			this.Manager.Activate(this.Screen1.Object);
 
-	//    [Test]
-	//    public void DoesScreenMakeActive()
-	//    {
-	//        this.Screen2.Setup(s => s.StateChanged(ScreenState.Closed));
-	//        this.Manager.MakeActive(this.Screen2.Object);
+			this.Manager.Update(delta);
 
-	//        Assert.AreEqual(ScreenState.Active, this.Screen2.Object.State);
-	//        this.Screen2.Verify(s => s.StateChanged(ScreenState.Closed));
-	//    }
+			this.Screen1.Verify(s => s.Update(delta));
+		}
 
-	//    [Test]
-	//    public void DoesScreenMakeInactive()
-	//    {
-	//        this.Screen3.Setup(s => s.StateChanged(ScreenState.Closed));
-	//        this.Manager.MakeActive(this.Screen3.Object);
-	//        this.Manager.MakeInactive(this.Screen3.Object);
+		[Test]
+		public void IsCorrectScreenUpdated2([Values(1.0)] double delta)
+		{
+			this.Screen2.Setup(s => s.Update(delta));
 
-	//        Assert.AreEqual(ScreenState.Inactive, this.Screen3.Object.State);
-	//        this.Screen3.Verify(s => s.StateChanged(ScreenState.Closed));
-	//    }
+			this.Manager.Activate(this.Screen3.Object);
+			this.Manager.Activate(this.Screen2.Object);
+			this.Manager.Deactivate(this.Screen1.Object);
 
-	//    [Test]
-	//    public void ActivatingScreenCorrectlyDeactivateOther()
-	//    {
-	//        this.Manager.MakeActive(this.Screen3.Object);
-	//        this.Manager.MakeActive(this.Screen2.Object);
-	//        this.Manager.MakeActive(this.Screen1.Object);
-	//        Assert.AreEqual(ScreenState.Inactive, this.Screen2.Object.State);
-	//        Assert.AreEqual(ScreenState.Inactive, this.Screen3.Object.State);
-	//    }
+			this.Manager.Update(delta);
 
-	//    [Test]
-	//    public void DeactivatingScreenCorrectlyActivateOther()
-	//    {
-	//        //Najpierw aktywujemy
-	//        this.Manager.MakeActive(this.Screen3.Object);
-	//        this.Manager.MakeActive(this.Screen2.Object);
-	//        this.Manager.MakeActive(this.Screen1.Object);
+			this.Screen2.Verify(s => s.Update(delta));
+		}
 
-	//        this.Manager.MakeInactive(this.Screen1.Object);
-	//        Assert.AreEqual(ScreenState.Active, this.Screen2.Object.State);
-	//        Assert.AreEqual(ScreenState.Inactive, this.Screen3.Object.State);
-	//    }
-	//    #endregion
+		[Test]
+		public void IsCorrectScreenRendered()
+		{
+			this.Screen1.Setup(s => s.Render());
 
-	//    #region Rendering and updating
-	//    [Test]
-	//    public void IsCorrectScreenUpdated1([Values(1.0)] double delta)
-	//    {
-	//        this.Screen1.Setup(s => s.Update(delta));
+			this.Manager.Activate(this.Screen3.Object);
+			this.Manager.Activate(this.Screen2.Object);
+			this.Manager.Activate(this.Screen1.Object);
 
-	//        this.Manager.MakeActive(this.Screen3.Object);
-	//        this.Manager.MakeActive(this.Screen2.Object);
-	//        this.Manager.MakeActive(this.Screen1.Object);
+			this.Manager.Render();
 
-	//        this.Manager.Update(delta);
+			this.Screen1.Verify(s => s.Render());
+		}
 
-	//        this.Screen1.Verify(s => s.Update(delta));
-	//    }
+		[Test]
+		public void AreCorrectScreensRendered()
+		{
+			this.Screen2.Setup(s => s.Render());
+			this.Screen3.Setup(s => s.Render());
 
-	//    [Test]
-	//    public void IsCorrectScreenUpdated2([Values(1.0)] double delta)
-	//    {
-	//        this.Screen2.Setup(s => s.Update(delta));
+			this.Manager.Activate(this.Screen3.Object);
+			this.Manager.Activate(this.Screen2.Object);
+			this.Manager.Deactivate(this.Screen1.Object);
 
-	//        this.Manager.MakeActive(this.Screen3.Object);
-	//        this.Manager.MakeActive(this.Screen2.Object);
-	//        this.Manager.MakeInactive(this.Screen1.Object);
+			this.Manager.Render();
 
-	//        this.Manager.Update(delta);
+			this.Screen3.Verify(s => s.Render());
+			this.Screen2.Verify(s => s.Render());
+		}
+		#endregion
 
-	//        this.Screen2.Verify(s => s.Update(delta));
-	//    }
-
-	//    [Test]
-	//    public void IsCorrectScreenRendered()
-	//    {
-	//        this.Screen1.Setup(s => s.Render());
-
-	//        this.Manager.MakeActive(this.Screen3.Object);
-	//        this.Manager.MakeActive(this.Screen2.Object);
-	//        this.Manager.MakeActive(this.Screen1.Object);
-
-	//        this.Manager.Render();
-
-	//        this.Screen1.Verify(s => s.Render());
-	//    }
-
-	//    [Test]
-	//    public void AreCorrectScreensRendered()
-	//    {
-	//        this.Screen2.Setup(s => s.Render());
-	//        this.Screen3.Setup(s => s.Render());
-
-	//        this.Manager.MakeActive(this.Screen3.Object);
-	//        this.Manager.MakeActive(this.Screen2.Object);
-	//        this.Manager.MakeInactive(this.Screen1.Object);
-
-	//        this.Manager.Render();
-
-	//        this.Screen3.Verify(s => s.Render());
-	//        this.Screen2.Verify(s => s.Render());
-	//    }
-	//    #endregion
-	//}
+		#region Utilities
+		private void TestStates(ScreenState[] states)
+		{
+			if (states.Length != this.ScreensList.Length)
+			{
+				throw new ArgumentException("Invalid numberf elements", "states");
+			}
+			for (int i = 0; i < this.ScreensList.Length; i++)
+			{
+				Assert.AreEqual(states[i], this.ScreensList[i]);
+			}
+		}
+		#endregion
+	}
 }

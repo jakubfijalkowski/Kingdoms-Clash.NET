@@ -54,10 +54,6 @@ namespace ClashEngine.NET.Tests
 			int old = this.Manager.TotalCount;
 			var res = this.Manager.Load<MockResource>("resource 3");
 			Assert.AreEqual(old + 1, this.Manager.TotalCount);
-
-			//Wracamy do stanu sprzed - nie mam pomysłu jak uniezależnić resztę od tego testu, więc jest tak a nie inaczej
-			//Do zmiany w przyszłości
-			this.Manager.Free(res);
 		}
 		
 		[Test]
