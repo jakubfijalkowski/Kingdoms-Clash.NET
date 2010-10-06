@@ -8,19 +8,48 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 	public enum ScreenState
 	{
 		/// <summary>
-		/// Aktywny.
+		/// Aktywowany.
 		/// </summary>
-		Active,
+		Activated = 0,
 
 		/// <summary>
-		/// Nieaktywny(np. zasłonięty przez inny nie-popup.
+		/// Przykryty przez inne ekrany(ale nadal rysowany).
 		/// </summary>
-		Inactive,
+		Covered,
 
 		/// <summary>
-		/// Zamknięty(nieodrysowywany ani nieuaktualniany, ale pozostający w managerze).
+		/// Ukryty(całkowicie).
 		/// </summary>
-		Closed
+		Hidden,
+
+		/// <summary>
+		/// Deaktywowany.
+		/// </summary>
+		Deactivated
+	}
+
+	/// <summary>
+	/// Typ ekranu.
+	/// </summary>
+	public enum ScreenType
+	{
+		/// <summary>
+		/// Normalny.
+		/// Gdy aktywny blokuje ekrany "za" przed aktualizacją.
+		/// </summary>
+		Normal,
+
+		/// <summary>
+		/// Pełnoekranowy.
+		/// Gdy aktywny blokuje ekrany "za" przed aktualizacją i rysowaniem.
+		/// </summary>
+		Fullscreen,
+
+		/// <summary>
+		/// Wyskakujące "okienko".
+		/// Nie oddziaływuje na ekrany "za".
+		/// </summary>
+		Popup
 	}
 
 	/// <summary>
@@ -35,44 +64,40 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 	{
 		#region Properties
 		/// <summary>
+		/// Identyfikator ekranu.
+		/// </summary>
+		string Id { get; }
+
+		/// <summary>
 		/// Manager - rodzic.
 		/// </summary>
-		IScreensManager Manager { get; }
+		IScreensManager Manager { get; set; }
 
 		/// <summary>
-		/// Czy ekran jest ekranem "wyskakującym", czyli nie zasłania reszty a co za tym idzie pozwala na ich aktualizację.
-		/// Nie może być true jeśli IsFullscreen == true.
+		/// Typ ekranu.
 		/// </summary>
-		bool IsPopup { get; set; }
-
-		/// <summary>
-		/// Czy ekran jest pełnoekranowy(zasłania wszystko co pod).
-		/// Nie może być true jeśli IsPopup == true;
-		/// </summary>
-		bool IsFullscreen { get; set; }
+		ScreenType Type { get; }
 
 		/// <summary>
 		/// Aktualny stan ekranu.
 		/// </summary>
-		ScreenState State { get; }
-		#endregion
-
-		#region Object management
-		/// <summary>
-		/// Inicjalizuje obiekt.
-		/// </summary>
-		/// <param name="screensManager">Manager ekranów.</param>
-		void Init(IScreensManager screensManager);
-
-		/// <summary>
-		/// Zmienia stan ekranu.
-		/// Powinno wywoływać StateChanged.
-		/// </summary>
-		/// <param name="state">Nowy stan.</param>
-		void ChangeState(ScreenState state);
+		/// <remarks>
+		/// Zmieniać tylko przez manager ekranów.
+		/// </remarks>
+		ScreenState State { get; set; }
 		#endregion
 
 		#region Events
+		/// <summary>
+		/// Zdarzenie wywoływane przy inicjalizacji komponentu(dodaniu do managera).
+		/// </summary>
+		void OnInit();
+
+		/// <summary>
+		/// Zdarzenie wywoływane przy deinicjalizacji komponentu(usunięcie z managera).
+		/// </summary>
+		void OnDeinit();
+
 		/// <summary>
 		/// Uaktualnienie.
 		/// </summary>
@@ -83,22 +108,6 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 		/// Ekran ma się odrysować.
 		/// </summary>
 		void Render();
-
-		/// <summary>
-		/// Zdarzenie zmiany stanu ekranu.
-		/// </summary>
-		/// <param name="oldState">Stan sprzed zmiany.</param>
-		void StateChanged(ScreenState oldState);
-
-		/// <summary>
-		/// Zdarzenie wywoływane przy inicjalizacji komponentu(dodaniu do managera).
-		/// </summary>
-		void OnInit();
-
-		/// <summary>
-		/// Zdarzenie wywoływane przy deinicjalizacji komponentu(usunięcie z managera).
-		/// </summary>
-		void OnDeinit();
 
 		#region Keyboard
 		/// <summary>

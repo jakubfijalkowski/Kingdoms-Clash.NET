@@ -6,6 +6,7 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 	/// <summary>
 	/// Bazowy interfejs dla managera ekranów.
 	/// Implementacja powinna wysyłać zdarzenia myszy i klawiatury do odpowiednich ekranów.
+	/// W kolekcji nie mogą znajdować się dwa ekrany o takim samym Id.
 	/// </summary>
 	public interface IScreensManager
 		: IDisposable, ICollection<IScreen>
@@ -16,17 +17,24 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 		/// Dodaje ekran do listy i od razu go aktywuje.
 		/// </summary>
 		/// <param name="screen">Ekran do dodania.</param>
-		void AddAndMakeActive(IScreen screen);
+		void AddAndActivate(IScreen screen);
 
 		/// <summary>
-		/// Pobiera ekran ze wskazanej pozycji.
+		/// Pobiera ekran o wskazanym Id.
 		/// </summary>
-		/// <param name="index">Indeks.</param>
-		/// <returns></returns>
-		IScreen this[int index] { get; }
+		/// <param name="index">Identyfikator ekranu.</param>
+		/// <returns>Ekran, bądź null, gdy nie znaleziono</returns>
+		IScreen this[string id] { get; }
 		#endregion
 
 		#region Moving
+		/// <summary>
+		/// Przesuwa ekran we wskazane miejsce.
+		/// </summary>
+		/// <param name="screen">Ekran.</param>
+		/// <param name="newPos">Nowa pozycja na liście(licząc od końca!).</param>
+		void MoveTo(IScreen screen, int newPos);
+
 		/// <summary>
 		/// Przesuwa ekran na wierzch.
 		/// </summary>
@@ -36,33 +44,41 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 		/// <summary>
 		/// Przesuwa ekran we wskazane miejsce.
 		/// </summary>
-		/// <param name="screen">Ekran.</param>
+		/// <param name="id">Identyfikator ekranu.</param>
 		/// <param name="newPos">Nowa pozycja na liście(licząc od końca!).</param>
-		void MoveTo(IScreen screen, int newPos);
+		void MoveTo(string id, int newPos);
+
+		/// <summary>
+		/// Przesuwa ekran na wierzch.
+		/// </summary>
+		/// <param name="id">Identyfikator ekranu.</param>
+		void MoveToFront(string id);
 		#endregion
 
 		#region Changing state
 		/// <summary>
-		/// Zmienia ekran wskazany ekran na aktywny(tylko jeśli nie zasłania go nic innego).
+		/// Aktywuje(jeśli może) wskazany ekran.
 		/// </summary>
 		/// <param name="screen">Ekran.</param>
-		/// <returns>Czy zmieniono stan ekranu.</returns>
-		bool MakeActive(IScreen screen);
+		void Activate(IScreen screen);
 
 		/// <summary>
-		/// Zmienia ekran na nieaktywny.
-		/// Ekran musi być aktywny by stać się nieaktywnym.
+		/// Deaktywuje wskazany ekran.
 		/// </summary>
 		/// <param name="screen">Ekran.</param>
-		/// <returns>Czy zmieniono stan ekranu.</returns>
-		bool MakeInactive(IScreen screen);
+		void Deactivate(IScreen screen);
 
 		/// <summary>
-		/// Zamyka ekran.
-		/// Przed zamknięciem ekran jest dezaktywowany.
+		/// Aktywuje(jeśli może) wskazany ekran.
 		/// </summary>
-		/// <param name="screen">Ekran.</param>
-		void Close(IScreen screen);
+		/// <param name="id">Identyfikator ekranu.</param>
+		void Activate(string id);
+
+		/// <summary>
+		/// Deaktywuje wskazany ekran.
+		/// </summary>
+		/// <param name="id">Identyfikator ekranu.</param>
+		void Deactivate(string id);
 		#endregion
 
 		#region Rendering/updating
