@@ -5,6 +5,7 @@ using Kingdoms_Clash.NET.Interfaces.Units.Components;
 using Kingdoms_Clash.NET.Units;
 using Kingdoms_Clash.NET.Units.Components;
 using NUnit.Framework;
+using Moq;
 
 namespace Kingdoms_Clash.NET.Tests.Components
 {
@@ -21,16 +22,22 @@ namespace Kingdoms_Clash.NET.Tests.Components
 		private IUnit Unit;
 		private Body Body;
 
+		private Mock<UnitTests.TestPlayer> Player;
+
 		[SetUp]
 		public void SetUp()
 		{
+			this.Player = new Mock<UnitTests.TestPlayer>();
+			this.Player.SetupAllProperties();
+
 			this.Component = new Movable();
 
 			UnitDescription desc = new UnitDescription("TestUnit", 100, 5f, 5f);
 			(desc.Attributes as UnitAttributesCollection).Add(new UnitAttribute<float>("Velocity", Velocity));
 			desc.Components.Add(this.Component);
-			this.Unit = new Unit(desc, null);
+			this.Unit = new Unit(desc, this.Player.Object);
 			this.Unit.Init(null);
+			this.Unit.OnInit();
 
 			this.Body = this.Unit.Attributes.Get<Body>("Body").Value; //Na pewno istnieje
 		}

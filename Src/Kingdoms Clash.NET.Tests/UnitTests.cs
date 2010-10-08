@@ -1,5 +1,8 @@
-﻿using Kingdoms_Clash.NET.Interfaces.Units;
+﻿using ClashEngine.NET.EntitiesManager;
+using Kingdoms_Clash.NET.Interfaces.Player;
+using Kingdoms_Clash.NET.Interfaces.Units;
 using Kingdoms_Clash.NET.Units;
+using Moq;
 using NUnit.Framework;
 
 namespace Kingdoms_Clash.NET.Tests
@@ -9,13 +12,19 @@ namespace Kingdoms_Clash.NET.Tests
 	{
 		private IUnitDescription Description;
 		private IUnit Unit;
+		private Mock<TestPlayer> Player;
 
 		[SetUp]
 		public void SetUp()
 		{
+			this.Player = new Mock<TestPlayer>();
+			this.Player.SetupAllProperties();
+
 			this.Description = new UnitDescription("sth", 100, 5f, 10f);
-			this.Unit = new Unit(this.Description, null);
+
+			this.Unit = new Unit(this.Description, this.Player.Object);
 			this.Unit.Init(null);
+			this.Unit.OnInit();
 		}
 
 		[Test]
@@ -32,6 +41,32 @@ namespace Kingdoms_Clash.NET.Tests
 			{
 				Assert.IsNotNull(this.Unit.Components.GetSingle(component.GetType()));
 			}
+		}
+
+		public abstract class TestPlayer
+			: GameEntity, IPlayer
+		{
+			public TestPlayer()
+				: base("TestPlayer")
+			{ }
+
+			#region IPlayer Members
+			public abstract string Name { get; set; }
+
+			public abstract Interfaces.IGameState GameState { get; set; }
+
+			public abstract INation Nation { get; set; }
+
+			public abstract System.Collections.Generic.IList<IUnit> Units { get; set; }
+
+			public abstract Interfaces.Resources.IResourcesCollection Resources { get; set; }
+
+			public abstract int Health { get; set; }
+
+			public abstract PlayerType Type { get; set; }
+
+			public abstract event UnitCollideWithPlayerEventHandler Collide;
+			#endregion
 		}
 	}
 }
