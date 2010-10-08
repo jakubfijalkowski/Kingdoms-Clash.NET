@@ -11,11 +11,12 @@ namespace ClashEngine.NET.Tests
 	[TestFixture(Description = "Testy managera ekranów")]
 	public class ScreensManagerTests
 	{
-		private ScreensManager.ScreensManager Manager { get; set; }
+		private ScreensManager.ScreensManager Manager;
 
-		private Mock<Screen> Screen1 { get; set; }
-		private Mock<Screen> Screen3 { get; set; }
-		private Mock<Screen> Screen2 { get; set; }
+		private Mock<Screen> Screen1; //Fullscreen
+		private Mock<Screen> Screen2; //Popup
+		private Mock<Screen> Screen3; //Normal
+		private Mock<Screen> Screen4; //Normal
 
 		private IScreen[] ScreensList;
 
@@ -27,23 +28,29 @@ namespace ClashEngine.NET.Tests
 			this.Screen1.Setup(s => s.OnInit());
 			this.Screen1.Setup(s => s.OnDeinit());
 
-			this.Screen2 = new Mock<Screen>("Screen2", ScreenType.Normal);
+			this.Screen2 = new Mock<Screen>("Screen2", ScreenType.Popup);
 			this.Screen2.Setup(s => s.OnInit());
 			this.Screen2.Setup(s => s.OnDeinit());
 
-			this.Screen3 = new Mock<Screen>("Screen3", ScreenType.Fullscreen);
+			this.Screen3 = new Mock<Screen>("Screen3", ScreenType.Normal);
 			this.Screen3.Setup(s => s.OnInit());
 			this.Screen3.Setup(s => s.OnDeinit());
+
+			this.Screen4 = new Mock<Screen>("Screen4", ScreenType.Normal);
+			this.Screen4.Setup(s => s.OnInit());
+			this.Screen4.Setup(s => s.OnDeinit());
 
 			this.Manager.Add(this.Screen1.Object);
 			this.Manager.Add(this.Screen2.Object);
 			this.Manager.Add(this.Screen3.Object);
+			this.Manager.Add(this.Screen4.Object);
 
 			this.ScreensList = new IScreen[]
 			{
 				this.Screen1.Object,
 				this.Screen2.Object,
-				this.Screen3.Object
+				this.Screen3.Object,
+				this.Screen4.Object
 			};
 		}
 
@@ -57,7 +64,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void ScreensAdded()
 		{
-			Assert.AreEqual(3, this.Manager.Count);
+			Assert.AreEqual(4, this.Manager.Count);
 		}
 
 		[Test]
@@ -104,6 +111,43 @@ namespace ClashEngine.NET.Tests
 
 		#region List management
 		[Test]
+		public void MovingNormalScreenToFrontCoversOthers()
+		{
+			this.Screen4.Object.Activate();
+			this.Screen3.Object.Activate();
+			this.Screen2.Object.Activate();
+			this.Screen1.Object.Activate();
+
+			this.Screen3.Object.MoveToFront();
+
+			this.TestStates(new ScreenState[]
+			{
+				ScreenState.Covered,
+				ScreenState.Hidden,
+				ScreenState.Activated,
+				ScreenState.Hidden
+			});
+		}
+
+		[Test]
+		public void MovingNormalToSecondPosCoversOthers()
+		{
+			this.Screen4.Object.Activate();
+			this.Screen3.Object.Activate();
+			this.Screen2.Object.Activate();
+
+			this.Screen3.Object.MoveTo(1);
+
+			this.TestStates(new ScreenState[]
+			{
+				ScreenState.Deactivated,
+				ScreenState.Covered,
+				ScreenState.Activated,
+				ScreenState.Covered
+			});
+		}
+
+		[Test]
 		public void ThrowsExectpionOnMovingToFrontNull()
 		{
 			Assert.Throws<ArgumentNullException>(() => this.Manager.MoveToFront(null as IScreen));
@@ -129,8 +173,53 @@ namespace ClashEngine.NET.Tests
 		#endregion
 
 		#region State changing
-		//[Test]
+		[Test]
+		public void ActivatingFullscreenHidesOthers()
+		{
+			this.Screen4.Object.Activate();
+			this.Screen3.Object.Activate();
+			this.Screen2.Object.Activate();
+			this.Screen1.Object.Activate();
 
+			this.TestStates(new ScreenState[]
+			{
+				ScreenState.Activated,
+				ScreenState.Hidden,
+				ScreenState.Hidden,
+				ScreenState.Hidden,
+			});
+		}
+
+		[Test]
+		public void ActivatingPopupNotAffectOthers()
+		{
+			this.Screen4.Object.Activate();
+			this.Screen3.Object.Activate();
+			this.Screen2.Object.Activate();
+
+			this.TestStates(new ScreenState[]
+			{
+				ScreenState.Deactivated,
+				ScreenState.Activated,
+				ScreenState.Activated,
+				ScreenState.Covered
+			});
+		}
+
+		[Test]
+		public void ActivatingNormalScreenCoversOthers()
+		{
+			this.Screen4.Object.Activate();
+			this.Screen3.Object.Activate();
+
+			this.TestStates(new ScreenState[]
+			{
+				ScreenState.Deactivated,
+				ScreenState.Deactivated,
+				ScreenState.Activated,
+				ScreenState.Covered
+			});
+		}
 		#endregion
 
 		#region Rendering and updating
@@ -202,7 +291,7 @@ namespace ClashEngine.NET.Tests
 			}
 			for (int i = 0; i < this.ScreensList.Length; i++)
 			{
-				Assert.AreEqual(states[i], this.ScreensList[i]);
+				Assert.AreEqual(states[i], this.ScreensList[i].State);
 			}
 		}
 		#endregion

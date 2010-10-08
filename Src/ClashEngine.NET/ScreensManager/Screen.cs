@@ -149,6 +149,40 @@ namespace ClashEngine.NET.ScreensManager
 		{ return false; }
 		#endregion
 		#endregion
+		
+		#region Utilities
+		/// <summary>
+		/// Odpowiednik <see cref="IScreensManager.Activate(IScreen)"/> dla tego ekranu.
+		/// </summary>
+		public void Activate()
+		{
+			this.Manager.Activate(this);
+		}
+
+		/// <summary>
+		/// Odpowiednik <see cref="IScreensManager.Deactivate(IScreen)"/> dla tego ekranu.
+		/// </summary>
+		public void Deactivate()
+		{
+			this.Manager.Deactivate(this);
+		}
+
+		/// <summary>
+		/// Odpowiednik <see cref="IScreensManager.MoveTo(IScreen, int)"/> dla tego ekranu.
+		/// </summary>
+		public void MoveTo(int position)
+		{
+			this.Manager.MoveTo(this, position);
+		}
+
+		/// <summary>
+		/// Odpowiednik <see cref="IScreensManager.MoveToFront(IScreen)"/> dla tego ekranu.
+		/// </summary>
+		public void MoveToFront()
+		{
+			this.Manager.MoveToFront(this);
+		}
+		#endregion
 
 		/// <summary>
 		/// Inicjalizuje nowy ekran.
