@@ -23,9 +23,22 @@ namespace Kingdoms_Clash.NET.Resources
 		/// </summary>
 		/// <param name="key">Identyfikator zasobu.</param>
 		/// <param name="value">Wartość do dodania.</param>
+		/// <exception cref="ArgumentNullException">Rzucane, gdy klucz jest nullem lub jest pusty.</exception>
 		public void Add(string key, uint value)
 		{
-			this.Add(new KeyValuePair<string, uint>(key, value));
+			if (string.IsNullOrWhiteSpace(key))
+			{
+				throw new ArgumentNullException("item.Key");
+			}
+
+			if (this.Resources.ContainsKey(key))
+			{
+				this.Resources[key] += value;
+			}
+			else
+			{
+				this.Resources.Add(key, value);
+			}
 		}
 
 		/// <summary>
@@ -57,10 +70,8 @@ namespace Kingdoms_Clash.NET.Resources
 		/// <returns>Zawsze true.</returns>
 		public bool TryGetValue(string key, out uint value)
 		{
-			if (!this.Resources.TryGetValue(key, out value))
-			{
-				value = 0;
-			}
+			value = 0;
+			this.Resources.TryGetValue(key, out value);
 			return true;
 		}
 
@@ -91,11 +102,9 @@ namespace Kingdoms_Clash.NET.Resources
 		{
 			get
 			{
-				if (this.Resources.ContainsKey(key))
-				{
-					return this.Resources[key];
-				}
-				return 0;
+				uint value = 0;
+				this.Resources.TryGetValue(key, out value);
+				return value;
 			}
 			set
 			{
@@ -110,21 +119,9 @@ namespace Kingdoms_Clash.NET.Resources
 		/// </summary>
 		/// <param name="item">Zasób.</param>
 		/// <exception cref="ArgumentNullException">Rzucane, gdy klucz jest nullem lub jest pusty.</exception>
-		public void Add(KeyValuePair<string, uint> item)
+		void ICollection<KeyValuePair<string, uint>>.Add(KeyValuePair<string, uint> item)
 		{
-			if (string.IsNullOrWhiteSpace(item.Key))
-			{
-				throw new ArgumentNullException("item.Key");
-			}
-
-			if (this.Resources.ContainsKey(item.Key))
-			{
-				this.Resources[item.Key] += item.Value;
-			}
-			else
-			{
-				this.Resources.Add(item.Key, item.Value);
-			}
+			this.Add(item.Key, item.Value);
 		}
 
 		/// <summary>
@@ -141,14 +138,9 @@ namespace Kingdoms_Clash.NET.Resources
 		/// <param name="item">Zasób.</param>
 		/// <exception cref="ArgumentNullException">Rzucane, gdy klucz jest nullem lub jest pusty.</exception>
 		/// <returns>Czy jest go wystarczająco.</returns>
-		public bool Contains(KeyValuePair<string, uint> item)
+		bool ICollection<KeyValuePair<string, uint>>.Contains(KeyValuePair<string, uint> item)
 		{
-			if (string.IsNullOrWhiteSpace(item.Key))
-			{
-				throw new ArgumentNullException("item.Key");
-			}
-			uint val;
-			return this.Resources.TryGetValue(item.Key, out val) && val >= item.Value;
+			return this.Contains(item.Key, item.Value);
 		}
 
 		/// <summary>
@@ -172,7 +164,7 @@ namespace Kingdoms_Clash.NET.Resources
 		/// <summary>
 		/// Czy kolekcja jest tylko do odczytu - zawsze false.
 		/// </summary>
-		public bool IsReadOnly
+		bool ICollection<KeyValuePair<string, uint>>.IsReadOnly
 		{
 			get { return false; }
 		}
@@ -181,19 +173,10 @@ namespace Kingdoms_Clash.NET.Resources
 		/// Usuwa wskazaną ilość zasobu.
 		/// </summary>
 		/// <param name="item">Zasób.</param>
-		/// <returns>Czy usunięto(czy znajdował się w kolekcji).</returns>
-		public bool Remove(KeyValuePair<string, uint> item)
+		/// <returns>Czy udało się usunąć.</returns>
+		bool ICollection<KeyValuePair<string, uint>>.Remove(KeyValuePair<string, uint> item)
 		{
-			if (this.Resources.ContainsKey(item.Key))
-			{
-				this.Resources[item.Key] -= item.Value;
-				//if (this.Resources[item.Key] < item.Value)
-				//{
-				//    throw new ArgumentException("Insufficient resources", "item");
-				//}
-				return true;
-			}
-			return false;
+			return this.Remove(item.Key, item.Value);
 		}
 		#endregion
 
@@ -208,6 +191,39 @@ namespace Kingdoms_Clash.NET.Resources
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return this.Resources.GetEnumerator();
+		}
+		#endregion
+
+		#region IResourcesCollection Members
+		/// <summary>
+		/// Usuwa z kolekcji podaną ilość zasobu.
+		/// </summary>
+		/// <param name="id">Identyfikator zasobu.</param>
+		/// <param name="value">Wartość.</param>
+		public bool Remove(string id, uint value)
+		{
+			if (this.Resources.ContainsKey(id))
+			{
+				this.Resources[id] -= value;
+				return true;
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// Sprawdza, czy w kolekcji znajduje się wskazana ilość danego zasobu.
+		/// </summary>
+		/// <param name="id">Identyfikator zasobu.</param>
+		/// <param name="value">Żądana ilość.</param>
+		/// <returns>Czy jest go wystarczająco.</returns>
+		public bool Contains(string id, uint value)
+		{
+			if (string.IsNullOrWhiteSpace(id))
+			{
+				throw new ArgumentNullException("id");
+			}
+			uint val;
+			return this.Resources.TryGetValue(id, out val) && val >= value;
 		}
 		#endregion
 	}

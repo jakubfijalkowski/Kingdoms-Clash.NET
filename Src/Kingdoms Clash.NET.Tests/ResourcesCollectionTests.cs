@@ -1,7 +1,7 @@
-﻿using Kingdoms_Clash.NET.Interfaces.Resources;
+﻿using System.Collections.Generic;
+using Kingdoms_Clash.NET.Interfaces.Resources;
 using Kingdoms_Clash.NET.Resources;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace Kingdoms_Clash.NET.Tests
 {
@@ -42,7 +42,7 @@ namespace Kingdoms_Clash.NET.Tests
 		[Test]
 		public void RemovingExisitngResourceDecreasesCurrentStorage()
 		{
-			this.Resources.Remove(new KeyValuePair<string, uint>("1", 5));
+			this.Resources.Remove("1", 5);
 			Assert.AreEqual(5, this.Resources["1"]);
 		}
 		#endregion
@@ -68,9 +68,9 @@ namespace Kingdoms_Clash.NET.Tests
 		[Test]
 		public void UsingContainChecksCurrentStorage()
 		{
-			Assert.True(this.Resources.Contains(new KeyValuePair<string, uint>("1", 5)));
-			Assert.False(this.Resources.Contains(new KeyValuePair<string, uint>("1", 15)));
-			Assert.False(this.Resources.Contains(new KeyValuePair<string, uint>("FancyResource", 15)));
+			Assert.True(this.Resources.Contains("1", 5));
+			Assert.False(this.Resources.Contains("1", 15));
+			Assert.False(this.Resources.Contains("FancyResource", 15));
 		}
 		#endregion
 	}
