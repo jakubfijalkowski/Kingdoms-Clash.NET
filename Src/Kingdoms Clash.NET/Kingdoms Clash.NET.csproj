@@ -76,8 +76,11 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\ClassicGame.cs" />
+    <Compile Include="Interfaces\Resources\IResourceDescription.cs" />
+    <Compile Include="Interfaces\Resources\IResourcesCollection.cs" />
     <Compile Include="Interfaces\Units\Components\IContactSoldier.cs" />
     <Compile Include="Player\KeyboardControlledPlayer.cs" />
+    <Compile Include="Resources\ResourcesCollection.cs" />
     <Compile Include="SinglePlayer.cs" />
     <Compile Include="Interfaces\Controllers\IGameController.cs" />
     <Compile Include="Interfaces\IConfiguration.cs" />
@@ -87,7 +90,6 @@
     <Compile Include="Interfaces\Map\IMap.cs" />
     <Compile Include="Interfaces\Player\IHuman.cs" />
     <Compile Include="Interfaces\Player\IPlayer.cs" />
-    <Compile Include="Interfaces\Resources\IResource.cs" />
     <Compile Include="Interfaces\Units\Components\IMovable.cs" />
     <Compile Include="Interfaces\Units\Components\ISprite.cs" />
     <Compile Include="Interfaces\Units\INation.cs" />

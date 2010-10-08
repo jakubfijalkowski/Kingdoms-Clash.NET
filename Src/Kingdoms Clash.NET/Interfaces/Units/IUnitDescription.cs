@@ -18,7 +18,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// <summary>
 		/// Koszta wyprodukowania jednostki.
 		/// </summary>
-		IList<IResource> Costs { get; }
+		IResourcesCollection Costs { get; }
 
 		/// <summary>
 		/// Komponenty, z których składa się jednostka.

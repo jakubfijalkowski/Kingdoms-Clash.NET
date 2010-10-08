@@ -3,8 +3,6 @@ using OpenTK;
 
 namespace Kingdoms_Clash.NET.Interfaces.Map
 {
-	using Resources;
-
 	/// <summary>
 	/// Mapa.
 	/// Implementacja powinna zadbać o odnawianie się zasobów(jeśli są odnawialne).
@@ -41,8 +39,9 @@ namespace Kingdoms_Clash.NET.Interfaces.Map
 		/// <param name="beginig">Początek.</param>
 		/// <param name="end">Koniec szukania.</param>
 		/// <param name="position">Pozycja na której odnaleziono zasób.</param>
-		/// <returns>Pakunek z zasobem lub null, gdy nie znaleziono.</returns>
-		IResource CheckForResource(float beginig, float end, out float position);
+		/// <param name="id">Identyfikator zebranego zasobu bądź string.Empty.</param>
+		/// <returns>Ilość zasobu na danej pozycji.</returns>
+		int CheckForResource(float beginig, float end, out float position, out string id);
 
 		/// <summary>
 		/// Resetuje stan gry(zaczyna ją od nowa).

@@ -49,6 +49,7 @@
     <Compile Include="Components\MovableTests.cs" />
     <Compile Include="NationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourcesCollectionTests.cs" />
     <Compile Include="UnitAttributesCollectionTests.cs" />
     <Compile Include="UnitTests.cs" />
   </ItemGroup>

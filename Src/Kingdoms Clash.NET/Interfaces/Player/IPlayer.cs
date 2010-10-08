@@ -65,7 +65,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 		/// <summary>
 		/// Zasoby, które gracz aktualnie posiada.
 		/// </summary>
-		IList<IResource> Resources { get; }
+		IResourcesCollection Resources { get; }
 
 		/// <summary>
 		/// Zdrowie bohatera(jego zamku).

@@ -52,7 +52,7 @@ namespace Kingdoms_Clash.NET.Player
 		/// <summary>
 		/// Zasoby, które gracz aktualnie posiada.
 		/// </summary>
-		public IList<IResource> Resources
+		public IResourcesCollection Resources
 		{
 			get { throw new NotImplementedException(); }
 		}
