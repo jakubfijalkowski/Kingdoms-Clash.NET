@@ -98,6 +98,7 @@ namespace Kingdoms_Clash.NET
 		#region Main
 		static void Main(string[] args)
 		{
+			Configuration.UseDefault();
 			try
 			{
 				using (var game = new KingdomsClashNetGame())
