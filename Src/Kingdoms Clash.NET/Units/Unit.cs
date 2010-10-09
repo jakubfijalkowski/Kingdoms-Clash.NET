@@ -113,7 +113,7 @@ namespace Kingdoms_Clash.NET.Units
 
 			foreach (var component in this.Description.Components)
 			{
-				this.Components.Add(component.Clone() as IUnitComponent);
+				this.Components.Add(component.Create());
 			}
 		}
 	}

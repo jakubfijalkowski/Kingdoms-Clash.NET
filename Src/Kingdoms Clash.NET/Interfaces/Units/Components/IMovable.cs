@@ -4,7 +4,7 @@
 	/// Komponent jednostki określający, że jednostka potrafi się poruszać.
 	/// </summary>
 	public interface IMovable
-		: IUnitComponent
+		: IUnitComponentDescription
 	{
 		/// <summary>
 		/// Prędkość jednostki.

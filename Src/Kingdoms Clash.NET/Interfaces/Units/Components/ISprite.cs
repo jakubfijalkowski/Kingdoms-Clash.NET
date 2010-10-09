@@ -4,6 +4,11 @@
 	/// Jednostka posiada obrazek(sprite).
 	/// </summary>
 	public interface ISprite
-		: ClashEngine.NET.Interfaces.Components.ISprite, IUnitComponent
-	{ }
+		: IUnitComponentDescription
+	{
+		/// <summary>
+		/// Ścieżka do obrazka
+		/// </summary>
+		string ImagePath { get; }
+	}
 }

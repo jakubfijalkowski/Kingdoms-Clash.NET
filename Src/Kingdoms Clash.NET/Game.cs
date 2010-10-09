@@ -56,13 +56,13 @@ namespace Kingdoms_Clash.NET
 
 			IUnitDescription testUnit = new UnitDescription("TestUnit", 10, 2f, 3f);
 
-			testUnit.Attributes.Add(new UnitAttribute<string>("Image", "TestUnit.png"));
-			testUnit.Attributes.Add(new UnitAttribute<float>("Velocity", 10f));
-			testUnit.Attributes.Add(new UnitAttribute<int>("Strength", 10));
+			//testUnit.Attributes.Add(new UnitAttribute<string>("Image", "TestUnit.png"));
+			//testUnit.Attributes.Add(new UnitAttribute<float>("Velocity", 10f));
+			//testUnit.Attributes.Add(new UnitAttribute<int>("Strength", 10));
 
-			testUnit.Components.Add(new Movable());
-			testUnit.Components.Add(new Sprite());
-			testUnit.Components.Add(new ContactSoldier());
+			//testUnit.Components.Add(new Movable());
+			//testUnit.Components.Add(new Sprite());
+			//testUnit.Components.Add(new ContactSoldier());
 
 			testUnit.Costs.Add("wood", 10); //Testowy koszt jednostki
 
