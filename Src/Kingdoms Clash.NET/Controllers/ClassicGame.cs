@@ -105,11 +105,11 @@ namespace Kingdoms_Clash.NET.Controllers
 			}
 			int strength = 0;
 
-			//var component = unit.Components.GetSingle<Interfaces.Units.Components.IContactSoldier>();
-			//if (component != null)
-			//{
-			//    strength = component.Strength;
-			//}
+			var component = unit.Description.Components.GetSingle<Interfaces.Units.Components.IContactSoldier>();
+			if (component != null)
+			{
+				strength = component.Strength;
+			}
 
 			player.Health -= strength;
 			this.GameState.RemoveUnit(unit);
@@ -126,16 +126,16 @@ namespace Kingdoms_Clash.NET.Controllers
 			//Wygrywa silniejsza, a gdy równe - giną obie.
 			int aStrength = 0;
 			int bStrength = 0;
-			//var component = unitA.Components.GetSingle<Interfaces.Units.Components.IContactSoldier>();
-			//if (component != null)
-			//{
-			//    aStrength = component.Strength;
-			//}
-			//component = unitB.Components.GetSingle<Interfaces.Units.Components.IContactSoldier>();
-			//if (component != null)
-			//{
-			//    bStrength = component.Strength;
-			//}
+			var component = unitA.Description.Components.GetSingle<Interfaces.Units.Components.IContactSoldier>();
+			if (component != null)
+			{
+				aStrength = component.Strength;
+			}
+			component = unitB.Description.Components.GetSingle<Interfaces.Units.Components.IContactSoldier>();
+			if (component != null)
+			{
+				bStrength = component.Strength;
+			}
 
 			if (aStrength == bStrength)
 			{
