@@ -37,7 +37,7 @@ namespace Kingdoms_Clash.NET.Units
 			}
 			else
 			{
-				return this.Descriptions.Where(uc => uc.GetType().IsSubclassOf(type));
+				return this.Descriptions.Where(uc => uc.GetType().IsSubclassOf(type) || uc.GetType() == type);
 			}
 		}
 
@@ -63,11 +63,11 @@ namespace Kingdoms_Clash.NET.Units
 			{
 				throw new ArgumentNullException("type");
 			}
-			else if(type.IsInterface)
+			else if(type.IsInterface || type.IsAbstract)
 			{
-				throw new ArgumentException("Cannot be interface", "type");
+				throw new ArgumentException("Cannot be interface or abstract", "type");
 			}
-			return this.Descriptions.Where(uc => uc.GetType().IsSubclassOf(type)).FirstOrDefault();
+			return this.Descriptions.Where(uc => uc.GetType() == type).FirstOrDefault();
 		}
 
 		/// <summary>
@@ -137,7 +137,7 @@ namespace Kingdoms_Clash.NET.Units
 			{
 				throw new ArgumentNullException("item");
 			}
-			return this.Descriptions.Contains(item);
+			return this.Descriptions.Find(uc => uc.GetType() == item.GetType()) != null;
 		}
 
 		/// <summary>
