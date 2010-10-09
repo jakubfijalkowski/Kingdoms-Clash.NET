@@ -61,6 +61,8 @@ namespace Kingdoms_Clash.NET
 			testUnit.Components.Add(new Sprite());
 			testUnit.Components.Add(new ContactSoldier());
 
+			testUnit.Costs.Add("wood", 10); //Testowy koszt jednostki
+
 			INation testNation = new Units.Nation("TestNation", "Castle.png",
 				new IUnitDescription[]
 				{

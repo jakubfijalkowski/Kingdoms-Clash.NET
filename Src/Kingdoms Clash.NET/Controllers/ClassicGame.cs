@@ -29,9 +29,33 @@ namespace Kingdoms_Clash.NET.Controllers
 		/// <returns></returns>
 		public bool RequestNewUnit(string id, IPlayer player)
 		{
+			//Sprawdzamy, czy gracz ma wystarczającą ilość zasobów.
+			var ud = player.Nation.AvailableUnits[id];
+			if (ud != null)
+			{
+				foreach (var cost in ud.Costs)
+				{
+					if (!player.Resources.Contains(cost))
+					{
+						Logger.Debug("Insufficient resources({0}) to create unit {1}", cost.Key, ud.Id);
+						return false;
+					}
+				}
+				//Tak, posiadamy - czyli możemy je zmniejszyć
+				foreach (var cost in ud.Costs)
+				{
+					player.Resources.Remove(cost);
+				}
+			}
+			else
+			{
+				return false;
+			}
+
 			var unit = player.Nation.CreateUnit(id, player);
 			if (unit != null)
 			{
+				player.Units.Add(unit);
 				this.GameState.AddUnit(unit);
 
 				//TODO: napisać ładniejszą dedukcje gdzie umieścić jednostkę.
@@ -89,6 +113,7 @@ namespace Kingdoms_Clash.NET.Controllers
 
 			player.Health -= strength;
 			this.GameState.RemoveUnit(unit);
+			unit.Owner.Units.Remove(unit);
 		}
 
 		/// <summary>
@@ -115,15 +140,19 @@ namespace Kingdoms_Clash.NET.Controllers
 			if (aStrength == bStrength)
 			{
 				this.GameState.RemoveUnit(unitA);
+				unitA.Owner.Units.Remove(unitA);
 				this.GameState.RemoveUnit(unitB);
+				unitB.Owner.Units.Remove(unitB);
 			}
 			else if (aStrength > bStrength)
 			{
 				this.GameState.RemoveUnit(unitB);
+				unitB.Owner.Units.Remove(unitB);
 			}
 			else
 			{
 				this.GameState.RemoveUnit(unitA);
+				unitA.Owner.Units.Remove(unitA);
 			}
 		}
 
@@ -149,6 +178,10 @@ namespace Kingdoms_Clash.NET.Controllers
 		{
 			this.GameState.Players[0].Health = 100;
 			this.GameState.Players[1].Health = 100;
+
+			//Testowe, początkowe zasoby
+			this.GameState.Players[0].Resources.Add("wood", 100);
+			this.GameState.Players[1].Resources.Add("wood", 100);
 		}
 		#endregion
 	}

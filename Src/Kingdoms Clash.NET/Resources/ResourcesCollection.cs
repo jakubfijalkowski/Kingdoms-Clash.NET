@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Kingdoms_Clash.NET.Resources
 {
@@ -12,9 +13,11 @@ namespace Kingdoms_Clash.NET.Resources
 	/// Nie wspiera usuwania zasobów przez IDictionary.Remove ani kopiowania do tablicy(ICollection.CopyTo).
 	/// Usuwanie zasobu zakłada, że go wystarczy - nie sprawdza przepełnienia liczby.
 	/// </remarks>
+	[DebuggerDisplay("Count = {Count}")]
 	public class ResourcesCollection
 		: IResourcesCollection
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private Dictionary<string, uint> Resources = new Dictionary<string, uint>();
 
 		#region IDictionary<string,uint> Members
@@ -78,6 +81,7 @@ namespace Kingdoms_Clash.NET.Resources
 		/// <summary>
 		/// Kolekcja identyfikatorów zasobów.
 		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		ICollection<string> IDictionary<string, uint>.Keys
 		{
 			get { return this.Resources.Keys; }
@@ -86,6 +90,7 @@ namespace Kingdoms_Clash.NET.Resources
 		/// <summary>
 		/// Kolekcja ich wartości.
 		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		ICollection<uint> IDictionary<string, uint>.Values
 		{
 			get { return this.Resources.Values; }
@@ -156,6 +161,7 @@ namespace Kingdoms_Clash.NET.Resources
 		/// <summary>
 		/// Zwraca liczbę posiadanych typów zasobów.
 		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public int Count
 		{
 			get { return this.Resources.Count; }
@@ -164,6 +170,7 @@ namespace Kingdoms_Clash.NET.Resources
 		/// <summary>
 		/// Czy kolekcja jest tylko do odczytu - zawsze false.
 		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		bool ICollection<KeyValuePair<string, uint>>.IsReadOnly
 		{
 			get { return false; }

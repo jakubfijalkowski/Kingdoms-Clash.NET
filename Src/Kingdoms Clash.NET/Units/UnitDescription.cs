@@ -69,7 +69,7 @@ namespace Kingdoms_Clash.NET.Units
 		/// <param name="height">Wysokość jednostki.</param>
 		public UnitDescription(string id, int health, float width, float height)
 		{
-			//this.Costs = new List<IResource>();
+			this.Costs = new Resources.ResourcesCollection();
 			this.Components = new List<IUnitComponent>();
 			this.Attributes = new UnitAttributesCollection();
 

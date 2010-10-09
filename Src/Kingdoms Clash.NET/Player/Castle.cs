@@ -43,19 +43,12 @@ namespace Kingdoms_Clash.NET.Player
 		/// <summary>
 		/// Jednostki(aktualnie przebywające na planszy) gracza.
 		/// </summary>
-		public IList<IUnit> Units
-		{
-			get { throw new NotImplementedException(); }
-		}
-
+		public IList<IUnit> Units { get; private set; }
 
 		/// <summary>
 		/// Zasoby, które gracz aktualnie posiada.
 		/// </summary>
-		public IResourcesCollection Resources
-		{
-			get { throw new NotImplementedException(); }
-		}
+		public IResourcesCollection Resources { get; private set; }
 
 		/// <summary>
 		/// Zdrowie bohatera(jego zamku).
@@ -96,6 +89,10 @@ namespace Kingdoms_Clash.NET.Player
 			{
 				throw new ArgumentNullException("nation");
 			}
+
+			this.Units = new List<IUnit>();
+			this.Resources = new Resources.ResourcesCollection();
+
 			this.Name = name;
 			this.Nation = nation;
 		}
