@@ -11,7 +11,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Resources
 	/// </summary>
 	/// <seealso cref="Kingdoms_Clash.NET.Resources.ResourcesCollection"/>
 	public interface IResourcesCollection
-		: IDictionary<string, uint>
+		: IDictionary<string, uint>, Serialization.IXmlSerializable
 	{
 		/// <summary>
 		/// Usuwa z kolekcji podaną ilość zasobu.
