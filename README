@@ -3,18 +3,46 @@ Więcej informacji na: http://blog.fiolek.org
 
 Opis struktury katalogów:
   * Content - content gry
+  |\
+  | * UserData - dane użytkownika
+  | |\
+  | | * Nations - nacje
+  | * Configuration.xml - plik konfiguracyjny
+  ----------------------------------------------------------
   * Lib - używane biblioteki
+  ----------------------------------------------------------
   * Src - źródła
   |\
   | * ClashEngine.NET - silnik gry
   | |\
+  | | * Cameras - kamery wbudowane w silnik(jako encje gry)
   | | * Components - wbudowane komponenty
+  | | |\
+  | | | * Cameras - kamery wbudowane w silnik(jako komponenty)
+  | | | * Physical - komponenty fizyczne, wymagają by w encji był już komponent PhysicalObject
   | | * EntitiesManager - manager encji
   | | * Exceptions - wyjątki używane w silniku
-  | | * Interfaces - interfejs silnika(struktura podobna do Src/ClashEngine.NET)
+  | | * Interfaces - interfejs silnika(struktura podobna do katalogu głównego silnika)
+  | | * PhysicalManager - manager fizyki i wszystko co z nim związane
   | | * Resources - zasoby wbudowane w silnik
   | | * ResourcesManager - manager zasobów
-  | | * ScreensManager - manager ekranów 
+  | | * ScreensManager - manager ekranów
+  | | * Utilities - dodatkowa funkcjonalność, której nie potrafiłem umieścić nigdzie indziej
+  | ----------------------------------------------------------
   | * ClashEngine.NET.Tests - testy jednostkowe dla silnika
+  | ----------------------------------------------------------
   | * Kingdoms Clash.NET - właściwa gra
+  | |\
+  | | * Controllers - kontrolery(tryby) gry
+  | | * DataSamples - przykładowe pliki XML, które będzie mógł tworzyć użytkownik
+  | | * Interfaces - interfejs gry(struktura podobna do katalogu głównego gry)
+  | | * Maps - mapy
+  | | * Player - rodzaje gracza
+  | | * Resources - zasoby
+  | | * Units - jednostki
+  | | * UserData - wczytywanie danych użytkownika
+  | | * Guidelines.txt - wytyczne do pisania gry
+  | ----------------------------------------------------------
   | * Kingdoms Clash.NET.Tests - testy jednostkowe gry
+  | |\
+  | | * Components - testy komponentów jednostek

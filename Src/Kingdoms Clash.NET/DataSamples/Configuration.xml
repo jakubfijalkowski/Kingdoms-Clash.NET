@@ -2,4 +2,8 @@
 <configuration>
   <window width="800" height="600" fullscreen="false" />
   <vsync />
+  <fpscounter />
+  <player1 nation="Nacja gracz 1" />
+  <player2 nation="Nacja gracz 1" />
+  <startresources value="100" />
 </configuration>
