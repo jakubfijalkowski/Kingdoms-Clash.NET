@@ -180,8 +180,11 @@ namespace Kingdoms_Clash.NET.Controllers
 			this.GameState.Players[1].Health = 100;
 
 			//Testowe, początkowe zasoby
-			this.GameState.Players[0].Resources.Add("wood", 100);
-			this.GameState.Players[1].Resources.Add("wood", 100);
+			foreach (var res in Resources.ResourcesList.Instance)
+			{
+				this.GameState.Players[0].Resources.Add(res.Id, Configuration.Instance.StartResources);
+				this.GameState.Players[1].Resources.Add(res.Id, Configuration.Instance.StartResources);
+			}
 		}
 		#endregion
 	}

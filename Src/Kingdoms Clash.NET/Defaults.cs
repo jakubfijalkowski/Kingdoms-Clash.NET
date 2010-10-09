@@ -26,7 +26,8 @@ namespace Kingdoms_Clash.NET
 			CastleSize = new OpenTK.Vector2(20f, 30f),
 			UseFPSCounter = true,
 			Player1Nation = "TestNation",
-			Player2Nation = "TestNation"
+			Player2Nation = "TestNation",
+			StartResources = 1000
 		};
 
 		/// <summary>

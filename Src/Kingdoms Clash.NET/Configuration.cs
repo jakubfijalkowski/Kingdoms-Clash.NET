@@ -94,6 +94,11 @@ namespace Kingdoms_Clash.NET
 		/// Nacja drugiego gracza.
 		/// </summary>
 		public string Player2Nation { get; internal set; }
+
+		/// <summary>
+		/// Ilość zasobów na start.
+		/// </summary>
+		public uint StartResources { get; internal set; }
 		#endregion
 
 		internal Configuration()
@@ -162,6 +167,15 @@ namespace Kingdoms_Clash.NET
 			else
 			{
 				this.Player2Nation = Defaults.DefaultConfiguration.Player2Nation;
+			}
+
+			try
+			{
+				this.StartResources = uint.Parse(element["startresources"].GetAttribute("value"));
+			}
+			catch
+			{
+				this.StartResources = Defaults.DefaultConfiguration.StartResources;
 			}
 
 			//Ustawiamy resztę

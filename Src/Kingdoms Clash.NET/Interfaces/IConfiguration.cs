@@ -69,6 +69,11 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Nacja drugiego gracza.
 		/// </summary>
 		string Player2Nation { get; }
+
+		/// <summary>
+		/// Ilość zasobów na start.
+		/// </summary>
+		uint StartResources { get; }
 		#endregion
 	}
 }
