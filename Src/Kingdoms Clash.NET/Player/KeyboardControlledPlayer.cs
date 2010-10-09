@@ -46,26 +46,23 @@ namespace Kingdoms_Clash.NET.Player
 			if (this.UnitCreationAccumulator > this.UnitCreationDelay/* && Input.Instance.Keyboard[this.NewUnitKey]*/)
 			{
 				int unitNo = -1;
-				if (this.Type == PlayerType.First)
+
+				OpenTK.Input.Key startK = OpenTK.Input.Key.Number1, endK = OpenTK.Input.Key.Number9;
+				if (this.Type == PlayerType.Second)
 				{
-					for (OpenTK.Input.Key i = OpenTK.Input.Key.Number1; i <= OpenTK.Input.Key.Number9; i++)
+					startK = OpenTK.Input.Key.Keypad1;
+					endK = OpenTK.Input.Key.Keypad9;
+				}
+
+				for (OpenTK.Input.Key i = startK; i <= endK; i++)
+				{
+					if (Input.Instance.Keyboard[i])
 					{
-						if (Input.Instance.Keyboard[i])
-						{
-							unitNo = i - OpenTK.Input.Key.Number1;
-						}
+						unitNo = i - startK;
+						break;
 					}
 				}
-				else
-				{
-					for (OpenTK.Input.Key i = OpenTK.Input.Key.Keypad1; i <= OpenTK.Input.Key.Keypad9; i++)
-					{
-						if (Input.Instance.Keyboard[i])
-						{
-							unitNo = i - OpenTK.Input.Key.Keypad1;
-						}
-					}
-				}
+
 				if (unitNo != -1)
 				{
 					int i = 0;
