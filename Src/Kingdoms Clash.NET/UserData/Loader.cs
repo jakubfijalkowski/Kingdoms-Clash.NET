@@ -45,11 +45,12 @@ namespace Kingdoms_Clash.NET.UserData
 
 			do
 			{
+				Logger.Info("Loading nations");
 				string pathToNations = System.IO.Path.Combine(this.Path, "Nations");
 				pathToNations = System.IO.Path.GetFullPath(pathToNations);
 				if (!System.IO.Directory.Exists(pathToNations))
 				{
-					Logger.Error("Directory od nations '{0}' does not exist, cannot load nations", pathToNations);
+					Logger.Error("\tDirectory of nations '{0}' does not exist, cannot load nations", pathToNations);
 					break;
 				}
 
@@ -60,12 +61,12 @@ namespace Kingdoms_Clash.NET.UserData
 				}
 				catch (Exception ex)
 				{
-					Logger.ErrorException("Cannot list files in directory", ex);
+					Logger.ErrorException("\tCannot list files in directory", ex);
 					break;
 				}
 				if (files.Length == 0)
 				{
-					Logger.Warn("There is no nation to load");
+					Logger.Warn("\tThere is no nation to load");
 					break;
 				}
 
@@ -74,6 +75,7 @@ namespace Kingdoms_Clash.NET.UserData
 					var nation = new NationLoader(file, this.Components).Create();
 					if (nation != null)
 					{
+						Logger.Info("\tNation {0} loaded", nation.Name);
 						nations.Add(nation);
 					}
 				}

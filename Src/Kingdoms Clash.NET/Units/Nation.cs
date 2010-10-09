@@ -56,7 +56,6 @@ namespace Kingdoms_Clash.NET.Units
 			this.Name = name;
 			this.CastleImage = image;
 			this.AvailableUnits = new UnitDescriptionsCollection(descriptions);
-			Logger.Debug("Nation {0} created", this.Name);
 		}
 
 		public override string ToString()
