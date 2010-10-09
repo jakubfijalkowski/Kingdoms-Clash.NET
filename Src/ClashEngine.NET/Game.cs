@@ -56,10 +56,10 @@ namespace ClashEngine.NET
 		public Game(string name, int width, int height, bool fullscreen, bool useVSync, OpenTK.Graphics.GraphicsMode mode)
 		{
 			Logger.Info("Creating game object");
-			Logger.Info("Game name: {0}", name);
-			Logger.Info("Window size: {0} x {1}", width, height);
-			Logger.Info("Fullscreen: {0}", fullscreen);
-			Logger.Info("VSync: {0}", (useVSync ? "on" : "off"));
+			Logger.Info("\tGame name: {0}", name);
+			Logger.Info("\tWindow size: {0} x {1}", width, height);
+			Logger.Info("\tFullscreen: {0}", fullscreen);
+			Logger.Info("\tVSync: {0}", (useVSync ? "on" : "off"));
 			this.Name = name;
 			this.Window = new GameWindow(this, name, width, height, fullscreen, useVSync, mode);
 			(Input as Input).Init(this.Window.Keyboard, this.Window.Mouse, this.Window.Joysticks);

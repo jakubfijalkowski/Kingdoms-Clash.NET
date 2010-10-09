@@ -22,7 +22,7 @@ namespace Kingdoms_Clash.NET
 			CameraSpeed = 100f,
 			MapMargin = 75f / 2f,
 			Gravity = 100f,
-			CastleSize = new OpenTK.Vector2(20f, 20f)
+			CastleSize = new OpenTK.Vector2(20f, 30f)
 		};
 	
 		/// <summary>

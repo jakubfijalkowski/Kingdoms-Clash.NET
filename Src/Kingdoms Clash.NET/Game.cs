@@ -29,13 +29,7 @@ namespace Kingdoms_Clash.NET
 		public KingdomsClashNetGame()
 			: base("Kingdom's Clash.NET",
 					Configuration.Instance.WindowSize.Width, Configuration.Instance.WindowSize.Height,
-					Configuration.Instance.Fullscreen,
-#if DEBUG
- false
-#else
-			true
-#endif
-)
+					Configuration.Instance.Fullscreen, Configuration.Instance.VSync)
 		{ }
 		#endregion
 
