@@ -81,6 +81,7 @@
     <Compile Include="Interfaces\Resources\IResourcesList.cs" />
     <Compile Include="Interfaces\Units\Components\IContactSoldier.cs" />
     <Compile Include="Interfaces\Units\IUnitComponentDescription.cs" />
+    <Compile Include="Interfaces\Units\IUnitComponentDescriptionsCollection.cs" />
     <Compile Include="Player\KeyboardControlledPlayer.cs" />
     <Compile Include="Resources\ResourceDescription.cs" />
     <Compile Include="Resources\ResourcesCollection.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Units\Components\Sprite.cs" />
     <Compile Include="Units\Nation.cs" />
     <Compile Include="Units\Unit.cs" />
+    <Compile Include="Units\UnitComponentDescriptionsCollection.cs" />
     <Compile Include="Units\UnitDescription.cs" />
     <Compile Include="Units\UnitDescriptionsCollection.cs" />
     <None Include="NLog.config">
