@@ -53,5 +53,12 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// </summary>
 		Vector2 CastleSize { get; }
 		#endregion
+
+		#region Others
+		/// <summary>
+		/// Czy używać licznika FPS.
+		/// </summary>
+		bool UseFPSCounter { get; }
+		#endregion
 	}
 }

@@ -10,7 +10,6 @@ namespace Kingdoms_Clash.NET
 		: Interfaces.IConfiguration
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
-		private const float ScreenWidth = 100.0f;
 
 		#region Singleton
 		private static Interfaces.IConfiguration _Instance;
@@ -80,6 +79,11 @@ namespace Kingdoms_Clash.NET
 		/// Rozmiary zamku.
 		/// </summary>
 		public Vector2 CastleSize { get; internal set; }
+
+		/// <summary>
+		/// Czy używać licznika FPS.
+		/// </summary>
+		public bool UseFPSCounter { get; internal set; }
 		#endregion
 
 		internal Configuration()
@@ -123,6 +127,11 @@ namespace Kingdoms_Clash.NET
 			if (element["vsync"] != null)
 			{
 				this.VSync = true;
+			}
+
+			if (element["fpscounter"] != null)
+			{
+				this.UseFPSCounter = true;
 			}
 
 			//Ustawiamy resztę

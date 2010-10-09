@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Xml;
 using ClashEngine.NET;
 using ClashEngine.NET.Utilities;
 
@@ -88,7 +86,10 @@ namespace Kingdoms_Clash.NET
 				new Maps.DefaultMap(),
 				new Controllers.ClassicGame());
 
-			this.ScreensManager.AddAndActivate(new FPSCounter() { LogStatistics = 10.0f });
+			if (Configuration.Instance.UseFPSCounter)
+			{
+				this.ScreensManager.AddAndActivate(new FPSCounter() { LogStatistics = 10.0f });
+			}
 			this.ScreensManager.AddAndActivate(this.Game);
 			//this.ScreensManager.AddAndMakeActive(this.Menu);
 			base.Init();
