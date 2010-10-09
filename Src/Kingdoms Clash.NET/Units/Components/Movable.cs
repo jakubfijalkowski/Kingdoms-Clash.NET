@@ -1,4 +1,5 @@
-﻿using ClashEngine.NET.EntitiesManager;
+﻿using System.Diagnostics;
+using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Interfaces.EntitiesManager;
 using ClashEngine.NET.Utilities;
 using FarseerPhysics.Dynamics;
@@ -11,6 +12,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 	/// <summary>
 	/// Opis komponentu jednostki określający, że jednostka potrafi się poruszać.
 	/// </summary>
+	[DebuggerDisplay("Movable, Velocity = {Velocity}")]
 	public class Movable
 		: IMovable
 	{

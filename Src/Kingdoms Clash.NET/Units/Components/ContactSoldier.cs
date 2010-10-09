@@ -1,4 +1,5 @@
-﻿using ClashEngine.NET.EntitiesManager;
+﻿using System.Diagnostics;
+using ClashEngine.NET.EntitiesManager;
 
 namespace Kingdoms_Clash.NET.Units.Components
 {
@@ -11,6 +12,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 	/// <remarks>
 	/// Tak szczerze powiedziawszy, to bez sensu jest to jako komponent, ale trzymam się wytycznych ;)
 	/// </remarks>
+	[DebuggerDisplay("ContactSoldier, Strength = {Strength}")]
 	public class ContactSoldier
 		: IContactSoldier
 	{

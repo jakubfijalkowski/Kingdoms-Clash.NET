@@ -1,4 +1,5 @@
-﻿using ClashEngine.NET.Resources;
+﻿using System.Diagnostics;
+using ClashEngine.NET.Resources;
 using ClashEngine.NET.ResourcesManager;
 using OpenTK;
 
@@ -10,6 +11,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 	/// <summary>
 	/// Opis komponentu dla jednostki posiadającej obrazek.
 	/// </summary>
+	[DebuggerDisplay("Sprite, Image = {ImagePath,nq}")]
 	public class Sprite
 		: ISprite
 	{
