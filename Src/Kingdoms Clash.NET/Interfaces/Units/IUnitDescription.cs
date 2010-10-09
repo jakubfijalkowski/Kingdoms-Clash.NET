@@ -23,7 +23,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// <summary>
 		/// Komponenty, z których składa się jednostka.
 		/// </summary>
-		IList<IUnitComponentDescription> Components { get; }
+		IUnitComponentDescriptionsCollection Components { get; }
 
 		/// <summary>
 		/// Życie.
