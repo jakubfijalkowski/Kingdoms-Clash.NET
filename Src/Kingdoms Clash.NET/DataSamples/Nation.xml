@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <nation name="Nation name" image="path/to/castle/image">
-  <unit id="Unit id" health="Health" width="Width in meters" height="height in meters">
+  <unit id="Unit id" health="100" width="5" height="5">
     <components>
       <movable velocity="5" />
-      <staticimage image="path/to/image" />
+      <sprite image="path/to/image" />
       <contactsoldier strength="10" />
     </components>
     <costs>

@@ -69,6 +69,14 @@ namespace Kingdoms_Clash.NET.Units.Components
 		{
 			this.Velocity = velocity;
 		}
+
+		/// <summary>
+		/// Inicjalizuje opis domyślnymi wartościami.
+		/// </summary>
+		public Movable()
+		{
+			this.Velocity = OpenTK.Vector2.Zero;
+		}
 		#endregion
 
 		#region Component

@@ -84,6 +84,7 @@
     <Compile Include="Interfaces\Units\Components\IContactSoldier.cs" />
     <Compile Include="Interfaces\Units\IUnitComponentDescription.cs" />
     <Compile Include="Interfaces\Units\IUnitComponentDescriptionsCollection.cs" />
+    <Compile Include="Interfaces\IUserDataLoader.cs" />
     <Compile Include="Player\KeyboardControlledPlayer.cs" />
     <Compile Include="Resources\ResourceDescription.cs" />
     <Compile Include="Resources\ResourcesCollection.cs" />
@@ -117,6 +118,8 @@
     <Compile Include="Units\UnitComponentDescriptionsCollection.cs" />
     <Compile Include="Units\UnitDescription.cs" />
     <Compile Include="Units\UnitDescriptionsCollection.cs" />
+    <Compile Include="UserData\Loader.cs" />
+    <Compile Include="UserData\NationLoader.cs" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 
 namespace Kingdoms_Clash.NET.Units
@@ -8,9 +9,11 @@ namespace Kingdoms_Clash.NET.Units
 	/// <summary>
 	/// Kolekcja jednostek. Publicznie dostępna tylko do odczytu.
 	/// </summary>
+	[DebuggerDisplay("Count = {Count}")]
 	class UnitDescriptionsCollection
 		: IUnitDescriptionsCollection
 	{
+		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IUnitDescription> Descriptions;
 
 		#region IUnitDescriptionsCollection Members
@@ -90,6 +93,7 @@ namespace Kingdoms_Clash.NET.Units
 		/// <summary>
 		/// Liczba opisów w kolekcji.
 		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public int Count
 		{
 			get { return this.Descriptions.Count; }
@@ -98,6 +102,7 @@ namespace Kingdoms_Clash.NET.Units
 		/// <summary>
 		/// Czy kolekcja jest tylko do odczytu. Zawsze prawda.
 		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public bool IsReadOnly
 		{
 			get { return true; }

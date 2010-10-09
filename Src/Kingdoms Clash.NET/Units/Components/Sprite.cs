@@ -61,6 +61,14 @@ namespace Kingdoms_Clash.NET.Units.Components
 		{
 			this.ImagePath = image;
 		}
+
+		/// <summary>
+		/// Inicjalizuje opis domyślnymi wartościami.
+		/// </summary>
+		public Sprite()
+		{
+			this.ImagePath = string.Empty;
+		}
 		#endregion
 
 		#region Component
