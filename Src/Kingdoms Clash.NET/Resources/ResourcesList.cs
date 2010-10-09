@@ -41,6 +41,16 @@ namespace Kingdoms_Clash.NET.Resources
 		{
 			get { return this.Descriptions.Find(rd => rd.Id == id); }
 		}
+
+		/// <summary>
+		/// Sprawdza, czy istnieje taki zasób.
+		/// </summary>
+		/// <param name="id">Identyfikator zasobu.</param>
+		/// <returns>Czy istnieje.</returns>
+		public bool Exists(string id)
+		{
+			return this.Descriptions.Find(rd => rd.Id == id) != null;
+		}
 		#endregion
 
 		#region IEnumerable<IResourceDescription> Members
@@ -59,8 +69,10 @@ namespace Kingdoms_Clash.NET.Resources
 
 		private ResourcesList()
 		{
-			//TODO: uzupełnić listę, dodać lokalizowane teksty.
-			this.Descriptions.Add(new ResourceDescription("wood", "Drewno", "Podstawowy zasób gry"));
+			foreach (var r in Defaults.Resources)
+			{
+				this.Descriptions.Add(r);
+			}
 		}
 	}
 }

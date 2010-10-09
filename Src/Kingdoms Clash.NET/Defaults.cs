@@ -10,6 +10,7 @@ namespace Kingdoms_Clash.NET
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
 
+		#region Basic
 		/// <summary>
 		/// Domyślna konfiguracja.
 		/// </summary>
@@ -42,7 +43,20 @@ namespace Kingdoms_Clash.NET
 		/// Ścieżka do pliku konfiguracyjnego.
 		/// </summary>
 		public const string ConfigurationFile = "Content/Configuration.xml";
-	
+		#endregion
+
+		#region Resources
+		/// <summary>
+		/// Lista zasobów dostępnych w grze.
+		/// </summary>
+		/// TODO: dodać zlokalizowane teksty
+		public static readonly Interfaces.Resources.IResourceDescription[] Resources = new Interfaces.Resources.IResourceDescription[]
+		{
+			new Resources.ResourceDescription("wood", "Drewno", "Podstawowy zasób gry")
+		};
+		#endregion
+
+		#region Reflections
 		/// <summary>
 		/// Rejestruje wbudowane komponenty do loadera.
 		/// </summary>
@@ -62,5 +76,6 @@ namespace Kingdoms_Clash.NET
 				}
 			}
 		}
+		#endregion
 	}
 }

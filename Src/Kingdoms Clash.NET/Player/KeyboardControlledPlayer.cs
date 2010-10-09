@@ -27,9 +27,7 @@ namespace Kingdoms_Clash.NET.Player
 		/// </summary>
 		/// <param name="name">Nazwa gracza.</param>
 		/// <param name="nation">Jegno nacja.</param>
-		/// <param name="newUnitKey">Klawisz odpowiedzialny za stworzenie nowej jednostki.</param>
 		/// <param name="ucDelay">Czas pomiędzy kolejnymi tworzeniami jednostek.</param>
-		/// <param name="unitId">Jednostka, któa zostanie stworzon.</param>
 		public KeyboardControlledPlayer(string name, INation nation, double ucDelay = 0.5)
 			: base("Player." + name, name, nation)
 		{

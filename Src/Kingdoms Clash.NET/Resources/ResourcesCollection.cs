@@ -265,6 +265,11 @@ namespace Kingdoms_Clash.NET.Resources
 		{
 			foreach (System.Xml.XmlElement el in element.ChildNodes)
 			{
+				if (!ResourcesList.Instance.Exists(el.Name))
+				{
+					Logger.Warn("Resource {0} does not exists, skipping", el.Name);
+					continue;
+				}
 				uint value = 0;
 				try
 				{
@@ -272,7 +277,7 @@ namespace Kingdoms_Clash.NET.Resources
 				}
 				catch
 				{
-					Logger.Warn("Cannot parse value for {0}. Skipping", el.Name);
+					Logger.Warn("Cannot parse value for {0}, skipping", el.Name);
 					continue;
 				}
 				this.Resources.Add(el.Name, value);

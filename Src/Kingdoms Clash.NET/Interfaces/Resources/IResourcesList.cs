@@ -16,5 +16,12 @@ namespace Kingdoms_Clash.NET.Interfaces.Resources
 		/// <param name="id">Identyfikator zasobu.</param>
 		/// <returns>Opis bądź null, gdy taki zasób nie istnieje.</returns>
 		IResourceDescription this[string id] { get; }
+
+		/// <summary>
+		/// Sprawdza, czy istnieje taki zasób.
+		/// </summary>
+		/// <param name="id">Identyfikator zasobu.</param>
+		/// <returns>Czy istnieje.</returns>
+		bool Exists(string id);
 	}
 }
