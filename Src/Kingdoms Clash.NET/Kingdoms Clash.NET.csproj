@@ -127,6 +127,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DataSamples\Nation.xml" />
     <Content Include="Guidelines.txt" />
   </ItemGroup>
   <ItemGroup />
