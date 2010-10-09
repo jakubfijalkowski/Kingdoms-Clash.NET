@@ -105,6 +105,18 @@ namespace Kingdoms_Clash.NET.Tests
 				return null;
 			}
 			#endregion
+
+			#region IXmlSerializable Members
+			public void Serialize(System.Xml.XmlElement element)
+			{
+				throw new System.NotImplementedException();
+			}
+
+			public void Deserialize(System.Xml.XmlElement element)
+			{
+				throw new System.NotImplementedException();
+			}
+			#endregion
 		}
 
 		public class TestDescription2
@@ -114,6 +126,18 @@ namespace Kingdoms_Clash.NET.Tests
 			public IUnitComponent Create()
 			{
 				return null;
+			}
+			#endregion
+
+			#region IXmlSerializable Members
+			public void Serialize(System.Xml.XmlElement element)
+			{
+				throw new System.NotImplementedException();
+			}
+
+			public void Deserialize(System.Xml.XmlElement element)
+			{
+				throw new System.NotImplementedException();
 			}
 			#endregion
 		}

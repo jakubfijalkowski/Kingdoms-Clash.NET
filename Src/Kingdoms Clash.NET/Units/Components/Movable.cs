@@ -34,6 +34,32 @@ namespace Kingdoms_Clash.NET.Units.Components
 		}
 		#endregion
 
+		#region IXmlSerializable Members
+		public void Serialize(System.Xml.XmlElement element)
+		{
+			element.SetAttribute("velocity", this.Velocity.X.ToString());
+		}
+
+		public void Deserialize(System.Xml.XmlElement element)
+		{
+			if (element.HasAttribute("velocity"))
+			{
+				try
+				{
+					this.Velocity = new OpenTK.Vector2(float.Parse(element.GetAttribute("velocity")), 0f);
+				}
+				catch (System.Exception ex)
+				{
+					new System.Xml.XmlException("Parsing error", ex);
+				}
+			}
+			else
+			{
+				throw new System.Xml.XmlException("Insufficient data: velocity");
+			}
+		}
+		#endregion
+
 		#region Constructors
 		/// <summary>
 		/// Inicjalizuje opis.

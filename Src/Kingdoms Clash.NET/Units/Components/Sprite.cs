@@ -33,6 +33,25 @@ namespace Kingdoms_Clash.NET.Units.Components
 		}
 		#endregion
 
+		#region IXmlSerializable Members
+		public void Serialize(System.Xml.XmlElement element)
+		{
+			element.SetAttribute("image", this.ImagePath);
+		}
+
+		public void Deserialize(System.Xml.XmlElement element)
+		{
+			if (element.HasAttribute("image"))
+			{
+				this.ImagePath = element.GetAttribute("image");
+			}
+			else
+			{
+				throw new System.Xml.XmlException("Insufficient data: image");
+			}
+		}
+		#endregion
+
 		#region Constructors
 		/// <summary>
 		/// Inicjalizuje opis.

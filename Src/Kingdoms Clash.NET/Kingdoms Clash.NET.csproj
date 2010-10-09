@@ -72,6 +72,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Interfaces\Resources\IResourceDescription.cs" />
     <Compile Include="Interfaces\Resources\IResourcesCollection.cs" />
     <Compile Include="Interfaces\Resources\IResourcesList.cs" />
+    <Compile Include="Interfaces\Serialization\IXmlSerializable.cs" />
     <Compile Include="Interfaces\Units\Components\IContactSoldier.cs" />
     <Compile Include="Interfaces\Units\IUnitComponentDescription.cs" />
     <Compile Include="Interfaces\Units\IUnitComponentDescriptionsCollection.cs" />
