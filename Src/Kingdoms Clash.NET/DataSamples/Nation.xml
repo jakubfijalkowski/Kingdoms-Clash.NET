@@ -4,6 +4,7 @@
     <components>
       <movable velocity="5" />
       <staticimage image="path/to/image" />
+      <contactsoldier strength="10" />
     </components>
     <costs>
       <wood value="10" />
