@@ -13,11 +13,6 @@ namespace Kingdoms_Clash.NET.Player
 		: Castle, IHuman
 	{
 		/// <summary>
-		/// Klawisz odpowiedzialny za stworzenie nowej jednostki.
-		/// </summary>
-		private OpenTK.Input.Key NewUnitKey;
-
-		/// <summary>
 		/// Czas pomiędzy kolejnymi tworzeniami jednostek.
 		/// </summary>
 		private double UnitCreationDelay = 0.5;
@@ -28,11 +23,6 @@ namespace Kingdoms_Clash.NET.Player
 		private double UnitCreationAccumulator = 0;
 
 		/// <summary>
-		/// Identyfikator jednostki do stworzenia.
-		/// </summary>
-		private string UnitId = "TestUnit";
-
-		/// <summary>
 		/// Inicjalizuje nowego gracza sterowanego klawiaturą.
 		/// </summary>
 		/// <param name="name">Nazwa gracza.</param>
@@ -40,12 +30,10 @@ namespace Kingdoms_Clash.NET.Player
 		/// <param name="newUnitKey">Klawisz odpowiedzialny za stworzenie nowej jednostki.</param>
 		/// <param name="ucDelay">Czas pomiędzy kolejnymi tworzeniami jednostek.</param>
 		/// <param name="unitId">Jednostka, któa zostanie stworzon.</param>
-		public KeyboardControlledPlayer(string name, INation nation, OpenTK.Input.Key newUnitKey, double ucDelay = 0.5, string unitId = "TestUnit")
+		public KeyboardControlledPlayer(string name, INation nation, double ucDelay = 0.5)
 			: base("Player." + name, name, nation)
 		{
-			this.NewUnitKey = newUnitKey;
 			this.UnitCreationDelay = ucDelay;
-			this.UnitId = unitId;
 		}
 
 		/// <summary>
@@ -55,9 +43,44 @@ namespace Kingdoms_Clash.NET.Player
 		public override void Update(double delta)
 		{
 			this.UnitCreationAccumulator += delta;
-			if (this.UnitCreationAccumulator > this.UnitCreationDelay && Input.Instance.Keyboard[this.NewUnitKey])
+			if (this.UnitCreationAccumulator > this.UnitCreationDelay/* && Input.Instance.Keyboard[this.NewUnitKey]*/)
 			{
-				this.GameState.Controller.RequestNewUnit(this.UnitId, this);
+				int unitNo = -1;
+				if (this.Type == PlayerType.First)
+				{
+					for (OpenTK.Input.Key i = OpenTK.Input.Key.Number1; i <= OpenTK.Input.Key.Number9; i++)
+					{
+						if (Input.Instance.Keyboard[i])
+						{
+							unitNo = i - OpenTK.Input.Key.Number1;
+						}
+					}
+				}
+				else
+				{
+					for (OpenTK.Input.Key i = OpenTK.Input.Key.Keypad1; i <= OpenTK.Input.Key.Keypad9; i++)
+					{
+						if (Input.Instance.Keyboard[i])
+						{
+							unitNo = i - OpenTK.Input.Key.Keypad1;
+						}
+					}
+				}
+				if (unitNo != -1)
+				{
+					int i = 0;
+					IUnitDescription ud = null;
+					foreach (var u in this.Nation.AvailableUnits)
+					{
+						ud = u;
+						if (i == unitNo)
+							break;
+					}
+					if (i == unitNo)
+					{
+						this.GameState.Controller.RequestNewUnit(ud.Id, this);
+					}
+				}
 				this.UnitCreationAccumulator = 0;
 			}
 

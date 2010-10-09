@@ -84,6 +84,16 @@ namespace Kingdoms_Clash.NET
 		/// Czy używać licznika FPS.
 		/// </summary>
 		public bool UseFPSCounter { get; internal set; }
+
+		/// <summary>
+		/// Nacja pierwszego gracza.
+		/// </summary>
+		public string Player1Nation { get; internal set; }
+
+		/// <summary>
+		/// Nacja drugiego gracza.
+		/// </summary>
+		public string Player2Nation { get; internal set; }
 		#endregion
 
 		internal Configuration()
@@ -132,6 +142,26 @@ namespace Kingdoms_Clash.NET
 			if (element["fpscounter"] != null)
 			{
 				this.UseFPSCounter = true;
+			}
+
+			var player1 = element["player1"];
+			if (player1 != null && player1.HasAttribute("nation"))
+			{
+				this.Player1Nation = player1.GetAttribute("nation");
+			}
+			else
+			{
+				this.Player1Nation = Defaults.DefaultConfiguration.Player1Nation;
+			}
+
+			var player2 = element["player2"];
+			if (player2 != null && player2.HasAttribute("nation"))
+			{
+				this.Player2Nation = player2.GetAttribute("nation");
+			}
+			else
+			{
+				this.Player2Nation = Defaults.DefaultConfiguration.Player2Nation;
 			}
 
 			//Ustawiamy resztę

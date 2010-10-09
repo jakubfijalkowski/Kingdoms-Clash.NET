@@ -59,6 +59,16 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Czy używać licznika FPS.
 		/// </summary>
 		bool UseFPSCounter { get; }
+
+		/// <summary>
+		/// Nacja pierwszego gracza.
+		/// </summary>
+		string Player1Nation { get; }
+
+		/// <summary>
+		/// Nacja drugiego gracza.
+		/// </summary>
+		string Player2Nation { get; }
 		#endregion
 	}
 }

@@ -6,8 +6,6 @@ namespace Kingdoms_Clash.NET
 {
 	using Interfaces;
 	using Interfaces.Units;
-	using Units;
-	using Units.Components;
 
 	/// <summary>
 	/// Główna klasa gry.
@@ -66,23 +64,26 @@ namespace Kingdoms_Clash.NET
 #endif
 			this.SetGlobals();
 
-			IUnitDescription testUnit = new UnitDescription("TestUnit", 10, 2f, 3f);
-
-			testUnit.Components.Add(new Movable(new OpenTK.Vector2(10f, 0f)));
-			testUnit.Components.Add(new Sprite("TestUnit.png"));
-			testUnit.Components.Add(new ContactSoldier(10));
-
-			testUnit.Costs.Add("wood", 10); //Testowy koszt jednostki
-
-			INation testNation = new Units.Nation("TestNation", "Castle.png",
-				new IUnitDescription[]
+			INation nation1 = null, nation2 = null;
+			foreach (var nation in this.Nations)
+			{
+				if (nation.Name == Configuration.Instance.Player1Nation)
 				{
-					testUnit
-				});
+					nation1 = nation;
+				}
+				if (nation.Name == Configuration.Instance.Player2Nation)
+				{
+					nation2 = nation;
+				}
+			}
+			if (nation1 == null || nation2 == null)
+			{
+				throw new System.ArgumentException("Cannot find nation for player 1 or 2");
+			}
 
 			this.Game = new SinglePlayer();
-			this.Game.Initialize(new Player.KeyboardControlledPlayer("A", testNation, OpenTK.Input.Key.A),
-				new Player.KeyboardControlledPlayer("B", testNation, OpenTK.Input.Key.L),
+			this.Game.Initialize(new Player.KeyboardControlledPlayer("A", nation1),
+				new Player.KeyboardControlledPlayer("B", nation2),
 				new Maps.DefaultMap(),
 				new Controllers.ClassicGame());
 
