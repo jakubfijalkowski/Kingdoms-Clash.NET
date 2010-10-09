@@ -25,18 +25,21 @@ namespace Kingdoms_Clash.NET
 		}
 		#endregion
 
+		#region Constructors
 		public KingdomsClashNetGame()
 			: base("Kingdom's Clash.NET",
 					Configuration.Instance.WindowSize.Width, Configuration.Instance.WindowSize.Height,
 					Configuration.Instance.Fullscreen,
 #if DEBUG
- 			false
+ false
 #else
 			true
 #endif
-			)
+)
 		{ }
+		#endregion
 
+		#region Game Members
 		public override void Init()
 		{
 #if !DEBUG
@@ -83,17 +86,18 @@ namespace Kingdoms_Clash.NET
 
 		public override void Update(double delta)
 		{
-			#if DEBUG
+#if DEBUG
 			//Dodatkowe skróty na wyjście z gry.
 			if (this.Input.Keyboard[OpenTK.Input.Key.Escape] || //Escape
 				((this.Input.Keyboard[OpenTK.Input.Key.AltLeft] || this.Input.Keyboard[OpenTK.Input.Key.AltRight]) && this.Input.Keyboard[OpenTK.Input.Key.F4])) //Alt + F4
 			{
 				this.Exit();
 			}
-			#endif
+#endif
 
 			base.Update(delta);
 		}
+		#endregion
 
 		#region Main
 		static void Main(string[] args)
