@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<nation name="Nation name" image="path/to/castle/image">
+  <unit id="Unit id" health="Health" width="Width in meters" height="height in meters">
+    <components>
+      <movable velocity="5" />
+      <staticimage image="path/to/image" />
+    </components>
+    <costs>
+      <wood value="10" />
+      <iron value="15" />
+      <stone value="100" />
+    </costs>
+  </unit>
+</nation>
