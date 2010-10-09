@@ -7,9 +7,14 @@
 	public interface IResourceDescription
 	{
 		/// <summary>
-		/// Identyfikator zasobu.
+		/// Identyfikator(game-friendly) zasobu.
 		/// </summary>
 		string Id { get; }
+
+		/// <summary>
+		/// Nazwa(user-friendly) zasobu.
+		/// </summary>
+		string Name { get; }
 
 		/// <summary>
 		/// Dłuższy opis.

@@ -78,9 +78,12 @@
     <Compile Include="Controllers\ClassicGame.cs" />
     <Compile Include="Interfaces\Resources\IResourceDescription.cs" />
     <Compile Include="Interfaces\Resources\IResourcesCollection.cs" />
+    <Compile Include="Interfaces\Resources\IResourcesList.cs" />
     <Compile Include="Interfaces\Units\Components\IContactSoldier.cs" />
     <Compile Include="Player\KeyboardControlledPlayer.cs" />
+    <Compile Include="Resources\ResourceDescription.cs" />
     <Compile Include="Resources\ResourcesCollection.cs" />
+    <Compile Include="Resources\ResourcesList.cs" />
     <Compile Include="SinglePlayer.cs" />
     <Compile Include="Interfaces\Controllers\IGameController.cs" />
     <Compile Include="Interfaces\IConfiguration.cs" />
