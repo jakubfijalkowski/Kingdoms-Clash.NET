@@ -14,6 +14,11 @@ namespace Kingdoms_Clash.NET.Interfaces
 		string Path { get; }
 
 		/// <summary>
+		/// Ścieżka do pliku konfiguracyjnego.
+		/// </summary>
+		string ConfigurationFile { get; }
+
+		/// <summary>
 		/// Lista komponentów użytkownika.
 		/// </summary>
 		IList<Type> Components { get; }
@@ -29,5 +34,10 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// </summary>
 		/// <returns>Lista nacji.</returns>
 		IList<Units.INation> LoadNations();
+
+		/// <summary>
+		/// Ładuje konfigurację.
+		/// </summary>
+		void LoadConfiguration();
 	}
 }

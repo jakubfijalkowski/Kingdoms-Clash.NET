@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 
 namespace Kingdoms_Clash.NET.UserData
 {
@@ -17,6 +18,11 @@ namespace Kingdoms_Clash.NET.UserData
 		/// Ścieżka do głównego folderu z danymi użytkownika.
 		/// </summary>
 		public string Path { get; private set; }
+
+		/// <summary>
+		/// Ścieżka do pliku konfiguracyjnego.
+		/// </summary>
+		public string ConfigurationFile { get; private set; }
 
 		/// <summary>
 		/// Lista komponentów użytkownika.
@@ -76,15 +82,42 @@ namespace Kingdoms_Clash.NET.UserData
 
 			return nations;
 		}
+
+		/// <summary>
+		/// Ładuje konfigurację.
+		/// </summary>
+		public void LoadConfiguration()
+		{
+			try
+			{
+				XmlDocument xml = new XmlDocument();
+				xml.Load(System.IO.Path.GetFullPath(this.ConfigurationFile));
+
+				var cfg = xml["configuration"];
+				if (cfg == null)
+				{
+					throw new XmlException("Cannot find 'configuration' element");
+				}
+				Configuration.Instance.Deserialize(cfg);
+				Logger.Info("Configuration loaded");
+			}
+			catch (System.Exception ex)
+			{
+				Logger.WarnException("Cannot load configuration", ex);
+				Configuration.UseDefault();
+			}
+		}
 		#endregion
 
 		/// <summary>
 		/// Inicjalizuje loader.
 		/// </summary>
 		/// <param name="rootPath">Główna ścieżka do danych.</param>
-		public Loader(string rootPath)
+		/// <param name="configFile">Ścieżka do pliku konfiguracyjnego.</param>
+		public Loader(string rootPath, string configFile)
 		{
 			this.Path = rootPath;
+			this.ConfigurationFile = configFile;
 			this.Components = new List<Type>();
 		}
 	}

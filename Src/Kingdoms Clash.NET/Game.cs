@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using ClashEngine.NET;
 using ClashEngine.NET.Utilities;
@@ -17,22 +18,40 @@ namespace Kingdoms_Clash.NET
 		: Game, IGame
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
-		
+
 		#region IGame Members
+		/// <summary>
+		/// Ekran rozgrywki.
+		/// </summary>
 		public IGameStateScreen Game { get; private set; }
 
-		public IMenuState Menu
-		{
-			get { throw new System.NotImplementedException(); }
-		}
+		/// <summary>
+		/// Ekran głównego menu.
+		/// </summary>
+		public IMenuState Menu { get; private set; }
+
+		/// <summary>
+		/// Lista nacji.
+		/// </summary>
+		public IList<INation> Nations { get; private set; }
 		#endregion
 
 		#region Constructors
-		public KingdomsClashNetGame()
+		/// <summary>
+		/// Inicjalizuje obiekt gry.
+		/// </summary>
+		/// <param name="nations">List nacji</param>
+		public KingdomsClashNetGame(IList<INation> nations)
 			: base("Kingdom's Clash.NET",
 					Configuration.Instance.WindowSize.Width, Configuration.Instance.WindowSize.Height,
 					Configuration.Instance.Fullscreen, Configuration.Instance.VSync)
-		{ }
+		{
+			if (nations == null)
+			{
+				throw new System.ArgumentNullException("nations");
+			}
+			this.Nations = nations;
+		}
 		#endregion
 
 		#region Game Members
@@ -101,14 +120,18 @@ namespace Kingdoms_Clash.NET
 		}
 		#endregion
 
-		#region Main and static private members
+		#region Main
 		static void Main(string[] args)
 		{
-			LoadConfiguration();
+			UserData.Loader loader = new UserData.Loader(Defaults.UserData, Defaults.ConfigurationFile);
+			Defaults.RegisterBuiltInComponents(loader);
+
+			loader.LoadConfiguration();
+			var nations = loader.LoadNations();
 
 			try
 			{
-				using (var game = new KingdomsClashNetGame())
+				using (var game = new KingdomsClashNetGame(nations))
 				{
 					game.Run();
 				}
@@ -117,31 +140,6 @@ namespace Kingdoms_Clash.NET
 			{
 				Logger.Fatal("Fatal error: {0}", ex.Message);
 				Logger.Fatal("Stack trace: {0}", ex.StackTrace);
-			}
-		}
-
-		/// <summary>
-		/// Ładuje konfigurację.
-		/// </summary>
-		private static void LoadConfiguration()
-		{
-			try
-			{
-				XmlDocument xml = new XmlDocument();
-				xml.Load(Path.GetFullPath(Defaults.ConfigurationFile));
-
-				var cfg = xml["configuration"];
-				if (cfg == null)
-				{
-					throw new XmlException("Cannot find 'configuration' element");
-				}
-				Configuration.Instance.Deserialize(cfg);
-				Logger.Info("Configuration loaded");
-			}
-			catch (System.Exception ex)
-			{
-				Logger.WarnException("Cannot load configuration", ex);
-				Configuration.UseDefault();
 			}
 		}
 		#endregion

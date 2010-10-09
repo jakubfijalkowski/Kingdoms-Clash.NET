@@ -35,7 +35,7 @@ namespace Kingdoms_Clash.NET
 		/// </summary>
 		public static void UseDefault()
 		{
-			Logger.Info("Using default configuration...");
+			Logger.Info("Using default configuration");
 			_Instance = Defaults.DefaultConfiguration;
 		}
 		#endregion
