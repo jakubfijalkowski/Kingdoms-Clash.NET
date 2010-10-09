@@ -24,6 +24,21 @@ namespace Kingdoms_Clash.NET
 			Gravity = 100f,
 			CastleSize = new OpenTK.Vector2(20f, 30f)
 		};
+
+		/// <summary>
+		/// Ścieżka do zasobów.
+		/// </summary>
+		public const string ContentDirectory = "Content";
+
+		/// <summary>
+		/// Folder z danymi użytkownika.
+		/// </summary>
+		public const string UserData = "Content/UserData";
+
+		/// <summary>
+		/// Ścieżka do pliku konfiguracyjnego.
+		/// </summary>
+		public const string ConfigurationFile = "Content/Configuration.xml";
 	
 		/// <summary>
 		/// Rejestruje wbudowane komponenty do loadera.

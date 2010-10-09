@@ -100,8 +100,6 @@ namespace Kingdoms_Clash.NET
 				throw new System.NotSupportedException("Initialize first");
 			}
 
-			ClashEngine.NET.PhysicsManager.PhysicsManager.Instance.Gravity = new OpenTK.Vector2(0f, Configuration.Instance.Gravity);
-
 			this.Controller.GameState = this;
 
 			this.Players[0].GameState = this;

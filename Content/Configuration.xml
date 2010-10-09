@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <window width="800" height="600" fullscreen="false" />
+  <vsync />
+</configuration>

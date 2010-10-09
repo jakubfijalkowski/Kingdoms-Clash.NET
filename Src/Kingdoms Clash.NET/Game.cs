@@ -1,4 +1,6 @@
-﻿using ClashEngine.NET;
+﻿using System.IO;
+using System.Xml;
+using ClashEngine.NET;
 using ClashEngine.NET.Utilities;
 
 namespace Kingdoms_Clash.NET
@@ -45,8 +47,7 @@ namespace Kingdoms_Clash.NET
 			Logger.Info("Graphics card: {0}, VRAM: {1}, drivers version: {2}", si.GraphicsCardName, si.VRAMSize, si.GraphicsDriverVersion);
 			Logger.Info("OpenGL version: {0}, GLSL version: {1}", si.OpenGLVersion, si.GLSLVersion);
 #endif
-
-			this.ResourcesManager.ContentDirectory = "Content";
+			this.SetGlobals();
 
 			IUnitDescription testUnit = new UnitDescription("TestUnit", 10, 2f, 3f);
 
@@ -89,10 +90,22 @@ namespace Kingdoms_Clash.NET
 		}
 		#endregion
 
-		#region Main
+		#region Private members
+		/// <summary>
+		/// Ustawia globalne zmienne.
+		/// </summary>
+		private void SetGlobals()
+		{
+			this.ResourcesManager.ContentDirectory = Defaults.ContentDirectory;
+			ClashEngine.NET.PhysicsManager.PhysicsManager.Instance.Gravity = new OpenTK.Vector2(0f, Configuration.Instance.Gravity);
+		}
+		#endregion
+
+		#region Main and static private members
 		static void Main(string[] args)
 		{
-			Configuration.UseDefault();
+			LoadConfiguration();
+
 			try
 			{
 				using (var game = new KingdomsClashNetGame())
@@ -104,6 +117,31 @@ namespace Kingdoms_Clash.NET
 			{
 				Logger.Fatal("Fatal error: {0}", ex.Message);
 				Logger.Fatal("Stack trace: {0}", ex.StackTrace);
+			}
+		}
+
+		/// <summary>
+		/// Ładuje konfigurację.
+		/// </summary>
+		private static void LoadConfiguration()
+		{
+			try
+			{
+				XmlDocument xml = new XmlDocument();
+				xml.Load(Path.GetFullPath(Defaults.ConfigurationFile));
+
+				var cfg = xml["configuration"];
+				if (cfg == null)
+				{
+					throw new XmlException("Cannot find 'configuration' element");
+				}
+				Configuration.Instance.Deserialize(cfg);
+				Logger.Info("Configuration loaded");
+			}
+			catch (System.Exception ex)
+			{
+				Logger.WarnException("Cannot load configuration", ex);
+				Configuration.UseDefault();
 			}
 		}
 		#endregion

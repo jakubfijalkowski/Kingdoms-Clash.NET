@@ -103,14 +103,6 @@ namespace Kingdoms_Clash.NET
 			{
 				element.AppendChild(element.OwnerDocument.CreateElement("vsync"));
 			}
-
-			//Ustawiamy resztę
-			float aspect = (float)this.WindowSize.Width / (float)this.WindowSize.Height;
-			this.ScreenSize = new Vector2(Defaults.DefaultConfiguration.ScreenSize.X, Defaults.DefaultConfiguration.ScreenSize.X / aspect);
-			this.CameraSpeed = Defaults.DefaultConfiguration.CameraSpeed;
-			this.MapMargin = this.ScreenSize.Y / 2f;
-			this.Gravity = Defaults.DefaultConfiguration.Gravity;
-			this.CastleSize = Defaults.DefaultConfiguration.CastleSize;
 		}
 
 		/// <summary>
@@ -132,6 +124,14 @@ namespace Kingdoms_Clash.NET
 			{
 				this.VSync = true;
 			}
+
+			//Ustawiamy resztę
+			float aspect = (float)this.WindowSize.Width / (float)this.WindowSize.Height;
+			this.ScreenSize = new Vector2(Defaults.DefaultConfiguration.ScreenSize.X, Defaults.DefaultConfiguration.ScreenSize.X / aspect);
+			this.CameraSpeed = Defaults.DefaultConfiguration.CameraSpeed;
+			this.MapMargin = this.ScreenSize.Y / 2f;
+			this.Gravity = Defaults.DefaultConfiguration.Gravity;
+			this.CastleSize = Defaults.DefaultConfiguration.CastleSize;
 		}
 		#endregion
 	}
