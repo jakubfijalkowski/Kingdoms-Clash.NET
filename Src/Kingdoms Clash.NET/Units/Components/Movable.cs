@@ -1,4 +1,5 @@
-﻿using ClashEngine.NET.EntitiesManager;
+﻿using System.Diagnostics;
+using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Interfaces.EntitiesManager;
 using ClashEngine.NET.Utilities;
 using FarseerPhysics.Dynamics;
@@ -9,60 +10,92 @@ namespace Kingdoms_Clash.NET.Units.Components
 	using Interfaces.Units.Components;
 
 	/// <summary>
-	/// Komponent jednostki określający, że jednostka potrafi się poruszać.
+	/// Opis komponentu jednostki określający, że jednostka potrafi się poruszać.
 	/// </summary>
-	/// <remarks>
-	/// Wymagane atrybuty:
-	/// float Velocity - prędkość jednostki.
-	/// </remarks>
+	[DebuggerDisplay("Movable, Velocity = {Velocity}")]
 	public class Movable
-		: Component, IMovable
+		: IMovable
 	{
-		private IAttribute<OpenTK.Vector2> Velocity_;
-		private IAttribute<Body> Body;
-
+		#region IMovable Members
 		/// <summary>
 		/// Prędkość jednostki.
 		/// </summary>
-		public OpenTK.Vector2 Velocity
-		{
-			get { return this.Velocity_.Value; }
-			set { this.Velocity_.Value = value; }
-		}
+		public OpenTK.Vector2 Velocity { get; private set; }
+		#endregion
 
-		public Movable()
-			: base("Movable")
-		{ }
-
+		#region IUnitComponentDescription Members
 		/// <summary>
-		/// Inicjalizuje komponent ustawiając prędkość pobraną z atrybutów jednostki.
+		/// Tworzy komponent na podstawie opisu.
 		/// </summary>
-		/// <param name="owner"></param>
-		public override void OnInit()
+		/// <returns>Komponent.</returns>
+		public IUnitComponent Create()
 		{
-			this.Velocity_ = this.Owner.Attributes.GetOrCreate<OpenTK.Vector2>("Velocity");
-			this.Velocity = new OpenTK.Vector2((this.Owner as IUnit).Description.Attributes.Get<float>("Velocity"), 0f);
-			if ((this.Owner as IUnit).Owner.Type == Interfaces.Player.PlayerType.Second) //Jeśli to drugi gracz musimy mu ustawić prędkość w drugą stronę!
+			return new MovableComponent() { Description = this };
+		}
+		#endregion
+
+		#region Constructors
+		/// <summary>
+		/// Inicjalizuje opis.
+		/// </summary>
+		/// <param name="velocity">Prędkość jednostki.</param>
+		public Movable(OpenTK.Vector2 velocity)
+		{
+			this.Velocity = velocity;
+		}
+		#endregion
+
+		#region Component
+		/// <summary>
+		/// Klasa właściwego komponentu - nie musi być widoczna publicznie.
+		/// </summary>
+		private class MovableComponent
+			: Component, IUnitComponent
+		{
+			private IAttribute<Body> Body;
+			private IAttribute<float> VelocityMultiplier;
+
+			#region IUnitComponent Members
+			/// <summary>
+			/// Opis komponentu.
+			/// </summary>
+			public IUnitComponentDescription Description { get; set; }
+			#endregion
+
+			#region Component Members
+			/// <summary>
+			/// Inicjalizuje komponent pobierając atrybuty i ustawiając VelocityMultiplier.
+			/// </summary>
+			public override void OnInit()
 			{
-				this.Velocity *= -1f;
+				this.VelocityMultiplier = this.Owner.Attributes.GetOrCreate<float>("VelocityMultiplier");
+				if (this.VelocityMultiplier.Value == 0f) //Jeśli nie mamy jeszcze tego atrybutu...
+				{
+					this.VelocityMultiplier.Value = 1f;
+				}
+				if ((this.Owner as IUnit).Owner.Type == Interfaces.Player.PlayerType.Second) //Jeśli to drugi gracz musimy mu ustawić prędkość w drugą stronę!
+				{
+					this.VelocityMultiplier.Value *= -1f;
+				}
+
+				this.Body = this.Owner.Attributes.Get<Body>("Body");
 			}
 
-			this.Body = this.Owner.Attributes.Get<Body>("Body");
-		}
+			/// <summary>
+			/// Przemieszcza jednostkę.
+			/// </summary>
+			/// <param name="delta"></param>
+			public override void Update(double delta)
+			{
+				this.Body.Value.Position += ((float)delta * (this.Description as IMovable).Velocity * this.VelocityMultiplier.Value).ToXNA();
+			}
+			#endregion
 
-		/// <summary>
-		/// Przemieszcza jednostkę.
-		/// </summary>
-		/// <param name="delta"></param>
-		public override void Update(double delta)
-		{
-			this.Body.Value.Position += ((float)delta * this.Velocity).ToXNA();
-		}
-
-		#region ICloneable Members
-		public object Clone()
-		{
-			return new Movable();
+			#region Constructors
+			public MovableComponent()
+				: base("Movable")
+			{ }
+			#endregion
 		}
 		#endregion
 	}

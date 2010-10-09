@@ -1,5 +1,5 @@
-﻿using ClashEngine.NET.EntitiesManager;
-using ClashEngine.NET.Interfaces.EntitiesManager;
+﻿using System.Diagnostics;
+using ClashEngine.NET.EntitiesManager;
 
 namespace Kingdoms_Clash.NET.Units.Components
 {
@@ -7,44 +7,69 @@ namespace Kingdoms_Clash.NET.Units.Components
 	using Interfaces.Units.Components;
 
 	/// <summary>
-	/// Interfejs dla komponentów jednostek które walczą wręcz.
+	/// Opis komponentu dla jednostki walczącej wręcz.
 	/// </summary>
+	/// <remarks>
+	/// Tak szczerze powiedziawszy, to bez sensu jest to jako komponent, ale trzymam się wytycznych ;)
+	/// </remarks>
+	[DebuggerDisplay("ContactSoldier, Strength = {Strength}")]
 	public class ContactSoldier
-		: Component, IContactSoldier
+		: IContactSoldier
 	{
-		private IAttribute<int> Strength_;
-
 		#region IContactSoldier Members
 		/// <summary>
 		/// Siła jednostki.
 		/// </summary>
-		public int Strength
+		public int Strength { get; private set; }
+		#endregion
+
+		#region IUnitComponentDescription Members
+		/// <summary>
+		/// Tworzy komponent na podstawie opisu.
+		/// </summary>
+		/// <returns>Komponent.</returns>
+		public IUnitComponent Create()
 		{
-			get { return this.Strength_.Value; }
-			private set { this.Strength_.Value = value; }
+			return new ContactSoldierComponent() { Description = this };
 		}
 		#endregion
 
-		#region Component Members
-		public override void OnInit()
+		#region Constructors
+		/// <summary>
+		/// Inicjalizuje opis.
+		/// </summary>
+		/// <param name="strength">Siła jednostki.</param>
+		public ContactSoldier(int strength)
 		{
-			this.Strength_ = this.Owner.Attributes.GetOrCreate<int>("Strength");
-			this.Strength = (this.Owner as IUnit).Description.Attributes.Get<int>("Strength");
-		}
-
-		public override void Update(double delta)
-		{ }
-		#endregion
-
-		#region ICloneable Members
-		public object Clone()
-		{
-			return new ContactSoldier();
+			this.Strength = strength;
 		}
 		#endregion
 
-		public ContactSoldier()
-			: base("ContactSoldier")
-		{ }
+		#region Component
+		/// <summary>
+		/// Klasa właściwego komponentu - nie musi być widoczna publicznie.
+		/// </summary>
+		private class ContactSoldierComponent
+			: Component, IUnitComponent
+		{
+			#region IUnitComponent Members
+			/// <summary>
+			/// Opis komponentu.
+			/// </summary>
+			public IUnitComponentDescription Description { get; set; }
+			#endregion
+
+			#region Component Members
+			public override void Update(double delta)
+			{ }
+			#endregion
+
+			#region Constructors
+			public ContactSoldierComponent()
+				: base("ContactSoldier")
+			{ }
+			#endregion
+		}
+		#endregion
 	}
 }

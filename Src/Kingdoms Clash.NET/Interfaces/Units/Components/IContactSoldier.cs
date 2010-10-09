@@ -4,7 +4,7 @@
 	/// Interfejs dla komponentów jednostek które walczą wręcz.
 	/// </summary>
 	public interface IContactSoldier
-		: IUnitComponent
+		: IUnitComponentDescription
 	{
 		/// <summary>
 		/// Siła jednostki.

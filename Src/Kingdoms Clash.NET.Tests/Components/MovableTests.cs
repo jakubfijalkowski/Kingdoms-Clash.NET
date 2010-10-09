@@ -18,7 +18,7 @@ namespace Kingdoms_Clash.NET.Tests.Components
 		private const float Velocity = 10f;
 		private const float PositionDelta = Velocity * TimeStep;
 
-		private IMovable Component;
+		private IUnitComponentDescription Component;
 		private IUnit Unit;
 		private Body Body;
 
@@ -30,11 +30,12 @@ namespace Kingdoms_Clash.NET.Tests.Components
 			this.Player = new Mock<UnitTests.TestPlayer>();
 			this.Player.SetupAllProperties();
 
-			this.Component = new Movable();
+			this.Component = new Movable(new OpenTK.Vector2(Velocity, 0f));
 
 			UnitDescription desc = new UnitDescription("TestUnit", 100, 5f, 5f);
-			(desc.Attributes as UnitAttributesCollection).Add(new UnitAttribute<float>("Velocity", Velocity));
 			desc.Components.Add(this.Component);
+			//(desc.Attributes as UnitAttributesCollection).Add(new UnitAttribute<float>("Velocity", Velocity));
+			//desc.Components.Add(this.Component);
 			this.Unit = new Unit(desc, this.Player.Object);
 			this.Unit.Init(null);
 			this.Unit.OnInit();

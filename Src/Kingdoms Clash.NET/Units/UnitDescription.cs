@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Kingdoms_Clash.NET.Units
 {
@@ -28,12 +27,7 @@ namespace Kingdoms_Clash.NET.Units
 		/// <summary>
 		/// Komponenty, z których składa się jednostka.
 		/// </summary>
-		public IList<IUnitComponent> Components { get; private set; }
-
-		/// <summary>
-		/// Lista atrybutów jednostki.
-		/// </summary>
-		public IUnitAttributesCollection Attributes { get; private set; }
+		public IUnitComponentDescriptionsCollection Components { get; private set; }
 
 		/// <summary>
 		/// Życie.
@@ -70,8 +64,7 @@ namespace Kingdoms_Clash.NET.Units
 		public UnitDescription(string id, int health, float width, float height)
 		{
 			this.Costs = new Resources.ResourcesCollection();
-			this.Components = new List<IUnitComponent>();
-			this.Attributes = new UnitAttributesCollection();
+			this.Components = new UnitComponentDescriptionsCollection();
 
 			this.Id = id;
 			this.Health = health;
