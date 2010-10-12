@@ -101,9 +101,6 @@ namespace Kingdoms_Clash.NET
 		public uint StartResources { get; internal set; }
 		#endregion
 
-		internal Configuration()
-		{ }
-
 		#region IXmlSerializable Members
 		/// <summary>
 		/// Serializuje konfiguracje do XML.
@@ -187,5 +184,8 @@ namespace Kingdoms_Clash.NET
 			this.CastleSize = Defaults.DefaultConfiguration.CastleSize;
 		}
 		#endregion
+
+		internal Configuration()
+		{ }
 	}
 }

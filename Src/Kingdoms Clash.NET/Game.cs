@@ -129,11 +129,11 @@ namespace Kingdoms_Clash.NET
 			Defaults.RegisterBuiltInComponents(loader);
 
 			loader.LoadConfiguration();
-			var nations = loader.LoadNations();
+			loader.LoadNations();
 
 			try
 			{
-				using (var game = new KingdomsClashNetGame(nations))
+				using (var game = new KingdomsClashNetGame(loader.Nations))
 				{
 					game.Run();
 				}

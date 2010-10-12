@@ -39,10 +39,8 @@ namespace Kingdoms_Clash.NET.UserData
 		/// Ładuje nacje z folderu Path/Nations.
 		/// </summary>
 		/// <returns>Lista nacji.</returns>
-		public IList<Interfaces.Units.INation> LoadNations()
+		public void LoadNations()
 		{
-			List<Interfaces.Units.INation> nations = new List<Interfaces.Units.INation>();
-
 			do
 			{
 				Logger.Info("Loading nations");
@@ -76,13 +74,11 @@ namespace Kingdoms_Clash.NET.UserData
 					if (nation != null)
 					{
 						Logger.Info("\tNation {0} loaded", nation.Name);
-						nations.Add(nation);
+						this.Nations.Add(nation);
 					}
 				}
 				
 			} while (false);
-
-			return nations;
 		}
 
 		/// <summary>
@@ -121,6 +117,7 @@ namespace Kingdoms_Clash.NET.UserData
 			this.Path = rootPath;
 			this.ConfigurationFile = configFile;
 			this.Components = new List<Type>();
+			this.Nations = new List<Interfaces.Units.INation>();
 		}
 	}
 }

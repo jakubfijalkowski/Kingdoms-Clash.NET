@@ -121,6 +121,7 @@
     <Compile Include="Units\UnitDescriptionsCollection.cs" />
     <Compile Include="UserData\Loader.cs" />
     <Compile Include="UserData\NationLoader.cs" />
+    <Compile Include="UserData\ResourcesCollectionSerializer.cs" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

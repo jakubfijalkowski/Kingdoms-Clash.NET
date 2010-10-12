@@ -32,8 +32,7 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// <summary>
 		/// Ładuje nacje z folderu Path/Nations.
 		/// </summary>
-		/// <returns>Lista nacji.</returns>
-		IList<Units.INation> LoadNations();
+		void LoadNations();
 
 		/// <summary>
 		/// Ładuje konfigurację.

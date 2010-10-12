@@ -161,7 +161,7 @@ namespace Kingdoms_Clash.NET.UserData
 			{
 				throw new XmlException("Unit description must contain 'costs' section");
 			}
-			desc.Costs.Deserialize(costs);
+			new ResourcesCollectionSerializer(desc.Costs).Deserialize(costs);
 			
 			return desc;
 		}
