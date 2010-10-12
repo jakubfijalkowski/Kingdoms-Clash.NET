@@ -94,24 +94,20 @@ namespace Kingdoms_Clash.NET.Controllers
 
 		/// <summary>
 		/// Obsługuje kolizje jednostki z zamkiem.
+		/// Jeśli zamek jest przeciwnika - uszkadza go.
 		/// </summary>
 		/// <param name="unit"></param>
 		/// <param name="player"></param>
 		public void HandleCollision(IUnit unit, IPlayer player)
 		{
-			if (unit.Owner == player)
+			if (unit.Owner != player)
 			{
-				return;
+				var component = unit.Description.Components.GetSingle<Interfaces.Units.Components.IContactSoldier>();
+				if (component != null)
+				{
+					player.Health -= component.Strength;
+				}				
 			}
-			int strength = 0;
-
-			var component = unit.Description.Components.GetSingle<Interfaces.Units.Components.IContactSoldier>();
-			if (component != null)
-			{
-				strength = component.Strength;
-			}
-
-			player.Health -= strength;
 			this.GameState.RemoveUnit(unit);
 			unit.Owner.Units.Remove(unit);
 		}

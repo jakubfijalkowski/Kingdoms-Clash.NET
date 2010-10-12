@@ -29,10 +29,7 @@ namespace Kingdoms_Clash.NET.Maps
 
 		public Vector2 SecondCastle { get; private set; }
 
-		public int CheckForResource(float beginig, float end, out float position, out string id)
-		{
-			throw new NotImplementedException();
-		}
+		public event CollisionWithResourceEventHandler Collide;
 
 		public void Reset()
 		{

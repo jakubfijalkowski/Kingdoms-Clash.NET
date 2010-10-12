@@ -8,7 +8,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 
 	/// <summary>
 	/// Zdarzenie kolizji jednostki z graczem.
-	/// Kolizja odbywa się "awsze, niezależnie czy jednostka jest tego gracza, czy przeciwnika.
+	/// Kolizja odbywa się zawsze, niezależnie czy jednostka jest tego gracza, czy przeciwnika.
 	/// </summary>
 	/// <param name="unit">Jednostka, która koliduje.</param>
 	/// <param name="player">Gracz z którym koliduje.</param>

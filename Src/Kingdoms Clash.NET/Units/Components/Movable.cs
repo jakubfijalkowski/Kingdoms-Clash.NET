@@ -12,6 +12,9 @@ namespace Kingdoms_Clash.NET.Units.Components
 	/// <summary>
 	/// Opis komponentu jednostki określający, że jednostka potrafi się poruszać.
 	/// </summary>
+	/// <remarks>
+	/// Komponent używa atrybutu VelocityMultiplier do określenia kierunku(i mnożnika - domyślnie 1) prędkości jednostki.
+	/// </remarks>
 	[DebuggerDisplay("Movable, Velocity = {Velocity}")]
 	public class Movable
 		: IMovable

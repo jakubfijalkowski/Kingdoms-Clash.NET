@@ -82,6 +82,7 @@
     <Compile Include="Interfaces\Resources\IResourcesCollection.cs" />
     <Compile Include="Interfaces\Resources\IResourcesList.cs" />
     <Compile Include="Interfaces\Serialization\IXmlSerializable.cs" />
+    <Compile Include="Interfaces\Units\Components\ICollector.cs" />
     <Compile Include="Interfaces\Units\Components\IContactSoldier.cs" />
     <Compile Include="Interfaces\Units\IUnitComponentDescription.cs" />
     <Compile Include="Interfaces\Units\IUnitComponentDescriptionsCollection.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Player\Castle.cs" />
     <Compile Include="Player\Human.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Units\Components\Collector.cs" />
     <Compile Include="Units\Components\ContactSoldier.cs" />
     <Compile Include="Units\Components\Movable.cs" />
     <Compile Include="Units\Components\Sprite.cs" />
