@@ -119,6 +119,7 @@
     <Compile Include="Units\UnitComponentDescriptionsCollection.cs" />
     <Compile Include="Units\UnitDescription.cs" />
     <Compile Include="Units\UnitDescriptionsCollection.cs" />
+    <Compile Include="UserData\ConfigurationSerializer.cs" />
     <Compile Include="UserData\Loader.cs" />
     <Compile Include="UserData\NationLoader.cs" />
     <Compile Include="UserData\ResourcesCollectionSerializer.cs" />

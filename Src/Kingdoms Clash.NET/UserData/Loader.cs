@@ -96,7 +96,7 @@ namespace Kingdoms_Clash.NET.UserData
 				{
 					throw new XmlException("Cannot find 'configuration' element");
 				}
-				Configuration.Instance.Deserialize(cfg);
+				new ConfigurationSerializer(Configuration.Instance).Deserialize(cfg);
 				Logger.Info("Configuration loaded");
 			}
 			catch (System.Exception ex)

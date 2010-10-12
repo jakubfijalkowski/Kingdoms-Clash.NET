@@ -43,146 +43,62 @@ namespace Kingdoms_Clash.NET
 		/// <summary>
 		/// Rozmiar okna.
 		/// </summary>
-		public Size WindowSize { get; internal set; }
+		public Size WindowSize { get; set; }
 
 		/// <summary>
 		/// Czy okno ma być pełnoekranowe.
 		/// </summary>
-		public bool Fullscreen { get; internal set; }
+		public bool Fullscreen { get; set; }
 
 		/// <summary>
 		/// Rozmiary ekranu.
 		/// </summary>
-		public Vector2 ScreenSize { get; internal set; }
+		public Vector2 ScreenSize { get; set; }
 
 		/// <summary>
 		/// Czy używać synchronizacji pionowej.
 		/// </summary>
-		public bool VSync { get; internal set; }
+		public bool VSync { get; set; }
 
 		/// <summary>
 		/// Szybkość poruszania się kamery.
 		/// </summary>
-		public float CameraSpeed { get; internal set; }
+		public float CameraSpeed { get; set; }
 
 		/// <summary>
 		/// Margines górny dla map.
 		/// </summary>
-		public float MapMargin { get; internal set; }
+		public float MapMargin { get; set; }
 
 		/// <summary>
 		/// Wartość grawitacji.
 		/// </summary>
-		public float Gravity { get; internal set; }
+		public float Gravity { get; set; }
 
 		/// <summary>
 		/// Rozmiary zamku.
 		/// </summary>
-		public Vector2 CastleSize { get; internal set; }
+		public Vector2 CastleSize { get; set; }
 
 		/// <summary>
 		/// Czy używać licznika FPS.
 		/// </summary>
-		public bool UseFPSCounter { get; internal set; }
+		public bool UseFPSCounter { get; set; }
 
 		/// <summary>
 		/// Nacja pierwszego gracza.
 		/// </summary>
-		public string Player1Nation { get; internal set; }
+		public string Player1Nation { get; set; }
 
 		/// <summary>
 		/// Nacja drugiego gracza.
 		/// </summary>
-		public string Player2Nation { get; internal set; }
+		public string Player2Nation { get; set; }
 
 		/// <summary>
 		/// Ilość zasobów na start.
 		/// </summary>
-		public uint StartResources { get; internal set; }
-		#endregion
-
-		#region IXmlSerializable Members
-		/// <summary>
-		/// Serializuje konfiguracje do XML.
-		/// </summary>
-		/// <param name="element"></param>
-		public void Serialize(System.Xml.XmlElement element)
-		{
-			//Parametry okna
-			var window = element.OwnerDocument.CreateElement("window");
-			window.SetAttribute("width", this.WindowSize.Width.ToString());
-			window.SetAttribute("height", this.WindowSize.Height.ToString());
-			window.SetAttribute("fullscreen", this.Fullscreen.ToString().ToLower());
-			element.AppendChild(window);
-
-			if (this.VSync)
-			{
-				element.AppendChild(element.OwnerDocument.CreateElement("vsync"));
-			}
-		}
-
-		/// <summary>
-		/// Deserializuje konfiguracje.
-		/// </summary>
-		/// <param name="element"></param>
-		public void Deserialize(System.Xml.XmlElement element)
-		{
-			var window = element["window"];
-			if (window == null || !window.HasAttribute("width") || !window.HasAttribute("height") || !window.HasAttribute("fullscreen"))
-			{
-				throw new System.Xml.XmlException("Missing window element or one of its attributes");
-			}
-			
-			this.WindowSize = new Size(int.Parse(window.GetAttribute("width")), int.Parse(window.GetAttribute("height")));
-			this.Fullscreen = bool.Parse(window.GetAttribute("fullscreen"));
-
-			if (element["vsync"] != null)
-			{
-				this.VSync = true;
-			}
-
-			if (element["fpscounter"] != null)
-			{
-				this.UseFPSCounter = true;
-			}
-
-			var player1 = element["player1"];
-			if (player1 != null && player1.HasAttribute("nation"))
-			{
-				this.Player1Nation = player1.GetAttribute("nation");
-			}
-			else
-			{
-				this.Player1Nation = Defaults.DefaultConfiguration.Player1Nation;
-			}
-
-			var player2 = element["player2"];
-			if (player2 != null && player2.HasAttribute("nation"))
-			{
-				this.Player2Nation = player2.GetAttribute("nation");
-			}
-			else
-			{
-				this.Player2Nation = Defaults.DefaultConfiguration.Player2Nation;
-			}
-
-			try
-			{
-				this.StartResources = uint.Parse(element["startresources"].GetAttribute("value"));
-			}
-			catch
-			{
-				this.StartResources = Defaults.DefaultConfiguration.StartResources;
-			}
-
-			//Ustawiamy resztę
-			float aspect = (float)this.WindowSize.Width / (float)this.WindowSize.Height;
-			this.ScreenSize = new Vector2(Defaults.DefaultConfiguration.ScreenSize.X, Defaults.DefaultConfiguration.ScreenSize.X / aspect);
-			this.CameraSpeed = Defaults.DefaultConfiguration.CameraSpeed;
-			this.MapMargin = this.ScreenSize.Y / 2f;
-			this.Gravity = Defaults.DefaultConfiguration.Gravity;
-			this.CastleSize = Defaults.DefaultConfiguration.CastleSize;
-		}
+		public uint StartResources { get; set; }
 		#endregion
 
 		internal Configuration()
