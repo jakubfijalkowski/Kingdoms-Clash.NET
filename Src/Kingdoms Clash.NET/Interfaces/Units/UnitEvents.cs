@@ -1,5 +1,6 @@
 ﻿namespace Kingdoms_Clash.NET.Interfaces.Units
 {
+	using Map;
 	using Player;
 
 	/// <summary>
@@ -23,5 +24,5 @@
 	/// <param name="unit">Jednostka, która się zderza.</param>
 	/// <param name="resource">Zasób, z którym się zderzyła.</param>
 	/// <returns>Czy zebrano zasób.</returns>
-	//public delegate bool CollisionWithResourceEventHandler(Units.IUnit unit, ResourceOnMap resource);
+	public delegate bool CollisionWithResourceEventHandler(IUnit unit, IResourceOnMap resource);
 }

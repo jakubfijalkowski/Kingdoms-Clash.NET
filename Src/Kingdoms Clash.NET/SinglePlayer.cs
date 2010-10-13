@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ClashEngine.NET.Cameras;
+using ClashEngine.NET.Interfaces.EntitiesManager;
 using ClashEngine.NET.ScreensManager;
 
 namespace Kingdoms_Clash.NET
@@ -26,7 +27,7 @@ namespace Kingdoms_Clash.NET
 		/// <summary>
 		/// Jednostki czekające na usunięcie.
 		/// </summary>
-		private List<IUnit> ToRemove = new List<IUnit>();
+		private List<IGameEntity> ToRemove = new List<IGameEntity>();
 
 		#region IGameState Members
 		#region Properties
@@ -73,7 +74,7 @@ namespace Kingdoms_Clash.NET
 		/// Dodaje jednostkę do gry.
 		/// </summary>
 		/// <param name="unit">Jednostka.</param>
-		public void AddUnit(IUnit unit)
+		public void Add(IUnit unit)
 		{
 			//Dla ułatwienia zarządzania jednostkami sprawdzamy kolizje jednostek tylko dla pierwszego gracza,
 			//gdyż i tak gracz nie koliduje ze swoimi jednostkami a co za tym idzie może kolidować tylko z
@@ -83,6 +84,7 @@ namespace Kingdoms_Clash.NET
 				unit.CollisionWithUnit += this.Controller.HandleCollision;
 			}
 			unit.CollisionWithPlayer += this.Controller.HandleCollision;
+			unit.CollisionWithResource += this.Controller.HandleCollision;
 
 			this.Entities.Add(unit);
 		}
@@ -92,7 +94,7 @@ namespace Kingdoms_Clash.NET
 		/// Musimy zapewnić poprawny przebieg encji, więc dodajemy do kolejki oczekujących na usunięcie.
 		/// </summary>
 		/// <param name="unit">Jednostka.</param>
-		public void RemoveUnit(IUnit unit)
+		public void Remove(IUnit unit)
 		{
 			this.ToRemove.Add(unit);
 		}
@@ -133,9 +135,9 @@ namespace Kingdoms_Clash.NET
 		{
 			this.Controller.Update(delta);
 
-			foreach (var unit in this.ToRemove)
+			foreach (var ent in this.ToRemove)
 			{
-				this.Entities.Remove(unit);
+				this.Entities.Remove(ent);
 			}
 			this.ToRemove.Clear();
 			base.Update(delta);

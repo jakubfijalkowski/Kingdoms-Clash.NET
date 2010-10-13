@@ -3,6 +3,7 @@
 namespace Kingdoms_Clash.NET.Controllers
 {
 	using Interfaces;
+	using Interfaces.Map;
 	using Interfaces.Controllers;
 	using Interfaces.Player;
 	using Interfaces.Units;
@@ -14,7 +15,7 @@ namespace Kingdoms_Clash.NET.Controllers
 		: IGameController
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
-		
+
 		#region IGameController Members
 		/// <summary>
 		/// Stan aktualnej gry.
@@ -56,7 +57,7 @@ namespace Kingdoms_Clash.NET.Controllers
 			if (unit != null)
 			{
 				player.Units.Add(unit);
-				this.GameState.AddUnit(unit);
+				this.GameState.Add(unit);
 
 				//TODO: napisać ładniejszą dedukcje gdzie umieścić jednostkę.
 				if (player == this.GameState.Players[0])
@@ -93,6 +94,15 @@ namespace Kingdoms_Clash.NET.Controllers
 		}
 
 		/// <summary>
+		/// Usuwamy wszystko, co było dodane i wraca do ustawień początkowych.
+		/// </summary>
+		public void Reset()
+		{
+			this.SetDefaults();
+		}
+
+		#region Events
+		/// <summary>
 		/// Obsługuje kolizje jednostki z zamkiem.
 		/// Jeśli zamek jest przeciwnika - uszkadza go.
 		/// </summary>
@@ -106,9 +116,9 @@ namespace Kingdoms_Clash.NET.Controllers
 				if (component != null)
 				{
 					player.Health -= component.Strength;
-				}				
+				}
 			}
-			this.GameState.RemoveUnit(unit);
+			this.GameState.Remove(unit);
 			unit.Owner.Units.Remove(unit);
 		}
 
@@ -135,29 +145,31 @@ namespace Kingdoms_Clash.NET.Controllers
 
 			if (aStrength == bStrength)
 			{
-				this.GameState.RemoveUnit(unitA);
+				this.GameState.Remove(unitA);
 				unitA.Owner.Units.Remove(unitA);
-				this.GameState.RemoveUnit(unitB);
+				this.GameState.Remove(unitB);
 				unitB.Owner.Units.Remove(unitB);
 			}
 			else if (aStrength > bStrength)
 			{
-				this.GameState.RemoveUnit(unitB);
+				this.GameState.Remove(unitB);
 				unitB.Owner.Units.Remove(unitB);
 			}
 			else
 			{
-				this.GameState.RemoveUnit(unitA);
+				this.GameState.Remove(unitA);
 				unitA.Owner.Units.Remove(unitA);
 			}
 		}
 
 		/// <summary>
-		/// Usuwamy wszystko, co było dodane i wraca do ustawień początkowych.
+		/// Metoda-zdarzenie odpowiedzialna za kolizje jednostki z zasobem na mapie.
 		/// </summary>
-		public void Reset()
+		/// <param name="unit">Jednostka.</param>
+		/// <param name="resource">Zasób.</param>
+		public bool HandleCollision(IUnit unit, IResourceOnMap resource)
 		{
-			this.SetDefaults();
+			return false;
 		}
 
 		/// <summary>
@@ -167,6 +179,7 @@ namespace Kingdoms_Clash.NET.Controllers
 		{
 			this.SetDefaults();
 		}
+		#endregion
 		#endregion
 
 		#region Private

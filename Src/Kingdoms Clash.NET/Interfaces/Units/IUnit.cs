@@ -48,6 +48,12 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// </summary>
 		/// <seealso cref="CollisionWithPlayerEventHandler"/>
 		event CollisionWithPlayerEventHandler CollisionWithPlayer;
+
+		/// <summary>
+		/// Zdarzenie kolizji jednostki z zasobem na mapie..
+		/// </summary>
+		/// <seealso cref="CollisionWithResourceEventHandler"/>
+		event CollisionWithResourceEventHandler CollisionWithResource;
 		#endregion
 	}
 }

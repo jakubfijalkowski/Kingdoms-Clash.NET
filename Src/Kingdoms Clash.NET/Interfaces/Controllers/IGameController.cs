@@ -1,5 +1,6 @@
 ﻿namespace Kingdoms_Clash.NET.Interfaces.Controllers
 {
+	using Map;
 	using Player;
 	using Units;
 
@@ -32,6 +33,12 @@
 		void Update(double delta);
 
 		/// <summary>
+		/// Resetuje stan gry do wartości początkowych.
+		/// </summary>
+		void Reset();
+
+		#region Events
+		/// <summary>
 		/// Metoda-zdarzenie odpowiedzialna za kolizje gracza(jego zamku) z jednostką.
 		/// </summary>
 		/// <param name="unit">Jednostka, która się z nim zderzyła.</param>
@@ -47,14 +54,18 @@
 		void HandleCollision(IUnit unitA, IUnit unitB);
 
 		/// <summary>
-		/// Resetuje stan gry do wartości początkowych.
+		/// Metoda-zdarzenie odpowiedzialna za kolizje jednostki z zasobem na mapie.
 		/// </summary>
-		void Reset();
+		/// <param name="unit">Jednostka.</param>
+		/// <param name="resource">Zasób.</param>
+		/// <returns>Czy zasób został zebrany.</returns>
+		bool HandleCollision(IUnit unit, IResourceOnMap resource);
 
 		/// <summary>
 		/// Wywoływane przy rozpoczęciu gry, pozwala ustawić początkowe wartości.
 		/// </summary>
 		void OnGameStarted();
+		#endregion
 		#endregion
 	}
 }

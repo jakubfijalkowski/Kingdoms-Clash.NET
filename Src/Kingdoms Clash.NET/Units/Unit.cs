@@ -10,6 +10,7 @@ using OpenTK;
 
 namespace Kingdoms_Clash.NET.Units
 {
+	using Interfaces.Map;
 	using Interfaces.Player;
 	using Interfaces.Units;
 
@@ -64,6 +65,12 @@ namespace Kingdoms_Clash.NET.Units
 		/// </summary>
 		/// <seealso cref="CollisionWithPlayerEventHandler"/>
 		public event CollisionWithPlayerEventHandler CollisionWithPlayer;
+
+		/// <summary>
+		/// Zdarzenie kolizji jednostki z zasobem na mapie..
+		/// </summary>
+		/// <seealso cref="CollisionWithResourceEventHandler"/>
+		public event CollisionWithResourceEventHandler CollisionWithResource;
 		#endregion
 		#endregion
 
@@ -121,6 +128,19 @@ namespace Kingdoms_Clash.NET.Units
 				else if (fixtureB.Body.UserData is IPlayer && this.CollisionWithPlayer != null)
 				{
 					this.CollisionWithPlayer(this, fixtureB.Body.UserData as IPlayer);
+				}
+				else if (fixtureB.Body.UserData is IResourceOnMap && this.CollisionWithResource != null)
+				{
+					//Taka iteracja zapobiega zbieraniu już zebranych zasobów
+					var delegates = this.CollisionWithResource.GetInvocationList();
+					foreach (CollisionWithResourceEventHandler d in delegates)
+					{
+						if (d(this, fixtureB.Body.UserData as IResourceOnMap))
+						{
+							(fixtureB.Body.UserData as IResourceOnMap).Gather();
+							return false;
+						}
+					}
 				}
 				return true;
 			});

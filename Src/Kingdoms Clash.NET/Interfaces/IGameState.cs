@@ -48,13 +48,13 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Dodaje jednostkę do gry.
 		/// </summary>
 		/// <param name="unit">Jednostka.</param>
-		void AddUnit(IUnit unit);
+		void Add(IUnit unit);
 		
 		/// <summary>
 		/// Usuwa jednostkę z gry.
 		/// </summary>
 		/// <param name="unit">Jednostka.</param>
-		void RemoveUnit(IUnit unit);
+		void Remove(IUnit unit);
 		#endregion
 	}
 

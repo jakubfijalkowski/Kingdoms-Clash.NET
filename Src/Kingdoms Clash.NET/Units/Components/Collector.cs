@@ -1,5 +1,6 @@
 ﻿using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Interfaces.EntitiesManager;
+using ClashEngine.NET.Utilities;
 
 namespace Kingdoms_Clash.NET.Units.Components
 {
@@ -85,7 +86,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 		{
 			#region Private fields
 			private IAttribute<float> VelocityMultiplier;
-			//private Interfaces.Map.ResourceOnMap CarriedResource = null;
+			private Interfaces.Map.IResourceOnMap CarriedResource = null;
 			#endregion
 
 			#region IUnitComponent Members
@@ -103,16 +104,16 @@ namespace Kingdoms_Clash.NET.Units.Components
 			{
 				this.VelocityMultiplier = this.Owner.Attributes.GetOrCreate<float>("VelocityMultiplier");
 
-				//(this.Owner as IUnit).Owner.GameState.Map.Collide += new Interfaces.Map.CollisionWithResourceEventHandler(CollisionWithResource);
-				//(this.Owner as IUnit).Owner.Collide += new Interfaces.Player.UnitCollideWithPlayerEventHandler(CollisionWithPlayer);
+				(this.Owner as IUnit).CollisionWithResource += new CollisionWithResourceEventHandler(CollisionWithResource);
+				(this.Owner as IUnit).CollisionWithPlayer += new CollisionWithPlayerEventHandler(CollisionWithPlayer);
 
 				var body = this.Owner.Attributes.Get<Body>("Body");
 				if (body == null || body.Value == null || body.Value.FixtureList.Count == 0)
 				{
 					throw new ClashEngine.NET.Exceptions.NotFoundException("Body");
 				}
-				body.Value.FixtureList[0].CollisionCategories |= CollisionCategory.Cat10;
-				body.Value.FixtureList[0].CollidesWith |= CollisionCategory.Cat10;
+				body.Value.AddCollisionCategories(CollisionCategory.Cat10);
+				body.Value.AddCollidesWith(CollisionCategory.Cat10);
 			}
 
 			public override void Update(double delta)
@@ -125,34 +126,30 @@ namespace Kingdoms_Clash.NET.Units.Components
 			/// <param name="unit"></param>
 			/// <param name="resource"></param>
 			/// <returns></returns>
-			//bool CollisionWithResource(IUnit unit, Interfaces.Map.ResourceOnMap resource)
-			//{
-			//    if (unit == this.Owner && this.CarriedResource == null)
-			//    {
-			//        this.CarriedResource = resource;
-			//        if (resource.Value > (this.Description as ICollector).MaxCargoSize)
-			//        {
-			//            this.CarriedResource.Value = (this.Description as ICollector).MaxCargoSize;
-			//        }
-			//        this.VelocityMultiplier.Value *= -1f;
-			//        return true;
-			//    }
-			//    return false;
-			//}
+			bool CollisionWithResource(IUnit unit, Interfaces.Map.IResourceOnMap resource)
+			{
+				this.CarriedResource = resource;
+				if (resource.Value > (this.Description as ICollector).MaxCargoSize)
+				{
+					this.CarriedResource.Value = (this.Description as ICollector).MaxCargoSize;
+				}
+				this.VelocityMultiplier.Value *= -1f;
+				return true;
+			}
 
 			/// <summary>
 			/// Wywoływane przy kolizji gracza z zamkiem.
 			/// </summary>
 			/// <param name="unit"></param>
 			/// <param name="player"></param>
-			//void CollisionWithPlayer(IUnit unit, Interfaces.Player.IPlayer player)
-			//{
-			//    //Tylko TA jednostka, tylko dla własnego zamku i tylko, gdy niesiemy jakiś zasób.
-			//    if (unit == this.Owner && this.CarriedResource != null)
-			//    {
-			//        player.Resources.Add(this.CarriedResource.Id, this.CarriedResource.Value);
-			//    }
-			//}
+			void CollisionWithPlayer(IUnit unit, Interfaces.Player.IPlayer player)
+			{
+				//Tylko dla własnego zamku i tylko, gdy niesiemy jakiś zasób.
+				if ((this.Owner as IUnit).Owner == player && this.CarriedResource != null)
+				{
+					player.Resources.Add(this.CarriedResource.Id, this.CarriedResource.Value);
+				}
+			}
 		}
 		#endregion
 	}

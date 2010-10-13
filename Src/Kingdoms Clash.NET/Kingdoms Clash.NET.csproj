@@ -78,6 +78,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\ClassicGame.cs" />
     <Compile Include="Defaults.cs" />
+    <Compile Include="Interfaces\Map\IResourceOnMap.cs" />
     <Compile Include="Interfaces\Resources\IResourceDescription.cs" />
     <Compile Include="Interfaces\Resources\IResourcesCollection.cs" />
     <Compile Include="Interfaces\Resources\IResourcesList.cs" />
