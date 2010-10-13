@@ -145,5 +145,20 @@ namespace ClashEngine.NET.Utilities
 			}
 		}
 		#endregion
+
+		#region Collision events
+		/// <summary>
+		/// Ustawia zdarzenie kolizji dla danego ciała.
+		/// </summary>
+		/// <param name="body">this</param>
+		/// <param name="eventHandler">Metoda obsługująca to zdarzenie.</param>
+		public static void SetCollisionEvent(this Body body, CollisionEventHandler eventHandler)
+		{
+			foreach (var f in body.FixtureList)
+			{
+				f.OnCollision = eventHandler;
+			}
+		}
+		#endregion
 	}
 }
