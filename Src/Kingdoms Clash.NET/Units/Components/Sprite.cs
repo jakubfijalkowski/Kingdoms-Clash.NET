@@ -93,6 +93,11 @@ namespace Kingdoms_Clash.NET.Units.Components
 					(this.Owner as IUnit).Description.Width,
 					(this.Owner as IUnit).Description.Height);
 
+				if ((this.Owner as IUnit).Owner.Type == Interfaces.Player.PlayerType.Second)
+				{
+					this.FlipHorizontal();
+				}
+
 				base.OnInit();
 			}
 			#endregion

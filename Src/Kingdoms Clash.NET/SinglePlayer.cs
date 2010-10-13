@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ClashEngine.NET.Cameras;
 using ClashEngine.NET.Interfaces.EntitiesManager;
 using ClashEngine.NET.ScreensManager;
+using OpenTK.Graphics.OpenGL;
 
 namespace Kingdoms_Clash.NET
 {
@@ -125,6 +126,9 @@ namespace Kingdoms_Clash.NET
 		#region Screen Members
 		public override void OnInit()
 		{
+			GL.Enable(EnableCap.Blend);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+
 			this.Controller.GameState = this;
 
 			this.Players[0].GameState = this;
@@ -165,7 +169,7 @@ namespace Kingdoms_Clash.NET
 
 		public override void Render()
 		{
-			OpenTK.Graphics.OpenGL.GL.Clear(OpenTK.Graphics.OpenGL.ClearBufferMask.ColorBufferBit);
+			GL.Clear(ClearBufferMask.ColorBufferBit);
 			base.Render();
 		}
 		#endregion

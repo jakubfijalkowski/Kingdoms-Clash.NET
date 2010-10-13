@@ -116,7 +116,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 					throw new ClashEngine.NET.Exceptions.NotFoundException("Body");
 				}
 				body.Value.AddCollidesWith(CollisionCategory.Cat10);
-				body.Value.AddCollisionCategories((CollisionCategory)((int)CollisionCategory.Cat10 << (int)(this.Owner as IUnit).Owner.Type));
+				body.Value.AddCollisionCategories((CollisionCategory)((int)CollisionCategory.Cat11 << (int)(this.Owner as IUnit).Owner.Type));
 			}
 
 			public override void Update(double delta)

@@ -17,5 +17,15 @@ namespace ClashEngine.NET.Interfaces.Components
 		/// Koordynaty tekstury. Domyślnie tekstura pokrywa cały sprite.
 		/// </summary>
 		RectangleF TextureCoordinates { get; set; }
+
+		/// <summary>
+		/// Odbija teskturę sprite'a w poziomie.
+		/// </summary>
+		void FlipHorizontal();
+
+		/// <summary>
+		/// Odbija teskturę sprite'a w pionie.
+		/// </summary>
+		void FlipVertical();
 	}
 }

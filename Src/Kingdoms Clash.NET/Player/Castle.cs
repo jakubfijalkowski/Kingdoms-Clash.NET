@@ -7,7 +7,6 @@ using ClashEngine.NET.Interfaces.EntitiesManager;
 using ClashEngine.NET.PhysicsManager;
 using ClashEngine.NET.Resources;
 using ClashEngine.NET.ResourcesManager;
-using FarseerPhysics.Dynamics;
 using OpenTK;
 
 namespace Kingdoms_Clash.NET.Player
@@ -60,12 +59,6 @@ namespace Kingdoms_Clash.NET.Player
 		}
 
 		/// <summary>
-		/// Zdarzenie kolizji jednostki z graczem.
-		/// </summary>
-		/// <seealso cref="CollisionWithPlayerEventHandler"/>
-		public event CollisionWithPlayerEventHandler Collide;
-
-		/// <summary>
 		/// Typ gracza.
 		/// </summary>
 		public PlayerType Type { get; set; }
@@ -107,28 +100,15 @@ namespace Kingdoms_Clash.NET.Player
 			//Tworzymy zamek.
 			this.Components.Add(new PhysicalObject());
 			this.Components.Add(new BoundingBox(Configuration.Instance.CastleSize));
-			this.Components.Add(new Sprite("CastleImage", ResourcesManager.Instance.Load<Texture>(this.Nation.CastleImage)));
+			Sprite s = new Sprite("CastleImage", ResourcesManager.Instance.Load<Texture>(this.Nation.CastleImage));
+			if (this.Type == PlayerType.Second)
+			{
+				s.FlipHorizontal();
+			}
+			this.Components.Add(s);
 
 			this.Attributes.Get<Vector2>("Position").Value = (this.Type == PlayerType.First ? this.GameState.Map.FirstCastle : this.GameState.Map.SecondCastle);
 			this.Attributes.Get<Vector2>("Size").Value = Configuration.Instance.CastleSize;
-
-			//Gdy zderzy się z jednostką to wysyła odpowiednie zdarzenie
-			var f = this.Attributes.Get<Body>("Body").Value.FixtureList[0];
-			f.Body.UserData = this;
-			f.OnCollision = (fA, fB, contact) =>
-				{
-					if (fA.Body.UserData is IUnit && fB.Body.UserData is IPlayer && this.Collide != null)
-					{
-						this.Collide(fA.Body.UserData as IUnit, fB.Body.UserData as IPlayer);
-						return true;	
-					}
-					else if (fA.Body.UserData is IPlayer && fB.Body.UserData is IUnit && this.Collide != null)
-					{
-						this.Collide(fB.Body.UserData as IUnit, fA.Body.UserData as IPlayer);
-						return true;
-					}
-					return false;
-				};
 		}
 	}
 }

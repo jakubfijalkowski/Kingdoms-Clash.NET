@@ -115,7 +115,8 @@ namespace Kingdoms_Clash.NET.Units
 			//Ustawiamy maskę kolizji tak by kolidowało tylko z innymi graczami
 			body.SetCollisionCategories((CollisionCategory)(1 << (int)this.Owner.Type));
 			//Koliduje ze wszystkim z wyłączeniem jednostek tego samego gracza i zasobami.
-			body.SetCollidesWith(CollisionCategory.All & ~body.GetCollisionCategories() & ~CollisionCategory.Cat10);
+			body.SetCollidesWith(CollisionCategory.All & ~body.GetCollisionCategories() &
+				~CollisionCategory.Cat10 & ~((CollisionCategory)((int)CollisionCategory.Cat11 << (int)this.Owner.Type)));
 
 			//I zdarzenia kolizji pomiędzy jednostkami
 			body.SetCollisionEvent((fixtureA, fixtureB, contact) =>
