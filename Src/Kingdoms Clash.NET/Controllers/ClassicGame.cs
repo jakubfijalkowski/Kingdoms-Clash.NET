@@ -3,8 +3,8 @@
 namespace Kingdoms_Clash.NET.Controllers
 {
 	using Interfaces;
-	using Interfaces.Map;
 	using Interfaces.Controllers;
+	using Interfaces.Map;
 	using Interfaces.Player;
 	using Interfaces.Units;
 
@@ -12,9 +12,10 @@ namespace Kingdoms_Clash.NET.Controllers
 	/// Klasyczna gra, zgodna z zasadami oryginału.
 	/// </summary>
 	public class ClassicGame
-		: IGameController
+		: IClassicGame
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
+		private static Random Random = new Random();
 
 		#region IGameController Members
 		/// <summary>
@@ -76,22 +77,21 @@ namespace Kingdoms_Clash.NET.Controllers
 		}
 
 		/// <summary>
-		/// Sprawdza, czy któryś z graczy nie wygrał.
+		/// Dodaje zasób o wskazanym Id i wartości pobranej z konfiguracji.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public IResourceOnMap RequestNewResource(string id)
+		{
+			return new Maps.ResourceOnMap(id, Configuration.Instance.ResourceRenewalValue,
+				Configuration.Instance.CastleSize.X + (float)(Random.NextDouble() * (this.GameState.Map.Size.X - Configuration.Instance.CastleSize.X * 2f)));
+		}
+
+		/// <summary>
 		/// </summary>
 		/// <param name="delta"></param>
 		public void Update(double delta)
-		{
-			if (this.GameState.Players[0].Health <= 0)
-			{
-				Logger.Error("User {0} has won the match!", this.GameState.Players[1].Name);
-				throw new NotSupportedException();
-			}
-			else if (this.GameState.Players[1].Health <= 0)
-			{
-				Logger.Error("User {0} has won the match!", this.GameState.Players[0].Name);
-				throw new NotSupportedException();
-			}
-		}
+		{ }
 
 		/// <summary>
 		/// Usuwamy wszystko, co było dodane i wraca do ustawień początkowych.

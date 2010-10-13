@@ -16,7 +16,7 @@ namespace Kingdoms_Clash.NET.Maps
 	public class ResourceOnMap
 		: GameEntity, IResourceOnMap
 	{
-		#region Private fields
+		#region Private Fields
 		/// <summary>
 		/// Pozycja zasobu.
 		/// </summary>
@@ -70,7 +70,7 @@ namespace Kingdoms_Clash.NET.Maps
 			this.Components.Add(new ClashEngine.NET.Components.Physical.BoundingBox(desc.Size));
 
 			pObj.Body.Position = this.Position.ToXNA();
-			pObj.Body.SetCollidesWith(CollisionCategory.Cat1 | CollisionCategory.Cat2);
+			pObj.Body.SetCollidesWith(CollisionCategory.Cat11 | CollisionCategory.Cat12);
 			pObj.Body.SetCollisionCategories(CollisionCategory.Cat10);
 			pObj.Body.UserData = this;
 

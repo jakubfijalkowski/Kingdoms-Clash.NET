@@ -18,10 +18,19 @@ namespace Kingdoms_Clash.NET
 	public class SinglePlayer
 		: Screen, IGameState, IGameStateScreen
 	{
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
+		
+		#region Private Fields
 		/// <summary>
 		/// Jednostki czekające na usunięcie.
 		/// </summary>
 		private List<IGameEntity> ToRemove = new List<IGameEntity>();
+
+		/// <summary>
+		/// Czas od ostatniego dodania zasobu.
+		/// </summary>
+		private float ResourceRenewalAccumulator = 0f;
+		#endregion
 
 		#region IGameState Members
 		#region Properties
@@ -140,13 +149,17 @@ namespace Kingdoms_Clash.NET
 
 		public override void Update(double delta)
 		{
+			this.HandleVictory();
 			this.Controller.Update(delta);
+
+			this.HandleResources(delta);
 
 			foreach (var ent in this.ToRemove)
 			{
 				this.Entities.Remove(ent);
 			}
 			this.ToRemove.Clear();
+
 			base.Update(delta);
 		}
 
@@ -157,8 +170,46 @@ namespace Kingdoms_Clash.NET
 		}
 		#endregion
 
+		#region Constructors
 		public SinglePlayer()
 			: base("GameScreen", ClashEngine.NET.Interfaces.ScreensManager.ScreenType.Fullscreen)
 		{ }
+		#endregion
+
+		#region Private Members
+		/// <summary>
+		/// Obsługuje zasoby.
+		/// </summary>
+		private void HandleResources(double delta)
+		{
+			this.ResourceRenewalAccumulator += (float)delta;
+			if (this.ResourceRenewalAccumulator > Configuration.Instance.ResourceRenewalTime)
+			{
+				var res = this.Controller.RequestNewResource("wood");
+				if (res != null)
+				{
+					this.Add(res);
+				}
+				this.ResourceRenewalAccumulator -= Configuration.Instance.ResourceRenewalTime;
+			}
+		}
+
+		/// <summary>
+		/// Sprawdza, czy ktoś nie wygrał.
+		/// </summary>
+		private void HandleVictory()
+		{
+			if (this.Players[0].Health <= 0)
+			{
+				Logger.Error("User {0} has won the match!", this.Players[1].Name);
+				throw new NotSupportedException();
+			}
+			else if (this.Players[1].Health <= 0)
+			{
+				Logger.Error("User {0} has won the match!", this.Players[0].Name);
+				throw new NotSupportedException();
+			}
+		}
+		#endregion
 	}
 }

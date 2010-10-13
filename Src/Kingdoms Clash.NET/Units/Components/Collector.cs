@@ -87,7 +87,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 		private class CollectorComponent
 			: Component, IUnitComponent
 		{
-			#region Private fields
+			#region Private Fields
 			private IAttribute<float> VelocityMultiplier;
 			private Interfaces.Map.IResourceOnMap CarriedResource = null;
 			#endregion
@@ -116,6 +116,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 					throw new ClashEngine.NET.Exceptions.NotFoundException("Body");
 				}
 				body.Value.AddCollidesWith(CollisionCategory.Cat10);
+				body.Value.AddCollisionCategories((CollisionCategory)((int)CollisionCategory.Cat10 << (int)(this.Owner as IUnit).Owner.Type));
 			}
 
 			public override void Update(double delta)

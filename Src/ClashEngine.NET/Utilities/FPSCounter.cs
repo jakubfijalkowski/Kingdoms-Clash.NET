@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ClashEngine.NET.Utilities
 {
@@ -20,7 +17,7 @@ namespace ClashEngine.NET.Utilities
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET.FPS");
 		
-		#region Private fields
+		#region Private Fields
 		/// <summary>
 		/// Aktualny licznik FPS.
 		/// </summary>
@@ -47,7 +44,7 @@ namespace ClashEngine.NET.Utilities
 		double AllTime = 0.0;
 		#endregion
 		
-		#region IFPSCounter members
+		#region IFPSCounter Members
 		/// <summary>
 		/// Aktualny licznik FPS.
 		/// </summary>

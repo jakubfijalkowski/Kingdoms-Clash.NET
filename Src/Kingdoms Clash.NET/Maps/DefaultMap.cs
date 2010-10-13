@@ -17,7 +17,7 @@ namespace Kingdoms_Clash.NET.Maps
 	public class DefaultMap
 		: GameEntity, IMap
 	{
-		#region Private fields
+		#region Private Fields
 		private TerrainVertex[] Vertices = null;
 		#endregion
 
@@ -58,7 +58,7 @@ namespace Kingdoms_Clash.NET.Maps
 			float a1, b1, a2, b2;
 			this.CalculateFactor(v11, v12, out a1, out b1);
 			this.CalculateFactor(v21, v22, out a2, out b2);
-			if (a1 < 0f) //Pierwsza część rośnie, więc wybieramy wysokość czubka
+			if (v11 != v21 && a1 < 0f) //Pierwsza część rośnie, więc wybieramy wysokość czubka
 			{
 				return v12.Position.Y;
 			}

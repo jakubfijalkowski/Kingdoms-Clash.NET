@@ -1,9 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<configuration>
+﻿<configuration>
   <window width="800" height="600" fullscreen="false" />
-  <vsync />
   <fpscounter />
-  <player1 nation="Nacja gracz 1" />
-  <player2 nation="Nacja gracz 1" />
-  <startresources value="100" />
+  <player1 nation="TestNation" />
+  <player2 nation="TestNation" />
+  <startresources value="1000" />
+  <resourcerenewal time="8" value="30" />
+  <camera speed="100" />
+  <castle width="20" height="30" />
 </configuration>

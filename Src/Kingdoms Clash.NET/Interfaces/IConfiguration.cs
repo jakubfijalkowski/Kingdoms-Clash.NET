@@ -51,6 +51,16 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Rozmiary zamku.
 		/// </summary>
 		Vector2 CastleSize { get; set; }
+
+		/// <summary>
+		/// Czas pomiędzy poszczególnymi odnowieniami zasobów.
+		/// </summary>
+		float ResourceRenewalTime { get; set; }
+
+		/// <summary>
+		/// Wartość zasobu.
+		/// </summary>
+		uint ResourceRenewalValue { get; set; }
 		#endregion
 
 		#region Others
@@ -74,5 +84,11 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// </summary>
 		uint StartResources { get; set; }
 		#endregion
+
+		/// <summary>
+		/// Kopiuje wartości konfiguracji z innej.
+		/// </summary>
+		/// <param name="other">Inna.</param>
+		void Set(IConfiguration other);
 	}
 }

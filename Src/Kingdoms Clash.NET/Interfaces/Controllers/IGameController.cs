@@ -27,6 +27,14 @@
 		bool RequestNewUnit(string id, IPlayer player);
 
 		/// <summary>
+		/// Prosi o nowy zasób na mapie.
+		/// Jeśli nie chcemy, by się pojawił - zwracamy null.
+		/// </summary>
+		/// <param name="id">Id zasobu.</param>
+		/// <returns>Zasób.</returns>
+		IResourceOnMap RequestNewResource(string id);
+
+		/// <summary>
 		/// Wywoływane co aktualizacje.
 		/// </summary>
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>

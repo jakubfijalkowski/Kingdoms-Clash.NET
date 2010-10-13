@@ -24,6 +24,8 @@ namespace Kingdoms_Clash.NET
 			MapMargin = 75f / 2f,
 			Gravity = 100f,
 			CastleSize = new OpenTK.Vector2(20f, 30f),
+			ResourceRenewalTime = 8f,
+			ResourceRenewalValue = 30,
 			UseFPSCounter = true,
 			Player1Nation = "TestNation",
 			Player2Nation = "TestNation",

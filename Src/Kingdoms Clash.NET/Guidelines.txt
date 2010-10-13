@@ -4,3 +4,4 @@ Przy rozpoczynaniu gry należy najpierw w pełni zainicjalizować kontroler, pot
 Kontroler musi sprawdzać, czy gracz posiada wystarczające zasoby.
 Kontroler nie musi sprawdzać, czy zasoby są poprawne - one są poprawne.
 Zasoby mają kategorie kolizji 10 - jednostki bez komponentu Collector nie powinny z nią kolidować.
+Zasoby kolidują tylko z kategorią 11 i 12(odpowiednio: zbieracze gracza 1 i 2).

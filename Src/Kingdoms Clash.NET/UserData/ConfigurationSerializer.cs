@@ -48,6 +48,20 @@ namespace Kingdoms_Clash.NET.UserData
 			var startResources = element.OwnerDocument.CreateElement("startresources");
 			startResources.SetAttribute("value", this.Configuration.StartResources.ToString());
 			element.AppendChild(startResources);
+
+			var resourcesRenewal = element.OwnerDocument.CreateElement("resourcerenewal");
+			resourcesRenewal.SetAttribute("time", this.Configuration.ResourceRenewalTime.ToString());
+			resourcesRenewal.SetAttribute("value", this.Configuration.ResourceRenewalValue.ToString());
+			element.AppendChild(resourcesRenewal);
+
+			var camera = element.OwnerDocument.CreateElement("camera");
+			camera.SetAttribute("speed", this.Configuration.CameraSpeed.ToString());
+			element.AppendChild(camera);
+			
+			var castle = element.OwnerDocument.CreateElement("castle");
+			castle.SetAttribute("width", this.Configuration.CastleSize.X.ToString());
+			castle.SetAttribute("height", this.Configuration.CastleSize.Y.ToString());
+			element.AppendChild(castle);
 		}
 
 		/// <summary>
@@ -56,6 +70,8 @@ namespace Kingdoms_Clash.NET.UserData
 		/// <param name="element"></param>
 		public void Deserialize(XmlElement element)
 		{
+			this.Configuration.Set(Defaults.DefaultConfiguration);
+
 			var window = element["window"];
 			if (window == null || !window.HasAttribute("width") || !window.HasAttribute("height") || !window.HasAttribute("fullscreen"))
 			{
@@ -80,37 +96,60 @@ namespace Kingdoms_Clash.NET.UserData
 			{
 				this.Configuration.Player1Nation = player1.GetAttribute("nation");
 			}
-			else
-			{
-				this.Configuration.Player1Nation = Defaults.DefaultConfiguration.Player1Nation;
-			}
 
 			var player2 = element["player2"];
 			if (player2 != null && player2.HasAttribute("nation"))
 			{
 				this.Configuration.Player2Nation = player2.GetAttribute("nation");
 			}
-			else
+
+			var startResources = element["startresources"];
+			if (startResources != null && startResources.HasAttribute("value"))
 			{
-				this.Configuration.Player2Nation = Defaults.DefaultConfiguration.Player2Nation;
+				this.Configuration.StartResources = uint.Parse(startResources.GetAttribute("value"));
 			}
 
-			try
+			var resourceRenewal = element["resourcerenewal"];
+			if (resourceRenewal != null)
 			{
-				this.Configuration.StartResources = uint.Parse(element["startresources"].GetAttribute("value"));
+				if (resourceRenewal.HasAttribute("time"))
+				{
+					this.Configuration.ResourceRenewalTime = float.Parse(resourceRenewal.GetAttribute("time"));
+				}
+				if (resourceRenewal.HasAttribute("value"))
+				{
+					this.Configuration.ResourceRenewalValue = uint.Parse(resourceRenewal.GetAttribute("value"));
+				}
 			}
-			catch
+
+			var castle = element["castle"];
+			if (castle != null)
 			{
-				this.Configuration.StartResources = Defaults.DefaultConfiguration.StartResources;
+				float x = this.Configuration.CastleSize.X;
+				float y = this.Configuration.CastleSize.Y;
+				if (castle.HasAttribute("width"))
+				{
+					x = float.Parse(castle.GetAttribute("width"));
+				}
+				if (castle.HasAttribute("height"))
+				{
+					y = float.Parse(castle.GetAttribute("height"));
+				}
+				this.Configuration.CastleSize = new OpenTK.Vector2(x, y);
+			}
+
+			var camera = element["camera"];
+			if (camera != null)
+			{
+				if (camera.HasAttribute("speed"))
+				{
+					this.Configuration.CameraSpeed = float.Parse(camera.GetAttribute("speed"));
+				}
 			}
 
 			//Ustawiamy resztę
 			float aspect = (float)this.Configuration.WindowSize.Width / (float)this.Configuration.WindowSize.Height;
 			this.Configuration.ScreenSize = new OpenTK.Vector2(Defaults.DefaultConfiguration.ScreenSize.X, Defaults.DefaultConfiguration.ScreenSize.X / aspect);
-			this.Configuration.CameraSpeed = Defaults.DefaultConfiguration.CameraSpeed;
-			this.Configuration.MapMargin = this.Configuration.ScreenSize.Y / 2f;
-			this.Configuration.Gravity = Defaults.DefaultConfiguration.Gravity;
-			this.Configuration.CastleSize = Defaults.DefaultConfiguration.CastleSize;
 		}
 		#endregion
 
