@@ -7,14 +7,6 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 	using Units;
 
 	/// <summary>
-	/// Zdarzenie kolizji jednostki z graczem.
-	/// Kolizja odbywa się zawsze, niezależnie czy jednostka jest tego gracza, czy przeciwnika.
-	/// </summary>
-	/// <param name="unit">Jednostka, która koliduje.</param>
-	/// <param name="player">Gracz z którym koliduje.</param>
-	public delegate void UnitCollideWithPlayerEventHandler(IUnit unit, IPlayer player);
-
-	/// <summary>
 	/// Typ gracza.
 	/// </summary>
 	public enum PlayerType
@@ -77,11 +69,5 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 		/// Typ gracza.
 		/// </summary>
 		PlayerType Type { get; set; }
-
-		/// <summary>
-		/// Zdarzenie kolizji jednostki z graczem.
-		/// </summary>
-		/// <seealso cref="UnitCollideWithPlayerEventHandler"/>
-		event UnitCollideWithPlayerEventHandler Collide;
 	}
 }

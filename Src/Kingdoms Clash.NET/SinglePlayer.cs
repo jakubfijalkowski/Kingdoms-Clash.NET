@@ -75,9 +75,16 @@ namespace Kingdoms_Clash.NET
 		/// <param name="unit">Jednostka.</param>
 		public void AddUnit(IUnit unit)
 		{
-			this.Entities.Add(unit);
+			//Dla ułatwienia zarządzania jednostkami sprawdzamy kolizje jednostek tylko dla pierwszego gracza,
+			//gdyż i tak gracz nie koliduje ze swoimi jednostkami a co za tym idzie może kolidować tylko z
+			//jednostkami przeciwnika.
+			if (unit.Owner.Type == PlayerType.First)
+			{
+				unit.CollisionWithUnit += this.Controller.HandleCollision;
+			}
+			unit.CollisionWithPlayer += this.Controller.HandleCollision;
 
-			unit.Collide += this.Controller.HandleCollision;
+			this.Entities.Add(unit);
 		}
 
 		/// <summary>
@@ -104,11 +111,9 @@ namespace Kingdoms_Clash.NET
 
 			this.Players[0].GameState = this;
 			this.Players[0].Type = PlayerType.First;
-			this.Players[0].Collide += this.Controller.HandleCollision;
 
 			this.Players[1].GameState = this;
 			this.Players[1].Type = PlayerType.Second;
-			this.Players[1].Collide += this.Controller.HandleCollision;
 
 			this.Entities.Add(new OrthoCamera(
 				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + Configuration.Instance.MapMargin, Configuration.Instance.ScreenSize.Y)),

@@ -27,7 +27,6 @@
 
 		/// <summary>
 		/// Wywoływane co aktualizacje.
-		/// Nie powinna zamieniać stanu gry - jej zadaniem jest np. sprawdzenie, czy jednostka może zebrać jakiś zasób, czy nie.
 		/// </summary>
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
 		void Update(double delta);

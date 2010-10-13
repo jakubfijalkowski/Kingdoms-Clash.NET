@@ -6,13 +6,6 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 	using Player;
 
 	/// <summary>
-	/// Handler dla zdarzenia kolizji jednostek.
-	/// </summary>
-	/// <param name="a">Pierwsza jednostka.</param>
-	/// <param name="b">Druga jednostka.</param>
-	public delegate void UnitCollideEventHandler(IUnit a, IUnit b);
-
-	/// <summary>
 	/// Bazowy interfejs jednostki.
 	/// </summary>
 	/// <remarks>
@@ -43,9 +36,18 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// </summary>
 		Vector2 Position { get; set; }
 
+		#region Events
 		/// <summary>
 		/// Zdarzenie kolizji jednostek.
 		/// </summary>
-		event UnitCollideEventHandler Collide;
+		/// <seealso cref="CollisionWithUnitEventHandler"/>
+		event CollisionWithUnitEventHandler CollisionWithUnit;
+
+		/// <summary>
+		/// Zdarzenie kolizji jednostki z graczem.
+		/// </summary>
+		/// <seealso cref="CollisionWithPlayerEventHandler"/>
+		event CollisionWithPlayerEventHandler CollisionWithPlayer;
+		#endregion
 	}
 }

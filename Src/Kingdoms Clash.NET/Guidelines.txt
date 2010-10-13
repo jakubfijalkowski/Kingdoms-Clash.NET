@@ -3,3 +3,4 @@ Mapa nie może być węższa niż 1 ekran(zobacz: Configuration.ScreenSize.X).
 Przy rozpoczynaniu gry należy najpierw w pełni zainicjalizować kontroler, potem mapę, graczy a na samym końcu dodać wszystkie możliwe encje do kolekcji.
 Kontroler musi sprawdzać, czy gracz posiada wystarczające zasoby.
 Kontroler nie musi sprawdzać, czy zasoby są poprawne - one są poprawne.
+Zasoby mają kategorie kolizji 10 - jednostki bez komponentu Collector nie powinny z nią kolidować.

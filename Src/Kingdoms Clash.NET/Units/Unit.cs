@@ -4,6 +4,7 @@ using ClashEngine.NET.Components.Physical;
 using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Interfaces.EntitiesManager;
 using ClashEngine.NET.PhysicsManager;
+using ClashEngine.NET.Utilities;
 using FarseerPhysics.Dynamics;
 using OpenTK;
 
@@ -51,10 +52,19 @@ namespace Kingdoms_Clash.NET.Units
 			set { this.Position_.Value = value; }
 		}
 
+		#region Events
 		/// <summary>
 		/// Zdarzenie kolizji jednostek.
 		/// </summary>
-		public event UnitCollideEventHandler Collide;
+		/// <seealso cref="CollisionWithUnitEventHandler"/>
+		public event CollisionWithUnitEventHandler CollisionWithUnit;
+
+		/// <summary>
+		/// Zdarzenie kolizji jednostki z graczem.
+		/// </summary>
+		/// <seealso cref="CollisionWithPlayerEventHandler"/>
+		public event CollisionWithPlayerEventHandler CollisionWithPlayer;
+		#endregion
 		#endregion
 
 		/// <summary>
@@ -96,20 +106,24 @@ namespace Kingdoms_Clash.NET.Units
 			body.UserData = this;
 
 			//Ustawiamy maskę kolizji tak by kolidowało tylko z innymi graczami
-			var f = body.FixtureList[0];
-			f.CollisionCategories = (CollisionCategory)(1 << (int)this.Owner.Type);
-			f.CollidesWith = CollisionCategory.All & ~f.CollisionCategories;
+			body.SetCollisionCategories((CollisionCategory)(1 << (int)this.Owner.Type));
+			//Koliduje ze wszystkim z wyłączeniem jednostek tego samego gracza i zasobami.
+			body.SetCollidesWith(CollisionCategory.All & ~body.GetCollisionCategories() & ~CollisionCategory.Cat10);
 
 			//I zdarzenia kolizji pomiędzy jednostkami
-			f.OnCollision = (fixtureA, fixtureB, contact) =>
+			body.SetCollisionEvent((fixtureA, fixtureB, contact) =>
 			{
-				if (this.Collide != null && fixtureA.Body.UserData is IUnit && fixtureB.Body.UserData is IUnit)
+				if (fixtureB.Body.UserData is IUnit && this.CollisionWithUnit != null)
 				{
-					this.Collide(fixtureA.Body.UserData as IUnit, fixtureB.Body.UserData as IUnit);
+					this.CollisionWithUnit(this, fixtureB.Body.UserData as IUnit);
 					return false;
 				}
+				else if (fixtureB.Body.UserData is IPlayer && this.CollisionWithPlayer != null)
+				{
+					this.CollisionWithPlayer(this, fixtureB.Body.UserData as IPlayer);
+				}
 				return true;
-			};
+			});
 
 			foreach (var component in this.Description.Components)
 			{

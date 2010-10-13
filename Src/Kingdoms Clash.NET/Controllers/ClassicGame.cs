@@ -75,7 +75,7 @@ namespace Kingdoms_Clash.NET.Controllers
 		}
 
 		/// <summary>
-		/// Dopóki nie zaimplementujemy zbierania sprawdza, czy któryś z graczy nie wygrał.
+		/// Sprawdza, czy któryś z graczy nie wygrał.
 		/// </summary>
 		/// <param name="delta"></param>
 		public void Update(double delta)

@@ -65,7 +65,7 @@ namespace Kingdoms_Clash.NET.Tests
 
 			public abstract PlayerType Type { get; set; }
 
-			public abstract event UnitCollideWithPlayerEventHandler Collide;
+			public abstract event CollisionWithPlayerEventHandler Collide;
 			#endregion
 		}
 	}

@@ -62,8 +62,8 @@ namespace Kingdoms_Clash.NET.Player
 		/// <summary>
 		/// Zdarzenie kolizji jednostki z graczem.
 		/// </summary>
-		/// <seealso cref="UnitCollideWithPlayerEventHandler"/>
-		public event UnitCollideWithPlayerEventHandler Collide;
+		/// <seealso cref="CollisionWithPlayerEventHandler"/>
+		public event CollisionWithPlayerEventHandler Collide;
 
 		/// <summary>
 		/// Typ gracza.

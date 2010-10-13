@@ -29,17 +29,18 @@ namespace Kingdoms_Clash.NET.Maps
 
 		public Vector2 SecondCastle { get; private set; }
 
-		public event CollisionWithResourceEventHandler Collide;
-
 		public void Reset()
 		{
 		}
 		#endregion
 
+		#region Constructors
 		public DefaultMap()
 			: base("Map.DefaultMap")
 		{ }
+		#endregion
 
+		#region GameEntity Members
 		public override void OnInit()
 		{
 			float margin = Math.Max(Cfg.Instance.MapMargin, Cfg.Instance.ScreenSize.Y - this.Size.Y); //Margines, wyrównujemy mapę tak, by sięgała dołu ekranu ale nie była mniejsza niż margines
@@ -79,5 +80,6 @@ namespace Kingdoms_Clash.NET.Maps
 			this.Components.Add(new ClashEngine.NET.PhysicsManager.PhysicalObject());
 			this.Components.Add(new Terrain(this.Size.Y - maxH, vertices));
 		}
+		#endregion
 	}
 }
