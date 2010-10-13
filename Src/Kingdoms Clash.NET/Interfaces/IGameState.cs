@@ -49,12 +49,24 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// </summary>
 		/// <param name="unit">Jednostka.</param>
 		void Add(IUnit unit);
+
+		/// <summary>
+		/// Dodaje zasób jako encje.
+		/// </summary>
+		/// <param name="resource">Zasób.</param>
+		void Add(IResourceOnMap resource);
 		
 		/// <summary>
 		/// Usuwa jednostkę z gry.
 		/// </summary>
 		/// <param name="unit">Jednostka.</param>
 		void Remove(IUnit unit);
+
+		/// <summary>
+		/// Usuwa zasób z gry.
+		/// </summary>
+		/// <param name="resource">Zasób.</param>
+		void Remove(IResourceOnMap resource);
 		#endregion
 	}
 

@@ -20,5 +20,15 @@
 		/// Dłuższy opis.
 		/// </summary>
 		string Description { get; }
+
+		/// <summary>
+		/// Rozmiar zasobu w grze.
+		/// </summary>
+		OpenTK.Vector2 Size { get; }
+
+		/// <summary>
+		/// Obrazek z zasobem.
+		/// </summary>
+		string Image { get; }
 	}
 }

@@ -131,18 +131,22 @@ namespace Kingdoms_Clash.NET
 			loader.LoadConfiguration();
 			loader.LoadNations();
 
+#if !DEBUG
 			try
-			{
+			{ 
+#endif
 				using (var game = new KingdomsClashNetGame(loader.Nations))
 				{
 					game.Run();
 				}
+#if !DEBUG
 			}
 			catch (System.Exception ex)
 			{
 				Logger.Fatal("Fatal error: {0}", ex.Message);
 				Logger.Fatal("Stack trace: {0}", ex.StackTrace);
-			}
+			} 
+#endif
 		}
 		#endregion
 	}

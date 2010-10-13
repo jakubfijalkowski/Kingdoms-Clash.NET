@@ -19,12 +19,6 @@ namespace Kingdoms_Clash.NET
 		: Screen, IGameState, IGameStateScreen
 	{
 		/// <summary>
-		/// Zabezpieczenie na czas tworzenia.
-		/// TODO: usunąć.
-		/// </summary>
-		private bool Initialized = false;
-
-		/// <summary>
 		/// Jednostki czekające na usunięcie.
 		/// </summary>
 		private List<IGameEntity> ToRemove = new List<IGameEntity>();
@@ -58,8 +52,6 @@ namespace Kingdoms_Clash.NET
 			this.Players = new IPlayer[] { playerA, playerB };
 			this.Map = map;
 			this.Controller = controller;
-
-			this.Initialized = true;
 		}
 
 		/// <summary>
@@ -90,6 +82,16 @@ namespace Kingdoms_Clash.NET
 		}
 
 		/// <summary>
+		/// Dodaje zasób do gry.
+		/// </summary>
+		/// <param name="resource">Zasób.</param>
+		public void Add(IResourceOnMap resource)
+		{
+			resource.GameState = this;
+			this.Entities.Add(resource);
+		}
+
+		/// <summary>
 		/// Usuwa jednostkę z gry.
 		/// Musimy zapewnić poprawny przebieg encji, więc dodajemy do kolejki oczekujących na usunięcie.
 		/// </summary>
@@ -98,17 +100,22 @@ namespace Kingdoms_Clash.NET
 		{
 			this.ToRemove.Add(unit);
 		}
+
+		/// <summary>
+		/// Usuwa zasób z gry.
+		/// Musimy zapewnić poprawny przebieg encji, więc dodajemy do kolejki oczekujących na usunięcie.
+		/// </summary>
+		/// <param name="resource">Zasób.</param>
+		public void Remove(IResourceOnMap resource)
+		{
+			this.ToRemove.Add(resource);
+		}
 		#endregion
 		#endregion
 
 		#region Screen Members
 		public override void OnInit()
 		{
-			if (!this.Initialized)
-			{
-				throw new System.NotSupportedException("Initialize first");
-			}
-
 			this.Controller.GameState = this;
 
 			this.Players[0].GameState = this;

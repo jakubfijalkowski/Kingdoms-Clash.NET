@@ -138,7 +138,7 @@ namespace Kingdoms_Clash.NET.Units
 						if (d(this, fixtureB.Body.UserData as IResourceOnMap))
 						{
 							(fixtureB.Body.UserData as IResourceOnMap).Gather();
-							return false;
+							break;
 						}
 					}
 				}

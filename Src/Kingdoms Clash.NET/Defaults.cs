@@ -53,7 +53,7 @@ namespace Kingdoms_Clash.NET
 		/// TODO: dodać zlokalizowane teksty
 		public static readonly Interfaces.Resources.IResourceDescription[] Resources = new Interfaces.Resources.IResourceDescription[]
 		{
-			new Resources.ResourceDescription("wood", "Drewno", "Podstawowy zasób gry")
+			new Resources.ResourceDescription("wood", "Drewno", "Podstawowy zasób gry", new OpenTK.Vector2(5f, 10f), "Resources/Wood.png")
 		};
 		#endregion
 

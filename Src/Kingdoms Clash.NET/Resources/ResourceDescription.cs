@@ -24,6 +24,16 @@
 		/// Dłuższy opis.
 		/// </summary>
 		public string Description { get; private set; }
+
+		/// <summary>
+		/// Rozmiar zasobu w grze.
+		/// </summary>
+		public OpenTK.Vector2 Size { get; private set; }
+
+		/// <summary>
+		/// Obrazek z zasobem.
+		/// </summary>
+		public string Image { get; private set; }
 		#endregion
 
 		/// <summary>
@@ -32,11 +42,15 @@
 		/// <param name="id">Identyfikator zasobu, zobacz: <see cref="Id"/></param>
 		/// <param name="name">Nazwa zasobu, zobacz: <see cref="Name"/></param>
 		/// <param name="description">Dłuższy opis zasobu.</param>
-		public ResourceDescription(string id, string name, string description)
+		/// <param name="size">Rozmiar zasobu.</param>
+		/// <param name="image">Obrazek z zasobem.</param>
+		public ResourceDescription(string id, string name, string description, OpenTK.Vector2 size, string image)
 		{
 			this.Id = id;
 			this.Name = name;
 			this.Description = description;
+			this.Size = size;
+			this.Image = image;
 		}
 	}
 }

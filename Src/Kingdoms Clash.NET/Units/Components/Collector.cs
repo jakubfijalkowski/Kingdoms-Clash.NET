@@ -1,12 +1,12 @@
 ﻿using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Interfaces.EntitiesManager;
 using ClashEngine.NET.Utilities;
+using FarseerPhysics.Dynamics;
 
 namespace Kingdoms_Clash.NET.Units.Components
 {
 	using Interfaces.Units;
 	using Interfaces.Units.Components;
-	using FarseerPhysics.Dynamics;
 
 	/// <summary>
 	/// Komponent określający, czy jednostka potrafi zbierać zasoby.
@@ -81,6 +81,9 @@ namespace Kingdoms_Clash.NET.Units.Components
 		#endregion
 
 		#region Component
+		/// <summary>
+		/// Klasa właściwego komponentu - nie musi być widoczna publicznie.
+		/// </summary>
 		private class CollectorComponent
 			: Component, IUnitComponent
 		{
@@ -112,7 +115,6 @@ namespace Kingdoms_Clash.NET.Units.Components
 				{
 					throw new ClashEngine.NET.Exceptions.NotFoundException("Body");
 				}
-				body.Value.AddCollisionCategories(CollisionCategory.Cat10);
 				body.Value.AddCollidesWith(CollisionCategory.Cat10);
 			}
 
@@ -120,6 +122,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 			{ }
 			#endregion
 
+			#region Events
 			/// <summary>
 			/// Wywoływane przy kolizji z zasobem na mapie.
 			/// </summary>
@@ -150,6 +153,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 					player.Resources.Add(this.CarriedResource.Id, this.CarriedResource.Value);
 				}
 			}
+			#endregion
 		}
 		#endregion
 	}
