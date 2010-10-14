@@ -103,21 +103,21 @@ namespace ClashEngine.NET
 		#endregion
 
 		#region OpenGL
-		private string OpenGLVersion_ = string.Empty;
-		private string GLSLVersion_ = string.Empty;
+		private Version OpenGLVersion_ = null;
+		private Version GLSLVersion_ = null;
 		private string Extensions_ = string.Empty;
 
 		/// <summary>
 		/// Wersja OpenGL.
 		/// Używać PO zainicjalizowaniu kontekstu OpenGL(po utworzeniu obiektu gry)!
 		/// </summary>
-		public string OpenGLVersion
+		public Version OpenGLVersion
 		{
 			get
 			{
-				if (string.IsNullOrEmpty(this.OpenGLVersion_))
+				if (this.OpenGLVersion_ == null)
 				{
-					this.OpenGLVersion_ = GL.GetString(StringName.Version);
+					this.OpenGLVersion_ = Version.Parse(GL.GetString(StringName.Version));
 				}
 				return this.OpenGLVersion_;
 			}
@@ -127,13 +127,13 @@ namespace ClashEngine.NET
 		/// Wersja GLSL.
 		/// Używać PO zainicjalizowaniu kontekstu OpenGL(po utworzeniu obiektu gry)!
 		/// </summary>
-		public string GLSLVersion
+		public Version GLSLVersion
 		{
 			get
 			{
-				if (string.IsNullOrEmpty(this.GLSLVersion_))
+				if (this.GLSLVersion_ == null)
 				{
-					this.GLSLVersion_ = GL.GetString(StringName.Version);
+					this.GLSLVersion_ = Version.Parse(GL.GetString(StringName.Version));
 				}
 				return this.GLSLVersion_;
 			}

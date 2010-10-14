@@ -63,6 +63,12 @@ namespace Kingdoms_Clash.NET
 			Logger.Info("Graphics card: {0}, VRAM: {1}, drivers version: {2}", si.GraphicsCardName, si.VRAMSize, si.GraphicsDriverVersion);
 			Logger.Info("OpenGL version: {0}, GLSL version: {1}", si.OpenGLVersion, si.GLSLVersion);
 #endif
+			if (SystemInformation.Instance.OpenGLVersion < new System.Version(1, 5))
+			{
+				Logger.Fatal("This game requires at lease OpenGL 1.5");
+				throw new System.Exception("This game requires at lease OpenGL 1.5");
+			}
+
 			this.SetGlobals();
 
 			INation nation1 = null, nation2 = null;
@@ -79,6 +85,7 @@ namespace Kingdoms_Clash.NET
 			}
 			if (nation1 == null || nation2 == null)
 			{
+				Logger.Fatal("Cannot find nation for player 1 or 2");
 				throw new System.ArgumentException("Cannot find nation for player 1 or 2");
 			}
 
@@ -142,22 +149,10 @@ namespace Kingdoms_Clash.NET
 			loader.LoadConfiguration();
 			loader.LoadNations();
 
-#if !DEBUG
-			try
-			{ 
-#endif
-				using (var game = new KingdomsClashNetGame(loader.Nations))
-				{
-					game.Run();
-				}
-#if !DEBUG
-			}
-			catch (System.Exception ex)
+			using (var game = new KingdomsClashNetGame(loader.Nations))
 			{
-				Logger.Fatal("Fatal error: {0}", ex.Message);
-				Logger.Fatal("Stack trace: {0}", ex.StackTrace);
-			} 
-#endif
+				game.Run();
+			}
 		}
 		#endregion
 	}

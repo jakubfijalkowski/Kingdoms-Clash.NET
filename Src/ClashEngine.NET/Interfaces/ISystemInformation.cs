@@ -94,13 +94,13 @@ namespace ClashEngine.NET.Interfaces
 		/// Wersja OpenGL.
 		/// Używać PO zainicjalizowaniu kontekstu OpenGL(po utworzeniu obiektu gry)!
 		/// </summary>
-		string OpenGLVersion { get; }
+		Version OpenGLVersion { get; }
 
 		/// <summary>
 		/// Wersja GLSL.
 		/// Używać PO zainicjalizowaniu kontekstu OpenGL(po utworzeniu obiektu gry)!
 		/// </summary>
-		string GLSLVersion { get; }
+		Version GLSLVersion { get; }
 
 		/// <summary>
 		/// Dostępne rozszerzenia.
