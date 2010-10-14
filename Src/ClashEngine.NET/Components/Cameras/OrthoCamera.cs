@@ -8,10 +8,21 @@ namespace ClashEngine.NET.Components.Cameras
 	using EntitiesManager;
 	using Interfaces.Components.Cameras;
 
+	/// <summary>
+	/// Implemnetacja kamery ortogonalnej.
+	/// </summary>
 	public class OrthoCamera
-		: Component, IOrthoCamera
+		: RenderableComponent, IOrthoCamera
 	{
-		#region IOrthoCamera Properties
+		#region Private Fields
+		/// <summary>
+		/// Czy potrzeba uaktualnić.
+		/// </summary>
+		private bool NeedUpdate = false;
+		#endregion
+
+		#region IOrthoCamera Members
+		#region Properties
 		/// <summary>
 		/// Granice kamery.
 		/// </summary>
@@ -48,53 +59,7 @@ namespace ClashEngine.NET.Components.Cameras
 		public bool UpdateAlways { get; private set; }
 		#endregion
 
-		/// <summary>
-		/// Inicjalizuje kamerę.
-		/// Domyślnie ustawiana jest w lewym górnym rogu granic.
-		/// </summary>
-		/// <param name="borders">Krawędzie kamery.
-		/// Width nie może być większe od size.Width i
-		/// Height nie może być większe od size.Height.
-		/// </param>
-		/// <param name="size">Rozmiar.</param>
-		/// <param name="speed">Szybkość poruszania się kamery.</param>
-		/// <param name="updateAlways">Czy zawsze uaktualniać macierz projekcji?</param>
-		/// <param name="zNear"><see cref="OrthoCamera.ZNear"/></param>
-		/// <param name="zFar"><see cref="OrthoCamera.ZFar"/></param>
-		/// <exception cref="ArgumentException">Rozmiar jest większy od granic ekranu.</exception>
-		public OrthoCamera(RectangleF borders, Vector2 size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f)
-			: base("OrthoCamera")
-		{
-			this.Init(borders, size, speed, updateAlways, zNear, zFar);
-			this.UpdateMatrix();
-		}
-
-		/// <summary>
-		/// Aktualizuje położenie kamery jeśli któryś z przycisków jest wciśnięty.
-		/// </summary>
-		/// <param name="delta"></param>
-		public override void Update(double delta)
-		{
-			Vector2 pt = this.CurrentPosition;
-			if (Input.Instance.Keyboard[OpenTK.Input.Key.Left])
-			{
-				pt.X -= (float)(delta * this.CameraSpeed);
-			}
-			if (Input.Instance.Keyboard[OpenTK.Input.Key.Right])
-			{
-				pt.X += (float)(delta * this.CameraSpeed);
-			}
-			if (Input.Instance.Keyboard[OpenTK.Input.Key.Up])
-			{
-				pt.Y -= (float)(delta * this.CameraSpeed);
-			}
-			if (Input.Instance.Keyboard[OpenTK.Input.Key.Down])
-			{
-				pt.Y += (float)(delta * this.CameraSpeed);
-			}
-			this.MoveTo(pt);
-		}
-
+		#region Methods
 		/// <summary>
 		/// Przesuwa kamerę na wskazaną pozycję.
 		/// Jeśli pozycja jest poza zakresem automatycznie ją koryguje.
@@ -123,21 +88,8 @@ namespace ClashEngine.NET.Components.Cameras
 			//Uaktualniamy tylko jeśli pozycja się różni.
 			if (this.CurrentPosition != pt || this.UpdateAlways)
 			{
-				this.CurrentPosition = pt;
-				this.UpdateMatrix();
+				this.NeedUpdate = true;
 			}
-		}
-
-		/// <summary>
-		/// Uaktualnia macież projekcji.
-		/// </summary>
-		private void UpdateMatrix()
-		{
-			GL.MatrixMode(MatrixMode.Projection);
-			GL.LoadIdentity();
-			GL.Ortho(this.CurrentPosition.X, this.CurrentPosition.X + this.Size.X, this.CurrentPosition.Y + this.Size.Y, this.CurrentPosition.Y, this.ZNear, this.ZFar);
-
-			GL.MatrixMode(MatrixMode.Modelview);
 		}
 
 		/// <summary>
@@ -167,5 +119,80 @@ namespace ClashEngine.NET.Components.Cameras
 			this.UpdateAlways = updateAlways;
 			this.CurrentPosition = new Vector2(borders.Left, borders.Top);
 		}
+		#endregion
+		#endregion
+
+		#region Screen Members
+		/// <summary>
+		/// Aktualizuje położenie kamery jeśli któryś z przycisków jest wciśnięty.
+		/// </summary>
+		/// <param name="delta"></param>
+		public override void Update(double delta)
+		{
+			Vector2 pt = this.CurrentPosition;
+			if (Input.Instance.Keyboard[OpenTK.Input.Key.Left])
+			{
+				pt.X -= (float)(delta * this.CameraSpeed);
+			}
+			if (Input.Instance.Keyboard[OpenTK.Input.Key.Right])
+			{
+				pt.X += (float)(delta * this.CameraSpeed);
+			}
+			if (Input.Instance.Keyboard[OpenTK.Input.Key.Up])
+			{
+				pt.Y -= (float)(delta * this.CameraSpeed);
+			}
+			if (Input.Instance.Keyboard[OpenTK.Input.Key.Down])
+			{
+				pt.Y += (float)(delta * this.CameraSpeed);
+			}
+			this.MoveTo(pt);
+		}
+
+		/// <summary>
+		/// Uaktualnia macierze.
+		/// </summary>
+		public override void Render()
+		{
+			this.UpdateMatrix();
+		}
+		#endregion
+
+		#region Constructors
+		/// <summary>
+		/// Inicjalizuje kamerę.
+		/// Domyślnie ustawiana jest w lewym górnym rogu granic.
+		/// </summary>
+		/// <param name="borders">Krawędzie kamery.
+		/// Width nie może być większe od size.Width i
+		/// Height nie może być większe od size.Height.
+		/// </param>
+		/// <param name="size">Rozmiar.</param>
+		/// <param name="speed">Szybkość poruszania się kamery.</param>
+		/// <param name="updateAlways">Czy zawsze uaktualniać macierz projekcji?</param>
+		/// <param name="zNear"><see cref="OrthoCamera.ZNear"/></param>
+		/// <param name="zFar"><see cref="OrthoCamera.ZFar"/></param>
+		/// <exception cref="ArgumentException">Rozmiar jest większy od granic ekranu.</exception>
+		public OrthoCamera(RectangleF borders, Vector2 size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f)
+			: base("OrthoCamera")
+		{
+			this.NeedUpdate = true;
+			this.Init(borders, size, speed, updateAlways, zNear, zFar);
+		}
+		#endregion
+
+		#region Private Members
+		/// <summary>
+		/// Uaktualnia macież projekcji.
+		/// </summary>
+		private void UpdateMatrix()
+		{
+			GL.MatrixMode(MatrixMode.Projection);
+			GL.LoadIdentity();
+			GL.Ortho(this.CurrentPosition.X, this.CurrentPosition.X + this.Size.X, this.CurrentPosition.Y + this.Size.Y, this.CurrentPosition.Y, this.ZNear, this.ZFar);
+
+			GL.MatrixMode(MatrixMode.Modelview);
+		}
+		#endregion
 	}
 }
