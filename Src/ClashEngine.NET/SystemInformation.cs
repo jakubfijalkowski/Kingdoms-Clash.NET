@@ -121,7 +121,13 @@ namespace ClashEngine.NET
 				{
 					try
 					{
-						this.OpenGLVersion_ = Version.Parse(GL.GetString(StringName.Version));
+						string versionStr = GL.GetString(StringName.Version);
+						int idx = versionStr.IndexOf(' ');
+						if (idx > 0)
+						{
+							versionStr = versionStr.Substring(0, idx);
+						}
+						this.OpenGLVersion_ = Version.Parse(versionStr);
 					}
 					catch (Exception ex)
 					{
@@ -145,7 +151,13 @@ namespace ClashEngine.NET
 				{
 					try
 					{
-						this.GLSLVersion_ = Version.Parse(GL.GetString(StringName.ShadingLanguageVersion));
+						string versionStr = GL.GetString(StringName.ShadingLanguageVersion);
+						int idx = versionStr.IndexOf(' ');
+						if (idx > 0)
+						{
+							versionStr = versionStr.Substring(0, idx);
+						}
+						this.GLSLVersion_ = Version.Parse(versionStr);
 					}
 					catch (Exception ex)
 					{
