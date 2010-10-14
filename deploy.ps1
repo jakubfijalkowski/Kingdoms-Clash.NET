@@ -18,11 +18,16 @@ param(
 	[string]$buildArch = "x86",
 	[string]$7z = "7z"
 	);
+	
+if($version -eq $null)
+{
+	$version = "";
+}
 
 #Tworzymy folder wyjściowy
 Write-Host "Preparing..."	
 $outDir = "Deploy\Kingdoms_Clash.NET";
-if($version -ne $null -and $version -ne "")
+if($version -ne "")
 {
 	$outDir += "." + $version;
 }
@@ -50,8 +55,10 @@ if($LastExitCode -ne 0)
 Write-Host "Done";
 Write-Host;
 
-#Kopiujemy to, co zbudowaliśmy
+#Kopiujemy to potrzebne pliki
 Write-Host "Copying...";
+
+#Binarki
 Write-Host "Binaries";
 $inDir = "Bin\" + $buildArch + "\" + $buildConfiguration + "\";
 $filesToCopy = Get-ChildItem -Path $inDir | Where {$_.Name -match "(^.+exe$)|(^.+dll)$" -and -not $_.Name.EndsWith("vshost.exe")};
@@ -60,7 +67,9 @@ foreach($f in $filesToCopy)
 	Write-Host "`t" $f.Name
 	Copy-Item $f.FullName ($outDir + $f.Name);
 }
+Write-Host;
 
+#Pliki konfiguracyjne(gra ma pierwszeństwo!)
 Write-Host "Configurations";
 [System.IO.FileInfo[]]$configurationsToCopy;
 if($buildConfiguration -eq "Release")
@@ -78,9 +87,22 @@ foreach($f in $configurationsToCopy)
 	Write-Host "`t" $f.Name
 	Copy-Item $f.FullName ($outDir + $f.Name.Replace("Release.config", "config"));
 }
+Write-Host;
 
+#Jeśli mamy podaną wersję i plik README.$version istnieje - kopiujemy go.
+if($version -ne "")
+{
+	$readmeFile = "README." + $version;
+	if(Test-Path $readmeFile)
+	{
+		Write-Host "README file"
+		Copy-Item $readmeFile ($outDir + "README");
+		Write-Host;
+	}
+}
+
+#Zawartość
 Write-Host "Content";
-
 $pathToStrip = (pwd).Path + "\"
 $content = Get-ChildItem -Path "Content" -Recurse
 foreach($c in $content)
@@ -103,6 +125,7 @@ foreach($c in $content)
 Write-Host "Done";
 Write-Host;
 
+#Kompresujemy, jeśli trzeba
 if($compress)
 {
 	Write-Host "Compressing..."
