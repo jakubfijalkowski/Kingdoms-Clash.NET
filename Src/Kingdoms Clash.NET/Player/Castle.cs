@@ -7,6 +7,7 @@ using ClashEngine.NET.Interfaces.EntitiesManager;
 using ClashEngine.NET.PhysicsManager;
 using ClashEngine.NET.Resources;
 using ClashEngine.NET.ResourcesManager;
+using ClashEngine.NET.Utilities;
 using OpenTK;
 
 namespace Kingdoms_Clash.NET.Player
@@ -98,8 +99,12 @@ namespace Kingdoms_Clash.NET.Player
 			this.Health_ = this.Attributes.GetOrCreate<int>("Health");
 
 			//Tworzymy zamek.
-			this.Components.Add(new PhysicalObject());
+			var pObj = new PhysicalObject();
+			this.Components.Add(pObj);
 			this.Components.Add(new BoundingBox(Configuration.Instance.CastleSize));
+			pObj.Body.SetCollisionCategories(FarseerPhysics.Dynamics.CollisionCategory.Cat20);
+			pObj.Body.UserData = this;
+
 			Sprite s = new Sprite("CastleImage", ResourcesManager.Instance.Load<Texture>(this.Nation.CastleImage));
 			if (this.Type == PlayerType.Second)
 			{

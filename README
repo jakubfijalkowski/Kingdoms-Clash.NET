@@ -42,7 +42,12 @@ Opis struktury katalogów:
   | | * Units - jednostki
   | | * UserData - wczytywanie danych użytkownika
   | | * Guidelines.txt - wytyczne do pisania gry
+  | | * NLog.config - plik konfiguracyjny NLog dla konfiguracji Debug
+  | | * NLog.Release.config - plik konfiguracyjny NLog dla konfiguracji Release
   | ----------------------------------------------------------
   | * Kingdoms Clash.NET.Tests - testy jednostkowe gry
   | |\
   | | * Components - testy komponentów jednostek
+  * deploy.ps1 - skrypt Powershell przyspieszający proces publikacji - kompiluje grę, kopiuje wszystkie wymagane pliki i pakuję wszystko w plik *.zip
+  * README - ten plik
+  * README.(wersja) - plik "przeczytaj me" dla publicznej wersji gry

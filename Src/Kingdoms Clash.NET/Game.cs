@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ClashEngine.NET;
 using ClashEngine.NET.Utilities;
+using OpenTK.Graphics.OpenGL;
 
 namespace Kingdoms_Clash.NET
 {
@@ -91,6 +92,7 @@ namespace Kingdoms_Clash.NET
 			{
 				this.ScreensManager.AddAndActivate(new FPSCounter() { LogStatistics = 10.0f });
 			}
+			this.ScreensManager.Add(new AdditionalScreens.WinnerScreen(this.Game));
 			this.ScreensManager.AddAndActivate(this.Game);
 			//this.ScreensManager.AddAndMakeActive(this.Menu);
 			base.Init();
@@ -109,6 +111,12 @@ namespace Kingdoms_Clash.NET
 
 			base.Update(delta);
 		}
+
+		public override void Render()
+		{
+			GL.Clear(ClearBufferMask.ColorBufferBit);
+			base.Render();
+		}
 		#endregion
 
 		#region Private members
@@ -117,6 +125,9 @@ namespace Kingdoms_Clash.NET
 		/// </summary>
 		private void SetGlobals()
 		{
+			GL.Enable(EnableCap.Blend);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+
 			this.ResourcesManager.ContentDirectory = Defaults.ContentDirectory;
 			ClashEngine.NET.PhysicsManager.PhysicsManager.Instance.Gravity = new OpenTK.Vector2(0f, Configuration.Instance.Gravity);
 		}

@@ -97,7 +97,8 @@ namespace Kingdoms_Clash.NET.Units
 		public override void OnInit()
 		{
 			//Najpierw komponenty fizyczne, by dało się pobrać prawidłowy atrybut prędkości.
-			this.Components.Add(new PhysicalObject(true));
+			var pObj = new PhysicalObject(true);
+			this.Components.Add(pObj);
 			this.Components.Add(new BoundingBox(new OpenTK.Vector2(this.Description.Width, this.Description.Height)));
 
 			this.Health_ = this.Attributes.GetOrCreate<int>("Health");
@@ -106,20 +107,20 @@ namespace Kingdoms_Clash.NET.Units
 			this.Health = this.Description.Health;
 
 			//Ustawiamy właściwości ciała tak, by poruszało się po naszej myśli
-			var body = this.Attributes.Get<Body>("Body").Value; //Musi istnieć - odpowiedni komponent został dodany
-			body.SleepingAllowed = false;
-			body.FixedRotation = true;
+			pObj.Body.SleepingAllowed = false;
+			pObj.Body.FixedRotation = true;
 
-			body.UserData = this;
+			pObj.Body.UserData = this;
 
 			//Ustawiamy maskę kolizji tak by kolidowało tylko z innymi graczami
-			body.SetCollisionCategories((CollisionCategory)(1 << (int)this.Owner.Type));
+			pObj.Body.SetCollisionCategories((CollisionCategory)((int)CollisionCategory.Cat1 << (int)this.Owner.Type));
+
 			//Koliduje ze wszystkim z wyłączeniem jednostek tego samego gracza i zasobami.
-			body.SetCollidesWith(CollisionCategory.All & ~body.GetCollisionCategories() &
+			pObj.Body.SetCollidesWith(CollisionCategory.All & ~pObj.Body.GetCollisionCategories() &
 				~CollisionCategory.Cat10 & ~((CollisionCategory)((int)CollisionCategory.Cat11 << (int)this.Owner.Type)));
 
 			//I zdarzenia kolizji pomiędzy jednostkami
-			body.SetCollisionEvent((fixtureA, fixtureB, contact) =>
+			pObj.Body.SetCollisionEvent((fixtureA, fixtureB, contact) =>
 			{
 				if (fixtureB.Body.UserData is IUnit && this.CollisionWithUnit != null)
 				{

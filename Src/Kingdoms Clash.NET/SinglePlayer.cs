@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using ClashEngine.NET.Cameras;
 using ClashEngine.NET.Interfaces.EntitiesManager;
 using ClashEngine.NET.ScreensManager;
-using OpenTK.Graphics.OpenGL;
 
 namespace Kingdoms_Clash.NET
 {
@@ -76,6 +75,8 @@ namespace Kingdoms_Clash.NET
 		{
 			this.Controller.Reset();
 			this.Entities.Clear();
+
+			this.ResourceRenewalAccumulator = 0f;
 		}
 
 		/// <summary>
@@ -132,9 +133,6 @@ namespace Kingdoms_Clash.NET
 		#region Screen Members
 		public override void OnInit()
 		{
-			GL.Enable(EnableCap.Blend);
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-
 			this.Controller.GameState = this;
 
 			this.Players[0].GameState = this;
@@ -176,7 +174,6 @@ namespace Kingdoms_Clash.NET
 
 		public override void Render()
 		{
-			GL.Clear(ClearBufferMask.ColorBufferBit);
 			this.StaticEntities.Render();
 			base.Render();
 		}
@@ -231,12 +228,16 @@ namespace Kingdoms_Clash.NET
 			if (this.Players[0].Health <= 0)
 			{
 				Logger.Error("User {0} has won the match!", this.Players[1].Name);
-				throw new NotSupportedException();
+				var winnerScreen = this.Manager["WinnerScreen"] as AdditionalScreens.WinnerScreen;
+				winnerScreen.ChangeWinner(true);
+				winnerScreen.Activate();
 			}
 			else if (this.Players[1].Health <= 0)
 			{
 				Logger.Error("User {0} has won the match!", this.Players[0].Name);
-				throw new NotSupportedException();
+				var winnerScreen = this.Manager["WinnerScreen"] as AdditionalScreens.WinnerScreen;
+				winnerScreen.ChangeWinner(false);
+				winnerScreen.Activate();
 			}
 		}
 		#endregion
