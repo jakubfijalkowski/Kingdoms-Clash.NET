@@ -14,6 +14,8 @@ namespace ClashEngine.NET
 	public class SystemInformation
 		: ISystemInformation
 	{
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
+		
 		#region Singleton
 		private static SystemInformation _Instance;
 
@@ -117,7 +119,15 @@ namespace ClashEngine.NET
 			{
 				if (this.OpenGLVersion_ == null)
 				{
-					this.OpenGLVersion_ = Version.Parse(GL.GetString(StringName.Version));
+					try
+					{
+						this.OpenGLVersion_ = Version.Parse(GL.GetString(StringName.Version));
+					}
+					catch (Exception ex)
+					{
+						Logger.WarnException("Cannot parse OpenGL version string " + GL.GetString(StringName.Version), ex);
+						this.OpenGLVersion_ = new Version(0, 0, 0, 0);
+					}
 				}
 				return this.OpenGLVersion_;
 			}
@@ -133,7 +143,15 @@ namespace ClashEngine.NET
 			{
 				if (this.GLSLVersion_ == null)
 				{
-					this.GLSLVersion_ = Version.Parse(GL.GetString(StringName.Version));
+					try
+					{
+						this.GLSLVersion_ = Version.Parse(GL.GetString(StringName.ShadingLanguageVersion));
+					}
+					catch (Exception ex)
+					{
+						Logger.WarnException("Cannot parse GLSL version string " + GL.GetString(StringName.ShadingLanguageVersion), ex);
+						this.OpenGLVersion_ = new Version(0, 0, 0, 0);
+					}
 				}
 				return this.GLSLVersion_;
 			}
