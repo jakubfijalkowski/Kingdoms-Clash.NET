@@ -150,7 +150,7 @@ namespace ClashEngine.NET
 					catch (Exception ex)
 					{
 						Logger.WarnException("Cannot parse GLSL version string " + GL.GetString(StringName.ShadingLanguageVersion), ex);
-						this.OpenGLVersion_ = new Version(0, 0, 0, 0);
+						this.GLSLVersion_ = new Version(0, 0, 0, 0);
 					}
 				}
 				return this.GLSLVersion_;
