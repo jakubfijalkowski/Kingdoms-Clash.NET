@@ -65,8 +65,8 @@ namespace Kingdoms_Clash.NET
 #endif
 			if (SystemInformation.Instance.OpenGLVersion < new System.Version(1, 5))
 			{
-				Logger.Fatal("This game requires at lease OpenGL 1.5");
-				throw new System.Exception("This game requires at lease OpenGL 1.5");
+				Logger.Fatal("This game requires at least OpenGL 1.5");
+				throw new System.Exception("This game requires at least OpenGL 1.5");
 			}
 
 			this.SetGlobals();
