@@ -135,7 +135,7 @@ namespace Kingdoms_Clash.NET.UserData
 			{
 				throw new XmlException("Unit description must contain 'components' section");
 			}
-			foreach (XmlElement el in components.ChildNodes)
+			foreach (XmlElement el in components.ChildNodes.OfType<XmlElement>())
 			{
 				var componentType = this.Components.Find(t => t.Name.ToLower() == el.Name.ToLower());
 				if (componentType == null)

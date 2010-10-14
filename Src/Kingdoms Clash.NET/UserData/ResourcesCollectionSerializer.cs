@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace Kingdoms_Clash.NET.UserData
@@ -52,7 +50,7 @@ namespace Kingdoms_Clash.NET.UserData
 		/// <param name="element"></param>
 		public void Deserialize(XmlElement element)
 		{
-			foreach (System.Xml.XmlElement el in element.ChildNodes)
+			foreach (XmlElement el in element.ChildNodes.OfType<XmlElement>())
 			{
 				if (!Kingdoms_Clash.NET.Resources.ResourcesList.Instance.Exists(el.Name))
 				{
