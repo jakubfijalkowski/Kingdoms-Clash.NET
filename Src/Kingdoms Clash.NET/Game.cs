@@ -39,7 +39,7 @@ namespace Kingdoms_Clash.NET
 		/// </summary>
 		/// <param name="nations">List nacji</param>
 		public KingdomsClashNetGame(IList<INation> nations)
-			: base("Kingdom's Clash.NET",
+			: base("Kingdoms Clash.NET",
 					Configuration.Instance.WindowSize.Width, Configuration.Instance.WindowSize.Height,
 					Configuration.Instance.Fullscreen, Configuration.Instance.VSync)
 		{
