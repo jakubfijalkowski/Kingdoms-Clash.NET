@@ -88,6 +88,7 @@ namespace ClashEngine.NET.Components.Cameras
 			//Uaktualniamy tylko jeśli pozycja się różni.
 			if (this.CurrentPosition != pt || this.UpdateAlways)
 			{
+				this.CurrentPosition = pt;
 				this.NeedUpdate = true;
 			}
 		}
@@ -154,7 +155,11 @@ namespace ClashEngine.NET.Components.Cameras
 		/// </summary>
 		public override void Render()
 		{
-			this.UpdateMatrix();
+			if (this.NeedUpdate || this.UpdateAlways)
+			{
+				this.UpdateMatrix();
+				this.NeedUpdate = false;
+			}
 		}
 		#endregion
 
