@@ -33,12 +33,6 @@ namespace Kingdoms_Clash.NET.Interfaces.Map
 		Vector2 SecondCastle { get; }
 
 		/// <summary>
-		/// Resetuje stan gry(zaczyna ją od nowa).
-		/// Po resecie mapa powinna być tak samo dziewicza jak przed.
-		/// </summary>
-		void Reset();
-
-		/// <summary>
 		/// Pobiera wysokość danego punktu.
 		/// </summary>
 		/// <param name="x">Ponkt na osi.</param>

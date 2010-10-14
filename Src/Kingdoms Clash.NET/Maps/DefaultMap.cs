@@ -33,10 +33,6 @@ namespace Kingdoms_Clash.NET.Maps
 
 		public Vector2 SecondCastle { get; private set; }
 
-		public void Reset()
-		{
-		}
-
 		public float GetHeight(float x)
 		{
 			//Wybieramy kawałek na którym jest x

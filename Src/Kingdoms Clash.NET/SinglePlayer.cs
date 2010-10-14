@@ -23,6 +23,11 @@ namespace Kingdoms_Clash.NET
 		
 		#region Private Fields
 		/// <summary>
+		/// Manager encji "stałych" - graczy, kamery i mapy.
+		/// </summary>
+		private IEntitiesManager StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager();
+
+		/// <summary>
 		/// Jednostki czekające na usunięcie.
 		/// </summary>
 		private List<IGameEntity> ToRemove = new List<IGameEntity>();
@@ -70,6 +75,7 @@ namespace Kingdoms_Clash.NET
 		public void Reset()
 		{
 			this.Controller.Reset();
+			this.Entities.Clear();
 		}
 
 		/// <summary>
@@ -137,15 +143,15 @@ namespace Kingdoms_Clash.NET
 			this.Players[1].GameState = this;
 			this.Players[1].Type = PlayerType.Second;
 
-			this.Entities.Add(new OrthoCamera(
+			this.StaticEntities.Add(new OrthoCamera(
 				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + Configuration.Instance.MapMargin, Configuration.Instance.ScreenSize.Y)),
 				Configuration.Instance.ScreenSize,
 				Configuration.Instance.CameraSpeed,
 				true));
 
-			this.Entities.Add(this.Map);
-			this.Entities.Add(this.Players[0]);
-			this.Entities.Add(this.Players[1]);
+			this.StaticEntities.Add(this.Map);
+			this.StaticEntities.Add(this.Players[0]);
+			this.StaticEntities.Add(this.Players[1]);
 
 			//Od tej chwili to kontroler jest odpowiedzialny za wszystko.
 			this.Controller.OnGameStarted();
@@ -164,14 +170,33 @@ namespace Kingdoms_Clash.NET
 			}
 			this.ToRemove.Clear();
 
+			this.StaticEntities.Update(delta);
 			base.Update(delta);
 		}
 
 		public override void Render()
 		{
 			GL.Clear(ClearBufferMask.ColorBufferBit);
+			this.StaticEntities.Render();
 			base.Render();
 		}
+
+		#region Events
+		/// <summary>
+		/// Po naciśnięciu R resetuje grę.
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns></returns>
+		public override bool KeyDown(OpenTK.Input.KeyboardKeyEventArgs e)
+		{
+			if (e.Key == OpenTK.Input.Key.R)
+			{
+				this.Reset();
+				return true;
+			}
+			return false;
+		}
+		#endregion
 		#endregion
 
 		#region Constructors

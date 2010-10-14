@@ -185,8 +185,11 @@ namespace Kingdoms_Clash.NET.Controllers
 		#region Private
 		private void SetDefaults()
 		{
-			this.GameState.Players[0].Health = 100;
-			this.GameState.Players[1].Health = 100;
+			foreach (var player in this.GameState.Players)
+			{
+				player.Units.Clear();
+				player.Health = 100;
+			}
 
 			//Testowe, początkowe zasoby
 			foreach (var res in Resources.ResourcesList.Instance)

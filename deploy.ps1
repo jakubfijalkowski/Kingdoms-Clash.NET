@@ -3,11 +3,16 @@
 # Parametry:
 #   [string] version - ciąg znaków informujący o wersji
 #   [switch] compress - czy tworzyć archiwum
+#   [switch] appendArch - czy dodawać do fodleru wynikowego architekturę
+#   [string] msBuildPath - ścieżka do msbuild
+#   [string] buildConfiguration - konfiguracja
+#   [string] buildArch - architektura
+#   [string] 7z - ścieżka/polecenie do 7z.exe
 #----------------------------------------------------
 param(
 	[string]$version = "",
-	[switch]$compress = $false,
-	[switch]$appendArch = $false,
+	[switch]$compress = $true,
+	[switch]$appendArch = $true,
 	[string]$msBuildPath = "C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe",
 	[string]$buildConfiguration = "Release",
 	[string]$buildArch = "x86",
@@ -16,11 +21,16 @@ param(
 
 #Tworzymy folder wyjściowy
 Write-Host "Preparing..."	
-$outDir = "Deploy\Kingdoms Clash.NET." + $version + "\";
+$outDir = "Deploy\Kingdoms_Clash.NET";
+if($version -ne $null -and $version -ne "")
+{
+	$outDir += "." + $version;
+}
 if($appendArch)
 {
-	$outDir += "." + $buildArch
+	$outDir += "." + $buildArch;
 }
+$outDir += "\";
 
 if(-not (Test-Path $outDir))
 {
@@ -42,15 +52,34 @@ Write-Host;
 
 #Kopiujemy to, co zbudowaliśmy
 Write-Host "Copying...";
-Write-Host "Binaries"
+Write-Host "Binaries";
 $inDir = "Bin\" + $buildArch + "\" + $buildConfiguration + "\";
-$filesToCopy = Get-ChildItem -Path $inDir | Where {$_.Name -match "(^.+exe$)|(^.+dll)$|(^.+config)$" -and -not $_.Name.EndsWith("vshost.exe")};
+$filesToCopy = Get-ChildItem -Path $inDir | Where {$_.Name -match "(^.+exe$)|(^.+dll)$" -and -not $_.Name.EndsWith("vshost.exe")};
 foreach($f in $filesToCopy)
 {
 	Write-Host "`t" $f.Name
 	Copy-Item $f.FullName ($outDir + $f.Name);
 }
-Write-Host "Content"
+
+Write-Host "Configurations";
+[System.IO.FileInfo[]]$configurationsToCopy;
+if($buildConfiguration -eq "Release")
+{
+	$configurationsToCopy += Get-ChildItem -Path "Src\ClashEngine.NET\" -Filter "*.Release.config"
+	$configurationsToCopy += Get-ChildItem -Path "Src\Kingdoms Clash.NET\" -Filter "*.Release.config"
+}
+else
+{
+	$configurationsToCopy += Get-ChildItem -Path "Src\ClashEngine.NET\" | Where { $_.Name.EndsWith(".config") -and -not $_.Name.EndsWith("Release.config") }
+	$configurationsToCopy += Get-ChildItem -Path "Src\Kingdoms Clash.NET\" | Where { $_.Name.EndsWith(".config") -and -not $_.Name.EndsWith("Release.config") }
+}
+foreach($f in $configurationsToCopy)
+{
+	Write-Host "`t" $f.Name
+	Copy-Item $f.FullName ($outDir + $f.Name.Replace("Release.config", "config"));
+}
+
+Write-Host "Content";
 
 $pathToStrip = (pwd).Path + "\"
 $content = Get-ChildItem -Path "Content" -Recurse

@@ -5,3 +5,4 @@
 *.bat
 TestResult.xml
 *.VisualState.xml
+[dD]eploy
