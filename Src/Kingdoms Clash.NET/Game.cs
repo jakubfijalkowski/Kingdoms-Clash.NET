@@ -66,7 +66,10 @@ namespace Kingdoms_Clash.NET
 			if (SystemInformation.Instance.OpenGLVersion < new System.Version(1, 5))
 			{
 				Logger.Fatal("This game requires at least OpenGL 1.5");
-				throw new System.Exception("This game requires at least OpenGL 1.5");
+				System.Windows.Forms.MessageBox.Show("This game requires at least OpenGL 1.5", "Error",
+					System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+				this.Exit();
+				return;
 			}
 
 			this.SetGlobals();
@@ -86,7 +89,10 @@ namespace Kingdoms_Clash.NET
 			if (nation1 == null || nation2 == null)
 			{
 				Logger.Fatal("Cannot find nation for player 1 or 2");
-				throw new System.ArgumentException("Cannot find nation for player 1 or 2");
+				System.Windows.Forms.MessageBox.Show("Cannot find nation for player 1 or 2", "Error",
+					System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+				this.Exit();
+				return;
 			}
 
 			this.Game = new SinglePlayer();
