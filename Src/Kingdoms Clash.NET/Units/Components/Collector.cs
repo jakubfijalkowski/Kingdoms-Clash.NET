@@ -115,6 +115,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 				{
 					throw new ClashEngine.NET.Exceptions.NotFoundException("Body");
 				}
+				//Dodajemy kolizję, by kolidował z zasobami
 				body.Value.AddCollidesWith(CollisionCategory.Cat10);
 				body.Value.AddCollisionCategories((CollisionCategory)((int)CollisionCategory.Cat11 << (int)(this.Owner as IUnit).Owner.Type));
 			}
@@ -138,6 +139,11 @@ namespace Kingdoms_Clash.NET.Units.Components
 					this.CarriedResource.Value = (this.Description as ICollector).MaxCargoSize;
 				}
 				this.VelocityMultiplier.Value *= -1f;
+
+				//Dzięki temu nie będziemy więcej kolidować z zasobami.
+				var body = this.Owner.Attributes.GetOrCreate<Body>("Body");
+				body.Value.RemoveCollidesWith(CollisionCategory.Cat10);
+				body.Value.RemoveCollisionCategories((CollisionCategory)((int)CollisionCategory.Cat11 << (int)(this.Owner as IUnit).Owner.Type));
 				return true;
 			}
 
