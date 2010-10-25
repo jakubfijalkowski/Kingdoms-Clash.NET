@@ -46,7 +46,7 @@ Write-Host;
 
 #Budujemy
 Write-Host "Building..."
-&$msBuildPath /nologo /noconlog /fl /flp:"LogFile=Deploy/build errors.log;errorsonly" /p:"Configuration=$buildConfiguration" -p:"Architecture=$buildArch"
+&$msBuildPath /nologo /noconlog /fl /flp:"LogFile=Deploy/build errors.log;errorsonly" /p:"Configuration=$buildConfiguration" -p:"Architecture=""$buildArch"""
 if($LastExitCode -ne 0)
 {
 	Write-Host "Errors occured, see Deploy/build errors.log";
