@@ -62,7 +62,7 @@ namespace ClashEngine.NET
 			Logger.Info("\tVSync: {0}", (useVSync ? "on" : "off"));
 			this.Name = name;
 			this.Window = new GameWindow(this, name, width, height, fullscreen, useVSync, mode);
-			(Input as Input).Init(this.Window.Keyboard, this.Window.Mouse, this.Window.Joysticks);
+			new Input(this.Window, true);
 			this.ScreensManager = new ClashEngine.NET.ScreensManager.ScreensManager();
 			Logger.Info("Window created");
 		}

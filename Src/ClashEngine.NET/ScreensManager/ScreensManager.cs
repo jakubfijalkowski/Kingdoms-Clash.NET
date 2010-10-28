@@ -5,6 +5,7 @@ using OpenTK.Input;
 
 namespace ClashEngine.NET.ScreensManager
 {
+	using Interfaces;
 	using Interfaces.ScreensManager;
 
 	/// <summary>
@@ -351,43 +352,6 @@ namespace ClashEngine.NET.ScreensManager
 		}
 		#endregion
 
-		#region Firing events
-		//Metody obsługujące zdarzenia.
-		#region Keyboard
-		void FireKeyDown(object sender, KeyboardKeyEventArgs e)
-		{
-			this.FireEvent(s => s.KeyDown(e));
-		}
-
-		void FireKeyUp(object sender, KeyboardKeyEventArgs e)
-		{
-			this.FireEvent(s => s.KeyUp(e));
-		}
-		#endregion
-
-		#region Mouse
-		void FireMouseButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			this.FireEvent(s => s.MouseButtonDown(e));
-		}
-
-		void FireMouseButtonUp(object sender, MouseButtonEventArgs e)
-		{
-			this.FireEvent(s => s.MouseButtonUp(e));
-		}
-
-		void FireMouseMove(object sender, MouseMoveEventArgs e)
-		{
-			this.FireEvent(s => s.MouseMove(e));
-		}
-
-		void FireMouseWheelChanged(object sender, MouseWheelEventArgs e)
-		{
-			this.FireEvent(s => s.MouseWheelChanged(e));
-		}
-		#endregion
-		#endregion
-
 		#region IDisposable members
 		public void Dispose()
 		{
@@ -402,13 +366,10 @@ namespace ClashEngine.NET.ScreensManager
 		{
 			if (addEvents)
 			{
-				Input.Instance.Keyboard.KeyDown += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(FireKeyDown);
-				Input.Instance.Keyboard.KeyUp += new EventHandler<OpenTK.Input.KeyboardKeyEventArgs>(FireKeyUp);
-
-				Input.Instance.Mouse.ButtonDown += new EventHandler<MouseButtonEventArgs>(FireMouseButtonDown);
-				Input.Instance.Mouse.ButtonUp += new EventHandler<MouseButtonEventArgs>(FireMouseButtonUp);
-				Input.Instance.Mouse.Move += new EventHandler<MouseMoveEventArgs>(FireMouseMove);
-				Input.Instance.Mouse.WheelChanged += new EventHandler<MouseWheelEventArgs>(FireMouseWheelChanged);
+				Input.Instance.KeyChanged += new EventHandler<KeyEventArgs>((send, e) => this.FireEvent(s => s.KeyChanged(e)));
+				Input.Instance.MouseButton += new EventHandler<MouseButtonEventArgs>((send, e) => this.FireEvent(s => s.MouseButton(e)));
+				Input.Instance.MouseMove += new EventHandler<MouseMoveEventArgs>((send, e) => this.FireEvent(s => s.MouseMove(e)));
+				Input.Instance.MouseWheel += new EventHandler<MouseWheelEventArgs>((send, e) => this.FireEvent(s => s.MouseWheel(e)));
 			}
 		}
 

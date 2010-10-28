@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using OpenTK.Input;
 
 namespace ClashEngine.NET
@@ -11,9 +11,8 @@ namespace ClashEngine.NET
 	public class Input
 		: IInput
 	{
-		private KeyboardDevice _Keyboard;
-		private MouseDevice _Mouse;
-		private IList<JoystickDevice> _Joysticks;
+		private bool[] KeyStates = new bool[(int)Key.LastKey];
+		private bool[] ButtonStates = new bool[(int)OpenTK.Input.MouseButton.LastButton];
 
 		#region Singleton
 		private static Input _Instance;
@@ -25,54 +24,150 @@ namespace ClashEngine.NET
 		{
 			get
 			{
-				if (_Instance == null)
-				{
-					_Instance = new Input();
-				}
 				return _Instance;
 			}
 		}
 		#endregion
 
-		#region IInput members
+		#region IInput Members
+		#region Keyboard
 		/// <summary>
-		/// Klawiatura.
+		/// Pobiera stan danego klawisza.
 		/// </summary>
-		public KeyboardDevice Keyboard
+		/// <param name="index">Indeks klawisza.</param>
+		/// <returns>Czy został wciśnięty.</returns>
+		public bool this[Key index]
 		{
-			get { return this._Keyboard; }
+			get { return this.KeyStates[(int)index]; }
+			private set { this.KeyStates[(int)index] = value; }
 		}
 
 		/// <summary>
-		/// Mysz.
+		/// Ostatni znak wprowadzony przez użytkownika.
+		/// 0, gdy nie wprowadzono nic.
 		/// </summary>
-		public MouseDevice Mouse
+		public char LastCharacter { get; set; }
+		#endregion
+
+		#region Mouse
+		/// <summary>
+		/// Pozycja myszki.
+		/// </summary>
+		public System.Drawing.Point MousePosition { get; private set; }
+
+		/// <summary>
+		/// Pobiera stan danego przycisku.
+		/// </summary>
+		/// <param name="index">Przycisk.</param>
+		/// <returns>Czy jest wciśnięty</returns>
+		public bool this[MouseButton index]
 		{
-			get { return this._Mouse; }
+			get { return this.ButtonStates[(int)index]; }
+			private set { this.ButtonStates[(int)index] = value; }
 		}
 
 		/// <summary>
-		/// Lista joysticków zainstalowanych w systemie.
+		/// Położenie kółka myszki.
 		/// </summary>
-		public IList<JoystickDevice> Joysticks
+		public float Wheel { get; private set; }
+		#endregion
+
+		#region Events
+		/// <summary>
+		/// Zdarzenie klawiatury - albo naciśnięcie, albo zwolnienie klawisza.
+		/// </summary>
+		public event EventHandler<KeyEventArgs> KeyChanged;
+
+		/// <summary>
+		/// Zdarzenie naciśnięca/zwolnienia przycisku myszy.
+		/// </summary>
+		public event EventHandler<MouseButtonEventArgs> MouseButton;
+
+		/// <summary>
+		/// Zdarzenie zmiany położenia myszki.
+		/// </summary>
+		public event EventHandler<MouseMoveEventArgs> MouseMove;
+
+		/// <summary>
+		/// Zdarzenie zmiany kółka myszy.
+		/// </summary>
+		public event EventHandler<MouseWheelEventArgs> MouseWheel;
+		#endregion
+		#endregion
+
+		#region Constructors
+		internal Input(OpenTK.GameWindow wnd, bool isMainInput)
 		{
-			get { return this._Joysticks; }
+			wnd.Mouse.Move += new EventHandler<MouseMoveEventArgs>(Window_MouseMove);
+			wnd.Mouse.ButtonDown += new EventHandler<MouseButtonEventArgs>(Window_ButtonEvent);
+			wnd.Mouse.ButtonUp += new EventHandler<MouseButtonEventArgs>(Window_ButtonEvent);
+			wnd.Mouse.WheelChanged += new EventHandler<MouseWheelEventArgs>(Window_WheelChanged);
+
+			wnd.Keyboard.KeyDown += new EventHandler<KeyboardKeyEventArgs>(Window_KeyDown);
+			wnd.Keyboard.KeyUp += new EventHandler<KeyboardKeyEventArgs>(Window_KeyUp);
+			wnd.KeyPress += new EventHandler<OpenTK.KeyPressEventArgs>(Window_Text);
+
+			if (isMainInput)
+			{
+				_Instance = this;
+			}
 		}
 		#endregion
 
-		#region Initialization
-		/// <summary>
-		/// Inicjalizuje klasę wejścia.
-		/// Niestety, OpenTK nie udostępnia wejścia dostępnego z innych klas, więc musimy to zainicjalizować w obiekcie gry.
-		/// </summary>
-		/// <param name="keyboard"></param>
-		/// <param name="mouse"></param>
-		/// <param name="joysticks"></param>
-		internal void Init(KeyboardDevice keyboard, MouseDevice mouse, IList<JoystickDevice> joysticks)
+		#region Events
+		void Window_MouseMove(object sender, MouseMoveEventArgs e)
 		{
-			this._Keyboard = keyboard;
-			this._Mouse = mouse;
-			this._Joysticks = joysticks;
+			this.MousePosition = e.Position;
+
+			if (this.MouseMove != null)
+			{
+				this.MouseMove(this, e);
+			}
+		}
+
+		void Window_ButtonEvent(object sender, MouseButtonEventArgs e)
+		{
+			this[e.Button] = e.IsPressed;
+
+			if (this.MouseButton != null)
+			{
+				this.MouseButton(this, e);
+			}
+		}
+
+		void Window_WheelChanged(object sender, MouseWheelEventArgs e)
+		{
+			this.Wheel = e.ValuePrecise;
+
+			if (this.MouseWheel != null)
+			{
+				this.MouseWheel(this, e);
+			}
+		}
+
+		void Window_KeyDown(object sender, KeyboardKeyEventArgs e)
+		{
+			this[e.Key] = true;
+
+			if (this.KeyChanged != null)
+			{
+				this.KeyChanged(this, new KeyEventArgs(e.Key, true));
+			}
+		}
+
+		void Window_KeyUp(object sender, KeyboardKeyEventArgs e)
+		{
+			this[e.Key] = false;
+
+			if (this.KeyChanged != null)
+			{
+				this.KeyChanged(this, new KeyEventArgs(e.Key, false));
+			}
+		}
+
+		void Window_Text(object sender, OpenTK.KeyPressEventArgs e)
+		{
+			this.LastCharacter = e.KeyChar;
 		}
 		#endregion
 	}

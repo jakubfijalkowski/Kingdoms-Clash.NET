@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ClashEngine.NET.Cameras;
+using ClashEngine.NET.Interfaces;
 using ClashEngine.NET.Interfaces.EntitiesManager;
 using ClashEngine.NET.ScreensManager;
 
@@ -184,9 +185,9 @@ namespace Kingdoms_Clash.NET
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns></returns>
-		public override bool KeyDown(OpenTK.Input.KeyboardKeyEventArgs e)
+		public override bool KeyChanged(KeyEventArgs e)
 		{
-			if (e.Key == OpenTK.Input.Key.R)
+			if (e.Key == OpenTK.Input.Key.R && e.IsPressed)
 			{
 				this.Reset();
 				return true;

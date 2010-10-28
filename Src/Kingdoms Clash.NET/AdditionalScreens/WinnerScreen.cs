@@ -1,6 +1,7 @@
 ﻿using ClashEngine.NET.Cameras;
 using ClashEngine.NET.Components;
 using ClashEngine.NET.EntitiesManager;
+using ClashEngine.NET.Interfaces;
 using ClashEngine.NET.Resources;
 using ClashEngine.NET.ResourcesManager;
 using ClashEngine.NET.ScreensManager;
@@ -49,9 +50,9 @@ namespace Kingdoms_Clash.NET.AdditionalScreens
 		}
 
 		#region Events
-		public override bool KeyDown(OpenTK.Input.KeyboardKeyEventArgs e)
+		public override bool KeyChanged(KeyEventArgs e)
 		{
-			if (e.Key == OpenTK.Input.Key.R)
+			if (e.Key == OpenTK.Input.Key.R && e.IsPressed)
 			{
 				this.GameState.Reset();
 				this.Deactivate();

@@ -54,7 +54,7 @@ namespace Kingdoms_Clash.NET.Player
 
 				for (OpenTK.Input.Key i = startK; i <= endK; i++)
 				{
-					if (Input.Instance.Keyboard[i])
+					if (Input.Instance[i])
 					{
 						unitNo = i - startK;
 						break;

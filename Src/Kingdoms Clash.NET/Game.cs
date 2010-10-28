@@ -115,8 +115,8 @@ namespace Kingdoms_Clash.NET
 		{
 #if DEBUG
 			//Dodatkowe skróty na wyjście z gry.
-			if (this.Input.Keyboard[OpenTK.Input.Key.Escape] || //Escape
-				((this.Input.Keyboard[OpenTK.Input.Key.AltLeft] || this.Input.Keyboard[OpenTK.Input.Key.AltRight]) && this.Input.Keyboard[OpenTK.Input.Key.F4])) //Alt + F4
+			if (this.Input[OpenTK.Input.Key.Escape] || //Escape
+				((this.Input[OpenTK.Input.Key.AltLeft] || this.Input[OpenTK.Input.Key.AltRight]) && this.Input[OpenTK.Input.Key.F4])) //Alt + F4
 			{
 				this.Exit();
 			}

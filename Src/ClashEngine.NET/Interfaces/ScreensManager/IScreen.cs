@@ -111,34 +111,20 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 
 		#region Keyboard
 		/// <summary>
-		/// Zdarzenie naciśnięcia klawisza.
+		/// Zdarzenie naciśnięcia/zwolnienia klawisza.
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		bool KeyDown(KeyboardKeyEventArgs e);
-
-		/// <summary>
-		/// Zdarzenie zwolnienia klawisza.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		bool KeyUp(KeyboardKeyEventArgs e);
+		bool KeyChanged(KeyEventArgs e);
 		#endregion
 
 		#region Mouse
 		/// <summary>
-		/// Zdarzenie naciśnięcia przycisku myszy.
+		/// Zdarzenie naciśnięcia/zwolnienia przycisku myszy.
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		bool MouseButtonDown(MouseButtonEventArgs e);
-
-		/// <summary>
-		/// Zdarzenie zwolnienia przycisku myszy.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		bool MouseButtonUp(MouseButtonEventArgs e);
+		bool MouseButton(MouseButtonEventArgs e);
 
 		/// <summary>
 		/// Zdarzenie poruszenia myszy.
@@ -152,7 +138,7 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns>Czy zostało obsłużonę.</returns>
-		bool MouseWheelChanged(MouseWheelEventArgs e);
+		bool MouseWheel(MouseWheelEventArgs e);
 		#endregion
 		#endregion
 	}

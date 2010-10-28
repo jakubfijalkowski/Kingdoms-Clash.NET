@@ -1,28 +1,110 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Drawing;
 using OpenTK.Input;
 
 namespace ClashEngine.NET.Interfaces
 {
+	#region Event data classes
+	/// <summary>
+	/// Dane do zdarzenia klawiatury.
+	/// </summary>
+	public class KeyEventArgs
+		: EventArgs
+	{
+		/// <summary>
+		/// Klawisz.
+		/// </summary>
+		public Key Key { get; private set; }
+		
+		/// <summary>
+		/// Czy jest wciśnięty, czy puszczony.
+		/// </summary>
+		public bool IsPressed { get; private set; }
+
+		public KeyEventArgs(Key key, bool isPressed)
+		{
+			this.Key = key;
+			this.IsPressed = isPressed;
+		}
+	}
+	#endregion
+	
 	/// <summary>
 	/// Bazowy interfejs dla wejścia.
 	/// </summary>
 	public interface IInput
 	{
-		#region Properties
+		#region Keyboard
 		/// <summary>
-		/// Klawiatura.
+		/// Pobiera stan danego klawisza.
 		/// </summary>
-		KeyboardDevice Keyboard { get; }
+		/// <param name="index">Indeks klawisza.</param>
+		/// <returns>Czy został wciśnięty.</returns>
+		bool this[Key index] { get; }
 
 		/// <summary>
-		/// Mysz.
+		/// Ostatni znak wprowadzony przez użytkownika.
+		/// 0, gdy nie wprowadzono nic.
 		/// </summary>
-		MouseDevice Mouse { get; }
-
-		/// <summary>
-		/// Lista joysticków zainstalowanych w systemie.
-		/// </summary>
-		IList<JoystickDevice> Joysticks { get; }
+		char LastCharacter { get; set; }
 		#endregion
+
+		#region Mouse
+		/// <summary>
+		/// Pozycja myszki.
+		/// </summary>
+		Point MousePosition { get; }
+
+		/// <summary>
+		/// Pobiera stan danego przycisku.
+		/// </summary>
+		/// <param name="index">Przycisk.</param>
+		/// <returns>Czy jest wciśnięty</returns>
+		bool this[MouseButton index] { get; }
+
+		/// <summary>
+		/// Położenie kółka myszki.
+		/// </summary>
+		float Wheel { get; }
+		#endregion
+
+		#region Events
+		/// <summary>
+		/// Zdarzenie klawiatury - albo naciśnięcie, albo zwolnienie klawisza.
+		/// </summary>
+		event EventHandler<KeyEventArgs> KeyChanged;
+
+		/// <summary>
+		/// Zdarzenie naciśnięca/zwolnienia przycisku myszy.
+		/// </summary>
+		event EventHandler<MouseButtonEventArgs> MouseButton;
+
+		/// <summary>
+		/// Zdarzenie zmiany położenia myszki.
+		/// </summary>
+		event EventHandler<MouseMoveEventArgs> MouseMove;
+
+		/// <summary>
+		/// Zdarzenie zmiany kółka myszy.
+		/// </summary>
+		event EventHandler<MouseWheelEventArgs> MouseWheel;
+		#endregion
+
+		//#region Properties
+		///// <summary>
+		///// Klawiatura.
+		///// </summary>
+		//KeyboardDevice Keyboard { get; }
+
+		///// <summary>
+		///// Mysz.
+		///// </summary>
+		//MouseDevice Mouse { get; }
+
+		///// <summary>
+		///// Lista joysticków zainstalowanych w systemie.
+		///// </summary>
+		//IList<JoystickDevice> Joysticks { get; }
+		//#endregion
 	}
 }
