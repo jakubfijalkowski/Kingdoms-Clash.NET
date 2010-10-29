@@ -26,5 +26,12 @@ namespace ClashEngine.NET.Interfaces.Gui
 		/// <param name="id">Identyfikator kontrolki.</param>
 		/// <returns>Nr akcji bądź 0, gdy żadna akcja nie zaszła.</returns>
 		int Control(string id);
+
+		/// <summary>
+		/// Usuwa kontrolkę o wskazanym ID.
+		/// </summary>
+		/// <param name="id">Identyfikator.</param>
+		/// <returns>Czy udało się usunąć kontrolkę.</returns>
+		bool Remove(string id);
 	}
 }

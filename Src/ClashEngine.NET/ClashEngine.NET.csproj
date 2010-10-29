@@ -87,6 +87,8 @@
     <Compile Include="Exceptions\ArgumentNotExistsException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Gui\GuiContainer.cs" />
+    <Compile Include="Gui\GuiScreen.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Interfaces\Cameras\IOrthoCamera.cs" />
     <Compile Include="Interfaces\Components\Cameras\IOrthoCamera.cs" />
@@ -95,7 +97,10 @@
     <Compile Include="Interfaces\EntitiesManager\IAttributesCollection.cs" />
     <Compile Include="Interfaces\EntitiesManager\IComponentsCollection.cs" />
     <Compile Include="Interfaces\EntitiesManager\IRenderableComponentsCollection.cs" />
+    <Compile Include="Interfaces\Gui\IGuiContainer.cs" />
     <Compile Include="Interfaces\Gui\IGuiControl.cs" />
+    <Compile Include="Interfaces\Gui\IGuiEntity.cs" />
+    <Compile Include="Interfaces\Gui\IGuiScreen.cs" />
     <Compile Include="Interfaces\Gui\IUIData.cs" />
     <Compile Include="Interfaces\IInput.cs" />
     <Compile Include="Interfaces\IMainThreadCallbacksManager.cs" />
