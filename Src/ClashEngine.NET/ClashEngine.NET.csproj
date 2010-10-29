@@ -95,6 +95,8 @@
     <Compile Include="Interfaces\EntitiesManager\IAttributesCollection.cs" />
     <Compile Include="Interfaces\EntitiesManager\IComponentsCollection.cs" />
     <Compile Include="Interfaces\EntitiesManager\IRenderableComponentsCollection.cs" />
+    <Compile Include="Interfaces\Gui\IGuiControl.cs" />
+    <Compile Include="Interfaces\Gui\IUIData.cs" />
     <Compile Include="Interfaces\IInput.cs" />
     <Compile Include="Interfaces\IMainThreadCallbacksManager.cs" />
     <Compile Include="Interfaces\Components\ISprite.cs" />

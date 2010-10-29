@@ -89,22 +89,5 @@ namespace ClashEngine.NET.Interfaces
 		/// </summary>
 		event EventHandler<MouseWheelEventArgs> MouseWheel;
 		#endregion
-
-		//#region Properties
-		///// <summary>
-		///// Klawiatura.
-		///// </summary>
-		//KeyboardDevice Keyboard { get; }
-
-		///// <summary>
-		///// Mysz.
-		///// </summary>
-		//MouseDevice Mouse { get; }
-
-		///// <summary>
-		///// Lista joysticków zainstalowanych w systemie.
-		///// </summary>
-		//IList<JoystickDevice> Joysticks { get; }
-		//#endregion
 	}
 }
