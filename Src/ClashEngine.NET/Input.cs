@@ -4,6 +4,7 @@ using OpenTK.Input;
 namespace ClashEngine.NET
 {
 	using Interfaces;
+	using OpenTK;
 
 	/// <summary>
 	/// Klasa wejścia.
@@ -53,7 +54,7 @@ namespace ClashEngine.NET
 		/// <summary>
 		/// Pozycja myszki.
 		/// </summary>
-		public System.Drawing.Point MousePosition { get; private set; }
+		public Vector2 MousePosition { get; private set; }
 
 		/// <summary>
 		/// Pobiera stan danego przycisku.
@@ -117,7 +118,7 @@ namespace ClashEngine.NET
 		#region Events
 		void Window_MouseMove(object sender, MouseMoveEventArgs e)
 		{
-			this.MousePosition = e.Position;
+			this.MousePosition = new Vector2(e.X, e.Y);
 
 			if (this.MouseMove != null)
 			{

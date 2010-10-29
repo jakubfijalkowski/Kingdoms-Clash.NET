@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Drawing;
+using OpenTK;
 using OpenTK.Input;
 
 namespace ClashEngine.NET.Interfaces
@@ -53,7 +53,7 @@ namespace ClashEngine.NET.Interfaces
 		/// <summary>
 		/// Pozycja myszki.
 		/// </summary>
-		Point MousePosition { get; }
+		Vector2 MousePosition { get; }
 
 		/// <summary>
 		/// Pobiera stan danego przycisku.
