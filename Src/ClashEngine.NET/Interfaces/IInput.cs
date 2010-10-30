@@ -56,6 +56,22 @@ namespace ClashEngine.NET.Interfaces
 		Vector2 MousePosition { get; }
 
 		/// <summary>
+		/// Rozmiar okna.
+		/// Nie jest to stricte związane z wejściem, ale jest wymagane, by poprawnie przekształcić pozycję myszki.
+		/// </summary>
+		Vector2 WindowSize { get; set; }
+
+		/// <summary>
+		/// "Transformacja" myszki. Służy skalowania pozycji myszki do, np., aktualnej kamery.
+		/// </summary>
+		System.Drawing.RectangleF MouseTransformation { get; set; }
+
+		/// <summary>
+		/// Pozycja myszki przekształcona przez <see cref="MouseTransformation"/>.
+		/// </summary>
+		Vector2 TransformedMousePosition { get; }
+
+		/// <summary>
 		/// Pobiera stan danego przycisku.
 		/// </summary>
 		/// <param name="index">Przycisk.</param>

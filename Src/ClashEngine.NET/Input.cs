@@ -14,6 +14,8 @@ namespace ClashEngine.NET
 	{
 		private bool[] KeyStates = new bool[(int)Key.LastKey];
 		private bool[] ButtonStates = new bool[(int)OpenTK.Input.MouseButton.LastButton];
+		private System.Drawing.RectangleF _MouseTransformation = System.Drawing.RectangleF.Empty;
+		private Vector2 _MousePosition = Vector2.Zero;
 
 		#region Singleton
 		private static Input _Instance;
@@ -54,7 +56,45 @@ namespace ClashEngine.NET
 		/// <summary>
 		/// Pozycja myszki.
 		/// </summary>
-		public Vector2 MousePosition { get; private set; }
+		public Vector2 MousePosition
+		{
+			get
+			{
+				return this._MousePosition;
+			}
+			private set
+			{
+				this._MousePosition = value;
+				this.TransformMousePosition();
+			}
+		}
+
+		/// <summary>
+		/// "Transformacja" myszki. Służy skalowania pozycji myszki do, np., aktualnej kamery.
+		/// </summary>
+		public System.Drawing.RectangleF MouseTransformation
+		{
+			get
+			{
+				return this._MouseTransformation;
+			}
+			set
+			{
+				this._MouseTransformation = value;
+				this.TransformMousePosition();
+			}
+		}
+
+		/// <summary>
+		/// Rozmiar okna.
+		/// Nie jest to stricte związane z wejściem, ale jest wymagane, by poprawnie przekształcić pozycję myszki.
+		/// </summary>
+		public Vector2 WindowSize { get; set; }
+
+		/// <summary>
+		/// Pozycja myszki przekształcona przez <see cref="MouseTransformation"/>.
+		/// </summary>
+		public Vector2 TransformedMousePosition { get; private set; }
 
 		/// <summary>
 		/// Pobiera stan danego przycisku.
@@ -107,6 +147,8 @@ namespace ClashEngine.NET
 			wnd.Keyboard.KeyDown += new EventHandler<KeyboardKeyEventArgs>(Window_KeyDown);
 			wnd.Keyboard.KeyUp += new EventHandler<KeyboardKeyEventArgs>(Window_KeyUp);
 			wnd.KeyPress += new EventHandler<OpenTK.KeyPressEventArgs>(Window_Text);
+
+			this.WindowSize = new Vector2(wnd.Size.Width, wnd.Size.Height);
 
 			if (isMainInput)
 			{
@@ -169,6 +211,25 @@ namespace ClashEngine.NET
 		void Window_Text(object sender, OpenTK.KeyPressEventArgs e)
 		{
 			this.LastCharacter = e.KeyChar;
+		}
+		#endregion
+
+		#region Private methods
+		/// <summary>
+		/// Przekształca pozycje myszki.
+		/// </summary>
+		private void TransformMousePosition()
+		{
+			if (!this.MouseTransformation.IsEmpty)
+			{
+				this.MousePosition = new Vector2(
+					this.MouseTransformation.Left + this.MousePosition.X / this.WindowSize.X * this.MouseTransformation.Width,
+					this.MouseTransformation.Top + this.MousePosition.Y / this.WindowSize.Y * this.MouseTransformation.Height);
+			}
+			else
+			{
+				this.TransformedMousePosition = this.MousePosition;
+			}
 		}
 		#endregion
 	}
