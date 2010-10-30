@@ -40,9 +40,6 @@ namespace ClashEngine.NET.Gui.Controls
 			get { return false; }
 		}
 
-		/// <summary>
-		/// Renderuje kontrolkę.
-		/// </summary>
 		public override void Render()
 		{
 			GL.BindTexture(TextureTarget.Texture2D, 0);

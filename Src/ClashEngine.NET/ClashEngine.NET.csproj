@@ -90,6 +90,7 @@
     <Compile Include="Gui\Base\GuiControl.cs" />
     <Compile Include="Gui\Base\GuiControlWithWasActive.cs" />
     <Compile Include="Gui\Base\RectangleGuiControl.cs" />
+    <Compile Include="Gui\Controls\TextBox.cs" />
     <Compile Include="Gui\Controls\TextButton.cs" />
     <Compile Include="Gui\GuiContainer.cs" />
     <Compile Include="Gui\GuiEntity.cs" />
