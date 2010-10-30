@@ -56,5 +56,12 @@ namespace ClashEngine.NET.ResourcesManager
 		/// </summary>
 		public abstract void Free();
 		#endregion
+
+		#region IDisposable Members
+		public void Dispose()
+		{
+			this.Free();
+		}
+		#endregion
 	}
 }

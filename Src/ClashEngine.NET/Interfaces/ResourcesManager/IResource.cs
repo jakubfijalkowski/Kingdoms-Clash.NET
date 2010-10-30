@@ -25,6 +25,7 @@
 	/// Interfejs bazowy dla zasobu.
 	/// </summary>
 	public interface IResource
+		: System.IDisposable
 	{
 		#region Properties
 		/// <summary>
