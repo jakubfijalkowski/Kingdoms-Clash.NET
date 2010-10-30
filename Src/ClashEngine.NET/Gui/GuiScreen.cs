@@ -1,4 +1,5 @@
 ﻿using OpenTK.Input;
+using System.Drawing;
 
 namespace ClashEngine.NET.Gui
 {
@@ -13,6 +14,15 @@ namespace ClashEngine.NET.Gui
 		: GuiContainer, IGuiScreen
 	{
 		private ScreenState _State = ScreenState.Deactivated;
+		private Interfaces.Components.Cameras.IOrthoCamera Camera = null;
+
+		#region IGuiScreen Members
+		/// <summary>
+		/// Prostokąt, w którym zawiera się GUI.
+		/// Nadpisuje IInput.MouseTransformation i jest używane przez kamerę.
+		/// </summary>
+		public RectangleF Rectangle { get; private set; }
+		#endregion
 
 		#region IScreen Members
 		#region Properties
@@ -84,6 +94,7 @@ namespace ClashEngine.NET.Gui
 		/// </summary>
 		void IScreen.Render()
 		{
+			this.Camera.Render();
 			this.Render();
 		}
 
@@ -130,11 +141,15 @@ namespace ClashEngine.NET.Gui
 		/// Inicjalizuje nowy ekran.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
+		/// <param name="rect">Prostokąt, w któym zawiera się ekran. Zobacz <see cref="Rectangle"/>.</param>
 		/// <param name="type">Typ.</param>
-		public GuiScreen(string id, ScreenType type)
+		public GuiScreen(string id, RectangleF rect, ScreenType type = ScreenType.Popup)
 		{
 			this.Id = id;
 			this.Type = type;
+			this.Rectangle = rect;
+
+			this.Camera = new ClashEngine.NET.Components.Cameras.OrthoCamera(rect, new OpenTK.Vector2(rect.Width, rect.Height), 0f, true);
 		}
 		#endregion
 

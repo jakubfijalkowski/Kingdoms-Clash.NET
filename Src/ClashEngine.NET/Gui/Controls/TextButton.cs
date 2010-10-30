@@ -17,7 +17,7 @@ namespace ClashEngine.NET.Gui.Controls
 	{
 		private const float ShadowOffset = 3f;
 		private const float ActiveOffset = 2f;
-		private const Color Color = Color.Cyan;
+		private static readonly Color Color = Color.Cyan;
 
 		#region ITextButton Members
 		/// <summary>

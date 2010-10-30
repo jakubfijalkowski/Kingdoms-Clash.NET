@@ -12,7 +12,7 @@ namespace ClashEngine.NET.Interfaces.Components.Cameras
 	/// TODO: dopisać przesuwanie za pomocą myszki.
 	/// </summary>
 	public interface IOrthoCamera
-		: IComponent
+		: IRenderableComponent
 	{
 		/// <summary>
 		/// Granice kamery.

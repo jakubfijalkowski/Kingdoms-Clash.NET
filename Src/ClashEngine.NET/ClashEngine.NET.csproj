@@ -90,6 +90,7 @@
     <Compile Include="Gui\Base\GuiControl.cs" />
     <Compile Include="Gui\Base\GuiControlWithWasActive.cs" />
     <Compile Include="Gui\Base\RectangleGuiControl.cs" />
+    <Compile Include="Gui\Controls\TextButton.cs" />
     <Compile Include="Gui\GuiContainer.cs" />
     <Compile Include="Gui\GuiEntity.cs" />
     <Compile Include="Gui\GuiScreen.cs" />
@@ -101,6 +102,8 @@
     <Compile Include="Interfaces\EntitiesManager\IAttributesCollection.cs" />
     <Compile Include="Interfaces\EntitiesManager\IComponentsCollection.cs" />
     <Compile Include="Interfaces\EntitiesManager\IRenderableComponentsCollection.cs" />
+    <Compile Include="Interfaces\Gui\Controls\ITextBox.cs" />
+    <Compile Include="Interfaces\Gui\Controls\ITextButton.cs" />
     <Compile Include="Interfaces\Gui\IGuiContainer.cs" />
     <Compile Include="Interfaces\Gui\IGuiControl.cs" />
     <Compile Include="Interfaces\Gui\IGuiEntity.cs" />
