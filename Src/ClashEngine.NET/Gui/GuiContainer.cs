@@ -17,6 +17,16 @@ namespace ClashEngine.NET.Gui
 
 		#region IGuiContainer Members
 		/// <summary>
+		/// Pobiera kontrolkę o wskazanym Id.
+		/// </summary>
+		/// <param name="id">Identyfikator.</param>
+		/// <returns>Kontrolka lub null, gdy nie znaleziono.</returns>
+		public IGuiControl this[string id]
+		{
+			get { return this.Controls.Find(c => c.Id == id); }
+		}
+
+		/// <summary>
 		/// Uaktualnia wszystkie kontrolki w kontenerze.
 		/// </summary>
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>

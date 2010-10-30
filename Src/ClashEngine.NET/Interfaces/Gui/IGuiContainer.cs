@@ -4,11 +4,18 @@ namespace ClashEngine.NET.Interfaces.Gui
 {
 	/// <summary>
 	/// Kontener na kontrolki.
-	/// W kontenerze nie mogą istnieć dwie kontrolki o takim samym ID.
+	/// W kontenerze nie mogą istnieć dwie kontrolki o takim samym Id.
 	/// </summary>
 	public interface IGuiContainer
 		: ICollection<IGuiControl>
 	{
+		/// <summary>
+		/// Pobiera kontrolkę o wskazanym Id.
+		/// </summary>
+		/// <param name="id">Identyfikator.</param>
+		/// <returns>Kontrolka lub null, gdy nie znaleziono.</returns>
+		IGuiControl this[string id] { get; }
+
 		/// <summary>
 		/// Uaktualnia wszystkie kontrolki w kontenerze.
 		/// </summary>
