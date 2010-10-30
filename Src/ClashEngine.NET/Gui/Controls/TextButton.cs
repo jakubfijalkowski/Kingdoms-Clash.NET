@@ -45,7 +45,9 @@ namespace ClashEngine.NET.Gui.Controls
 		/// </summary>
 		public override void Render()
 		{
-			GL.Color3(Color.Black);
+			GL.BindTexture(TextureTarget.Texture2D, 0);
+
+			GL.Color3(Color.DarkGray);
 			GL.Begin(BeginMode.Quads);
 			GL.Vertex2(this.Rectangle.Left + ShadowOffset, this.Rectangle.Top + ShadowOffset);
 			GL.Vertex2(this.Rectangle.Right + ShadowOffset, this.Rectangle.Top + ShadowOffset);
@@ -61,6 +63,8 @@ namespace ClashEngine.NET.Gui.Controls
 			GL.Vertex2(this.Rectangle.Right + offset, this.Rectangle.Bottom + offset);
 			GL.Vertex2(this.Rectangle.Left + offset, this.Rectangle.Bottom + offset);
 			GL.End();
+
+			GL.Color3(Color.White);
 		}
 
 		/// <summary>

@@ -222,7 +222,7 @@ namespace ClashEngine.NET
 		{
 			if (!this.MouseTransformation.IsEmpty)
 			{
-				this.MousePosition = new Vector2(
+				this.TransformedMousePosition = new Vector2(
 					this.MouseTransformation.Left + this.MousePosition.X / this.WindowSize.X * this.MouseTransformation.Width,
 					this.MouseTransformation.Top + this.MousePosition.Y / this.WindowSize.Y * this.MouseTransformation.Height);
 			}

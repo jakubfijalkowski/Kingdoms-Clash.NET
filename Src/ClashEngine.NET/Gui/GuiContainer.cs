@@ -180,6 +180,13 @@ namespace ClashEngine.NET.Gui
 		}
 		#endregion
 
+		#region Constructors
+		public GuiContainer()
+		{
+			this.CurrentData.Input = Input.Instance;
+		}
+		#endregion
+
 		#region UIData
 		private class UIData
 			: IUIData
