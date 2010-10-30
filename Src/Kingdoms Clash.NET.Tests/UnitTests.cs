@@ -23,7 +23,7 @@ namespace Kingdoms_Clash.NET.Tests
 			this.Description = new UnitDescription("sth", 100, 5f, 10f);
 
 			this.Unit = new Unit(this.Description, this.Player.Object);
-			this.Unit.Init(null);
+			this.Unit.Manager = null;
 			this.Unit.OnInit();
 		}
 

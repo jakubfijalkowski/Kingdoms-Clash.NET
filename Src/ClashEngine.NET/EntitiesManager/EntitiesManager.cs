@@ -76,7 +76,7 @@ namespace ClashEngine.NET.EntitiesManager
 			{
 				throw new Exceptions.ArgumentAlreadyExistsException("entity");
 			}
-			entity.Init(this);
+			entity.Manager = this;
 			this.Entities.Add(entity);
 			entity.OnInit();
 			Logger.Trace("Entity {0} added to manager", entity.Id);

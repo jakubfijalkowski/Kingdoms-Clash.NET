@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ClashEngine.NET.Interfaces.EntitiesManager
+﻿namespace ClashEngine.NET.Interfaces.EntitiesManager
 {
 	/// <summary>
 	/// Bazowy interfejs dla encji gry.
@@ -14,9 +12,10 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 		string Id { get; }
 
 		/// <summary>
-		/// Manager encji.
+		/// Manager encji, do którego encja należy.
+		/// Ustawiany przez niego samego przy dodaniu encji.
 		/// </summary>
-		IEntitiesManager Manager { get; }
+		IEntitiesManager Manager { get; set; }
 
 		/// <summary>
 		/// Lista komponentów.
@@ -30,12 +29,6 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 		#endregion
 
 		#region Methods
-		/// <summary>
-		/// Wywoływane przy inicjalizacji encji gry - dadaniu do managera.
-		/// </summary>
-		/// <param name="entitiesManager">Właściciel encji.</param>
-		void Init(IEntitiesManager entitiesManager);
-
 		/// <summary>
 		/// Uaktualnia wszystkie komponenty.
 		/// </summary>
