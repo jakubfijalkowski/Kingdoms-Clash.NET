@@ -87,6 +87,9 @@
     <Compile Include="Exceptions\ArgumentNotExistsException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Gui\Base\GuiControl.cs" />
+    <Compile Include="Gui\Base\GuiControlWithWasActive.cs" />
+    <Compile Include="Gui\Base\RectangleGuiControl.cs" />
     <Compile Include="Gui\GuiContainer.cs" />
     <Compile Include="Gui\GuiEntity.cs" />
     <Compile Include="Gui\GuiScreen.cs" />
@@ -140,6 +143,7 @@
     <Compile Include="ScreensManager\ScreensManager.cs" />
     <Compile Include="SystemInformation.cs" />
     <Compile Include="Utilities\BodyExtensions.cs" />
+    <Compile Include="Utilities\RectangleExtensions.cs" />
     <Compile Include="Utilities\XNAOpenTKCoverter.cs" />
     <Compile Include="Utilities\FPSCounter.cs" />
     <Compile Include="Utilities\VBO.cs" />
