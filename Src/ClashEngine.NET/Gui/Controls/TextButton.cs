@@ -118,4 +118,18 @@ namespace ClashEngine.NET.Gui.Controls
 		{ }
 		#endregion
 	}
+
+	public static class ButtonExt
+	{
+		/// <summary>
+		/// Sprawdza, czy wskazany przycisk został wciśnięty.
+		/// </summary>
+		/// <param name="c"></param>
+		/// <param name="id">Identyfikator.</param>
+		/// <returns></returns>
+		public static bool Button(this GuiContainer c, string id)
+		{
+			return c.Control(id) == 1;
+		}
+	}
 }
