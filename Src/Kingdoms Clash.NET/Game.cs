@@ -106,7 +106,6 @@ namespace Kingdoms_Clash.NET
 				this.ScreensManager.AddAndActivate(new FPSCounter() { LogStatistics = 10.0f });
 			}
 			this.ScreensManager.Add(new AdditionalScreens.WinnerScreen(this.Game));
-			this.ScreensManager.AddAndActivate(new TestScreen(this));
 			this.ScreensManager.AddAndActivate(this.Game);
 			//this.ScreensManager.AddAndMakeActive(this.Menu);
 			base.Init();
@@ -162,29 +161,5 @@ namespace Kingdoms_Clash.NET
 			}
 		}
 		#endregion
-	}
-
-
-	class TestScreen
-		: ClashEngine.NET.Gui.GuiScreen
-	{
-		Game game;
-
-		public override void OnInit()
-		{
-			this.Add(new ClashEngine.NET.Gui.Controls.TextButton("B1", new System.Drawing.RectangleF(20f, 20f, 100f, 50f), "TestButton"));
-		}
-
-		public override void CheckControls()
-		{
-			if (this.Control("B1") == 1)
-				game.Exit();
-		}
-
-		public TestScreen(Game g)
-			: base("Gui.TestScreen", new System.Drawing.RectangleF(0f, 0f, Defaults.DefaultConfiguration.WindowSize.Width, Defaults.DefaultConfiguration.WindowSize.Height))
-		{
-			this.game = g;
-		}
 	}
 }
