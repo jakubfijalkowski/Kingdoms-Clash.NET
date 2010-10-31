@@ -18,8 +18,9 @@ namespace ClashEngine.NET.EntitiesManager
 
 		/// <summary>
 		/// Właściciel komponentu.
+		/// Ustawiane przez niego samego.
 		/// </summary>
-		public IGameEntity Owner { get; private set; }
+		public IGameEntity Owner { get; set; }
 
 		/// <summary>
 		/// Inicjalizuje nowy komponent.
@@ -28,14 +29,6 @@ namespace ClashEngine.NET.EntitiesManager
 		public Component(string id)
 		{
 			this.Id = id;
-		}
-
-		/// <summary>
-		/// Wywoływane przy inicjalizacji komponentu w GameEntity. Służy np. do dodawania atrybutów.
-		/// </summary>
-		public void Init(IGameEntity owner)
-		{
-			this.Owner = owner;
 		}
 
 		/// <summary>

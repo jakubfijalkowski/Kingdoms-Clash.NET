@@ -130,11 +130,11 @@ namespace ClashEngine.NET.EntitiesManager
 				throw new Exceptions.ArgumentAlreadyExistsException("item");
 			}
 			this.Components.Add(item);
-			item.Init(this.Parent);
 			if(item is IRenderableComponent)
 			{
 				this._RenderableComponentsCollection.InternalAdd(item as IRenderableComponent);
 			}
+			item.Owner = this.Parent;
 			item.OnInit();
 			Logger.Debug("Component {0} added to entity {1}", item.Id, this.Parent.Id);
 		}

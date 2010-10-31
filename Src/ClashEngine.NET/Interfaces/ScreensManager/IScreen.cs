@@ -109,37 +109,37 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 		/// </summary>
 		void Render();
 
-		#region Keyboard
-		/// <summary>
-		/// Zdarzenie naciśnięcia/zwolnienia klawisza.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		bool KeyChanged(KeyEventArgs e);
-		#endregion
+		//#region Keyboard
+		///// <summary>
+		///// Zdarzenie naciśnięcia/zwolnienia klawisza.
+		///// </summary>
+		///// <param name="e"></param>
+		///// <returns>Czy zdarzenie zostało obsłużone.</returns>
+		//bool KeyChanged(KeyEventArgs e);
+		//#endregion
 
-		#region Mouse
-		/// <summary>
-		/// Zdarzenie naciśnięcia/zwolnienia przycisku myszy.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		bool MouseButton(MouseButtonEventArgs e);
+		//#region Mouse
+		///// <summary>
+		///// Zdarzenie naciśnięcia/zwolnienia przycisku myszy.
+		///// </summary>
+		///// <param name="e"></param>
+		///// <returns>Czy zdarzenie zostało obsłużone.</returns>
+		//bool MouseButton(MouseButtonEventArgs e);
 
-		/// <summary>
-		/// Zdarzenie poruszenia myszy.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns>Czy zostało obsłużonę.</returns>
-		bool MouseMove(MouseMoveEventArgs e);
+		///// <summary>
+		///// Zdarzenie poruszenia myszy.
+		///// </summary>
+		///// <param name="e"></param>
+		///// <returns>Czy zostało obsłużonę.</returns>
+		//bool MouseMove(MouseMoveEventArgs e);
 
-		/// <summary>
-		/// Zdarzenie "przekręcenia" kółka myszy.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns>Czy zostało obsłużonę.</returns>
-		bool MouseWheel(MouseWheelEventArgs e);
-		#endregion
+		///// <summary>
+		///// Zdarzenie "przekręcenia" kółka myszy.
+		///// </summary>
+		///// <param name="e"></param>
+		///// <returns>Czy zostało obsłużonę.</returns>
+		//bool MouseWheel(MouseWheelEventArgs e);
+		//#endregion
 		#endregion
 	}
 }

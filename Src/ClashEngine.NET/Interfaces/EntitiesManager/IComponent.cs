@@ -12,14 +12,9 @@
 
 		/// <summary>
 		/// Właściciel komponentu.
+		/// Ustawiane przez niego samego.
 		/// </summary>
-		IGameEntity Owner { get; }
-
-		/// <summary>
-		/// Wywoływane przy inicjalizacji komponentu w GameEntity.
-		/// </summary>
-		/// <param name="owner">Właściciel komponentu.</param>
-		void Init(IGameEntity owner);
+		IGameEntity Owner { get; set; }
 
 		/// <summary>
 		/// Wywoływane przy uaktualnieniu.

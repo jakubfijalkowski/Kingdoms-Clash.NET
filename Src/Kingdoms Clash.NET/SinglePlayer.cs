@@ -158,6 +158,10 @@ namespace Kingdoms_Clash.NET
 
 		public override void Update(double delta)
 		{
+			if (this.HandleInput())
+			{
+				return;
+			}
 			this.HandleVictory();
 			this.Controller.Update(delta);
 
@@ -185,9 +189,9 @@ namespace Kingdoms_Clash.NET
 		/// </summary>
 		/// <param name="e"></param>
 		/// <returns></returns>
-		public override bool KeyChanged(KeyEventArgs e)
+		private bool HandleInput()
 		{
-			if (e.Key == OpenTK.Input.Key.R && e.IsPressed)
+			if (ClashEngine.NET.Input.Instance[OpenTK.Input.Key.R])
 			{
 				this.Reset();
 				return true;

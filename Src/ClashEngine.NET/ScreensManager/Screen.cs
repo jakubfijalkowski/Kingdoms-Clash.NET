@@ -98,41 +98,41 @@ namespace ClashEngine.NET.ScreensManager
 			this._Entites.Render();
 		}
 
-		#region Keyboard
-		/// <summary>
-		/// Zdarzenie naciśnięcia/zwolnienia klawisza.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		public virtual bool KeyChanged(KeyEventArgs e)
-		{ return false; }
-		#endregion
+		//#region Keyboard
+		///// <summary>
+		///// Zdarzenie naciśnięcia/zwolnienia klawisza.
+		///// </summary>
+		///// <param name="e"></param>
+		///// <returns>Czy zdarzenie zostało obsłużone.</returns>
+		//public virtual bool KeyChanged(KeyEventArgs e)
+		//{ return false; }
+		//#endregion
 
-		#region Mouse
-		/// <summary>
-		/// Zdarzenie naciśnięcia/zwolnienia przycisku myszy.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		public virtual bool MouseButton(MouseButtonEventArgs e)
-		{ return false; }
+		//#region Mouse
+		///// <summary>
+		///// Zdarzenie naciśnięcia/zwolnienia przycisku myszy.
+		///// </summary>
+		///// <param name="e"></param>
+		///// <returns>Czy zdarzenie zostało obsłużone.</returns>
+		//public virtual bool MouseButton(MouseButtonEventArgs e)
+		//{ return false; }
 
-		/// <summary>
-		/// Zdarzenie poruszenia myszy.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns>Czy zostało obsłużonę.</returns>
-		public virtual bool MouseMove(MouseMoveEventArgs e)
-		{ return false; }
+		///// <summary>
+		///// Zdarzenie poruszenia myszy.
+		///// </summary>
+		///// <param name="e"></param>
+		///// <returns>Czy zostało obsłużonę.</returns>
+		//public virtual bool MouseMove(MouseMoveEventArgs e)
+		//{ return false; }
 
-		/// <summary>
-		/// Zdarzenie "przekręcenia" kółka myszy.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns>Czy zostało obsłużonę.</returns>
-		public virtual bool MouseWheel(MouseWheelEventArgs e)
-		{ return false; }
-		#endregion
+		///// <summary>
+		///// Zdarzenie "przekręcenia" kółka myszy.
+		///// </summary>
+		///// <param name="e"></param>
+		///// <returns>Czy zostało obsłużonę.</returns>
+		//public virtual bool MouseWheel(MouseWheelEventArgs e)
+		//{ return false; }
+		//#endregion
 		#endregion
 		
 		#region Utilities

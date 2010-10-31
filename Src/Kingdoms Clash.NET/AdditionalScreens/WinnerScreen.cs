@@ -49,13 +49,28 @@ namespace Kingdoms_Clash.NET.AdditionalScreens
 			this.Entities.Add(this.Image);
 		}
 
-		#region Events
-		public override bool KeyChanged(KeyEventArgs e)
+		public override void Update(double delta)
 		{
-			if (e.Key == OpenTK.Input.Key.R && e.IsPressed)
+			if (this.HandleInput())
+			{
+				return;
+			}
+			base.Update(delta);
+		}
+
+		#region Events
+		/// <summary>
+		/// Po naciśnięciu R resetuje grę.
+		/// </summary>
+		/// <param name="e"></param>
+		/// <returns></returns>
+		private bool HandleInput()
+		{
+			if (ClashEngine.NET.Input.Instance[OpenTK.Input.Key.R])
 			{
 				this.GameState.Reset();
 				this.Deactivate();
+				return true;
 			}
 			return false;
 		}

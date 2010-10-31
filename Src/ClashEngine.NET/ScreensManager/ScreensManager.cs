@@ -362,15 +362,15 @@ namespace ClashEngine.NET.ScreensManager
 		/// <summary>
 		/// Inicjalizuje nowy manager i dodaje zdarzenia dla wejścia.
 		/// </summary>
-		public ScreensManager(bool addEvents = true)
+		public ScreensManager(/*bool addEvents = true*/)
 		{
-			if (addEvents)
-			{
-				Input.Instance.KeyChanged += new EventHandler<KeyEventArgs>((send, e) => this.FireEvent(s => s.KeyChanged(e)));
-				Input.Instance.MouseButton += new EventHandler<MouseButtonEventArgs>((send, e) => this.FireEvent(s => s.MouseButton(e)));
-				Input.Instance.MouseMove += new EventHandler<MouseMoveEventArgs>((send, e) => this.FireEvent(s => s.MouseMove(e)));
-				Input.Instance.MouseWheel += new EventHandler<MouseWheelEventArgs>((send, e) => this.FireEvent(s => s.MouseWheel(e)));
-			}
+			//if (addEvents)
+			//{
+			//    Input.Instance.KeyChanged += new EventHandler<KeyEventArgs>((send, e) => this.FireEvent(s => s.KeyChanged(e)));
+			//    Input.Instance.MouseButton += new EventHandler<MouseButtonEventArgs>((send, e) => this.FireEvent(s => s.MouseButton(e)));
+			//    Input.Instance.MouseMove += new EventHandler<MouseMoveEventArgs>((send, e) => this.FireEvent(s => s.MouseMove(e)));
+			//    Input.Instance.MouseWheel += new EventHandler<MouseWheelEventArgs>((send, e) => this.FireEvent(s => s.MouseWheel(e)));
+			//}
 		}
 
 		~ScreensManager()
@@ -379,20 +379,20 @@ namespace ClashEngine.NET.ScreensManager
 		}
 
 		#region Private methods
-		/// <summary>
-		/// Metoda pomocnicza do wysyłania zdarzeń.
-		/// </summary>
-		/// <param name="e"></param>
-		private void FireEvent(Func<IScreen, bool> e)
-		{
-			foreach (IScreen screen in this.Screens)
-			{
-				if (screen.State == ScreenState.Activated && e(screen))
-				{
-					break;
-				}
-			}
-		}
+		///// <summary>
+		///// Metoda pomocnicza do wysyłania zdarzeń.
+		///// </summary>
+		///// <param name="e"></param>
+		//private void FireEvent(Func<IScreen, bool> e)
+		//{
+		//    foreach (IScreen screen in this.Screens)
+		//    {
+		//        if (screen.State == ScreenState.Activated && e(screen))
+		//        {
+		//            break;
+		//        }
+		//    }
+		//}
 
 		/// <summary>
 		/// Pobiera ekran albo rzuca wyjątek.

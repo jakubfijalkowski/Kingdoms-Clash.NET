@@ -100,12 +100,7 @@ namespace ClashEngine.NET.Tests
 		#region IComponent Members
 		public string Id { get; private set; }
 
-		public IGameEntity Owner { get; private set; }
-
-		public virtual void Init(IGameEntity owner)
-		{
-			this.Owner = owner;
-		}
+		public IGameEntity Owner { get; set; }
 
 		public abstract void Update(double delta);
 		#endregion
