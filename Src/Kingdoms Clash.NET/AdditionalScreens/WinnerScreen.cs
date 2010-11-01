@@ -1,7 +1,6 @@
 ﻿using ClashEngine.NET.Cameras;
 using ClashEngine.NET.Components;
 using ClashEngine.NET.EntitiesManager;
-using ClashEngine.NET.Interfaces;
 using ClashEngine.NET.Resources;
 using ClashEngine.NET.ResourcesManager;
 using ClashEngine.NET.ScreensManager;
@@ -44,6 +43,8 @@ namespace Kingdoms_Clash.NET.AdditionalScreens
 		#region Screen Members
 		public override void OnInit()
 		{
+			base.OnInit();
+
 			float aspect = ImageSize.X / ImageSize.Y;
 			this.Entities.Add(new OrthoCamera(new System.Drawing.RectangleF(0f, 0f, 1f, 1f * aspect), new OpenTK.Vector2(1f, 1f * aspect), 0f, true));
 			this.Entities.Add(this.Image);
@@ -66,7 +67,7 @@ namespace Kingdoms_Clash.NET.AdditionalScreens
 		/// <returns></returns>
 		private bool HandleInput()
 		{
-			if (ClashEngine.NET.Input.Instance[OpenTK.Input.Key.R])
+			if (this.Input[OpenTK.Input.Key.R])
 			{
 				this.GameState.Reset();
 				this.Deactivate();

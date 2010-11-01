@@ -2,6 +2,7 @@
 
 namespace ClashEngine.NET.EntitiesManager
 {
+	using Interfaces;
 	using Interfaces.EntitiesManager;
 
 	/// <summary>
@@ -29,6 +30,12 @@ namespace ClashEngine.NET.EntitiesManager
 		/// Ustawiany przez niego samego przy dodaniu encji.
 		/// </summary>
 		public IEntitiesManager Manager { get; set; }
+
+		/// <summary>
+		/// Wejście.
+		/// Ustawiane przez manager.
+		/// </summary>
+		public IInput Input { get; set; }
 
 		/// <summary>
 		/// Lista komponentów.

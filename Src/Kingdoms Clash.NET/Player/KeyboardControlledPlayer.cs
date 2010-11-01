@@ -1,6 +1,4 @@
-﻿using ClashEngine.NET;
-
-namespace Kingdoms_Clash.NET.Player
+﻿namespace Kingdoms_Clash.NET.Player
 {
 	using Interfaces.Player;
 	using Interfaces.Units;
@@ -54,7 +52,7 @@ namespace Kingdoms_Clash.NET.Player
 
 				for (OpenTK.Input.Key i = startK; i <= endK; i++)
 				{
-					if (Input.Instance[i])
+					if (this.Input[i])
 					{
 						unitNo = i - startK;
 						break;

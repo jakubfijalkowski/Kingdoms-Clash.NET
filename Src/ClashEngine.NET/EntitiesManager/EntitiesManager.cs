@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace ClashEngine.NET.EntitiesManager
 {
+	using Interfaces;
 	using Interfaces.EntitiesManager;
 
 	/// <summary>
@@ -17,6 +18,7 @@ namespace ClashEngine.NET.EntitiesManager
 
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IGameEntity> Entities = new List<IGameEntity>();
+		private IInput Input = null;
 
 		#region IEntitiesManager Members
 		/// <summary>
@@ -77,6 +79,7 @@ namespace ClashEngine.NET.EntitiesManager
 				throw new Exceptions.ArgumentAlreadyExistsException("entity");
 			}
 			entity.Manager = this;
+			entity.Input = this.Input;
 			this.Entities.Add(entity);
 			entity.OnInit();
 			Logger.Trace("Entity {0} added to manager", entity.Id);
@@ -148,9 +151,20 @@ namespace ClashEngine.NET.EntitiesManager
 		}
 		#endregion
 
+		#region Constructors/Descructors
+		/// <summary>
+		/// Inicjalizuje manager.
+		/// </summary>
+		/// <param name="input">Wejście.</param>
+		public EntitiesManager(IInput input)
+		{
+			this.Input = input;
+		}
+
 		~EntitiesManager()
 		{
 			this.Clear();
 		}
+		#endregion
 	}
 }

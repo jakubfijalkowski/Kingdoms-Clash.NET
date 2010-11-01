@@ -17,21 +17,6 @@ namespace ClashEngine.NET
 		private System.Drawing.RectangleF _MouseTransformation = System.Drawing.RectangleF.Empty;
 		private Vector2 _MousePosition = Vector2.Zero;
 
-		#region Singleton
-		private static Input _Instance;
-
-		/// <summary>
-		/// Instancja.
-		/// </summary>
-		public static Input Instance
-		{
-			get
-			{
-				return _Instance;
-			}
-		}
-		#endregion
-
 		#region IInput Members
 		#region Keyboard
 		/// <summary>
@@ -137,7 +122,7 @@ namespace ClashEngine.NET
 		#endregion
 
 		#region Constructors
-		internal Input(OpenTK.GameWindow wnd, bool isMainInput)
+		internal Input(OpenTK.GameWindow wnd)
 		{
 			wnd.Mouse.Move += new EventHandler<MouseMoveEventArgs>(Window_MouseMove);
 			wnd.Mouse.ButtonDown += new EventHandler<MouseButtonEventArgs>(Window_ButtonEvent);
@@ -149,11 +134,6 @@ namespace ClashEngine.NET
 			wnd.KeyPress += new EventHandler<OpenTK.KeyPressEventArgs>(Window_Text);
 
 			this.WindowSize = new Vector2(wnd.Size.Width, wnd.Size.Height);
-
-			if (isMainInput)
-			{
-				_Instance = this;
-			}
 		}
 		#endregion
 

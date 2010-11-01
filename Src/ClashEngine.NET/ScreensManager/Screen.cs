@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using OpenTK.Input;
 
 namespace ClashEngine.NET.ScreensManager
 {
@@ -8,6 +7,7 @@ namespace ClashEngine.NET.ScreensManager
 
 	/// <summary>
 	/// Bazowa klasa dla "ekranów"(np. menu, plansza).
+	/// UWAGA! Właściwość Entites ustawiana jest w metodzie OnInit!
 	/// </summary>
 	/// <seealso cref="IScreen"/>
 	/// <seealso cref="IScreensManager"/>
@@ -16,8 +16,10 @@ namespace ClashEngine.NET.ScreensManager
 	public abstract class Screen
 		: IScreen
 	{
+		#region Private fields
 		private ScreenState _State = ScreenState.Deactivated;
-		private EntitiesManager.EntitiesManager _Entites = new EntitiesManager.EntitiesManager();
+		private EntitiesManager.EntitiesManager _Entities;
+		#endregion
 
 		#region Properties
 		/// <summary>
@@ -29,6 +31,11 @@ namespace ClashEngine.NET.ScreensManager
 		/// Manager - rodzic.
 		/// </summary>
 		public IScreensManager Manager { get; set; }
+
+		/// <summary>
+		/// Wejście.
+		/// </summary>
+		public IInput Input { get; set; }
 
 		/// <summary>
 		/// Typ ekranu.
@@ -57,7 +64,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		public EntitiesManager.EntitiesManager Entities
 		{
-			get { return this._Entites; }
+			get { return this._Entities; }
 		}
 		#endregion
 
@@ -66,7 +73,9 @@ namespace ClashEngine.NET.ScreensManager
 		/// Zdarzenie wywoływane przy inicjalizacji ekranu(dodaniu do managera).
 		/// </summary>
 		public virtual void OnInit()
-		{ }
+		{
+			this._Entities = new EntitiesManager.EntitiesManager(this.Input);
+		}
 
 		/// <summary>
 		/// Zdarzenie wywoływane przy deinicjalizacji ekranu(usunięcie z managera).
@@ -87,7 +96,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// <param name="delta">Czas od ostatniego uaktualnienia.</param>
 		public virtual void Update(double delta)
 		{
-			this._Entites.Update(delta);
+			this._Entities.Update(delta);
 		}
 
 		/// <summary>
@@ -95,7 +104,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		public virtual void Render()
 		{
-			this._Entites.Render();
+			this._Entities.Render();
 		}
 
 		//#region Keyboard
@@ -169,6 +178,7 @@ namespace ClashEngine.NET.ScreensManager
 		}
 		#endregion
 
+		#region Constructors
 		/// <summary>
 		/// Inicjalizuje nowy ekran.
 		/// </summary>
@@ -179,5 +189,6 @@ namespace ClashEngine.NET.ScreensManager
 			this.Id = id;
 			this.Type = type;
 		}
+		#endregion
 	}
 }

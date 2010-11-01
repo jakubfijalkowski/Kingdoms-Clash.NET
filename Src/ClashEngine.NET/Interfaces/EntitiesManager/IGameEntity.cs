@@ -18,6 +18,12 @@
 		IEntitiesManager Manager { get; set; }
 
 		/// <summary>
+		/// Wejście.
+		/// Ustawiane przez manager.
+		/// </summary>
+		IInput Input { get; set; }
+
+		/// <summary>
 		/// Lista komponentów.
 		/// </summary>
 		IComponentsCollection Components { get; }

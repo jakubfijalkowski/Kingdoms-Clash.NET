@@ -1,5 +1,5 @@
-﻿using OpenTK.Input;
-using System.Drawing;
+﻿using System.Drawing;
+using OpenTK.Input;
 
 namespace ClashEngine.NET.Gui
 {
@@ -33,6 +33,7 @@ namespace ClashEngine.NET.Gui
 
 		/// <summary>
 		/// Manager - rodzic.
+		/// Ustawiane przez nieg samego.
 		/// </summary>
 		public IScreensManager Manager { get; set; }
 
@@ -149,7 +150,7 @@ namespace ClashEngine.NET.Gui
 			this.Type = type;
 			this.Rectangle = rect;
 
-			Input.Instance.MouseTransformation = rect;
+			this.Input.MouseTransformation = rect;
 			this.Camera = new ClashEngine.NET.Components.Cameras.OrthoCamera(rect, new OpenTK.Vector2(rect.Width, rect.Height), 0f, true);
 		}
 		#endregion

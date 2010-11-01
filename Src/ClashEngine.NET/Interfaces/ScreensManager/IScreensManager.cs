@@ -5,7 +5,7 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 {
 	/// <summary>
 	/// Bazowy interfejs dla managera ekranów.
-	/// Implementacja powinna wysyłać zdarzenia myszy i klawiatury do odpowiednich ekranów.
+	/// Przy dodawaniu ekranu musi ustawiać mu również właściwość Input.
 	/// W kolekcji nie mogą znajdować się dwa ekrany o takim samym Id.
 	/// </summary>
 	public interface IScreensManager

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ClashEngine.NET.Cameras;
-using ClashEngine.NET.Interfaces;
 using ClashEngine.NET.Interfaces.EntitiesManager;
 using ClashEngine.NET.ScreensManager;
 
@@ -25,7 +24,7 @@ namespace Kingdoms_Clash.NET
 		/// <summary>
 		/// Manager encji "stałych" - graczy, kamery i mapy.
 		/// </summary>
-		private IEntitiesManager StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager();
+		private IEntitiesManager StaticEntities;
 
 		/// <summary>
 		/// Jednostki czekające na usunięcie.
@@ -134,6 +133,9 @@ namespace Kingdoms_Clash.NET
 		#region Screen Members
 		public override void OnInit()
 		{
+			base.OnInit();
+			this.StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager(this.Input);
+
 			this.Controller.GameState = this;
 
 			this.Players[0].GameState = this;
@@ -191,7 +193,7 @@ namespace Kingdoms_Clash.NET
 		/// <returns></returns>
 		private bool HandleInput()
 		{
-			if (ClashEngine.NET.Input.Instance[OpenTK.Input.Key.R])
+			if (this.Input[OpenTK.Input.Key.R])
 			{
 				this.Reset();
 				return true;

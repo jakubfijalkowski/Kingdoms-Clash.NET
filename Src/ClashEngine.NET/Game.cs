@@ -29,6 +29,7 @@ namespace ClashEngine.NET
 		/// </summary>
 		private float Accumulator = 0f;
 		#endregion
+
 		#region IGame members
 		#region Properties
 		/// <summary>
@@ -125,13 +126,7 @@ namespace ClashEngine.NET
 		/// <summary>
 		/// Wejście.
 		/// </summary>
-		public IInput Input
-		{
-			get
-			{
-				return NET.Input.Instance;
-			}
-		}
+		public IInput Input { get; private set; }
 		#endregion
 
 		#region Methods
@@ -247,8 +242,8 @@ namespace ClashEngine.NET
 			Logger.Info("\tVSync: {0}", (useVSync ? "on" : "off"));
 			this.Name = name;
 			this.Window = new GameWindow(this, name, width, height, fullscreen, useVSync, mode);
-			new Input(this.Window, true);
-			this.Screens = new ClashEngine.NET.ScreensManager.ScreensManager();
+			this.Input = new Input(this.Window);
+			this.Screens = new ClashEngine.NET.ScreensManager.ScreensManager(this.Input);
 			Logger.Info("Window created");
 		}
 		#endregion

@@ -10,6 +10,11 @@ namespace ClashEngine.NET.Interfaces.Gui
 		: ICollection<IGuiControl>
 	{
 		/// <summary>
+		/// Wejście dla GUI.
+		/// </summary>
+		IInput Input { get; set; }
+
+		/// <summary>
 		/// Pobiera kontrolkę o wskazanym Id.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>

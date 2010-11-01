@@ -1,6 +1,4 @@
-﻿using OpenTK.Input;
-
-namespace ClashEngine.NET.Interfaces.ScreensManager
+﻿namespace ClashEngine.NET.Interfaces.ScreensManager
 {
 	/// <summary>
 	/// Stan ekranu.
@@ -70,8 +68,15 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 
 		/// <summary>
 		/// Manager - rodzic.
+		/// Ustawiane przez niego samego.
 		/// </summary>
 		IScreensManager Manager { get; set; }
+
+		/// <summary>
+		/// Wejście.
+		/// Ustawiane przez manager-rodzica.
+		/// </summary>
+		IInput Input { get; set; }
 
 		/// <summary>
 		/// Typ ekranu.

@@ -12,10 +12,27 @@ namespace ClashEngine.NET.Gui
 	public class GuiContainer
 		: IGuiContainer
 	{
+		#region Private fields
 		private UIData CurrentData = new UIData();
 		private List<IGuiControl> Controls = new List<IGuiControl>();
+		#endregion
 
 		#region IGuiContainer Members
+		/// <summary>
+		/// Wejście dla GUI.
+		/// </summary>
+		public Interfaces.IInput Input
+		{
+			get
+			{
+				return this.CurrentData.Input;
+			}
+			set
+			{
+				this.CurrentData.Input = value;
+			}
+		}
+
 		/// <summary>
 		/// Pobiera kontrolkę o wskazanym Id.
 		/// </summary>
@@ -181,9 +198,13 @@ namespace ClashEngine.NET.Gui
 		#endregion
 
 		#region Constructors
-		public GuiContainer()
+		/// <summary>
+		/// Inicjalizuje kontener.
+		/// </summary>
+		/// <param name="input">Wejście.</param>
+		public GuiContainer(Interfaces.IInput input = null)
 		{
-			this.CurrentData.Input = Input.Instance;
+			this.CurrentData.Input = input;
 		}
 		#endregion
 

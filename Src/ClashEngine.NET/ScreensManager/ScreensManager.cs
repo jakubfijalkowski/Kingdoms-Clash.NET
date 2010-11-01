@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using OpenTK.Input;
 
 namespace ClashEngine.NET.ScreensManager
 {
@@ -18,8 +17,11 @@ namespace ClashEngine.NET.ScreensManager
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
+		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IScreen> Screens = new List<IScreen>();
+		private IInput Input = null;
+		#endregion
 
 		#region IScreensManager Members
 		/// <summary>
@@ -256,6 +258,7 @@ namespace ClashEngine.NET.ScreensManager
 			}
 			this.Screens.Add(item);
 			item.Manager = this;
+			item.Input = this.Input;
 			item.State = ScreenState.Deactivated;
 			item.OnInit();
 			Logger.Debug("Screen {0} added to manager", item.Id);
@@ -359,24 +362,21 @@ namespace ClashEngine.NET.ScreensManager
 		}
 		#endregion
 
+		#region Constructors/Descructors
 		/// <summary>
 		/// Inicjalizuje nowy manager i dodaje zdarzenia dla wejścia.
 		/// </summary>
-		public ScreensManager(/*bool addEvents = true*/)
+		/// <param name="input">Wejście, które zostanie przypisane ekranom.</param>
+		public ScreensManager(IInput input)
 		{
-			//if (addEvents)
-			//{
-			//    Input.Instance.KeyChanged += new EventHandler<KeyEventArgs>((send, e) => this.FireEvent(s => s.KeyChanged(e)));
-			//    Input.Instance.MouseButton += new EventHandler<MouseButtonEventArgs>((send, e) => this.FireEvent(s => s.MouseButton(e)));
-			//    Input.Instance.MouseMove += new EventHandler<MouseMoveEventArgs>((send, e) => this.FireEvent(s => s.MouseMove(e)));
-			//    Input.Instance.MouseWheel += new EventHandler<MouseWheelEventArgs>((send, e) => this.FireEvent(s => s.MouseWheel(e)));
-			//}
+			this.Input = input;
 		}
 
 		~ScreensManager()
 		{
 			this.Clear();
 		}
+		#endregion
 
 		#region Private methods
 		///// <summary>

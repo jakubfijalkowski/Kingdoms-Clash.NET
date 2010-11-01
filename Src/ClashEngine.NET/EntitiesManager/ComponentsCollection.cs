@@ -15,12 +15,14 @@ namespace ClashEngine.NET.EntitiesManager
 		: IComponentsCollection
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
-		
+
+		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IComponent> Components = new List<IComponent>();
 		private IGameEntity Parent = null;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private RenderableComponentsCollection _RenderableComponentsCollection = new RenderableComponentsCollection();
+		#endregion
 
 		#region IComponentsCollection Members
 		/// <summary>

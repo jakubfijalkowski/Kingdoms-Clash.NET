@@ -4,7 +4,8 @@ using System.Collections.Generic;
 namespace ClashEngine.NET.Interfaces.EntitiesManager
 {
 	/// <summary>
-	/// Kolekcja komponentów.
+	/// Bazowy interfejs dla kolekcji komponentów.
+	/// Musi ustawiać właściwości Owner i Input.
 	/// </summary>
 	public interface IComponentsCollection
 		: ICollection<IComponent>
