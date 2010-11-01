@@ -29,45 +29,6 @@ namespace ClashEngine.NET
 		/// </summary>
 		private float Accumulator = 0f;
 		#endregion
-
-		#region Constructors
-		/// <summary>
-		/// Inicjalizuje obiekt gry.
-		/// Przyjmowany jest domyślny tryb graficzny.
-		/// </summary>
-		/// <param name="name">Nazwa(równa nazwie okna).</param>
-		/// <param name="width">Szerokość okna.</param>
-		/// <param name="height">Wysokość okna.</param>
-		/// <param name="fullscreen">Czy używać pełnego ekranu.</param>
-		/// <param name="useVSync">Czy używać synchronizacji pionowej.</param>
-		public Game(string name, int width, int height, bool fullscreen = true, bool useVSync = true)
-			: this(name, width, height, fullscreen, useVSync, OpenTK.Graphics.GraphicsMode.Default)
-		{ }
-
-		/// <summary>
-		/// Inicjalizuje obiekt gry.
-		/// </summary>
-		/// <param name="name">Nazwa(równa nazwie okna).</param>
-		/// <param name="width">Szerokość okna.</param>
-		/// <param name="height">Wysokość okna.</param>
-		/// <param name="fullscreen">Czy używać pełnego ekranu.</param>
-		/// <param name="useVSync">Czy używać synchronizacji pionowej.</param>
-		/// <param name="mode">Tryb graficzny.</param>s
-		public Game(string name, int width, int height, bool fullscreen, bool useVSync, OpenTK.Graphics.GraphicsMode mode)
-		{
-			Logger.Info("Creating game object");
-			Logger.Info("\tGame name: {0}", name);
-			Logger.Info("\tWindow size: {0} x {1}", width, height);
-			Logger.Info("\tFullscreen: {0}", fullscreen);
-			Logger.Info("\tVSync: {0}", (useVSync ? "on" : "off"));
-			this.Name = name;
-			this.Window = new GameWindow(this, name, width, height, fullscreen, useVSync, mode);
-			new Input(this.Window, true);
-			this.ScreensManager = new ClashEngine.NET.ScreensManager.ScreensManager();
-			Logger.Info("Window created");
-		}
-		#endregion
-
 		#region IGame members
 		#region Properties
 		/// <summary>
@@ -79,12 +40,12 @@ namespace ClashEngine.NET
 		/// <summary>
 		/// Manager ekranów dla gry.
 		/// </summary>
-		public IScreensManager ScreensManager { get; private set; }
+		public IScreensManager Screens { get; private set; }
 
 		/// <summary>
 		/// Manager zasobów.
 		/// </summary>
-		public IResourcesManager ResourcesManager
+		public IResourcesManager Resources
 		{
 			get
 			{
@@ -188,8 +149,8 @@ namespace ClashEngine.NET
 		/// </summary>
 		public virtual void DeInit()
 		{
-			this.ScreensManager.Dispose();
-			this.ResourcesManager.Dispose();
+			this.Screens.Dispose();
+			this.Resources.Dispose();
 		}
 
 		/// <summary>
@@ -204,7 +165,7 @@ namespace ClashEngine.NET
 				PhysicsManager.PhysicsManager.Instance.World.Step(Phy.PhysicsManager.Instance.TimeStep);
 				this.Accumulator -= Phy.PhysicsManager.Instance.TimeStep;
 			}
-			this.ScreensManager.Update(delta);
+			this.Screens.Update(delta);
 		}
 
 		/// <summary>
@@ -212,7 +173,7 @@ namespace ClashEngine.NET
 		/// </summary>
 		public virtual void Render()
 		{
-			this.ScreensManager.Render();
+			this.Screens.Render();
 		}
 
 		#region Running
@@ -252,6 +213,44 @@ namespace ClashEngine.NET
 			this.Window.Exit();
 		}
 		#endregion
+		#endregion
+
+		#region Constructors
+		/// <summary>
+		/// Inicjalizuje obiekt gry.
+		/// Przyjmowany jest domyślny tryb graficzny.
+		/// </summary>
+		/// <param name="name">Nazwa(równa nazwie okna).</param>
+		/// <param name="width">Szerokość okna.</param>
+		/// <param name="height">Wysokość okna.</param>
+		/// <param name="fullscreen">Czy używać pełnego ekranu.</param>
+		/// <param name="useVSync">Czy używać synchronizacji pionowej.</param>
+		public Game(string name, int width, int height, bool fullscreen = true, bool useVSync = true)
+			: this(name, width, height, fullscreen, useVSync, OpenTK.Graphics.GraphicsMode.Default)
+		{ }
+
+		/// <summary>
+		/// Inicjalizuje obiekt gry.
+		/// </summary>
+		/// <param name="name">Nazwa(równa nazwie okna).</param>
+		/// <param name="width">Szerokość okna.</param>
+		/// <param name="height">Wysokość okna.</param>
+		/// <param name="fullscreen">Czy używać pełnego ekranu.</param>
+		/// <param name="useVSync">Czy używać synchronizacji pionowej.</param>
+		/// <param name="mode">Tryb graficzny.</param>s
+		public Game(string name, int width, int height, bool fullscreen, bool useVSync, OpenTK.Graphics.GraphicsMode mode)
+		{
+			Logger.Info("Creating game object");
+			Logger.Info("\tGame name: {0}", name);
+			Logger.Info("\tWindow size: {0} x {1}", width, height);
+			Logger.Info("\tFullscreen: {0}", fullscreen);
+			Logger.Info("\tVSync: {0}", (useVSync ? "on" : "off"));
+			this.Name = name;
+			this.Window = new GameWindow(this, name, width, height, fullscreen, useVSync, mode);
+			new Input(this.Window, true);
+			this.Screens = new ClashEngine.NET.ScreensManager.ScreensManager();
+			Logger.Info("Window created");
+		}
 		#endregion
 
 		#region IDisposable members

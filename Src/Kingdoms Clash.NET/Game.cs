@@ -103,10 +103,10 @@ namespace Kingdoms_Clash.NET
 
 			if (Configuration.Instance.UseFPSCounter)
 			{
-				this.ScreensManager.AddAndActivate(new FPSCounter() { LogStatistics = 10.0f });
+				this.Screens.AddAndActivate(new FPSCounter() { LogStatistics = 10.0f });
 			}
-			this.ScreensManager.Add(new AdditionalScreens.WinnerScreen(this.Game));
-			this.ScreensManager.AddAndActivate(this.Game);
+			this.Screens.Add(new AdditionalScreens.WinnerScreen(this.Game));
+			this.Screens.AddAndActivate(this.Game);
 			//this.ScreensManager.AddAndMakeActive(this.Menu);
 			base.Init();
 		}
@@ -141,7 +141,7 @@ namespace Kingdoms_Clash.NET
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-			this.ResourcesManager.ContentDirectory = Defaults.ContentDirectory;
+			this.Resources.ContentDirectory = Defaults.ContentDirectory;
 			ClashEngine.NET.PhysicsManager.PhysicsManager.Instance.Gravity = new OpenTK.Vector2(0f, Configuration.Instance.Gravity);
 		}
 		#endregion

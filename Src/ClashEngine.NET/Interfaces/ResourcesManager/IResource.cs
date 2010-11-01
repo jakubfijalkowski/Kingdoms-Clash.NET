@@ -29,32 +29,23 @@
 	{
 		#region Properties
 		/// <summary>
-		/// Identyfikator zasobu - nazwa pliku z zasobem.
+		/// Identyfikator zasobu.
 		/// </summary>
-		string Id { get; }
+		string Id { get; set; }
 
 		/// <summary>
 		/// Ścieżka do zasobu.
 		/// Od implementacji zależy czy jest absolutna czy relatywna.
 		/// </summary>
-		string FileName { get; }
+		string FileName { get; set; }
 
 		/// <summary>
 		/// Manager-rodzic zasobu.
 		/// </summary>
-		IResourcesManager Manager { get; }
+		IResourcesManager Manager { get; set; }
 		#endregion
 
 		#region Methods
-		/// <summary>
-		/// Inicjalizuje zasób.
-		/// MUSI ustawiać właściwość Id na tą wskazywaną przez parametr i MUSI ustawiać właściwość FileName na manager.ContentDirectory + Id.
-		/// Jeśli wywoływana jest więcej niż jeden raz zasób przed tym powinien zostać zwolniony.
-		/// </summary>
-		/// <param name="id">Identyfikator.</param>
-		/// <param name="manager">Manager-rodzic danego zasobu.</param>
-		void Init(string id, IResourcesManager manager);
-
 		/// <summary>
 		/// Ładuje zasób.
 		/// </summary>

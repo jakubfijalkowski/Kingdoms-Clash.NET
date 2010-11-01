@@ -16,7 +16,7 @@ namespace ClashEngine.NET.Resources
 	/// Musi być używane tylko z wątku, w którym jest aktywny kontekst OpenGL, w innych nie "zadziała".
 	/// </remarks>
 	public class Texture
-		: ResourcesManager.Resource, ITexture
+		: ITexture
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
@@ -38,6 +38,24 @@ namespace ClashEngine.NET.Resources
 		private bool DefaultUsed = false;
 
 		private object PadLock = new object();
+
+		#region IResource Members
+		/// <summary>
+		/// Identyfikator tekstury.
+		/// </summary>
+		public string Id { get; set; }
+
+		/// <summary>
+		/// Plik tekstury.
+		/// Najczęściej rózwny Id.
+		/// </summary>
+		public string FileName { get; set; }
+
+		/// <summary>
+		/// Manager-rodzic zasobu.
+		/// </summary>
+		public Interfaces.ResourcesManager.IResourcesManager Manager { get; set; }
+		#endregion
 
 		#region ITexture members
 		/// <summary>
@@ -85,7 +103,7 @@ namespace ClashEngine.NET.Resources
 		/// Jeśli nie może załadować używa domyślnej tekstury.
 		/// </summary>
 		/// <returns>Stan załadowania zasobu.</returns>
-		public override Interfaces.ResourcesManager.ResourceLoadingState Load()
+		public virtual Interfaces.ResourcesManager.ResourceLoadingState Load()
 		{
 			lock (this.PadLock)
 			{
@@ -134,7 +152,7 @@ namespace ClashEngine.NET.Resources
 		/// <summary>
 		/// Zwalnia zasób.
 		/// </summary>
-		public override void Free()
+		public void Free()
 		{
 			lock (this.PadLock)
 			{
@@ -153,6 +171,13 @@ namespace ClashEngine.NET.Resources
 					}
 				}
 			}
+		}
+		#endregion
+
+		#region IDisposable Members
+		public void Dispose()
+		{
+			this.Free();
 		}
 		#endregion
 	}

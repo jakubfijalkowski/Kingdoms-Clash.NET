@@ -82,7 +82,7 @@ namespace ClashEngine.NET.ResourcesManager
 		}
 		#endregion
 
-		#region Ctors
+		#region Constructors
 		protected ResourcesManager()
 		{ }
 		#endregion
@@ -215,7 +215,10 @@ namespace ClashEngine.NET.ResourcesManager
 		/// <param name="res"></param>
 		private void LoadResource(string id, IResource res)
 		{
-			res.Init(id.Replace('\\', '/'), this);
+			res.Id = id;
+			res.FileName = this.ContentDirectory + @"\" + id;
+			res.Manager = this;
+
 			switch (res.Load())
 			{
 			case ResourceLoadingState.Success:

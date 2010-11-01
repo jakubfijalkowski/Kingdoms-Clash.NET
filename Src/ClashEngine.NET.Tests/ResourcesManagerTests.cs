@@ -1,5 +1,4 @@
 ﻿using System;
-using ClashEngine.NET.ResourcesManager;
 using Moq;
 using NUnit.Framework;
 
@@ -19,12 +18,12 @@ namespace ClashEngine.NET.Tests
 		{
 			this.Manager = ResourcesManager.ResourcesManager.Instance;
 
-			this.Resource1 = new Mock<MockResource>("resource 1", this.Manager);
+			this.Resource1 = new Mock<MockResource>();
 			this.Resource1.Setup(r => r.Load());
 			this.Resource1.Setup(r => r.Free());
 			this.Manager.Load("resource 1", this.Resource1.Object);
 
-			this.Resource2 = new Mock<MockResource>("resource 2", this.Manager);
+			this.Resource2 = new Mock<MockResource>();
 			this.Resource2.Setup(r => r.Load());
 			this.Resource2.Setup(r => r.Free());
 			this.Manager.Load("resource 2", this.Resource2.Object);
@@ -108,7 +107,7 @@ namespace ClashEngine.NET.Tests
 		{
 			Assert.Throws<ArgumentNullException>(() => this.Manager.Free((string)null));
 			Assert.Throws<ArgumentNullException>(() => this.Manager.Free(string.Empty));
-			Assert.Throws<ArgumentNullException>(() => this.Manager.Free((Resource)null));
+			Assert.Throws<ArgumentNullException>(() => this.Manager.Free((IResource)null));
 		}
 
 		[Test]
@@ -129,40 +128,52 @@ namespace ClashEngine.NET.Tests
 		/// Klasa zasobu nie-abstrakcyjna(ale pusta) do użycia przez Moq #1.
 		/// </summary>
 		public class MockResource
-			: ResourcesManager.Resource
+			: IResource
 		{
-			public MockResource()
-			{
+			#region IResource Members
+			public string Id { get; set; }
+			public string FileName { get; set; }
+			public IResourcesManager Manager { get; set; }
 
-			}
-
-			public MockResource(string id, IResourcesManager manager)
-			{
-				base.Init(id, manager);
-			}
-
-			public override ResourceLoadingState Load()
+			public virtual ResourceLoadingState Load()
 			{
 				return ResourceLoadingState.Success;
 			}
 
-			public override void Free()
+			public virtual void Free()
 			{ }
+			#endregion
+
+			#region IDisposable Members
+			public void Dispose()
+			{ }
+			#endregion
 		}
 
 		/// <summary>
 		/// Klasa zasobu nie-abstrakcyjna(ale pusta) do użycia przez Moq #2.
 		/// </summary>
 		public class MockResource2
-			: ResourcesManager.Resource
+			: IResource
 		{
-			public override ResourceLoadingState Load()
+			#region IResource Members
+			public string Id { get; set; }
+			public string FileName { get; set; }
+			public IResourcesManager Manager { get; set; }
+
+			public virtual ResourceLoadingState Load()
 			{
 				return ResourceLoadingState.Success;
 			}
 
-			public override void Free()
+			public virtual void Free()
 			{ }
+			#endregion
+
+			#region IDisposable Members
+			public void Dispose()
+			{ }
+			#endregion
 		}
 		#endregion
 	}

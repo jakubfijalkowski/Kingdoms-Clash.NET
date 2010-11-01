@@ -125,7 +125,6 @@
     <Compile Include="Interfaces\PhysicsManager\IPhysicsManager.cs" />
     <Compile Include="Interfaces\ResourcesManager\IResource.cs" />
     <Compile Include="Interfaces\ResourcesManager\IResourcesManager.cs" />
-    <Compile Include="Interfaces\Resources\IShaderProgram.cs" />
     <Compile Include="Interfaces\Resources\ITexture.cs" />
     <Compile Include="Interfaces\Resources\ITexturesAtlas.cs" />
     <Compile Include="Interfaces\ScreensManager\IScreen.cs" />
@@ -138,10 +137,8 @@
     <Compile Include="PhysicsManager\PhysicsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourcesManager\HotReplaceResourcesManager.cs" />
-    <Compile Include="ResourcesManager\Resource.cs" />
     <Compile Include="ResourcesManager\ResourcesManager.cs" />
     <Compile Include="Resources\DefaultTexture.cs" />
-    <Compile Include="Resources\ShaderProgram.cs" />
     <Compile Include="Resources\Texture.cs" />
     <Compile Include="ScreensManager\Screen.cs" />
     <Compile Include="ScreensManager\ScreensManager.cs" />
