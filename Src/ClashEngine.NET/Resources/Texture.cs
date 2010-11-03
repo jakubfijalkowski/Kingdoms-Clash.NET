@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 namespace ClashEngine.NET.Resources
 {
 	using Interfaces.Resources;
-	
+
 	/// <summary>
 	/// Tekstura.
 	/// Obsługiwane formaty: BMP, GIF, EXIF, JPG, PNG, TIFF.
@@ -15,6 +15,7 @@ namespace ClashEngine.NET.Resources
 	/// <remarks>
 	/// Musi być używane tylko z wątku, w którym jest aktywny kontekst OpenGL, w innych nie "zadziała".
 	/// </remarks>
+	[System.Diagnostics.DebuggerDisplay("Texture {Id,nq}")]
 	public class Texture
 		: ITexture
 	{
@@ -32,12 +33,14 @@ namespace ClashEngine.NET.Resources
 		private static int DefaultTexturesCount = 0;
 		#endregion
 
+		#region Private fields
 		/// <summary>
 		/// Czy użyto domyślnej tekstury?
 		/// </summary>
 		private bool DefaultUsed = false;
 
 		private object PadLock = new object();
+		#endregion
 
 		#region IResource Members
 		/// <summary>
@@ -55,49 +58,7 @@ namespace ClashEngine.NET.Resources
 		/// Manager-rodzic zasobu.
 		/// </summary>
 		public Interfaces.ResourcesManager.IResourcesManager Manager { get; set; }
-		#endregion
 
-		#region ITexture members
-		/// <summary>
-		/// Pobiera identyfikator(OpenGL) tekstury.
-		/// </summary>
-		public int TextureId { get; protected set; }
-
-		/// <summary>
-		/// Szerokość w pikselach.
-		/// </summary>
-		public int Widgth { get; protected set; }
-
-		/// <summary>
-		/// Wysokość w pikselach.
-		/// </summary>
-		public int Heigth { get; protected set; }
-
-		/// <summary>
-		/// Pobiera koordynaty tekstury.
-		/// Zawsze stałe - (0.0, 0.0, 1.0, 1.0).
-		/// </summary>
-		public RectangleF Coordinates
-		{
-			get
-			{
-				return new RectangleF(0.0f, 0.0f, 1.0f, 1.0f);
-			}
-		}
-
-		/// <summary>
-		/// Ustawia teksturę jako aktualnie używaną.
-		/// </summary>
-		public void Bind()
-		{
-			lock (this.PadLock)
-			{
-				GL.BindTexture(TextureTarget.Texture2D, this.TextureId);
-			}
-		}
-		#endregion
-
-		#region Resource members
 		/// <summary>
 		/// Ładuje teksturę.
 		/// Jeśli nie może załadować używa domyślnej tekstury.
@@ -107,25 +68,27 @@ namespace ClashEngine.NET.Resources
 		{
 			lock (this.PadLock)
 			{
-				Bitmap bm;
 				try
 				{
 					GL.Enable(EnableCap.Texture2D);
 
-					bm = new Bitmap(this.FileName);
+					using (Bitmap bm = new Bitmap(this.FileName))
+					{
+						BitmapData data = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-					BitmapData data = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+						this.Width = bm.Width;
+						this.Height = bm.Height;
 
-					this.TextureId = GL.GenTexture();
-					this.Bind();
-					GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bm.Width, bm.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-					bm.UnlockBits(data);
+						this.TextureId = GL.GenTexture();
+						this.Bind();
+						GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bm.Width, bm.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+						bm.UnlockBits(data);
+					}
 
 					//Ustawiamy filtrowanie - w grach 2D linearne nas zadowala.
 					GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
 					GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
-					bm.Dispose(); //Od razu zwalniamy, nie mamy potrzeby trzymać tego w pamięci.
 				}
 				catch (Exception ex)
 				{
@@ -138,8 +101,8 @@ namespace ClashEngine.NET.Resources
 					}
 					this.DefaultUsed = true;
 					this.TextureId = DefaultTexture.TextureId;
-					this.Widgth = DefaultTexture.Widgth;
-					this.Heigth = DefaultTexture.Heigth;
+					this.Width = DefaultTexture.Width;
+					this.Height = DefaultTexture.Height;
 
 					++DefaultTexturesCount;
 
@@ -170,6 +133,46 @@ namespace ClashEngine.NET.Resources
 						DefaultTexture = null;
 					}
 				}
+			}
+		}
+		#endregion
+
+		#region ITexture members
+		/// <summary>
+		/// Pobiera identyfikator(OpenGL) tekstury.
+		/// </summary>
+		public int TextureId { get; protected set; }
+
+		/// <summary>
+		/// Szerokość w pikselach.
+		/// </summary>
+		public int Width { get; protected set; }
+
+		/// <summary>
+		/// Wysokość w pikselach.
+		/// </summary>
+		public int Height { get; protected set; }
+
+		/// <summary>
+		/// Pobiera koordynaty tekstury.
+		/// Zawsze stałe - (0.0, 0.0, 1.0, 1.0).
+		/// </summary>
+		public RectangleF Coordinates
+		{
+			get
+			{
+				return new RectangleF(0.0f, 0.0f, 1.0f, 1.0f);
+			}
+		}
+
+		/// <summary>
+		/// Ustawia teksturę jako aktualnie używaną.
+		/// </summary>
+		public void Bind()
+		{
+			lock (this.PadLock)
+			{
+				GL.BindTexture(TextureTarget.Texture2D, this.TextureId);
 			}
 		}
 		#endregion

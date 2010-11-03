@@ -16,12 +16,12 @@ namespace ClashEngine.NET.Interfaces.Resources
 		/// <summary>
 		/// Szerokość w pikselach.
 		/// </summary>
-		int Widgth { get; }
+		int Width { get; }
 
 		/// <summary>
 		/// Wysokość w pikselach.
 		/// </summary>
-		int Heigth { get; }
+		int Height { get; }
 
 		/// <summary>
 		/// Pobiera koordynaty tekstury.

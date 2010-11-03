@@ -48,12 +48,15 @@ namespace ClashEngine.NET.ResourcesManager
 		}
 		#endregion
 
+		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		protected Dictionary<string, IResource> Resources = new Dictionary<string, IResource>();
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private string _ContentDirectory = Path.GetFullPath(".");
+		#endregion
 
+		#region IResourcesManager Members
 		#region Properties
 		/// <summary>
 		/// Pobiera liczbę wszystkich zasobów dodanych do managera.
@@ -80,11 +83,6 @@ namespace ClashEngine.NET.ResourcesManager
 				Logger.Info("Changing content directory to {0}", this._ContentDirectory);
 			}
 		}
-		#endregion
-
-		#region Constructors
-		protected ResourcesManager()
-		{ }
 		#endregion
 
 		#region Basic operations
@@ -207,8 +205,14 @@ namespace ClashEngine.NET.ResourcesManager
 			Logger.Info("Resource '{0}' freed", res.Id);
 		}
 		#endregion
+		#endregion
 
-		#region Others
+		#region Constructors
+		protected ResourcesManager()
+		{ }
+		#endregion
+
+		#region Private methods
 		/// <summary>
 		/// Uogólnia ładowanie zasobu - logowanie w jedynm miejscu.
 		/// </summary>
@@ -236,6 +240,7 @@ namespace ClashEngine.NET.ResourcesManager
 				break;
 			}
 		}
+		#endregion
 
 		#region IDisposable members
 		public void Dispose()
@@ -247,7 +252,6 @@ namespace ClashEngine.NET.ResourcesManager
 			}
 			this.Resources.Clear();
 		}
-		#endregion
 		#endregion
 	}
 }
