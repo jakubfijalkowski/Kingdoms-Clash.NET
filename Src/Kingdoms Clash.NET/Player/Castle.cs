@@ -105,7 +105,7 @@ namespace Kingdoms_Clash.NET.Player
 			pObj.Body.SetCollisionCategories(FarseerPhysics.Dynamics.CollisionCategory.Cat20);
 			pObj.Body.UserData = this;
 
-			Sprite s = new Sprite("CastleImage", ResourcesManager.Instance.Load<Texture>(this.Nation.CastleImage));
+			Sprite s = new Sprite("CastleImage", this.Content.Load<Texture>(this.Nation.CastleImage));
 			if (this.Type == PlayerType.Second)
 			{
 				s.FlipHorizontal();

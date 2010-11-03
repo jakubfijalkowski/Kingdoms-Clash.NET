@@ -67,16 +67,22 @@
 		string Id { get; }
 
 		/// <summary>
-		/// Manager - rodzic.
+		/// Manager - właściciel.
 		/// Ustawiane przez niego samego.
 		/// </summary>
-		IScreensManager Manager { get; set; }
+		IScreensManager OwnerManager { get; set; }
 
 		/// <summary>
 		/// Wejście.
-		/// Ustawiane przez manager-rodzica.
+		/// Ustawiane przez właściciela.
 		/// </summary>
 		IInput Input { get; set; }
+
+		/// <summary>
+		/// Manager zasobów dla ekranu.
+		/// Ustawiany przez właściciela, ale nie ma wymogu, by to właśnie jego używać.
+		/// </summary>
+		ResourcesManager.IResourcesManager Content { get; set; }
 
 		/// <summary>
 		/// Typ ekranu.
@@ -113,38 +119,6 @@
 		/// Ekran ma się odrysować.
 		/// </summary>
 		void Render();
-
-		//#region Keyboard
-		///// <summary>
-		///// Zdarzenie naciśnięcia/zwolnienia klawisza.
-		///// </summary>
-		///// <param name="e"></param>
-		///// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		//bool KeyChanged(KeyEventArgs e);
-		//#endregion
-
-		//#region Mouse
-		///// <summary>
-		///// Zdarzenie naciśnięcia/zwolnienia przycisku myszy.
-		///// </summary>
-		///// <param name="e"></param>
-		///// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		//bool MouseButton(MouseButtonEventArgs e);
-
-		///// <summary>
-		///// Zdarzenie poruszenia myszy.
-		///// </summary>
-		///// <param name="e"></param>
-		///// <returns>Czy zostało obsłużonę.</returns>
-		//bool MouseMove(MouseMoveEventArgs e);
-
-		///// <summary>
-		///// Zdarzenie "przekręcenia" kółka myszy.
-		///// </summary>
-		///// <param name="e"></param>
-		///// <returns>Czy zostało obsłużonę.</returns>
-		//bool MouseWheel(MouseWheelEventArgs e);
-		//#endregion
 		#endregion
 	}
 }

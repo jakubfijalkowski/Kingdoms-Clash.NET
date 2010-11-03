@@ -134,7 +134,7 @@ namespace Kingdoms_Clash.NET
 		public override void OnInit()
 		{
 			base.OnInit();
-			this.StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager(this.Input);
+			this.StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager(this.Input, this.Content);
 
 			this.Controller.GameState = this;
 
@@ -235,14 +235,14 @@ namespace Kingdoms_Clash.NET
 			if (this.Players[0].Health <= 0)
 			{
 				Logger.Error("User {0} has won the match!", this.Players[1].Name);
-				var winnerScreen = this.Manager["WinnerScreen"] as AdditionalScreens.WinnerScreen;
+				var winnerScreen = this.OwnerManager["WinnerScreen"] as AdditionalScreens.WinnerScreen;
 				winnerScreen.ChangeWinner(true);
 				winnerScreen.Activate();
 			}
 			else if (this.Players[1].Health <= 0)
 			{
 				Logger.Error("User {0} has won the match!", this.Players[0].Name);
-				var winnerScreen = this.Manager["WinnerScreen"] as AdditionalScreens.WinnerScreen;
+				var winnerScreen = this.OwnerManager["WinnerScreen"] as AdditionalScreens.WinnerScreen;
 				winnerScreen.ChangeWinner(false);
 				winnerScreen.Activate();
 			}

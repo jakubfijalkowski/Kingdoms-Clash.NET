@@ -6,6 +6,7 @@ namespace ClashEngine.NET.EntitiesManager
 {
 	using Interfaces;
 	using Interfaces.EntitiesManager;
+	using Interfaces.ResourcesManager;
 
 	/// <summary>
 	/// Manager encji gry.
@@ -16,9 +17,12 @@ namespace ClashEngine.NET.EntitiesManager
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
+		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IGameEntity> Entities = new List<IGameEntity>();
 		private IInput Input = null;
+		private IResourcesManager Content = null;
+		#endregion
 
 		#region IEntitiesManager Members
 		/// <summary>
@@ -78,8 +82,9 @@ namespace ClashEngine.NET.EntitiesManager
 			{
 				throw new Exceptions.ArgumentAlreadyExistsException("entity");
 			}
-			entity.Manager = this;
+			entity.OwnerManager = this;
 			entity.Input = this.Input;
+			entity.Content = this.Content;
 			this.Entities.Add(entity);
 			entity.OnInit();
 			Logger.Trace("Entity {0} added to manager", entity.Id);
@@ -156,9 +161,11 @@ namespace ClashEngine.NET.EntitiesManager
 		/// Inicjalizuje manager.
 		/// </summary>
 		/// <param name="input">Wejście.</param>
-		public EntitiesManager(IInput input)
+		/// <param name="content">Manager zasobów.</param>
+		public EntitiesManager(IInput input, IResourcesManager content)
 		{
 			this.Input = input;
+			this.Content = content;
 		}
 
 		~EntitiesManager()

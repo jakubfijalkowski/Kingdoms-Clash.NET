@@ -35,7 +35,13 @@ namespace ClashEngine.NET.Gui
 		/// Manager - rodzic.
 		/// Ustawiane przez nieg samego.
 		/// </summary>
-		public IScreensManager Manager { get; set; }
+		public IScreensManager OwnerManager { get; set; }
+
+		/// <summary>
+		/// Manager zasobów dla ekranu.
+		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
+		/// </summary>
+		public Interfaces.ResourcesManager.IResourcesManager Content { get; set; }
 
 		/// <summary>
 		/// Typ ekranu.

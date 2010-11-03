@@ -16,7 +16,7 @@ namespace ClashEngine.NET.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			this.Manager = new EntitiesManager.EntitiesManager(null);
+			this.Manager = new EntitiesManager.EntitiesManager(null, null);
 			this.Entity1 = new Mock<GameEntity>("Entity1");
 			this.Entity1.Setup(e => e.OnInit());
 			this.Entity1.Setup(e => e.OnDeinit());
@@ -64,9 +64,9 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void PropertiesAreCorrect()
 		{
-			Assert.AreEqual(this.Manager, this.Entity1.Object.Manager);
-			Assert.AreEqual(this.Manager, this.Entity2.Object.Manager);
-			Assert.AreEqual(this.Manager, this.Entity3.Object.Manager);
+			Assert.AreEqual(this.Manager, this.Entity1.Object.OwnerManager);
+			Assert.AreEqual(this.Manager, this.Entity2.Object.OwnerManager);
+			Assert.AreEqual(this.Manager, this.Entity3.Object.OwnerManager);
 		}
 
 		[Test]

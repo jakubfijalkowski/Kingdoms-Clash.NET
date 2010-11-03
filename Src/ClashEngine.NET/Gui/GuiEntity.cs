@@ -18,7 +18,13 @@ namespace ClashEngine.NET.Gui
 		/// Manager encji, do którego encja należy.
 		/// Ustawiany przez niego samego przy dodaniu encji.
 		/// </summary>
-		public Interfaces.EntitiesManager.IEntitiesManager Manager { get; set; }
+		public Interfaces.EntitiesManager.IEntitiesManager OwnerManager { get; set; }
+
+		/// <summary>
+		/// Manager zasobów.
+		/// Ustawiany przez właściciela, ale nie ma wymogu, by to właśnie jego używać.
+		/// </summary>
+		public Interfaces.ResourcesManager.IResourcesManager Content { get; set; }
 
 		/// <summary>
 		/// Zdarzenie wywoływane przy inicjalizacji encji(dodaniu do managera).

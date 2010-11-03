@@ -23,7 +23,7 @@
 		/// <summary>
 		/// Manager zasobów.
 		/// </summary>
-		ResourcesManager.IResourcesManager Resources { get; }
+		ResourcesManager.IResourcesManager Content { get; }
 		#endregion
 
 		#region Window info

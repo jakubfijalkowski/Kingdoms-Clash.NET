@@ -15,13 +15,19 @@
 		/// Manager encji, do którego encja należy.
 		/// Ustawiany przez niego samego przy dodaniu encji.
 		/// </summary>
-		IEntitiesManager Manager { get; set; }
+		IEntitiesManager OwnerManager { get; set; }
 
 		/// <summary>
 		/// Wejście.
 		/// Ustawiane przez manager.
 		/// </summary>
 		IInput Input { get; set; }
+
+		/// <summary>
+		/// Manager zasobów.
+		/// Ustawiany przez właściciela, ale nie ma wymogu, by to właśnie jego używać.
+		/// </summary>
+		ResourcesManager.IResourcesManager Content { get; set; }
 
 		/// <summary>
 		/// Lista komponentów.

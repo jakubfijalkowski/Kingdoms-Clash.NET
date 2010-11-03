@@ -46,13 +46,14 @@ namespace ClashEngine.NET
 		/// <summary>
 		/// Manager zasobów.
 		/// </summary>
-		public IResourcesManager Resources
-		{
-			get
-			{
-				return NET.ResourcesManager.ResourcesManager.Instance;
-			}
-		}
+		/// <remarks>
+		///	Makra:
+		///		FORCEHOTREPLACEMANAGER - wymusza użycie managera zasobów obsługującego "hot replace" plików.
+		///		FORCENOTUSINGHOTREPLACEMANAGER - wymusza nieużywanie managera zasobów obsługującego "hot replace".
+		///	Domyślnie w wersji Debug używany jest manager obsługujący "hot replace", a w Release - nie.
+		///	Jeśli pozwolimy używać takiego managera musimy zapewnić, że klasy zasobów będą thread-safe.
+		/// </remarks>
+		public IResourcesManager Content { get; private set; }
 		#endregion
 
 		#region Window info
@@ -145,7 +146,7 @@ namespace ClashEngine.NET
 		public virtual void DeInit()
 		{
 			this.Screens.Dispose();
-			this.Resources.Dispose();
+			this.Content.Dispose();
 		}
 
 		/// <summary>
@@ -243,7 +244,15 @@ namespace ClashEngine.NET
 			this.Name = name;
 			this.Window = new GameWindow(this, name, width, height, fullscreen, useVSync, mode);
 			this.Input = new Input(this.Window);
-			this.Screens = new ClashEngine.NET.ScreensManager.ScreensManager(this.Input);
+
+			#if (DEBUG || FORCEHOTREPLACEMANAGER) && !FORCENOTUSINGHOTREPLACEMANAGER
+			//Debug - używamy managera udostępniającego "gorącą podmianę"
+			this.Content = new ResourcesManager.HotReplaceResourcesManager();
+			#else
+			this.Content = new ResourcesManager.ResourcesManager();
+			#endif
+
+			this.Screens = new ClashEngine.NET.ScreensManager.ScreensManager(this.Input, this.Content);
 			Logger.Info("Window created");
 		}
 		#endregion

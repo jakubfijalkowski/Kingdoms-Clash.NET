@@ -115,7 +115,7 @@ namespace Kingdoms_Clash.NET.AdditionalScreens
 				float h = aspect / 12f;
 
 				this.Components.Add(this.Image);
-				this.Image.Init(ResourcesManager.Instance.Load<Texture>("PlayerAWon.png"));
+				this.Image.Init(this.Content.Load<Texture>("PlayerAWon.png"));
 				this.Image.Size = new Vector2(w, h);
 				this.Image.Position = new Vector2((1f - w) / 2f, (1f * aspect - h) / 2f);
 			}
@@ -125,11 +125,11 @@ namespace Kingdoms_Clash.NET.AdditionalScreens
 			{
 				if (b)
 				{
-					this.Image.Init(ResourcesManager.Instance.Load<Texture>("PlayerBWon.png"));
+					this.Image.Init(this.Content.Load<Texture>("PlayerBWon.png"));
 				}
 				else
 				{
-					this.Image.Init(ResourcesManager.Instance.Load<Texture>("PlayerAWon.png"));
+					this.Image.Init(this.Content.Load<Texture>("PlayerAWon.png"));
 				}
 			}
 		}

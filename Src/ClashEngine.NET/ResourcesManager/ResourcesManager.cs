@@ -11,42 +11,11 @@ namespace ClashEngine.NET.ResourcesManager
 	/// Manager zasobów.
 	/// Zaimplementowany jako singleton - instancja pobierana przez właściwość Instance.
 	/// </summary>
-	/// <remarks>
-	///	Makra:
-	///		FORCEHOTREPLACEMANAGER - wymusza użycie managera zasobów obsługującego "hot replace" plików.
-	///		FORCENOTUSINGHOTREPLACEMANAGER - wymusza nieużywanie managera zasobów obsługującego "hot replace".
-	///	Domyślnie w wersji Debug używany jest manager obsługujący "hot replace", a w Release - nie.
-	///	Jeśli pozwolimy używać takiego managera musimy zapewnić, że klasy zasobów będą thread-safe.
-	/// </remarks>
 	[DebuggerDisplay("Resources = {TotalCount}")]
 	public class ResourcesManager
 		: IResourcesManager
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
-
-		#region Singleton implementation
-		private static ResourcesManager _Instance = null;
-
-		/// <summary>
-		/// Instancja(jedyna na aplikację) managera.
-		/// </summary>
-		public static ResourcesManager Instance
-		{
-			get
-			{
-				if (_Instance == null)
-				{
-#if (DEBUG || FORCEHOTREPLACEMANAGER) && !FORCENOTUSINGHOTREPLACEMANAGER
-					//Debug - używamy managera udostępniającego "gorącą podmianę"
-					_Instance = new HotReplaceResourcesManager();
-#else
-					_Instance = new ResourcesManager(); 
-#endif
-				}
-				return _Instance;
-			}
-		}
-		#endregion
 
 		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
@@ -205,11 +174,6 @@ namespace ClashEngine.NET.ResourcesManager
 			Logger.Info("Resource '{0}' freed", res.Id);
 		}
 		#endregion
-		#endregion
-
-		#region Constructors
-		protected ResourcesManager()
-		{ }
 		#endregion
 
 		#region Private methods

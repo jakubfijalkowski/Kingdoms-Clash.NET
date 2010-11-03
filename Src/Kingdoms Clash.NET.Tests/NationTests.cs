@@ -37,7 +37,7 @@ namespace Kingdoms_Clash.NET.Tests
 		public void NationCreatesCorrectUnitWithExisitngId1()
 		{
 			var unit = this.Nation.CreateUnit("Unit1", this.Player.Object);
-			unit.Manager = null;
+			unit.OwnerManager = null;
 			unit.OnInit();
 			Assert.AreEqual(100, unit.Health);
 			Assert.AreEqual(this.Description1, unit.Description);
@@ -47,7 +47,7 @@ namespace Kingdoms_Clash.NET.Tests
 		public void NationCreatesCorrectUnitWithExisitngId2()
 		{
 			var unit = this.Nation.CreateUnit("Unit2", this.Player.Object);
-			unit.Manager = null;
+			unit.OwnerManager = null;
 			unit.OnInit();
 			Assert.AreEqual(100, unit.Health);
 			Assert.AreEqual(this.Description2, unit.Description);

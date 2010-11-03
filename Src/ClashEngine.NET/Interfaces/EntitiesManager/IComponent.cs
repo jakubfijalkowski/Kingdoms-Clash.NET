@@ -2,6 +2,7 @@
 {
 	/// <summary>
 	/// Bazowy interfejs dla komponentów.
+	/// Komponent dziedziczący powienien używać wejścia i zasobów od swojego właściciela.
 	/// </summary>
 	public interface IComponent
 	{

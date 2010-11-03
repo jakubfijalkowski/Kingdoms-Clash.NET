@@ -6,6 +6,7 @@ namespace ClashEngine.NET.ScreensManager
 {
 	using Interfaces;
 	using Interfaces.ScreensManager;
+	using Interfaces.ResourcesManager;
 
 	/// <summary>
 	/// Manager ekranów.
@@ -21,6 +22,7 @@ namespace ClashEngine.NET.ScreensManager
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IScreen> Screens = new List<IScreen>();
 		private IInput Input = null;
+		private IResourcesManager Content = null;
 		#endregion
 
 		#region IScreensManager Members
@@ -257,8 +259,9 @@ namespace ClashEngine.NET.ScreensManager
 				throw new Exceptions.ArgumentAlreadyExistsException("item");
 			}
 			this.Screens.Add(item);
-			item.Manager = this;
+			item.OwnerManager = this;
 			item.Input = this.Input;
+			item.Content = this.Content;
 			item.State = ScreenState.Deactivated;
 			item.OnInit();
 			Logger.Debug("Screen {0} added to manager", item.Id);
@@ -367,9 +370,11 @@ namespace ClashEngine.NET.ScreensManager
 		/// Inicjalizuje nowy manager i dodaje zdarzenia dla wejścia.
 		/// </summary>
 		/// <param name="input">Wejście, które zostanie przypisane ekranom.</param>
-		public ScreensManager(IInput input)
+		/// <param name="content">Manager zasobów ustawiany managerowi.</param>
+		public ScreensManager(IInput input, IResourcesManager content)
 		{
 			this.Input = input;
+			this.Content = content;
 		}
 
 		~ScreensManager()

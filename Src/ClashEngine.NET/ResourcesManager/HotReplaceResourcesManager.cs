@@ -6,9 +6,9 @@ namespace ClashEngine.NET.ResourcesManager
 
 	/// <summary>
 	/// Manager zasobów umożliwiający podmianę plików "na gorąco"(w trakcie działania aplikacji).
-	/// Do tego celu wykorzystuje System.IO.FileSystemWatcher
+	/// Do tego celu wykorzystuje System.IO.FileSystemWatcher.
 	/// </summary>
-	internal class HotReplaceResourcesManager
+	public class HotReplaceResourcesManager
 		: ResourcesManager
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");

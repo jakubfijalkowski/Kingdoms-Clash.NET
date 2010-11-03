@@ -16,7 +16,7 @@ namespace ClashEngine.NET.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			this.Manager = ResourcesManager.ResourcesManager.Instance;
+			this.Manager = new ResourcesManager.ResourcesManager();
 
 			this.Resource1 = new Mock<MockResource>();
 			this.Resource1.Setup(r => r.Load());

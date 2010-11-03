@@ -14,10 +14,12 @@ namespace ClashEngine.NET.EntitiesManager
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
+		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private IComponentsCollection _Components;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private IAttributesCollection _Attributes;
+		#endregion
 
 		#region Properties
 		/// <summary>
@@ -29,13 +31,19 @@ namespace ClashEngine.NET.EntitiesManager
 		/// Manager encji, do którego encja należy.
 		/// Ustawiany przez niego samego przy dodaniu encji.
 		/// </summary>
-		public IEntitiesManager Manager { get; set; }
+		public IEntitiesManager OwnerManager { get; set; }
 
 		/// <summary>
 		/// Wejście.
 		/// Ustawiane przez manager.
 		/// </summary>
 		public IInput Input { get; set; }
+
+		/// <summary>
+		/// Manager zasobów.
+		/// Ustawiany przez właściciela, ale nie ma wymogu, by to właśnie jego używać.
+		/// </summary>
+		public Interfaces.ResourcesManager.IResourcesManager Content { get; set; }
 
 		/// <summary>
 		/// Lista komponentów.

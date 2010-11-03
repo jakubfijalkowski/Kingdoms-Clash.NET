@@ -30,12 +30,18 @@ namespace ClashEngine.NET.ScreensManager
 		/// <summary>
 		/// Manager - rodzic.
 		/// </summary>
-		public IScreensManager Manager { get; set; }
+		public IScreensManager OwnerManager { get; set; }
 
 		/// <summary>
 		/// Wejście.
 		/// </summary>
 		public IInput Input { get; set; }
+
+		/// <summary>
+		/// Manager zasobów dla ekranu.
+		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
+		/// </summary>
+		public Interfaces.ResourcesManager.IResourcesManager Content { get; set; }
 
 		/// <summary>
 		/// Typ ekranu.
@@ -74,7 +80,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		public virtual void OnInit()
 		{
-			this._Entities = new EntitiesManager.EntitiesManager(this.Input);
+			this._Entities = new EntitiesManager.EntitiesManager(this.Input, this.Content);
 		}
 
 		/// <summary>
@@ -106,42 +112,6 @@ namespace ClashEngine.NET.ScreensManager
 		{
 			this._Entities.Render();
 		}
-
-		//#region Keyboard
-		///// <summary>
-		///// Zdarzenie naciśnięcia/zwolnienia klawisza.
-		///// </summary>
-		///// <param name="e"></param>
-		///// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		//public virtual bool KeyChanged(KeyEventArgs e)
-		//{ return false; }
-		//#endregion
-
-		//#region Mouse
-		///// <summary>
-		///// Zdarzenie naciśnięcia/zwolnienia przycisku myszy.
-		///// </summary>
-		///// <param name="e"></param>
-		///// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		//public virtual bool MouseButton(MouseButtonEventArgs e)
-		//{ return false; }
-
-		///// <summary>
-		///// Zdarzenie poruszenia myszy.
-		///// </summary>
-		///// <param name="e"></param>
-		///// <returns>Czy zostało obsłużonę.</returns>
-		//public virtual bool MouseMove(MouseMoveEventArgs e)
-		//{ return false; }
-
-		///// <summary>
-		///// Zdarzenie "przekręcenia" kółka myszy.
-		///// </summary>
-		///// <param name="e"></param>
-		///// <returns>Czy zostało obsłużonę.</returns>
-		//public virtual bool MouseWheel(MouseWheelEventArgs e)
-		//{ return false; }
-		//#endregion
 		#endregion
 		
 		#region Utilities
@@ -150,7 +120,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		public void Activate()
 		{
-			this.Manager.Activate(this);
+			this.OwnerManager.Activate(this);
 		}
 
 		/// <summary>
@@ -158,7 +128,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		public void Deactivate()
 		{
-			this.Manager.Deactivate(this);
+			this.OwnerManager.Deactivate(this);
 		}
 
 		/// <summary>
@@ -166,7 +136,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		public void MoveTo(int position)
 		{
-			this.Manager.MoveTo(this, position);
+			this.OwnerManager.MoveTo(this, position);
 		}
 
 		/// <summary>
@@ -174,7 +144,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// </summary>
 		public void MoveToFront()
 		{
-			this.Manager.MoveToFront(this);
+			this.OwnerManager.MoveToFront(this);
 		}
 		#endregion
 

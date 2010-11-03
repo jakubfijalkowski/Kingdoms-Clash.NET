@@ -86,7 +86,7 @@ namespace Kingdoms_Clash.NET.Maps
 			pObj.Body.UserData = this;
 
 			//Wygląd
-			this.Components.Add(new ClashEngine.NET.Components.Sprite(this.Id, ResourcesManager.Instance.Load<Texture>(desc.Image)));
+			this.Components.Add(new ClashEngine.NET.Components.Sprite(this.Id, this.Content.Load<Texture>(desc.Image)));
 			this.Attributes.GetOrCreate<OpenTK.Vector2>("Size").Value = desc.Size;
 		}
 		#endregion

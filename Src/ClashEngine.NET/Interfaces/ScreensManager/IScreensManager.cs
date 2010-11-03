@@ -5,7 +5,7 @@ namespace ClashEngine.NET.Interfaces.ScreensManager
 {
 	/// <summary>
 	/// Bazowy interfejs dla managera ekranów.
-	/// Przy dodawaniu ekranu musi ustawiać mu również właściwość Input.
+	/// Przy dodawaniu ekranu musi ustawiać mu również właściwość Input i Content.
 	/// W kolekcji nie mogą znajdować się dwa ekrany o takim samym Id.
 	/// </summary>
 	public interface IScreensManager

@@ -88,7 +88,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 			#region Sprite Members
 			public override void OnInit()
 			{
-				base.Init(ResourcesManager.Instance.Load<Texture>((this.Description as ISprite).ImagePath));
+				base.Init(this.Owner.Content.Load<Texture>((this.Description as ISprite).ImagePath));
 				this.Owner.Attributes.GetOrCreate<Vector2>("Size").Value = new Vector2(
 					(this.Owner as IUnit).Description.Width,
 					(this.Owner as IUnit).Description.Height);
