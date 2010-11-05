@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ClashEngine.NET;
 using ClashEngine.NET.Cameras;
 using ClashEngine.NET.Interfaces.EntitiesManager;
-using ClashEngine.NET.ScreensManager;
 
 namespace Kingdoms_Clash.NET
 {
@@ -205,7 +205,7 @@ namespace Kingdoms_Clash.NET
 
 		#region Constructors
 		public SinglePlayer()
-			: base("GameScreen", ClashEngine.NET.Interfaces.ScreensManager.ScreenType.Fullscreen)
+			: base("GameScreen", ClashEngine.NET.Interfaces.ScreenType.Fullscreen)
 		{ }
 		#endregion
 

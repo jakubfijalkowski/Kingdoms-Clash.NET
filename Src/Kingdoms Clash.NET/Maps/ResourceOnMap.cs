@@ -1,6 +1,5 @@
 ﻿using ClashEngine.NET.EntitiesManager;
-using ClashEngine.NET.Resources;
-using ClashEngine.NET.ResourcesManager;
+using ClashEngine.NET.Graphics.Resources;
 using ClashEngine.NET.Utilities;
 using FarseerPhysics.Dynamics;
 
@@ -75,7 +74,7 @@ namespace Kingdoms_Clash.NET.Maps
 			this.Position.Y = this.GameState.Map.GetHeight(this.Position.X, this.Position.X + desc.Size.X) - desc.Size.Y;
 
 			//Fizyka
-			var pObj = new ClashEngine.NET.PhysicsManager.PhysicalObject();
+			var pObj = new ClashEngine.NET.Components.PhysicalObject();
 			this.Components.Add(pObj);
 			this.Components.Add(new ClashEngine.NET.Components.Physical.BoundingBox(desc.Size));
 			this.Body = pObj.Body;
@@ -86,7 +85,7 @@ namespace Kingdoms_Clash.NET.Maps
 			pObj.Body.UserData = this;
 
 			//Wygląd
-			this.Components.Add(new ClashEngine.NET.Components.Sprite(this.Id, this.Content.Load<Texture>(desc.Image)));
+			this.Components.Add(new ClashEngine.NET.Graphics.Components.Sprite(this.Id, this.Content.Load<Texture>(desc.Image)));
 			this.Attributes.GetOrCreate<OpenTK.Vector2>("Size").Value = desc.Size;
 		}
 		#endregion

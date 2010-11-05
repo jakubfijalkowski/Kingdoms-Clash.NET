@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using ClashEngine.NET.Components;
 using ClashEngine.NET.Components.Physical;
 using ClashEngine.NET.EntitiesManager;
+using ClashEngine.NET.Graphics.Components;
+using ClashEngine.NET.Graphics.Resources;
 using ClashEngine.NET.Interfaces.EntitiesManager;
-using ClashEngine.NET.PhysicsManager;
-using ClashEngine.NET.Resources;
-using ClashEngine.NET.ResourcesManager;
 using ClashEngine.NET.Utilities;
 using OpenTK;
 

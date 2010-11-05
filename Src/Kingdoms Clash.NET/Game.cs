@@ -142,7 +142,7 @@ namespace Kingdoms_Clash.NET
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
 			this.Content.ContentDirectory = Defaults.ContentDirectory;
-			ClashEngine.NET.PhysicsManager.PhysicsManager.Instance.Gravity = new OpenTK.Vector2(0f, Configuration.Instance.Gravity);
+			ClashEngine.NET.PhysicsManager.Instance.Gravity = new OpenTK.Vector2(0f, Configuration.Instance.Gravity);
 		}
 		#endregion
 

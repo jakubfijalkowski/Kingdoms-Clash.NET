@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
-using ClashEngine.NET.Resources;
-using ClashEngine.NET.ResourcesManager;
+using ClashEngine.NET.Graphics.Resources;
 using OpenTK;
 
 namespace Kingdoms_Clash.NET.Units.Components
@@ -76,7 +75,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 		/// Klasa właściwego komponentu - nie musi być widoczna publicznie.
 		/// </summary>
 		private class SpriteComponent
-			: ClashEngine.NET.Components.Sprite, IUnitComponent
+			: ClashEngine.NET.Graphics.Components.Sprite, IUnitComponent
 		{
 			#region IUnitComponent Members
 			/// <summary>

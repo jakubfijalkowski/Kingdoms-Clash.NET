@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using ClashEngine.NET.Components;
 using ClashEngine.NET.EntitiesManager;
-using ClashEngine.NET.Interfaces.Components;
+using ClashEngine.NET.Graphics.Components;
+using ClashEngine.NET.Interfaces.Graphics.Components;
 using OpenTK;
 using Cfg = Kingdoms_Clash.NET.Configuration;
 
@@ -105,7 +105,7 @@ namespace Kingdoms_Clash.NET.Maps
 					Color = new Vector4(0f, 0.6f, 0f, 1f)
 				},
 			};
-			this.Components.Add(new ClashEngine.NET.PhysicsManager.PhysicalObject());
+			this.Components.Add(new ClashEngine.NET.Components.PhysicalObject());
 			this.Components.Add(new Terrain(this.Size.Y - maxH, Vertices));
 		}
 		#endregion

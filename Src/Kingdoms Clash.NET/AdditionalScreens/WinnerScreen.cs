@@ -1,9 +1,8 @@
-﻿using ClashEngine.NET.Cameras;
-using ClashEngine.NET.Components;
+﻿using ClashEngine.NET;
+using ClashEngine.NET.Cameras;
 using ClashEngine.NET.EntitiesManager;
-using ClashEngine.NET.Resources;
-using ClashEngine.NET.ResourcesManager;
-using ClashEngine.NET.ScreensManager;
+using ClashEngine.NET.Graphics.Components;
+using ClashEngine.NET.Graphics.Resources;
 using OpenTK;
 
 namespace Kingdoms_Clash.NET.AdditionalScreens
@@ -34,7 +33,7 @@ namespace Kingdoms_Clash.NET.AdditionalScreens
 
 		#region Constructors
 		public WinnerScreen(Interfaces.IGameState gameState)
-			: base("WinnerScreen", ClashEngine.NET.Interfaces.ScreensManager.ScreenType.Normal)
+			: base("WinnerScreen", ClashEngine.NET.Interfaces.ScreenType.Normal)
 		{
 			this.GameState = gameState;
 		}

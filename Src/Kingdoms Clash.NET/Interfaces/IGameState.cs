@@ -1,4 +1,4 @@
-﻿using ClashEngine.NET.Interfaces.ScreensManager;
+﻿using ClashEngine.NET.Interfaces;
 
 namespace Kingdoms_Clash.NET.Interfaces
 {
