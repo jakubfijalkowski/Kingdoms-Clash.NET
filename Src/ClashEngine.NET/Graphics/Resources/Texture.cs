@@ -137,7 +137,7 @@ namespace ClashEngine.NET.Graphics.Resources
 		}
 		#endregion
 
-		#region ITexture members
+		#region ITexture Members
 		/// <summary>
 		/// Pobiera identyfikator(OpenGL) tekstury.
 		/// </summary>
@@ -181,6 +181,13 @@ namespace ClashEngine.NET.Graphics.Resources
 		public void Dispose()
 		{
 			this.Free();
+		}
+		#endregion
+
+		#region Object Members
+		public override int GetHashCode()
+		{
+			return this.Id.GetHashCode() + this.TextureId.GetHashCode();
 		}
 		#endregion
 	}

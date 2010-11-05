@@ -7,17 +7,22 @@ namespace ClashEngine.NET.Interfaces.Graphics
 	/// </summary>
 	public struct Vertex
 	{
-		internal const int Size = (2 + 2) * sizeof(float);
+		internal const int Size = (2 + 2 + 4) * sizeof(float);
 
 		/// <summary>
 		/// Pozycja.
 		/// </summary>
-		Vector2 Position;
+		public Vector2 Position;
 
 		/// <summary>
 		/// Koordynaty tekstury.
 		/// </summary>
-		Vector2 TexCoord;
+		public Vector2 TexCoord;
+
+		/// <summary>
+		/// Kolor w formacie RGBA.
+		/// </summary>
+		public Vector4 Color;
 	}
 
 	/// <summary>
@@ -41,9 +46,9 @@ namespace ClashEngine.NET.Interfaces.Graphics
 		/// </summary>
 		Vertex[] Vertices { get; }
 
-		/// <summary>
-		/// Indeksy wierzchołków.
-		/// </summary>
-		int[] Indecies { get; }
+		///// <summary>
+		///// Indeksy wierzchołków.
+		///// </summary>
+		//int[] Indecies { get; }
 	}
 }
