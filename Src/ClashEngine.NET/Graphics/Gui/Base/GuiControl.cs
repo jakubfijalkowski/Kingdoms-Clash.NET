@@ -1,6 +1,6 @@
-﻿namespace ClashEngine.NET.Gui.Base
+﻿namespace ClashEngine.NET.Graphics.Gui.Base
 {
-	using Interfaces.Gui;
+	using Interfaces.Graphics.Gui;
 
 	/// <summary>
 	/// Bazowa klasa dla kontrolek.

@@ -6,7 +6,7 @@ using OpenTK;
 namespace ClashEngine.NET.Components.Physical
 {
 	using EntitiesManager;
-	using Interfaces.Components.Physical;
+	using Interfaces.Components;
 	using Utilities;
 
 	/// <summary>
@@ -57,6 +57,10 @@ namespace ClashEngine.NET.Components.Physical
 		}
 		#endregion
 
+		#region Component Members
+		/// <summary>
+		/// Dodaje bounding boxa do ciała obiektu.
+		/// </summary>
 		public override void OnInit()
 		{
 			var body = base.Owner.Attributes.Get<Body>("Body");
@@ -73,6 +77,7 @@ namespace ClashEngine.NET.Components.Physical
 			PolygonShape poly = new PolygonShape(verts);
 			this.Fixture = body.Value.CreateFixture(poly);
 		}
+		#endregion
 
 		#region Unused
 		public override void Update(double delta)

@@ -3,7 +3,6 @@
 namespace ClashEngine.NET.Utilities
 {
 	using Interfaces.Utilities;
-	using ScreensManager;
 
 	/// <summary>
 	/// Licznik FPS.
@@ -77,7 +76,7 @@ namespace ClashEngine.NET.Utilities
 		#endregion
 
 		public FPSCounter()
-			: base("FPSCounter", Interfaces.ScreensManager.ScreenType.Popup)
+			: base("FPSCounter", Interfaces.ScreenType.Popup)
 		{
 			this.CurrentFPS = 0;
 			this.MinFPS = int.MaxValue;

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
 
-using ClashEngine.NET.ScreensManager;
-using ClashEngine.NET.Interfaces.ScreensManager;
+using ClashEngine.NET;
+using ClashEngine.NET.Interfaces;
 
 namespace ClashEngine.NET.Tests
 {
 	[TestFixture(Description = "Testy managera ekranów")]
 	public class ScreensManagerTests
 	{
-		private ScreensManager.ScreensManager Manager;
+		private ScreensManager Manager;
 
 		private Mock<Screen> Screen1; //Fullscreen
 		private Mock<Screen> Screen2; //Popup
@@ -23,7 +23,7 @@ namespace ClashEngine.NET.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			this.Manager = new ScreensManager.ScreensManager(null, null);
+			this.Manager = new ScreensManager(null, null);
 			this.Screen1 = new Mock<Screen>("Screen1", ScreenType.Fullscreen);
 			this.Screen1.Setup(s => s.OnInit());
 			this.Screen1.Setup(s => s.OnDeinit());

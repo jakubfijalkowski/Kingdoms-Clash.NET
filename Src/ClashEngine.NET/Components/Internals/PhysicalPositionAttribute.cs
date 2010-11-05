@@ -3,7 +3,7 @@ using System.Diagnostics;
 using FarseerPhysics.Dynamics;
 using OpenTK;
 
-namespace ClashEngine.NET.PhysicsManager
+namespace ClashEngine.NET.Components.Internals
 {
 	using Interfaces.EntitiesManager;
 	using Utilities;

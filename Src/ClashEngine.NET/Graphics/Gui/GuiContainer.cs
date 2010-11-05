@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using OpenTK.Input;
 
-namespace ClashEngine.NET.Gui
+namespace ClashEngine.NET.Graphics.Gui
 {
-	using Interfaces.Gui;
+	using Interfaces.Graphics.Gui;
 
 	/// <summary>
 	/// Kontener GUI.

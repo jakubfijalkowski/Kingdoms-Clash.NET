@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics;
 
-namespace ClashEngine.NET.ScreensManager
+namespace ClashEngine.NET
 {
 	using Interfaces;
-	using Interfaces.ScreensManager;
 
 	/// <summary>
 	/// Bazowa klasa dla "ekranów"(np. menu, plansza).
@@ -41,7 +40,7 @@ namespace ClashEngine.NET.ScreensManager
 		/// Manager zasobów dla ekranu.
 		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
 		/// </summary>
-		public Interfaces.ResourcesManager.IResourcesManager Content { get; set; }
+		public Interfaces.IResourcesManager Content { get; set; }
 
 		/// <summary>
 		/// Typ ekranu.

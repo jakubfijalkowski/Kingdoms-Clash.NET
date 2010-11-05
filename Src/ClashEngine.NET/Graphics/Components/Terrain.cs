@@ -4,10 +4,10 @@ using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Dynamics;
 using OpenTK.Graphics.OpenGL;
 
-namespace ClashEngine.NET.Components
+namespace ClashEngine.NET.Graphics.Components
 {
 	using EntitiesManager;
-	using Interfaces.Components;
+	using Interfaces.Graphics.Components;
 	using Utilities;
 
 	/// <summary>
@@ -20,10 +20,12 @@ namespace ClashEngine.NET.Components
 	public class Terrain
 		: RenderableComponent, ITerrain
 	{
+		#region Private fields
 		/// <summary>
 		/// VBO na teren.
 		/// </summary>
 		VBO TerrainVBO = null;
+		#endregion
 
 		#region ITerrain Members
 		/// <summary>
@@ -38,29 +40,7 @@ namespace ClashEngine.NET.Components
 		public float Height { get; private set; }
 		#endregion
 
-		/// <summary>
-		/// Tworzy teren.
-		/// </summary>
-		/// <param name="height">Wysokość terenu.</param>
-		/// <param name="terrain">Wierzchołki.</param>
-		/// <exception cref="ArgumentException">Height jest mniejsze bądź równe 0.</exception>
-		/// <exception cref="ArgumentNullException">Nie podano żadnego wierzchołka.</exception>
-		public Terrain(float height, params TerrainVertex[] terrain)
-			: base("Terrain")
-		{
-			if(height <= 0.0)
-			{
-				throw new ArgumentException("Height must be greater than zero", "height");
-			}
-			else if (terrain == null || terrain.Length == 0)
-			{
-				throw new ArgumentNullException("vertices");
-			}
-
-			this.Height = height;
-			this.Vertices = new List<TerrainVertex>(terrain);
-		}
-
+		#region Component Members
 		public override void OnInit()
 		{
 			this.AddShapes();
@@ -103,7 +83,42 @@ namespace ClashEngine.NET.Components
 			this.TerrainVBO = new VBO(indecies, vertices);
 		}
 
-		#region Initialization
+		public override void Render()
+		{
+			GL.BindTexture(TextureTarget.Texture2D, 0);
+			this.TerrainVBO.Draw();
+		}
+
+		public override void Update(double delta)
+		{ }
+		#endregion
+
+		#region Constructors
+		/// <summary>
+		/// Tworzy teren.
+		/// </summary>
+		/// <param name="height">Wysokość terenu.</param>
+		/// <param name="terrain">Wierzchołki.</param>
+		/// <exception cref="ArgumentException">Height jest mniejsze bądź równe 0.</exception>
+		/// <exception cref="ArgumentNullException">Nie podano żadnego wierzchołka.</exception>
+		public Terrain(float height, params TerrainVertex[] terrain)
+			: base("Terrain")
+		{
+			if (height <= 0.0)
+			{
+				throw new ArgumentException("Height must be greater than zero", "height");
+			}
+			else if (terrain == null || terrain.Length == 0)
+			{
+				throw new ArgumentNullException("vertices");
+			}
+
+			this.Height = height;
+			this.Vertices = new List<TerrainVertex>(terrain);
+		}
+		#endregion
+		
+		#region Private members
 		/// <summary>
 		/// Pobiera najniżej położony wierzchołek(czyli z największą współrzędną Y).
 		/// </summary>
@@ -128,7 +143,7 @@ namespace ClashEngine.NET.Components
 		{
 			var bodyAttr = this.Owner.Attributes.Get<Body>("Body");
 			if (bodyAttr != null)
-			{				
+			{
 				for (int i = 0; i < this.Vertices.Count - 1; i++)
 				{
 					PolygonShape sector = new PolygonShape();
@@ -139,14 +154,5 @@ namespace ClashEngine.NET.Components
 			}
 		}
 		#endregion
-
-		public override void Render()
-		{
-			GL.BindTexture(TextureTarget.Texture2D, 0);
-			this.TerrainVBO.Draw();
-		}
-
-		public override void Update(double delta)
-		{ }
 	}
 }

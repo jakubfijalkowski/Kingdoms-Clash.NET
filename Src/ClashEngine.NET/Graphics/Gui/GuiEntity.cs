@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace ClashEngine.NET.Gui
+namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces.EntitiesManager;
-	using Interfaces.Gui;
+	using Interfaces.Graphics.Gui;
 
 	public class GuiEntity
 		: GuiContainer, IGuiEntity
@@ -24,7 +24,7 @@ namespace ClashEngine.NET.Gui
 		/// Manager zasobów.
 		/// Ustawiany przez właściciela, ale nie ma wymogu, by to właśnie jego używać.
 		/// </summary>
-		public Interfaces.ResourcesManager.IResourcesManager Content { get; set; }
+		public Interfaces.IResourcesManager Content { get; set; }
 
 		/// <summary>
 		/// Zdarzenie wywoływane przy inicjalizacji encji(dodaniu do managera).

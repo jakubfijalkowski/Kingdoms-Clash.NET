@@ -17,7 +17,7 @@ namespace ClashEngine.NET.Cameras
 		/// <summary>
 		/// Kamera.
 		/// </summary>
-		public Interfaces.Components.Cameras.IOrthoCamera Camera { get; private set; }
+		public Interfaces.Components.IOrthoCamera Camera { get; private set; }
 		#endregion
 
 		/// <summary>

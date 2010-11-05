@@ -1,7 +1,7 @@
-﻿namespace ClashEngine.NET.Resources
-{
-	using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 
+namespace ClashEngine.NET.Graphics.Resources.Internals
+{
 	/// <summary>
 	/// Domyślna tekstura.
 	/// Kwadrat 16px na 16px wypełniony kolorem #00FF00.
@@ -39,7 +39,7 @@
 		/// Zawsze zwraca powodzenie.
 		/// </summary>
 		/// <returns>Stan załadowania zasobu.</returns>
-		public override Interfaces.ResourcesManager.ResourceLoadingState Load()
+		public override Interfaces.ResourceLoadingState Load()
 		{
 			Logger.Trace("Creating default texture...");
 			this.TextureId = GL.GenTexture();
@@ -51,7 +51,7 @@
 
 			Logger.Info("Default texture created with ID: {0}", this.TextureId);
 
-			return Interfaces.ResourcesManager.ResourceLoadingState.Success;
+			return Interfaces.ResourceLoadingState.Success;
 		}
 		#endregion
 	}

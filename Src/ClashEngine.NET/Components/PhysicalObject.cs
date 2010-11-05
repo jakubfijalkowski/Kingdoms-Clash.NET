@@ -1,10 +1,10 @@
 ﻿using FarseerPhysics.Dynamics;
 
-namespace ClashEngine.NET.PhysicsManager
+namespace ClashEngine.NET.Components
 {
 	using EntitiesManager;
+	using Interfaces.Components;
 	using Interfaces.EntitiesManager;
-	using Interfaces.PhysicsManager;
 
 	/// <summary>
 	/// Komponent zmieniający encję w encję fizyczną(jest uzależniona od fizyki i managera fizyki).
@@ -44,7 +44,7 @@ namespace ClashEngine.NET.PhysicsManager
 			this.Body = PhysicsManager.Instance.World.CreateBody();
 			this.Body.BodyType = (this.IsDynamic ? BodyType.Dynamic : BodyType.Static);
 
-			this.Owner.Attributes.Replace("Position", new PhysicalPositionAttribute("Position", this.Body));
+			this.Owner.Attributes.Replace("Position", new Internals.PhysicalPositionAttribute("Position", this.Body));
 		}
 
 		public override void OnDeinit()

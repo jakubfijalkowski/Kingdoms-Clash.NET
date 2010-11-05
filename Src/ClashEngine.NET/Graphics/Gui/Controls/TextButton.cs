@@ -2,9 +2,9 @@
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace ClashEngine.NET.Gui.Controls
+namespace ClashEngine.NET.Graphics.Gui.Controls
 {
-	using Interfaces.Gui.Controls;
+	using Interfaces.Graphics.Gui.Controls;
 
 	/// <summary>
 	/// Przycisk z tekstem.

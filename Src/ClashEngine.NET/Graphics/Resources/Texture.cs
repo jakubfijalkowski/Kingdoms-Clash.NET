@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using OpenTK.Graphics.OpenGL;
 
-namespace ClashEngine.NET.Resources
+namespace ClashEngine.NET.Graphics.Resources
 {
-	using Interfaces.Resources;
+	using Interfaces.Graphics.Resources;
 
 	/// <summary>
 	/// Tekstura.
@@ -25,7 +25,7 @@ namespace ClashEngine.NET.Resources
 		/// <summary>
 		/// Domyślna tekstura. Ładowana gdy nie udało się załadować zasobu.
 		/// </summary>
-		private static DefaultTexture DefaultTexture = null;
+		private static Internals.DefaultTexture DefaultTexture = null;
 
 		/// <summary>
 		/// Kiedyś musimy zwolnić domyślną teksturę - liczba użyć, jeśli dojdzie do zera - zwalniamy ją.
@@ -57,14 +57,14 @@ namespace ClashEngine.NET.Resources
 		/// <summary>
 		/// Manager-rodzic zasobu.
 		/// </summary>
-		public Interfaces.ResourcesManager.IResourcesManager Manager { get; set; }
+		public Interfaces.IResourcesManager Manager { get; set; }
 
 		/// <summary>
 		/// Ładuje teksturę.
 		/// Jeśli nie może załadować używa domyślnej tekstury.
 		/// </summary>
 		/// <returns>Stan załadowania zasobu.</returns>
-		public virtual Interfaces.ResourcesManager.ResourceLoadingState Load()
+		public virtual Interfaces.ResourceLoadingState Load()
 		{
 			lock (this.PadLock)
 			{
@@ -96,7 +96,7 @@ namespace ClashEngine.NET.Resources
 
 					if (DefaultTexture == null)
 					{
-						DefaultTexture = new DefaultTexture();
+						DefaultTexture = new Internals.DefaultTexture();
 						DefaultTexture.Load();
 					}
 					this.DefaultUsed = true;
@@ -106,9 +106,9 @@ namespace ClashEngine.NET.Resources
 
 					++DefaultTexturesCount;
 
-					return Interfaces.ResourcesManager.ResourceLoadingState.DefaultUsed;
+					return Interfaces.ResourceLoadingState.DefaultUsed;
 				}
-				return Interfaces.ResourcesManager.ResourceLoadingState.Success;
+				return Interfaces.ResourceLoadingState.Success;
 			}
 		}
 

@@ -4,19 +4,19 @@ using NUnit.Framework;
 
 namespace ClashEngine.NET.Tests
 {
-	using Interfaces.ResourcesManager;
+	using Interfaces;
 
 	[TestFixture(Description = "Testy managera zasobów")]
 	public class ResourcesManagerTests
 	{
-		private ResourcesManager.ResourcesManager Manager;
+		private ResourcesManager Manager;
 		private Mock<MockResource> Resource1;
 		private Mock<MockResource> Resource2;
 
 		[SetUp]
 		public void SetUp()
 		{
-			this.Manager = new ResourcesManager.ResourcesManager();
+			this.Manager = new ResourcesManager();
 
 			this.Resource1 = new Mock<MockResource>();
 			this.Resource1.Setup(r => r.Load());

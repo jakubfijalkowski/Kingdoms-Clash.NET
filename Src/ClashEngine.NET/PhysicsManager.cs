@@ -1,6 +1,6 @@
-﻿namespace ClashEngine.NET.PhysicsManager
+﻿namespace ClashEngine.NET
 {
-	using Interfaces.PhysicsManager;
+	using Interfaces;
 	using Utilities;
 
 	/// <summary>

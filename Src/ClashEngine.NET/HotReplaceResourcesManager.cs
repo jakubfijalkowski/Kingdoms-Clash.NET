@@ -1,8 +1,8 @@
 ﻿using System.IO;
 
-namespace ClashEngine.NET.ResourcesManager
+namespace ClashEngine.NET
 {
-	using Interfaces.ResourcesManager;
+	using Interfaces;
 
 	/// <summary>
 	/// Manager zasobów umożliwiający podmianę plików "na gorąco"(w trakcie działania aplikacji).

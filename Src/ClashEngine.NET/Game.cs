@@ -4,9 +4,6 @@ using OpenTK.Graphics.OpenGL;
 namespace ClashEngine.NET
 {
 	using Interfaces;
-	using Interfaces.ResourcesManager;
-	using Interfaces.ScreensManager;
-	using Phy = PhysicsManager;
 
 	/// <summary>
 	/// Klasa gry.
@@ -156,10 +153,10 @@ namespace ClashEngine.NET
 		public virtual void Update(double delta)
 		{
 			this.Accumulator += (float)delta;
-			while (this.Accumulator >= Phy.PhysicsManager.Instance.TimeStep)
+			while (this.Accumulator >= PhysicsManager.Instance.TimeStep)
 			{
-				PhysicsManager.PhysicsManager.Instance.World.Step(Phy.PhysicsManager.Instance.TimeStep);
-				this.Accumulator -= Phy.PhysicsManager.Instance.TimeStep;
+				PhysicsManager.Instance.World.Step(PhysicsManager.Instance.TimeStep);
+				this.Accumulator -= PhysicsManager.Instance.TimeStep;
 			}
 			this.Screens.Update(delta);
 		}
@@ -247,12 +244,12 @@ namespace ClashEngine.NET
 
 			#if (DEBUG || FORCEHOTREPLACEMANAGER) && !FORCENOTUSINGHOTREPLACEMANAGER
 			//Debug - używamy managera udostępniającego "gorącą podmianę"
-			this.Content = new ResourcesManager.HotReplaceResourcesManager();
+			this.Content = new HotReplaceResourcesManager();
 			#else
-			this.Content = new ResourcesManager.ResourcesManager();
+			this.Content = new ResourcesManager();
 			#endif
 
-			this.Screens = new ClashEngine.NET.ScreensManager.ScreensManager(this.Input, this.Content);
+			this.Screens = new ScreensManager(this.Input, this.Content);
 			Logger.Info("Window created");
 		}
 		#endregion

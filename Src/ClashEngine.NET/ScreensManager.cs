@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace ClashEngine.NET.ScreensManager
+namespace ClashEngine.NET
 {
 	using Interfaces;
-	using Interfaces.ScreensManager;
-	using Interfaces.ResourcesManager;
 
 	/// <summary>
 	/// Manager ekranów.

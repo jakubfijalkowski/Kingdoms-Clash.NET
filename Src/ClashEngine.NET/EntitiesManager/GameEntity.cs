@@ -43,7 +43,7 @@ namespace ClashEngine.NET.EntitiesManager
 		/// Manager zasobów.
 		/// Ustawiany przez właściciela, ale nie ma wymogu, by to właśnie jego używać.
 		/// </summary>
-		public Interfaces.ResourcesManager.IResourcesManager Content { get; set; }
+		public Interfaces.IResourcesManager Content { get; set; }
 
 		/// <summary>
 		/// Lista komponentów.

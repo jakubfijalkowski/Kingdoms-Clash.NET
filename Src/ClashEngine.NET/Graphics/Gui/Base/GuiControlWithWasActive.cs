@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace ClashEngine.NET.Gui.Base
+namespace ClashEngine.NET.Graphics.Gui.Base
 {
 	/// <summary>
 	/// Bazowa klasa dla kontrolki GUI, która potrzebuje wiedzieć, czy w poprzedniej klatce była aktywna.

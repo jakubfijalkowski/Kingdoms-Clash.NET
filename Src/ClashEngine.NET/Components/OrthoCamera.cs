@@ -6,7 +6,7 @@ using OpenTK.Graphics.OpenGL;
 namespace ClashEngine.NET.Components.Cameras
 {
 	using EntitiesManager;
-	using Interfaces.Components.Cameras;
+	using Interfaces.Components;
 
 	/// <summary>
 	/// Implemnetacja kamery ortogonalnej.
@@ -123,7 +123,7 @@ namespace ClashEngine.NET.Components.Cameras
 		#endregion
 		#endregion
 
-		#region Screen Members
+		#region Component Members
 		/// <summary>
 		/// Aktualizuje położenie kamery jeśli któryś z przycisków jest wciśnięty.
 		/// </summary>

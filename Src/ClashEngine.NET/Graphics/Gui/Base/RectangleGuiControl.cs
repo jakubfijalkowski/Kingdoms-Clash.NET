@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace ClashEngine.NET.Gui.Base
+namespace ClashEngine.NET.Graphics.Gui.Base
 {
 	using Utilities;
 

@@ -3,12 +3,12 @@ using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace ClashEngine.NET.Components
+namespace ClashEngine.NET.Graphics.Components
 {
 	using EntitiesManager;
-	using Interfaces.Components;
 	using Interfaces.EntitiesManager;
-	using Interfaces.Resources;
+	using Interfaces.Graphics.Components;
+	using Interfaces.Graphics.Resources;
 	
 	/// <summary>
 	/// Sprite - duszek - wyświetla teksturę w miejscu encji.

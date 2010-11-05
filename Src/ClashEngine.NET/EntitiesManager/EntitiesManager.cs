@@ -6,7 +6,6 @@ namespace ClashEngine.NET.EntitiesManager
 {
 	using Interfaces;
 	using Interfaces.EntitiesManager;
-	using Interfaces.ResourcesManager;
 
 	/// <summary>
 	/// Manager encji gry.

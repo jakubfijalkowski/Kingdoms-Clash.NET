@@ -1,11 +1,10 @@
 ﻿using System.Drawing;
 using OpenTK.Input;
 
-namespace ClashEngine.NET.Gui
+namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces;
-	using Interfaces.Gui;
-	using Interfaces.ScreensManager;
+	using Interfaces.Graphics.Gui;
 
 	/// <summary>
 	/// Ekran jako kontener na kontrolki(i nic więcej).
@@ -14,7 +13,7 @@ namespace ClashEngine.NET.Gui
 		: GuiContainer, IGuiScreen
 	{
 		private ScreenState _State = ScreenState.Deactivated;
-		private Interfaces.Components.Cameras.IOrthoCamera Camera = null;
+		private Interfaces.Components.IOrthoCamera Camera = null;
 
 		#region IGuiScreen Members
 		/// <summary>
@@ -41,7 +40,7 @@ namespace ClashEngine.NET.Gui
 		/// Manager zasobów dla ekranu.
 		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
 		/// </summary>
-		public Interfaces.ResourcesManager.IResourcesManager Content { get; set; }
+		public Interfaces.IResourcesManager Content { get; set; }
 
 		/// <summary>
 		/// Typ ekranu.
