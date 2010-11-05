@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ClashEngine.NET.Interfaces.ScreensManager
+namespace ClashEngine.NET.Interfaces
 {
 	/// <summary>
 	/// Bazowy interfejs dla managera ekranów.

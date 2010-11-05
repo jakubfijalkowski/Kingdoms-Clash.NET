@@ -1,4 +1,4 @@
-﻿namespace ClashEngine.NET.Interfaces.Rendering
+﻿namespace ClashEngine.NET.Interfaces.Graphics
 {
 	/// <summary>
 	/// Tryb sortowania.

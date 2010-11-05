@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ClashEngine.NET.Interfaces.ResourcesManager
+namespace ClashEngine.NET.Interfaces
 {
 	/// <summary>
 	/// Interfejs bazowy dla managera zasobów.

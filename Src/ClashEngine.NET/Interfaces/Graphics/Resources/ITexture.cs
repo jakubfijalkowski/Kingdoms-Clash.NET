@@ -1,12 +1,12 @@
 ﻿using System.Drawing;
 
-namespace ClashEngine.NET.Interfaces.Resources
+namespace ClashEngine.NET.Interfaces.Graphics.Resources
 {
 	/// <summary>
 	/// Bazowy interfejs dla tekstur.
 	/// </summary>
 	public interface ITexture
-		: ResourcesManager.IResource
+		: IResource
 	{
 		/// <summary>
 		/// Pobiera identyfikator(OpenGL) tekstury.

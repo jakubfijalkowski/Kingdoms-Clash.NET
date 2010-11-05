@@ -27,7 +27,7 @@
 		/// Manager zasobów.
 		/// Ustawiany przez właściciela, ale nie ma wymogu, by to właśnie jego używać.
 		/// </summary>
-		ResourcesManager.IResourcesManager Content { get; set; }
+		IResourcesManager Content { get; set; }
 
 		/// <summary>
 		/// Lista komponentów.

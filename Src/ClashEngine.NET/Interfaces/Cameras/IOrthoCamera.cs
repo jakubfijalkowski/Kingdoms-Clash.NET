@@ -12,6 +12,6 @@
 		/// <summary>
 		/// Kamera.
 		/// </summary>
-		Components.Cameras.IOrthoCamera Camera { get; }
+		Components.IOrthoCamera Camera { get; }
 	}
 }

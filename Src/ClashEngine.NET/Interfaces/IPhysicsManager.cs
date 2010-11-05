@@ -1,7 +1,7 @@
 ﻿using FarseerPhysics.Dynamics;
 using OpenTK;
 
-namespace ClashEngine.NET.Interfaces.PhysicsManager
+namespace ClashEngine.NET.Interfaces
 {
 	/// <summary>
 	/// Manager fizyki.

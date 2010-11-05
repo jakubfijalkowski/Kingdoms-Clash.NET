@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using OpenTK;
 
-namespace ClashEngine.NET.Interfaces.Components
+namespace ClashEngine.NET.Interfaces.Graphics.Components
 {
 	using Interfaces.EntitiesManager;
 

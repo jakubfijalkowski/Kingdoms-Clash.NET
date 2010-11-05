@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace ClashEngine.NET.Interfaces.Resources
+namespace ClashEngine.NET.Interfaces.Graphics.Resources
 {
 	/// <summary>
 	/// Interfejs dla atlasu tekstur.
 	/// </summary>
 	public interface ITexturesAtlas
-		: ResourcesManager.IResource
+		: IResource
 	{
 		/// <summary>
 		/// Pobiera wszystkie identyfikatory tekstur jakie są w atlasie.

@@ -1,4 +1,4 @@
-﻿namespace ClashEngine.NET.Interfaces.ResourcesManager
+﻿namespace ClashEngine.NET.Interfaces
 {
 	/// <summary>
 	/// Stan załadowania zasobu.

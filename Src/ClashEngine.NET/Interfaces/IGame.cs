@@ -18,12 +18,12 @@
 		/// <summary>
 		/// Manager ekranów dla gry.
 		/// </summary>
-		ScreensManager.IScreensManager Screens { get; }
+		IScreensManager Screens { get; }
 
 		/// <summary>
 		/// Manager zasobów.
 		/// </summary>
-		ResourcesManager.IResourcesManager Content { get; }
+		IResourcesManager Content { get; }
 		#endregion
 
 		#region Window info

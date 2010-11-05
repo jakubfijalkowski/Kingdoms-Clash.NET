@@ -1,4 +1,4 @@
-﻿namespace ClashEngine.NET.Interfaces.ScreensManager
+﻿namespace ClashEngine.NET.Interfaces
 {
 	/// <summary>
 	/// Stan ekranu.
@@ -82,7 +82,7 @@
 		/// Manager zasobów dla ekranu.
 		/// Ustawiany przez właściciela, ale nie ma wymogu, by to właśnie jego używać.
 		/// </summary>
-		ResourcesManager.IResourcesManager Content { get; set; }
+		IResourcesManager Content { get; set; }
 
 		/// <summary>
 		/// Typ ekranu.

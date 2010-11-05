@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using OpenTK;
 
-namespace ClashEngine.NET.Interfaces.Components.Cameras
+namespace ClashEngine.NET.Interfaces.Components
 {
 	using Interfaces.EntitiesManager;
 

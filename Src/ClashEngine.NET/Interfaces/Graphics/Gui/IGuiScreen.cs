@@ -1,10 +1,10 @@
-﻿namespace ClashEngine.NET.Interfaces.Gui
+﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
 {
 	/// <summary>
 	/// Ekran jako kontener na kontrolki.
 	/// </summary>
 	public interface IGuiScreen
-		: IGuiContainer, ScreensManager.IScreen
+		: IGuiContainer, IScreen
 	{
 		/// <summary>
 		/// Prostokąt, w którym zawiera się GUI.

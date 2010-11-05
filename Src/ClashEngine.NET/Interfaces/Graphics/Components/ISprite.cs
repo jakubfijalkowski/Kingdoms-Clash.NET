@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace ClashEngine.NET.Interfaces.Components
+namespace ClashEngine.NET.Interfaces.Graphics.Components
 {
 	/// <summary>
 	/// Sprite - duszek - komponent prezentujący teksturę w miejscu encji gry.

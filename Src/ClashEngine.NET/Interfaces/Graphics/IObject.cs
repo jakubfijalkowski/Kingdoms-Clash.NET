@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace ClashEngine.NET.Interfaces.Rendering
+namespace ClashEngine.NET.Interfaces.Graphics
 {
 	/// <summary>
 	/// Wierzchołek.
@@ -29,7 +29,7 @@ namespace ClashEngine.NET.Interfaces.Rendering
 		/// <summary>
 		/// Tekstura obiektu.
 		/// </summary>
-		ClashEngine.NET.Interfaces.Resources.ITexture Texture { get; }
+		Resources.ITexture Texture { get; }
 
 		/// <summary>
 		/// Głębokość, na której znajduje się obiekt. Używane przy sortowaniu.

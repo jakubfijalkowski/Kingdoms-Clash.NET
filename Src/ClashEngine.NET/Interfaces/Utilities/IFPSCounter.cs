@@ -4,7 +4,7 @@
 	/// Interfejs dla licznika FPS.
 	/// </summary>
 	public interface IFPSCounter
-		: ScreensManager.IScreen
+		: IScreen
 	{
 		/// <summary>
 		/// Aktualny licznik FPS.

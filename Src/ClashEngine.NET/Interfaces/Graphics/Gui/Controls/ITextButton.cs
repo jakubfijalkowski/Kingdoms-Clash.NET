@@ -1,4 +1,4 @@
-﻿namespace ClashEngine.NET.Interfaces.Gui.Controls
+﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui.Controls
 {
 	/// <summary>
 	/// Przycisk z tekstem.

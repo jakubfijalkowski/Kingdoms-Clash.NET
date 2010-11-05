@@ -1,6 +1,6 @@
 ﻿using FarseerPhysics.Dynamics;
 
-namespace ClashEngine.NET.Interfaces.Components.Physical
+namespace ClashEngine.NET.Interfaces.Components
 {
 	using Interfaces.EntitiesManager;
 

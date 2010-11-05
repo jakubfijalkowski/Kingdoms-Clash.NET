@@ -1,4 +1,4 @@
-﻿namespace ClashEngine.NET.Interfaces.Gui
+﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
 {
 	/// <summary>
 	/// Kontener na kontrolki jako encja gry.

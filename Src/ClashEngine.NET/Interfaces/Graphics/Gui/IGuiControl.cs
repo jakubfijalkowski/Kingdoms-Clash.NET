@@ -1,4 +1,4 @@
-﻿namespace ClashEngine.NET.Interfaces.Gui
+﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
 {
 	/// <summary>
 	/// Bazowy interfejs dla kontrolki GUI.
