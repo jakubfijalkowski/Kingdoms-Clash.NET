@@ -1,5 +1,4 @@
 ﻿using ClashEngine.NET;
-using ClashEngine.NET.Cameras;
 using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Graphics.Components;
 using ClashEngine.NET.Graphics.Resources;
@@ -45,7 +44,7 @@ namespace Kingdoms_Clash.NET.AdditionalScreens
 			base.OnInit();
 
 			float aspect = ImageSize.X / ImageSize.Y;
-			this.Entities.Add(new OrthoCamera(new System.Drawing.RectangleF(0f, 0f, 1f, 1f * aspect), new OpenTK.Vector2(1f, 1f * aspect), 0f, true));
+			this.Entities.Add(new ClashEngine.NET.Graphics.Cameras.OrthoCamera(new System.Drawing.RectangleF(0f, 0f, 1f, 1f * aspect), new OpenTK.Vector2(1f, 1f * aspect), 0f, true));
 			this.Entities.Add(this.Image);
 		}
 

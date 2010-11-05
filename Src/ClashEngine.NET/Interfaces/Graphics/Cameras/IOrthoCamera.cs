@@ -1,4 +1,4 @@
-﻿namespace ClashEngine.NET.Interfaces.Cameras
+﻿namespace ClashEngine.NET.Interfaces.Graphics.Cameras
 {
 	using Interfaces.EntitiesManager;
 

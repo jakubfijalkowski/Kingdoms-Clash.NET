@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ClashEngine.NET;
-using ClashEngine.NET.Cameras;
 using ClashEngine.NET.Interfaces.EntitiesManager;
 
 namespace Kingdoms_Clash.NET
@@ -144,7 +143,7 @@ namespace Kingdoms_Clash.NET
 			this.Players[1].GameState = this;
 			this.Players[1].Type = PlayerType.Second;
 
-			this.StaticEntities.Add(new OrthoCamera(
+			this.StaticEntities.Add(new ClashEngine.NET.Graphics.Cameras.OrthoCamera(
 				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + Configuration.Instance.MapMargin, Configuration.Instance.ScreenSize.Y)),
 				Configuration.Instance.ScreenSize,
 				Configuration.Instance.CameraSpeed,

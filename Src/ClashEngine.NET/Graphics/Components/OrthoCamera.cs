@@ -3,10 +3,10 @@ using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace ClashEngine.NET.Components.Cameras
+namespace ClashEngine.NET.Graphics.Components
 {
 	using EntitiesManager;
-	using Interfaces.Components;
+	using Interfaces.Graphics.Components;
 
 	/// <summary>
 	/// Implemnetacja kamery ortogonalnej.

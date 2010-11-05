@@ -70,8 +70,8 @@
     <Reference Include="System.Management" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cameras\OrthoCamera.cs" />
-    <Compile Include="Components\OrthoCamera.cs" />
+    <Compile Include="Graphics\Cameras\OrthoCamera.cs" />
+    <Compile Include="Graphics\Components\OrthoCamera.cs" />
     <Compile Include="Components\BoundingBox.cs" />
     <Compile Include="Graphics\Components\Sprite.cs" />
     <Compile Include="Graphics\Components\Terrain.cs" />
@@ -96,8 +96,8 @@
     <Compile Include="Graphics\Gui\GuiEntity.cs" />
     <Compile Include="Graphics\Gui\GuiScreen.cs" />
     <Compile Include="Input.cs" />
-    <Compile Include="Interfaces\Cameras\IOrthoCamera.cs" />
-    <Compile Include="Interfaces\Components\IOrthoCamera.cs" />
+    <Compile Include="Interfaces\Graphics\Cameras\IOrthoCamera.cs" />
+    <Compile Include="Interfaces\Graphics\Components\IOrthoCamera.cs" />
     <Compile Include="Interfaces\Graphics\Components\ITerrain.cs" />
     <Compile Include="Interfaces\Components\IBoundingBox.cs" />
     <Compile Include="Interfaces\EntitiesManager\IAttributesCollection.cs" />

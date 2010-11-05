@@ -13,7 +13,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		: GuiContainer, IGuiScreen
 	{
 		private ScreenState _State = ScreenState.Deactivated;
-		private Interfaces.Components.IOrthoCamera Camera = null;
+		private Interfaces.Graphics.Components.IOrthoCamera Camera = null;
 
 		#region IGuiScreen Members
 		/// <summary>
@@ -156,7 +156,7 @@ namespace ClashEngine.NET.Graphics.Gui
 			this.Rectangle = rect;
 
 			this.Input.MouseTransformation = rect;
-			this.Camera = new ClashEngine.NET.Components.Cameras.OrthoCamera(rect, new OpenTK.Vector2(rect.Width, rect.Height), 0f, true);
+			this.Camera = new ClashEngine.NET.Graphics.Components.OrthoCamera(rect, new OpenTK.Vector2(rect.Width, rect.Height), 0f, true);
 		}
 		#endregion
 

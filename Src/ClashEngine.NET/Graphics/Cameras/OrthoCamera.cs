@@ -1,10 +1,10 @@
 ﻿using System.Drawing;
 using OpenTK;
 
-namespace ClashEngine.NET.Cameras
+namespace ClashEngine.NET.Graphics.Cameras
 {
 	using EntitiesManager;
-	using Interfaces.Cameras;
+	using Interfaces.Graphics.Cameras;
 
 	/// <summary>
 	/// Kamera ortograficzna 2D jako encja.
@@ -17,7 +17,7 @@ namespace ClashEngine.NET.Cameras
 		/// <summary>
 		/// Kamera.
 		/// </summary>
-		public Interfaces.Components.IOrthoCamera Camera { get; private set; }
+		public Interfaces.Graphics.Components.IOrthoCamera Camera { get; private set; }
 		#endregion
 
 		/// <summary>
@@ -27,7 +27,7 @@ namespace ClashEngine.NET.Cameras
 		public OrthoCamera(RectangleF borders, Vector2 size, float speed, bool updateAlways, float zNear = 0.0f, float zFar = 1.0f)
 			: base("OrthoCamera")
 		{
-			this.Camera = new Components.Cameras.OrthoCamera(borders, size, speed, updateAlways, zNear, zFar);
+			this.Camera = new Components.OrthoCamera(borders, size, speed, updateAlways, zNear, zFar);
 		}
 
 		public override void OnInit()
