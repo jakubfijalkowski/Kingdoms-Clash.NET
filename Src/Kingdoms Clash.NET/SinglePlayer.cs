@@ -133,7 +133,7 @@ namespace Kingdoms_Clash.NET
 		public override void OnInit()
 		{
 			base.OnInit();
-			this.StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager(this.Input, this.Content);
+			this.StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager(this.Input, this.Content, this.Renderer);
 
 			this.Controller.GameState = this;
 

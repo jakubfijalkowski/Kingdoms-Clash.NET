@@ -9,24 +9,12 @@
 	public interface IGame
 	{
 		#region Properties
+		#region Window info
 		/// <summary>
 		/// Nazwa gry.
 		/// </summary>
 		string Name { get; }
-
-		#region Managers
-		/// <summary>
-		/// Manager ekranów dla gry.
-		/// </summary>
-		IScreensManager Screens { get; }
-
-		/// <summary>
-		/// Manager zasobów.
-		/// </summary>
-		IResourcesManager Content { get; }
-		#endregion
-
-		#region Window info
+		
 		/// <summary>
 		/// Szerokość okna.
 		/// </summary>
@@ -58,10 +46,27 @@
 		OpenTK.Graphics.GraphicsMode Mode { get; }
 		#endregion
 
+		#region Managers
+		/// <summary>
+		/// Manager ekranów dla gry.
+		/// </summary>
+		IScreensManager Screens { get; }
+
+		/// <summary>
+		/// Manager zasobów.
+		/// </summary>
+		IResourcesManager Content { get; }
+		#endregion
+
 		/// <summary>
 		/// Wejście.
 		/// </summary>
 		IInput Input { get; }
+
+		/// <summary>
+		/// Renderer.
+		/// </summary>
+		Graphics.IRenderer Renderer { get; }
 		#endregion
 
 		#region Methods

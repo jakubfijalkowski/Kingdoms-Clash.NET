@@ -23,7 +23,7 @@ namespace ClashEngine.NET.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			this.Manager = new ScreensManager(null, null);
+			this.Manager = new ScreensManager(null, null, null);
 			this.Screen1 = new Mock<Screen>("Screen1", ScreenType.Fullscreen);
 			this.Screen1.Setup(s => s.OnInit());
 			this.Screen1.Setup(s => s.OnDeinit());

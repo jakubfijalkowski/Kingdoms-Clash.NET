@@ -43,6 +43,12 @@ namespace ClashEngine.NET
 		public Interfaces.IResourcesManager Content { get; set; }
 
 		/// <summary>
+		/// Renderer.
+		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
+		/// </summary>
+		public Interfaces.Graphics.IRenderer Renderer { get; set; }
+
+		/// <summary>
 		/// Typ ekranu.
 		/// </summary>
 		public ScreenType Type { get; private set; }
@@ -79,7 +85,7 @@ namespace ClashEngine.NET
 		/// </summary>
 		public virtual void OnInit()
 		{
-			this._Entities = new EntitiesManager.EntitiesManager(this.Input, this.Content);
+			this._Entities = new EntitiesManager.EntitiesManager(this.Input, this.Content, this.Renderer);
 		}
 
 		/// <summary>

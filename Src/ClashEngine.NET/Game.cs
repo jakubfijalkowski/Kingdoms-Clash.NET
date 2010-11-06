@@ -29,31 +29,11 @@ namespace ClashEngine.NET
 
 		#region IGame members
 		#region Properties
+		#region Window info
 		/// <summary>
 		/// Nazwa gry.
 		/// </summary>
 		public string Name { get; private set; }
-
-		#region Managers
-		/// <summary>
-		/// Manager ekranów dla gry.
-		/// </summary>
-		public IScreensManager Screens { get; private set; }
-
-		/// <summary>
-		/// Manager zasobów.
-		/// </summary>
-		/// <remarks>
-		///	Makra:
-		///		FORCEHOTREPLACEMANAGER - wymusza użycie managera zasobów obsługującego "hot replace" plików.
-		///		FORCENOTUSINGHOTREPLACEMANAGER - wymusza nieużywanie managera zasobów obsługującego "hot replace".
-		///	Domyślnie w wersji Debug używany jest manager obsługujący "hot replace", a w Release - nie.
-		///	Jeśli pozwolimy używać takiego managera musimy zapewnić, że klasy zasobów będą thread-safe.
-		/// </remarks>
-		public IResourcesManager Content { get; private set; }
-		#endregion
-
-		#region Window info
 		/// <summary>
 		/// Szerokość okna.
 		/// </summary>
@@ -121,10 +101,34 @@ namespace ClashEngine.NET
 		}
 		#endregion
 
+		#region Managers
+		/// <summary>
+		/// Manager ekranów dla gry.
+		/// </summary>
+		public IScreensManager Screens { get; private set; }
+
+		/// <summary>
+		/// Manager zasobów.
+		/// </summary>
+		/// <remarks>
+		///	Makra:
+		///		FORCEHOTREPLACEMANAGER - wymusza użycie managera zasobów obsługującego "hot replace" plików.
+		///		FORCENOTUSINGHOTREPLACEMANAGER - wymusza nieużywanie managera zasobów obsługującego "hot replace".
+		///	Domyślnie w wersji Debug używany jest manager obsługujący "hot replace", a w Release - nie.
+		///	Jeśli pozwolimy używać takiego managera musimy zapewnić, że klasy zasobów będą thread-safe.
+		/// </remarks>
+		public IResourcesManager Content { get; private set; }
+		#endregion
+
 		/// <summary>
 		/// Wejście.
 		/// </summary>
 		public IInput Input { get; private set; }
+
+		/// <summary>
+		/// Renderer.
+		/// </summary>
+		public Interfaces.Graphics.IRenderer Renderer { get; private set; }
 		#endregion
 
 		#region Methods
@@ -241,6 +245,7 @@ namespace ClashEngine.NET
 			this.Name = name;
 			this.Window = new GameWindow(this, name, width, height, fullscreen, useVSync, mode);
 			this.Input = new Input(this.Window);
+			this.Renderer = new Graphics.Renderer();
 
 			#if (DEBUG || FORCEHOTREPLACEMANAGER) && !FORCENOTUSINGHOTREPLACEMANAGER
 			//Debug - używamy managera udostępniającego "gorącą podmianę"
@@ -249,7 +254,7 @@ namespace ClashEngine.NET
 			this.Content = new ResourcesManager();
 			#endif
 
-			this.Screens = new ScreensManager(this.Input, this.Content);
+			this.Screens = new ScreensManager(this.Input, this.Content, this.Renderer);
 			Logger.Info("Window created");
 		}
 		#endregion

@@ -46,6 +46,12 @@ namespace ClashEngine.NET.EntitiesManager
 		public Interfaces.IResourcesManager Content { get; set; }
 
 		/// <summary>
+		/// Renderer.
+		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
+		/// </summary>
+		public Interfaces.Graphics.IRenderer Renderer { get; set; }
+
+		/// <summary>
 		/// Lista komponentów.
 		/// Zmieniać za pomocą odpowiednich metod, nie ręcznie!
 		/// </summary>

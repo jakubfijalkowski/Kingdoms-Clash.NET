@@ -85,6 +85,12 @@
 		IResourcesManager Content { get; set; }
 
 		/// <summary>
+		/// Renderer.
+		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
+		/// </summary>
+		Graphics.IRenderer Renderer { get; set; }
+
+		/// <summary>
 		/// Typ ekranu.
 		/// </summary>
 		ScreenType Type { get; }

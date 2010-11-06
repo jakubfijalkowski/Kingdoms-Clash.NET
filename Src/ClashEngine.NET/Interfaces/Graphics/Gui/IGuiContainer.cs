@@ -15,6 +15,11 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		IInput Input { get; set; }
 
 		/// <summary>
+		/// Renderer GUI.
+		/// </summary>
+		Graphics.IRenderer Renderer { get; set; }
+
+		/// <summary>
 		/// Pobiera kontrolkę o wskazanym Id.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>

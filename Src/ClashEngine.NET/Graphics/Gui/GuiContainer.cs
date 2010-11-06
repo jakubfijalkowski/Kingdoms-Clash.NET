@@ -34,6 +34,11 @@ namespace ClashEngine.NET.Graphics.Gui
 		}
 
 		/// <summary>
+		/// Renderer GUI.
+		/// </summary>
+		public Interfaces.Graphics.IRenderer Renderer { get; set; }
+
+		/// <summary>
 		/// Pobiera kontrolkę o wskazanym Id.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
@@ -202,9 +207,11 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// Inicjalizuje kontener.
 		/// </summary>
 		/// <param name="input">Wejście.</param>
-		public GuiContainer(Interfaces.IInput input = null)
+		/// <param name="renderer">Renderer.</param>
+		public GuiContainer(Interfaces.IInput input = null, Interfaces.Graphics.IRenderer renderer = null)
 		{
 			this.CurrentData.Input = input;
+			this.Renderer = renderer;
 		}
 		#endregion
 
