@@ -1,5 +1,4 @@
 ﻿using ClashEngine.NET.Interfaces.Graphics.Resources;
-using ClashEngine.NET.Utilities;
 using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Objects
@@ -24,13 +23,14 @@ namespace ClashEngine.NET.Graphics.Objects
 				new Vertex { Color = Vector4.One }
 			};
 		private ITexture _Texture = null;
+		private SpriteEffect _Effect = SpriteEffect.No;
 		#endregion
 
 		#region ISprite Members
 		/// <summary>
-		/// Pozycja duszka.
+		/// Pozycja.
 		/// </summary>
-		public OpenTK.Vector2 Position
+		public Vector2 Position
 		{
 			get { return this._Vertices[0].Position; }
 			set
@@ -40,9 +40,9 @@ namespace ClashEngine.NET.Graphics.Objects
 		}
 
 		/// <summary>
-		/// Rozmiar duszka.
+		/// Rozmiar.
 		/// </summary>
-		public OpenTK.Vector2 Size
+		public Vector2 Size
 		{
 			get
 			{
@@ -53,6 +53,19 @@ namespace ClashEngine.NET.Graphics.Objects
 			set
 			{
 				this.UpdatePositions(this.Position, value);
+			}
+		}
+
+		/// <summary>
+		/// Efekty.
+		/// </summary>
+		public SpriteEffect Effect
+		{
+			get { return this._Effect; }
+			set
+			{
+				this._Effect = value;
+				this.UpdateTexCoords();
 			}
 		}
 		#endregion
@@ -74,7 +87,7 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// <summary>
 		/// Głębokość, na której znajduje się obiekt.
 		/// </summary>
-		public float Depth { get; private set; }
+		public float Depth { get; set; }
 
 		/// <summary>
 		/// Wierzchołki obiektu.
@@ -88,11 +101,11 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// </summary>
 		/// <param name="texture">Tekstura.</param>
 		/// <param name="position">Pozycja.</param>
-		/// <param name="depth">Głębokość, na której się znajduje.</param>
-		public Sprite(ITexture texture, Vector2 position, float depth = 0f)
+		/// <param name="effect">Efekt.</param>
+		public Sprite(ITexture texture, Vector2 position)
 		{
 			this.Texture = texture;
-			this.Depth = depth;
+			this.Depth = 0f;
 			this.UpdatePositions(position, new Vector2(texture.Width, texture.Height));
 		}
 
@@ -102,11 +115,10 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// <param name="texture">Tekstura.</param>
 		/// <param name="position">Pozycja.</param>
 		/// <param name="size">Rozmiar.</param>
-		/// <param name="depth">Głębokość, na której się znajduje.</param>
-		public Sprite(ITexture texture, Vector2 position, Vector2 size, float depth = 0f)
+		/// <param name="effect">Efekt.</param>
+		public Sprite(ITexture texture, Vector2 position, Vector2 size)
 		{
 			this.Texture = texture;
-			this.Depth = depth;
 			this.UpdatePositions(position, size);
 		}
 		#endregion
@@ -127,12 +139,37 @@ namespace ClashEngine.NET.Graphics.Objects
 
 		private void UpdateTexCoords()
 		{
-			this.Vertices[0].TexCoord = this.Texture.Coordinates.TopLeft();
-			this.Vertices[1].TexCoord = this.Texture.Coordinates.BottomRight();
-			this.Vertices[2].TexCoord = this.Texture.Coordinates.BottomLeft();
-			this.Vertices[3].TexCoord = this.Texture.Coordinates.TopLeft();
-			this.Vertices[4].TexCoord = this.Texture.Coordinates.TopRight();
-			this.Vertices[5].TexCoord = this.Texture.Coordinates.BottomRight();
+			float left, right;
+			float top, bottom;
+
+			if ((this.Effect & SpriteEffect.FlipHorizontally) == SpriteEffect.FlipHorizontally)
+			{
+				left = this.Texture.Coordinates.Right;
+				right = this.Texture.Coordinates.Left;
+			}
+			else
+			{
+				right = this.Texture.Coordinates.Right;
+				left = this.Texture.Coordinates.Left;
+			}
+
+			if ((this.Effect & SpriteEffect.FlipVertically) == SpriteEffect.FlipVertically)
+			{
+				top = this.Texture.Coordinates.Bottom;
+				bottom = this.Texture.Coordinates.Top;
+			}
+			else
+			{
+				bottom = this.Texture.Coordinates.Bottom;
+				top = this.Texture.Coordinates.Top;
+			}
+
+			this.Vertices[0].TexCoord = new Vector2(left, top);
+			this.Vertices[1].TexCoord = new Vector2(right, bottom);
+			this.Vertices[2].TexCoord = new Vector2(left, bottom);
+			this.Vertices[3].TexCoord = new Vector2(left, top);
+			this.Vertices[4].TexCoord = new Vector2(right, top);
+			this.Vertices[5].TexCoord = new Vector2(right, bottom);
 		}
 		#endregion
 	}

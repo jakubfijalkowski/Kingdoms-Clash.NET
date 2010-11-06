@@ -2,6 +2,7 @@
 
 namespace ClashEngine.NET.EntitiesManager
 {
+	using Interfaces;
 	using Interfaces.EntitiesManager;
 
 	/// <summary>
@@ -21,6 +22,16 @@ namespace ClashEngine.NET.EntitiesManager
 		/// Ustawiane przez niego samego.
 		/// </summary>
 		public IGameEntity Owner { get; set; }
+
+		/// <summary>
+		/// Wejście właściciela.
+		/// </summary>
+		protected IInput Input { get { return this.Owner.Input; } }
+
+		/// <summary>
+		/// Manager zasobów właściciela.
+		/// </summary>
+		protected IResourcesManager Content { get { return this.Owner.Content; } }
 
 		/// <summary>
 		/// Inicjalizuje nowy komponent.

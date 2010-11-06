@@ -9,6 +9,11 @@
 		: Component, IRenderableComponent
 	{
 		/// <summary>
+		/// Renderer właściciela.
+		/// </summary>
+		protected Interfaces.Graphics.IRenderer Renderer { get { return this.Owner.Renderer; } }
+
+		/// <summary>
 		/// Inicjalizuje nowy komponent.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>

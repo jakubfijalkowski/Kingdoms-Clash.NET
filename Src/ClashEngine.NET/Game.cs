@@ -171,6 +171,7 @@ namespace ClashEngine.NET
 		public virtual void Render()
 		{
 			this.Screens.Render();
+			this.Renderer.Render();
 		}
 
 		#region Running

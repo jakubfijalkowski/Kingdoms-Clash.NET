@@ -46,6 +46,7 @@ namespace ClashEngine.NET.Graphics
 		/// </summary>
 		public void Render()
 		{
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			foreach (var obj in this.Objects)
 			{
 				if (obj.Texture != null)
