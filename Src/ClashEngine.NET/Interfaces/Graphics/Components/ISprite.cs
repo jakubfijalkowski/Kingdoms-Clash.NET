@@ -1,7 +1,9 @@
-﻿using System.Drawing;
+﻿using OpenTK;
 
 namespace ClashEngine.NET.Interfaces.Graphics.Components
 {
+	using Graphics.Objects;
+
 	/// <summary>
 	/// Sprite - duszek - komponent prezentujący teksturę w miejscu encji gry.
 	/// </summary>
@@ -11,21 +13,21 @@ namespace ClashEngine.NET.Interfaces.Graphics.Components
 		/// <summary>
 		/// Tekstura sprite'u.
 		/// </summary>
-		Resources.ITexture Texture { get; }
+		Resources.ITexture Texture { get; set; }
 
 		/// <summary>
-		/// Koordynaty tekstury. Domyślnie tekstura pokrywa cały sprite.
+		/// Pozycja.
 		/// </summary>
-		RectangleF TextureCoordinates { get; set; }
+		Vector2 Position { get; set; }
 
 		/// <summary>
-		/// Odbija teskturę sprite'a w poziomie.
+		/// Rozmiar.
 		/// </summary>
-		void FlipHorizontal();
-
+		Vector2 Size { get; set; }
+		
 		/// <summary>
-		/// Odbija teskturę sprite'a w pionie.
+		/// Efekty duszka.
 		/// </summary>
-		void FlipVertical();
+		SpriteEffect Effect { get; set; }
 	}
 }

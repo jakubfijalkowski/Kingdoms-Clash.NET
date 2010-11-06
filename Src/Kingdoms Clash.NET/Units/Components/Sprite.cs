@@ -87,17 +87,17 @@ namespace Kingdoms_Clash.NET.Units.Components
 			#region Sprite Members
 			public override void OnInit()
 			{
-				base.Init(this.Content.Load<Texture>((this.Description as ISprite).ImagePath));
-				this.Owner.Attributes.GetOrCreate<Vector2>("Size").Value = new Vector2(
+				base.Texture = this.Content.Load<Texture>((this.Description as ISprite).ImagePath);
+				base.OnInit();
+
+				base.Size = new Vector2(
 					(this.Owner as IUnit).Description.Width,
 					(this.Owner as IUnit).Description.Height);
 
 				if ((this.Owner as IUnit).Owner.Type == Interfaces.Player.PlayerType.Second)
 				{
-					this.FlipHorizontal();
+					base.Effect = ClashEngine.NET.Interfaces.Graphics.Objects.SpriteEffect.FlipHorizontally;
 				}
-
-				base.OnInit();
 			}
 			#endregion
 

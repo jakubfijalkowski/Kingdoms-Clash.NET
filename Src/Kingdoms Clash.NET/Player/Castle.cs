@@ -105,11 +105,11 @@ namespace Kingdoms_Clash.NET.Player
 			pObj.Body.UserData = this;
 
 			Sprite s = new Sprite("CastleImage", this.Content.Load<Texture>(this.Nation.CastleImage));
+			this.Components.Add(s);
 			if (this.Type == PlayerType.Second)
 			{
-				s.FlipHorizontal();
+				s.Effect = ClashEngine.NET.Interfaces.Graphics.Objects.SpriteEffect.FlipHorizontally;
 			}
-			this.Components.Add(s);
 
 			this.Attributes.Get<Vector2>("Position").Value = (this.Type == PlayerType.First ? this.GameState.Map.FirstCastle : this.GameState.Map.SecondCastle);
 			this.Attributes.Get<Vector2>("Size").Value = Configuration.Instance.CastleSize;

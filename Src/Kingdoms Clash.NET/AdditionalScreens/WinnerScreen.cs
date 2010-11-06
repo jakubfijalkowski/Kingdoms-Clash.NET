@@ -1,6 +1,6 @@
 ﻿using ClashEngine.NET;
 using ClashEngine.NET.EntitiesManager;
-using ClashEngine.NET.Graphics.Components;
+using ClashEngine.NET.Graphics.Objects;
 using ClashEngine.NET.Graphics.Resources;
 using OpenTK;
 
@@ -93,10 +93,9 @@ namespace Kingdoms_Clash.NET.AdditionalScreens
 			: GameEntity
 		{
 			#region Private Fields
-			/// <summary>
-			/// "Duszek".
-			/// </summary>
-			private Sprite Image = new Sprite("Image");
+			private Sprite ImageAWon;
+			private Sprite ImageBWon;
+			private Sprite Current;
 			#endregion
 
 			#region Constructors
@@ -111,11 +110,17 @@ namespace Kingdoms_Clash.NET.AdditionalScreens
 				float aspect = (ImageSize.X / ImageSize.Y);
 				float w = 0.8f;
 				float h = aspect / 12f;
+				var size = new Vector2(w, h);
+				var position = new Vector2((1f - w) / 2f, (1f * aspect - h) / 2f);
 
-				this.Components.Add(this.Image);
-				this.Image.Init(this.Content.Load<Texture>("PlayerAWon.png"));
-				this.Image.Size = new Vector2(w, h);
-				this.Image.Position = new Vector2((1f - w) / 2f, (1f * aspect - h) / 2f);
+				this.ImageAWon = new Sprite(this.Content.Load<Texture>("PlayerAWon.png"), position, size);
+				this.ImageBWon = new Sprite(this.Content.Load<Texture>("PlayerBWon.png"), position, size);
+				this.Current = this.ImageAWon;
+			}
+
+			public override void Render()
+			{
+				base.Renderer.Draw(this.Current);
 			}
 			#endregion
 
@@ -123,11 +128,11 @@ namespace Kingdoms_Clash.NET.AdditionalScreens
 			{
 				if (b)
 				{
-					this.Image.Init(this.Content.Load<Texture>("PlayerBWon.png"));
+					this.Current = this.ImageBWon;
 				}
 				else
 				{
-					this.Image.Init(this.Content.Load<Texture>("PlayerAWon.png"));
+					this.Current = this.ImageAWon;
 				}
 			}
 		}

@@ -28,6 +28,10 @@ namespace ClashEngine.NET.Components.Internals
 			set
 			{
 				this.Body.Position = value.ToXNA();
+				if (this.ValueChanged != null)
+				{
+					this.ValueChanged(this);
+				}
 			} 
 		}
 		#endregion
