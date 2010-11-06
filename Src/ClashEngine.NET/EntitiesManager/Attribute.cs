@@ -11,6 +11,8 @@ namespace ClashEngine.NET.EntitiesManager
 	public class Attribute
 		: IAttribute
 	{
+		private object _Value = null;
+
 		/// <summary>
 		/// Identyfikator atrybutu.
 		/// </summary>
@@ -19,7 +21,23 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <summary>
 		/// Wartość atrybutu.
 		/// </summary>
-		public object Value { get; set; }
+		public object Value
+		{
+			get { return this._Value; }
+			set
+			{
+				this._Value = value;
+				if (this.ValueChanged != null)
+				{
+					this.ValueChanged(this);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Zdarzenie wywoływane przy zmianie wartości atrybutu.
+		/// </summary>
+		public event ValueChangedDelegate ValueChanged;
 
 		/// <summary>
 		/// Inicjalizuje nowy atrybut.
@@ -29,7 +47,7 @@ namespace ClashEngine.NET.EntitiesManager
 		public Attribute(string id, object value)
 		{
 			this.Id = id;
-			this.Value = value;
+			this._Value = value;
 		}
 	}
 }

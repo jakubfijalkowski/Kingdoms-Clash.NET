@@ -48,8 +48,13 @@ namespace ClashEngine.NET.Components.Internals
 					throw new ArgumentException("Must be of type Microsoft.Xna.Framework.Vector2", "value");
 				}
 				this.Body.Position = (Microsoft.Xna.Framework.Vector2)value;
+				if (this.ValueChanged != null)
+				{
+					this.ValueChanged(this);
+				}
 			}
 		}
+		public event ValueChangedDelegate ValueChanged;
 		#endregion
 
 		public PhysicalPositionAttribute(string id, Body body)
