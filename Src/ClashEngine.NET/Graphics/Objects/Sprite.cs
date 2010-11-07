@@ -10,52 +10,14 @@ namespace ClashEngine.NET.Graphics.Objects
 	/// Obiekt renderera - duszek.
 	/// </summary>
 	public class Sprite
-		: ISprite
+		: Quad, ISprite
 	{
 		#region Private fields
-		private Vertex[] _Vertices = new Vertex[6]
-			{
-				new Vertex { Color = Vector4.One },
-				new Vertex { Color = Vector4.One },
-				new Vertex { Color = Vector4.One },
-				new Vertex { Color = Vector4.One },
-				new Vertex { Color = Vector4.One },
-				new Vertex { Color = Vector4.One }
-			};
 		private ITexture _Texture = null;
 		private SpriteEffect _Effect = SpriteEffect.No;
 		#endregion
 
 		#region ISprite Members
-		/// <summary>
-		/// Pozycja.
-		/// </summary>
-		public Vector2 Position
-		{
-			get { return this._Vertices[0].Position; }
-			set
-			{
-				this.UpdatePositions(value, this.Size);
-			}
-		}
-
-		/// <summary>
-		/// Rozmiar.
-		/// </summary>
-		public Vector2 Size
-		{
-			get
-			{
-				return new Vector2(
-					this._Vertices[4].Position.X - this._Vertices[0].Position.X,
-					this._Vertices[2].Position.Y - this._Vertices[0].Position.Y);
-			}
-			set
-			{
-				this.UpdatePositions(this.Position, value);
-			}
-		}
-
 		/// <summary>
 		/// Efekty.
 		/// </summary>
@@ -74,7 +36,7 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// <summary>
 		/// Tekstura obiektu.
 		/// </summary>
-		public ITexture Texture
+		public new ITexture Texture
 		{
 			get { return this._Texture; }
 			private set
@@ -83,16 +45,6 @@ namespace ClashEngine.NET.Graphics.Objects
 				this.UpdateTexCoords();
 			}
 		}
-
-		/// <summary>
-		/// Głębokość, na której znajduje się obiekt.
-		/// </summary>
-		public float Depth { get; set; }
-
-		/// <summary>
-		/// Wierzchołki obiektu.
-		/// </summary>
-		public Vertex[] Vertices { get { return this._Vertices; } }
 		#endregion
 
 		#region Constructors
@@ -103,10 +55,10 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// <param name="position">Pozycja.</param>
 		/// <param name="effect">Efekt.</param>
 		public Sprite(ITexture texture, Vector2 position)
+			: base(position, new Vector2(texture.Width, texture.Height), Vector4.One)
 		{
 			this.Texture = texture;
 			this.Depth = 0f;
-			this.UpdatePositions(position, new Vector2(texture.Width, texture.Height));
 		}
 
 		/// <summary>
@@ -117,26 +69,13 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// <param name="size">Rozmiar.</param>
 		/// <param name="effect">Efekt.</param>
 		public Sprite(ITexture texture, Vector2 position, Vector2 size)
+			: base(position, size, Vector4.One)
 		{
 			this.Texture = texture;
-			this.UpdatePositions(position, size);
 		}
 		#endregion
 
 		#region Private methods
-		private void UpdatePositions(Vector2 pos, Vector2 size)
-		{
-			this.Vertices[0].Position = pos;
-			this.Vertices[1].Position = pos + size;
-			this.Vertices[2].Position = pos;
-			this.Vertices[2].Position.Y += size.Y;
-
-			this.Vertices[3].Position = pos;
-			this.Vertices[4].Position = pos;
-			this.Vertices[4].Position.X += size.X;
-			this.Vertices[5].Position = pos + size;
-		}
-
 		private void UpdateTexCoords()
 		{
 			float left, right;
@@ -165,11 +104,9 @@ namespace ClashEngine.NET.Graphics.Objects
 			}
 
 			this.Vertices[0].TexCoord = new Vector2(left, top);
-			this.Vertices[1].TexCoord = new Vector2(right, bottom);
-			this.Vertices[2].TexCoord = new Vector2(left, bottom);
-			this.Vertices[3].TexCoord = new Vector2(left, top);
-			this.Vertices[4].TexCoord = new Vector2(right, top);
-			this.Vertices[5].TexCoord = new Vector2(right, bottom);
+			this.Vertices[1].TexCoord = new Vector2(right, top);
+			this.Vertices[2].TexCoord = new Vector2(right, bottom);
+			this.Vertices[3].TexCoord = new Vector2(left, bottom);
 		}
 		#endregion
 	}

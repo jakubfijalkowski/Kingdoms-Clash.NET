@@ -46,9 +46,10 @@ namespace ClashEngine.NET.Interfaces.Graphics
 		/// </summary>
 		Vertex[] Vertices { get; }
 
-		///// <summary>
-		///// Indeksy wierzchołków.
-		///// </summary>
-		//int[] Indecies { get; }
+		/// <summary>
+		/// Indeksy wierzchołków.
+		/// Jeśli jest null, renderer nie używa ich.
+		/// </summary>
+		int[] Indecies { get; }
 	}
 }

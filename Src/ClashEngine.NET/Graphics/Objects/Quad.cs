@@ -12,15 +12,18 @@ namespace ClashEngine.NET.Graphics.Objects
 		: IQuad
 	{
 		#region Private fields
-		private Vertex[] _Vertices = new Vertex[6]
-			{
-				new Vertex { Color = Vector4.One },
-				new Vertex { Color = Vector4.One },
-				new Vertex { Color = Vector4.One },
-				new Vertex { Color = Vector4.One },
-				new Vertex { Color = Vector4.One },
-				new Vertex { Color = Vector4.One }
-			};
+		protected Vertex[] _Vertices = new Vertex[4]
+		{
+			new Vertex { Color = Vector4.One },
+			new Vertex { Color = Vector4.One },
+			new Vertex { Color = Vector4.One },
+			new Vertex { Color = Vector4.One }
+		};
+		private int[] _Indecies = new int[]
+		{
+			0, 2, 3,
+			0, 1, 2
+		};
 		#endregion
 
 		#region IQuad Members
@@ -44,8 +47,8 @@ namespace ClashEngine.NET.Graphics.Objects
 			get
 			{
 				return new Vector2(
-					this._Vertices[4].Position.X - this._Vertices[0].Position.X,
-					this._Vertices[2].Position.Y - this._Vertices[0].Position.Y);
+					this._Vertices[1].Position.X - this._Vertices[0].Position.X,
+					this._Vertices[3].Position.Y - this._Vertices[0].Position.Y);
 			}
 			set
 			{
@@ -81,12 +84,17 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// <summary>
 		/// Głębokość, na której znajduje się obiekt.
 		/// </summary>
-		public float Depth { get; private set; }
+		public float Depth { get; protected set; }
 
 		/// <summary>
 		/// Wierzchołki obiektu.
 		/// </summary>
 		public Vertex[] Vertices { get { return this._Vertices; } }
+
+		/// <summary>
+		/// Indeksy.
+		/// </summary>
+		public int[] Indecies { get { return this._Indecies; } }
 		#endregion
 
 		#region Constructors
@@ -120,14 +128,11 @@ namespace ClashEngine.NET.Graphics.Objects
 		private void UpdatePositions(Vector2 pos, Vector2 size)
 		{
 			this.Vertices[0].Position = pos;
-			this.Vertices[1].Position = pos + size;
-			this.Vertices[2].Position = pos;
-			this.Vertices[2].Position.Y += size.Y;
-
+			this.Vertices[1].Position = pos;
+			this.Vertices[1].Position.X += size.X;
+			this.Vertices[2].Position = pos + size;
 			this.Vertices[3].Position = pos;
-			this.Vertices[4].Position = pos;
-			this.Vertices[4].Position.X += size.X;
-			this.Vertices[5].Position = pos + size;
+			this.Vertices[3].Position.Y += size.Y;
 		}
 		#endregion
 	}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Dynamics;
 using OpenTK.Graphics.OpenGL;
+using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Components
 {
@@ -21,21 +22,13 @@ namespace ClashEngine.NET.Graphics.Components
 		: RenderableComponent, ITerrain
 	{
 		#region Private fields
-		/// <summary>
-		/// VBO na teren.
-		/// </summary>
-		VBO TerrainVBO = null;
+		private Objects.Terrain _Terrain = null;
+		private Vector2[] Vertices = null;
 		#endregion
 
 		#region ITerrain Members
 		/// <summary>
-		/// Wierzchołki terenu.
-		/// Tylko do odczytu.
-		/// </summary>
-		public IList<TerrainVertex> Vertices { get; private set; }
-
-		/// <summary>
-		/// Wysokość mapy.
+		/// Wysokość terenu.
 		/// </summary>
 		public float Height { get; private set; }
 		#endregion
@@ -43,50 +36,13 @@ namespace ClashEngine.NET.Graphics.Components
 		#region Component Members
 		public override void OnInit()
 		{
+			this._Terrain = new Objects.Terrain(this.Height, this.Vertices);
 			this.AddShapes();
-
-			Vertex2DPC[] vertices = new Vertex2DPC[this.Vertices.Count * 2];
-			uint[] indecies = new uint[(this.Vertices.Count - 1) * 6];
-
-			//Budujemy tablicę wierzchołków
-			float lowest = this.GetLowestVertex() + this.Height; //Położenie krawędzi dolnej.
-			for (int i = 0, j = 0; j < vertices.Length; ++i, j += 2)
-			{
-				vertices[j].Position = this.Vertices[i].Position;
-				vertices[j + 1].Position = this.Vertices[i].Position;
-				vertices[j + 1].Position.Y = lowest;
-
-				vertices[j].Color = vertices[j + 1].Color = this.Vertices[i].Color;
-			}
-
-			//Budujemy tablicę indeksów
-			//Dwa trójkąty - pierwszy i ostatni muszą być ustawione przeze mnie
-			indecies[0] = 0;
-			indecies[1] = 1;
-			indecies[2] = 2;
-
-			indecies[indecies.Length - 3] = (uint)(vertices.Length - 3);
-			indecies[indecies.Length - 2] = (uint)(vertices.Length - 2);
-			indecies[indecies.Length - 1] = (uint)(vertices.Length - 1);
-
-			for (uint i = 1, j = 3; i < this.Vertices.Count - 1; i += 1, j += 6)
-			{
-				indecies[j + 0] = (i * 2);
-				indecies[j + 1] = (i * 2) - 1;
-				indecies[j + 2] = (i * 2) + 1;
-
-				indecies[j + 3] = (i * 2);
-				indecies[j + 4] = (i * 2) + 1;
-				indecies[j + 5] = (i * 2) + 2;
-			}
-
-			this.TerrainVBO = new VBO(indecies, vertices);
 		}
 
 		public override void Render()
 		{
-			GL.BindTexture(TextureTarget.Texture2D, 0);
-			this.TerrainVBO.Draw();
+			this.Renderer.Draw(this._Terrain);
 		}
 
 		public override void Update(double delta)
@@ -95,13 +51,13 @@ namespace ClashEngine.NET.Graphics.Components
 
 		#region Constructors
 		/// <summary>
-		/// Tworzy teren.
+		/// Tworzy komponent.
 		/// </summary>
 		/// <param name="height">Wysokość terenu.</param>
 		/// <param name="terrain">Wierzchołki.</param>
 		/// <exception cref="ArgumentException">Height jest mniejsze bądź równe 0.</exception>
 		/// <exception cref="ArgumentNullException">Nie podano żadnego wierzchołka.</exception>
-		public Terrain(float height, params TerrainVertex[] terrain)
+		public Terrain(float height, params Vector2[] terrain)
 			: base("Terrain")
 		{
 			if (height <= 0.0)
@@ -110,32 +66,15 @@ namespace ClashEngine.NET.Graphics.Components
 			}
 			else if (terrain == null || terrain.Length == 0)
 			{
-				throw new ArgumentNullException("vertices");
+				throw new ArgumentNullException("terrain");
 			}
-
+			
 			this.Height = height;
-			this.Vertices = new List<TerrainVertex>(terrain);
+			this.Vertices = terrain;
 		}
 		#endregion
-		
-		#region Private members
-		/// <summary>
-		/// Pobiera najniżej położony wierzchołek(czyli z największą współrzędną Y).
-		/// </summary>
-		/// <returns>Współrzędna Y tego wierzchołka.</returns>
-		private float GetLowestVertex()
-		{
-			float lowest = float.MinValue;
-			foreach (var vertex in this.Vertices)
-			{
-				if (vertex.Position.Y > lowest)
-				{
-					lowest = vertex.Position.Y;
-				}
-			}
-			return lowest;
-		}
 
+		#region Private methods
 		/// <summary>
 		/// Gdy mamy otworzone ciało obiektu fizycznego dodajemy do niego odpowiednie figury.
 		/// </summary>
@@ -144,10 +83,10 @@ namespace ClashEngine.NET.Graphics.Components
 			var bodyAttr = this.Owner.Attributes.Get<Body>("Body");
 			if (bodyAttr != null)
 			{
-				for (int i = 0; i < this.Vertices.Count - 1; i++)
+				for (int i = 0; i < this.Vertices.Length - 1; i++)
 				{
 					PolygonShape sector = new PolygonShape();
-					sector.SetAsEdge(this.Vertices[i].Position.ToXNA(), this.Vertices[i + 1].Position.ToXNA());
+					sector.SetAsEdge(this.Vertices[i].ToXNA(), this.Vertices[i + 1].ToXNA());
 
 					bodyAttr.Value.CreateFixture(sector).Friction = 1f;
 				}

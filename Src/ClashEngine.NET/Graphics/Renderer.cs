@@ -59,11 +59,23 @@ namespace ClashEngine.NET.Graphics
 				}
 
 				GL.Begin(BeginMode.Triangles);
-				foreach (var v in obj.Vertices)
+				if (obj.Indecies != null)
 				{
-					GL.Color4(v.Color);
-					GL.TexCoord2(v.TexCoord);
-					GL.Vertex2(v.Position);
+					foreach (var idx in obj.Indecies)
+					{
+						GL.Color4(obj.Vertices[idx].Color);
+						GL.TexCoord2(obj.Vertices[idx].TexCoord);
+						GL.Vertex2(obj.Vertices[idx].Position);
+					}
+				}
+				else
+				{
+					foreach (var v in obj.Vertices)
+					{
+						GL.Color4(v.Color);
+						GL.TexCoord2(v.TexCoord);
+						GL.Vertex2(v.Position);
+					}
 				}
 				GL.End();
 			}

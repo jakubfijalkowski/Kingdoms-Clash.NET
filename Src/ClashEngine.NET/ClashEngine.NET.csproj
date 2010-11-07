@@ -97,6 +97,7 @@
     <Compile Include="Graphics\Gui\GuiScreen.cs" />
     <Compile Include="Graphics\Objects\Quad.cs" />
     <Compile Include="Graphics\Objects\Sprite.cs" />
+    <Compile Include="Graphics\Objects\Terrain.cs" />
     <Compile Include="Graphics\Renderer.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Interfaces\Graphics\Cameras\IOrthoCamera.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Interfaces\Graphics\Gui\IUIData.cs" />
     <Compile Include="Interfaces\Graphics\Objects\IQuad.cs" />
     <Compile Include="Interfaces\Graphics\Objects\ISprite.cs" />
+    <Compile Include="Interfaces\Graphics\Objects\ITerrain.cs" />
     <Compile Include="Interfaces\IInput.cs" />
     <Compile Include="Interfaces\IMainThreadCallbacksManager.cs" />
     <Compile Include="Interfaces\Graphics\Components\ISprite.cs" />
