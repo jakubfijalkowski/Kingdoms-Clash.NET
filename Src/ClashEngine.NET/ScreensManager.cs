@@ -236,6 +236,7 @@ namespace ClashEngine.NET
 				if (this.Screens[i].State != ScreenState.Deactivated)
 				{
 					this.Screens[i].Render();
+					this.Screens[i].Renderer.Flush();
 				}
 			}
 		}

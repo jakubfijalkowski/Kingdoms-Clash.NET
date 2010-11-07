@@ -35,13 +35,25 @@
 
 		/// <summary>
 		/// Rysuje obiekt.
+		/// Musi być wywołana pomiędzy <see cref="Begin"/> i <see cref="End"/>.
 		/// </summary>
 		/// <param name="obj">Obiekt do odrysowania.</param>
 		void Draw(IObject obj);
 
 		/// <summary>
-		/// Wyświetla wszystkie rysowane obiekty(<see cref="Draw"/>).
+		/// Rozpoczyna rysowanie.
 		/// </summary>
-		void Render();
+		void Begin();
+
+		/// <summary>
+		/// Kończy rysowanie.
+		/// </summary>
+		void End();
+
+		/// <summary>
+		/// Opróżnia renderer.
+		/// Musi być wywołana pomiędzy <see cref="Begin"/> i <see cref="End"/>.
+		/// </summary>
+		void Flush();
 	}
 }

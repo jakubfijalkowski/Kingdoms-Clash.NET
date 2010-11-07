@@ -16,37 +16,47 @@ namespace ClashEngine.NET.Graphics
 		#region Private fields
 		private ObjectComparer Comparer = new ObjectComparer(SortMode.Texture);
 		private SortedList<IObject, object> Objects;
+		private bool IsRunning = false;
 		#endregion
 
 		#region IRenderer Members
-		/// <summary>
-		/// Tryb sortowania.
-		/// </summary>
 		public SortMode SortMode
 		{
 			get { return this.Comparer.SortMode; }
 			set { this.Comparer.SortMode = value; }
 		}
 
-		/// <summary>
-		/// Rysuje obiekt.
-		/// </summary>
-		/// <param name="obj">Obiekt do odrysowania.</param>
 		public void Draw(IObject obj)
 		{
 			if (obj == null)
 			{
 				throw new ArgumentNullException("obj");
 			}
+			if (!this.IsRunning)
+			{
+				throw new InvalidOperationException("Must be called between Begin and End");
+			}
 			this.Objects.Add(obj, null);
 		}
 
-		/// <summary>
-		/// Wyświetla wszystkie rysowane obiekty(<see cref="Draw"/>).
-		/// </summary>
-		public void Render()
+		public void Begin()
 		{
+			this.IsRunning = true;
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+		}
+
+		public void End()
+		{
+			this.Flush();
+			this.IsRunning = false;
+		}
+
+		public void Flush()
+		{
+			if (!this.IsRunning)
+			{
+				throw new InvalidOperationException("Must be called between Begin and End");
+			}
 			foreach (var obj in this.Objects)
 			{
 				if (obj.Key.Texture != null)
