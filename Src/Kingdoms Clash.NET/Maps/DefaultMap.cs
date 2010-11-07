@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Graphics.Components;
-using ClashEngine.NET.Interfaces.Graphics.Components;
 using OpenTK;
 using Cfg = Kingdoms_Clash.NET.Configuration;
 

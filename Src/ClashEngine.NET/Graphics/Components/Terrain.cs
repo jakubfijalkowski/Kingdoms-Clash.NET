@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Dynamics;
-using OpenTK.Graphics.OpenGL;
 using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Components

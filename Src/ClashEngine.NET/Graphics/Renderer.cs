@@ -15,7 +15,7 @@ namespace ClashEngine.NET.Graphics
 	{
 		#region Private fields
 		private ObjectComparer Comparer = new ObjectComparer(SortMode.Texture);
-		private SortedSet<IObject> Objects;
+		private SortedList<IObject, object> Objects;
 		#endregion
 
 		#region IRenderer Members
@@ -38,7 +38,7 @@ namespace ClashEngine.NET.Graphics
 			{
 				throw new ArgumentNullException("obj");
 			}
-			this.Objects.Add(obj);
+			this.Objects.Add(obj, null);
 		}
 
 		/// <summary>
@@ -49,9 +49,9 @@ namespace ClashEngine.NET.Graphics
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 			foreach (var obj in this.Objects)
 			{
-				if (obj.Texture != null)
+				if (obj.Key.Texture != null)
 				{
-					obj.Texture.Bind();
+					obj.Key.Texture.Bind();
 				}
 				else
 				{
@@ -59,18 +59,18 @@ namespace ClashEngine.NET.Graphics
 				}
 
 				GL.Begin(BeginMode.Triangles);
-				if (obj.Indecies != null)
+				if (obj.Key.Indecies != null)
 				{
-					foreach (var idx in obj.Indecies)
+					foreach (var idx in obj.Key.Indecies)
 					{
-						GL.Color4(obj.Vertices[idx].Color);
-						GL.TexCoord2(obj.Vertices[idx].TexCoord);
-						GL.Vertex2(obj.Vertices[idx].Position);
+						GL.Color4(obj.Key.Vertices[idx].Color);
+						GL.TexCoord2(obj.Key.Vertices[idx].TexCoord);
+						GL.Vertex2(obj.Key.Vertices[idx].Position);
 					}
 				}
 				else
 				{
-					foreach (var v in obj.Vertices)
+					foreach (var v in obj.Key.Vertices)
 					{
 						GL.Color4(v.Color);
 						GL.TexCoord2(v.TexCoord);
@@ -79,13 +79,14 @@ namespace ClashEngine.NET.Graphics
 				}
 				GL.End();
 			}
+			this.Objects.Clear();
 		}
 		#endregion
 
 		#region Constructors
 		public Renderer()
 		{
-			this.Objects = new SortedSet<IObject>(this.Comparer);
+			this.Objects = new SortedList<IObject, object>(this.Comparer);
 		}
 		#endregion
 
