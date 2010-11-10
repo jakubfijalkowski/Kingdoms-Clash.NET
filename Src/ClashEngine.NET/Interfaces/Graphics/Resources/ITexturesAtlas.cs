@@ -6,10 +6,11 @@ namespace ClashEngine.NET.Interfaces.Graphics.Resources
 	/// Interfejs dla atlasu tekstur.
 	/// </summary>
 	public interface ITexturesAtlas
-		: IResource
+		: IResource, IEnumerable<ITexture>
 	{
 		/// <summary>
-		/// Pobiera wszystkie identyfikatory tekstur jakie są w atlasie.
+		/// Kolekcja z identyfikatorami tekstur, które znajdują się w atlasie.
+		/// Tylko do odczytu.
 		/// </summary>
 		ICollection<string> IDs { get; }
 
@@ -18,6 +19,6 @@ namespace ClashEngine.NET.Interfaces.Graphics.Resources
 		/// </summary>
 		/// <param name="id">Identyfikator tekstury.</param>
 		/// <returns>Tekstura.</returns>
-		ITexture Get(string id);
+		ITexture this[string id] { get; }
 	}
 }

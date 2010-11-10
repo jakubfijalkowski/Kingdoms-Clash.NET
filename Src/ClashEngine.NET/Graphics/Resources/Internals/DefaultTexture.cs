@@ -87,5 +87,12 @@ namespace ClashEngine.NET.Graphics.Resources.Internals
 			}
 		}
 		#endregion
+
+		#region Constructors
+		private DefaultTexture()
+		{
+			this.Id = this.FileName = "DefaultTexture";
+		}
+		#endregion
 	}
 }
