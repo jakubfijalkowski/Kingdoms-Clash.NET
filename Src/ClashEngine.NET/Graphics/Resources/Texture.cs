@@ -6,6 +6,7 @@ using OpenTK.Graphics.OpenGL;
 namespace ClashEngine.NET.Graphics.Resources
 {
 	using Interfaces.Graphics.Resources;
+	using Internals;
 
 	/// <summary>
 	/// Tekstura.
@@ -20,18 +21,6 @@ namespace ClashEngine.NET.Graphics.Resources
 		: ITexture
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
-
-		#region Default texture
-		/// <summary>
-		/// Domyślna tekstura. Ładowana gdy nie udało się załadować zasobu.
-		/// </summary>
-		private static Internals.DefaultTexture DefaultTexture = null;
-
-		/// <summary>
-		/// Kiedyś musimy zwolnić domyślną teksturę - liczba użyć, jeśli dojdzie do zera - zwalniamy ją.
-		/// </summary>
-		private static int DefaultTexturesCount = 0;
-		#endregion
 
 		#region Private fields
 		/// <summary>
@@ -94,17 +83,11 @@ namespace ClashEngine.NET.Graphics.Resources
 				{
 					Logger.WarnException("Cannot load texture. Using default.", ex);
 
-					if (DefaultTexture == null)
-					{
-						DefaultTexture = new Internals.DefaultTexture();
-						DefaultTexture.Load();
-					}
+					DefaultTexture.Instance.Load();
 					this.DefaultUsed = true;
-					this.TextureId = DefaultTexture.TextureId;
-					this.Width = DefaultTexture.Width;
-					this.Height = DefaultTexture.Height;
-
-					++DefaultTexturesCount;
+					this.TextureId = DefaultTexture.Instance.TextureId;
+					this.Width = DefaultTexture.Instance.Width;
+					this.Height = DefaultTexture.Instance.Height;
 
 					return Interfaces.ResourceLoadingState.DefaultUsed;
 				}
@@ -115,7 +98,7 @@ namespace ClashEngine.NET.Graphics.Resources
 		/// <summary>
 		/// Zwalnia zasób.
 		/// </summary>
-		public void Free()
+		public virtual void Free()
 		{
 			lock (this.PadLock)
 			{
@@ -126,12 +109,7 @@ namespace ClashEngine.NET.Graphics.Resources
 				}
 				else
 				{
-					--DefaultTexturesCount;
-					if (DefaultTexturesCount == 0)
-					{
-						DefaultTexture.Free();
-						DefaultTexture = null;
-					}
+					DefaultTexture.Instance.Free();
 				}
 			}
 		}

@@ -11,8 +11,24 @@ namespace ClashEngine.NET.Graphics.Resources.Internals
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
-		#region Texture data
-		static readonly uint[] TextureData = new uint[]
+		#region Singleton
+		private static DefaultTexture _Instance;
+
+		public static DefaultTexture Instance
+		{
+			get
+			{
+				if (_Instance == null)
+				{
+					_Instance = new DefaultTexture();
+				}
+				return _Instance;
+			}
+		}
+		#endregion
+
+		#region Private fields
+		private static readonly uint[] TextureData = new uint[]
 		{
 			0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F,
 			0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F,
@@ -31,27 +47,44 @@ namespace ClashEngine.NET.Graphics.Resources.Internals
 			0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F,
 			0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F, 0xFFFF007F,
 		};
+
+		private int TimesUsed = 0;
 		#endregion
 
 		#region Resource members
 		/// <summary>
-		/// Ładuje teksturę.
 		/// Zawsze zwraca powodzenie.
 		/// </summary>
-		/// <returns>Stan załadowania zasobu.</returns>
+		/// <returns></returns>
 		public override Interfaces.ResourceLoadingState Load()
 		{
-			Logger.Trace("Creating default texture...");
-			this.TextureId = GL.GenTexture();
-			this.Width = this.Height = 16;
-			this.Bind();
-			GL.TexImage2D<uint>(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, 16, 16, 0, PixelFormat.Bgra, PixelType.UnsignedByte, TextureData);
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+			if (this.TimesUsed == 0)
+			{
+				Logger.Trace("Creating default texture...");
+				this.TextureId = GL.GenTexture();
+				this.Width = this.Height = 16;
+				this.Bind();
+				GL.TexImage2D<uint>(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, 16, 16, 0, PixelFormat.Bgra, PixelType.UnsignedByte, TextureData);
+				GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+				GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
-			Logger.Info("Default texture created with ID: {0}", this.TextureId);
-
+				Logger.Info("Default texture created with ID: {0}", this.TextureId);
+			}
+			++this.TimesUsed;
 			return Interfaces.ResourceLoadingState.Success;
+		}
+
+		/// <summary>
+		/// Jeśli to ostatnia instancja domyślnej tekstury - zwalnia ją.
+		/// </summary>
+		public override void Free()
+		{
+			--this.TimesUsed;
+			if (this.TimesUsed <= 0)
+			{
+				base.Free();
+				this.TimesUsed = 0;
+			}
 		}
 		#endregion
 	}
