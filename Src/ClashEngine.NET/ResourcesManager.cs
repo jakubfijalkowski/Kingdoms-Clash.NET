@@ -142,6 +142,7 @@ namespace ClashEngine.NET
 				throw new Exceptions.ArgumentAlreadyExistsException("res");
 			}
 
+			Logger.Info("Resource {0} added to manager", res.Id);
 			res.Manager = this;
 			this.Resources.Add(res.Id, res);
 		}
@@ -214,16 +215,16 @@ namespace ClashEngine.NET
 			{
 			case ResourceLoadingState.Success:
 				this.Resources.Add(id, res);
-				Logger.Info("Resource '{0}' of type '{1}' loaded succesfully.", id, res.GetType().ToString());
+				Logger.Info("Resource '{0}' of type '{1}' loaded succesfully.", id, res.GetType().Name);
 				break;
 
 			case ResourceLoadingState.Failure:
-				Logger.Error("Cannot load resource '{0}' of type '{1}'", id, res.GetType().ToString());
+				Logger.Error("Cannot load resource '{0}' of type '{1}'", id, res.GetType().Name);
 				break;
 
 			case ResourceLoadingState.DefaultUsed:
 				this.Resources.Add(id, res);
-				Logger.Warn("Cannot load resource '{0}' of type '{1}'. Default used.", id, res.GetType().ToString());
+				Logger.Warn("Cannot load resource '{0}' of type '{1}'. Default used.", id, res.GetType().Name);
 				break;
 			}
 		}
