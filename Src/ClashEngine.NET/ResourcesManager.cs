@@ -124,6 +124,29 @@ namespace ClashEngine.NET
 		}
 
 		/// <summary>
+		/// Wymusza dodanie do managera już załadowanego zasobu.
+		/// </summary>
+		/// <param name="res">Zasób.</param>
+		public void Add(IResource res)
+		{
+			if (res == null || string.IsNullOrEmpty(res.Id))
+			{
+				throw new ArgumentNullException("res");
+			}
+			else if (res.Manager != null && res.Manager != this)
+			{
+				throw new ArgumentException("res", "Crossing managers is prohibited");
+			}
+			else if (this.Resources.ContainsKey(res.Id))
+			{
+				throw new Exceptions.ArgumentAlreadyExistsException("res");
+			}
+
+			res.Manager = this;
+			this.Resources.Add(res.Id, res);
+		}
+
+		/// <summary>
 		/// Zwalnia zasób.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">Rzucane gdy res jest równe null -albo- gdy zasób nie był załadowany(Id jest puste lub Manager == null).</exception>
