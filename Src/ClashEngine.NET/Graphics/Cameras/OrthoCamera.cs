@@ -7,7 +7,7 @@ namespace ClashEngine.NET.Graphics.Cameras
 	using Interfaces.Graphics.Cameras;
 
 	/// <summary>
-	/// Kamera ortograficzna 2D jako encja.
+	/// Kamera ortogonalna 2D jako encja.
 	/// <see cref="Interfaces.Components.Cameras.InnerCamera"/>
 	/// </summary>
 	public class OrthoCamera

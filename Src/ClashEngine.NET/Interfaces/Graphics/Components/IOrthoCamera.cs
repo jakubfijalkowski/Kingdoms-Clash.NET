@@ -6,7 +6,7 @@ namespace ClashEngine.NET.Interfaces.Graphics.Components
 	using Interfaces.EntitiesManager;
 
 	/// <summary>
-	/// Kamera ortograficzna 2D.
+	/// Kamera ortogonalna 2D.
 	/// Buduje kamerę z czterech ograniczników: lewo, prawo, góra, dół. Domyślnie wyświetlany jest fragment 0..1/0..1
 	/// i gracz może ją przesuwać za pomocą strzałek.
 	/// TODO: dopisać przesuwanie za pomocą myszki.
