@@ -100,6 +100,7 @@
     <Compile Include="Graphics\Objects\Sprite.cs" />
     <Compile Include="Graphics\Objects\Terrain.cs" />
     <Compile Include="Graphics\Renderer.cs" />
+    <Compile Include="Graphics\Resources\SystemFont.cs" />
     <Compile Include="Graphics\Resources\Internals\AtlasTexture.cs" />
     <Compile Include="Graphics\Resources\TexturesAtlas.cs" />
     <Compile Include="Input.cs" />
