@@ -23,5 +23,10 @@
 		/// Wejście dla GUI.
 		/// </summary>
 		IInput Input { get; }
+
+		/// <summary>
+		/// Renderer.
+		/// </summary>
+		IRenderer Renderer { get; }
 	}
 }

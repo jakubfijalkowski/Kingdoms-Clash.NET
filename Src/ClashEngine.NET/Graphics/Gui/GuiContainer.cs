@@ -36,7 +36,11 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <summary>
 		/// Renderer GUI.
 		/// </summary>
-		public Interfaces.Graphics.IRenderer Renderer { get; set; }
+		public Interfaces.Graphics.IRenderer Renderer
+		{
+			get { return this.CurrentData.Renderer; }
+			set { this.CurrentData.Renderer = value; }
+		}
 
 		/// <summary>
 		/// Pobiera kontrolkę o wskazanym Id.
@@ -223,6 +227,7 @@ namespace ClashEngine.NET.Graphics.Gui
 			public IGuiControl Hot { get; set; }
 			public IGuiControl Active { get; set; }
 			public Interfaces.IInput Input { get; set; }
+			public Interfaces.Graphics.IRenderer Renderer { get; set; }
 			#endregion
 		}
 		#endregion
