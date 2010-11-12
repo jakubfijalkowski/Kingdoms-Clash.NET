@@ -103,7 +103,11 @@ namespace Kingdoms_Clash.NET
 
 			if (Configuration.Instance.UseFPSCounter)
 			{
-				this.Screens.AddAndActivate(new FPSCounter() { LogStatistics = 10.0f });
+				this.Screens.AddAndActivate(
+					new FPSCounter(this.Content.Load<ClashEngine.NET.Graphics.Resources.SystemFont>("Arial,15,"),
+					System.Drawing.Color.Yellow,
+					new OpenTK.Vector2(Configuration.Instance.WindowSize.Width, Configuration.Instance.WindowSize.Height)
+					));
 			}
 			this.Screens.Add(new AdditionalScreens.WinnerScreen(this.Game));
 			this.Screens.AddAndActivate(this.Game);

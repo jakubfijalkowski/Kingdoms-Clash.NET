@@ -29,7 +29,7 @@
 		/// <summary>
 		/// Czy odrysowywać aktualny licznik FPS na ekranie.
 		/// </summary>
-		bool RenderStatistics { get; set; }
+		bool RenderStatistics { get; }
 
 		/// <summary>
 		/// Czas pomiędzy logowaniem statystyk. 0 - wyłączone.

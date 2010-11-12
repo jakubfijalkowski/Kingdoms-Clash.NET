@@ -3,16 +3,15 @@
 namespace ClashEngine.NET.Utilities
 {
 	using Interfaces.Utilities;
+	using Interfaces.Graphics.Gui;
+	using Interfaces.Graphics.Resources;
 
 	/// <summary>
 	/// Licznik FPS.
 	/// Można dodać go do managera ekranów - będzie automatycznie aktualizowany i, gdy włączymy, automatycznie rysowany(popup).
 	/// </summary>
-	/// <remarks>
-	/// Rysowanie aktualnie NIE JEST wspierane.
-	/// </remarks>
 	public class FPSCounter
-		: Screen, IFPSCounter
+		: IFPSCounter
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET.FPS");
 		
@@ -41,6 +40,24 @@ namespace ClashEngine.NET.Utilities
 		/// Całkowity czas uruchomienia.
 		/// </summary>
 		double AllTime = 0.0;
+
+		/// <summary>
+		/// Gui.
+		/// Używany tylko, jeśli RenderStatistics == true.
+		/// </summary>
+		IGuiContainer Gui;
+
+		/// <summary>
+		/// Kamera.
+		/// Używana tylko, jeśli RenderStatistics == true.
+		/// </summary>
+		Interfaces.Graphics.Components.IOrthoCamera Camera;
+
+		/// <summary>
+		/// Tekst z liczbą FPS.
+		/// Używana tylko, jeśli RenderStatistics == true.
+		/// </summary>
+		Interfaces.Graphics.Gui.Controls.IStaticText Text;
 		#endregion
 		
 		#region IFPSCounter Members
@@ -67,7 +84,7 @@ namespace ClashEngine.NET.Utilities
 		/// <summary>
 		/// Czy odrysowywać aktualny licznik FPS na ekranie.
 		/// </summary>
-		public bool RenderStatistics { get; set; }
+		public bool RenderStatistics { get; private set; }
 
 		/// <summary>
 		/// Czas pomiędzy logowaniem statystyk. 0 - wyłączone.
@@ -75,19 +92,30 @@ namespace ClashEngine.NET.Utilities
 		public float LogStatistics { get; set; }
 		#endregion
 
-		public FPSCounter()
-			: base("FPSCounter", Interfaces.ScreenType.Popup)
+		#region IScreen Members
+		public string Id { get { return "FPSCounter"; }	}
+		public Interfaces.IScreensManager OwnerManager { get; set; }
+		public Interfaces.IInput Input
 		{
-			this.CurrentFPS = 0;
-			this.MinFPS = int.MaxValue;
-			this.MaxFPS = int.MinValue;
-			this.AverageFPS = 0.0f;
-			this.RenderStatistics = false;
-			this.LogStatistics = 0.0f;
+			get { return this.Gui.Input; }
+			set { this.Gui.Input = value; }
 		}
+		public Interfaces.Graphics.IRenderer Renderer
+		{
+			get { return this.Gui.Renderer; }
+			set { this.Gui.Renderer = value; }
+		}
+		public Interfaces.IResourcesManager Content { get; set; }
+		public Interfaces.ScreenType Type { get { return Interfaces.ScreenType.Popup; } }
+		public Interfaces.ScreenState State { get; set; }
 
-		#region Screen members
-		public override void Update(double delta)
+		public void OnInit()
+		{ }
+
+		public void OnDeinit()
+		{ }
+
+		public void Update(double delta)
 		{
 			this.FPSUpdateTime += delta;
 			this.AllTime += delta;
@@ -103,7 +131,13 @@ namespace ClashEngine.NET.Utilities
 				{
 					this.MaxFPS = fps;
 				}
-				this.AverageFPS = (float)(this.AllFrames / this.AllTime);
+				float currAverage = (float)(this.AllFrames / this.AllTime);
+
+				if (this.RenderStatistics && (int)currAverage != (int)this.AverageFPS)
+				{
+					this.Text.Text = "FPS: " + (int)currAverage;
+				}
+				this.AverageFPS = currAverage;
 
 				this.FPSCount = 0;
 				this.FPSUpdateTime = 0.0;
@@ -117,19 +151,52 @@ namespace ClashEngine.NET.Utilities
 					Logger.Info("Current FPS: {0}, max FPS: {1}, min FPS: {2}, average FPS: {3}", this.CurrentFPS, this.MaxFPS, this.MinFPS, this.AverageFPS);
 				}
 			}
-			base.Update(delta);
 		}
 
-		public override void Render()
+		public void Render()
 		{
 			++this.FPSCount;
 			++this.AllFrames;
 			//if(this.AllFrames == long.MaxValue) // Zabezpieczenie przed buffer overflowem.
 			if (this.RenderStatistics)
 			{
-				throw new NotSupportedException("FPS statistics rendering is not supported");
-				base.Render();
+				this.Camera.Render();
+				this.Gui.Render();
+				this.Renderer.Flush();
 			}
+		}
+		#endregion
+
+		#region Constructors
+		/// <summary>
+		/// Inicjalizuje licznik tak, by FPS był tylko logowany.
+		/// </summary>
+		/// <param name="logStatistics">Odstęp pomiędzy logowaniami.</param>
+		public FPSCounter(float logStatistics)
+		{
+			this.CurrentFPS = 0;
+			this.MinFPS = int.MaxValue;
+			this.MaxFPS = int.MinValue;
+			this.AverageFPS = 0.0f;
+			this.RenderStatistics = false;
+			this.LogStatistics = logStatistics;
+
+			this.Gui = new Graphics.Gui.GuiContainer();
+		}
+
+		/// <summary>
+		/// Inicjalizuje licznik tak, by tylko wyświetlał FPS.
+		/// </summary>
+		/// <param name="font">Czcionka użyta do wyświetlania.</param>
+		/// <param name="textColor">Kolor.</param>
+		/// <param name="screenSize">Rozmiar ekranu.</param>
+		public FPSCounter(IFont font, System.Drawing.Color textColor, OpenTK.Vector2 screenSize)
+			: this(0)
+		{
+			this.RenderStatistics = true;
+
+			this.Camera = new Graphics.Components.OrthoCamera(new System.Drawing.RectangleF(0, 0, screenSize.X, screenSize.Y), screenSize, 0f, true);
+			this.Gui.Add(this.Text = new Graphics.Gui.Controls.StaticText("FPS", font, "FPS: 0", textColor, new OpenTK.Vector2(20, 20)));
 		}
 		#endregion
 	}
