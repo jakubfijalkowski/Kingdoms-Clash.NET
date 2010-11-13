@@ -6,6 +6,9 @@ using OpenTK.Graphics.OpenGL;
 namespace ClashEngine.NET.Graphics.Gui.Controls
 {
 	using Interfaces.Graphics.Gui.Controls;
+	using Interfaces.Graphics.Objects;
+	using Interfaces.Graphics.Resources;
+	using Utilities;
 
 	/// <summary>
 	/// Pole tekstowe.
@@ -15,9 +18,16 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 	{
 		#region Private fields
 		private static readonly Color Color = Color.Cyan;
+		private static readonly Color TextColor = Color.Black;
+		private static readonly Vector2 TextOffset = new Vector2(2, 2);
 
 		private Func<string> Get;
 		private Action<string> Set;
+
+		private IFont Font;
+		private ITexture TextTexture;
+		private IQuad Background;
+		private ISprite Text;
 		#endregion
 
 		#region IGuiControl Members
@@ -31,17 +41,8 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 
 		public override void Render()
 		{
-			GL.BindTexture(TextureTarget.Texture2D, 0);
-
-			GL.Color3(Color);
-			GL.Begin(BeginMode.Quads);
-			GL.Vertex2(this.Rectangle.Left, this.Rectangle.Top);
-			GL.Vertex2(this.Rectangle.Right, this.Rectangle.Top);
-			GL.Vertex2(this.Rectangle.Right, this.Rectangle.Bottom);
-			GL.Vertex2(this.Rectangle.Left, this.Rectangle.Bottom);
-			GL.End();
-
-			GL.Color3(Color.White);
+			this.Data.Renderer.Draw(this.Background);
+			this.Data.Renderer.Draw(this.Text);
 		}
 
 		/// <summary>
@@ -52,20 +53,28 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		{
 			if (this.Data.Active == this && this.Data.Input.LastCharacter != '\0')
 			{
+				bool changed = false;
 				string newStr = this.Get();
 				if (this.Data.Input.LastCharacter == '\b')
 				{
 					if (newStr.Length > 0)
 					{
 						newStr = newStr.Remove(newStr.Length - 1);
+						changed = true;
 					}
 				}
 				else
 				{
 					newStr += this.Data.Input.LastCharacter;
+					changed = true;
 				}
-				this.Data.Input.LastCharacter = '\0';
-				this.Set(newStr);
+				if (changed)
+				{
+					this.Data.Input.LastCharacter = '\0';
+					this.Set(newStr);
+					this.Font.DrawString(newStr, TextColor, this.TextTexture);
+					this.Text = new Objects.Sprite(this.TextTexture, this.Rectangle.TopLeft() + TextOffset);
+				}
 			}
 		}
 
@@ -87,7 +96,8 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		/// <param name="rect">Prostokąt z polem tekstowym.</param>
 		/// <param name="get">Metoda, która pobiera tekst wpisany do kontrolki.</param>
 		/// <param name="set">Metoda, która zmienia tekst wpisany do kontrolki.</param>
-		public TextBox(string id, RectangleF rect, Func<string> get, Action<string> set)
+		/// <param name="font">Czcionka tekstu.</param>
+		public TextBox(string id, RectangleF rect, Func<string> get, Action<string> set, IFont font)
 			: base(id, rect)
 		{
 			if (get == null)
@@ -100,6 +110,11 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 			}
 			this.Get = get;
 			this.Set = set;
+			this.Font = font;
+
+			this.TextTexture = this.Font.DrawString(this.Get(), TextColor);
+			this.Background = new Objects.Quad(rect.TopLeft(), rect.GetSize(), Color, 1);
+			this.Text = new Objects.Sprite(this.TextTexture, rect.TopLeft() + TextOffset);
 		}
 
 		/// <summary>
@@ -110,8 +125,9 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		/// <param name="size">Rozmiar pola.</param>
 		/// <param name="get">Metoda, która pobiera tekst wpisany do kontrolki.</param>
 		/// <param name="set">Metoda, która zmienia tekst wpisany do kontrolki.</param>
-		public TextBox(string id, Vector2 position, Vector2 size, Func<string> get, Action<string> set)
-			: this(id, new RectangleF(position.X, position.Y, size.X, size.Y), get, set)
+		/// <param name="font">Czcionka tekstu.</param>
+		public TextBox(string id, Vector2 position, Vector2 size, Func<string> get, Action<string> set, IFont font)
+			: this(id, new RectangleF(position.X, position.Y, size.X, size.Y), get, set, font)
 		{ }
 		#endregion
 	}

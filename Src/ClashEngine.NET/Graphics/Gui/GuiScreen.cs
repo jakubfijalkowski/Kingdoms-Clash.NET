@@ -70,7 +70,9 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// Zdarzenie wywoływane przy inicjalizacji ekranu(dodaniu do managera).
 		/// </summary>
 		public virtual void OnInit()
-		{ }
+		{
+			this.Input.MouseTransformation = this.Rectangle;
+		}
 
 		/// <summary>
 		/// Zdarzenie wywoływane przy deinicjalizacji ekranu(usunięcie z managera).
@@ -155,7 +157,6 @@ namespace ClashEngine.NET.Graphics.Gui
 			this.Type = type;
 			this.Rectangle = rect;
 
-			this.Input.MouseTransformation = rect;
 			this.Camera = new ClashEngine.NET.Graphics.Components.OrthoCamera(rect, new OpenTK.Vector2(rect.Width, rect.Height), 0f, true);
 		}
 		#endregion

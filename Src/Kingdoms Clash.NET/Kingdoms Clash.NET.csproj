@@ -79,6 +79,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\ClassicGame.cs" />
     <Compile Include="Defaults.cs" />
+    <Compile Include="GuiTests.cs" />
     <Compile Include="Interfaces\Controllers\IClassicGame.cs" />
     <Compile Include="Interfaces\Map\IResourceOnMap.cs" />
     <Compile Include="Interfaces\Resources\IResourceDescription.cs" />

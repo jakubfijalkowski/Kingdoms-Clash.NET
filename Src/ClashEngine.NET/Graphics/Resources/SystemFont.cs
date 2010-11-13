@@ -82,6 +82,14 @@ namespace ClashEngine.NET.Graphics.Resources
 			}
 
 			var size = this.Measuring.MeasureString(text, this.Font);
+			if (size.Width == 0)
+			{
+				size.Width = 1;
+			}
+			if (size.Height == 0)
+			{
+				size.Height = 1;
+			}
 			using (var bm = new Bitmap((int)size.Width, (int)size.Height))
 			{
 				using (var g = System.Drawing.Graphics.FromImage(bm))

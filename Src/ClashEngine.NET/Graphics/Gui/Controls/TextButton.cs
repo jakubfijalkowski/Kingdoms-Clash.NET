@@ -1,29 +1,44 @@
 ﻿using System.Drawing;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
 
 namespace ClashEngine.NET.Graphics.Gui.Controls
 {
 	using Interfaces.Graphics.Gui.Controls;
+	using Interfaces.Graphics.Objects;
+	using Interfaces.Graphics.Resources;
+	using Utilities;
 
 	/// <summary>
 	/// Przycisk z tekstem.
 	/// </summary>
-	/// TODO: dopisać renderowanie tekstu.
-	/// TODO: dopisać obsługę tematów.
-	/// TODO: ogólnie poprawić renderowanie.
 	public class TextButton
 		: Base.RectangleGuiControlWithWasActive, ITextButton
 	{
-		private const float ShadowOffset = 3f;
-		private const float ActiveOffset = 2f;
+		#region Temp. conf.
+		private static Vector2 ShadowOffset = new Vector2(3, 3);
+		private static Vector2 ActiveOffset = new Vector2(2, 2);
+		private static Vector2 TextOffset = new Vector2(2, 2);
 		private static readonly Color Color = Color.Cyan;
+		private static readonly Color TextColor = Color.Black;
+		#endregion
+
+		#region Private fields
+		private ITexture TextTexture;
+		private IQuad Background;
+		private IQuad Shadow;
+		private ISprite Text;
+		#endregion
 
 		#region ITextButton Members
 		/// <summary>
 		/// Tekst na przycisku.
 		/// </summary>
 		public string Label { get; private set; }
+
+		/// <summary>
+		/// Czcionka użyta do wyrenderowania tekstu.
+		/// </summary>
+		public IFont Font { get; private set; }
 
 		/// <summary>
 		/// Czy był wciśnięty.
@@ -42,26 +57,22 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 
 		public override void Render()
 		{
-			GL.BindTexture(TextureTarget.Texture2D, 0);
+			if (this.Data.Active == this)
+			{
+				this.Background.Position += ActiveOffset;
+				this.Text.Position += ActiveOffset;
+			}
 
-			GL.Color3(Color.DarkGray);
-			GL.Begin(BeginMode.Quads);
-			GL.Vertex2(this.Rectangle.Left + ShadowOffset, this.Rectangle.Top + ShadowOffset);
-			GL.Vertex2(this.Rectangle.Right + ShadowOffset, this.Rectangle.Top + ShadowOffset);
-			GL.Vertex2(this.Rectangle.Right + ShadowOffset, this.Rectangle.Bottom + ShadowOffset);
-			GL.Vertex2(this.Rectangle.Left + ShadowOffset, this.Rectangle.Bottom + ShadowOffset);
-			GL.End();
+			this.Data.Renderer.Draw(this.Shadow);
+			this.Data.Renderer.Draw(this.Background);
+			this.Data.Renderer.Draw(this.Text);
+			this.Data.Renderer.Flush();
 
-			float offset = (this.Data.Active == this ? ActiveOffset : 0f);
-			GL.Color3(Color);
-			GL.Begin(BeginMode.Quads);
-			GL.Vertex2(this.Rectangle.Left + offset, this.Rectangle.Top + offset);
-			GL.Vertex2(this.Rectangle.Right + offset, this.Rectangle.Top + offset);
-			GL.Vertex2(this.Rectangle.Right + offset, this.Rectangle.Bottom + offset);
-			GL.Vertex2(this.Rectangle.Left + offset, this.Rectangle.Bottom + offset);
-			GL.End();
-
-			GL.Color3(Color.White);
+			if (this.Data.Active == this)
+			{
+				this.Background.Position -= ActiveOffset;
+				this.Text.Position -= ActiveOffset;
+			}
 		}
 
 		/// <summary>
@@ -100,10 +111,19 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		/// <param name="id">Identyfikator.</param>
 		/// <param name="rectangle">Prostokąt, w którym się znajduje kontrolka.</param>
 		/// <param name="label">Tekstowa etykieta.</param>
-		public TextButton(string id, RectangleF rectangle, string label)
+		/// <param name="font">Czcionka użyta do wyrenderowania tekstu.</param>
+		public TextButton(string id, RectangleF rectangle, string label, IFont font)
 			: base(id, rectangle)
 		{
+			if (font == null)
+			{
+				throw new System.ArgumentNullException("font");
+			}
 			this.Label = label;
+			this.TextTexture = font.DrawString(label, TextColor);
+			this.Background = new Objects.Quad(rectangle.TopLeft(), rectangle.GetSize(), Color, 0.5f);
+			this.Shadow = new Objects.Quad(rectangle.TopLeft() + ShadowOffset, rectangle.GetSize(), Color.DarkGray, 1);
+			this.Text = new Objects.Sprite(this.TextTexture, rectangle.TopLeft() + TextOffset);
 		}
 
 		/// <summary>
@@ -113,8 +133,9 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		/// <param name="position">Pozycja.</param>
 		/// <param name="size">Rozmiar.</param>
 		/// <param name="label">Etykieta tekstowa.</param>
-		public TextButton(string id, Vector2 position, Vector2 size, string label)
-			: this(id, new RectangleF(position.X, position.Y, size.X, size.Y), label)
+		/// <param name="font">Czcionka użyta do wyrenderowania tekstu.</param>
+		public TextButton(string id, Vector2 position, Vector2 size, string label, IFont font)
+			: this(id, new RectangleF(position.X, position.Y, size.X, size.Y), label, font)
 		{ }
 		#endregion
 	}

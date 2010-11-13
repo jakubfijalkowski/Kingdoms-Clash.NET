@@ -71,5 +71,15 @@ namespace ClashEngine.NET.Utilities
 		{
 			return new Vector2(r.Right, r.Bottom);
 		}
+
+		/// <summary>
+		/// Pobiera rozmiar prostokąta.
+		/// </summary>
+		/// <param name="r"></param>
+		/// <returns></returns>
+		public static Vector2 GetSize(this RectangleF r)
+		{
+			return new Vector2(r.Width, r.Height);
+		}
 	}
 }
