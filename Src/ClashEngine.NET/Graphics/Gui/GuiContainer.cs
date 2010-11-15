@@ -104,6 +104,23 @@ namespace ClashEngine.NET.Graphics.Gui
 		}
 
 		/// <summary>
+		/// Dodaje listę kontrolek do kolekcji.
+		/// </summary>
+		/// <param name="items">Lista.</param>
+		public void AddRange(IEnumerable<IGuiControl> items)
+		{
+			foreach (var item in items)
+			{
+				if (this.Contains(item))
+				{
+					throw new Exceptions.ArgumentAlreadyExistsException("item");
+				}
+				item.Data = this.CurrentData;
+			}
+			this.Controls.AddRange(items);
+		}
+
+		/// <summary>
 		/// Usuwa kontrolkę o wskazanym ID.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>

@@ -45,7 +45,13 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		int Control(string id);
 
 		/// <summary>
-		/// Usuwa kontrolkę o wskazanym ID.
+		/// Dodaje listę kontrolek do kolekcji.
+		/// </summary>
+		/// <param name="items">Lista.</param>
+		void AddRange(IEnumerable<IGuiControl> items);
+
+		/// <summary>
+		/// Usuwa kontrolkę o wskazanym Id.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
 		/// <returns>Czy udało się usunąć kontrolkę.</returns>
