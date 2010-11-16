@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Kontener na kontrolki jako encja gry.
 	/// </summary>
-	public interface IGuiEntity
-		: IGuiContainer, EntitiesManager.IGameEntity
+	public interface IEntity
+		: IContainer, EntitiesManager.IGameEntity
 	{ }
 }

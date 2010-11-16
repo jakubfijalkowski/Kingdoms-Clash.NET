@@ -3,8 +3,8 @@
 	/// <summary>
 	/// Ekran jako kontener na kontrolki.
 	/// </summary>
-	public interface IGuiScreen
-		: IGuiContainer, IScreen
+	public interface IScreen
+		: IContainer, Interfaces.IScreen
 	{
 		/// <summary>
 		/// Prostokąt, w którym zawiera się GUI.

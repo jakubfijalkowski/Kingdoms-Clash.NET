@@ -10,14 +10,14 @@
 		/// 
 		/// Np. użytkownik trzyma nad nią myszkę, ale jeszcze nie kliknął.
 		/// </summary>
-		IGuiControl Hot { get; }
+		IControl Hot { get; }
 
 		/// <summary>
 		/// Aktualnie aktywna kontrolka.
 		/// 
 		/// Aktualnie katywna kontrolka - np. button zaraz przed wciśnięciem.
 		/// </summary>
-		IGuiControl Active { get; }
+		IControl Active { get; }
 
 		/// <summary>
 		/// Wejście dla GUI.

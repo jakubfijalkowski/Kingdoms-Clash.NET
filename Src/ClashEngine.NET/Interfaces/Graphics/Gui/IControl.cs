@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Bazowy interfejs dla kontrolki GUI.
 	/// </summary>
-	public interface IGuiControl
+	public interface IControl
 	{
 		/// <summary>
 		/// Identyfikator kontrolki.
@@ -14,6 +14,11 @@
 		/// Dane UI dla kontrolki.
 		/// </summary>
 		IUIData Data { get; set; }
+
+		/// <summary>
+		/// Kolekcja z obiektami renderera dla kontrolki.
+		/// </summary>
+		IObjectsCollection Objects { get; }
 
 		/// <summary>
 		/// Czy kontrolka ma być "permanentnie" aktywna, tzn. czy po puszczeniu przycisku myszy przestaje być aktywna.

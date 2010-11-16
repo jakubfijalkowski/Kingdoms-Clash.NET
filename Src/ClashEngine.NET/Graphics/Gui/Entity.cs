@@ -5,8 +5,8 @@ namespace ClashEngine.NET.Graphics.Gui
 	using Interfaces.EntitiesManager;
 	using Interfaces.Graphics.Gui;
 
-	public class GuiEntity
-		: GuiContainer, IGuiEntity
+	public class Entity
+		: Container, IEntity
 	{
 		#region IGameEntity Members
 		/// <summary>
@@ -79,7 +79,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// Inicjalizuje encję.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
-		public GuiEntity(string id)
+		public Entity(string id)
 		{
 			this.Id = id;
 		}

@@ -45,7 +45,7 @@ namespace ClashEngine.NET.Utilities
 		/// Gui.
 		/// Używany tylko, jeśli RenderStatistics == true.
 		/// </summary>
-		IGuiContainer Gui;
+		IContainer Gui;
 
 		/// <summary>
 		/// Kamera.
@@ -181,7 +181,7 @@ namespace ClashEngine.NET.Utilities
 			this.RenderStatistics = false;
 			this.LogStatistics = logStatistics;
 
-			this.Gui = new Graphics.Gui.GuiContainer();
+			this.Gui = new Graphics.Gui.Container();
 		}
 
 		/// <summary>

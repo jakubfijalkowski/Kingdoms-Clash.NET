@@ -9,12 +9,12 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// <summary>
 	/// Kontener GUI.
 	/// </summary>
-	public class GuiContainer
-		: IGuiContainer
+	public class Container
+		: IContainer
 	{
 		#region Private fields
 		private UIData CurrentData = new UIData();
-		private List<IGuiControl> Controls = new List<IGuiControl>();
+		private List<IControl> Controls = new List<IControl>();
 		#endregion
 
 		#region IGuiContainer Members
@@ -47,7 +47,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
 		/// <returns>Kontrolka lub null, gdy nie znaleziono.</returns>
-		public IGuiControl this[string id]
+		public IControl this[string id]
 		{
 			get { return this.Controls.Find(c => c.Id == id); }
 		}
@@ -89,7 +89,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		}
 
 		/// <summary>
-		/// Sprawdza stan kontrolki za pomocą <see cref="IGuiControl.Check"/>.
+		/// Sprawdza stan kontrolki za pomocą <see cref="IControl.Check"/>.
 		/// </summary>
 		/// <param name="id">Identyfikator kontrolki.</param>
 		/// <returns>Nr akcji bądź 0, gdy żadna akcja nie zaszła.</returns>
@@ -107,7 +107,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// Dodaje listę kontrolek do kolekcji.
 		/// </summary>
 		/// <param name="items">Lista.</param>
-		public void AddRange(IEnumerable<IGuiControl> items)
+		public void AddRange(IEnumerable<IControl> items)
 		{
 			foreach (var item in items)
 			{
@@ -131,7 +131,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		}
 		#endregion
 
-		#region ICollection<IGuiControl> Members
+		#region ICollection<IControl> Members
 		/// <summary>
 		/// Dodaje kontrolkę do kolekcji.
 		/// Musi mieć unikatowe Id.
@@ -139,7 +139,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <param name="item">Kontrolka do dodania.</param>
 		/// <exception cref="Exceptions.ArgumentAlreadyExistsException">Rzucane, gdy kontrolka z takim Id już istnieje.</exception>
 		/// <exception cref="ArgumentNullException">Rzucane, gdy item jest null, bądź item.Id jest puste.</exception>
-		public void Add(IGuiControl item)
+		public void Add(IControl item)
 		{
 			if (this.Contains(item))
 			{
@@ -163,7 +163,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <param name="item">Kontroa do porównania z.</param>
 		/// <returns>Czy znaleziono.</returns>
 		/// <exception cref="ArgumentNullException">Rzucane, gdy item jest null, bądź item.Id jest puste.</exception>
-		public bool Contains(IGuiControl item)
+		public bool Contains(IControl item)
 		{
 			if (item == null || string.IsNullOrWhiteSpace(item.Id))
 			{
@@ -185,7 +185,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		bool ICollection<IGuiControl>.Remove(IGuiControl item)
+		bool ICollection<IControl>.Remove(IControl item)
 		{
 			throw new NotSupportedException("Use Remove(string) instead.");
 		}
@@ -195,7 +195,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		/// <param name="array">Tablica.</param>
 		/// <param name="arrayIndex">Indeks początkowy.</param>
-		void ICollection<IGuiControl>.CopyTo(IGuiControl[] array, int arrayIndex)
+		void ICollection<IControl>.CopyTo(IControl[] array, int arrayIndex)
 		{
 			this.Controls.CopyTo(array, arrayIndex);
 		}
@@ -203,14 +203,14 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <summary>
 		/// Czy jest tylko do odczytu - zawsze false.
 		/// </summary>
-		bool ICollection<IGuiControl>.IsReadOnly
+		bool ICollection<IControl>.IsReadOnly
 		{
 			get { return false; }
 		}
 		#endregion
 
-		#region IEnumerable<IGuiControl> Members
-		public IEnumerator<IGuiControl> GetEnumerator()
+		#region IEnumerable<IControl> Members
+		public IEnumerator<IControl> GetEnumerator()
 		{
 			return this.Controls.GetEnumerator();
 		}
@@ -229,7 +229,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		/// <param name="input">Wejście.</param>
 		/// <param name="renderer">Renderer.</param>
-		public GuiContainer(Interfaces.IInput input = null, Interfaces.Graphics.IRenderer renderer = null)
+		public Container(Interfaces.IInput input = null, Interfaces.Graphics.IRenderer renderer = null)
 		{
 			this.CurrentData.Input = input;
 			this.Renderer = renderer;
@@ -241,8 +241,8 @@ namespace ClashEngine.NET.Graphics.Gui
 			: IUIData
 		{
 			#region IUIData Members
-			public IGuiControl Hot { get; set; }
-			public IGuiControl Active { get; set; }
+			public IControl Hot { get; set; }
+			public IControl Active { get; set; }
 			public Interfaces.IInput Input { get; set; }
 			public Interfaces.Graphics.IRenderer Renderer { get; set; }
 			#endregion

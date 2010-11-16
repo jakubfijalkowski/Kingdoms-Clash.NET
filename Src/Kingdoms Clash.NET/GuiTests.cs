@@ -37,7 +37,7 @@ namespace Kingdoms_Clash.NET
 	}
 
 	class GuiTestsScreen
-		: GuiScreen
+		: ClashEngine.NET.Graphics.Gui.Screen
 	{
 		Game g;
 		string str = string.Empty;

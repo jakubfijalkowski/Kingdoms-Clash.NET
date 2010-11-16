@@ -4,13 +4,13 @@ using OpenTK.Input;
 namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces;
-	using Interfaces.Graphics.Gui;
+	using Gui = Interfaces.Graphics.Gui;
 
 	/// <summary>
 	/// Ekran jako kontener na kontrolki(i nic więcej).
 	/// </summary>
-	public abstract class GuiScreen
-		: GuiContainer, IGuiScreen
+	public abstract class Screen
+		: Container, Gui.IScreen
 	{
 		private ScreenState _State = ScreenState.Deactivated;
 		private Interfaces.Graphics.Components.IOrthoCamera Camera = null;
@@ -151,7 +151,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <param name="id">Identyfikator.</param>
 		/// <param name="rect">Prostokąt, w któym zawiera się ekran. Zobacz <see cref="Rectangle"/>.</param>
 		/// <param name="type">Typ.</param>
-		public GuiScreen(string id, RectangleF rect, ScreenType type = ScreenType.Popup)
+		public Screen(string id, RectangleF rect, ScreenType type = ScreenType.Popup)
 		{
 			this.Id = id;
 			this.Type = type;

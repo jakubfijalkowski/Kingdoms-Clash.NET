@@ -6,8 +6,8 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 	/// Kontener na kontrolki.
 	/// W kontenerze nie mogą istnieć dwie kontrolki o takim samym Id.
 	/// </summary>
-	public interface IGuiContainer
-		: ICollection<IGuiControl>
+	public interface IContainer
+		: ICollection<IControl>
 	{
 		/// <summary>
 		/// Wejście dla GUI.
@@ -24,7 +24,7 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
 		/// <returns>Kontrolka lub null, gdy nie znaleziono.</returns>
-		IGuiControl this[string id] { get; }
+		IControl this[string id] { get; }
 
 		/// <summary>
 		/// Uaktualnia wszystkie kontrolki w kontenerze.
@@ -48,7 +48,7 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		/// Dodaje listę kontrolek do kolekcji.
 		/// </summary>
 		/// <param name="items">Lista.</param>
-		void AddRange(IEnumerable<IGuiControl> items);
+		void AddRange(IEnumerable<IControl> items);
 
 		/// <summary>
 		/// Usuwa kontrolkę o wskazanym Id.
