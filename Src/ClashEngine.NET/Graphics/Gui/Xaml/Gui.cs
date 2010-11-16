@@ -1,0 +1,94 @@
+﻿using System;
+using System.Xaml;
+
+namespace ClashEngine.NET.Graphics.Gui.Xaml
+{
+	using Interfaces;
+	using Interfaces.Graphics.Gui.Xaml;
+
+	/// <summary>
+	/// Kontener XAML.
+	/// </summary>
+	[System.Windows.Markup.ContentProperty("Controls")]
+	public class Gui
+		: IGui
+	{
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
+		private bool Usable = true;
+
+		#region IGui Members
+		/// <summary>
+		/// Kontrolki.
+		/// </summary>
+		IXamlControlsCollection IGui.Controls { get { return this.Controls; } }
+
+		/// <summary>
+		/// Kontrolki.
+		/// </summary>
+		public XamlControlsCollection Controls { get; private set; }
+
+		/// <summary>
+		/// Binduje kontrner XAML do kontenera GUI.
+		/// </summary>
+		/// <param name="container"></param>
+		public void Bind(Interfaces.Graphics.Gui.IContainer container)
+		{
+			if (!this.Usable)
+			{
+				throw new NotSupportedException("Multiple binding to container is not supported");
+			}
+			this.Usable = false;
+			container.AddRange(this.Controls);
+		}
+		#endregion
+
+		#region IResource Members
+		public string Id { get; set; }
+		string IResource.FileName { get; set; }
+		IResourcesManager IResource.Manager { get; set; }
+
+		/// <summary>
+		/// Ładuje kontrolkę z pliku XAML. Zwraca Failure w przypadku niepowodzenia, inaczej Success.
+		/// </summary>
+		/// <returns></returns>
+		public Interfaces.ResourceLoadingState Load()
+		{
+			try
+			{
+				XamlXmlReader reader = new XamlXmlReader((this as IResource).FileName);
+				XamlObjectWriter writer = new XamlObjectWriter(reader.SchemaContext, new XamlObjectWriterSettings
+				{
+					RootObjectInstance = this
+				});
+				XamlServices.Transform(reader, writer);
+			}
+			catch (Exception ex)
+			{
+				Logger.ErrorException("Cannot load GUI from XAML", ex);
+				return ResourceLoadingState.Failure;
+			}
+			return ResourceLoadingState.Success;
+		}
+
+		public void Free()
+		{
+			this.Controls.Clear();
+			this.Usable = true;
+		}
+		#endregion
+
+		#region Constructors
+		public Gui()
+		{
+			this.Controls = new XamlControlsCollection();
+		}
+		#endregion
+
+		#region IDisposable Members
+		public void Dispose()
+		{
+			this.Free();
+		}
+		#endregion
+	}
+}

@@ -15,5 +15,10 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Xaml
 		/// </summary>
 		[TypeConverter(typeof(Vector2Converter))]
 		Vector2 Size { get; set; }
+
+		/// <summary>
+		/// Czy przycisk jest wciśnięty.
+		/// </summary>
+		bool Clicked { get; }
 	}
 }
