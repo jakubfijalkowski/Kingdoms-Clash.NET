@@ -116,6 +116,11 @@
     <Compile Include="Interfaces\Graphics\Gui\IObjectsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IScreen.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IUIData.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Objects\IRectangle.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Xaml\IButton.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Xaml\IGui.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Xaml\IXamlControl.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Xaml\IXamlControlsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Objects\IQuad.cs" />
     <Compile Include="Interfaces\Graphics\Objects\ISprite.cs" />
     <Compile Include="Interfaces\Graphics\Objects\ITerrain.cs" />

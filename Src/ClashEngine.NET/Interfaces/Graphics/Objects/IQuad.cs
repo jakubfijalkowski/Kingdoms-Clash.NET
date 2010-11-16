@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System.ComponentModel;
+using OpenTK;
 
 namespace ClashEngine.NET.Interfaces.Graphics.Objects
 {
@@ -11,16 +12,19 @@ namespace ClashEngine.NET.Interfaces.Graphics.Objects
 		/// <summary>
 		/// Pozycja prostokąta.
 		/// </summary>
+		[TypeConverter(typeof(Converters.Vector2Converter))]
 		Vector2 Position { get; set; }
 
 		/// <summary>
 		/// Rozmiar prostokąta.
 		/// </summary>
+		[TypeConverter(typeof(Converters.Vector2Converter))]
 		Vector2 Size { get; set; }
 
 		/// <summary>
 		/// Kolor prostokąta.
 		/// </summary>
+		[TypeConverter(typeof(Converters.Vector4Converter))]
 		Vector4 Color { get; set; }
 	}
 }
