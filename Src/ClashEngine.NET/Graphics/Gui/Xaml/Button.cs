@@ -18,6 +18,7 @@
 		/// <summary>
 		/// Rozmiar przycisku.
 		/// </summary>
+		[System.ComponentModel.TypeConverter(typeof(Converters.Vector2Converter))]
 		public OpenTK.Vector2 Size { get; set; }
 
 		/// <summary>

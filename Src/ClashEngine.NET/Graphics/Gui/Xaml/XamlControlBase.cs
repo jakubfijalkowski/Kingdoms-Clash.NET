@@ -14,6 +14,7 @@
 		/// <summary>
 		/// Pozycja.
 		/// </summary>
+		[System.ComponentModel.TypeConverter(typeof(Converters.Vector2Converter))]
 		public OpenTK.Vector2 Position { get; set; }
 		#endregion
 

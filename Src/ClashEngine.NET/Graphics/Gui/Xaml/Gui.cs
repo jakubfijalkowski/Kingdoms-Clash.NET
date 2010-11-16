@@ -40,10 +40,19 @@ namespace ClashEngine.NET.Graphics.Gui.Xaml
 			this.Usable = false;
 			container.AddRange(this.Controls);
 		}
+
+		/// <summary>
+		/// Zapisuje kontener do wskazanego wyjścia.
+		/// </summary>
+		/// <param name="output">Wyjście.</param>
+		public void Save(System.IO.TextWriter output)
+		{
+			XamlServices.Save(output, this);
+		}
 		#endregion
 
 		#region IResource Members
-		public string Id { get; set; }
+		string IResource.Id { get; set; }
 		string IResource.FileName { get; set; }
 		IResourcesManager IResource.Manager { get; set; }
 
