@@ -71,6 +71,8 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\Vector2Converter.cs" />
+    <Compile Include="Converters\Vector4Converter.cs" />
     <Compile Include="Graphics\Cameras\OrthoCamera.cs" />
     <Compile Include="Graphics\Components\OrthoCamera.cs" />
     <Compile Include="Components\BoundingBox.cs" />
