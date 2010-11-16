@@ -57,7 +57,7 @@ namespace ClashEngine.NET.Utilities
 		/// Tekst z liczbą FPS.
 		/// Używana tylko, jeśli RenderStatistics == true.
 		/// </summary>
-		Interfaces.Graphics.Gui.Controls.IStaticText Text;
+		//Interfaces.Graphics.Gui.Controls.IStaticText Text;
 		#endregion
 		
 		#region IFPSCounter Members
@@ -135,7 +135,7 @@ namespace ClashEngine.NET.Utilities
 
 				if (this.RenderStatistics && (int)currAverage != (int)this.AverageFPS)
 				{
-					this.Text.Text = "FPS: " + (int)currAverage;
+					//this.Text.Text = "FPS: " + (int)currAverage;
 				}
 				this.AverageFPS = currAverage;
 
@@ -196,7 +196,7 @@ namespace ClashEngine.NET.Utilities
 			this.RenderStatistics = true;
 
 			this.Camera = new Graphics.Components.OrthoCamera(new System.Drawing.RectangleF(0, 0, screenSize.X, screenSize.Y), screenSize, 0f, true);
-			this.Gui.Add(this.Text = new Graphics.Gui.Controls.StaticText("FPS", font, "FPS: 0", textColor, new OpenTK.Vector2(20, 20)));
+			//this.Gui.Add(this.Text = new Graphics.Gui.Controls.StaticText("FPS", font, "FPS: 0", textColor, new OpenTK.Vector2(20, 20)));
 		}
 		#endregion
 	}

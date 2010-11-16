@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using ClashEngine.NET;
 using ClashEngine.NET.Graphics.Gui;
-using ClashEngine.NET.Graphics.Gui.Controls;
+//using ClashEngine.NET.Graphics.Gui.Controls;
 using ClashEngine.NET.Graphics.Resources;
 using ClashEngine.NET.Utilities;
 using OpenTK;
@@ -52,17 +52,17 @@ namespace Kingdoms_Clash.NET
 		{
 			base.OnInit();
 
-			this.Add(new StaticText("Text1", this.Content.Load<SystemFont>("Arial,15,"), "Tekst", Color.Blue, new Vector2(100, 100)));
-			this.Add(new TextButton("Bt1", new Vector2(150, 100), new Vector2(80, 30), "Zamknij", this.Content.Load<SystemFont>("Arial,14,")));
-			this.Add(new TextBox("TB", new Vector2(100, 140), new Vector2(100, 30), () => str, (s) => str = s, this.Content.Load<SystemFont>("Arial,14,")));
+			//this.Add(new StaticText("Text1", this.Content.Load<SystemFont>("Arial,15,"), "Tekst", Color.Blue, new Vector2(100, 100)));
+			//this.Add(new TextButton("Bt1", new Vector2(150, 100), new Vector2(80, 30), "Zamknij", this.Content.Load<SystemFont>("Arial,14,")));
+			//this.Add(new TextBox("TB", new Vector2(100, 140), new Vector2(100, 30), () => str, (s) => str = s, this.Content.Load<SystemFont>("Arial,14,")));
 		}
 
 		public override void CheckControls()
 		{
-			if (this.Button("Bt1"))
-			{
-				g.Exit();
-			}
+			//if (this.Button("Bt1"))
+			//{
+			//    g.Exit();
+			//}
 		}
 	}
 }

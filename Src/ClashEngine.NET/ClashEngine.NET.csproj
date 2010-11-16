@@ -88,12 +88,6 @@
     <Compile Include="Exceptions\ArgumentNotExistsException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Graphics\Gui\Base\GuiControl.cs" />
-    <Compile Include="Graphics\Gui\Base\GuiControlWithWasActive.cs" />
-    <Compile Include="Graphics\Gui\Base\RectangleGuiControl.cs" />
-    <Compile Include="Graphics\Gui\Controls\StaticText.cs" />
-    <Compile Include="Graphics\Gui\Controls\TextBox.cs" />
-    <Compile Include="Graphics\Gui\Controls\TextButton.cs" />
     <Compile Include="Graphics\Gui\GuiContainer.cs" />
     <Compile Include="Graphics\Gui\GuiEntity.cs" />
     <Compile Include="Graphics\Gui\GuiScreen.cs" />
@@ -113,9 +107,6 @@
     <Compile Include="Interfaces\EntitiesManager\IAttributesCollection.cs" />
     <Compile Include="Interfaces\EntitiesManager\IComponentsCollection.cs" />
     <Compile Include="Interfaces\EntitiesManager\IRenderableComponentsCollection.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Controls\IStaticText.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Controls\ITextBox.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Controls\ITextButton.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IGuiContainer.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IGuiControl.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IGuiEntity.cs" />
