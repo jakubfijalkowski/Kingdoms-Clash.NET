@@ -7,7 +7,6 @@ using ClashEngine.NET.Utilities;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using ClashEngine.NET.Converters;
-using ClashEngine.NET.Graphics.Gui.Xaml;
 
 namespace Kingdoms_Clash.NET
 {
@@ -31,7 +30,7 @@ namespace Kingdoms_Clash.NET
 
 		static void Main(string[] args)
 		{
-			Gui gui = new Gui();
+			XamlGuiContainer gui = new XamlGuiContainer();
 			gui.Controls.Add(new Button() { Position = new Vector2(10, 10), Size = new Vector2(15, 15), Id = "Button1" });
 			gui.Controls.Add(new Button() { Position = new Vector2(10, 10), Size = new Vector2(15, 15), Id = "Button2" });
 			var s = new System.IO.StringWriter();

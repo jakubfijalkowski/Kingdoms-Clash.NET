@@ -1,13 +1,13 @@
-﻿namespace ClashEngine.NET.Graphics.Gui.Xaml
+﻿namespace ClashEngine.NET.Graphics.Gui
 {
-	using Interfaces.Graphics.Gui.Xaml;
+	using Interfaces.Graphics.Gui;
 	using Utilities;
 
 	/// <summary>
 	/// Przycisk.
 	/// </summary>
 	public class Button
-		: XamlControlBase, IButton
+		: ControlBase, IButton
 	{
 		#region Private fields
 		private bool WasActive = false;
@@ -27,7 +27,7 @@
 		public bool Clicked { get; private set; }
 		#endregion
 
-		#region XamlControlBase Members
+		#region ControlBase Members
 		/// <summary>
 		/// Nie potrzebujemy być aktywnym dłuższy czas.
 		/// </summary>

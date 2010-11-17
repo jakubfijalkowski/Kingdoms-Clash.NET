@@ -1,31 +1,31 @@
 ﻿using System;
 using System.Xaml;
 
-namespace ClashEngine.NET.Graphics.Gui.Xaml
+namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces;
-	using Interfaces.Graphics.Gui.Xaml;
+	using Interfaces.Graphics.Gui;
 
 	/// <summary>
 	/// Kontener XAML.
 	/// </summary>
 	[System.Windows.Markup.ContentProperty("Controls")]
-	public class Gui
-		: IGui
+	public class XamlGuiContainer
+		: IXamlGuiContainer
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 		private bool Usable = true;
 
-		#region IGui Members
+		#region IXamlGuiContainer Members
 		/// <summary>
 		/// Kontrolki.
 		/// </summary>
-		IXamlControlsCollection IGui.Controls { get { return this.Controls; } }
+		IControlsCollection IXamlGuiContainer.Controls { get { return this.Controls; } }
 
 		/// <summary>
 		/// Kontrolki.
 		/// </summary>
-		public XamlControlsCollection Controls { get; private set; }
+		public ControlsCollection Controls { get; private set; }
 
 		/// <summary>
 		/// Binduje kontrner XAML do kontenera GUI.
@@ -38,7 +38,7 @@ namespace ClashEngine.NET.Graphics.Gui.Xaml
 				throw new NotSupportedException("Multiple binding to container is not supported");
 			}
 			this.Usable = false;
-			container.AddRange(this.Controls);
+			container.Controls.AddRange(this.Controls);
 		}
 
 		/// <summary>
@@ -87,9 +87,9 @@ namespace ClashEngine.NET.Graphics.Gui.Xaml
 		#endregion
 
 		#region Constructors
-		public Gui()
+		public XamlGuiContainer()
 		{
-			this.Controls = new XamlControlsCollection();
+			this.Controls = new ControlsCollection();
 		}
 		#endregion
 

@@ -16,6 +16,12 @@
 		IUIData Data { get; set; }
 
 		/// <summary>
+		/// Pozycja kontrolki.
+		/// </summary>
+		[System.ComponentModel.TypeConverter(typeof(Converters.Vector2Converter))]
+		OpenTK.Vector2 Position { get; set; }
+
+		/// <summary>
 		/// Kolekcja z obiektami renderera dla kontrolki.
 		/// </summary>
 		IObjectsCollection Objects { get; }

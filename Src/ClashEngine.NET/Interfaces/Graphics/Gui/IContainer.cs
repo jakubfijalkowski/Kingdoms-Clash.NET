@@ -7,7 +7,6 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 	/// W kontenerze nie mogą istnieć dwie kontrolki o takim samym Id.
 	/// </summary>
 	public interface IContainer
-		: ICollection<IControl>
 	{
 		/// <summary>
 		/// Wejście dla GUI.
@@ -20,11 +19,9 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		Graphics.IRenderer Renderer { get; set; }
 
 		/// <summary>
-		/// Pobiera kontrolkę o wskazanym Id.
+		/// Kolekcja kontrolek.
 		/// </summary>
-		/// <param name="id">Identyfikator.</param>
-		/// <returns>Kontrolka lub null, gdy nie znaleziono.</returns>
-		IControl this[string id] { get; }
+		IControlsCollection Controls { get; }
 
 		/// <summary>
 		/// Uaktualnia wszystkie kontrolki w kontenerze.
@@ -43,18 +40,5 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		/// <param name="id">Identyfikator kontrolki.</param>
 		/// <returns>Nr akcji bądź 0, gdy żadna akcja nie zaszła.</returns>
 		int Control(string id);
-
-		/// <summary>
-		/// Dodaje listę kontrolek do kolekcji.
-		/// </summary>
-		/// <param name="items">Lista.</param>
-		void AddRange(IEnumerable<IControl> items);
-
-		/// <summary>
-		/// Usuwa kontrolkę o wskazanym Id.
-		/// </summary>
-		/// <param name="id">Identyfikator.</param>
-		/// <returns>Czy udało się usunąć kontrolkę.</returns>
-		bool Remove(string id);
 	}
 }

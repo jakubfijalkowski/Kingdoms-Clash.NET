@@ -1,23 +1,14 @@
-﻿namespace ClashEngine.NET.Graphics.Gui.Xaml
+﻿namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces.Graphics.Gui;
-	using Interfaces.Graphics.Gui.Xaml;
 	
 	/// <summary>
 	/// Bazowa klasa dla kontrolek zdolnych do serializacji do XAML.
 	/// </summary>
 	[System.Windows.Markup.ContentProperty("Objects")]
-	public abstract class XamlControlBase
-		: IXamlControl
+	public abstract class ControlBase
+		: IControl
 	{
-		#region IXamlControl Members
-		/// <summary>
-		/// Pozycja.
-		/// </summary>
-		[System.ComponentModel.TypeConverter(typeof(Converters.Vector2Converter))]
-		public OpenTK.Vector2 Position { get; set; }
-		#endregion
-
 		#region IControl Members
 		/// <summary>
 		/// Identyfikator.
@@ -28,6 +19,12 @@
 		/// Dane UI.
 		/// </summary>
 		IUIData IControl.Data { get; set; }
+
+		/// <summary>
+		/// Pozycja.
+		/// </summary>
+		[System.ComponentModel.TypeConverter(typeof(Converters.Vector2Converter))]
+		public OpenTK.Vector2 Position { get; set; }
 
 		/// <summary>
 		/// Dane UI.
@@ -79,7 +76,7 @@
 		#endregion
 
 		#region Constructors
-		public XamlControlBase()
+		public ControlBase()
 		{
 			this.Objects = new ObjectsCollection();
 		}

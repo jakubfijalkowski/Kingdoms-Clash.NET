@@ -4,13 +4,12 @@ using OpenTK.Input;
 namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces;
-	using Gui = Interfaces.Graphics.Gui;
 
 	/// <summary>
 	/// Ekran jako kontener na kontrolki(i nic więcej).
 	/// </summary>
 	public abstract class Screen
-		: Container, Gui.IScreen
+		: Container, Interfaces.Graphics.Gui.IScreen
 	{
 		private ScreenState _State = ScreenState.Deactivated;
 		private Interfaces.Graphics.Components.IOrthoCamera Camera = null;

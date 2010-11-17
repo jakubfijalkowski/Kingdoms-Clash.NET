@@ -1,15 +1,15 @@
-﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui.Xaml
+﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
 {
 	/// <summary>
 	/// Kontener XAML.
 	/// </summary>
-	public interface IGui
+	public interface IXamlGuiContainer
 		: IResource
 	{
 		/// <summary>
 		/// Kontrolki.
 		/// </summary>
-		IXamlControlsCollection Controls { get; }
+		IControlsCollection Controls { get; }
 
 		/// <summary>
 		/// Przypisuje kontener do wskazanego kontenera.
