@@ -4,7 +4,7 @@
 	/// Przycisk.
 	/// </summary>
 	public interface IButton
-		: IControl
+		: IControl, System.ComponentModel.INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Pozycja kontrolki.

@@ -13,6 +13,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		: IContainer
 	{
 		#region Private fields
+		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
 		private UIData CurrentData = new UIData();
 		#endregion
 

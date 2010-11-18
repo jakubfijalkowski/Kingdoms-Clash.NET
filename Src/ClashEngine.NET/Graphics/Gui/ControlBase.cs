@@ -1,4 +1,6 @@
-﻿namespace ClashEngine.NET.Graphics.Gui
+﻿using System.Diagnostics;
+	
+namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces.Graphics.Gui;
 	
@@ -6,6 +8,7 @@
 	/// Bazowa klasa dla kontrolek zdolnych do serializacji do XAML.
 	/// </summary>
 	[System.Windows.Markup.ContentProperty("Objects")]
+	[DebuggerDisplay("{GetType().Name,nq} {Id,nq}")]
 	public abstract class ControlBase
 		: IControl
 	{
@@ -18,6 +21,7 @@
 		/// <summary>
 		/// Dane UI.
 		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		IUIData IControl.Data { get; set; }
 
 		/// <summary>
@@ -29,11 +33,13 @@
 		/// <summary>
 		/// Dane UI.
 		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		protected IUIData Data { get { return (this as IControl).Data; } }
 
 		/// <summary>
 		/// Lista z obiektami dla renderera.
 		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		IObjectsCollection IControl.Objects { get { return this.Objects; } }
 
 		/// <summary>

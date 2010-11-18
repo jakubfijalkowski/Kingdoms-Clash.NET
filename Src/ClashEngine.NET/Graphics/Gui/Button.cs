@@ -12,6 +12,7 @@
 		#region Private fields
 		private bool WasActive = false;
 		private bool IsActive = false;
+		private bool _Clicked = false;
 		#endregion
 		
 		#region IButton Members
@@ -24,7 +25,25 @@
 		/// <summary>
 		/// Czy przycisk jest wciśnięty.
 		/// </summary>
-		public bool Clicked { get; private set; }
+		public bool Clicked
+		{
+			get { return this._Clicked; }
+			private set
+			{
+				this._Clicked = value;
+				if (this.PropertyChanged != null)
+				{
+					this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs("Clicked"));
+				}
+			}
+		}
+		#endregion
+
+		#region INotifyPropertyChanged Members
+		/// <summary>
+		/// Zdarzenie zmiany właściwości Clicked.
+		/// </summary>
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 		#endregion
 
 		#region ControlBase Members

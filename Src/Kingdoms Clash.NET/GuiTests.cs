@@ -1,12 +1,9 @@
 ﻿using System.Drawing;
 using ClashEngine.NET;
 using ClashEngine.NET.Graphics.Gui;
-//using ClashEngine.NET.Graphics.Gui.Controls;
 using ClashEngine.NET.Graphics.Resources;
 using ClashEngine.NET.Utilities;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using ClashEngine.NET.Converters;
 
 namespace Kingdoms_Clash.NET
 {
@@ -30,13 +27,6 @@ namespace Kingdoms_Clash.NET
 
 		static void Main(string[] args)
 		{
-			XamlGuiContainer gui = new XamlGuiContainer();
-			gui.Controls.Add(new Button() { Position = new Vector2(10, 10), Size = new Vector2(15, 15), Id = "Button1" });
-			gui.Controls.Add(new Button() { Position = new Vector2(10, 10), Size = new Vector2(15, 15), Id = "Button2" });
-			var s = new System.IO.StringWriter();
-			gui.Save(s);
-			var str = s.ToString();
-
 			using (var g = new GuiTests())
 			{
 				g.Run();
@@ -48,7 +38,6 @@ namespace Kingdoms_Clash.NET
 		: ClashEngine.NET.Graphics.Gui.Screen
 	{
 		Game g;
-		string str = string.Empty;
 
 		public GuiTestsScreen(Game g)
 			: base("Gui screen", new System.Drawing.RectangleF(0, 0, 800, 600))
@@ -59,18 +48,18 @@ namespace Kingdoms_Clash.NET
 		public override void OnInit()
 		{
 			base.OnInit();
+			this.Content.ContentDirectory = "Content";
+			var c = this.Content.Load<XamlGuiContainer>("TestGui.xml");
 
-			//this.Add(new StaticText("Text1", this.Content.Load<SystemFont>("Arial,15,"), "Tekst", Color.Blue, new Vector2(100, 100)));
-			//this.Add(new TextButton("Bt1", new Vector2(150, 100), new Vector2(80, 30), "Zamknij", this.Content.Load<SystemFont>("Arial,14,")));
-			//this.Add(new TextBox("TB", new Vector2(100, 140), new Vector2(100, 30), () => str, (s) => str = s, this.Content.Load<SystemFont>("Arial,14,")));
+			c.Bind(this);
 		}
 
 		public override void CheckControls()
 		{
-			//if (this.Button("Bt1"))
-			//{
-			//    g.Exit();
-			//}
+			if (this.Control("Button1") == 1)
+			{
+				g.Exit();
+			}
 		}
 	}
 }
