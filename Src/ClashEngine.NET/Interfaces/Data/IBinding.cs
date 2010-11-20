@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace ClashEngine.NET.Interfaces.Data
 {
@@ -52,5 +53,10 @@ namespace ClashEngine.NET.Interfaces.Data
 		/// Docelowa właściwość, z której będą pobierane wartości.
 		/// </summary>
 		MemberInfo TargetProperty { get; }
+
+		/// <summary>
+		/// Typ konwertera użytego do konwersji pomiędzy końcami wiązania.
+		/// </summary>
+		Type ConverterType { get; }
 	}
 }
