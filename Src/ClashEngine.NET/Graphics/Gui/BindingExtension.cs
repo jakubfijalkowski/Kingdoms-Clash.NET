@@ -23,7 +23,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		private Type TargetType = null;
 		private Type SourceType = null;
 		#endregion
-		
+
 		#region IBindingExtension Members
 		/// <summary>
 		/// Tryb bindowania.
@@ -54,7 +54,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// Obiekt docelowy.
 		/// </summary>
 		public object Target { get; private set; }
-		
+
 		/// <summary>
 		/// Docelowa właściwość.
 		/// </summary>
@@ -114,47 +114,72 @@ namespace ClashEngine.NET.Graphics.Gui
 
 			#region Source
 			string[] p = this.Path.Split('.');
-			if (p.Length != 2)
+			if (p.Length == 1)
+			{
+				this.Source = rootObject.Variables[p[0].Trim()];
+				if (this.Source == null)
+				{
+					throw new InvalidOperationException("Cannot find source variable");
+				}
+				this.PropertyName = "Value";
+				this.SourceProperty = this.Source.GetType().GetProperty(this.PropertyName);
+				if (this.ConverterType != null)
+				{
+					this.SourceConverter = Activator.CreateInstance(this.ConverterType) as TypeConverter;
+				}
+				else
+				{
+					var convs = (this.Source as IVariable).RequiredType.GetCustomAttributes(typeof(TypeConverterAttribute), false);
+					if (convs.Length != 0)
+					{
+						this.SourceConverter = Activator.CreateInstance(Type.GetType((convs[0] as TypeConverterAttribute).ConverterTypeName)) as TypeConverter;
+					}
+				}
+			}
+			else if (p.Length == 2)
+			{
+				this.PropertyName = p[1].Trim();
+
+				this.Source = rootObject.Controls[p[0].Trim()];
+				this.SourceProperty = this.Source.GetType().GetProperty(this.PropertyName);
+				if (this.SourceProperty == null)
+				{
+					this.SourceProperty = this.Source.GetType().GetField(p[1].Trim());
+				}
+				if (this.SourceProperty is PropertyInfo)
+				{
+					this.SourceType = (this.SourceProperty as PropertyInfo).PropertyType;
+				}
+				else
+				{
+					this.SourceType = (this.SourceProperty as FieldInfo).FieldType;
+				}
+
+				if (this.ConverterType != null)
+				{
+					this.SourceConverter = Activator.CreateInstance(this.ConverterType) as TypeConverter;
+				}
+				else
+				{
+					var sourceConverters = this.SourceProperty.GetCustomAttributes(typeof(TypeConverterAttribute), false);
+					if (sourceConverters.Length == 0)
+					{
+						sourceConverters = this.SourceType.GetCustomAttributes(typeof(TypeConverterAttribute), false);
+					}
+					if (sourceConverters.Length == 1)
+					{
+						this.SourceConverter = Activator.CreateInstance(Type.GetType((sourceConverters[0] as TypeConverterAttribute).ConverterTypeName)) as TypeConverter;
+					}
+				}
+
+				if (this.Source == null || this.SourceProperty == null)
+				{
+					throw new InvalidOperationException("Cannot find source");
+				}
+			}
+			else
 			{
 				throw new InvalidOperationException("Invalid Path format");
-			}
-			this.PropertyName = p[1].Trim();
-
-			this.Source = rootObject.Controls[p[0].Trim()];
-			this.SourceProperty = this.Source.GetType().GetProperty(this.PropertyName);
-			if (this.SourceProperty == null)
-			{
-				this.SourceProperty = this.Source.GetType().GetField(p[1].Trim());
-			}
-			if (this.SourceProperty is PropertyInfo)
-			{
-				this.SourceType = (this.SourceProperty as PropertyInfo).PropertyType;
-			}
-			else
-			{
-				this.SourceType = (this.SourceProperty as FieldInfo).FieldType;
-			}
-
-			if (this.ConverterType != null)
-			{
-				this.SourceConverter = Activator.CreateInstance(this.ConverterType) as TypeConverter;
-			}
-			else
-			{
-				var sourceConverters = this.SourceProperty.GetCustomAttributes(typeof(TypeConverterAttribute), false);
-				if (sourceConverters.Length == 0)
-				{
-					sourceConverters = this.SourceType.GetCustomAttributes(typeof(TypeConverterAttribute), false);
-				}
-				if (sourceConverters.Length == 1)
-				{
-					this.SourceConverter = Activator.CreateInstance(Type.GetType((sourceConverters[0] as TypeConverterAttribute).ConverterTypeName)) as TypeConverter;
-				}
-			}
-
-			if (this.Source == null || this.SourceProperty == null)
-			{
-				throw new InvalidOperationException("Cannot find source");
 			}
 			#endregion
 
@@ -244,7 +269,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		{
 			if (this.SourceProperty is PropertyInfo)
 			{
-				(this.SourceProperty as PropertyInfo).SetValue(this.Source, 
+				(this.SourceProperty as PropertyInfo).SetValue(this.Source,
 					this.GetConvertedTargetToSource(), null);
 			}
 			else
