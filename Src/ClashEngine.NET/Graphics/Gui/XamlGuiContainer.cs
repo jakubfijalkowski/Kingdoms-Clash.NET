@@ -28,6 +28,16 @@ namespace ClashEngine.NET.Graphics.Gui
 		public ControlsCollection Controls { get; private set; }
 
 		/// <summary>
+		/// Zmienne służące do wymiany informacji pomiędzy kontrolkami wew. XAML lub pomiędzy kontrolkami XAML a światem zewnętrznym.
+		/// </summary>
+		IVariablesCollection IXamlGuiContainer.Variables { get { return this.Variables; } }
+
+		/// <summary>
+		/// Zmienne służące do wymiany informacji pomiędzy kontrolkami wew. XAML lub pomiędzy kontrolkami XAML a światem zewnętrznym.
+		/// </summary>
+		public VariablesCollection Variables { get; private set; }
+
+		/// <summary>
 		/// Binduje kontrner XAML do kontenera GUI.
 		/// </summary>
 		/// <param name="container"></param>
@@ -90,6 +100,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		public XamlGuiContainer()
 		{
 			this.Controls = new ControlsCollection();
+			this.Variables = new VariablesCollection();
 		}
 		#endregion
 

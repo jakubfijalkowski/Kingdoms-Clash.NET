@@ -50,7 +50,7 @@ namespace Kingdoms_Clash.NET
 			base.OnInit();
 			this.Content.ContentDirectory = "Content";
 			var c = this.Content.Load<XamlGuiContainer>("TestGui.xml");
-
+			
 			c.Bind(this);
 		}
 

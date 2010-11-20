@@ -98,6 +98,8 @@
     <Compile Include="Graphics\Gui\Objects\Rectangle.cs" />
     <Compile Include="Graphics\Gui\Screen.cs" />
     <Compile Include="Graphics\Gui\Button.cs" />
+    <Compile Include="Graphics\Gui\Variable.cs" />
+    <Compile Include="Graphics\Gui\VariablesCollection.cs" />
     <Compile Include="Graphics\Gui\XamlGuiContainer.cs" />
     <Compile Include="Graphics\Gui\ControlBase.cs" />
     <Compile Include="Graphics\Gui\ControlsCollection.cs" />
@@ -126,6 +128,8 @@
     <Compile Include="Interfaces\Graphics\Gui\IObjectsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IScreen.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IUIData.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\IVariable.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\IVariablesCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Objects\IRectangle.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IButton.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IXamlGuiContainer.cs" />
