@@ -17,12 +17,6 @@
 		
 		#region IButton Members
 		/// <summary>
-		/// Rozmiar przycisku.
-		/// </summary>
-		[System.ComponentModel.TypeConverter(typeof(Converters.Vector2Converter))]
-		public OpenTK.Vector2 Size { get; set; }
-
-		/// <summary>
 		/// Czy przycisk jest wciśnięty.
 		/// </summary>
 		public bool Clicked

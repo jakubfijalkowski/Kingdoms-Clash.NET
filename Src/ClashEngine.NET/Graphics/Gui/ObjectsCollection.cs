@@ -8,10 +8,16 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// <summary>
 	/// Kolekcja obiektów renderera GUI.
 	/// </summary>
+	[System.Diagnostics.DebuggerDisplay("Count = {Count}")]
 	public class ObjectsCollection
 		: IObjectsCollection
 	{
+		#region Private fields
+		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.RootHidden)]
 		private List<IObject> Objects = new List<IObject>();
+		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+		private IControl Owner = null;
+		#endregion
 
 		#region ICollection<IObject> Members
 		/// <summary>
@@ -24,7 +30,9 @@ namespace ClashEngine.NET.Graphics.Gui
 			{
 				throw new ArgumentNullException("item");
 			}
+			item.ParentControl = this.Owner;
 			this.Objects.Add(item);
+			item.Finish();
 		}
 
 		/// <summary>
@@ -87,6 +95,13 @@ namespace ClashEngine.NET.Graphics.Gui
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return this.Objects.GetEnumerator();
+		}
+		#endregion
+
+		#region Constructors
+		public ObjectsCollection(IControl owner)
+		{
+			this.Owner = owner;
 		}
 		#endregion
 	}

@@ -32,6 +32,12 @@ namespace ClashEngine.NET.Graphics.Gui
 		public OpenTK.Vector2 Position { get; set; }
 
 		/// <summary>
+		/// Rozmiar przycisku.
+		/// </summary>
+		[System.ComponentModel.TypeConverter(typeof(Converters.Vector2Converter))]
+		public OpenTK.Vector2 Size { get; set; }
+
+		/// <summary>
 		/// Dane UI.
 		/// </summary>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -85,7 +91,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		#region Constructors
 		public ControlBase()
 		{
-			this.Objects = new ObjectsCollection();
+			this.Objects = new ObjectsCollection(this);
 		}
 		#endregion
 	}

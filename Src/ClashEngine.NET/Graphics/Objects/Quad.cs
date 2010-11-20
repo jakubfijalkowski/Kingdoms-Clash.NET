@@ -84,7 +84,7 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// <summary>
 		/// Głębokość, na której znajduje się obiekt.
 		/// </summary>
-		public float Depth { get; protected set; }
+		public float Depth { get; set; }
 
 		/// <summary>
 		/// Wierzchołki obiektu.

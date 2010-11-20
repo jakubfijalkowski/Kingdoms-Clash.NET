@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Resources
 {
@@ -57,6 +58,17 @@ namespace ClashEngine.NET.Graphics.Resources
 		}
 
 		/// <summary>
+		/// Rysuje tekst do nowej tekstury.
+		/// </summary>
+		/// <param name="text">Tekst.</param>
+		/// <param name="color">Kolor.</param>
+		/// <returns>Nowo utworzona tekstura.</returns>
+		public ITexture DrawString(string text, Vector4 color)
+		{
+			return this.DrawString(text, Color.FromArgb((int)(color.W * 255f), (int)(color.X * 255f), (int)(color.Y * 255f), (int)(color.Z * 255f)));
+		}
+
+		/// <summary>
 		/// Rysuje tekst na istniejącą teksturę.
 		/// Jeśli onto ma puste Id to ustawia mu je na wartość "Text.(text)" i rejestruje w managerze.
 		/// </summary>
@@ -99,6 +111,17 @@ namespace ClashEngine.NET.Graphics.Resources
 				}
 				(onto as Internals.ChangableTexture).Set(bm);
 			}
+		}
+
+		/// <summary>
+		/// Rysuje tekst na istniejącą teksturę.
+		/// </summary>
+		/// <param name="text">Tekst do wypiania.</param>
+		/// <param name="color">Kolor.</param>
+		/// <param name="onto">Tekstura. Musi być to tekstura zwrócona przez DrawString.</param>
+		public void DrawString(string text, Vector4 color, ITexture onto)
+		{
+			this.DrawString(text, Color.FromArgb((int)(color.W * 255f), (int)(color.X * 255f), (int)(color.Y * 255f), (int)(color.Z * 255f)), onto);
 		}
 
 		/// <summary>

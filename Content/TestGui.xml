@@ -1,17 +1,13 @@
 ﻿<XamlGuiContainer xmlns="clr-namespace:ClashEngine.NET.Graphics.Gui;assembly=ClashEngine.NET"
 				  xmlns:tk="clr-namespace:OpenTK;assembly=OpenTK"
                   xmlns:o="clr-namespace:ClashEngine.NET.Graphics.Gui.Objects;assembly=ClashEngine.NET"
-                  xmlns:c="clr-namespace:ClashEngine.NET.Converters;assembly=ClashEngine.NET"
-				  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-				  xmlns:sys="clr-namespace:System;assembly=mscorlib">
-  <XamlGuiContainer.Variables>
-	<Variable Id="Size" Value="88,64" RequiredType="{x:Type tk:Vector2}" CustomConverter="{x:Type c:Vector2Converter}" />
-	<Variable Id="Test" Value="{SystemFont Arial,15,bi}" />
-  </XamlGuiContainer.Variables>
+				  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <Button x:Name="Button1" Position="10,10" Size="88,64">
-    <o:Rectangle Color="1,1,1,1" Depth="0" Position="10,10" Size="{Binding Source={x:Reference Button2}, Path=Size}" />
+    <o:Rectangle Color="1,1,1,1" />
+	<o:Text Font="{SystemFont Arial,15}" Position="10,10" TextValue="Wyjście" Color="0,0,0,1" Depth="0.0" />
   </Button>
-  <Button x:Name="Button2" Position="100,100" Size="{Binding Size}">
-    <o:Rectangle Color="1,1,1,1" Depth="0" Position="100,100" Size="{Binding Size}" />
+  <Button x:Name="Button2" Position="100,100" Size="{Binding Button1.Size}">
+    <o:Rectangle Color="1,1,1,1" Depth="0.1" />
+	<o:Text Font="{SystemFont Arial,15}" TextValue="Przycisk" Color="0,0,0,1" Depth="0.0" />
   </Button>
 </XamlGuiContainer>

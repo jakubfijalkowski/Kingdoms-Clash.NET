@@ -7,12 +7,6 @@
 		: IControl, System.ComponentModel.INotifyPropertyChanged
 	{
 		/// <summary>
-		/// Pozycja kontrolki.
-		/// </summary>
-		[System.ComponentModel.TypeConverter(typeof(Converters.Vector2Converter))]
-		OpenTK.Vector2 Size { get; set; }
-
-		/// <summary>
 		/// Czy przycisk jest wciśnięty.
 		/// </summary>
 		bool Clicked { get; }

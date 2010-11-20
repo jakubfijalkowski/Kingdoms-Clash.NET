@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using OpenTK;
 
 namespace ClashEngine.NET.Interfaces.Graphics.Resources
 {
@@ -40,12 +41,28 @@ namespace ClashEngine.NET.Interfaces.Graphics.Resources
 		ITexture DrawString(string text, Color color);
 
 		/// <summary>
+		/// Rysuje tekst do nowej tekstury.
+		/// </summary>
+		/// <param name="text">Tekst.</param>
+		/// <param name="color">Kolor.</param>
+		/// <returns>Nowo utworzona tekstura.</returns>
+		ITexture DrawString(string text, Vector4 color);
+
+		/// <summary>
 		/// Rysuje tekst na istniejącą teksturę.
 		/// </summary>
 		/// <param name="text">Tekst do wypiania.</param>
 		/// <param name="color">Kolor.</param>
 		/// <param name="onto">Tekstura. Musi być to tekstura zwrócona przez DrawString.</param>
 		void DrawString(string text, Color color, ITexture onto);
+
+		/// <summary>
+		/// Rysuje tekst na istniejącą teksturę.
+		/// </summary>
+		/// <param name="text">Tekst do wypiania.</param>
+		/// <param name="color">Kolor.</param>
+		/// <param name="onto">Tekstura. Musi być to tekstura zwrócona przez DrawString.</param>
+		void DrawString(string text, Vector4 color, ITexture onto);
 
 		/// <summary>
 		/// Tworzy pustą teksturę, by móc jej później użyć w metodzie <see cref="DrawString(text,ITexture)"/>.

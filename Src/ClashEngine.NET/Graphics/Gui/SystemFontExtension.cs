@@ -60,6 +60,16 @@ namespace ClashEngine.NET.Graphics.Gui
 		{
 			this.Font = string.Format("{0},{1},{2}", fontName, size, (style.Contains("i") ? "i" : "") + (style.Contains("b") ? "b" : ""));
 		}
+
+		/// <summary>
+		/// Inicjalizuje czcionkę.
+		/// </summary>
+		/// <param name="fontName">Nazwa czcionki.</param>
+		/// <param name="size">Rozmiar.</param>
+		public SystemFontExtension(string fontName, int size)
+		{
+			this.Font = string.Format("{0},{1},", fontName, size);
+		}
 		#endregion
 	}
 }

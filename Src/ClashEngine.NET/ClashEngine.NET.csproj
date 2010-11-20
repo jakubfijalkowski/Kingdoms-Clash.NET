@@ -96,6 +96,7 @@
     <Compile Include="Graphics\Gui\Entity.cs" />
     <Compile Include="Graphics\Gui\ObjectsCollection.cs" />
     <Compile Include="Graphics\Gui\Objects\Rectangle.cs" />
+    <Compile Include="Graphics\Gui\Objects\Text.cs" />
     <Compile Include="Graphics\Gui\Screen.cs" />
     <Compile Include="Graphics\Gui\Button.cs" />
     <Compile Include="Graphics\Gui\SystemFontExtension.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Interfaces\Graphics\Gui\IButton.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IXamlGuiContainer.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IControlsCollection.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Objects\IText.cs" />
     <Compile Include="Interfaces\Graphics\Objects\IQuad.cs" />
     <Compile Include="Interfaces\Graphics\Objects\ISprite.cs" />
     <Compile Include="Interfaces\Graphics\Objects\ITerrain.cs" />

@@ -13,6 +13,14 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 	public class Rectangle
 		: Quad, IRectangle
 	{
+		#region Private fields
+		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+		private bool WasPositionSet = false;
+		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+		private bool WasSizeSet = false;
+		#endregion
+	
+		#region Quad Members
 		//Nadpisujemy, by dodać konwertery typów.
 
 		/// <summary>
@@ -22,7 +30,11 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		public new Vector2 Position
 		{
 			get { return base.Position; }
-			set { base.Position = value; }
+			set
+			{
+				base.Position = value;
+				this.WasPositionSet = true;
+			}
 		}
 
 		/// <summary>
@@ -32,7 +44,11 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		public new Vector2 Size
 		{
 			get { return base.Size; }
-			set { base.Size = value; }
+			set
+			{
+				base.Size = value;
+				this.WasSizeSet = true;
+			}
 		}
 
 		/// <summary>
@@ -53,9 +69,34 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			get { return base.Depth; }
 			set { base.Depth = value; }
 		}
+		#endregion
 
+		#region IObject Members
+		/// <summary>
+		/// Kontrolka-rodzic.
+		/// </summary>
+		public Interfaces.Graphics.Gui.IControl ParentControl { get; set; }
+
+		/// <summary>
+		/// Zmieniamy rozmiar i pozycję, jeśli nie zostały zmienione wcześniej.
+		/// </summary>
+		public void Finish()
+		{
+			if (!this.WasPositionSet)
+			{
+				this.Position = this.ParentControl.Position;
+			}
+			if (!this.WasSizeSet)
+			{
+				this.Size = this.ParentControl.Size;
+			}
+		}
+		#endregion
+
+		#region Constructor
 		public Rectangle()
 			: base(Vector2.Zero, Vector2.Zero, System.Drawing.Color.White)
 		{ }
+		#endregion
 	}
 }

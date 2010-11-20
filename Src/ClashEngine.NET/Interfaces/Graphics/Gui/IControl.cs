@@ -18,8 +18,12 @@
 		/// <summary>
 		/// Pozycja kontrolki.
 		/// </summary>
-		[System.ComponentModel.TypeConverter(typeof(Converters.Vector2Converter))]
 		OpenTK.Vector2 Position { get; set; }
+
+		/// <summary>
+		/// Rozmiar kontrolki.
+		/// </summary>
+		OpenTK.Vector2 Size { get; set; }
 
 		/// <summary>
 		/// Kolekcja z obiektami renderera dla kontrolki.
