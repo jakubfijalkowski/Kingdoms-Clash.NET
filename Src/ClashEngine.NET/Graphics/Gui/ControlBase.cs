@@ -9,6 +9,7 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// </summary>
 	[System.Windows.Markup.ContentProperty("Objects")]
 	[DebuggerDisplay("{GetType().Name,nq} {Id,nq}")]
+	[System.Windows.Markup.RuntimeNameProperty("Id")]
 	public abstract class ControlBase
 		: IControl
 	{

@@ -9,6 +9,7 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// Zmienna XAML.
 	/// </summary>
 	[System.Diagnostics.DebuggerDisplay("Variable {Id,nq} of type {Value.GetType().Name,nq}")]
+	[System.Windows.Markup.RuntimeNameProperty("Id")]
 	public class Variable
 		: IVariable
 	{

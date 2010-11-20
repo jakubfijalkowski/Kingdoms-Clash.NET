@@ -43,7 +43,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <summary>
 		/// Obiekt źródłowy.
 		/// </summary>
-		public object Source { get; private set; }
+		public object Source { get; set; }
 
 		/// <summary>
 		/// Źródłowa właściwość.
@@ -114,7 +114,7 @@ namespace ClashEngine.NET.Graphics.Gui
 
 			#region Source
 			string[] p = this.Path.Split('.');
-			if (p.Length == 1)
+			if (p.Length == 1 && this.Source == null)
 			{
 				this.Source = rootObject.Variables[p[0].Trim()];
 				if (this.Source == null)
@@ -136,11 +136,17 @@ namespace ClashEngine.NET.Graphics.Gui
 					}
 				}
 			}
-			else if (p.Length == 2)
+			else if (p.Length == 2 || (p.Length == 1 && this.Source != null))
 			{
-				this.PropertyName = p[1].Trim();
-
-				this.Source = rootObject.Controls[p[0].Trim()];
+				if (this.Source != null)
+				{
+					this.PropertyName = p[0].Trim();
+				}
+				else
+				{
+					this.Source = rootObject.Controls[p[0].Trim()];
+					this.PropertyName = p[1].Trim();
+				}
 				this.SourceProperty = this.Source.GetType().GetProperty(this.PropertyName);
 				if (this.SourceProperty == null)
 				{
