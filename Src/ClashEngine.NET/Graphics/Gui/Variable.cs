@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 
 namespace ClashEngine.NET.Graphics.Gui
 {
@@ -8,20 +10,26 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// <summary>
 	/// Zmienna XAML.
 	/// </summary>
-	[System.Diagnostics.DebuggerDisplay("Variable {Id,nq} of type {Value.GetType().Name,nq}")]
+	[DebuggerDisplay("Variable {Id,nq} of type {Value.GetType().Name,nq}")]
 	[System.Windows.Markup.RuntimeNameProperty("Id")]
 	public class Variable
 		: IVariable
 	{
 		#region Private fields
-		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private object _Value = null;
-		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private Type _RequiredType = typeof(string);
-		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private TypeConverter Converter = new StringConverter();
-		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-		private bool WasCustomSet = false;
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private bool WasCustomConverterSet = false;
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private bool WasRequiredTypeSet = false;
 		#endregion
 
 		#region IVariable Members
@@ -38,6 +46,15 @@ namespace ClashEngine.NET.Graphics.Gui
 			get { return this._Value; }
 			set
 			{
+				if (!this.WasRequiredTypeSet && value != null)
+				{
+					var type = value.GetType();
+					if (!type.IsVisible)
+					{
+						type = (type.BaseType.IsVisible ? type.BaseType : type.GetInterfaces().FirstOrDefault(t => t.IsVisible));
+					}
+					this.RequiredType = type;
+				}
 				if (this.RequiredType.IsInstanceOfType(value))
 				{
 					this._Value = value;
@@ -62,7 +79,7 @@ namespace ClashEngine.NET.Graphics.Gui
 			set
 			{
 				this._RequiredType = value;
-				if (!this.WasCustomSet)
+				if (!this.WasCustomConverterSet)
 				{
 					var convs = this._RequiredType.GetCustomAttributes(typeof(TypeConverterAttribute), false);
 					if (convs.Length == 1)
@@ -75,6 +92,7 @@ namespace ClashEngine.NET.Graphics.Gui
 					}
 				}
 				this._Value = this.Convert(this._Value);
+				this.WasRequiredTypeSet = true;
 			}
 		}
 
@@ -87,7 +105,7 @@ namespace ClashEngine.NET.Graphics.Gui
 			set
 			{
 				this.Converter = Activator.CreateInstance(value) as TypeConverter;
-				this.WasCustomSet = true;
+				this.WasCustomConverterSet = true;
 				this._Value = this.Convert(this._Value);
 			}
 		}

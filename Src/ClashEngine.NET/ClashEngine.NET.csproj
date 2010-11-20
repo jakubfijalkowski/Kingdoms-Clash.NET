@@ -101,6 +101,7 @@
     <Compile Include="Graphics\Gui\Button.cs" />
     <Compile Include="Graphics\Gui\SystemFontExtension.cs" />
     <Compile Include="Graphics\Gui\TextBox.cs" />
+    <Compile Include="Graphics\Gui\TextureExtension.cs" />
     <Compile Include="Graphics\Gui\Variable.cs" />
     <Compile Include="Graphics\Gui\VariablesCollection.cs" />
     <Compile Include="Graphics\Gui\XamlGuiContainer.cs" />
@@ -135,11 +136,13 @@
     <Compile Include="Interfaces\Graphics\Gui\IUIData.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IVariable.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IVariablesCollection.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Objects\IImage.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Objects\IRectangle.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IButton.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IXamlGuiContainer.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IControlsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Objects\IText.cs" />
+    <Compile Include="Interfaces\Graphics\ITextureExtension.cs" />
     <Compile Include="Interfaces\Graphics\Objects\IQuad.cs" />
     <Compile Include="Interfaces\Graphics\Objects\ISprite.cs" />
     <Compile Include="Interfaces\Graphics\Objects\ITerrain.cs" />

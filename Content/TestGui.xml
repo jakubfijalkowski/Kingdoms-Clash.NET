@@ -4,6 +4,7 @@
 				  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <XamlGuiContainer.Variables>
     <Variable x:Name="TestText" Value="abc" />
+    <Variable x:Name="Tex" Value="{Texture Test.Test2}" />
   </XamlGuiContainer.Variables>
   <Button x:Name="Button1" Position="10,10" Size="88,64">
     <o:Rectangle Color="1,1,1,1" />
