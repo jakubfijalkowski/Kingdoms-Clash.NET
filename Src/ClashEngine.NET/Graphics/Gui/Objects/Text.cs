@@ -12,7 +12,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 	/// </summary>
 	[System.Diagnostics.DebuggerDisplay("Text {TextValue,nq}")]
 	public class Text
-		: IText, ISupportInitialize
+		: IText
 	{
 		#region Private fields
 		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
@@ -21,7 +21,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		private string _TextValue = string.Empty;
 		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
 		private Vector4 _Color = new Vector4(0, 0, 0, 1);
-		private Graphics.Objects.Quad Quad;
+		private Graphics.Objects.Quad Quad = new Quad(Vector2.Zero, Vector2.Zero, System.Drawing.Color.White);
 		private bool CustomSize = false;
 		private bool WasPositionSet = false;
 		#endregion
@@ -149,29 +149,17 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// </summary>
 		public void Finish()
 		{
-			if (!this.WasPositionSet)
-			{
-				this.Position = this.ParentControl.Position;
-			}
-		}
-		#endregion
-
-		#region ISupportInitialize Members
-		public void BeginInit()
-		{
-			//Quad nie wspiera teksturowania i wszystkie wierzchołki mają TexCoord ustawione na (0,0)
-			//musimy to zmienić.
-			this.Quad = new Quad(Vector2.Zero, Vector2.Zero, System.Drawing.Color.White);
 			this.Quad.Vertices[0].TexCoord = new Vector2(0, 0);
 			this.Quad.Vertices[1].TexCoord = new Vector2(1, 0);
 			this.Quad.Vertices[2].TexCoord = new Vector2(1, 1);
 			this.Quad.Vertices[3].TexCoord = new Vector2(0, 1);
-		}
 
-		public void EndInit()
-		{
 			this.Texture = this.Font.CreateEmptyText();
 			this.UpdateTexture();
+			if (!this.WasPositionSet)
+			{
+				this.Position = this.ParentControl.Position;
+			}
 		}
 		#endregion
 
