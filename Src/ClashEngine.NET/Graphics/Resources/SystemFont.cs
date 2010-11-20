@@ -113,7 +113,7 @@ namespace ClashEngine.NET.Graphics.Resources
 
 		#region IResource Members
 		/// <summary>
-		/// Identyfikator czcionki - nazwa,rozmiar_w_pikselach[,ib]
+		/// Identyfikator czcionki - nazwa,rozmiar_w_pikselach,[ib]
 		/// i - pochyła
 		/// b - pogrubiona
 		/// </summary>
@@ -171,11 +171,13 @@ namespace ClashEngine.NET.Graphics.Resources
 		}
 		#endregion
 
+		#region Constructors
 		public SystemFont()
 		{
 			this.MeasuringBitmap = new Bitmap(1, 1);
 			this.Measuring = System.Drawing.Graphics.FromImage(this.MeasuringBitmap);
 		}
+		#endregion
 
 		#region IDisposable Members
 		public void Dispose()

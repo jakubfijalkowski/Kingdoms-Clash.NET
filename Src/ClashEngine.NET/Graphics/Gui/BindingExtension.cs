@@ -76,7 +76,7 @@ namespace ClashEngine.NET.Graphics.Gui
 			{
 				throw new InvalidOperationException("IRootObjectProvider");
 			}
-			var rootObject = rootProvider.RootObject as XamlGuiContainer;
+			var rootObject = rootProvider.RootObject as IXamlGuiContainer;
 			if (rootObject == null)
 			{
 				throw new InvalidOperationException("RootObject");

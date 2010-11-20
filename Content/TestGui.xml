@@ -6,7 +6,7 @@
 				  xmlns:sys="clr-namespace:System;assembly=mscorlib">
   <XamlGuiContainer.Variables>
 	<Variable Id="Size" Value="88,64" RequiredType="{x:Type tk:Vector2}" CustomConverter="{x:Type c:Vector2Converter}" />
-	<Variable Id="Test" Value="{x:Reference Button1}" />
+	<Variable Id="Test" Value="{SystemFont Arial,15,bi}" />
   </XamlGuiContainer.Variables>
   <Button x:Name="Button1" Position="10,10" Size="88,64">
     <o:Rectangle Color="1,1,1,1" Depth="0" Position="10,10" Size="{Binding Source={x:Reference Button2}, Path=Size}" />
