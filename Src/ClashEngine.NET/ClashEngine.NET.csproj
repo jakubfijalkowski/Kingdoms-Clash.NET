@@ -95,6 +95,7 @@
     <Compile Include="Graphics\Gui\Container.cs" />
     <Compile Include="Graphics\Gui\Entity.cs" />
     <Compile Include="Graphics\Gui\ObjectsCollection.cs" />
+    <Compile Include="Graphics\Gui\Objects\Image.cs" />
     <Compile Include="Graphics\Gui\Objects\Rectangle.cs" />
     <Compile Include="Graphics\Gui\Objects\Text.cs" />
     <Compile Include="Graphics\Gui\Screen.cs" />

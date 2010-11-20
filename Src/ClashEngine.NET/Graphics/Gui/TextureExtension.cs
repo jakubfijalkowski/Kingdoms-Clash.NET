@@ -61,19 +61,9 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <summary>
 		/// Inicjalizuje rozszerzenie.
 		/// </summary>
-		/// <param name="texture">Ścieżka do tekstury w formacie nazwaPliku[.idTeksturyWAtlasie]</param>
 		public TextureExtension(string texture)
 		{
-			int dot = texture.IndexOf('.');
-			if (dot > -1)
-			{
-				this.Path = texture.Substring(0, dot).Trim();
-				this.TextureId = texture.Substring(dot + 1, texture.Length - dot - 1);
-			}
-			else
-			{
-				this.Path = texture.Trim();
-			}
+			this.Path = texture;
 		}
 		#endregion
 	}

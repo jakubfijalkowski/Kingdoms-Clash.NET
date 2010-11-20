@@ -4,11 +4,12 @@
 				  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <XamlGuiContainer.Variables>
     <Variable x:Name="TestText" Value="abc" />
-    <Variable x:Name="Tex" Value="{Texture Test.Test2}" />
+    <Variable x:Name="Tex" Value="{Texture UserData\\Nations\\TestNation\\Unit1.png}" />
   </XamlGuiContainer.Variables>
   <Button x:Name="Button1" Position="10,10" Size="88,64">
-    <o:Rectangle Color="1,1,1,1" />
-	<o:Text Font="{SystemFont Arial,15}" TextValue="Wyjście" Color="0,0,0,1" />
+    <o:Rectangle Color="1,1,1,1" Depth="2" />
+    <o:Image Texture="{Binding Tex}" Position="11,11" Depth="1" />
+	  <o:Text Font="{SystemFont Arial,15}" TextValue="Wyjście" Color="0,0,0,1" Depth="0" />
   </Button>
   <TextBox x:Name="Tb1" Position="100, 100" Size="100, 40" Text="{Binding Path=TestText,Mode=TwoWay}">
     <o:Rectangle Color="1,1,1,1" />

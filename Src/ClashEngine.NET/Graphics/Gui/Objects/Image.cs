@@ -1,32 +1,28 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.ComponentModel;
 using OpenTK;
+using System.Diagnostics;
 
 namespace ClashEngine.NET.Graphics.Gui.Objects
 {
-	using Graphics.Objects;
 	using Interfaces.Graphics.Gui.Objects;
-	using Interfaces.Graphics.Resources;
-
+	
 	/// <summary>
-	/// Tekst.
+	/// Obrazek.
 	/// </summary>
-	[DebuggerDisplay("Text {TextValue,nq}")]
-	public class Text
-		: IText
+	[DebuggerDisplay("Image")]
+	public class Image
+		: IImage
 	{
 		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private IFont _Font = null;
+		private Interfaces.Graphics.Resources.ITexture _Texture = null;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private string _TextValue = string.Empty;
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private Vector4 _Color = new Vector4(0, 0, 0, 1);
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private Quad Quad = new Quad(Vector2.Zero, Vector2.Zero, System.Drawing.Color.White);
+		private Graphics.Objects.Quad Quad = new Graphics.Objects.Quad(Vector2.Zero, Vector2.Zero, System.Drawing.Color.White);
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool WasSizeSet = false;
@@ -34,45 +30,21 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool WasPositionSet = false;
 		#endregion
-		
-		#region IText Members
-		/// <summary>
-		/// Czcionka.
-		/// </summary>
-		public IFont Font
-		{
-			get { return this._Font; }
-			set
-			{
-				this._Font = value;
-				this.UpdateTexture();
-			}
-		}
 
+		#region IImage Members
 		/// <summary>
-		/// Tekst.
+		/// Tekstura dla obrazka.
 		/// </summary>
-		public string TextValue
+		public Interfaces.Graphics.Resources.ITexture Texture
 		{
-			get { return this._TextValue; }
+			get { return this._Texture; }
 			set
 			{
-				this._TextValue = value;
-				this.UpdateTexture();
-			}
-		}
-
-		/// <summary>
-		/// Kolor tekstu.
-		/// </summary>
-		[TypeConverter(typeof(Converters.Vector4Converter))]
-		public Vector4 Color
-		{
-			get { return this._Color; }
-			set
-			{
-				this._Color = value;
-				this.UpdateTexture();
+				this._Texture = value;
+				if (!this.WasSizeSet)
+				{
+					this.Quad.Size = new Vector2(this._Texture.Width, this._Texture.Height);
+				}
 			}
 		}
 
@@ -107,11 +79,6 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 
 		#region IObject Members
 		/// <summary>
-		/// Tekstura z tekstem.
-		/// </summary>
-		public Interfaces.Graphics.Resources.ITexture Texture { get; private set; }
-
-		/// <summary>
 		/// Głębokość, na jakiej znajduje się tekst.
 		/// </summary>
 		public float Depth
@@ -142,7 +109,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		public Interfaces.Graphics.Gui.IControl ParentControl { get; set; }
 
 		/// <summary>
-		/// Aktualizujemy pozycję, jeśli nie była zmieniona.
+		/// Poprawia pozycję i/lub rozmiar elementu tak, by pasował do kontrolki.
 		/// </summary>
 		public void Finish()
 		{
@@ -151,26 +118,13 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			this.Quad.Vertices[2].TexCoord = new Vector2(1, 1);
 			this.Quad.Vertices[3].TexCoord = new Vector2(0, 1);
 
-			this.Texture = this.Font.CreateEmptyText();
-			this.UpdateTexture();
 			if (!this.WasPositionSet)
 			{
 				this.Position = this.ParentControl.Position;
 			}
-		}
-		#endregion
-
-		#region Private members
-		private void UpdateTexture()
-		{
-			if (this.Texture != null)
+			if (!this.WasSizeSet)
 			{
-				this.Font.DrawString(this.TextValue, this.Color, this.Texture);
-
-				if (!this.WasSizeSet)
-				{
-					this.Quad.Size = new Vector2(this.Texture.Width, this.Texture.Height);
-				}
+				this.Size = new Vector2(this.Texture.Width, this.Texture.Height);
 			}
 		}
 		#endregion

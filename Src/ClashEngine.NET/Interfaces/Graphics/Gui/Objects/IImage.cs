@@ -1,4 +1,7 @@
-﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui.Objects
+﻿using System.ComponentModel;
+using OpenTK;
+
+namespace ClashEngine.NET.Interfaces.Graphics.Gui.Objects
 {
 	/// <summary>
 	/// Obrazek.
@@ -7,8 +10,15 @@
 		: IObject
 	{
 		/// <summary>
-		/// Ścieżka do obrazka.
+		/// Pozycja obrazka.
 		/// </summary>
-		Resources.ITexture Texture { get; set; }
+		[TypeConverter(typeof(Converters.Vector2Converter))]
+		Vector2 Position { get; set; }
+
+		/// <summary>
+		/// Rozmiar obrazka.
+		/// </summary>
+		[TypeConverter(typeof(Converters.Vector2Converter))]
+		Vector2 Size { get; set; }
 	}
 }

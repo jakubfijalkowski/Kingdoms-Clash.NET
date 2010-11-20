@@ -77,10 +77,13 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		public void Render()
 		{
+			var oldMode = this.Renderer.SortMode;
+			this.Renderer.SortMode = Interfaces.Graphics.SortMode.FrontToBack;
 			foreach (var c in this.Controls)
 			{
 				c.Render();
 			}
+			this.Renderer.SortMode = oldMode;
 		}
 
 		/// <summary>

@@ -134,6 +134,8 @@ namespace ClashEngine.NET.Graphics.Resources
 			catch (System.Exception ex)
 			{
 				this.InnerTexture = DefaultTexture.Instance;
+				DefaultTexture.Instance.Load();
+				this.DefaultUsed = true;
 				Logger.WarnException("Cannot load textures atlas. Using default.", ex);
 				return Interfaces.ResourceLoadingState.DefaultUsed;
 			}
