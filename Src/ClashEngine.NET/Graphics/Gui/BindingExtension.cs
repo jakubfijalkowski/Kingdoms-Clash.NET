@@ -22,6 +22,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		private TypeConverter TargetConverter = null;
 		private Type TargetType = null;
 		private Type SourceType = null;
+		private bool ControlFlow = false;
 		#endregion
 
 		#region IBindingExtension Members
@@ -252,6 +253,12 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <param name="e"></param>
 		private void SourceToTarget(object sender, PropertyChangedEventArgs e)
 		{
+			if (this.ControlFlow)
+			{
+				this.ControlFlow = false;
+				return;
+			}
+
 			if (this.SourceProperty is PropertyInfo)
 			{
 				(this.TargetProperty as PropertyInfo).SetValue(this.Target,
@@ -273,6 +280,8 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <param name="e"></param>
 		private void TargetToSource(object sender, PropertyChangedEventArgs e)
 		{
+			this.ControlFlow = true;
+
 			if (this.SourceProperty is PropertyInfo)
 			{
 				(this.SourceProperty as PropertyInfo).SetValue(this.Source,

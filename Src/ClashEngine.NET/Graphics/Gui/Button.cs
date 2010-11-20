@@ -50,15 +50,6 @@
 		}
 
 		/// <summary>
-		/// Myszka jest nad kontrolką, jeśli jest w prostokącie składającym się z Position i Size.
-		/// </summary>
-		/// <returns></returns>
-		public override bool ContainsMouse()
-		{
-			return base.Data.Input.MousePosition.IsIn(this.Position, this.Size);
-		}
-
-		/// <summary>
 		/// Jeśli PUSZCZONO myszkę nad przyciskiem to ustawiamy Clicked na true.
 		/// </summary>
 		/// <param name="delta"></param>

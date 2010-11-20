@@ -3,13 +3,14 @@
 namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces.Graphics.Gui;
-	
+	using Utilities;
+
 	/// <summary>
 	/// Bazowa klasa dla kontrolek zdolnych do serializacji do XAML.
 	/// </summary>
 	[System.Windows.Markup.ContentProperty("Objects")]
-	[DebuggerDisplay("{GetType().Name,nq} {Id,nq}")]
 	[System.Windows.Markup.RuntimeNameProperty("Id")]
+	[DebuggerDisplay("{GetType().Name,nq} {Id,nq}")]
 	public abstract class ControlBase
 		: IControl
 	{
@@ -66,15 +67,18 @@ namespace ClashEngine.NET.Graphics.Gui
 				this.Data.Renderer.Draw(obj);
 			}
 		}
-		#endregion
 
-		#region To overrite
 		/// <summary>
 		/// Sprawdza, czy myszka znajduje się nad kontrolką.
 		/// </summary>
 		/// <returns></returns>
-		public abstract bool ContainsMouse();
+		public virtual bool ContainsMouse()
+		{
+			return this.Data.Input.MousePosition.IsIn(this.Position, this.Size);
+		}
+		#endregion
 
+		#region To overrite
 		/// <summary>
 		/// Aktualizuje kontrolkę.
 		/// </summary>
