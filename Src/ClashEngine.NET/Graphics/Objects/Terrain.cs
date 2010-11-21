@@ -22,7 +22,7 @@ namespace ClashEngine.NET.Graphics.Objects
 
 		#region IObject Members
 		public Interfaces.Graphics.Resources.ITexture Texture { get { return null; } }
-		public float Depth { get { return 5f; } }
+		public float Depth { get; set; }
 		public Vertex[] Vertices { get; private set; }
 		public int[] Indecies { get; private set; }
 		#endregion
@@ -44,6 +44,7 @@ namespace ClashEngine.NET.Graphics.Objects
 				throw new ArgumentNullException("vertices");
 			}
 
+			this.Depth = 5f;
 			this.Height = height;
 
 			this.Vertices = new Vertex[terrain.Length * 2];

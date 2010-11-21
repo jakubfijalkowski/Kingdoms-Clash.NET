@@ -39,7 +39,7 @@ namespace ClashEngine.NET.Interfaces.Graphics
 		/// <summary>
 		/// Głębokość, na której znajduje się obiekt. Używane przy sortowaniu.
 		/// </summary>
-		float Depth { get; }
+		float Depth { get; set; }
 
 		/// <summary>
 		/// Wierzchołki obiektu.

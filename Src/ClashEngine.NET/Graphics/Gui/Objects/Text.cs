@@ -26,15 +26,18 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		private Vector4 _Color = new Vector4(0, 0, 0, 1);
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private Quad Quad = new Quad(Vector2.Zero, Vector2.Zero, System.Drawing.Color.White);
+		private Interfaces.Graphics.Objects.IText TextObject = Resources.SystemFont.CreateEmptyObject();
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool WasSizeSet = false;
 
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool WasPositionSet = false;
+
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private bool Initialized = false;
 		#endregion
-		
+
 		#region IText Members
 		/// <summary>
 		/// Czcionka.
@@ -82,10 +85,10 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		[TypeConverter(typeof(Converters.Vector2Converter))]
 		public Vector2 Position
 		{
-			get { return this.Quad.Position; }
+			get { return this.TextObject.Position; }
 			set
 			{
-				this.Quad.Position = value;
+				this.TextObject.Position = value;
 				this.WasPositionSet = true;
 			}
 		}
@@ -96,10 +99,10 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		[TypeConverter(typeof(Converters.Vector2Converter))]
 		public Vector2 Size
 		{
-			get { return this.Quad.Size; }
+			get { return this.TextObject.Size; }
 			set
 			{
-				this.Quad.Size = value;
+				this.TextObject.Size = value;
 				this.WasSizeSet = true;
 			}
 		}
@@ -109,15 +112,15 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// <summary>
 		/// Tekstura z tekstem.
 		/// </summary>
-		public Interfaces.Graphics.Resources.ITexture Texture { get; private set; }
+		public Interfaces.Graphics.Resources.ITexture Texture { get { return this.TextObject.Texture; } }
 
 		/// <summary>
 		/// Głębokość, na jakiej znajduje się tekst.
 		/// </summary>
 		public float Depth
 		{
-			get { return this.Quad.Depth; }
-			set { this.Quad.Depth = value; }
+			get { return this.TextObject.Depth; }
+			set { this.TextObject.Depth = value; }
 		}
 
 		/// <summary>
@@ -125,7 +128,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// </summary>
 		public Interfaces.Graphics.Vertex[] Vertices
 		{
-			get { return this.Quad.Vertices; }
+			get { return this.TextObject.Vertices; }
 		}
 
 		/// <summary>
@@ -133,7 +136,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// </summary>
 		public int[] Indecies
 		{
-			get { return this.Quad.Indecies; }
+			get { return this.TextObject.Indecies; }
 		}
 
 		/// <summary>
@@ -146,12 +149,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// </summary>
 		public void Finish()
 		{
-			this.Quad.Vertices[0].TexCoord = new Vector2(0, 0);
-			this.Quad.Vertices[1].TexCoord = new Vector2(1, 0);
-			this.Quad.Vertices[2].TexCoord = new Vector2(1, 1);
-			this.Quad.Vertices[3].TexCoord = new Vector2(0, 1);
-
-			this.Texture = this.Font.CreateEmptyText();
+			this.Initialized = true;
 			this.UpdateTexture();
 			if (!this.WasPositionSet)
 			{
@@ -163,13 +161,13 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		#region Private members
 		private void UpdateTexture()
 		{
-			if (this.Texture != null)
+			if (this.Initialized)
 			{
-				this.Font.DrawString(this.TextValue, this.Color, this.Texture);
+				this.Font.Draw(this.TextValue, this.Color, this.TextObject);
 
 				if (!this.WasSizeSet)
 				{
-					this.Quad.Size = new Vector2(this.Texture.Width, this.Texture.Height);
+					this.TextObject.Size = new Vector2(this.Texture.Width, this.Texture.Height);
 				}
 			}
 		}

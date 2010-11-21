@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using OpenTK;
+﻿using System.ComponentModel;
 using System.Diagnostics;
+using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Gui.Objects
 {

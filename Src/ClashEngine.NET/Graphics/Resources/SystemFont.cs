@@ -4,6 +4,7 @@ using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Resources
 {
+	using Interfaces.Graphics.Objects;
 	using Interfaces.Graphics.Resources;
 
 	/// <summary>
@@ -42,6 +43,7 @@ namespace ClashEngine.NET.Graphics.Resources
 		/// </summary>
 		public bool Italic { get; private set; }
 
+		#region Drawing strings onto texture
 		/// <summary>
 		/// Rysuje tekst do nowej tekstury.
 		/// Nowo utworzona tekstura ma Id równe "Text.(text)" i jest dodana do managera czcionki.
@@ -52,7 +54,7 @@ namespace ClashEngine.NET.Graphics.Resources
 		/// <returns>Nowo utworzona tekstura.</returns>
 		public ITexture DrawString(string text, Color color)
 		{
-			ITexture tex = this.CreateEmptyText();
+			ITexture tex = CreateEmptyTexture();
 			this.DrawString(text, color, tex);
 			return tex;
 		}
@@ -128,10 +130,80 @@ namespace ClashEngine.NET.Graphics.Resources
 		/// Tworzy pustą teksturę, by móc jej później użyć w metodzie <see cref="DrawString(text,ITexture)"/>.
 		/// </summary>
 		/// <returns>Nowa tekstura.</returns>
-		public ITexture CreateEmptyText()
+		public static ITexture CreateEmptyTexture()
 		{
 			return new Internals.ChangableTexture();
 		}
+		#endregion
+
+		#region Drawing strings into objects
+		/// <summary>
+		/// Rysuje tekst na obiekt renderera.
+		/// </summary>
+		/// <param name="text">Tekst.</param>
+		/// <param name="color">Kolor.</param>
+		/// <returns>Utworzony obiekt.</returns>
+		public IText Draw(string text, Color color)
+		{
+			var obj = new Objects.Internals.SystemFontObject();
+			obj.Texture = this.DrawString(text, color);
+			obj.Content = text;
+			return obj;
+		}
+
+		/// <summary>
+		/// Rysuje tekst na obiekt renderera.
+		/// </summary>
+		/// <param name="text">Tekst.</param>
+		/// <param name="color">Kolor.</param>
+		/// <returns>Utworzony obiekt.</returns>
+		public IText Draw(string text, Vector4 color)
+		{
+			return this.Draw(text, Color.FromArgb((int)(color.W * 255f), (int)(color.X * 255f), (int)(color.Y * 255f), (int)(color.Z * 255f)));
+		}
+
+		/// <summary>
+		/// Rysuje tekst na obiekt renderera.
+		/// </summary>
+		/// <param name="text">Tekst.</param>
+		/// <param name="color">Kolor.</param>
+		/// <param name="into">Obiekt(utworzony wcześniej przez rodzica) w który zostanie wrysowany tekst.</param>
+		public void Draw(string text, Color color, IText into)
+		{
+			if (into == null)
+			{
+				throw new ArgumentNullException("item");
+			}
+			else if (!(into is Objects.Internals.SystemFontObject))
+			{
+				throw new ArgumentException("Texture wasn't created by this class", "into");
+			}
+			this.DrawString(text, color, (into as Objects.Internals.SystemFontObject).Texture);
+			(into as Objects.Internals.SystemFontObject).Content = text;
+		}
+
+		/// <summary>
+		/// Rysuje tekst na obiekt renderera.
+		/// </summary>
+		/// <param name="text">Tekst.</param>
+		/// <param name="color">Kolor.</param>
+		/// <param name="into">Obiekt(utworzony wcześniej przez rodzica) w który zostanie wrysowany tekst.</param>
+		public void Draw(string text, Vector4 color, IText into)
+		{
+			this.Draw(text, Color.FromArgb((int)(color.W * 255f), (int)(color.X * 255f), (int)(color.Y * 255f), (int)(color.Z * 255f)), into);
+		}
+
+		/// <summary>
+		/// Tworzy pusty obiekt na tekst.
+		/// </summary>
+		/// <returns></returns>
+		public static IText CreateEmptyObject()
+		{
+			var obj = new Objects.Internals.SystemFontObject();
+			obj.Texture = CreateEmptyTexture();
+			return obj;
+		}
+		#endregion
 		#endregion
 
 		#region IResource Members
