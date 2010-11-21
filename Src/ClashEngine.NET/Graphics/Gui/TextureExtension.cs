@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Markup;
 using System.Xaml;
 
 namespace ClashEngine.NET.Graphics.Gui
 {
-	using Interfaces.Graphics;
+	using Interfaces.Graphics.Gui;
 	using Resources;
 
 	/// <summary>

@@ -134,6 +134,7 @@
     <Compile Include="Interfaces\Graphics\Gui\IScreen.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IFontExtension.cs" />
     <Compile Include="Interfaces\Graphics\Gui\ITextBox.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\ITextureExtension.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IUIData.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IVariable.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IVariablesCollection.cs" />
@@ -143,7 +144,6 @@
     <Compile Include="Interfaces\Graphics\Gui\IXamlGuiContainer.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IControlsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Objects\IText.cs" />
-    <Compile Include="Interfaces\Graphics\ITextureExtension.cs" />
     <Compile Include="Interfaces\Graphics\Objects\IQuad.cs" />
     <Compile Include="Interfaces\Graphics\Objects\ISprite.cs" />
     <Compile Include="Interfaces\Graphics\Objects\ITerrain.cs" />

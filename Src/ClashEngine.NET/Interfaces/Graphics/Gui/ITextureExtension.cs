@@ -1,4 +1,4 @@
-﻿namespace ClashEngine.NET.Interfaces.Graphics
+﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
 {
 	/// <summary>
 	/// Interfejs dla rozszerzenie XAML - tekstura.
