@@ -143,11 +143,17 @@ namespace Kingdoms_Clash.NET
 			this.Players[1].GameState = this;
 			this.Players[1].Type = PlayerType.Second;
 
-			this.StaticEntities.Add(new ClashEngine.NET.Graphics.Cameras.OrthoCamera(
-				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + Configuration.Instance.MapMargin, Configuration.Instance.ScreenSize.Y)),
-				Configuration.Instance.ScreenSize,
-				Configuration.Instance.CameraSpeed,
-				true));
+			//this.StaticEntities.Add(new ClashEngine.NET.Graphics.Cameras.OrthoCamera(
+			//    new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + Configuration.Instance.MapMargin, Configuration.Instance.ScreenSize.Y)),
+			//    Configuration.Instance.ScreenSize,
+			//    Configuration.Instance.CameraSpeed,
+			//    true));
+
+			var cam = new ClashEngine.NET.Graphics.Cameras.Movable2DCamera(Configuration.Instance.ScreenSize,
+				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + Configuration.Instance.MapMargin, Configuration.Instance.ScreenSize.Y)));
+			this.Camera = cam;
+			this.StaticEntities.Add(cam.GetCameraEntity(Configuration.Instance.CameraSpeed));
+			
 
 			this.StaticEntities.Add(this.Map);
 			this.StaticEntities.Add(this.Players[0]);
@@ -180,8 +186,8 @@ namespace Kingdoms_Clash.NET
 
 		public override void Render()
 		{
-			this.StaticEntities.Render();
 			base.Render();
+			this.StaticEntities.Render();
 		}
 
 		#region Events
@@ -240,10 +246,10 @@ namespace Kingdoms_Clash.NET
 			}
 			else if (this.Players[1].Health <= 0)
 			{
-				Logger.Error("User {0} has won the match!", this.Players[0].Name);
-				var winnerScreen = this.OwnerManager["WinnerScreen"] as AdditionalScreens.WinnerScreen;
-				winnerScreen.ChangeWinner(false);
-				winnerScreen.Activate();
+			    Logger.Error("User {0} has won the match!", this.Players[0].Name);
+			    var winnerScreen = this.OwnerManager["WinnerScreen"] as AdditionalScreens.WinnerScreen;
+			    winnerScreen.ChangeWinner(false);
+			    winnerScreen.Activate();
 			}
 		}
 		#endregion

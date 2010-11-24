@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ClashEngine.NET.Components;
-using ClashEngine.NET.Components.Physical;
 using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Graphics.Components;
 using ClashEngine.NET.Graphics.Resources;

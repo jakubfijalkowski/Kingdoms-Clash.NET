@@ -4,7 +4,6 @@ using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Gui.Objects
 {
-	using Graphics.Objects;
 	using Interfaces.Graphics.Gui.Objects;
 	using Interfaces.Graphics.Resources;
 

@@ -57,6 +57,17 @@ namespace ClashEngine.NET
 		}
 
 		/// <summary>
+		/// Rozmiar okna gry.
+		/// </summary>
+		public OpenTK.Vector2 Size
+		{
+			get
+			{
+				return new OpenTK.Vector2(this.Window.Width, this.Window.Height);
+			}
+		}
+
+		/// <summary>
 		/// Czy używać synchronizacji pionowej.
 		/// </summary>
 		public bool VSync
@@ -247,7 +258,7 @@ namespace ClashEngine.NET
 			this.Name = name;
 			this.Window = new GameWindow(this, name, width, height, fullscreen, useVSync, mode);
 			this.Input = new Input(this.Window);
-			this.Renderer = new Graphics.Renderer();
+			this.Renderer = new Graphics.Renderer(this.Size);
 
 			#if (DEBUG || FORCEHOTREPLACEMANAGER) && !FORCENOTUSINGHOTREPLACEMANAGER
 			//Debug - używamy managera udostępniającego "gorącą podmianę"

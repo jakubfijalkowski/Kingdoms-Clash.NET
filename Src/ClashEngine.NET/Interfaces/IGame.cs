@@ -26,6 +26,11 @@
 		int Height { get; }
 
 		/// <summary>
+		/// Rozmiar okna gry.
+		/// </summary>
+		OpenTK.Vector2 Size { get; }
+
+		/// <summary>
 		/// Czy używać synchronizacji pionowej.
 		/// </summary>
 		bool VSync { get; }

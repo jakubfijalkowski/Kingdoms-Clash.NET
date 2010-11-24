@@ -17,6 +17,7 @@ namespace ClashEngine.NET.Graphics
 		private ObjectComparer Comparer = new ObjectComparer(SortMode.Texture);
 		private SortedList<IObject, object> Objects;
 		private bool IsRunning = false;
+		private ICamera _Camera = null;
 		#endregion
 
 		#region IRenderer Members
@@ -25,6 +26,23 @@ namespace ClashEngine.NET.Graphics
 			get { return this.Comparer.SortMode; }
 			set { this.Comparer.SortMode = value; }
 		}
+
+		public ICamera Camera
+		{
+			get { return this._Camera; }
+			set
+			{
+				if (this._Camera != value)
+				{
+					this.Flush();
+					this._Camera = value;
+					this.UpdateMatricies();
+					this.Camera.NeedUpdate = false;
+				}
+			}
+		}
+
+		public OpenTK.Vector2 ViewPortSize { get; private set; }
 
 		public void Draw(IObject obj)
 		{
@@ -57,6 +75,13 @@ namespace ClashEngine.NET.Graphics
 			{
 				throw new InvalidOperationException("Must be called between Begin and End");
 			}
+
+			if (this.Camera != null && this.Camera.NeedUpdate)
+			{
+				this.UpdateMatricies();
+				this.Camera.NeedUpdate = false;
+			}
+
 			foreach (var obj in this.Objects)
 			{
 				if (obj.Key.Texture != null)
@@ -94,9 +119,23 @@ namespace ClashEngine.NET.Graphics
 		#endregion
 
 		#region Constructors
-		public Renderer()
+		public Renderer(OpenTK.Vector2 viewPortSize)
 		{
 			this.Objects = new SortedList<IObject, object>(this.Comparer);
+			this.ViewPortSize = viewPortSize;
+		}
+		#endregion
+
+		#region Private methods
+		private void UpdateMatricies()
+		{
+			GL.MatrixMode(MatrixMode.Projection);
+			var proj = this.Camera.ProjectionMatrix;
+			GL.LoadMatrix(ref proj);
+
+			GL.MatrixMode(MatrixMode.Modelview);
+			var view = this.Camera.ViewMatrix;
+			GL.LoadMatrix(ref view);
 		}
 		#endregion
 

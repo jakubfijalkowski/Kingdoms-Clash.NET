@@ -76,7 +76,7 @@ namespace Kingdoms_Clash.NET.Maps
 			//Fizyka
 			var pObj = new ClashEngine.NET.Components.PhysicalObject();
 			this.Components.Add(pObj);
-			this.Components.Add(new ClashEngine.NET.Components.Physical.BoundingBox(desc.Size));
+			this.Components.Add(new ClashEngine.NET.Components.BoundingBox(desc.Size));
 			this.Body = pObj.Body;
 
 			pObj.Body.Position = this.Position.ToXNA();

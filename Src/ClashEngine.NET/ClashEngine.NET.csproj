@@ -74,8 +74,7 @@
   <ItemGroup>
     <Compile Include="Converters\Vector2Converter.cs" />
     <Compile Include="Converters\Vector4Converter.cs" />
-    <Compile Include="Graphics\Cameras\OrthoCamera.cs" />
-    <Compile Include="Graphics\Components\OrthoCamera.cs" />
+    <Compile Include="Graphics\Cameras\Movable2DCamera.cs" />
     <Compile Include="Components\BoundingBox.cs" />
     <Compile Include="Graphics\Components\Sprite.cs" />
     <Compile Include="Graphics\Components\Terrain.cs" />
@@ -118,8 +117,7 @@
     <Compile Include="Graphics\Resources\Internals\AtlasTexture.cs" />
     <Compile Include="Graphics\Resources\TexturesAtlas.cs" />
     <Compile Include="Input.cs" />
-    <Compile Include="Interfaces\Graphics\Cameras\IOrthoCamera.cs" />
-    <Compile Include="Interfaces\Graphics\Components\IOrthoCamera.cs" />
+    <Compile Include="Interfaces\Graphics\Cameras\IMovable2DCamera.cs" />
     <Compile Include="Interfaces\Graphics\Components\ITerrain.cs" />
     <Compile Include="Interfaces\Components\IBoundingBox.cs" />
     <Compile Include="Interfaces\EntitiesManager\IAttributesCollection.cs" />
@@ -145,6 +143,7 @@
     <Compile Include="Interfaces\Graphics\Gui\IXamlGuiContainer.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IControlsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Objects\IText.cs" />
+    <Compile Include="Interfaces\Graphics\ICamera.cs" />
     <Compile Include="Interfaces\Graphics\Objects\IQuad.cs" />
     <Compile Include="Interfaces\Graphics\Objects\ISprite.cs" />
     <Compile Include="Interfaces\Graphics\Objects\ITerrain.cs" />

@@ -51,7 +51,7 @@ namespace ClashEngine.NET.Utilities
 		/// Kamera.
 		/// Używana tylko, jeśli RenderStatistics == true.
 		/// </summary>
-		Interfaces.Graphics.Components.IOrthoCamera Camera;
+		//Interfaces.Graphics.Components.IOrthoCamera Camera;
 
 		/// <summary>
 		/// Tekst z liczbą FPS.
@@ -160,7 +160,7 @@ namespace ClashEngine.NET.Utilities
 			//if(this.AllFrames == long.MaxValue) // Zabezpieczenie przed buffer overflowem.
 			if (this.RenderStatistics)
 			{
-				this.Camera.Render();
+				//this.Camera.Render();
 				this.Gui.Render();
 				this.Renderer.Flush();
 			}
@@ -195,7 +195,7 @@ namespace ClashEngine.NET.Utilities
 		{
 			this.RenderStatistics = true;
 
-			this.Camera = new Graphics.Components.OrthoCamera(new System.Drawing.RectangleF(0, 0, screenSize.X, screenSize.Y), screenSize, 0f, true);
+			//this.Camera = new Graphics.Components.OrthoCamera(new System.Drawing.RectangleF(0, 0, screenSize.X, screenSize.Y), screenSize, 0f, true);
 			//this.Gui.Add(this.Text = new Graphics.Gui.Controls.StaticText("FPS", font, "FPS: 0", textColor, new OpenTK.Vector2(20, 20)));
 		}
 		#endregion

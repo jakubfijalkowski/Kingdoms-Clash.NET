@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using ClashEngine.NET.Components;
-using ClashEngine.NET.Components.Physical;
 using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Interfaces.EntitiesManager;
 using ClashEngine.NET.Utilities;

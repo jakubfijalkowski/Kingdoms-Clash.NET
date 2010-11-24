@@ -44,7 +44,7 @@ namespace Kingdoms_Clash.NET.AdditionalScreens
 			base.OnInit();
 
 			float aspect = ImageSize.X / ImageSize.Y;
-			this.Entities.Add(new ClashEngine.NET.Graphics.Cameras.OrthoCamera(new System.Drawing.RectangleF(0f, 0f, 1f, 1f * aspect), new OpenTK.Vector2(1f, 1f * aspect), 0f, true));
+			base.Camera = new ClashEngine.NET.Graphics.Cameras.Movable2DCamera(new Vector2(1, 1f * aspect), new System.Drawing.RectangleF(0, 0, 1, 1f * aspect));
 			this.Entities.Add(this.Image);
 		}
 

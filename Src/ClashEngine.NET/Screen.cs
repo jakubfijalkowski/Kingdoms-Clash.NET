@@ -73,10 +73,15 @@ namespace ClashEngine.NET
 		/// <summary>
 		/// Manager encji ekranu.
 		/// </summary>
-		public EntitiesManager.EntitiesManager Entities
+		protected EntitiesManager.EntitiesManager Entities
 		{
 			get { return this._Entities; }
 		}
+
+		/// <summary>
+		/// Kamera dla ekranu.
+		/// </summary>
+		protected Interfaces.Graphics.ICamera Camera { get; set; }
 		#endregion
 
 		#region Events
@@ -115,6 +120,10 @@ namespace ClashEngine.NET
 		/// </summary>
 		public virtual void Render()
 		{
+			if (this.Camera != null)
+			{
+				this.Renderer.Camera = this.Camera;
+			}
 			this._Entities.Render();
 		}
 		#endregion

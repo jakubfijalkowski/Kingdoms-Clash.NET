@@ -10,7 +10,7 @@ namespace ClashEngine.NET.Interfaces.Graphics.Objects
 		: IObject
 	{
 		/// <summary>
-		/// Wartość tekstu.
+		/// Tekst, który został wpisany.
 		/// </summary>
 		string Content { get; }
 

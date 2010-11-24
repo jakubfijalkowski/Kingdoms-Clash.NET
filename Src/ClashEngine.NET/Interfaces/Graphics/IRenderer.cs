@@ -34,6 +34,16 @@
 		SortMode SortMode { get; set; }
 
 		/// <summary>
+		/// Kamera.
+		/// </summary>
+		ICamera Camera { get; set; }
+
+		/// <summary>
+		/// Rozmiar viewportu okna przed przekształceniami.
+		/// </summary>
+		OpenTK.Vector2 ViewPortSize { get; }
+
+		/// <summary>
 		/// Rysuje obiekt.
 		/// Musi być wywołana pomiędzy <see cref="Begin"/> i <see cref="End"/>.
 		/// </summary>
