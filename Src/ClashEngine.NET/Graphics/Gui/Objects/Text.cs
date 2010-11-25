@@ -41,6 +41,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// <summary>
 		/// Czcionka.
 		/// </summary>
+		[TypeConverter(typeof(Converters.FontConverter))]
 		public IFont Font
 		{
 			get { return this._Font; }

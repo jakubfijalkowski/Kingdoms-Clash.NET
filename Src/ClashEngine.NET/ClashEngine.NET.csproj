@@ -72,6 +72,8 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\FontConverter.cs" />
+    <Compile Include="Converters\TextureConverter.cs" />
     <Compile Include="Converters\Utilities.cs" />
     <Compile Include="Converters\Vector2Converter.cs" />
     <Compile Include="Converters\Vector4Converter.cs" />

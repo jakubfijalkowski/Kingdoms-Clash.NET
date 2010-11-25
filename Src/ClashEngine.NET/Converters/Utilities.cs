@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Reflection;
+using System.Windows.Markup;
+using System.Xaml;
 
 namespace ClashEngine.NET.Converters
 {
@@ -57,5 +59,30 @@ namespace ClashEngine.NET.Converters
 			}
 			throw new ArgumentException("Parameter is not PropertyInfo nor FieldInfo", "mi");
 		}
+
+		#region Internals
+		/// <summary>
+		/// Pobiera jakiś zasób z kontekstu.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <returns></returns>
+		internal static Interfaces.IResource GetResource(ITypeDescriptorContext context)
+		{
+			var root = context.GetService(typeof(IRootObjectProvider)) as IRootObjectProvider;
+			if (root != null && root.RootObject is Interfaces.IResource)
+			{
+				return (root.RootObject as Interfaces.IResource);
+			}
+			else
+			{
+				var target = context.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
+				if (target != null && target.TargetObject is Interfaces.IResource)
+				{
+					return target.TargetObject as Interfaces.IResource;
+				}
+			}
+			return null;
+		}
+		#endregion
 	}
 }

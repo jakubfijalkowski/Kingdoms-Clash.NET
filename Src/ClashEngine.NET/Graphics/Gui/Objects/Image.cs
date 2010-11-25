@@ -31,6 +31,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// <summary>
 		/// Tekstura dla obrazka.
 		/// </summary>
+		[TypeConverter(typeof(Converters.TextureConverter))]
 		public Interfaces.Graphics.Resources.ITexture Texture
 		{
 			get { return this._Texture; }
