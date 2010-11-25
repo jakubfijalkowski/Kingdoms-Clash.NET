@@ -1,7 +1,5 @@
-﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
+﻿namespace ClashEngine.NET.Interfaces.Data
 {
-	using Data;
-
 	/// <summary>
 	/// Rozszerzenie XAML wiążące wartości.
 	/// </summary>

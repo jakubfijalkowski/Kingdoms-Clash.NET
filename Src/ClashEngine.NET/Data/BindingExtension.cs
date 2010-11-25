@@ -3,11 +3,10 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Markup;
 
-namespace ClashEngine.NET.Graphics.Gui
+namespace ClashEngine.NET.Data
 {
 	using System.Xaml;
 	using Interfaces.Data;
-	using Interfaces.Graphics.Gui;
 
 	/// <summary>
 	/// Binduje wartość wewnątrz kontenera Xaml.

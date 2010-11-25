@@ -91,7 +91,7 @@
     <Compile Include="Exceptions\ArgumentNotExistsException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Graphics\Gui\BindingExtension.cs" />
+    <Compile Include="Data\BindingExtension.cs" />
     <Compile Include="Graphics\Gui\Container.cs" />
     <Compile Include="Graphics\Gui\Entity.cs" />
     <Compile Include="Graphics\Gui\ObjectsCollection.cs" />
@@ -123,7 +123,7 @@
     <Compile Include="Interfaces\EntitiesManager\IComponentsCollection.cs" />
     <Compile Include="Interfaces\EntitiesManager\IRenderableComponentsCollection.cs" />
     <Compile Include="Interfaces\Data\IBinding.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IBindingExtension.cs" />
+    <Compile Include="Interfaces\Data\IBindingExtension.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IContainer.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IControl.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IEntity.cs" />
