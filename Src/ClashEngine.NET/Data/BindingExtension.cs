@@ -42,6 +42,7 @@ namespace ClashEngine.NET.Data
 		/// <summary>
 		/// Obiekt źródłowy.
 		/// </summary>
+		[TypeConverter(typeof(NameReferenceConverter))]
 		public object Source { get; set; }
 
 		/// <summary>
@@ -70,17 +71,6 @@ namespace ClashEngine.NET.Data
 		public override object ProvideValue(IServiceProvider serviceProvider)
 		{
 			#region Providers
-			//var rootProvider = serviceProvider.GetService(typeof(IRootObjectProvider)) as IRootObjectProvider;
-			//if (rootProvider == null)
-			//{
-			//    throw new InvalidOperationException("IRootObjectProvider");
-			//}
-			//var rootObject = rootProvider.RootObject as IXamlGuiContainer;
-			//if (rootObject == null)
-			//{
-			//    throw new InvalidOperationException("RootObject");
-			//}
-
 			//Pobieramy właściwość, do której mamy przypisywać wartości.
 			var targetProvider = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
 			if (targetProvider == null)
