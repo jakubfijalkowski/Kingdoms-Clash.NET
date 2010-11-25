@@ -17,7 +17,6 @@ namespace ClashEngine.NET.Graphics.Gui
 		: MarkupExtension, IBindingExtension
 	{
 		#region Private fields
-		private string PropertyName = string.Empty;
 		private TypeConverter SourceConverter = null;
 		private TypeConverter TargetConverter = null;
 		private Type TargetType = null;
@@ -72,16 +71,16 @@ namespace ClashEngine.NET.Graphics.Gui
 		public override object ProvideValue(IServiceProvider serviceProvider)
 		{
 			#region Providers
-			var rootProvider = serviceProvider.GetService(typeof(IRootObjectProvider)) as IRootObjectProvider;
-			if (rootProvider == null)
-			{
-				throw new InvalidOperationException("IRootObjectProvider");
-			}
-			var rootObject = rootProvider.RootObject as IXamlGuiContainer;
-			if (rootObject == null)
-			{
-				throw new InvalidOperationException("RootObject");
-			}
+			//var rootProvider = serviceProvider.GetService(typeof(IRootObjectProvider)) as IRootObjectProvider;
+			//if (rootProvider == null)
+			//{
+			//    throw new InvalidOperationException("IRootObjectProvider");
+			//}
+			//var rootObject = rootProvider.RootObject as IXamlGuiContainer;
+			//if (rootObject == null)
+			//{
+			//    throw new InvalidOperationException("RootObject");
+			//}
 
 			//Pobieramy właściwość, do której mamy przypisywać wartości.
 			var targetProvider = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
@@ -89,107 +88,82 @@ namespace ClashEngine.NET.Graphics.Gui
 			{
 				throw new InvalidOperationException("IProvideValueTarget");
 			}
+
+			var nameResolver = serviceProvider.GetService(typeof(IXamlNameResolver)) as IXamlNameResolver;
+			if (nameResolver == null)
+			{
+				throw new InvalidOperationException("IXamlNameResolver");
+			}
+			#endregion
+
+			#region Source
+			string[] parts = this.Path.Split('.');
+			string propName= null;
+			if (parts.Length == 2)
+			{
+				string sourceName = parts[0].Trim();
+				this.Source = nameResolver.Resolve(sourceName);
+				if (this.Source == null)
+				{
+					if (nameResolver.IsFixupTokenAvailable)
+					{
+						return nameResolver.GetFixupToken(new string[] { sourceName });
+					}
+					else
+					{
+						throw new InvalidOperationException("Cannot find Source");
+					}
+				}
+				propName = parts[1].Trim();
+			}
+			else if (this.Source != null && parts.Length == 1) //To jest akceptowalne
+			{
+				propName = parts[0].Trim();
+			}
+			else
+			{
+				throw new InvalidOperationException("Invalid Path format");
+			}
+			this.SourceType = this.Source.GetType();
+
+			this.SourceProperty = this.SourceType.GetProperty(propName);
+			if (this.SourceProperty == null)
+			{
+				this.SourceProperty = this.SourceType.GetField(propName);
+				if (this.SourceProperty == null)
+				{
+					throw new InvalidOperationException(string.Format("Cannot find property '{0}' in source object", propName));
+				}
+			}
 			#endregion
 
 			#region Target
 			this.Target = targetProvider.TargetObject;
 			this.TargetProperty = targetProvider.TargetProperty as PropertyInfo;
 			this.TargetType = (this.TargetProperty as PropertyInfo).PropertyType;
+			#endregion
+
+			#region Converters
 			if (this.ConverterType != null)
 			{
-				this.TargetConverter = Activator.CreateInstance(this.ConverterType) as TypeConverter;
+				this.SourceConverter = this.TargetConverter = Activator.CreateInstance(this.ConverterType) as TypeConverter;
 			}
 			else
 			{
-				var targetConverters = this.TargetProperty.GetCustomAttributes(typeof(TypeConverterAttribute), false);
-				if (targetConverters.Length == 0)
+				var src = Converters.Utilities.GetTypeConverterFor(this.SourceProperty);
+				if (src != null)
 				{
-					targetConverters = this.TargetType.GetCustomAttributes(typeof(TypeConverterAttribute), false);
+					this.SourceConverter = Activator.CreateInstance(src) as TypeConverter;
 				}
-				if (targetConverters.Length == 1)
+				var target = Converters.Utilities.GetTypeConverterFor(this.TargetProperty);
+				if (target != null)
 				{
-					this.TargetConverter = Activator.CreateInstance(Type.GetType((targetConverters[0] as TypeConverterAttribute).ConverterTypeName)) as TypeConverter;
+					this.TargetConverter = Activator.CreateInstance(target) as TypeConverter;
 				}
 			}
 			#endregion
 
-			#region Source
-			string[] p = this.Path.Split('.');
-			if (p.Length == 1 && this.Source == null)
-			{
-				this.Source = rootObject.Variables[p[0].Trim()];
-				if (this.Source == null)
-				{
-					throw new InvalidOperationException("Cannot find source variable");
-				}
-				this.PropertyName = "Value";
-				this.SourceProperty = this.Source.GetType().GetProperty(this.PropertyName);
-				if (this.ConverterType != null)
-				{
-					this.SourceConverter = Activator.CreateInstance(this.ConverterType) as TypeConverter;
-				}
-				else
-				{
-					var convs = (this.Source as IVariable).RequiredType.GetCustomAttributes(typeof(TypeConverterAttribute), false);
-					if (convs.Length != 0)
-					{
-						this.SourceConverter = Activator.CreateInstance(Type.GetType((convs[0] as TypeConverterAttribute).ConverterTypeName)) as TypeConverter;
-					}
-				}
-			}
-			else if (p.Length == 2 || (p.Length == 1 && this.Source != null))
-			{
-				if (this.Source != null)
-				{
-					this.PropertyName = p[0].Trim();
-				}
-				else
-				{
-					this.Source = rootObject.Controls[p[0].Trim()];
-					this.PropertyName = p[1].Trim();
-				}
-				this.SourceProperty = this.Source.GetType().GetProperty(this.PropertyName);
-				if (this.SourceProperty == null)
-				{
-					this.SourceProperty = this.Source.GetType().GetField(p[1].Trim());
-				}
-				if (this.SourceProperty is PropertyInfo)
-				{
-					this.SourceType = (this.SourceProperty as PropertyInfo).PropertyType;
-				}
-				else
-				{
-					this.SourceType = (this.SourceProperty as FieldInfo).FieldType;
-				}
-
-				if (this.ConverterType != null)
-				{
-					this.SourceConverter = Activator.CreateInstance(this.ConverterType) as TypeConverter;
-				}
-				else
-				{
-					var sourceConverters = this.SourceProperty.GetCustomAttributes(typeof(TypeConverterAttribute), false);
-					if (sourceConverters.Length == 0)
-					{
-						sourceConverters = this.SourceType.GetCustomAttributes(typeof(TypeConverterAttribute), false);
-					}
-					if (sourceConverters.Length == 1)
-					{
-						this.SourceConverter = Activator.CreateInstance(Type.GetType((sourceConverters[0] as TypeConverterAttribute).ConverterTypeName)) as TypeConverter;
-					}
-				}
-
-				if (this.Source == null || this.SourceProperty == null)
-				{
-					throw new InvalidOperationException("Cannot find source");
-				}
-			}
-			else
-			{
-				throw new InvalidOperationException("Invalid Path format");
-			}
-			#endregion
-
+			#region Bindings
 			//Metoda lokalna, by nie dublować kodu ;)
 			Action bindSource = () =>
 			{
@@ -215,6 +189,7 @@ namespace ClashEngine.NET.Graphics.Gui
 				(this.Target as INotifyPropertyChanged).PropertyChanged += new PropertyChangedEventHandler(TargetToSource);
 				break;
 			}
+			#endregion
 
 			//Dla wszystkich trybów musimy zwrócić aktualną wartość.
 			if (this.SourceProperty is PropertyInfo)

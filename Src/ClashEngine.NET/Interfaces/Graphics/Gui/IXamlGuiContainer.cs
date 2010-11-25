@@ -12,11 +12,6 @@
 		IControlsCollection Controls { get; }
 
 		/// <summary>
-		/// Zmienne służące do wymiany informacji pomiędzy kontrolkami wew. XAML lub pomiędzy kontrolkami XAML a światem zewnętrznym.
-		/// </summary>
-		IVariablesCollection Variables { get; }
-
-		/// <summary>
 		/// Przypisuje kontener do wskazanego kontenera.
 		/// </summary>
 		/// <param name="container">Kontener.</param>

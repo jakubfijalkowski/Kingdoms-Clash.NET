@@ -72,6 +72,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\Utilities.cs" />
     <Compile Include="Converters\Vector2Converter.cs" />
     <Compile Include="Converters\Vector4Converter.cs" />
     <Compile Include="Graphics\Cameras\Movable2DCamera.cs" />
@@ -102,8 +103,6 @@
     <Compile Include="Graphics\Gui\SystemFontExtension.cs" />
     <Compile Include="Graphics\Gui\TextBox.cs" />
     <Compile Include="Graphics\Gui\TextureExtension.cs" />
-    <Compile Include="Graphics\Gui\Variable.cs" />
-    <Compile Include="Graphics\Gui\VariablesCollection.cs" />
     <Compile Include="Graphics\Gui\XamlGuiContainer.cs" />
     <Compile Include="Graphics\Gui\ControlBase.cs" />
     <Compile Include="Graphics\Gui\ControlsCollection.cs" />
@@ -135,8 +134,6 @@
     <Compile Include="Interfaces\Graphics\Gui\ITextBox.cs" />
     <Compile Include="Interfaces\Graphics\Gui\ITextureExtension.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IUIData.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IVariable.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IVariablesCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Objects\IImage.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Objects\IRectangle.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IButton.cs" />
