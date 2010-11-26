@@ -100,6 +100,7 @@
     <Compile Include="Graphics\Gui\Objects\Image.cs" />
     <Compile Include="Graphics\Gui\Objects\Rectangle.cs" />
     <Compile Include="Graphics\Gui\Objects\Text.cs" />
+    <Compile Include="Graphics\Gui\Panel.cs" />
     <Compile Include="Graphics\Gui\Screen.cs" />
     <Compile Include="Graphics\Gui\Button.cs" />
     <Compile Include="Graphics\Gui\SystemFontExtension.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Interfaces\Graphics\Gui\IEntity.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IObject.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IObjectsCollection.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\IPanel.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IScreen.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IFontExtension.cs" />
     <Compile Include="Interfaces\Graphics\Gui\ITextBox.cs" />

@@ -10,7 +10,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 	/// <summary>
 	/// Tekst.
 	/// </summary>
-	[DebuggerDisplay("Text {TextValue,nq}")]
+	[DebuggerDisplay("Text {TextValue}")]
 	public class Text
 		: IText
 	{

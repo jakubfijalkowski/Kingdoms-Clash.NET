@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ClashEngine.NET.Graphics.Gui
 {
@@ -8,14 +9,14 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// <summary>
 	/// Kolekcja obiektów renderera GUI.
 	/// </summary>
-	[System.Diagnostics.DebuggerDisplay("Count = {Count}")]
+	[DebuggerDisplay("Count = {Count}")]
 	public class ObjectsCollection
 		: IObjectsCollection
 	{
 		#region Private fields
-		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.RootHidden)]
+		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IObject> Objects = new List<IObject>();
-		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private IControl Owner = null;
 		#endregion
 
@@ -76,11 +77,13 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <summary>
 		/// Liczba elementów.
 		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public int Count { get { return this.Objects.Count; } }
 
 		/// <summary>
 		/// Zawsze false.
 		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		bool ICollection<IObject>.IsReadOnly { get { return false; } }
 		#endregion
 

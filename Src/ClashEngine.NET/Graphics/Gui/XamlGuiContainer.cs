@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xaml;
+using System.Diagnostics;
 
 namespace ClashEngine.NET.Graphics.Gui
 {
@@ -14,7 +15,11 @@ namespace ClashEngine.NET.Graphics.Gui
 		: IXamlGuiContainer
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
+
+		#region Private fields
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool Usable = true;
+		#endregion
 
 		#region IXamlGuiContainer Members
 		/// <summary>

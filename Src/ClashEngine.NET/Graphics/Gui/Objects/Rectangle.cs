@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Gui.Objects
@@ -10,13 +11,14 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 	/// <summary>
 	/// Prostokąt.
 	/// </summary>
+	[DebuggerDisplay("Rectangle")]	
 	public class Rectangle
 		: Quad, IRectangle
 	{
 		#region Private fields
-		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool WasPositionSet = false;
-		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool WasSizeSet = false;
 		#endregion
 	

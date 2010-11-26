@@ -1,7 +1,8 @@
-﻿namespace ClashEngine.NET.Graphics.Gui
+﻿using System.Diagnostics;
+
+namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces.Graphics.Gui;
-	using Utilities;
 
 	/// <summary>
 	/// Przycisk.
@@ -10,8 +11,11 @@
 		: ControlBase, IButton
 	{
 		#region Private fields
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool WasActive = false;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool IsActive = false;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool _Clicked = false;
 		#endregion
 		
