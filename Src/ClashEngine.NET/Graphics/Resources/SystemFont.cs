@@ -43,100 +43,7 @@ namespace ClashEngine.NET.Graphics.Resources
 		/// </summary>
 		public bool Italic { get; private set; }
 
-		#region Drawing strings onto texture
-		/// <summary>
-		/// Rysuje tekst do nowej tekstury.
-		/// Nowo utworzona tekstura ma Id równe "Text.(text)" i jest dodana do managera czcionki.
-		/// </summary>
-		/// <param name="text">Tekst.</param>
-		/// <param name="color">Kolor.</param>
-		/// <exception cref="ArgumentNullException">onto jest nullem lub text jest pusty/nullem.</exception>
-		/// <returns>Nowo utworzona tekstura.</returns>
-		public ITexture DrawString(string text, Color color)
-		{
-			ITexture tex = CreateEmptyTexture();
-			this.DrawString(text, color, tex);
-			return tex;
-		}
-
-		/// <summary>
-		/// Rysuje tekst do nowej tekstury.
-		/// </summary>
-		/// <param name="text">Tekst.</param>
-		/// <param name="color">Kolor.</param>
-		/// <returns>Nowo utworzona tekstura.</returns>
-		public ITexture DrawString(string text, Vector4 color)
-		{
-			return this.DrawString(text, Color.FromArgb((int)(color.W * 255f), (int)(color.X * 255f), (int)(color.Y * 255f), (int)(color.Z * 255f)));
-		}
-
-		/// <summary>
-		/// Rysuje tekst na istniejącą teksturę.
-		/// Jeśli onto ma puste Id to ustawia mu je na wartość "Text.(text)" i rejestruje w managerze.
-		/// </summary>
-		/// <param name="text">Tekst do wypiania.</param>
-		/// <param name="color">Kolor.</param>
-		/// <param name="onto">Tekstura. Musi być to tekstura zwrócona przez DrawString.</param>
-		/// <exception cref="ArgumentNullException">onto jest nullem lub text jest pusty/nullem.</exception>
-		/// <exception cref="ArgumentException">Tekstura onto nie była stworzona przez metodę CreateEmptyText.</exception>
-		public void DrawString(string text, Color color, ITexture onto)
-		{
-			if (onto == null)
-			{
-				throw new ArgumentNullException("onto");
-			}
-			else if (!(onto is Internals.ChangableTexture))
-			{
-				throw new ArgumentException("Texture wasn't created by CreateEmptyText method", "onto");
-			}
-			else if (string.IsNullOrEmpty(onto.Id))
-			{
-				onto.Id = "Text." + text;
-				this.Manager.Add(onto);
-			}
-
-			var size = this.Measuring.MeasureString(text, this.Font);
-			if (size.Width == 0)
-			{
-				size.Width = 1;
-			}
-			if (size.Height == 0)
-			{
-				size.Height = 1;
-			}
-			using (var bm = new Bitmap((int)size.Width, (int)size.Height))
-			{
-				using (var g = System.Drawing.Graphics.FromImage(bm))
-				{
-					g.FillRectangle(Brushes.Transparent, 0, 0, bm.Width, bm.Height);
-					g.DrawString(text, this.Font, new SolidBrush(color), 0f, 0f);
-				}
-				(onto as Internals.ChangableTexture).Set(bm);
-			}
-		}
-
-		/// <summary>
-		/// Rysuje tekst na istniejącą teksturę.
-		/// </summary>
-		/// <param name="text">Tekst do wypiania.</param>
-		/// <param name="color">Kolor.</param>
-		/// <param name="onto">Tekstura. Musi być to tekstura zwrócona przez DrawString.</param>
-		public void DrawString(string text, Vector4 color, ITexture onto)
-		{
-			this.DrawString(text, Color.FromArgb((int)(color.W * 255f), (int)(color.X * 255f), (int)(color.Y * 255f), (int)(color.Z * 255f)), onto);
-		}
-
-		/// <summary>
-		/// Tworzy pustą teksturę, by móc jej później użyć w metodzie <see cref="DrawString(text,ITexture)"/>.
-		/// </summary>
-		/// <returns>Nowa tekstura.</returns>
-		public static ITexture CreateEmptyTexture()
-		{
-			return new Internals.ChangableTexture();
-		}
-		#endregion
-
-		#region Drawing strings into objects
+		#region Single line
 		/// <summary>
 		/// Rysuje tekst na obiekt renderera.
 		/// </summary>
@@ -146,7 +53,8 @@ namespace ClashEngine.NET.Graphics.Resources
 		public IText Draw(string text, Color color)
 		{
 			var obj = new Objects.Internals.SystemFontObject();
-			obj.Texture = this.DrawString(text, color);
+			obj.Texture = CreateEmptyTexture();
+			this.DrawString(text, color, obj.Texture);
 			obj.Content = text;
 			return obj;
 		}
@@ -176,7 +84,7 @@ namespace ClashEngine.NET.Graphics.Resources
 			}
 			else if (!(into is Objects.Internals.SystemFontObject))
 			{
-				throw new ArgumentException("Texture wasn't created by this class", "into");
+				throw new ArgumentException("Text object wasn't created by this class", "into");
 			}
 			this.DrawString(text, color, (into as Objects.Internals.SystemFontObject).Texture);
 			(into as Objects.Internals.SystemFontObject).Content = text;
@@ -192,6 +100,79 @@ namespace ClashEngine.NET.Graphics.Resources
 		{
 			this.Draw(text, Color.FromArgb((int)(color.W * 255f), (int)(color.X * 255f), (int)(color.Y * 255f), (int)(color.Z * 255f)), into);
 		}
+		#endregion
+
+		#region Textbox
+		/// <summary>
+		/// Rysuje tekst do obiektu renderera.
+		/// </summary>
+		/// <param name="text">Tekst.</param>
+		/// <param name="color">Kolor.</param>
+		/// <param name="textBox">Pole tekstowe, w którym ma się zmieścić tekst.</param>
+		/// <returns>Utworzony obiekt.</returns>
+		public IText Draw(string text, Color color, RectangleF textBox)
+		{
+			IText textObj = new Objects.Internals.SystemFontObject()
+			{
+				Texture = CreateEmptyTexture()
+			};
+			this.Draw(text, color, textBox, textObj);
+			return textObj;
+		}
+
+		/// <summary>
+		/// Rysuje tekst do obiektu renderera.
+		/// </summary>
+		/// <param name="text">Tekst.</param>
+		/// <param name="color">Kolor.</param>
+		/// <returns>Utworzony obiekt.</returns>
+		public IText Draw(string text, Vector4 color, RectangleF textBox)
+		{
+			return this.Draw(text, Color.FromArgb((int)(color.W * 255f), (int)(color.X * 255f), (int)(color.Y * 255f), (int)(color.Z * 255f)), textBox);
+		}
+
+		/// <summary>
+		/// Rysuje tekst do obiektu renderera.
+		/// </summary>
+		/// <param name="text">Tekst.</param>
+		/// <param name="color">Kolor.</param>
+		/// <param name="textBox">Pole tekstowe, w którym ma się zmieścić tekst.</param>
+		/// <param name="into">Obiekt(utworzony wcześniej przez rodzica) w który zostanie wrysowany tekst.</param>
+		public void Draw(string text, Color color, RectangleF textBox, IText into)
+		{
+			if (into == null)
+			{
+				throw new ArgumentNullException("into");
+			}
+			if(!(into is Objects.Internals.SystemFontObject))
+			{
+				throw new ArgumentException("Text object wasn't created by this class", "into");
+			}
+
+			(into as Objects.Internals.SystemFontObject).Content = text;
+			using (var bitmap = new Bitmap((int)(textBox.Left + textBox.Width), (int)(textBox.Top + textBox.Height)))
+			{
+				using (var g = System.Drawing.Graphics.FromImage(bitmap))
+				{
+					g.FillRectangle(Brushes.Transparent, 0, 0, bitmap.Width, bitmap.Height);
+					g.DrawString(text, this.Font, new SolidBrush(color), textBox);
+				}
+				((into as Objects.Internals.SystemFontObject).Texture as Internals.ChangableTexture).Set(bitmap);
+			}
+		}
+
+		/// <summary>
+		/// Rysuje tekst do obiektu renderera.
+		/// </summary>
+		/// <param name="text">Tekst.</param>
+		/// <param name="color">Kolor.</param>
+		/// <param name="textBox">Pole tekstowe, w którym ma się zmieścić tekst.</param>
+		/// <param name="into">Obiekt(utworzony wcześniej przez rodzica) w który zostanie wrysowany tekst.</param>
+		public void Draw(string text, Vector4 color, RectangleF textBox, IText into)
+		{
+			this.Draw(text, Color.FromArgb((int)(color.W * 255f), (int)(color.X * 255f), (int)(color.Y * 255f), (int)(color.Z * 255f)), textBox, into);
+		}
+		#endregion
 
 		/// <summary>
 		/// Tworzy pusty obiekt na tekst.
@@ -203,7 +184,6 @@ namespace ClashEngine.NET.Graphics.Resources
 			obj.Texture = CreateEmptyTexture();
 			return obj;
 		}
-		#endregion
 		#endregion
 
 		#region IResource Members
@@ -271,6 +251,54 @@ namespace ClashEngine.NET.Graphics.Resources
 		{
 			this.MeasuringBitmap = new Bitmap(1, 1);
 			this.Measuring = System.Drawing.Graphics.FromImage(this.MeasuringBitmap);
+		}
+		#endregion
+
+		#region Private members
+		/// <summary>
+		/// Rysuje tekst na istniejącą teksturę.
+		/// Jeśli onto ma puste Id to ustawia mu je na wartość "Text.(text)" i rejestruje w managerze.
+		/// </summary>
+		/// <param name="text">Tekst do wypiania.</param>
+		/// <param name="color">Kolor.</param>
+		/// <param name="onto">Tekstura. Musi być to tekstura zwrócona przez DrawString.</param>
+		/// <exception cref="ArgumentNullException">onto jest nullem lub text jest pusty/nullem.</exception>
+		/// <exception cref="ArgumentException">Tekstura onto nie była stworzona przez metodę CreateEmptyText.</exception>
+		private void DrawString(string text, Color color, ITexture onto)
+		{
+			if (string.IsNullOrEmpty(onto.Id))
+			{
+				onto.Id = "Text." + text;
+				this.Manager.Add(onto);
+			}
+
+			var size = this.Measuring.MeasureString(text, this.Font);
+			if (size.Width == 0)
+			{
+				size.Width = 1;
+			}
+			if (size.Height == 0)
+			{
+				size.Height = 1;
+			}
+			using (var bm = new Bitmap((int)size.Width, (int)size.Height))
+			{
+				using (var g = System.Drawing.Graphics.FromImage(bm))
+				{
+					g.FillRectangle(Brushes.Transparent, 0, 0, bm.Width, bm.Height);
+					g.DrawString(text, this.Font, new SolidBrush(color), 0f, 0f);
+				}
+				(onto as Internals.ChangableTexture).Set(bm);
+			}
+		}
+
+		/// <summary>
+		/// Tworzy pustą teksturę, by móc jej później użyć w metodzie <see cref="DrawString(text,ITexture)"/>.
+		/// </summary>
+		/// <returns>Nowa tekstura.</returns>
+		private static ITexture CreateEmptyTexture()
+		{
+			return new Internals.ChangableTexture();
 		}
 		#endregion
 

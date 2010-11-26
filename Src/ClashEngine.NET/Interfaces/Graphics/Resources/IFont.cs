@@ -30,44 +30,10 @@ namespace ClashEngine.NET.Interfaces.Graphics.Resources
 		/// </summary>
 		bool Italic { get; }
 		#endregion
-		
-		#region Drawing strings onto texture
-		/// <summary>
-		/// Rysuje tekst do nowej tekstury.
-		/// </summary>
-		/// <param name="text">Tekst.</param>
-		/// <param name="color">Kolor.</param>
-		/// <returns>Nowo utworzona tekstura.</returns>
-		ITexture DrawString(string text, Color color);
 
+		#region Single line
 		/// <summary>
-		/// Rysuje tekst do nowej tekstury.
-		/// </summary>
-		/// <param name="text">Tekst.</param>
-		/// <param name="color">Kolor.</param>
-		/// <returns>Nowo utworzona tekstura.</returns>
-		ITexture DrawString(string text, Vector4 color);
-
-		/// <summary>
-		/// Rysuje tekst na istniejącą teksturę.
-		/// </summary>
-		/// <param name="text">Tekst do wypiania.</param>
-		/// <param name="color">Kolor.</param>
-		/// <param name="onto">Tekstura. Musi być to tekstura zwrócona przez DrawString.</param>
-		void DrawString(string text, Color color, ITexture onto);
-
-		/// <summary>
-		/// Rysuje tekst na istniejącą teksturę.
-		/// </summary>
-		/// <param name="text">Tekst do wypiania.</param>
-		/// <param name="color">Kolor.</param>
-		/// <param name="onto">Tekstura. Musi być to tekstura zwrócona przez DrawString.</param>
-		void DrawString(string text, Vector4 color, ITexture onto);
-		#endregion
-
-		#region Drawing strings into objects
-		/// <summary>
-		/// Rysuje tekst na obiekt renderera.
+		/// Rysuje tekst do obiektu renderera.
 		/// </summary>
 		/// <param name="text">Tekst.</param>
 		/// <param name="color">Kolor.</param>
@@ -75,7 +41,7 @@ namespace ClashEngine.NET.Interfaces.Graphics.Resources
 		Objects.IText Draw(string text, Color color);
 
 		/// <summary>
-		/// Rysuje tekst na obiekt renderera.
+		/// Rysuje tekst do obiektu renderera.
 		/// </summary>
 		/// <param name="text">Tekst.</param>
 		/// <param name="color">Kolor.</param>
@@ -83,7 +49,7 @@ namespace ClashEngine.NET.Interfaces.Graphics.Resources
 		Objects.IText Draw(string text, Vector4 color);
 
 		/// <summary>
-		/// Rysuje tekst na obiekt renderera.
+		/// Rysuje tekst do obiektu renderera.
 		/// </summary>
 		/// <param name="text">Tekst.</param>
 		/// <param name="color">Kolor.</param>
@@ -91,12 +57,49 @@ namespace ClashEngine.NET.Interfaces.Graphics.Resources
 		void Draw(string text, Color color, Objects.IText into);
 
 		/// <summary>
-		/// Rysuje tekst na obiekt renderera.
+		/// Rysuje tekst do obiektu renderera.
 		/// </summary>
 		/// <param name="text">Tekst.</param>
 		/// <param name="color">Kolor.</param>
 		/// <param name="into">Obiekt(utworzony wcześniej przez rodzica) w który zostanie wrysowany tekst.</param>
 		void Draw(string text, Vector4 color, Objects.IText into);
+		#endregion
+
+		#region Textbox
+		/// <summary>
+		/// Rysuje tekst do obiektu renderera.
+		/// </summary>
+		/// <param name="text">Tekst.</param>
+		/// <param name="color">Kolor.</param>
+		/// <param name="textBox">Pole tekstowe, w którym ma się zmieścić tekst.</param>
+		/// <returns>Utworzony obiekt.</returns>
+		Objects.IText Draw(string text, Color color, RectangleF textBox);
+
+		/// <summary>
+		/// Rysuje tekst do obiektu renderera.
+		/// </summary>
+		/// <param name="text">Tekst.</param>
+		/// <param name="color">Kolor.</param>
+		/// <returns>Utworzony obiekt.</returns>
+		Objects.IText Draw(string text, Vector4 color, RectangleF textBox);
+
+		/// <summary>
+		/// Rysuje tekst do obiektu renderera.
+		/// </summary>
+		/// <param name="text">Tekst.</param>
+		/// <param name="color">Kolor.</param>
+		/// <param name="textBox">Pole tekstowe, w którym ma się zmieścić tekst.</param>
+		/// <param name="into">Obiekt(utworzony wcześniej przez rodzica) w który zostanie wrysowany tekst.</param>
+		void Draw(string text, Color color, RectangleF textBox, Objects.IText into);
+
+		/// <summary>
+		/// Rysuje tekst do obiektu renderera.
+		/// </summary>
+		/// <param name="text">Tekst.</param>
+		/// <param name="color">Kolor.</param>
+		/// <param name="textBox">Pole tekstowe, w którym ma się zmieścić tekst.</param>
+		/// <param name="into">Obiekt(utworzony wcześniej przez rodzica) w który zostanie wrysowany tekst.</param>
+		void Draw(string text, Vector4 color, RectangleF textBox, Objects.IText into);
 		#endregion
 	}
 }
