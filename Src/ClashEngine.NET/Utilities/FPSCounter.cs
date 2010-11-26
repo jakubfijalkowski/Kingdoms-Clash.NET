@@ -13,51 +13,45 @@ namespace ClashEngine.NET.Utilities
 	public class FPSCounter
 		: IFPSCounter
 	{
-		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET.FPS");
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("FPS");
 		
 		#region Private Fields
 		/// <summary>
 		/// Aktualny licznik FPS.
 		/// </summary>
-		int FPSCount = 0;
+		private int FPSCount = 0;
 
 		/// <summary>
 		/// Czas od ostatniej aktualizacji.
 		/// </summary>
-		double FPSUpdateTime = 0.0;
+		private double FPSUpdateTime = 0.0;
 
 		/// <summary>
 		/// Czas od ostatniego logowania.
 		/// </summary>
-		double LogTime = 0.0;
+		private double LogTime = 0.0;
 
 		/// <summary>
 		/// Całkowita liczba klatek
 		/// </summary>
-		long AllFrames = 0;
+		private long AllFrames = 0;
 
 		/// <summary>
 		/// Całkowity czas uruchomienia.
 		/// </summary>
-		double AllTime = 0.0;
+		private double AllTime = 0.0;
 
 		/// <summary>
 		/// Gui.
 		/// Używany tylko, jeśli RenderStatistics == true.
 		/// </summary>
-		IContainer Gui;
-
-		/// <summary>
-		/// Kamera.
-		/// Używana tylko, jeśli RenderStatistics == true.
-		/// </summary>
-		//Interfaces.Graphics.Components.IOrthoCamera Camera;
+		private IContainer Gui = null;
 
 		/// <summary>
 		/// Tekst z liczbą FPS.
 		/// Używana tylko, jeśli RenderStatistics == true.
 		/// </summary>
-		//Interfaces.Graphics.Gui.Controls.IStaticText Text;
+		private Interfaces.Graphics.Gui.Objects.IText Text = null;
 		#endregion
 		
 		#region IFPSCounter Members
@@ -110,7 +104,16 @@ namespace ClashEngine.NET.Utilities
 		public Interfaces.ScreenState State { get; set; }
 
 		public void OnInit()
-		{ }
+		{
+			if (this.RenderStatistics)
+			{
+				var panel = new Graphics.Gui.Panel();
+				panel.Position = new OpenTK.Vector2(0, 0);
+				panel.Size = new OpenTK.Vector2(100, 30);
+				panel.Objects.Add(this.Text);
+				this.Gui.Controls.Add(panel);
+			}
+		}
 
 		public void OnDeinit()
 		{ }
@@ -135,7 +138,7 @@ namespace ClashEngine.NET.Utilities
 
 				if (this.RenderStatistics && (int)currAverage != (int)this.AverageFPS)
 				{
-					//this.Text.Text = "FPS: " + (int)currAverage;
+					this.Text.TextValue = "FPS: " + (int)currAverage;
 				}
 				this.AverageFPS = currAverage;
 
@@ -160,7 +163,6 @@ namespace ClashEngine.NET.Utilities
 			//if(this.AllFrames == long.MaxValue) // Zabezpieczenie przed buffer overflowem.
 			if (this.RenderStatistics)
 			{
-				//this.Camera.Render();
 				this.Gui.Render();
 				this.Renderer.Flush();
 			}
@@ -194,9 +196,9 @@ namespace ClashEngine.NET.Utilities
 			: this(0)
 		{
 			this.RenderStatistics = true;
-
-			//this.Camera = new Graphics.Components.OrthoCamera(new System.Drawing.RectangleF(0, 0, screenSize.X, screenSize.Y), screenSize, 0f, true);
-			//this.Gui.Add(this.Text = new Graphics.Gui.Controls.StaticText("FPS", font, "FPS: 0", textColor, new OpenTK.Vector2(20, 20)));
+			this.Text = new Graphics.Gui.Objects.Text();
+			this.Text.Font = font;
+			this.Text.Color = textColor.ToVector4();
 		}
 		#endregion
 	}

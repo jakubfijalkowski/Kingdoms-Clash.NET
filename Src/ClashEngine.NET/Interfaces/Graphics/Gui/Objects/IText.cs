@@ -11,7 +11,7 @@
 		/// <summary>
 		/// Użyta czcionka.
 		/// </summary>
-		IFont Font { get; }
+		IFont Font { get; set; }
 
 		/// <summary>
 		/// Tekst.

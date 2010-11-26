@@ -6,6 +6,8 @@ using OpenTK;
 
 namespace ClashEngine.NET.Converters
 {
+	using NET.Utilities;
+
 	/// <summary>
 	/// Konwerter OpenTK.Vector4.
 	/// </summary>
@@ -44,8 +46,7 @@ namespace ClashEngine.NET.Converters
 			}
 			else if (value is Color)
 			{
-				var c = (Color)value;
-				return new Vector4(c.R / 255f, c.G / 255f, c.B / 255f, c.A / 255f);
+				return ((Color)value).ToVector4();
 			}
 			return base.ConvertFrom(context, culture, value);
 		}
@@ -86,7 +87,7 @@ namespace ClashEngine.NET.Converters
 			{
 				return null;
 			}
-			return new Vector4(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
+			return color.ToVector4();
 		}
 		#endregion
 
@@ -110,7 +111,7 @@ namespace ClashEngine.NET.Converters
 			}
 			else if (destinationType == typeof(Color))
 			{
-				return Color.FromArgb((int)(vec.W * 255), (int)(vec.X * 255), (int)(vec.Y * 255), (int)(vec.Z * 255));
+				return vec.ToColor();
 			}
 			return base.ConvertTo(context, culture, value, destinationType);
 		}

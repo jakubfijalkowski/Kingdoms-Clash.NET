@@ -186,8 +186,10 @@
     <Compile Include="ScreensManager.cs" />
     <Compile Include="SystemInformation.cs" />
     <Compile Include="Utilities\BodyExtensions.cs" />
+    <Compile Include="Utilities\ColorExtensions.cs" />
     <Compile Include="Utilities\RectangleExtensions.cs" />
     <Compile Include="Utilities\Vector2Extensions.cs" />
+    <Compile Include="Utilities\Vector4Extensions.cs" />
     <Compile Include="Utilities\XNAOpenTKCoverter.cs" />
     <Compile Include="Utilities\FPSCounter.cs" />
     <Compile Include="Utilities\VBO.cs" />

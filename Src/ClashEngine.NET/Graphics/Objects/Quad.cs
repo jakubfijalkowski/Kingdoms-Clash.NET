@@ -4,6 +4,7 @@ namespace ClashEngine.NET.Graphics.Objects
 {
 	using Interfaces.Graphics;
 	using Interfaces.Graphics.Objects;
+	using Utilities;
 
 	/// <summary>
 	/// Prostokąt.
@@ -120,7 +121,7 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// <param name="color">Kolor.</param>
 		/// <param name="depth">Głębokość, na której znajduje się prostokąt.</param>
 		public Quad(Vector2 position, Vector2 size, System.Drawing.Color color, float depth = 0f)
-			: this(position, size, new Vector4(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f), depth)
+			: this(position, size, color.ToVector4(), depth)
 		{ }
 		#endregion
 

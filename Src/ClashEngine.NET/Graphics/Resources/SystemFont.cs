@@ -6,6 +6,7 @@ namespace ClashEngine.NET.Graphics.Resources
 {
 	using Interfaces.Graphics.Objects;
 	using Interfaces.Graphics.Resources;
+	using Utilities;
 
 	/// <summary>
 	/// Czcionka systemowa.
@@ -67,7 +68,7 @@ namespace ClashEngine.NET.Graphics.Resources
 		/// <returns>Utworzony obiekt.</returns>
 		public IText Draw(string text, Vector4 color)
 		{
-			return this.Draw(text, Color.FromArgb((int)(color.W * 255f), (int)(color.X * 255f), (int)(color.Y * 255f), (int)(color.Z * 255f)));
+			return this.Draw(text, color.ToColor());
 		}
 
 		/// <summary>
@@ -98,7 +99,7 @@ namespace ClashEngine.NET.Graphics.Resources
 		/// <param name="into">Obiekt(utworzony wcześniej przez rodzica) w który zostanie wrysowany tekst.</param>
 		public void Draw(string text, Vector4 color, IText into)
 		{
-			this.Draw(text, Color.FromArgb((int)(color.W * 255f), (int)(color.X * 255f), (int)(color.Y * 255f), (int)(color.Z * 255f)), into);
+			this.Draw(text, color.ToColor(), into);
 		}
 		#endregion
 
@@ -128,7 +129,7 @@ namespace ClashEngine.NET.Graphics.Resources
 		/// <returns>Utworzony obiekt.</returns>
 		public IText Draw(string text, Vector4 color, RectangleF textBox)
 		{
-			return this.Draw(text, Color.FromArgb((int)(color.W * 255f), (int)(color.X * 255f), (int)(color.Y * 255f), (int)(color.Z * 255f)), textBox);
+			return this.Draw(text, color.ToColor(), textBox);
 		}
 
 		/// <summary>
@@ -170,7 +171,7 @@ namespace ClashEngine.NET.Graphics.Resources
 		/// <param name="into">Obiekt(utworzony wcześniej przez rodzica) w który zostanie wrysowany tekst.</param>
 		public void Draw(string text, Vector4 color, RectangleF textBox, IText into)
 		{
-			this.Draw(text, Color.FromArgb((int)(color.W * 255f), (int)(color.X * 255f), (int)(color.Y * 255f), (int)(color.Z * 255f)), textBox, into);
+			this.Draw(text, color.ToColor(), textBox, into);
 		}
 		#endregion
 
