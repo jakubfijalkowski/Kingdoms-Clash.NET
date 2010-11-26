@@ -73,6 +73,7 @@ namespace ClashEngine.NET
 			{
 				throw new ArgumentNullException("filename");
 			}
+			filename = PrepareId(filename);
 			IResource res;
 			if (this.Resources.TryGetValue(filename, out res)) //Znaleziono istniejący
 			{
@@ -113,12 +114,14 @@ namespace ClashEngine.NET
 			{
 				throw new ArgumentException("res", "Crossing managers is prohibited");
 			}
+			filename = PrepareId(filename);
 			IResource res1;
 			if (this.Resources.TryGetValue(filename, out res1))
 			{
 				return res1;
 			}
 
+			res.Id = filename;
 			this.LoadResource(filename, res);
 			return res;
 		}
@@ -137,7 +140,8 @@ namespace ClashEngine.NET
 			{
 				throw new ArgumentException("res", "Crossing managers is prohibited");
 			}
-			else if (this.Resources.ContainsKey(res.Id))
+			res.Id = PrepareId(res.Id);
+			if (this.Resources.ContainsKey(res.Id))
 			{
 				throw new Exceptions.ArgumentAlreadyExistsException("res");
 			}
@@ -188,6 +192,7 @@ namespace ClashEngine.NET
 			{
 				throw new ArgumentNullException("id");
 			}
+			id = PrepareId(id);
 			IResource res;
 			if (!this.Resources.TryGetValue(id, out res))
 			{
@@ -227,6 +232,16 @@ namespace ClashEngine.NET
 				Logger.Warn("Cannot load resource '{0}' of type '{1}'. Default used.", id, res.GetType().Name);
 				break;
 			}
+		}
+
+		/// <summary>
+		/// Przygotowuje Id do dalszego wykorzystania.
+		/// </summary>
+		/// <param name="id">Identyfikator.</param>
+		/// <returns></returns>
+		internal static string PrepareId(string id)
+		{
+			return id.Replace('\\', '/').Replace("//", "/");
 		}
 		#endregion
 
