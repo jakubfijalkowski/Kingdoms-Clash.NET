@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Xaml;
 using System.Diagnostics;
+using System.Xaml;
 
 namespace ClashEngine.NET.Graphics.Gui
 {
@@ -19,6 +19,10 @@ namespace ClashEngine.NET.Graphics.Gui
 		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool Usable = true;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private IResourcesManager Manager = null;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		private IResourcesManager ParentManager = null;
 		#endregion
 
 		#region IXamlGuiContainer Members
@@ -59,7 +63,11 @@ namespace ClashEngine.NET.Graphics.Gui
 		#region IResource Members
 		string IResource.Id { get; set; }
 		string IResource.FileName { get; set; }
-		IResourcesManager IResource.Manager { get; set; }
+		IResourcesManager IResource.Manager 
+		{
+			get { return this.Manager; }
+			set { this.ParentManager = value; }
+		}
 
 		/// <summary>
 		/// Ładuje kontrolkę z pliku XAML. Zwraca Failure w przypadku niepowodzenia, inaczej Success.
@@ -69,6 +77,16 @@ namespace ClashEngine.NET.Graphics.Gui
 		{
 			try
 			{
+				Logger.Info("Creating resource manager for GUI");
+				if (this.ParentManager is ICloneable)
+				{
+					this.Manager = (this.ParentManager as ICloneable).Clone() as IResourcesManager;
+				}
+				else
+				{
+					this.Manager = new ResourcesManager();
+					this.Manager.ContentDirectory = this.ParentManager.ContentDirectory;
+				}
 				XamlXmlReader reader = new XamlXmlReader((this as IResource).FileName);
 				XamlObjectWriter writer = new XamlObjectWriter(reader.SchemaContext, new XamlObjectWriterSettings
 				{
@@ -87,6 +105,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		public void Free()
 		{
 			this.Controls.Clear();
+			this.Manager.Dispose();
 			this.Usable = true;
 		}
 		#endregion
