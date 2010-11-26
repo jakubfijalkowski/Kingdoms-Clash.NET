@@ -150,11 +150,15 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		public void Finish()
 		{
 			this.Initialized = true;
-			this.UpdateTexture();
 			if (!this.WasPositionSet)
 			{
 				this.Position = this.ParentControl.Position;
 			}
+			if (!this.WasSizeSet)
+			{
+				this.Size = this.ParentControl.Size;
+			}
+			this.UpdateTexture();
 		}
 		#endregion
 
@@ -163,12 +167,9 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		{
 			if (this.Initialized)
 			{
-				this.Font.Draw(this.TextValue, this.Color, this.TextObject);
-
-				if (!this.WasSizeSet)
-				{
-					this.TextObject.Size = new Vector2(this.Texture.Width, this.Texture.Height);
-				}
+				this.Font.Draw(this.TextValue, this.Color,
+					new System.Drawing.RectangleF(0f, 0f, this.Size.X, this.Size.Y),
+						this.TextObject);
 			}
 		}
 		#endregion

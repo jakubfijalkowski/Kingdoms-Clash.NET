@@ -5,7 +5,7 @@
   <Button x:Name="Button1" Position="10,10" Size="88,64">
     <o:Rectangle Color="1,1,1,1" Depth="2" />
     <o:Image Texture="UserData\\Nations\\TestNation\\Unit1.png" Position="11,11" Depth="1" />
-	<o:Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,0,1" Depth="0" />
+	<o:Text Font="Arial,15,bi" TextValue="Wyjście asdasd!" Color="0,0,0,1" Depth="0" />
   </Button>
   <TextBox x:Name="Tb1" Position="100, 100" Size="100, 40" Text="abc">
     <o:Rectangle Color="1,1,1,1" />
