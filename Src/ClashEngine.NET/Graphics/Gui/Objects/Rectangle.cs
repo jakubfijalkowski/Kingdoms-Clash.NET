@@ -80,6 +80,11 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		public Interfaces.Graphics.Gui.IControl ParentControl { get; set; }
 
 		/// <summary>
+		/// Czy obiekt jest widoczny.
+		/// </summary>
+		public bool Visible { get; set; }
+
+		/// <summary>
 		/// Zmieniamy rozmiar i pozycję, jeśli nie zostały zmienione wcześniej.
 		/// </summary>
 		public void Finish()
@@ -98,7 +103,9 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		#region Constructor
 		public Rectangle()
 			: base(Vector2.Zero, Vector2.Zero, System.Drawing.Color.White)
-		{ }
+		{
+			this.Visible = true;
+		}
 		#endregion
 	}
 }

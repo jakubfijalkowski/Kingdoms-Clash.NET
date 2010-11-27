@@ -95,6 +95,11 @@ namespace ClashEngine.NET.Graphics.Gui
 		}
 
 		/// <summary>
+		/// Czy kontrolka jest widoczna.
+		/// </summary>
+		public bool Visible { get; set; }
+
+		/// <summary>
 		/// Czy kontrolka ma być "permanentnie" aktywna, tzn. czy po puszczeniu przycisku myszy przestaje być aktywna.
 		/// </summary>
 		public abstract bool PermanentActive { get; }
@@ -106,7 +111,10 @@ namespace ClashEngine.NET.Graphics.Gui
 		{
 			foreach (var obj in this.Objects)
 			{
-				this.Data.Renderer.Draw(obj);
+				if (obj.Visible)
+				{
+					this.Data.Renderer.Draw(obj);
+				}
 			}
 		}
 
@@ -149,6 +157,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		public ControlBase()
 		{
 			this.Objects = new ObjectsCollection(this);
+			this.Visible = true;
 		}
 		#endregion
 

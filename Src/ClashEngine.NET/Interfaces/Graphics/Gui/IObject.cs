@@ -12,6 +12,11 @@
 		IControl ParentControl { get; set; }
 
 		/// <summary>
+		/// Czy obiekt jest widoczny.
+		/// </summary>
+		bool Visible { get; set; }
+
+		/// <summary>
 		/// Metoda, w której wszystko już ma prawidłowe wartości.
 		/// Służy do np. korekty rozmiarów kontrolki lub jej pozycji.
 		/// </summary>

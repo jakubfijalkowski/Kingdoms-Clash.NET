@@ -145,6 +145,11 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		public Interfaces.Graphics.Gui.IControl ParentControl { get; set; }
 
 		/// <summary>
+		/// Czy obiekt jest widoczny.
+		/// </summary>
+		public bool Visible { get; set; }
+
+		/// <summary>
 		/// Aktualizujemy pozycję, jeśli nie była zmieniona.
 		/// </summary>
 		public void Finish()
@@ -159,6 +164,13 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 				this.Size = this.ParentControl.Size;
 			}
 			this.UpdateTexture();
+		}
+		#endregion
+
+		#region Constructors
+		public Text()
+		{
+			this.Visible = true;
 		}
 		#endregion
 

@@ -46,6 +46,11 @@
 		bool IsHot { get; }
 
 		/// <summary>
+		/// Czy kontrolka jest widoczna.
+		/// </summary>
+		bool Visible { get; set; }
+
+		/// <summary>
 		/// Sprawdza, czy myszka znajduje się nad kontrolką.
 		/// </summary>
 		/// <returns>Prawda, gdy myszka jest nad kontrolką. W przeciwnym razie fałsz.</returns>

@@ -137,6 +137,11 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		public Interfaces.Graphics.Gui.IControl ParentControl { get; set; }
 
 		/// <summary>
+		/// Czy obiekt jest widoczny.
+		/// </summary>
+		public bool Visible { get; set; }
+
+		/// <summary>
 		/// Poprawia pozycję i/lub rozmiar elementu tak, by pasował do kontrolki.
 		/// </summary>
 		public void Finish()
@@ -150,6 +155,13 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			{
 				this.Size = this.ParentControl.Size;
 			}
+		}
+		#endregion
+
+		#region Constructors
+		public Image()
+		{
+			this.Visible = true;
 		}
 		#endregion
 

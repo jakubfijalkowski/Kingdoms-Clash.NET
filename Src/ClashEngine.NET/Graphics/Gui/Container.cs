@@ -81,7 +81,10 @@ namespace ClashEngine.NET.Graphics.Gui
 			this.Renderer.SortMode = Interfaces.Graphics.SortMode.FrontToBack;
 			foreach (var c in this.Controls)
 			{
-				c.Render();
+				if (c.Visible)
+				{
+					c.Render();
+				}
 			}
 			this.Renderer.SortMode = oldMode;
 		}
