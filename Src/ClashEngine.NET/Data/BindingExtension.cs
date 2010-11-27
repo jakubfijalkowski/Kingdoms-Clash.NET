@@ -139,12 +139,12 @@ namespace ClashEngine.NET.Data
 			}
 			else
 			{
-				var src = Converters.Utilities.GetTypeConverterFor(this.SourceProperty);
+				var src = Converters.Utilities.GetTypeConverter(this.SourceProperty);
 				if (src != null)
 				{
 					this.SourceConverter = Activator.CreateInstance(src) as TypeConverter;
 				}
-				var target = Converters.Utilities.GetTypeConverterFor(this.TargetProperty);
+				var target = Converters.Utilities.GetTypeConverter(this.TargetProperty);
 				if (target != null)
 				{
 					this.TargetConverter = Activator.CreateInstance(target) as TypeConverter;
