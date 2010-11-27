@@ -30,8 +30,11 @@ namespace ClashEngine.NET.Graphics.Gui
 			get { return this._Clicked; }
 			private set
 			{
-				this._Clicked = value;
-				base.SendPropertyChanged("Clicked");
+				if (value != this._Clicked)
+				{
+					this._Clicked = value;
+					base.SendPropertyChanged("Clicked");
+				}
 			}
 		}
 		#endregion

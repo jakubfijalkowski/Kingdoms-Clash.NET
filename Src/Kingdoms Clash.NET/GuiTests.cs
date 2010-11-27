@@ -38,6 +38,13 @@ namespace Kingdoms_Clash.NET
 		: ClashEngine.NET.Graphics.Gui.Screen
 	{
 		Game g;
+		public bool IsButton1Clicked
+		{
+			get { return false; }
+			set
+			{
+			}
+		}
 
 		public GuiTestsScreen(Game g)
 			: base("Gui screen", new System.Drawing.RectangleF(0, 0, 800, 600))
@@ -51,6 +58,9 @@ namespace Kingdoms_Clash.NET
 			this.Content.ContentDirectory = "Content";
 			var c = this.Content.Load<XamlGuiContainer>("TestGui.xml");
 			
+			var ctrl = c.Controls["Button1"];
+			new ClashEngine.NET.Data.Binding(ctrl, "Clicked", this, "IsButton1Clicked");
+
 			c.Bind(this);
 		}
 

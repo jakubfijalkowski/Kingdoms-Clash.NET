@@ -2,25 +2,24 @@
 using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Markup;
+using System.Xaml;
 
 namespace ClashEngine.NET.Data
 {
-	using System.Xaml;
 	using Interfaces.Data;
 
 	/// <summary>
 	/// Binduje wartość wewnątrz kontenera Xaml.
 	/// </summary>
+	/// <remarks>
+	/// By stworzyć wiązania ręcznie należy użyć metod statycznych <see cref="Create"/>.
+	/// </remarks>
 	[MarkupExtensionReturnType(typeof(object))]
 	public class BindingExtension
 		: MarkupExtension, IBindingExtension
 	{
 		#region Private fields
-		private TypeConverter SourceConverter = null;
-		private TypeConverter TargetConverter = null;
-		private Type TargetType = null;
-		private Type SourceType = null;
-		private bool ControlFlow = false;
+		private Binding Binding = null;
 		#endregion
 
 		#region IBindingExtension Members
@@ -113,12 +112,12 @@ namespace ClashEngine.NET.Data
 			{
 				throw new InvalidOperationException("Invalid Path format");
 			}
-			this.SourceType = this.Source.GetType();
+			var sourceType = this.Source.GetType();
 
-			this.SourceProperty = this.SourceType.GetProperty(propName);
+			this.SourceProperty = sourceType.GetProperty(propName);
 			if (this.SourceProperty == null)
 			{
-				this.SourceProperty = this.SourceType.GetField(propName);
+				this.SourceProperty = sourceType.GetField(propName);
 				if (this.SourceProperty == null)
 				{
 					throw new InvalidOperationException(string.Format("Cannot find property '{0}' in source object", propName));
@@ -129,48 +128,9 @@ namespace ClashEngine.NET.Data
 			#region Target
 			this.Target = targetProvider.TargetObject;
 			this.TargetProperty = targetProvider.TargetProperty as PropertyInfo;
-			this.TargetType = (this.TargetProperty as PropertyInfo).PropertyType;
 			#endregion
 
-			#region Converters
-			if (this.ConverterType != null)
-			{
-				this.SourceConverter = this.TargetConverter = Activator.CreateInstance(this.ConverterType) as TypeConverter;
-			}
-			else
-			{
-				this.SourceConverter = Converters.Utilities.GetTypeConverter(this.SourceProperty);
-				this.TargetConverter = Converters.Utilities.GetTypeConverter(this.TargetProperty);
-			}
-			#endregion
-
-			#region Bindings
-			//Metoda lokalna, by nie dublować kodu ;)
-			Action bindSource = () =>
-			{
-				if (!(this.Source is INotifyPropertyChanged))
-				{
-					throw new InvalidOperationException("Source must implement INotifyPropertyChanged for this mode");
-				}
-				(this.Source as INotifyPropertyChanged).PropertyChanged += new PropertyChangedEventHandler(SourceToTarget);
-			};
-
-			//Zależnie od trybu wiązania dodajemy odpowiednie zdarzenia.
-			switch (this.Mode)
-			{
-			case BindingMode.OneWay:
-				bindSource();
-				break;
-			case BindingMode.TwoWay:
-				bindSource();
-				if (!(this.Target is INotifyPropertyChanged))
-				{
-					throw new InvalidOperationException("Target must implement INotifyPropertyChanged for this mode");
-				}
-				(this.Target as INotifyPropertyChanged).PropertyChanged += new PropertyChangedEventHandler(TargetToSource);
-				break;
-			}
-			#endregion
+			this.Binding = new Binding(this.Source,	this.SourceProperty, this.Target, this.TargetProperty, this.Mode);
 
 			//Dla wszystkich trybów musimy zwrócić aktualną wartość.
 			if (this.SourceProperty is PropertyInfo)
@@ -184,6 +144,7 @@ namespace ClashEngine.NET.Data
 		#region Constructors
 		/// <summary>
 		/// Inicjalizuje nowe wiązanie.
+		/// Do użytku tylko przez parser XAML.
 		/// </summary>
 		public BindingExtension()
 		{
@@ -198,102 +159,6 @@ namespace ClashEngine.NET.Data
 		{
 			this.Mode = BindingMode.OneWay;
 			this.Path = path;
-		}
-		#endregion
-
-		#region Private methods
-		/// <summary>
-		/// Źródło do celu.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void SourceToTarget(object sender, PropertyChangedEventArgs e)
-		{
-			if (this.ControlFlow)
-			{
-				this.ControlFlow = false;
-				return;
-			}
-
-			if (this.SourceProperty is PropertyInfo)
-			{
-				(this.TargetProperty as PropertyInfo).SetValue(this.Target,
-					this.GetConvertedSourceToTarget()
-					, null);
-			}
-			else
-			{
-				(this.TargetProperty as PropertyInfo).SetValue(this.Target,
-					this.GetConvertedSourceToTarget()
-					, null);
-			}
-		}
-
-		/// <summary>
-		/// Cel do źródła.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void TargetToSource(object sender, PropertyChangedEventArgs e)
-		{
-			this.ControlFlow = true;
-
-			if (this.SourceProperty is PropertyInfo)
-			{
-				(this.SourceProperty as PropertyInfo).SetValue(this.Source,
-					this.GetConvertedTargetToSource(), null);
-			}
-			else
-			{
-				(this.SourceProperty as FieldInfo).SetValue(this.Source,
-					this.GetConvertedTargetToSource());
-			}
-		}
-
-		/// <summary>
-		/// Pobiera obiekt ze źródła i, jeśli może, konwertuje go do typu docelowego.
-		/// </summary>
-		/// <returns></returns>
-		private object GetConvertedSourceToTarget()
-		{
-			object obj = null;
-			if (this.SourceProperty is PropertyInfo)
-			{
-				obj = (this.SourceProperty as PropertyInfo).GetValue(this.Source, null);
-			}
-			else
-			{
-				obj = (this.SourceProperty as FieldInfo).GetValue(this.Source);
-			}
-
-			if (obj != null && this.SourceConverter.CanConvertTo(this.TargetType))
-			{
-				obj = this.SourceConverter.ConvertTo(obj, this.TargetType);
-			}
-			else if (obj != null && this.TargetConverter.CanConvertFrom(obj.GetType()))
-			{
-				obj = this.TargetConverter.ConvertFrom(obj);
-			}
-			return obj;
-		}
-
-		/// <summary>
-		/// Pobiera obiekt z celu i, jeśli może, konwertuje go do typu źródła.
-		/// </summary>
-		/// <returns></returns>
-		private object GetConvertedTargetToSource()
-		{
-			object obj = (this.TargetProperty as PropertyInfo).GetValue(this.Target, null);
-
-			if (obj != null && this.TargetConverter.CanConvertTo(this.SourceType))
-			{
-				obj = this.TargetConverter.ConvertTo(obj, this.SourceType);
-			}
-			else if (obj != null && this.SourceConverter.CanConvertFrom(obj.GetType()))
-			{
-				obj = this.SourceConverter.ConvertFrom(obj);
-			}
-			return obj;
 		}
 		#endregion
 	}

@@ -78,6 +78,7 @@
     <Compile Include="Converters\Utilities.cs" />
     <Compile Include="Converters\Vector2Converter.cs" />
     <Compile Include="Converters\Vector4Converter.cs" />
+    <Compile Include="Data\Binding.cs" />
     <Compile Include="Graphics\Cameras\Movable2DCamera.cs" />
     <Compile Include="Components\BoundingBox.cs" />
     <Compile Include="Graphics\Components\Sprite.cs" />

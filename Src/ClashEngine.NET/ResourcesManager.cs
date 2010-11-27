@@ -224,6 +224,9 @@ namespace ClashEngine.NET
 				break;
 
 			case ResourceLoadingState.Failure:
+#if DEBUG
+				throw new Exception("Cannot load resource");
+#endif
 				Logger.Error("Cannot load resource '{0}' of type '{1}'", id, res.GetType().Name);
 				break;
 

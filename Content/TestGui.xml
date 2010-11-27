@@ -11,15 +11,21 @@
       <Set Object="Panel1Img" PropertyName="Visible" Value="false" />
     </If>
 	</XamlGuiContainer.Triggers>
+  
 	<XamlGuiContainer.Controls>
 		<Button x:Name="Button1" Position="10,10" Size="88,64">
 			<o:Rectangle x:Name="Button1Rectangle" Color="1,1,1,1" Depth="2" />
-			<o:Text Font="Arial,15,bi" TextValue="Wyjście asdasd!" Color="0,0,1,1" Depth="0" />
+			<o:Text Font="Arial,15,bi" TextValue="Wyjście asdasd!" Color="0,0,1,1" Depth="0" Size="{d:Binding Button1.Size}" />
 		</Button>
 
 		<Panel Id="Panel1" Position="150, 150" Size="100, 100">
       <o:Image x:Name="Panel1Img"  Texture="UserData/Nations/TestNation/Unit1.png" Stretch="Repeat" Visible="false" />
 			<o:Rectangle Color="1,1,1,1" Depth="1" />
 		</Panel>
+
+    <TextBox Id="Tb1" Position="300, 300" Size="250, 18">
+      <o:Rectangle Color="1,1,1,1" Depth="1" />
+      <o:Text Font="Arial,15" TextValue="{d:Binding Tb1.Text}" Color="0,1,0,1" Depth="0" />
+    </TextBox>
 	</XamlGuiContainer.Controls>
 </XamlGuiContainer>
