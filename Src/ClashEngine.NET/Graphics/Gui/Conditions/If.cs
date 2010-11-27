@@ -14,12 +14,13 @@ namespace ClashEngine.NET.Graphics.Gui
 	[DebuggerDisplay("If {Object.GetType().Name,nq}.{PropertyName,nq} = {ConvertedValue,nq}")]
 	[ContentProperty("Triggers")]
 	public class If
-		: IIf, ISupportInitialize
+		: IIf, ISupportInitialize, IMultiIfCondition
 	{
 		#region Private fields
 		private object _Object = null;
 		private object ConvertedValue = null;
 		private PropertyInfo Property = null;
+		private bool _Value = false;
 		#endregion
 
 		#region ICondition Members
@@ -69,6 +70,23 @@ namespace ClashEngine.NET.Graphics.Gui
 		public Type CustomConverter { get; set; }
 		#endregion
 
+		#region IMultiIfCondition Members
+		/// <summary>
+		/// Aktualna wartość warunku.
+		/// </summary>
+		bool IMultiIfCondition.Value
+		{
+			get { return this._Value; }
+		}
+		#endregion
+
+		#region INotifyPropertyChanged Members
+		/// <summary>
+		/// Wywoływane przy zmianie IMultiIfCondition.Value.
+		/// </summary>
+		public event PropertyChangedEventHandler PropertyChanged;
+		#endregion
+
 		#region ISupportInitialize Members
 		public void BeginInit()
 		{ }
@@ -84,7 +102,7 @@ namespace ClashEngine.NET.Graphics.Gui
 			{
 				throw new InvalidOperationException(string.Format("Cannot find property {0} in object", this.PropertyName.Trim()));
 			}
-			(this.Object as INotifyPropertyChanged).PropertyChanged += new PropertyChangedEventHandler(PropertyChanged);
+			(this.Object as INotifyPropertyChanged).PropertyChanged += new PropertyChangedEventHandler(OnObjectPropertyChanged);
 
 			this.ConvertedValue = this.Value;
 			if (this.CustomConverter != null)
@@ -121,7 +139,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		#endregion
 
 		#region Private methods
-		void PropertyChanged(object sender, PropertyChangedEventArgs e)
+		void OnObjectPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == this.PropertyName)
 			{
@@ -131,6 +149,22 @@ namespace ClashEngine.NET.Graphics.Gui
 					|| ((newValue is IComparable) && (newValue as IComparable).CompareTo(this.ConvertedValue) == 0))
 				{
 					this.Triggers.TrigAll();
+					if (!this._Value)
+					{
+						this._Value = true;
+						if (this.PropertyChanged != null)
+						{
+							this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
+						}
+					}
+				}
+				else if (this._Value)
+				{
+					this._Value = false;
+					if (this.PropertyChanged != null)
+					{
+						this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
+					}
 				}
 			}
 		}

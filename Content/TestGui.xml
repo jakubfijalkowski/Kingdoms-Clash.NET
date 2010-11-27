@@ -4,19 +4,20 @@
 				          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <XamlGuiContainer.Triggers>
-    <If Object="Button2" PropertyName="IsHot" Value="true">
-      <Set Object="Panel1Img" PropertyName="Visible" Value="true" />
-    </If>
-    <If Object="Button2" PropertyName="IsHot" Value="false">
-      <Set Object="Panel1Img" PropertyName="Visible" Value="false" />
-    </If>
-    
-    <If Object="Button3" PropertyName="IsHot" Value="false">
-      <Set Object="Panel1Img" PropertyName="Visible" Value="false" />
-    </If>
-    <If Object="Button3" PropertyName="IsHot" Value="true">
-      <Set Object="Panel1Img" PropertyName="Visible" Value="true" />
-    </If>
+    <MultiIf Type="Or">
+      <If Object="Button2" PropertyName="IsHot" Value="true" />
+      <If Object="Button3" PropertyName="IsHot" Value="true" />
+      <MultiIf.Triggers>
+        <Set Object="Panel1Img" PropertyName="Visible" Value="true" />
+      </MultiIf.Triggers>
+    </MultiIf>
+    <MultiIf Type="And">
+      <If Object="Button2" PropertyName="IsHot" Value="false" />
+      <If Object="Button3" PropertyName="IsHot" Value="false" />
+      <MultiIf.Triggers>
+        <Set Object="Panel1Img" PropertyName="Visible" Value="false" />
+      </MultiIf.Triggers>
+    </MultiIf>
     
     <If Object="Button2" PropertyName="Clicked" Value="true">
       <Set Object="Panel1Img" PropertyName="Stretch" Value="Fill" />
