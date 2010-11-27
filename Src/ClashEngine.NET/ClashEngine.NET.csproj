@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\FontConverter.cs" />
+    <Compile Include="Converters\SystemTypeConverter.cs" />
     <Compile Include="Converters\TextureConverter.cs" />
     <Compile Include="Converters\Utilities.cs" />
     <Compile Include="Converters\Vector2Converter.cs" />
@@ -94,8 +95,10 @@
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Data\BindingExtension.cs" />
+    <Compile Include="Graphics\Gui\ConditionsCollection.cs" />
     <Compile Include="Graphics\Gui\Container.cs" />
     <Compile Include="Graphics\Gui\Entity.cs" />
+    <Compile Include="Graphics\Gui\If.cs" />
     <Compile Include="Graphics\Gui\ObjectsCollection.cs" />
     <Compile Include="Graphics\Gui\Objects\Image.cs" />
     <Compile Include="Graphics\Gui\Objects\Rectangle.cs" />
@@ -127,9 +130,12 @@
     <Compile Include="Interfaces\EntitiesManager\IRenderableComponentsCollection.cs" />
     <Compile Include="Interfaces\Data\IBinding.cs" />
     <Compile Include="Interfaces\Data\IBindingExtension.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\ICondition.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\IConditionsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IContainer.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IControl.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IEntity.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\IIf.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IObject.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IObjectsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IPanel.cs" />

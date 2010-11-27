@@ -37,6 +37,16 @@ namespace ClashEngine.NET.Graphics.Gui
 		public ControlsCollection Controls { get; private set; }
 
 		/// <summary>
+		/// Warunki do stylizacji GUI.
+		/// </summary>
+		IConditionsCollection IXamlGuiContainer.Triggers { get { return this.Triggers; } }
+
+		/// <summary>
+		/// Warunki do stylizacji GUI.
+		/// </summary>
+		public ConditionsCollection Triggers { get; private set; }
+
+		/// <summary>
 		/// Binduje kontrner XAML do kontenera GUI.
 		/// </summary>
 		/// <param name="container"></param>
@@ -114,6 +124,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		public XamlGuiContainer()
 		{
 			this.Controls = new ControlsCollection();
+			this.Triggers = new ConditionsCollection();
 		}
 		#endregion
 

@@ -127,7 +127,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		public event PropertyChangedEventHandler PropertyChanged;
 		#endregion
 
-		#region To overrite
+		#region To override
 		/// <summary>
 		/// Aktualizuje kontrolkę.
 		/// </summary>
