@@ -84,14 +84,18 @@ namespace ClashEngine.NET.Graphics.Gui
 			}
 			(this.Object as INotifyPropertyChanged).PropertyChanged += new PropertyChangedEventHandler(PropertyChanged);
 
+			if (this.ValueType == null)
+			{
+				this.ValueType = this.Property.PropertyType;
+			}
 
 			this.ConvertedValue = this.Value;
-			if (this.CustomConverter != null && this.ValueType != null)
+			if (this.CustomConverter != null)
 			{
 				var converter = Activator.CreateInstance(this.CustomConverter) as TypeConverter;
 				this.ConvertedValue = converter.ConvertTo(this.ValueType, this.ValueType);
 			}
-			else if (this.CustomConverter == null && this.ValueType != null)
+			else
 			{
 				try
 				{
