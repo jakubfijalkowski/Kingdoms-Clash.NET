@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
-	
+﻿using System.ComponentModel;
+using System.Diagnostics;
+using System.Windows.Markup;	
+
 namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces.Graphics.Gui;
@@ -8,12 +10,17 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// <summary>
 	/// Bazowa klasa dla kontrolek zdolnych do serializacji do XAML.
 	/// </summary>
-	[System.Windows.Markup.ContentProperty("Objects")]
-	[System.Windows.Markup.RuntimeNameProperty("Id")]
+	[ContentProperty("Objects")]
+	[RuntimeNameProperty("Id")]
 	[DebuggerDisplay("{GetType().Name,nq} {Id,nq}")]
 	public abstract class ControlBase
-		: IControl
+		: IControl, INotifyPropertyChanged
 	{
+		#region Private fields
+		private bool _IsActive = false;
+		private bool _IsHot = false;
+		#endregion
+		
 		#region IControl Members
 		/// <summary>
 		/// Identyfikator.
@@ -29,13 +36,13 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <summary>
 		/// Pozycja.
 		/// </summary>
-		[System.ComponentModel.TypeConverter(typeof(Converters.Vector2Converter))]
+		[TypeConverter(typeof(Converters.Vector2Converter))]
 		public OpenTK.Vector2 Position { get; set; }
 
 		/// <summary>
 		/// Rozmiar przycisku.
 		/// </summary>
-		[System.ComponentModel.TypeConverter(typeof(Converters.Vector2Converter))]
+		[TypeConverter(typeof(Converters.Vector2Converter))]
 		public OpenTK.Vector2 Size { get; set; }
 
 		/// <summary>
@@ -56,10 +63,45 @@ namespace ClashEngine.NET.Graphics.Gui
 		public ObjectsCollection Objects { get; private set; }
 
 		/// <summary>
+		/// Czy kontrolka jest aktywna.
+		/// </summary>
+		/// <remarks>
+		/// Uaktualniane w metodzie Update.
+		/// </remarks>
+		public bool IsActive
+		{
+			get { return this._IsActive; }
+			private set
+			{
+				this._IsActive = value;
+				this.SendPropertyChanged("IsActive");
+			}
+		}
+
+		/// <summary>
+		/// Czy kontrolka jest "gorąca".
+		/// </summary>
+		/// <remarks>
+		/// Uaktualniane w metodzie Update.
+		/// </remarks>
+		public bool IsHot
+		{
+			get { return this._IsHot; }
+			private set
+			{
+				this._IsHot = value;
+				this.SendPropertyChanged("IsHot");
+			}
+		}
+
+		/// <summary>
 		/// Czy kontrolka ma być "permanentnie" aktywna, tzn. czy po puszczeniu przycisku myszy przestaje być aktywna.
 		/// </summary>
 		public abstract bool PermanentActive { get; }
 
+		/// <summary>
+		/// Rysuje wszystkie obiekty kontrolki.
+		/// </summary>
 		public void Render()
 		{
 			foreach (var obj in this.Objects)
@@ -78,12 +120,23 @@ namespace ClashEngine.NET.Graphics.Gui
 		}
 		#endregion
 
+		#region INotifyPropertyChanged Members
+		/// <summary>
+		/// Wywoływane przy zmianie IsActive, IsHot.
+		/// </summary>
+		public event PropertyChangedEventHandler PropertyChanged;
+		#endregion
+
 		#region To overrite
 		/// <summary>
 		/// Aktualizuje kontrolkę.
 		/// </summary>
 		/// <param name="delta"></param>
-		public abstract void Update(double delta);
+		public virtual void Update(double delta)
+		{
+			this.IsActive = this.Data.Active == this;
+			this.IsHot = this.Data.Hot == this;
+		}
 
 		/// <summary>
 		/// Sprawdza stan kontrolki.
@@ -96,6 +149,20 @@ namespace ClashEngine.NET.Graphics.Gui
 		public ControlBase()
 		{
 			this.Objects = new ObjectsCollection(this);
+		}
+		#endregion
+
+		#region Protected methods
+		/// <summary>
+		/// Wywyła, jeśli może, zdarzenie PropertyChanged.
+		/// </summary>
+		/// <param name="propertyName">Nazwa właściwości.</param>
+		protected void SendPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 		#endregion
 	}

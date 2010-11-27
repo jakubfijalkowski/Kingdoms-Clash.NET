@@ -7,19 +7,16 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// <summary>
 	/// Pole tekstowe.
 	/// </summary>
+	/// <remarks>
+	/// PropertyChanged jest wywoływane dla:
+	///    Text
+	/// </remarks>
 	public class TextBox
 		: ControlBase, ITextBox, INotifyPropertyChanged
 	{
 		#region Private fields
 		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
 		private string _Text = string.Empty;
-		#endregion
-
-		#region INotifyPropertyChanged Members
-		/// <summary>
-		/// Zgłasza zmianę właściwości Text.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
 		#endregion
 
 		#region ITextBox Members
@@ -32,10 +29,7 @@ namespace ClashEngine.NET.Graphics.Gui
 			set
 			{
 				this._Text = value;
-				if (this.PropertyChanged != null)
-				{
-					this.PropertyChanged(this, new PropertyChangedEventArgs("Text"));
-				}
+				base.SendPropertyChanged("Text");
 			}
 		}
 		#endregion
@@ -55,7 +49,9 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <param name="delta"></param>
 		public override void Update(double delta)
 		{
-			if (this.Data.Active == this)
+			base.Update(delta);
+
+			if (this.IsActive)
 			{
 				if (this.Data.Input.LastCharacter != '\0')
 				{

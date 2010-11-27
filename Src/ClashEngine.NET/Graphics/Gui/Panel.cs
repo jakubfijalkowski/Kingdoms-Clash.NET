@@ -11,8 +11,8 @@
 		#region Unused
 		public override bool PermanentActive { get { return false; } }
 
-		public override void Update(double delta)
-		{ }
+		//public override void Update(double delta)
+		//{ }
 
 		public override int Check()
 		{

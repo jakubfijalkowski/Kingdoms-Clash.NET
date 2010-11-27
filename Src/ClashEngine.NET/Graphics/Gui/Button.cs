@@ -7,14 +7,16 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// <summary>
 	/// Przycisk.
 	/// </summary>
+	/// <remarks>
+	///	PropertyChanged jest wywoływane dla:
+	///	  Clicked
+	/// </remarks>
 	public class Button
 		: ControlBase, IButton
 	{
 		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool WasActive = false;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private bool IsActive = false;
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool _Clicked = false;
 		#endregion
@@ -29,19 +31,9 @@ namespace ClashEngine.NET.Graphics.Gui
 			private set
 			{
 				this._Clicked = value;
-				if (this.PropertyChanged != null)
-				{
-					this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs("Clicked"));
-				}
+				base.SendPropertyChanged("Clicked");
 			}
 		}
-		#endregion
-
-		#region INotifyPropertyChanged Members
-		/// <summary>
-		/// Zdarzenie zmiany właściwości Clicked.
-		/// </summary>
-		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 		#endregion
 
 		#region ControlBase Members
@@ -60,9 +52,9 @@ namespace ClashEngine.NET.Graphics.Gui
 		public override void Update(double delta)
 		{
 			this.WasActive = this.IsActive;
-			this.IsActive = this.Data.Active == this;
+			base.Update(delta);
 
-			if (this.WasActive && this.Data.Active == null && this.Data.Hot == this)
+			if (this.WasActive && this.Data.Active == null && this.IsHot)
 			{
 				this.Clicked = true;
 			}

@@ -36,6 +36,16 @@
 		bool PermanentActive { get; }
 
 		/// <summary>
+		/// Czy kontrolka jest aktywna.
+		/// </summary>
+		bool IsActive { get; }
+
+		/// <summary>
+		/// Czy kontrolka jest "gorąca".
+		/// </summary>
+		bool IsHot { get; }
+
+		/// <summary>
 		/// Sprawdza, czy myszka znajduje się nad kontrolką.
 		/// </summary>
 		/// <returns>Prawda, gdy myszka jest nad kontrolką. W przeciwnym razie fałsz.</returns>
