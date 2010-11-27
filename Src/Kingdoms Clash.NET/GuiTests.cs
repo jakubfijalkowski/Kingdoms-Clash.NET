@@ -70,6 +70,8 @@ namespace Kingdoms_Clash.NET
 			{
 				g.Exit();
 			}
+			this.Control("Button2");
+			this.Control("Button3");
 		}
 	}
 }

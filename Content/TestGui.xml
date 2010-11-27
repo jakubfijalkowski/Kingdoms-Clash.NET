@@ -2,21 +2,45 @@
                   xmlns:d="clr-namespace:ClashEngine.NET.Data;assembly=ClashEngine.NET"
                   xmlns:o="clr-namespace:ClashEngine.NET.Graphics.Gui.Objects;assembly=ClashEngine.NET"
 				          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-				  
-	<XamlGuiContainer.Triggers>
-    <If Object="Button1" PropertyName="IsHot" Value="true">
+
+  <XamlGuiContainer.Triggers>
+    <If Object="Button2" PropertyName="IsHot" Value="true">
       <Set Object="Panel1Img" PropertyName="Visible" Value="true" />
     </If>
-    <If Object="Button1" PropertyName="IsHot" Value="false">
+    <If Object="Button2" PropertyName="IsHot" Value="false">
       <Set Object="Panel1Img" PropertyName="Visible" Value="false" />
     </If>
-	</XamlGuiContainer.Triggers>
+    
+    <If Object="Button3" PropertyName="IsHot" Value="false">
+      <Set Object="Panel1Img" PropertyName="Visible" Value="false" />
+    </If>
+    <If Object="Button3" PropertyName="IsHot" Value="true">
+      <Set Object="Panel1Img" PropertyName="Visible" Value="true" />
+    </If>
+    
+    <If Object="Button2" PropertyName="Clicked" Value="true">
+      <Set Object="Panel1Img" PropertyName="Stretch" Value="Fill" />
+    </If>
+    <If Object="Button3" PropertyName="Clicked" Value="true">
+      <Set Object="Panel1Img" PropertyName="Stretch" Value="Repeat" />
+    </If>
+  </XamlGuiContainer.Triggers>
   
 	<XamlGuiContainer.Controls>
-		<Button x:Name="Button1" Position="10,10" Size="88,64">
-			<o:Rectangle x:Name="Button1Rectangle" Color="1,1,1,1" Depth="2" />
-			<o:Text Font="Arial,15,bi" TextValue="Wyjście asdasd!" Color="0,0,1,1" Depth="0" Size="{d:Binding Button1.Size}" />
+		<Button x:Name="Button1" Position="10,10" Size="80,80">
+			<o:Rectangle Color="1,1,1,1" Depth="2" />
+			<o:Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
 		</Button>
+    
+    <Button x:Name="Button2" Position="100,10" Size="80,80">
+      <o:Rectangle Color="1,1,1,1" Depth="2" />
+      <o:Text Font="Arial,15,bi" TextValue="Wypełnij" Color="0,0,1,1" Depth="0" />
+    </Button>
+
+    <Button x:Name="Button3" Position="190,10" Size="80,80">
+      <o:Rectangle Color="1,1,1,1" Depth="2" />
+      <o:Text Font="Arial,15,bi" TextValue="Wróć" Color="0,0,1,1" Depth="0" />
+    </Button>
 
 		<Panel Id="Panel1" Position="150, 150" Size="100, 100">
       <o:Image x:Name="Panel1Img"  Texture="UserData/Nations/TestNation/Unit1.png" Stretch="Repeat" Visible="false" />

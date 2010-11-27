@@ -14,7 +14,7 @@ namespace ClashEngine.NET.Graphics.Gui
 	[RuntimeNameProperty("Id")]
 	[DebuggerDisplay("{GetType().Name,nq} {Id,nq}")]
 	public abstract class ControlBase
-		: IControl, INotifyPropertyChanged
+		: IControl, INotifyPropertyChanged, ISupportInitialize
 	{
 		#region Private fields
 		private bool _IsActive = false;
@@ -171,6 +171,26 @@ namespace ClashEngine.NET.Graphics.Gui
 			if (this.PropertyChanged != null)
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		#endregion
+
+		#region ISupportInitialize Members
+		public void BeginInit()
+		{ }
+
+		/// <summary>
+		/// Sprawdza, czy wszystkie właściwości są poprawne.
+		/// </summary>
+		public void EndInit()
+		{
+			if (this.Size.X == 0 || this.Size.Y == 0)
+			{
+				throw new System.InvalidOperationException("Cannot create control with 0 size");
+			}
+			if (string.IsNullOrWhiteSpace(this.Id))
+			{
+				throw new System.InvalidOperationException("Cannot create control with empty");
 			}
 		}
 		#endregion
