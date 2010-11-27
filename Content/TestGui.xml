@@ -4,18 +4,23 @@
 				  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 				  
 	<XamlGuiContainer.Triggers>
-		<If Object="Button1" PropertyName="IsHot" Value="true" />
+    <If Object="Button1" PropertyName="IsHot" Value="true">
+      <Set Object="Panel1Img" PropertyName="Stretch" Value="Fill" />
+    </If>
+    <If Object="Button1" PropertyName="IsHot" Value="false">
+      <Set Object="Panel1Img" PropertyName="Stretch" Value="Repeat" />
+    </If>
 	</XamlGuiContainer.Triggers>
 
 	<XamlGuiContainer.Controls>
 		<Button x:Name="Button1" Position="10,10" Size="88,64">
-			<o:Rectangle Color="1,1,1,1" Depth="2" />
+			<o:Rectangle x:Name="Button1Rectangle" Color="1,1,1,1" Depth="2" />
 			<o:Text Font="Arial,15,bi" TextValue="Wyjście asdasd!" Color="0,0,1,1" Depth="0" />
 		</Button>
 
 		<Panel Id="Panel1" Position="150, 150" Size="100, 100">
-			<o:Image Texture="UserData\\Nations\\TestNation\\Unit1.png" Stretch="Repeat" />
-			<o:Rectangle x:Name="Panel1Rect" Color="1,1,1,1" Depth="1" />
+      <o:Image x:Name="Panel1Img"  Texture="UserData\\Nations\\TestNation\\Unit1.png" Stretch="Repeat" />
+			<o:Rectangle Color="1,1,1,1" Depth="1" />
 		</Panel>
 	</XamlGuiContainer.Controls>
 </XamlGuiContainer>

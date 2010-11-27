@@ -109,6 +109,8 @@
     <Compile Include="Graphics\Gui\SystemFontExtension.cs" />
     <Compile Include="Graphics\Gui\TextBox.cs" />
     <Compile Include="Graphics\Gui\TextureExtension.cs" />
+    <Compile Include="Graphics\Gui\Set.cs" />
+    <Compile Include="Graphics\Gui\TriggersCollection.cs" />
     <Compile Include="Graphics\Gui\XamlGuiContainer.cs" />
     <Compile Include="Graphics\Gui\ControlBase.cs" />
     <Compile Include="Graphics\Gui\ControlsCollection.cs" />
@@ -141,8 +143,11 @@
     <Compile Include="Interfaces\Graphics\Gui\IPanel.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IScreen.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IFontExtension.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\ISet.cs" />
     <Compile Include="Interfaces\Graphics\Gui\ITextBox.cs" />
     <Compile Include="Interfaces\Graphics\Gui\ITextureExtension.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\ITrigger.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\ITriggersCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IUIData.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Objects\IImage.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Objects\IRectangle.cs" />

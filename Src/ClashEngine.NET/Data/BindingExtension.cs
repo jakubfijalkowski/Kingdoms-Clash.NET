@@ -139,16 +139,8 @@ namespace ClashEngine.NET.Data
 			}
 			else
 			{
-				var src = Converters.Utilities.GetTypeConverter(this.SourceProperty);
-				if (src != null)
-				{
-					this.SourceConverter = Activator.CreateInstance(src) as TypeConverter;
-				}
-				var target = Converters.Utilities.GetTypeConverter(this.TargetProperty);
-				if (target != null)
-				{
-					this.TargetConverter = Activator.CreateInstance(target) as TypeConverter;
-				}
+				this.SourceConverter = Converters.Utilities.GetTypeConverter(this.SourceProperty);
+				this.TargetConverter = Converters.Utilities.GetTypeConverter(this.TargetProperty);
 			}
 			#endregion
 
@@ -274,11 +266,11 @@ namespace ClashEngine.NET.Data
 				obj = (this.SourceProperty as FieldInfo).GetValue(this.Source);
 			}
 
-			if (obj != null && this.SourceConverter != null && this.SourceConverter.CanConvertTo(this.TargetType))
+			if (obj != null && this.SourceConverter.CanConvertTo(this.TargetType))
 			{
 				obj = this.SourceConverter.ConvertTo(obj, this.TargetType);
 			}
-			else if (obj != null && this.TargetConverter != null && this.TargetConverter.CanConvertFrom(obj.GetType()))
+			else if (obj != null && this.TargetConverter.CanConvertFrom(obj.GetType()))
 			{
 				obj = this.TargetConverter.ConvertFrom(obj);
 			}
@@ -293,11 +285,11 @@ namespace ClashEngine.NET.Data
 		{
 			object obj = (this.TargetProperty as PropertyInfo).GetValue(this.Target, null);
 
-			if (obj != null && this.TargetConverter != null && this.TargetConverter.CanConvertTo(this.SourceType))
+			if (obj != null && this.TargetConverter.CanConvertTo(this.SourceType))
 			{
 				obj = this.TargetConverter.ConvertTo(obj, this.SourceType);
 			}
-			else if (obj != null && this.SourceConverter != null && this.SourceConverter.CanConvertFrom(obj.GetType()))
+			else if (obj != null && this.SourceConverter.CanConvertFrom(obj.GetType()))
 			{
 				obj = this.SourceConverter.ConvertFrom(obj);
 			}

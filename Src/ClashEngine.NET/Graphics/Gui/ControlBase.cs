@@ -54,13 +54,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <summary>
 		/// Lista z obiektami dla renderera.
 		/// </summary>
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		IObjectsCollection IControl.Objects { get { return this.Objects; } }
-
-		/// <summary>
-		/// Lista z obiektami dla renderera.
-		/// </summary>
-		public ObjectsCollection Objects { get; private set; }
+		public IObjectsCollection Objects { get; private set; }
 
 		/// <summary>
 		/// Czy kontrolka jest aktywna.
@@ -73,8 +67,11 @@ namespace ClashEngine.NET.Graphics.Gui
 			get { return this._IsActive; }
 			private set
 			{
-				this._IsActive = value;
-				this.SendPropertyChanged("IsActive");
+				if (value != this._IsActive)
+				{
+					this._IsActive = value;
+					this.SendPropertyChanged("IsActive");
+				}
 			}
 		}
 
@@ -89,8 +86,11 @@ namespace ClashEngine.NET.Graphics.Gui
 			get { return this._IsHot; }
 			private set
 			{
-				this._IsHot = value;
-				this.SendPropertyChanged("IsHot");
+				if (value != this._IsHot)
+				{
+					this._IsHot = value;
+					this.SendPropertyChanged("IsHot");
+				}
 			}
 		}
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Markup;
 
@@ -9,55 +8,30 @@ namespace ClashEngine.NET.Graphics.Gui
 	using Interfaces.Graphics.Gui;
 
 	/// <summary>
-	/// Prosty warunek - jeśli coś jest równe czemuś ustaw coś na daną wartość.
+	/// Prosty wyzwalacz - przypisanie.
 	/// </summary>
-	[DebuggerDisplay("If {Object.GetType().Name,nq}.{PropertyName,nq} = {ConvertedValue,nq}")]
-	[ContentProperty("Triggers")]
-	public class If
-		: IIf, ISupportInitialize
+	public class Set
+		: ISet, ISupportInitialize
 	{
 		#region Private fields
-		private object _Object = null;
 		private object ConvertedValue = null;
 		private PropertyInfo Property = null;
 		#endregion
 
-		#region ICondition Members
+		#region ISet Members
 		/// <summary>
-		/// Wyzwalacze wywoływane przy spełnieniu warunku.
-		/// </summary>
-		public ITriggersCollection Triggers { get; private set; }
-		#endregion
-
-		#region IIf Members
-		/// <summary>
-		/// Obiekt, z którego pobrana będzie wartość.
+		/// Obiekt docelowy.
 		/// </summary>
 		[TypeConverter(typeof(NameReferenceConverter))]
-		public object Object
-		{
-			get { return this._Object; }
-			set
-			{
-				if (value == null)
-				{
-					throw new ArgumentNullException("value");
-				}
-				if (!(value is INotifyPropertyChanged))
-				{
-					throw new ArgumentException("Must implement INotifyPropertyChanged interface", "value");
-				}
-				this._Object = value;
-			}
-		}
+		public object Object { get; set; }
 
 		/// <summary>
-		/// Właściwość.
+		/// Właściwość, której zostanie przypisana dana wartość.
 		/// </summary>
 		public string PropertyName { get; set; }
 
 		/// <summary>
-		/// Wartość do porównywania.
+		/// Wartość do przypisania.
 		/// </summary>
 		public object Value { get; set; }
 
@@ -67,6 +41,20 @@ namespace ClashEngine.NET.Graphics.Gui
 		[DefaultValue(null)]
 		[TypeConverter(typeof(Converters.SystemTypeConverter))]
 		public Type CustomConverter { get; set; }
+		#endregion
+
+		#region ITrigger Members
+		/// <summary>
+		/// Ustawia wartość wskazanej właściwości na podaną.
+		/// </summary>
+		public void Trig()
+		{
+			if (this.Property == null)
+			{
+				throw new InvalidOperationException("Initialize first");
+			}
+			this.Property.SetValue(this.Object, this.ConvertedValue, null);
+		}
 		#endregion
 
 		#region ISupportInitialize Members
@@ -84,7 +72,6 @@ namespace ClashEngine.NET.Graphics.Gui
 			{
 				throw new InvalidOperationException(string.Format("Cannot find property {0} in object", this.PropertyName.Trim()));
 			}
-			(this.Object as INotifyPropertyChanged).PropertyChanged += new PropertyChangedEventHandler(PropertyChanged);
 
 			this.ConvertedValue = this.Value;
 			if (this.CustomConverter != null)
@@ -108,29 +95,6 @@ namespace ClashEngine.NET.Graphics.Gui
 				if (targetConverter != null && targetConverter.CanConvertFrom(this.ConvertedValue.GetType()))
 				{
 					this.ConvertedValue = targetConverter.ConvertFrom(this.ConvertedValue);
-				}
-			}
-		}
-		#endregion
-
-		#region Constructors
-		public If()
-		{
-			this.Triggers = new TriggersCollection();
-		}
-		#endregion
-
-		#region Private methods
-		void PropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == this.PropertyName)
-			{
-				object newValue = this.Property.GetValue(this.Object, null);
-				if (newValue == this.ConvertedValue || newValue.Equals(this.ConvertedValue)
-					|| ((this.ConvertedValue is IComparable) && (this.ConvertedValue as IComparable).CompareTo(newValue) == 0)
-					|| ((newValue is IComparable) && (newValue as IComparable).CompareTo(this.ConvertedValue) == 0))
-				{
-					this.Triggers.TrigAll();
 				}
 			}
 		}

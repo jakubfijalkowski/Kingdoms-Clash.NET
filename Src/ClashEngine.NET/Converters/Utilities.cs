@@ -17,14 +17,12 @@ namespace ClashEngine.NET.Converters
 		/// <param name="property">Właściwość.</param>
 		/// <param name="default">Domyślny konwerter typów(jeśli nie znaleziono innego).</param>
 		/// <returns>Typ konwertera lub default, gdy nie znaleziono.</returns>
-		public static Type GetTypeConverter(PropertyInfo property, Type @default = null)
+		public static TypeConverter GetTypeConverter(PropertyInfo property, Type @default = null)
 		{
 			var converter = property.GetCustomAttributes(typeof(TypeConverterAttribute), false);
-			if (converter.Length == 0)
-			{
-				converter = property.PropertyType.GetCustomAttributes(typeof(TypeConverterAttribute), false);
-			}
-			return (converter.Length == 1 ? (Type.GetType((converter[0] as TypeConverterAttribute).ConverterTypeName)) : @default);
+			return (converter.Length == 1 ?
+				Activator.CreateInstance((Type.GetType((converter[0] as TypeConverterAttribute).ConverterTypeName))) as TypeConverter :
+				TypeDescriptor.GetConverter(property.PropertyType));
 		}
 
 		/// <summary>
@@ -33,57 +31,41 @@ namespace ClashEngine.NET.Converters
 		/// <param name="field">Pole.</param>
 		/// <param name="default">Domyślny konwerter typów(jeśli nie znaleziono innego).</param>
 		/// <returns>Typ konwertera lub default, gdy nie znaleziono.</returns>
-		public static Type GetTypeConverter(FieldInfo field, Type @default = null)
+		public static TypeConverter GetTypeConverter(FieldInfo field)
 		{
 			var converter = field.GetCustomAttributes(typeof(TypeConverterAttribute), false);
-			if (converter.Length == 0)
-			{
-				converter = field.FieldType.GetCustomAttributes(typeof(TypeConverterAttribute), false);
-			}
-			return (converter.Length == 1 ? (Type.GetType((converter[0] as TypeConverterAttribute).ConverterTypeName)) : @default);
+			return (converter.Length == 1 ?
+				Activator.CreateInstance((Type.GetType((converter[0] as TypeConverterAttribute).ConverterTypeName))) as TypeConverter :
+				TypeDescriptor.GetConverter(field.FieldType));
 		}
 
 		/// <summary>
 		/// Pobiera typ konwertera.
 		/// </summary>
 		/// <param name="member">Właściwość lub pole.</param>
-		/// <param name="default">Domyślny konwerter typów(jeśli nie znaleziono innego).</param>
 		/// <exception cref="ArgumentException">Rzucane gdy member nie jest ani PropertyInfo ani FieldInfo.</exception>
 		/// <returns>Typ konwertera lub default, gdy nie znaleziono.</returns>
-		public static Type GetTypeConverter(MemberInfo member, Type @default = null)
+		public static TypeConverter GetTypeConverter(MemberInfo member)
 		{
 			if (member is PropertyInfo)
 			{
-				return GetTypeConverter(member as PropertyInfo, @default);
+				return GetTypeConverter(member as PropertyInfo);
 			}
 			else if (member is FieldInfo)
 			{
-				return GetTypeConverter(member as FieldInfo, @default);
+				return GetTypeConverter(member as FieldInfo);
 			}
-			throw new ArgumentException("Parameter is not PropertyInfo nor FieldInfo", "mi");
-		}
-
-		/// <summary>
-		/// Pobiera konwerter dla danego typu.
-		/// </summary>
-		/// <param name="type">Typ.</param>
-		/// <param name="default">Domyślny konwerter typów(jeśli nie znaleziono innego).</param>
-		/// <returns>Typ konwertera lub default, gdy nie znaleziono.</returns>
-		public static Type GetTypeConverter(Type type, Type @default = null)
-		{
-			var converter = type.GetCustomAttributes(typeof(TypeConverterAttribute), false);
-			return (converter.Length == 1 ? (Type.GetType((converter[0] as TypeConverterAttribute).ConverterTypeName)) : @default);
+			throw new ArgumentException("Parameter is not PropertyInfo nor FieldInfo", "member");
 		}
 
 		/// <summary>
 		/// Pobiera konwerter dla danego typu.
 		/// </summary>
 		/// <typeparam name="T">Typ.</typeparam>
-		/// <param name="default">Domyślny konwerter typów(jeśli nie znaleziono innego).</param>
 		/// <returns>Typ konwertera lub default, gdy nie znaleziono.</returns>
-		public static Type GetTypeConverter<T>(Type @default = null)
+		public static TypeConverter GetTypeConverter<T>()
 		{
-			return GetTypeConverter(typeof(T));
+			return TypeDescriptor.GetConverter(typeof(T));
 		}
 
 		#region Internals

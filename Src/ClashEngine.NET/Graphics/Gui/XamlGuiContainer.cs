@@ -29,22 +29,12 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <summary>
 		/// Kontrolki.
 		/// </summary>
-		IControlsCollection IXamlGuiContainer.Controls { get { return this.Controls; } }
-
-		/// <summary>
-		/// Kontrolki.
-		/// </summary>
-		public ControlsCollection Controls { get; private set; }
+		public IControlsCollection Controls { get; private set; }
 
 		/// <summary>
 		/// Warunki do stylizacji GUI.
 		/// </summary>
-		IConditionsCollection IXamlGuiContainer.Triggers { get { return this.Triggers; } }
-
-		/// <summary>
-		/// Warunki do stylizacji GUI.
-		/// </summary>
-		public ConditionsCollection Triggers { get; private set; }
+		public IConditionsCollection Triggers { get; private set; }
 
 		/// <summary>
 		/// Binduje kontrner XAML do kontenera GUI.

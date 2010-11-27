@@ -10,24 +10,24 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// Kolekcja warunków do stylizacji GUI.
 	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
-	public class ConditionsCollection
-		: IConditionsCollection
+	public class TriggersCollection
+		: ITriggersCollection
 	{
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-		private List<ICondition> Conditions = new List<ICondition>();
+		private List<ITrigger> Triggers = new List<ITrigger>();
 
-		#region ICollection<ICondition> Members
+		#region ICollection<ITrigger> Members
 		/// <summary>
 		/// Dodaje nowy element.
 		/// </summary>
 		/// <param name="item">Element.</param>
-		public void Add(ICondition item)
+		public void Add(ITrigger item)
 		{
 			if (item == null)
 			{
 				throw new ArgumentNullException("item");
 			}
-			this.Conditions.Add(item);
+			this.Triggers.Add(item);
 		}
 
 		/// <summary>
@@ -35,9 +35,9 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		/// <param name="item">Element.</param>
 		/// <returns>Czy udało się usunąć.</returns>
-		public bool Remove(ICondition item)
+		public bool Remove(ITrigger item)
 		{
-			return this.Conditions.Remove(item);
+			return this.Triggers.Remove(item);
 		}
 
 		/// <summary>
@@ -45,7 +45,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		public void Clear()
 		{
-			this.Conditions.Clear();
+			this.Triggers.Clear();
 		}
 
 		/// <summary>
@@ -53,9 +53,9 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		/// <param name="item">Element.</param>
 		/// <returns></returns>
-		public bool Contains(ICondition item)
+		public bool Contains(ITrigger item)
 		{
-			return this.Conditions.Contains(item);
+			return this.Triggers.Contains(item);
 		}
 
 		/// <summary>
@@ -63,9 +63,9 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		/// <param name="array"></param>
 		/// <param name="arrayIndex"></param>
-		void ICollection<ICondition>.CopyTo(ICondition[] array, int arrayIndex)
+		void ICollection<ITrigger>.CopyTo(ITrigger[] array, int arrayIndex)
 		{
-			this.Conditions.CopyTo(array, arrayIndex);
+			this.Triggers.CopyTo(array, arrayIndex);
 		}
 
 		/// <summary>
@@ -73,30 +73,43 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		public int Count
 		{
-			get { return this.Conditions.Count; }
+			get { return this.Triggers.Count; }
 		}
 
 		/// <summary>
 		/// Nieużywane - zawsze false.
 		/// </summary>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		bool ICollection<ICondition>.IsReadOnly
+		bool ICollection<ITrigger>.IsReadOnly
 		{
 			get { return false; }
 		}
 		#endregion
 
-		#region IEnumerable<ICondition> Members
-		public IEnumerator<ICondition> GetEnumerator()
+		#region ITriggersCollection Members
+		/// <summary>
+		/// Wywołuje wszystkie wyzwalacze.
+		/// </summary>
+		public void TrigAll()
 		{
-			return this.Conditions.GetEnumerator();
+			foreach (var t in this.Triggers)
+			{
+				t.Trig();
+			}
+		}
+		#endregion
+
+		#region IEnumerable<ITrigger> Members
+		public IEnumerator<ITrigger> GetEnumerator()
+		{
+			return this.Triggers.GetEnumerator();
 		}
 		#endregion
 
 		#region IEnumerable Members
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			return this.Conditions.GetEnumerator();
+			return this.Triggers.GetEnumerator();
 		}
 		#endregion
 	}

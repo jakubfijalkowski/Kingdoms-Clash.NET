@@ -5,24 +5,24 @@ using System.Windows.Markup;
 namespace ClashEngine.NET.Interfaces.Graphics.Gui
 {
 	/// <summary>
-	/// Prosty warunek - jeśli coś jest równe czemuś ustaw coś na daną wartość.
+	/// Prosty wyzwalacz - przypisanie.
 	/// </summary>
-	public interface IIf
-		: ICondition
+	public interface ISet
+		: ITrigger
 	{
 		/// <summary>
-		/// Obiekt, z którego pobrana będzie wartość.
+		/// Obiekt docelowy.
 		/// </summary>
 		[TypeConverter(typeof(NameReferenceConverter))]
 		object Object { get; set; }
 
 		/// <summary>
-		/// Właściwość.
+		/// Właściwość, której zostanie przypisana dana wartość.
 		/// </summary>
 		string PropertyName { get; set; }
 
 		/// <summary>
-		/// Wartość do porównywania.
+		/// Wartość do przypisania.
 		/// </summary>
 		object Value { get; set; }
 
