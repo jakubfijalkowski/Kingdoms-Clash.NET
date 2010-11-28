@@ -72,8 +72,10 @@
     <Compile Include="ConvertersClass.cs" />
     <Compile Include="EntitiesManagerTests.cs" />
     <Compile Include="GameEntityTests.cs" />
+    <Compile Include="IndexerLevelTests.cs" />
     <Compile Include="MainThreadCallbacksManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyLevelTests.cs" />
     <Compile Include="ResourcesManagerTests.cs" />
     <Compile Include="ScreensManagerTests.cs" />
   </ItemGroup>

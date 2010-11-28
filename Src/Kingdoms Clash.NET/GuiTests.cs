@@ -34,6 +34,14 @@ namespace Kingdoms_Clash.NET
 		}
 	}
 
+	class SampleData
+	{
+		public int this[int index]
+		{
+			get { return index; }
+		}
+	}
+
 	class GuiTestsScreen
 		: ClashEngine.NET.Graphics.Gui.Screen
 	{
