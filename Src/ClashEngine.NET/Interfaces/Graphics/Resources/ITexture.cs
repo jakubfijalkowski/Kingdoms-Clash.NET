@@ -1,10 +1,12 @@
 ﻿using System.Drawing;
+using System.ComponentModel;
 
 namespace ClashEngine.NET.Interfaces.Graphics.Resources
 {
 	/// <summary>
 	/// Bazowy interfejs dla tekstur.
 	/// </summary>
+	[TypeConverter(typeof(Converters.TextureConverter))]
 	public interface ITexture
 		: IResource
 	{

@@ -1,11 +1,13 @@
 ﻿using System.Drawing;
 using OpenTK;
+using System.ComponentModel;
 
 namespace ClashEngine.NET.Interfaces.Graphics.Resources
 {
 	/// <summary>
 	/// Czcionka.
 	/// </summary>
+	[TypeConverter(typeof(Converters.FontConverter))]
 	public interface IFont
 		: IResource
 	{
