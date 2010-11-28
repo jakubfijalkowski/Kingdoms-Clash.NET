@@ -19,6 +19,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		#region Private fields
 		private bool _IsActive = false;
 		private bool _IsHot = false;
+		private object _DataContext = null;
 		#endregion
 		
 		#region IControl Members
@@ -125,6 +126,22 @@ namespace ClashEngine.NET.Graphics.Gui
 		public virtual bool ContainsMouse()
 		{
 			return this.Data.Input.MousePosition.IsIn(this.Position, this.Size);
+		}
+		#endregion
+
+		#region IDataContext Members
+		/// <summary>
+		/// Kontekst danych.
+		/// </summary>
+		[DefaultValue(null)]
+		public object DataContext
+		{
+			get { return this._DataContext; }
+			set
+			{
+				this._DataContext = value;
+				this.SendPropertyChanged("DataContext");
+			}
 		}
 		#endregion
 

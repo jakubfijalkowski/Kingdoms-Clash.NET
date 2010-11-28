@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows.Markup;
 using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Gui.Objects
@@ -12,29 +13,17 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 	/// </summary>
 	[DebuggerDisplay("Text {TextValue}")]
 	public class Text
-		: IText
+		: IText, Interfaces.Data.IDataContext
 	{
 		#region Private fields
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private IFont _Font = null;
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private string _TextValue = string.Empty;
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private Vector4 _Color = new Vector4(0, 0, 0, 1);
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private Interfaces.Graphics.Objects.IText TextObject = Resources.SystemFont.CreateEmptyObject();
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool WasSizeSet = false;
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool WasPositionSet = false;
-
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool Initialized = false;
+		private object _DataContext = null;
 		#endregion
 
 		#region IText Members
@@ -165,6 +154,33 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			}
 			this.UpdateTexture();
 		}
+		#endregion
+
+		#region IDataContext Members
+		/// <summary>
+		/// Kontekst danych.
+		/// </summary>
+		[TypeConverter(typeof(NameReferenceConverter))]
+		[DefaultValue(null)]
+		public object DataContext
+		{
+			get { return this._DataContext; }
+			set
+			{
+				this._DataContext = value;
+				if (this.PropertyChanged != null)
+				{
+					this.PropertyChanged(this, new PropertyChangedEventArgs("DataContext"));
+				}
+			}
+		}
+		#endregion
+		
+		#region INotifyPropertyChanged Members
+		/// <summary>
+		/// Wywoływane przy zmianie DataContext.
+		/// </summary>
+		public event PropertyChangedEventHandler PropertyChanged;
 		#endregion
 
 		#region Constructors

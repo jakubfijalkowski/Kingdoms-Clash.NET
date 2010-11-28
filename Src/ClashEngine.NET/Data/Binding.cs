@@ -30,7 +30,7 @@ namespace ClashEngine.NET.Data
 		/// <summary>
 		/// Obiekt źródłowy.
 		/// </summary>
-		public object Source { get; private set; }
+		public object Source { get; internal set; }
 
 		/// <summary>
 		/// Źródłowa właściwość.
@@ -421,6 +421,20 @@ namespace ClashEngine.NET.Data
 				break;
 			}
 			#endregion
+		}
+		#endregion
+
+		#region Internals
+		/// <summary>
+		/// Wymusza uaktualnienie celu(jeśli Mode != OneTime).
+		/// Używane przez BindingExtension.
+		/// </summary>
+		internal void ForceUpdateTarget()
+		{
+			if (this.Mode != BindingMode.OneTime)
+			{
+				this.SourceToTarget(this.Source, new PropertyChangedEventArgs(this.SourceProperty.Name));
+			}
 		}
 		#endregion
 

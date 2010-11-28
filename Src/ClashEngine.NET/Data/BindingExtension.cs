@@ -20,6 +20,7 @@ namespace ClashEngine.NET.Data
 	{
 		#region Private fields
 		private Binding Binding = null;
+		private string SourcePropertyName = string.Empty;
 		#endregion
 
 		#region IBindingExtension Members
@@ -92,6 +93,11 @@ namespace ClashEngine.NET.Data
 			}
 			#endregion
 
+			#region Target
+			this.Target = targetProvider.TargetObject;
+			this.TargetProperty = targetProvider.TargetProperty as PropertyInfo;
+			#endregion
+
 			#region Source
 			string[] parts = this.Path.Split('.');
 			string propName= null;
@@ -112,6 +118,20 @@ namespace ClashEngine.NET.Data
 				}
 				propName = parts[1].Trim();
 			}
+			else if (this.Target is IDataContext && parts.Length == 1)
+			{
+				if (this.Target is INotifyPropertyChanged)
+				{
+					(this.Target as INotifyPropertyChanged).PropertyChanged += new PropertyChangedEventHandler(DataContextChanged);
+				}
+				this.Source = (this.Target as IDataContext).DataContext;
+				if (this.Source == null) //Jeszcze nie przypisano kontekstu - musimy wesprzeć późną inicjalizację
+				{
+					this.SourcePropertyName = parts[0].Trim();
+					return null;
+				}
+				propName = parts[0].Trim();
+			}
 			else if (this.Source != null && parts.Length == 1) //To jest akceptowalne
 			{
 				propName = parts[0].Trim();
@@ -131,11 +151,6 @@ namespace ClashEngine.NET.Data
 					throw new InvalidOperationException(string.Format("Cannot find property '{0}' in source object", propName));
 				}
 			}
-			#endregion
-
-			#region Target
-			this.Target = targetProvider.TargetObject;
-			this.TargetProperty = targetProvider.TargetProperty as PropertyInfo;
 			#endregion
 
 			this.Binding = new Binding(this.Source,	this.SourceProperty, this.Target, this.TargetProperty, false, this.Mode);
@@ -167,6 +182,38 @@ namespace ClashEngine.NET.Data
 		{
 			this.Mode = BindingMode.OneWay;
 			this.Path = path;
+		}
+		#endregion
+
+		#region Private methods
+		void DataContextChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "DataContext" && (this.Target as IDataContext).DataContext != null)
+			{
+				if (this.Source == null)
+				{
+					this.Source = (this.Target as IDataContext).DataContext;
+					this.SourceProperty = this.Source.GetType().GetProperty(this.SourcePropertyName);
+					if (this.SourceProperty == null)
+					{
+						this.SourceProperty = this.Source.GetType().GetField(this.SourcePropertyName);
+						if (this.SourceProperty == null)
+						{
+							throw new InvalidOperationException(string.Format("Cannot find property '{0}' in source object", this.SourcePropertyName));
+						}
+					}
+					this.Binding = new Binding(this.Source, this.SourceProperty, this.Target, this.TargetProperty, true, this.Mode);
+				}
+				else
+				{
+					if (this.Source.GetType() != (this.Target as IDataContext).DataContext.GetType())
+					{
+						throw new InvalidOperationException("Changing DataContext to other type is not supported");
+					}
+					this.Source = this.Binding.Source = (this.Target as IDataContext).DataContext;
+					this.Binding.ForceUpdateTarget();
+				}
+			}
 		}
 		#endregion
 	}

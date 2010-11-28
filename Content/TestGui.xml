@@ -4,7 +4,7 @@
 				          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <XamlGuiContainer.Triggers>
-    <MultiIf Type="Or">
+    <!--<MultiIf Type="Or">
       <If Object="Button2" PropertyName="IsHot" Value="true" />
       <If Object="Button3" PropertyName="IsHot" Value="true" />
       <MultiIf.Triggers>
@@ -17,40 +17,45 @@
       <MultiIf.Triggers>
         <Set Object="Panel1Img" PropertyName="Visible" Value="false" />
       </MultiIf.Triggers>
-    </MultiIf>
-    
+    </MultiIf>-->
+
     <If Object="Button2" PropertyName="Clicked" Value="true">
-      <Set Object="Panel1Img" PropertyName="Stretch" Value="Fill" />
+      <Set Object="Panel1Txt" PropertyName="DataContext" Value="{x:Reference Tb1}" />
     </If>
     <If Object="Button3" PropertyName="Clicked" Value="true">
-      <Set Object="Panel1Img" PropertyName="Stretch" Value="Repeat" />
+      <Set Object="Panel1Txt" PropertyName="DataContext" Value="{x:Reference Tb2}" />
     </If>
   </XamlGuiContainer.Triggers>
-  
-	<XamlGuiContainer.Controls>
-		<Button x:Name="Button1" Position="10,10" Size="80,80">
-			<o:Rectangle Color="1,1,1,1" Depth="2" />
-			<o:Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
-		</Button>
-    
+
+  <XamlGuiContainer.Controls>
+    <Button x:Name="Button1" Position="10,10" Size="80,80">
+      <o:Rectangle Color="1,1,1,1" Depth="2" />
+      <o:Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
+    </Button>
+
     <Button x:Name="Button2" Position="100,10" Size="80,80">
       <o:Rectangle Color="1,1,1,1" Depth="2" />
-      <o:Text Font="Arial,15,bi" TextValue="Wypełnij" Color="0,0,1,1" Depth="0" />
+      <o:Text Font="Arial,15,bi" TextValue="Textbox 1" Color="0,0,1,1" Depth="0" />
     </Button>
 
     <Button x:Name="Button3" Position="190,10" Size="80,80">
       <o:Rectangle Color="1,1,1,1" Depth="2" />
-      <o:Text Font="Arial,15,bi" TextValue="Wróć" Color="0,0,1,1" Depth="0" />
+      <o:Text Font="Arial,15,bi" TextValue="Textbox 2" Color="0,0,1,1" Depth="0" />
     </Button>
 
-		<Panel Id="Panel1" Position="150, 150" Size="100, 100">
-      <o:Image x:Name="Panel1Img"  Texture="UserData/Nations/TestNation/Unit1.png" Stretch="Repeat" Visible="false" />
-			<o:Rectangle Color="1,1,1,1" Depth="1" />
-		</Panel>
+    <Panel Id="Panel1" Position="150, 150" Size="100, 100">
+      <o:Rectangle Color="1,1,1,1" Depth="1" />
+      <o:Text x:Name="Panel1Txt" DataContext="Tb1" Font="Arial,15" TextValue="{d:Binding Text}" Color="0,1,0,1" Depth="0" />
+    </Panel>
 
     <TextBox Id="Tb1" Position="300, 300" Size="250, 18">
       <o:Rectangle Color="1,1,1,1" Depth="1" />
-      <o:Text Font="Arial,15" TextValue="{d:Binding Tb1.Text}" Color="0,1,0,1" Depth="0" />
+      <o:Text DataContext="Tb1" Font="Arial,15" TextValue="{d:Binding Text}" Color="0,1,0,1" Depth="0" />
     </TextBox>
-	</XamlGuiContainer.Controls>
+
+    <TextBox Id="Tb2" Position="300, 330" Size="250, 18">
+      <o:Rectangle Color="1,1,1,1" Depth="1" />
+      <o:Text DataContext="Tb2" Font="Arial,15" TextValue="{d:Binding Text}" Color="0,1,0,1" Depth="0" />
+    </TextBox>
+  </XamlGuiContainer.Controls>
 </XamlGuiContainer>
