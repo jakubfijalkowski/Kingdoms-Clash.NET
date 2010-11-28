@@ -131,6 +131,7 @@
     <Compile Include="UserData\Loader.cs" />
     <Compile Include="UserData\NationLoader.cs" />
     <Compile Include="UserData\ResourcesCollectionSerializer.cs" />
+    <None Include="app.config" />
     <None Include="NLog.Release.config" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

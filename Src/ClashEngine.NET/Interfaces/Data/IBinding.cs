@@ -58,5 +58,10 @@ namespace ClashEngine.NET.Interfaces.Data
 		/// Typ konwertera użytego do konwersji pomiędzy końcami wiązania.
 		/// </summary>
 		Type ConverterType { get; }
+
+		/// <summary>
+		/// Usuwa binding.
+		/// </summary>
+		void Clear();
 	}
 }

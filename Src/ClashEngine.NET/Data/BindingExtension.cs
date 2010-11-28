@@ -64,6 +64,14 @@ namespace ClashEngine.NET.Data
 		/// Używany tylko, jeśli typ TargetProperty != typu SourceProperty lub ustawiono go ręcznie.
 		/// </summary>
 		public Type ConverterType { get; set; }
+
+		/// <summary>
+		/// Usuwa binding.
+		/// </summary>
+		public void Clear()
+		{
+			this.Binding.Clear();
+		}
 		#endregion
 
 		#region MarkupExtension Members
@@ -130,7 +138,7 @@ namespace ClashEngine.NET.Data
 			this.TargetProperty = targetProvider.TargetProperty as PropertyInfo;
 			#endregion
 
-			this.Binding = new Binding(this.Source,	this.SourceProperty, this.Target, this.TargetProperty, this.Mode);
+			this.Binding = new Binding(this.Source,	this.SourceProperty, this.Target, this.TargetProperty, false, this.Mode);
 
 			//Dla wszystkich trybów musimy zwrócić aktualną wartość.
 			if (this.SourceProperty is PropertyInfo)
