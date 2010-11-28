@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace ClashEngine.NET.Data.Internals
 {
@@ -60,6 +61,12 @@ namespace ClashEngine.NET.Data.Internals
 		/// </summary>
 		/// <param name="root">Obiekt, do którego przynależy dana właściwość.</param>
 		void UnregisterPropertyChanged(object root);
+
+		/// <summary>
+		/// Pobiera konwerter typów.
+		/// </summary>
+		/// <returns></returns>
+		TypeConverter GetTypeConverter();
 		#endregion
 	}
 }

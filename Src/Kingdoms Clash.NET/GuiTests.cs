@@ -67,7 +67,7 @@ namespace Kingdoms_Clash.NET
 			var c = this.Content.Load<XamlGuiContainer>("TestGui.xml");
 			
 			var ctrl = c.Controls["Button1"];
-			new ClashEngine.NET.Data.Binding(ctrl, "Clicked", this, "IsButton1Clicked");
+			//new ClashEngine.NET.Data.Binding(ctrl, "Clicked", this, "IsButton1Clicked");
 
 			c.Bind(this);
 		}

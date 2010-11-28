@@ -6,8 +6,9 @@ namespace ClashEngine.NET.Interfaces.Data
 	/// <summary>
 	/// Ścieżka do właściwości lub pola zapisana jako tekst.
 	/// </summary>
+	[TypeConverter(typeof(Converters.PropertyPathConverter))]
 	public interface IPropertyPath
-		: INotifyPropertyChanged, ISupportInitialize
+		: INotifyPropertyChanged, ISupportInitialize, IDisposable
 	{
 		/// <summary>
 		/// Ścieżka jako tekst.
@@ -23,6 +24,16 @@ namespace ClashEngine.NET.Interfaces.Data
 		/// Typ obiektu głównego.
 		/// </summary>
 		Type RootType { get; }
+
+		/// <summary>
+		/// Typ wartości.
+		/// </summary>
+		Type ValueType { get; }
+
+		/// <summary>
+		/// Konwerter typów dla wartości.
+		/// </summary>
+		TypeConverter ValueConverter { get; }
 
 		/// <summary>
 		/// Aktualna wartość.

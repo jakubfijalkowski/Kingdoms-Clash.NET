@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace ClashEngine.NET.Data
@@ -63,6 +64,16 @@ namespace ClashEngine.NET.Data
 				this._RootType = value;
 			}
 		}
+
+		/// <summary>
+		/// Typ wartości.
+		/// </summary>
+		public Type ValueType { get; private set; }
+
+		/// <summary>
+		/// Konwerter typów dla wartości.
+		/// </summary>
+		public TypeConverter ValueConverter { get; private set; }
 
 		/// <summary>
 		/// Aktualna wartość.
@@ -133,6 +144,8 @@ namespace ClashEngine.NET.Data
 				}
 			}
 			this.Evaluate();
+			this.ValueType = this.Levels[this.Levels.Count - 1].Type;
+			this.ValueConverter = this.Levels[this.Levels.Count - 1].GetTypeConverter();
 
 			//Dodajemy zdarzenia PropertyChanged tam gdzie się da
 			object lastObj = this.Root;
@@ -146,9 +159,55 @@ namespace ClashEngine.NET.Data
 		#endregion
 
 		#region Constructors
+		/// <summary>
+		/// Inicializuje obiekt.
+		/// </summary>
+		/// <param name="path">Ścieżka.</param>
 		public PropertyPath(string path)
 		{
+			if (string.IsNullOrWhiteSpace(path))
+			{
+				throw new ArgumentNullException("path");
+			}
 			this.Path = path;
+		}
+
+		/// <summary>
+		/// Inicializuje obiekt.
+		/// </summary>
+		/// <param name="path">Ścieżka.</param>
+		/// <param name="rootType">Typ obiektu podstawowego.</param>
+		public PropertyPath(string path, Type rootType)
+			: this(path)
+		{
+			if (rootType == null)
+			{
+				throw new ArgumentNullException("rootType");
+			}
+			this.RootType = rootType;
+		}
+
+		/// <summary>
+		/// Inicializuje obiekt.
+		/// </summary>
+		/// <param name="path">Ścieżka.</param>
+		/// <param name="rootObject">Obiekt podstawowy.</param>
+		public PropertyPath(string path, object rootObject)
+			: this(path)
+		{
+			if (rootObject == null)
+			{
+				throw new ArgumentNullException("rootObject");
+			}
+			this.RootType = rootObject.GetType();
+			this.Root = rootObject;
+		}
+		#endregion
+
+		#region Destructors
+		~PropertyPath()
+		{
+			this.Dispose();
 		}
 		#endregion
 
@@ -228,6 +287,19 @@ namespace ClashEngine.NET.Data
 		private static object[] CreateIndecies(string str)
 		{
 			return new object[] { int.Parse(str) };
+		}
+		#endregion
+
+		#region IDisposable Members
+		public void Dispose()
+		{
+			//Usuwamy zdarzenia PropertyChanged z obiektów.
+			object prevObject = this.Root;
+			for (int i = 0; i < this.Levels.Count; i++)
+			{
+				this.Levels[i].UnregisterPropertyChanged(prevObject);
+				prevObject = this.Levels[i].Value;
+			}
 		}
 		#endregion
 	}

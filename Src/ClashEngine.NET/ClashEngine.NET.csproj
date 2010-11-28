@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\FontConverter.cs" />
+    <Compile Include="Converters\PropertyPathConverter.cs" />
     <Compile Include="Converters\SystemTypeConverter.cs" />
     <Compile Include="Converters\TextureConverter.cs" />
     <Compile Include="Converters\Utilities.cs" />

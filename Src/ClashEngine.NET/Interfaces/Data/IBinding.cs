@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 
 namespace ClashEngine.NET.Interfaces.Data
 {
@@ -28,6 +27,7 @@ namespace ClashEngine.NET.Interfaces.Data
 	/// Wiąże wartości.
 	/// </summary>
 	public interface IBinding
+		: IDisposable
 	{
 		/// <summary>
 		/// Tryb bindowania.
@@ -42,7 +42,7 @@ namespace ClashEngine.NET.Interfaces.Data
 		/// <summary>
 		/// Źródłowa właściwość, z której będą pobierane wartości.
 		/// </summary>
-		MemberInfo SourceProperty { get; }
+		IPropertyPath SourceProperty { get; }
 
 		/// <summary>
 		/// Obiekt docelowy.
@@ -52,16 +52,11 @@ namespace ClashEngine.NET.Interfaces.Data
 		/// <summary>
 		/// Docelowa właściwość, z której będą pobierane wartości.
 		/// </summary>
-		MemberInfo TargetProperty { get; }
+		IPropertyPath TargetProperty { get; }
 
 		/// <summary>
 		/// Typ konwertera użytego do konwersji pomiędzy końcami wiązania.
 		/// </summary>
 		Type ConverterType { get; }
-
-		/// <summary>
-		/// Usuwa binding.
-		/// </summary>
-		void Clear();
 	}
 }

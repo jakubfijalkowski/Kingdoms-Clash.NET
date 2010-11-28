@@ -7,7 +7,7 @@ namespace ClashEngine.NET.Converters
 	using Interfaces.Graphics.Resources;
 
 	/// <summary>
-	/// Konwertuje Graphics.Resources.SystemFont.
+	/// Konwerter typów dla Graphics.Resources.IFont.
 	/// </summary>
 	/// <remarks>
 	/// Obsługiwane konwersje na: string

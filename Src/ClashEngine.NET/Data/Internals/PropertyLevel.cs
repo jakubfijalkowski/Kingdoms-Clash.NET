@@ -98,6 +98,15 @@ namespace ClashEngine.NET.Data.Internals
 				(root as INotifyPropertyChanged).PropertyChanged -= new PropertyChangedEventHandler(OnValueChanged);
 			}
 		}
+
+		/// <summary>
+		/// Pobiera konwerter typów.
+		/// </summary>
+		/// <returns></returns>
+		public TypeConverter GetTypeConverter()
+		{
+			return Converters.Utilities.GetTypeConverter(this.Member);
+		}
 		#endregion
 
 		#region Constructors

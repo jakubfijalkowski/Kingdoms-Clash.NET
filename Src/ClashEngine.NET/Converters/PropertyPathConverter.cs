@@ -3,16 +3,14 @@ using System.ComponentModel;
 
 namespace ClashEngine.NET.Converters
 {
-	using Interfaces.Graphics.Resources;
-
 	/// <summary>
-	/// Konwerter typów dla Graphics.Resources.ITexture.
+	/// Konwerter typów dla Data.IPropertyPath.
 	/// </summary>
 	/// <remarks>
 	/// Obsługiwane konwersje na: string
 	/// Obsługiwane konwersje z: string
 	/// </remarks>
-	public class TextureConverter
+	public class PropertyPathConverter
 		: TypeConverter
 	{
 		#region From
@@ -29,11 +27,7 @@ namespace ClashEngine.NET.Converters
 		{
 			if (value is string)
 			{
-				var res = Utilities.GetResource(context);
-				if (res != null)
-				{
-					return res.Manager.Load<Graphics.Resources.Texture>(value as string);
-				}
+				return new Data.PropertyPath(value as string);
 			}
 			return base.ConvertFrom(context, culture, value);
 		}
@@ -51,9 +45,9 @@ namespace ClashEngine.NET.Converters
 
 		public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
 		{
-			if (value is ITexture && destinationType == typeof(string))
+			if (destinationType == typeof(string))
 			{
-				return (value as ITexture).Id;
+				return (value as Interfaces.Data.IPropertyPath).Path;
 			}
 			return base.ConvertTo(context, culture, value, destinationType);
 		}

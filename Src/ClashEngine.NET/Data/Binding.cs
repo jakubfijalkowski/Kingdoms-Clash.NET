@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Reflection;
 
 namespace ClashEngine.NET.Data
 {
@@ -10,13 +9,11 @@ namespace ClashEngine.NET.Data
 	/// Wiązanie.
 	/// </summary>
 	public class Binding
-		: IBinding, IDisposable
+		: IBinding
 	{
 		#region Private fields
 		private TypeConverter SourceConverter = null;
 		private TypeConverter TargetConverter = null;
-		private Type TargetType = null;
-		private Type SourceType = null;
 		private bool ControlFlowSource = false;
 		private bool ControlFlowTarget = false;
 		#endregion
@@ -35,7 +32,7 @@ namespace ClashEngine.NET.Data
 		/// <summary>
 		/// Źródłowa właściwość.
 		/// </summary>
-		public MemberInfo SourceProperty { get; private set; }
+		public IPropertyPath SourceProperty { get; private set; }
 
 		/// <summary>
 		/// Obiekt docelowy.
@@ -45,30 +42,13 @@ namespace ClashEngine.NET.Data
 		/// <summary>
 		/// Docelowa właściwość.
 		/// </summary>
-		public MemberInfo TargetProperty { get; private set; }
+		public IPropertyPath TargetProperty { get; private set; }
 
 		/// <summary>
 		/// Konwerter.
 		/// Używany tylko, jeśli typ TargetProperty != typu SourceProperty lub ustawiono go ręcznie.
 		/// </summary>
 		public Type ConverterType { get; set; }
-
-		/// <summary>
-		/// Usuwa binding.
-		/// </summary>
-		public void Clear()
-		{
-			switch (this.Mode)
-			{
-			case BindingMode.OneWay:
-				(this.Source as INotifyPropertyChanged).PropertyChanged -= this.SourceToTarget;
-				break;
-			case BindingMode.TwoWay:
-				(this.Source as INotifyPropertyChanged).PropertyChanged -= this.SourceToTarget;
-				(this.Target as INotifyPropertyChanged).PropertyChanged -= this.TargetToSource;
-				break;
-			}
-		}
 		#endregion
 
 		#region Constructors
@@ -76,13 +56,14 @@ namespace ClashEngine.NET.Data
 		/// Inicjalizuje wiązanie.
 		/// </summary>
 		/// <param name="source">Obiekt źródłowy.</param>
-		/// <param name="sourceProperty">Źródłowe pole/właściwość.</param>
+		/// <param name="sourceProperty">Ścieżka do źródła.</param>
 		/// <param name="target">Obiekt docelowy.</param>
-		/// <param name="targetProperty">Docelowe pole/właściwość.</param>
+		/// <param name="targetProperty">Ścieżka do celu.</param>
 		/// <param name="mode">Tryb wiązania.</param>
+		/// <param name="converterType">Wymuszony typ konwertera.</param>
 		/// <exception cref="ArgumentNullException">Któryś z argumentów jest nullem.</exception>
-		/// <exception cref="ArgumentException">sourceProperty albo targetProperty nie jest PropertyInfo albo FieldInfo.</exception>
-		internal Binding(object source, MemberInfo sourceProperty, object target, MemberInfo targetProperty, bool setTarget, BindingMode mode = BindingMode.OneWay)
+		internal Binding(object source, IPropertyPath sourceProperty, object target, IPropertyPath targetProperty, bool setTarget,
+			BindingMode mode = BindingMode.OneWay, Type converterType = null)
 		{
 			if (source == null)
 			{
@@ -92,10 +73,6 @@ namespace ClashEngine.NET.Data
 			{
 				throw new ArgumentNullException("sourceProperty");
 			}
-			if (!(sourceProperty is PropertyInfo) && !(sourceProperty is FieldInfo))
-			{
-				throw new ArgumentException("Must be PropertyInfo or FieldInfo", "sourceProperty");
-			}
 			if (target == null)
 			{
 				throw new ArgumentNullException("target");
@@ -104,39 +81,18 @@ namespace ClashEngine.NET.Data
 			{
 				throw new ArgumentNullException("targetProperty");
 			}
-			if (!(targetProperty is PropertyInfo) && !(targetProperty is FieldInfo))
-			{
-				throw new ArgumentException("Must be PropertyInfo or FieldInfo", "targetProperty");
-			}
 			this.Source = source;
 			this.SourceProperty = sourceProperty;
-			if (this.SourceProperty is PropertyInfo)
-			{
-				this.SourceType = (this.SourceProperty as PropertyInfo).PropertyType;
-			}
-			else
-			{
-				this.SourceType = (this.SourceProperty as FieldInfo).FieldType;
-			}
-
 			this.Target = target;
 			this.TargetProperty = targetProperty;
-			if (this.TargetProperty is PropertyInfo)
-			{
-				this.TargetType = (this.TargetProperty as PropertyInfo).PropertyType;
-			}
-			else
-			{
-				this.TargetType = (this.TargetProperty as FieldInfo).FieldType;
-			}
 
 			this.Mode = mode;
-
+			this.ConverterType = converterType;
 			this.SetBindings();
 
 			if (setTarget)
 			{
-				this.SourceToTarget(this.Source, new PropertyChangedEventArgs(this.SourceProperty.Name));
+				this.TargetProperty.Value = this.GetConvertedSource();
 			}
 		}
 
@@ -144,122 +100,20 @@ namespace ClashEngine.NET.Data
 		/// Inicjalizuje wiązanie.
 		/// </summary>
 		/// <param name="source">Obiekt źródłowy.</param>
-		/// <param name="sourceProperty">Źródłowa właściwość.</param>
+		/// <param name="sourceProperty">Ścieżka do źródła.</param>
 		/// <param name="target">Obiekt docelowy.</param>
-		/// <param name="targetProperty">Docelowa właściwość.</param>
+		/// <param name="targetProperty">Ścieżka do celu.</param>
 		/// <param name="mode">Tryb wiązania.</param>
+		/// <param name="converterType">Wymuszony typ konwertera.</param>
 		/// <exception cref="ArgumentNullException">Któryś z argumentów jest nullem.</exception>
-		public Binding(object source, PropertyInfo sourceProperty, object target, PropertyInfo targetProperty, BindingMode mode = BindingMode.OneWay)
-			: this(source, (MemberInfo)sourceProperty, target, (MemberInfo)targetProperty, true, mode)
+		public Binding(object source, IPropertyPath sourceProperty, object target, IPropertyPath targetProperty,
+			BindingMode mode = BindingMode.OneWay, Type converterType = null)
+			: this(source, sourceProperty, target, targetProperty, true, mode, converterType)
 		{ }
-
-		/// <summary>
-		/// Inicjalizuje wiązanie.
-		/// </summary>
-		/// <param name="source">Obiekt źródłowy.</param>
-		/// <param name="sourceField">Źródłowe pole.</param>
-		/// <param name="target">Obiekt docelowy.</param>
-		/// <param name="targetProperty">Docelowa właściwość.</param>
-		/// <param name="mode">Tryb wiązania.</param>
-		/// <exception cref="ArgumentNullException">Któryś z argumentów jest nullem.</exception>
-		public Binding(object source, FieldInfo sourceField, object target, PropertyInfo targetProperty, BindingMode mode = BindingMode.OneWay)
-			: this(source, (MemberInfo)sourceField, target, (MemberInfo)targetProperty, true, mode)
-		{ }
-
-		/// <summary>
-		/// Inicjalizuje wiązanie.
-		/// </summary>
-		/// <param name="source">Obiekt źródłowy.</param>
-		/// <param name="sourceProperty">Źródłowa właściwość.</param>
-		/// <param name="target">Obiekt docelowy.</param>
-		/// <param name="targetField">Docelowe pole.</param>
-		/// <param name="mode">Tryb wiązania.</param>
-		/// <exception cref="ArgumentNullException">Któryś z argumentów jest nullem.</exception>
-		public Binding(object source, PropertyInfo sourceProperty, object target, FieldInfo targetField, BindingMode mode = BindingMode.OneWay)
-			: this(source, (MemberInfo)sourceProperty, target, (MemberInfo)targetField, true, mode)
-		{ }
-
-		/// <summary>
-		/// Inicjalizuje wiązanie.
-		/// </summary>
-		/// <param name="source">Obiekt źródłowy.</param>
-		/// <param name="sourceField">Źródłowe pole.</param>
-		/// <param name="target">Obiekt docelowy.</param>
-		/// <param name="targetField">Docelowe pole.</param>
-		/// <param name="mode">Tryb wiązania.</param>
-		/// <exception cref="ArgumentNullException">Któryś z argumentów jest nullem.</exception>
-		public Binding(object source, FieldInfo sourceField, object target, FieldInfo targetField, BindingMode mode = BindingMode.OneWay)
-			: this(source, (MemberInfo)sourceField, target, (MemberInfo)targetField, true, mode)
-		{ }
-
-		/// <summary>
-		/// Inicjalizuje wiązanie.
-		/// </summary>
-		/// <param name="source">Obiekt źródłowy.</param>
-		/// <param name="sourcePropertyName">Nazwa źródłowego pola/właściwości.</param>
-		/// <param name="target">Obiekt docelowy.</param>
-		/// <param name="targetPropertyName">Nazwa docelowego pola/właściwości.</param>
-		/// <param name="mode">Tryb wiązania.</param>
-		/// <exception cref="ArgumentNullException">source lub target jest nullem lub sourcePropertyName lub targetPropertyName jest puste.</exception>
-		/// <exception cref="InvalidOperationException">Nie można znaleźć odpowiednich pól/właściwości w obiektach.</exception>
-		public Binding(object source, string sourcePropertyName, object target, string targetPropertyName, BindingMode mode = BindingMode.OneWay)
-		{
-			if (source == null)
-			{
-				throw new ArgumentNullException("source");
-			}
-			if (string.IsNullOrWhiteSpace(sourcePropertyName))
-			{
-				throw new ArgumentNullException("sourceProperty");
-			}
-			if (target == null)
-			{
-				throw new ArgumentNullException("target");
-			}
-			if (string.IsNullOrWhiteSpace(targetPropertyName))
-			{
-				throw new ArgumentNullException("targetProperty");
-			}
-			MemberInfo targetProperty = target.GetType().GetProperty(targetPropertyName);
-			if (targetProperty == null)
-			{
-				targetProperty = target.GetType().GetField(targetPropertyName);
-				if (targetProperty == null)
-				{
-					throw new InvalidOperationException(string.Format("Cannot find property {0} in target object", targetPropertyName));
-				}
-				this.TargetType = (targetProperty as FieldInfo).FieldType;
-			}
-			else
-			{
-				this.TargetType = (targetProperty as PropertyInfo).PropertyType;
-			}
-			MemberInfo sourceProperty = source.GetType().GetProperty(sourcePropertyName);
-			if (sourceProperty == null)
-			{
-				sourceProperty = source.GetType().GetField(sourcePropertyName);
-				if (sourceProperty == null)
-				{
-					throw new InvalidOperationException(string.Format("Cannot find property {0} in source object", sourcePropertyName));
-				}
-				this.SourceType = (sourceProperty as FieldInfo).FieldType;
-			}
-			else
-			{
-				this.SourceType = (sourceProperty as PropertyInfo).PropertyType;
-			}
-			this.Source = source;
-			this.SourceProperty = sourceProperty;
-			this.Target = target;
-			this.TargetProperty = targetProperty;
-			this.Mode = mode;
-			this.SetBindings();
-			this.SourceToTarget(this.Source, new PropertyChangedEventArgs(this.SourceProperty.Name));
-		}
 
 		~Binding()
 		{
-			this.Clear();
+			this.Dispose();
 		}
 		#endregion
 
@@ -271,27 +125,14 @@ namespace ClashEngine.NET.Data
 		/// <param name="e"></param>
 		private void SourceToTarget(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == this.SourceProperty.Name)
+			if (this.ControlFlowSource)
 			{
-				if (this.ControlFlowSource)
-				{
-					this.ControlFlowSource = false;
-					return;
-				}
-				this.ControlFlowTarget = true;
-
-				if (this.TargetProperty is PropertyInfo)
-				{
-					(this.TargetProperty as PropertyInfo).SetValue(this.Target,
-						this.GetConvertedSource()
-						, null);
-				}
-				else
-				{
-					(this.TargetProperty as FieldInfo).SetValue(this.Target,
-						this.GetConvertedSource());
-				}
+				this.ControlFlowSource = false;
+				return;
 			}
+			this.ControlFlowTarget = true;
+
+			this.TargetProperty.Value = this.GetConvertedSource();
 		}
 
 		/// <summary>
@@ -301,26 +142,14 @@ namespace ClashEngine.NET.Data
 		/// <param name="e"></param>
 		private void TargetToSource(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == this.TargetProperty.Name)
+			if (this.ControlFlowTarget)
 			{
-				if (this.ControlFlowTarget)
-				{
-					this.ControlFlowTarget = false;
-					return;
-				}
-				this.ControlFlowSource = true;
-
-				if (this.SourceProperty is PropertyInfo)
-				{
-					(this.SourceProperty as PropertyInfo).SetValue(this.Source,
-						this.GetConvertedTarget(), null);
-				}
-				else
-				{
-					(this.SourceProperty as FieldInfo).SetValue(this.Source,
-						this.GetConvertedTarget());
-				}
+				this.ControlFlowTarget = false;
+				return;
 			}
+			this.ControlFlowSource = true;
+
+			this.SourceProperty.Value = this.GetConvertedTarget();
 		}
 
 		/// <summary>
@@ -329,19 +158,10 @@ namespace ClashEngine.NET.Data
 		/// <returns></returns>
 		private object GetConvertedSource()
 		{
-			object obj = null;
-			if (this.SourceProperty is PropertyInfo)
+			object obj = this.SourceProperty.Value;
+			if (obj != null && this.SourceConverter.CanConvertTo(this.TargetProperty.ValueType))
 			{
-				obj = (this.SourceProperty as PropertyInfo).GetValue(this.Source, null);
-			}
-			else
-			{
-				obj = (this.SourceProperty as FieldInfo).GetValue(this.Source);
-			}
-
-			if (obj != null && this.SourceConverter.CanConvertTo(this.TargetType))
-			{
-				obj = this.SourceConverter.ConvertTo(obj, this.TargetType);
+				obj = this.SourceConverter.ConvertTo(obj, this.TargetProperty.ValueType);
 			}
 			else if (obj != null && this.TargetConverter.CanConvertFrom(obj.GetType()))
 			{
@@ -356,19 +176,10 @@ namespace ClashEngine.NET.Data
 		/// <returns></returns>
 		private object GetConvertedTarget()
 		{
-			object obj = null;
-			if (this.TargetProperty is PropertyInfo)
+			object obj = this.TargetProperty.Value;
+			if (obj != null && this.TargetConverter.CanConvertTo(this.SourceProperty.ValueType))
 			{
-				obj = (this.TargetProperty as PropertyInfo).GetValue(this.Target, null);
-			}
-			else
-			{
-				obj = (this.TargetProperty as FieldInfo).GetValue(this.Target);
-			}
-
-			if (obj != null && this.TargetConverter.CanConvertTo(this.SourceType))
-			{
-				obj = this.TargetConverter.ConvertTo(obj, this.SourceType);
+				obj = this.TargetConverter.ConvertTo(obj, this.SourceProperty.ValueType);
 			}
 			else if (obj != null && this.SourceConverter.CanConvertFrom(obj.GetType()))
 			{
@@ -389,35 +200,22 @@ namespace ClashEngine.NET.Data
 			}
 			else
 			{
-				this.SourceConverter = Converters.Utilities.GetTypeConverter(this.SourceProperty);
-				this.TargetConverter = Converters.Utilities.GetTypeConverter(this.TargetProperty);
+				this.SourceConverter = this.SourceProperty.ValueConverter;
+				this.TargetConverter = this.TargetProperty.ValueConverter;
 			}
 			#endregion
 
 			#region Bindings
-			//Metoda lokalna, by nie dublować kodu ;)
-			Action bindSource = () =>
-			{
-				if (!(this.Source is INotifyPropertyChanged))
-				{
-					throw new InvalidOperationException("Source must implement INotifyPropertyChanged for this mode");
-				}
-				(this.Source as INotifyPropertyChanged).PropertyChanged += new PropertyChangedEventHandler(SourceToTarget);
-			};
-
 			//Zależnie od trybu wiązania dodajemy odpowiednie zdarzenia.
 			switch (this.Mode)
 			{
 			case BindingMode.OneWay:
-				bindSource();
+				this.SourceProperty.PropertyChanged += new PropertyChangedEventHandler(this.SourceToTarget);
 				break;
+
 			case BindingMode.TwoWay:
-				bindSource();
-				if (!(this.Target is INotifyPropertyChanged))
-				{
-					throw new InvalidOperationException("Target must implement INotifyPropertyChanged for this mode");
-				}
-				(this.Target as INotifyPropertyChanged).PropertyChanged += new PropertyChangedEventHandler(TargetToSource);
+				this.SourceProperty.PropertyChanged += new PropertyChangedEventHandler(this.SourceToTarget);
+				this.TargetProperty.PropertyChanged += new PropertyChangedEventHandler(this.TargetToSource);
 				break;
 			}
 			#endregion
@@ -431,17 +229,15 @@ namespace ClashEngine.NET.Data
 		/// </summary>
 		internal void ForceUpdateTarget()
 		{
-			if (this.Mode != BindingMode.OneTime)
-			{
-				this.SourceToTarget(this.Source, new PropertyChangedEventArgs(this.SourceProperty.Name));
-			}
+			this.TargetProperty.Value = this.SourceProperty.Value;
 		}
 		#endregion
 
 		#region IDisposable Members
 		public void Dispose()
 		{
-			this.Clear();
+			this.SourceProperty.Dispose();
+			this.TargetProperty.Dispose();
 		}
 		#endregion
 	}

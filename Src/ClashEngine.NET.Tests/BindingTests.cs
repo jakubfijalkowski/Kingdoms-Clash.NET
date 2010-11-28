@@ -24,39 +24,39 @@ namespace ClashEngine.NET.Tests
 		public void OneTimeBindingTests()
 		{
 			this.Data1.Data = 88;
-			var binding = new Binding(this.Data1, "Data", this.Data2, "Data", BindingMode.OneTime);
+			var binding = new Binding(this.Data1, new PropertyPath("Data"), this.Data2, new PropertyPath("Data"), BindingMode.OneTime);
 			Assert.AreEqual(this.Data1.Data, this.Data2.Data);
 			this.Data1.Data = 100;
 			Assert.AreNotEqual(this.Data1.Data, this.Data2.Data);
 			this.Data2.Data = 150;
 			Assert.AreNotEqual(this.Data1.Data, this.Data2.Data);
-			binding.Clear();
+			binding.Dispose();
 		}
 
 		[Test]
 		public void OneWayBindingTests()
 		{
-			var binding = new Binding(this.Data1, "Data", this.Data2, "Data", BindingMode.OneWay);
+			var binding = new Binding(this.Data1, new PropertyPath("Data"), this.Data2, new PropertyPath("Data"), BindingMode.OneWay);
 			this.Data1.Data = 88;
 			Assert.AreEqual(this.Data1.Data, this.Data2.Data);
 			this.Data1.Data = 100;
 			Assert.AreEqual(this.Data1.Data, this.Data2.Data);
 			this.Data2.Data = 150;
 			Assert.AreNotEqual(this.Data1.Data, this.Data2.Data);
-			binding.Clear();
+			binding.Dispose();
 		}
 
 		[Test]
 		public void TwoWayBindingTests()
 		{
-			var binding = new Binding(this.Data1, "Data", this.Data2, "Data", BindingMode.TwoWay);
+			var binding = new Binding(this.Data1, new PropertyPath("Data"), this.Data2, new PropertyPath("Data"), BindingMode.TwoWay);
 			this.Data1.Data = 88;
 			Assert.AreEqual(this.Data1.Data, this.Data2.Data);
 			this.Data1.Data = 100;
 			Assert.AreEqual(this.Data1.Data, this.Data2.Data);
 			this.Data2.Data = 150;
 			Assert.AreEqual(this.Data1.Data, this.Data2.Data);
-			binding.Clear();
+			binding.Dispose();
 		}
 
 		private class TestData
