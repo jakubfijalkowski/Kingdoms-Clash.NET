@@ -42,7 +42,7 @@ namespace ClashEngine.NET.Interfaces.Data
 		/// <summary>
 		/// Źródłowa właściwość, z której będą pobierane wartości.
 		/// </summary>
-		IPropertyPath SourceProperty { get; }
+		IPropertyPath SourcePath { get; }
 
 		/// <summary>
 		/// Obiekt docelowy.
@@ -52,7 +52,7 @@ namespace ClashEngine.NET.Interfaces.Data
 		/// <summary>
 		/// Docelowa właściwość, z której będą pobierane wartości.
 		/// </summary>
-		IPropertyPath TargetProperty { get; }
+		IPropertyPath TargetPath { get; }
 
 		/// <summary>
 		/// Typ konwertera użytego do konwersji pomiędzy końcami wiązania.

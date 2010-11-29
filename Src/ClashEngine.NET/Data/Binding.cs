@@ -32,7 +32,7 @@ namespace ClashEngine.NET.Data
 		/// <summary>
 		/// Źródłowa właściwość.
 		/// </summary>
-		public IPropertyPath SourceProperty { get; private set; }
+		public IPropertyPath SourcePath { get; private set; }
 
 		/// <summary>
 		/// Obiekt docelowy.
@@ -42,7 +42,7 @@ namespace ClashEngine.NET.Data
 		/// <summary>
 		/// Docelowa właściwość.
 		/// </summary>
-		public IPropertyPath TargetProperty { get; private set; }
+		public IPropertyPath TargetPath { get; private set; }
 
 		/// <summary>
 		/// Konwerter.
@@ -82,29 +82,29 @@ namespace ClashEngine.NET.Data
 				throw new ArgumentNullException("targetProperty");
 			}
 			this.Source = source;
-			this.SourceProperty = sourceProperty;
-			if (!this.SourceProperty.Initialized)
+			this.SourcePath = sourceProperty;
+			if (!this.SourcePath.Initialized)
 			{
-				this.SourceProperty.BeginInit();
-				this.SourceProperty.Root = this.Source;
-				this.SourceProperty.EndInit();
+				this.SourcePath.BeginInit();
+				this.SourcePath.Root = this.Source;
+				this.SourcePath.EndInit();
 			}
 			else
 			{
-				this.SourceProperty.Root = this.Source;
+				this.SourcePath.Root = this.Source;
 			}
 
 			this.Target = target;
-			this.TargetProperty = targetProperty;
-			if (!this.TargetProperty.Initialized)
+			this.TargetPath = targetProperty;
+			if (!this.TargetPath.Initialized)
 			{
-				this.TargetProperty.BeginInit();
-				this.TargetProperty.Root = this.Target;
-				this.TargetProperty.EndInit();
+				this.TargetPath.BeginInit();
+				this.TargetPath.Root = this.Target;
+				this.TargetPath.EndInit();
 			}
 			else
 			{
-				this.TargetProperty.Root = this.Target;
+				this.TargetPath.Root = this.Target;
 			}
 
 			this.Mode = mode;
@@ -113,7 +113,7 @@ namespace ClashEngine.NET.Data
 
 			if (setTarget)
 			{
-				this.TargetProperty.Value = this.GetConvertedSource();
+				this.TargetPath.Value = this.GetConvertedSource();
 			}
 		}
 
@@ -153,7 +153,7 @@ namespace ClashEngine.NET.Data
 			}
 			this.ControlFlowTarget = true;
 
-			this.TargetProperty.Value = this.GetConvertedSource();
+			this.TargetPath.Value = this.GetConvertedSource();
 		}
 
 		/// <summary>
@@ -170,7 +170,7 @@ namespace ClashEngine.NET.Data
 			}
 			this.ControlFlowSource = true;
 
-			this.SourceProperty.Value = this.GetConvertedTarget();
+			this.SourcePath.Value = this.GetConvertedTarget();
 		}
 
 		/// <summary>
@@ -179,10 +179,10 @@ namespace ClashEngine.NET.Data
 		/// <returns></returns>
 		private object GetConvertedSource()
 		{
-			object obj = this.SourceProperty.Value;
-			if (obj != null && this.SourceConverter.CanConvertTo(this.TargetProperty.ValueType))
+			object obj = this.SourcePath.Value;
+			if (obj != null && this.SourceConverter.CanConvertTo(this.TargetPath.ValueType))
 			{
-				obj = this.SourceConverter.ConvertTo(obj, this.TargetProperty.ValueType);
+				obj = this.SourceConverter.ConvertTo(obj, this.TargetPath.ValueType);
 			}
 			else if (obj != null && this.TargetConverter.CanConvertFrom(obj.GetType()))
 			{
@@ -197,10 +197,10 @@ namespace ClashEngine.NET.Data
 		/// <returns></returns>
 		private object GetConvertedTarget()
 		{
-			object obj = this.TargetProperty.Value;
-			if (obj != null && this.TargetConverter.CanConvertTo(this.SourceProperty.ValueType))
+			object obj = this.TargetPath.Value;
+			if (obj != null && this.TargetConverter.CanConvertTo(this.SourcePath.ValueType))
 			{
-				obj = this.TargetConverter.ConvertTo(obj, this.SourceProperty.ValueType);
+				obj = this.TargetConverter.ConvertTo(obj, this.SourcePath.ValueType);
 			}
 			else if (obj != null && this.SourceConverter.CanConvertFrom(obj.GetType()))
 			{
@@ -221,8 +221,8 @@ namespace ClashEngine.NET.Data
 			}
 			else
 			{
-				this.SourceConverter = this.SourceProperty.ValueConverter;
-				this.TargetConverter = this.TargetProperty.ValueConverter;
+				this.SourceConverter = this.SourcePath.ValueConverter;
+				this.TargetConverter = this.TargetPath.ValueConverter;
 			}
 			#endregion
 
@@ -231,12 +231,12 @@ namespace ClashEngine.NET.Data
 			switch (this.Mode)
 			{
 			case BindingMode.OneWay:
-				this.SourceProperty.PropertyChanged += new PropertyChangedEventHandler(this.SourceToTarget);
+				this.SourcePath.PropertyChanged += new PropertyChangedEventHandler(this.SourceToTarget);
 				break;
 
 			case BindingMode.TwoWay:
-				this.SourceProperty.PropertyChanged += new PropertyChangedEventHandler(this.SourceToTarget);
-				this.TargetProperty.PropertyChanged += new PropertyChangedEventHandler(this.TargetToSource);
+				this.SourcePath.PropertyChanged += new PropertyChangedEventHandler(this.SourceToTarget);
+				this.TargetPath.PropertyChanged += new PropertyChangedEventHandler(this.TargetToSource);
 				break;
 			}
 			#endregion
@@ -250,15 +250,15 @@ namespace ClashEngine.NET.Data
 		/// </summary>
 		internal void ForceUpdateTarget()
 		{
-			this.TargetProperty.Value = this.SourceProperty.Value;
+			this.TargetPath.Value = this.SourcePath.Value;
 		}
 		#endregion
 
 		#region IDisposable Members
 		public void Dispose()
 		{
-			this.SourceProperty.Dispose();
-			this.TargetProperty.Dispose();
+			this.SourcePath.Dispose();
+			this.TargetPath.Dispose();
 		}
 		#endregion
 	}
