@@ -83,15 +83,29 @@ namespace ClashEngine.NET.Data
 			}
 			this.Source = source;
 			this.SourceProperty = sourceProperty;
-			this.SourceProperty.BeginInit();
-			this.SourceProperty.Root = this.Source;
-			this.SourceProperty.EndInit();
+			if (!this.SourceProperty.Initialized)
+			{
+				this.SourceProperty.BeginInit();
+				this.SourceProperty.Root = this.Source;
+				this.SourceProperty.EndInit();
+			}
+			else
+			{
+				this.SourceProperty.Root = this.Source;
+			}
 
 			this.Target = target;
 			this.TargetProperty = targetProperty;
-			this.TargetProperty.BeginInit();
-			this.TargetProperty.Root = this.Target;
-			this.TargetProperty.EndInit();
+			if (!this.TargetProperty.Initialized)
+			{
+				this.TargetProperty.BeginInit();
+				this.TargetProperty.Root = this.Target;
+				this.TargetProperty.EndInit();
+			}
+			else
+			{
+				this.TargetProperty.Root = this.Target;
+			}
 
 			this.Mode = mode;
 			this.ConverterType = converterType;

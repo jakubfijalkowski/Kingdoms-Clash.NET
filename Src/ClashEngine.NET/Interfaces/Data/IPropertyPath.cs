@@ -39,5 +39,10 @@ namespace ClashEngine.NET.Interfaces.Data
 		/// Aktualna wartość.
 		/// </summary>
 		object Value { get; set; }
+
+		/// <summary>
+		/// Czy obiekt został zainicjalizowany.
+		/// </summary>
+		bool Initialized { get; }
 	}
 }

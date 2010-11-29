@@ -22,8 +22,6 @@ namespace ClashEngine.NET.Data
 
 		private List<Internals.IPropertyLevel> Levels = new List<Internals.IPropertyLevel>();
 		private int PathLevels = 0;
-
-		private bool Initialized = false;
 		#endregion
 
 		#region IPropertyPath Members
@@ -95,6 +93,11 @@ namespace ClashEngine.NET.Data
 				, value);
 			}
 		}
+
+		/// <summary>
+		/// Czy obiekt został zainicjalizowany.
+		/// </summary>
+		public bool Initialized { get; private set; }
 		#endregion
 
 		#region INotifyPropertyChanged Members
