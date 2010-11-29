@@ -41,8 +41,14 @@ namespace ClashEngine.NET.Data
 				{
 					throw new ArgumentException(string.Format("Value must be of type {0}", this.RootType.Name), "value");
 				}
+				this.UnregisterListeners();
 				this._Root = value;
+				this.RegisterListeners();
 				this.Evaluate();
+				if (this.PropertyChanged != null)
+				{
+					this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
+				}
 			}
 		}
 
@@ -172,12 +178,7 @@ namespace ClashEngine.NET.Data
 			this.ValueConverter = this.Levels[this.Levels.Count - 1].GetTypeConverter();
 
 			//Dodajemy zdarzenia PropertyChanged tam gdzie się da
-			object lastObj = this.Root;
-			foreach (var lvl in this.Levels)
-			{
-				lvl.RegisterPropertyChanged(lastObj);
-				lastObj = lvl.Value;
-			}
+			this.RegisterListeners();
 			this.Initialized = true;
 		}
 		#endregion
@@ -311,6 +312,26 @@ namespace ClashEngine.NET.Data
 		private static object[] CreateIndecies(string str)
 		{
 			return new object[] { int.Parse(str) };
+		}
+
+		private void RegisterListeners()
+		{
+			object lastObj = this.Root;
+			foreach (var lvl in this.Levels)
+			{
+				lvl.RegisterPropertyChanged(lastObj);
+				lastObj = lvl.Value;
+			}
+		}
+
+		private void UnregisterListeners()
+		{
+			object lastObj = this.Root;
+			foreach (var lvl in this.Levels)
+			{
+				lvl.UnregisterPropertyChanged(lastObj);
+				lastObj = lvl.Value;
+			}
 		}
 		#endregion
 

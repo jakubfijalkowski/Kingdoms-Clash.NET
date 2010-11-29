@@ -12,7 +12,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 	/// </summary>
 	[DebuggerDisplay("Text {TextValue}")]
 	public class Text
-		: IText
+		: Data.DataContextBase, IText
 	{
 		#region Private fields
 		private IFont _Font = null;

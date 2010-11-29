@@ -1,7 +1,7 @@
 ﻿<XamlGuiContainer xmlns="clr-namespace:ClashEngine.NET.Graphics.Gui;assembly=ClashEngine.NET"
-                  xmlns:d="clr-namespace:ClashEngine.NET.Data;assembly=ClashEngine.NET"
-                  xmlns:o="clr-namespace:ClashEngine.NET.Graphics.Gui.Objects;assembly=ClashEngine.NET"
-				          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                 xmlns:d="clr-namespace:ClashEngine.NET.Data;assembly=ClashEngine.NET"
+                 xmlns:o="clr-namespace:ClashEngine.NET.Graphics.Gui.Objects;assembly=ClashEngine.NET"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <XamlGuiContainer.Triggers>
     <!--<MultiIf Type="Or">
@@ -18,6 +18,13 @@
         <Set Object="Panel1Img" PropertyName="Visible" Value="false" />
       </MultiIf.Triggers>
     </MultiIf>-->
+
+    <If Object="Button2" PropertyName="Clicked" Value="true">
+      <Set Object="Panel1Txt" PropertyName="DataContext" Value="{x:Reference Tb1}" />
+    </If>
+    <If Object="Button3" PropertyName="Clicked" Value="true">
+      <Set Object="Panel1Txt" PropertyName="DataContext" Value="{x:Reference Tb2}" />
+    </If>
   </XamlGuiContainer.Triggers>
 
   <XamlGuiContainer.Controls>
@@ -38,17 +45,17 @@
 
     <Panel Id="Panel1" Position="150, 150" Size="100, 100">
       <o:Rectangle Color="1,1,1,1" Depth="1" />
-      <o:Text x:Name="Panel1Txt" Font="Arial,15" TextValue="{d:Binding Source=Tb1,Path=Text}" Color="0,1,0,1" Depth="0" />
+      <o:Text x:Name="Panel1Txt" DataContext="Tb1" Font="Arial,15" TextValue="{d:Binding Text}" Color="0,1,0,1" Depth="0" />
     </Panel>
 
     <TextBox Id="Tb1" Position="300, 300" Size="250, 18">
       <o:Rectangle Color="1,1,1,1" Depth="1" />
-      <o:Text Font="Arial,15,bi" TextValue="{d:Binding Source=Tb1,Path=Text}" Color="0,1,0,1" Depth="0" />
+      <o:Text DataContext="Tb1" Font="Arial,15" TextValue="{d:Binding Text}" Color="0,1,0,1" Depth="0" />
     </TextBox>
 
-    <Panel Id="Panel2" Position="350, 150" Size="100, 100">
+    <TextBox Id="Tb2" Position="300, 330" Size="250, 18">
       <o:Rectangle Color="1,1,1,1" Depth="1" />
-      <o:Text x:Name="Panel2Txt" Font="Arial,15" TextValue="{d:Binding Source=Tb1,Path=Text}" Color="0,1,0,1" Depth="0" />
-    </Panel>
+      <o:Text DataContext="Tb2" Font="Arial,15" TextValue="{d:Binding Text}" Color="0,1,0,1" Depth="0" />
+    </TextBox>
   </XamlGuiContainer.Controls>
 </XamlGuiContainer>

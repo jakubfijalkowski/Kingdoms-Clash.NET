@@ -80,6 +80,7 @@
     <Compile Include="Converters\Vector2Converter.cs" />
     <Compile Include="Converters\Vector4Converter.cs" />
     <Compile Include="Data\Binding.cs" />
+    <Compile Include="Data\DataContextBase.cs" />
     <Compile Include="Data\Internals\IndexerLevel.cs" />
     <Compile Include="Data\Internals\IPropertyLevel.cs" />
     <Compile Include="Data\OneLevelPropertyPath.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Graphics\Resources\Internals\AtlasTexture.cs" />
     <Compile Include="Graphics\Resources\TexturesAtlas.cs" />
     <Compile Include="Input.cs" />
+    <Compile Include="Interfaces\Data\IDataContext.cs" />
     <Compile Include="Interfaces\Data\IPropertyPath.cs" />
     <Compile Include="Interfaces\Graphics\Cameras\IMovable2DCamera.cs" />
     <Compile Include="Interfaces\Graphics\Components\ITerrain.cs" />

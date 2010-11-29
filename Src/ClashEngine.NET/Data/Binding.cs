@@ -27,7 +27,11 @@ namespace ClashEngine.NET.Data
 		/// <summary>
 		/// Obiekt źródłowy.
 		/// </summary>
-		public object Source { get; internal set; }
+		public object Source
+		{
+			get { return this.SourcePath.Root; }
+			internal set { this.SourcePath.Root = value; }
+		}
 
 		/// <summary>
 		/// Źródłowa właściwość.
@@ -37,7 +41,10 @@ namespace ClashEngine.NET.Data
 		/// <summary>
 		/// Obiekt docelowy.
 		/// </summary>
-		public object Target { get; private set; }
+		public object Target
+		{
+			get { return this.TargetPath.Root; }
+		}
 
 		/// <summary>
 		/// Docelowa właściwość.
@@ -81,30 +88,28 @@ namespace ClashEngine.NET.Data
 			{
 				throw new ArgumentNullException("targetProperty");
 			}
-			this.Source = source;
 			this.SourcePath = sourceProperty;
 			if (!this.SourcePath.Initialized)
 			{
 				this.SourcePath.BeginInit();
-				this.SourcePath.Root = this.Source;
+				this.SourcePath.Root = source;
 				this.SourcePath.EndInit();
 			}
 			else
 			{
-				this.SourcePath.Root = this.Source;
+				this.SourcePath.Root = source;
 			}
 
-			this.Target = target;
 			this.TargetPath = targetProperty;
 			if (!this.TargetPath.Initialized)
 			{
 				this.TargetPath.BeginInit();
-				this.TargetPath.Root = this.Target;
+				this.TargetPath.Root = target;
 				this.TargetPath.EndInit();
 			}
 			else
 			{
-				this.TargetPath.Root = this.Target;
+				this.TargetPath.Root = target;
 			}
 
 			this.Mode = mode;
@@ -240,17 +245,6 @@ namespace ClashEngine.NET.Data
 				break;
 			}
 			#endregion
-		}
-		#endregion
-
-		#region Internals
-		/// <summary>
-		/// Wymusza uaktualnienie celu(jeśli Mode != OneTime).
-		/// Używane przez BindingExtension.
-		/// </summary>
-		internal void ForceUpdateTarget()
-		{
-			this.TargetPath.Value = this.SourcePath.Value;
 		}
 		#endregion
 

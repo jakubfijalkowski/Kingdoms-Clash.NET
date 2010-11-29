@@ -11,6 +11,12 @@ namespace ClashEngine.NET.Data
 	/// <summary>
 	/// Binduje wartość wewnątrz kontenera Xaml.
 	/// </summary>
+	/// <remarks>
+	/// Gdy Source jest nullem i obiekt-rodzic dziedziczy z IDataContex to za source podstawiany jest kontekst.
+	/// Gdy Source jest ciągiem znaków traktowany jest jak nazwa XAML i rozwiązywany jest za pomocą IXamlNameResolver lub,
+	/// gdy jest równy "self" - do Source przypisywany jest obiekt-rodzic. 
+	/// Gdy Source jest pusty i kontekst danych jest nullem - czekamy na ustawienie kontekstu.
+	/// </remarks>
 	[MarkupExtensionReturnType(typeof(object))]
 	public class BindingExtension
 		: MarkupExtension, IBindingExtension
@@ -71,41 +77,61 @@ namespace ClashEngine.NET.Data
 		#region MarkupExtension Members
 		public override object ProvideValue(IServiceProvider serviceProvider)
 		{
+			#region Providers
 			var targetProvider = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
 			if (targetProvider == null || targetProvider.TargetObject == null || targetProvider.TargetProperty == null)
 			{
 				throw new InvalidOperationException("IProvideValueTarget");
 			}
+			#endregion
 
-			if (this.Source == null)
+			#region Target
+			this.Target = targetProvider.TargetObject;
+			this.TargetPath = new OneLevelPropertyPath(targetProvider.TargetProperty as PropertyInfo);
+			#endregion
+
+			#region Source
+			if (this.Source == null && (this.Target is IDataContext))
+			{
+				(this.Target as IDataContext).PropertyChanged += this.DataContextChanged;
+				this.Source = (this.Target as IDataContext).DataContext;
+				if (this.Source == null)
+					return null;
+			}
+			else if (this.Source == null)
 			{
 				this.Source = targetProvider.TargetObject;
 			}
 			else if (this.Source is string)
 			{
-				var nameResolver = serviceProvider.GetService(typeof(IXamlNameResolver)) as IXamlNameResolver;
-				if (nameResolver == null)
+				if ((this.Source as string).ToLower() == "self")
 				{
-					throw new InvalidOperationException("IXamlNameResolver");
+					this.Source = this.Target;
 				}
-				bool fulliInit = false;
-				object source = nameResolver.Resolve(this.Source as string, out fulliInit);
-				if (source == null)
+				else
 				{
-					if (nameResolver.IsFixupTokenAvailable)
+					var nameResolver = serviceProvider.GetService(typeof(IXamlNameResolver)) as IXamlNameResolver;
+					if (nameResolver == null)
 					{
-						return nameResolver.GetFixupToken(new string[] { this.Source as string });
+						throw new InvalidOperationException("IXamlNameResolver");
 					}
-					else
+					bool fulliInit = false;
+					object source = nameResolver.Resolve(this.Source as string, out fulliInit);
+					if (source == null)
 					{
-						throw new InvalidOperationException("Cannot find Source");
+						if (nameResolver.IsFixupTokenAvailable)
+						{
+							return nameResolver.GetFixupToken(new string[] { this.Source as string });
+						}
+						else
+						{
+							throw new InvalidOperationException("Cannot find Source");
+						}
 					}
+					this.Source = source;
 				}
-				this.Source = source;
 			}
-
-			this.Target = targetProvider.TargetObject;
-			this.TargetPath = new OneLevelPropertyPath(targetProvider.TargetProperty as PropertyInfo);
+			#endregion
 
 			this.Binding = new Binding(this.Source, this.SourcePath, this.Target, this.TargetPath, false, this.Mode, this.ConverterType);
 
@@ -113,9 +139,56 @@ namespace ClashEngine.NET.Data
 		}
 		#endregion
 
+		#region Constructors
+		/// <summary>
+		/// Inicjalizuje puste rozszerzenie XAML.
+		/// </summary>
+		public BindingExtension()
+		{ }
+
+		/// <summary>
+		/// Inicjalizuje rozszerzenie XAML.
+		/// </summary>
+		/// <param name="path">Ścieżka do źródła.</param>
+		public BindingExtension(string path)
+		{
+			this.Path = new PropertyPath(path);
+		}
+		#endregion
+
+		#region Private members
+		private void DataContextChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "DataContext")
+			{
+				var newDataContext = (this.Target as IDataContext).DataContext;
+				if (this.Source == null) //Nowy kontekst
+				{
+					if (newDataContext != null)
+					{
+						this.Source = newDataContext;
+						this.Binding = new Binding(this.Source, this.SourcePath, this.Target, this.TargetPath, true, this.Mode, this.ConverterType);
+					}
+				}
+				else //Aktualizacja
+				{
+					if (newDataContext != null && newDataContext.GetType() != this.Binding.SourcePath.RootType)
+					{
+						throw new InvalidOperationException("Cannot change context type after");
+					}
+					this.Binding.Source = this.Source = newDataContext;
+				}
+			}
+		}
+		#endregion
+
 		#region IDisposable Members
 		public void Dispose()
 		{
+			if (this.Target is INotifyPropertyChanged)
+			{
+				(this.Target as IDataContext).PropertyChanged -= this.DataContextChanged;
+			}
 			this.Binding.Dispose();
 		}
 		#endregion
