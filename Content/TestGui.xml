@@ -45,5 +45,10 @@
       <o:Rectangle Color="1,1,1,1" Depth="1" />
       <o:Text Font="Arial,15,bi" TextValue="{d:Binding Source=Tb1,Path=Text}" Color="0,1,0,1" Depth="0" />
     </TextBox>
+
+    <Panel Id="Panel2" Position="350, 150" Size="100, 100">
+      <o:Rectangle Color="1,1,1,1" Depth="1" />
+      <o:Text x:Name="Panel2Txt" Font="Arial,15" TextValue="{d:Binding Source=Tb1,Path=Text}" Color="0,1,0,1" Depth="0" />
+    </Panel>
   </XamlGuiContainer.Controls>
 </XamlGuiContainer>

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Reflection;
-using System.Xaml;
 using System.Windows.Markup;
+using System.Xaml;
 
 namespace ClashEngine.NET.Data
 {
@@ -88,7 +88,8 @@ namespace ClashEngine.NET.Data
 				{
 					throw new InvalidOperationException("IXamlNameResolver");
 				}
-				object source = nameResolver.Resolve(this.Source as string);
+				bool fulliInit = false;
+				object source = nameResolver.Resolve(this.Source as string, out fulliInit);
 				if (source == null)
 				{
 					if (nameResolver.IsFixupTokenAvailable)
