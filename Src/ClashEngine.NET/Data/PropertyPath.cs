@@ -21,7 +21,6 @@ namespace ClashEngine.NET.Data
 		private Type _RootType = null;
 
 		private List<Internals.IPropertyLevel> Levels = new List<Internals.IPropertyLevel>();
-		private int PathLevels = 0;
 		#endregion
 
 		#region IPropertyPath Members
@@ -88,6 +87,10 @@ namespace ClashEngine.NET.Data
 			}
 			set
 			{
+				if (!this.Initialized)
+				{
+					throw new InvalidOperationException("Initialize first");
+				}
 				this.Levels[this.Levels.Count - 1].SetValue(
 					this.Levels.Count == 1 ? this.Root : this.Levels[this.Levels.Count - 2].Value
 				, value);
@@ -108,9 +111,21 @@ namespace ClashEngine.NET.Data
 		#endregion
 
 		#region ISupportInitialize Members
+		/// <summary>
+		/// Nieużywane.
+		/// </summary>
 		public void BeginInit()
 		{ }
 
+		/// <summary>
+		/// Kończy inicjalizację obiektu.
+		/// </summary>
+		/// <remarks>
+		/// Ustawia, jeśli nie ustawiono RootType.
+		/// Parsuje ścieżkę.
+		/// Rejestruje, jeśli może, zdarzenia OnPropertyChanged.
+		/// Jeśli może to oblicza wartość.
+		/// </remarks>
 		public void EndInit()
 		{
 			if (this.RootType == null && this.Root != null)
@@ -121,7 +136,6 @@ namespace ClashEngine.NET.Data
 			{
 				throw new InvalidOperationException("RootType must be set.");
 			}
-			this.PathLevels = this.Path.Count(c => c == '.' || c == '[') + 1;
 
 			//Parsujemy ścieżkę
 			var parts = this.Path.Split('.');

@@ -1,4 +1,5 @@
-﻿namespace ClashEngine.NET.Interfaces.Data
+﻿using System.ComponentModel;
+namespace ClashEngine.NET.Interfaces.Data
 {
 	/// <summary>
 	/// Rozszerzenie XAML wiążące wartości.
@@ -12,8 +13,10 @@
 		new BindingMode Mode { get; set; }
 
 		/// <summary>
-		/// Ścieżka do elementu docelowego.
+		/// Ścieżka do elementu źródłowego.
+		/// Alias dla IBinding.SourcePath.
 		/// </summary>
-		string Path { get; set; }
+		[TypeConverter(typeof(Converters.PropertyPathConverter))]
+		IPropertyPath Path { get; set; }
 	}
 }
