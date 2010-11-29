@@ -132,7 +132,7 @@ namespace ClashEngine.NET.Data
 					lastType = this.HandleType(lvl);
 					++j;
 
-					lvl = new Internals.IndexerLevel(lastType, CreateIndecies(parts[0].Substring(openBracket + 1, closeBracket - openBracket - 1)), j, this.ValueChanged);
+					lvl = new Internals.IndexerLevel(lastType, CreateIndecies(parts[i].Substring(openBracket + 1, closeBracket - openBracket - 1)), j, this.ValueChanged);
 					this.Levels.Add(lvl);
 					lastType = this.HandleType(lvl);
 				}
