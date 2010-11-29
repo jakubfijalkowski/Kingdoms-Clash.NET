@@ -132,7 +132,6 @@
     <Compile Include="Graphics\Resources\Internals\AtlasTexture.cs" />
     <Compile Include="Graphics\Resources\TexturesAtlas.cs" />
     <Compile Include="Input.cs" />
-    <Compile Include="Interfaces\Data\IDataContext.cs" />
     <Compile Include="Interfaces\Data\IPropertyPath.cs" />
     <Compile Include="Interfaces\Graphics\Cameras\IMovable2DCamera.cs" />
     <Compile Include="Interfaces\Graphics\Components\ITerrain.cs" />

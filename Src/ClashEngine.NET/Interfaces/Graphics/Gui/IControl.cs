@@ -4,7 +4,6 @@
 	/// Bazowy interfejs dla kontrolki GUI.
 	/// </summary>
 	public interface IControl
-		: Data.IDataContext
 	{
 		/// <summary>
 		/// Identyfikator kontrolki.

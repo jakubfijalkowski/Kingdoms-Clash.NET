@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Windows.Markup;
 using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Gui.Objects
@@ -13,7 +12,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 	/// </summary>
 	[DebuggerDisplay("Text {TextValue}")]
 	public class Text
-		: IText, Interfaces.Data.IDataContext
+		: IText
 	{
 		#region Private fields
 		private IFont _Font = null;
@@ -23,7 +22,6 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		private bool WasSizeSet = false;
 		private bool WasPositionSet = false;
 		private bool Initialized = false;
-		private object _DataContext = null;
 		#endregion
 
 		#region IText Members
@@ -154,33 +152,6 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			}
 			this.UpdateTexture();
 		}
-		#endregion
-
-		#region IDataContext Members
-		/// <summary>
-		/// Kontekst danych.
-		/// </summary>
-		[TypeConverter(typeof(NameReferenceConverter))]
-		[DefaultValue(null)]
-		public object DataContext
-		{
-			get { return this._DataContext; }
-			set
-			{
-				this._DataContext = value;
-				if (this.PropertyChanged != null)
-				{
-					this.PropertyChanged(this, new PropertyChangedEventArgs("DataContext"));
-				}
-			}
-		}
-		#endregion
-		
-		#region INotifyPropertyChanged Members
-		/// <summary>
-		/// Wywoływane przy zmianie DataContext.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
 		#endregion
 
 		#region Constructors
