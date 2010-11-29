@@ -80,7 +80,14 @@ namespace ClashEngine.NET.Data
 		/// </summary>
 		public object Value
 		{
-			get { return this.Levels[this.Levels.Count - 1].Value; }
+			get
+			{
+				if (!this.Initialized)
+				{
+					throw new InvalidOperationException("Initialize first");
+				}
+				return this.Levels[this.Levels.Count - 1].Value;
+			}
 			set
 			{
 				this.Levels[this.Levels.Count - 1].SetValue(
