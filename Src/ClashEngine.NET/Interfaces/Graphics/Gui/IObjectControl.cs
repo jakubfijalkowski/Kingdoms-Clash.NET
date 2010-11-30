@@ -1,7 +1,7 @@
 ﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
 {
 	/// <summary>
-	/// Kontrolka, która posiada obiekty renderera.
+	/// Kontrolka GUI, której wygląd można definiować za pomocą "obiektów".
 	/// </summary>
 	public interface IObjectControl
 		: IControl

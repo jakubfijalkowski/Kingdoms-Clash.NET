@@ -4,6 +4,9 @@ namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces.Graphics.Gui;
 
+	/// <summary>
+	/// Bazowa klasa dla kontrolek GUI, których wygląd można definiować za pomocą "obiektów".
+	/// </summary>
 	[ContentProperty("Objects")]
 	public abstract class ObjectControlBase
 		: ControlBase, IObjectControl

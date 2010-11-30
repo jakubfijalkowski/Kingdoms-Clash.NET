@@ -8,7 +8,7 @@ namespace ClashEngine.NET.Graphics.Gui
 	using Utilities;
 
 	/// <summary>
-	/// Bazowa klasa dla kontrolek zdolnych do serializacji do XAML.
+	/// Bazowa klasa dla kontrolek GUI.
 	/// </summary>
 	[RuntimeNameProperty("Id")]
 	[DebuggerDisplay("{GetType().Name,nq} {Id,nq}")]
