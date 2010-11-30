@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using ClashEngine.NET.Interfaces;
 using Moq;
 using NUnit.Framework;
-
-using ClashEngine.NET;
-using ClashEngine.NET.Interfaces;
 
 namespace ClashEngine.NET.Tests
 {
@@ -23,7 +20,8 @@ namespace ClashEngine.NET.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			this.Manager = new ScreensManager(null, null, null);
+			this.Manager = new ScreensManager(null, null, new Mock<Interfaces.Graphics.IRenderer>().Object);
+
 			this.Screen1 = new Mock<Screen>("Screen1", ScreenType.Fullscreen);
 			this.Screen1.Setup(s => s.OnInit());
 			this.Screen1.Setup(s => s.OnDeinit());
