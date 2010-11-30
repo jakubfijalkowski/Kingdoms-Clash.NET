@@ -1,10 +1,12 @@
-﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
+﻿using System.ComponentModel;
+
+namespace ClashEngine.NET.Interfaces.Graphics.Gui
 {
 	/// <summary>
 	/// Przycisk.
 	/// </summary>
 	public interface IButton
-		: IControl, System.ComponentModel.INotifyPropertyChanged
+		: IObjectControl, INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Czy przycisk jest wciśnięty.

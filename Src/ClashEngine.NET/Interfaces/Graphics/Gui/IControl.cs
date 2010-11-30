@@ -26,11 +26,6 @@
 		OpenTK.Vector2 Size { get; set; }
 
 		/// <summary>
-		/// Kolekcja z obiektami renderera dla kontrolki.
-		/// </summary>
-		IObjectsCollection Objects { get; }
-
-		/// <summary>
 		/// Czy kontrolka ma być "permanentnie" aktywna, tzn. czy po puszczeniu przycisku myszy przestaje być aktywna.
 		/// </summary>
 		bool PermanentActive { get; }

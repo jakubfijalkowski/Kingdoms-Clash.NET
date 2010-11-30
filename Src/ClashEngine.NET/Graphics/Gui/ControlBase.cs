@@ -10,7 +10,6 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// <summary>
 	/// Bazowa klasa dla kontrolek zdolnych do serializacji do XAML.
 	/// </summary>
-	[ContentProperty("Objects")]
 	[RuntimeNameProperty("Id")]
 	[DebuggerDisplay("{GetType().Name,nq} {Id,nq}")]
 	public abstract class ControlBase
@@ -50,11 +49,6 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		protected IUIData Data { get { return (this as IControl).Data; } }
-
-		/// <summary>
-		/// Lista z obiektami dla renderera.
-		/// </summary>
-		public IObjectsCollection Objects { get; private set; }
 
 		/// <summary>
 		/// Czy kontrolka jest aktywna.
@@ -105,18 +99,10 @@ namespace ClashEngine.NET.Graphics.Gui
 		public abstract bool PermanentActive { get; }
 
 		/// <summary>
-		/// Rysuje wszystkie obiekty kontrolki.
+		/// Nic nie robi.
 		/// </summary>
-		public void Render()
-		{
-			foreach (var obj in this.Objects)
-			{
-				if (obj.Visible)
-				{
-					this.Data.Renderer.Draw(obj);
-				}
-			}
-		}
+		public virtual void Render()
+		{ }
 
 		/// <summary>
 		/// Sprawdza, czy myszka znajduje się nad kontrolką.
@@ -156,7 +142,6 @@ namespace ClashEngine.NET.Graphics.Gui
 		#region Constructors
 		public ControlBase()
 		{
-			this.Objects = new ObjectsCollection(this);
 			this.Visible = true;
 		}
 		#endregion

@@ -4,6 +4,6 @@
 	/// Panel - nie uczestniczy w interakcji z użytkownikiem, jest "statyczny".
 	/// </summary>
 	public interface IPanel
-		: IControl
+		: IObjectControl
 	{ }
 }

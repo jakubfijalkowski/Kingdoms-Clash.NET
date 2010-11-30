@@ -12,7 +12,7 @@ namespace ClashEngine.NET.Graphics.Gui
 	///	  Clicked
 	/// </remarks>
 	public class Button
-		: ControlBase, IButton
+		: ObjectControlBase, IButton
 	{
 		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]

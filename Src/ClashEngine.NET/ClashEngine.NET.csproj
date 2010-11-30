@@ -109,6 +109,7 @@
     <Compile Include="Graphics\Gui\Container.cs" />
     <Compile Include="Graphics\Gui\Entity.cs" />
     <Compile Include="Graphics\Gui\Conditions\If.cs" />
+    <Compile Include="Graphics\Gui\ObjectControlBase.cs" />
     <Compile Include="Graphics\Gui\ObjectsCollection.cs" />
     <Compile Include="Graphics\Gui\Objects\Image.cs" />
     <Compile Include="Graphics\Gui\Objects\Rectangle.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Interfaces\Graphics\Gui\IEntity.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Conditions\IIf.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IObject.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\IObjectControl.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IObjectsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Controls\IPanel.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IScreen.cs" />

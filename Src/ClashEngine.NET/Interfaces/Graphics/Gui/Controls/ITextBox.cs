@@ -4,7 +4,7 @@
 	/// Pole tekstowe.
 	/// </summary>
 	public interface ITextBox
-		: IControl
+		: IObjectControl
 	{
 		/// <summary>
 		/// Tekst.
