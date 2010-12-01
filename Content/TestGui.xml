@@ -1,7 +1,5 @@
-﻿<XamlGuiContainer xmlns="clr-namespace:ClashEngine.NET.Graphics.Gui;assembly=ClashEngine.NET"
-                 xmlns:d="clr-namespace:ClashEngine.NET.Data;assembly=ClashEngine.NET"
-                 xmlns:o="clr-namespace:ClashEngine.NET.Graphics.Gui.Objects;assembly=ClashEngine.NET"
-xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<XamlGuiContainer xmlns="GUI"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <XamlGuiContainer.Triggers>
     <!--<MultiIf Type="Or">
@@ -28,34 +26,34 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   </XamlGuiContainer.Triggers>
 
   <XamlGuiContainer.Controls>
-    <Button x:Name="Button1" Position="10,10" Size="80,80">
-      <o:Rectangle Color="1,1,1,1" Depth="2" />
-      <o:Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
+    <Button Id="Button1" Position="10,10" Size="80,80">
+      <Rectangle Color="1,1,1,1" Depth="2" />
+      <Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
     </Button>
 
-    <Button x:Name="Button2" Position="100,10" Size="80,80">
-      <o:Rectangle Color="1,1,1,1" Depth="2" />
-      <o:Text Font="Arial,15,bi" TextValue="Textbox 1" Color="0,0,1,1" Depth="0" />
+    <Button ID="Button2" Position="100,10" Size="80,80">
+      <Rectangle Color="1,1,1,1" Depth="2" />
+      <Text Font="Arial,15,bi" TextValue="Textbox 1" Color="0,0,1,1" Depth="0" />
     </Button>
 
-    <Button x:Name="Button3" Position="190,10" Size="80,80">
-      <o:Rectangle Color="1,1,1,1" Depth="2" />
-      <o:Text Font="Arial,15,bi" TextValue="Textbox 2" Color="0,0,1,1" Depth="0" />
+    <Button Id="Button3" Position="190,10" Size="80,80">
+      <Rectangle Color="1,1,1,1" Depth="2" />
+      <Text Font="Arial,15,bi" TextValue="Textbox 2" Color="0,0,1,1" Depth="0" />
     </Button>
 
     <Panel Id="Panel1" Position="150, 150" Size="100, 100">
-      <o:Rectangle Color="1,1,1,1" Depth="1" />
-      <o:Text x:Name="Panel1Txt" DataContext="Tb1" Font="Arial,15" TextValue="{d:Binding Text}" Color="0,1,0,1" Depth="0" />
+      <Rectangle Color="1,1,1,1" Depth="1" />
+      <Text x:Name="Panel1Txt" DataContext="Tb1" Font="Arial,15" TextValue="{Binding Text}" Color="0,1,0,1" Depth="0" />
     </Panel>
 
     <TextBox Id="Tb1" Position="300, 300" Size="250, 18">
-      <o:Rectangle Color="1,1,1,1" Depth="1" />
-      <o:Text DataContext="Tb1" Font="Arial,15" TextValue="{d:Binding Text}" Color="0,1,0,1" Depth="0" />
+      <Rectangle Color="1,1,1,1" Depth="1" />
+      <Text DataContext="Tb1" Font="Arial,15" TextValue="{Binding Text}" Color="0,1,0,1" Depth="0" />
     </TextBox>
 
     <TextBox Id="Tb2" Position="300, 330" Size="250, 18">
-      <o:Rectangle Color="1,1,1,1" Depth="1" />
-      <o:Text DataContext="Tb2" Font="Arial,15" TextValue="{d:Binding Text}" Color="0,1,0,1" Depth="0" />
+      <Rectangle Color="1,1,1,1" Depth="1" />
+      <Text DataContext="Tb2" Font="Arial,15" TextValue="{Binding Text}" Color="0,1,0,1" Depth="0" />
     </TextBox>
   </XamlGuiContainer.Controls>
 </XamlGuiContainer>
