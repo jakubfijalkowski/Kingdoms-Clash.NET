@@ -31,7 +31,7 @@
       <Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
     </Button>
 
-    <Button ID="Button2" Position="100,10" Size="80,80">
+    <Button Id="Button2" Position="100,10" Size="80,80">
       <Rectangle Color="1,1,1,1" Depth="2" />
       <Text Font="Arial,15,bi" TextValue="Textbox 1" Color="0,0,1,1" Depth="0" />
     </Button>
