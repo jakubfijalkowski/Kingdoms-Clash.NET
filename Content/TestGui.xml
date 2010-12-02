@@ -17,35 +17,34 @@
       </MultiIf.Triggers>
     </MultiIf>-->
 
-    <If Object="Button2" Path="Clicked" Value="true">
-      <Set Object="Panel1Txt" Path="DataContext" Value="{x:Reference Tb1}" />
+    <If Object="Next" Path="Clicked" Value="true">
+      <Increase Object="Rotator1" Path="First" Amount="1" />
     </If>
-    <If Object="Button3" Path="Clicked" Value="true">
-      <Set Object="Panel1Txt" Path="DataContext" Value="{x:Reference Tb2}" />
+    <If Object="Prev" Path="Clicked" Value="true">
+      <Increase Object="Rotator1" Path="First" Amount="-1" />
     </If>
   </XamlGuiContainer.Triggers>
 
   <XamlGuiContainer.Controls>
-    <Rotator Id="Rotator1" SelectedItemsCount="1">
-    </Rotator>
+    <Rotator Id="Rotator1" MaxSelectedItems="1" />
     <Button Id="Button1" Position="10,10" Size="80,80">
       <Rectangle Color="1,1,1,1" Depth="2" />
       <Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
     </Button>
 
-    <Button Id="Next" Position="100,10" Size="80,80">
-      <Rectangle Color="1,1,1,1" Depth="2" />
-      <Text Font="Arial,15,bi" TextValue="Next" Color="0,0,1,1" Depth="0" />
-    </Button>
-
-    <Button Id="Prev" Position="190,10" Size="80,80">
+    <Button Id="Prev" Position="100,10" Size="80,80">
       <Rectangle Color="1,1,1,1" Depth="2" />
       <Text Font="Arial,15,bi" TextValue="Prev" Color="0,0,1,1" Depth="0" />
     </Button>
 
+    <Button Id="Next" Position="190,10" Size="80,80">
+      <Rectangle Color="1,1,1,1" Depth="2" />
+      <Text Font="Arial,15,bi" TextValue="Next" Color="0,0,1,1" Depth="0" />
+    </Button>
+
     <Panel Id="Panel1" Position="10, 100" Size="500, 500">
       <Rectangle Color="1,1,1,1" Depth="1" />
-      <Image Texture="{Binding Source=Rotator1,Path=Selected[0]}" />
+      <Image DataContext="Rotator1" Texture="{Binding Path=Selected[0]}" />
     </Panel>
   </XamlGuiContainer.Controls>
 </XamlGuiContainer>

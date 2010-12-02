@@ -49,7 +49,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		}
 
 		/// <summary>
-		/// Jeśli PUSZCZONO myszkę nad przyciskiem to ustawiamy Clicked na true.
+		/// Jeśli puszczono myszkę nad przyciskiem to ustawiamy Clicked na true.
 		/// </summary>
 		/// <param name="delta"></param>
 		public override void Update(double delta)
@@ -57,10 +57,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 			this.WasActive = this.IsActive;
 			base.Update(delta);
 
-			if (this.WasActive && this.Data.Active == null && this.IsHot)
-			{
-				this.Clicked = true;
-			}
+			this.Clicked = this.WasActive && this.Data.Active == null && this.IsHot;
 		}
 
 		/// <summary>
@@ -69,12 +66,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		/// <returns></returns>
 		public override int Check()
 		{
-			if (this.Clicked)
-			{
-				this.Clicked = false;
-				return 1;
-			}
-			return 0;
+			return (this.Clicked ? 1 : 0);
 		}
 		#endregion
 	}

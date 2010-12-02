@@ -159,18 +159,18 @@ namespace ClashEngine.NET.Data
 					}
 					Internals.IPropertyLevel lvl = new Internals.PropertyLevel(lastType, parts[0].Substring(0, openBracket), j, this.ValueChanged);
 					this.Levels.Add(lvl);
-					lastType = this.HandleType(lvl);
+					lastType = this.HandleType(lvl, (i + 1) == parts.Length);
 					++j;
 
 					lvl = new Internals.IndexerLevel(lastType, CreateIndecies(parts[i].Substring(openBracket + 1, closeBracket - openBracket - 1)), j, this.ValueChanged);
 					this.Levels.Add(lvl);
-					lastType = this.HandleType(lvl);
+					lastType = this.HandleType(lvl, (i + 1) == parts.Length);
 				}
 				else
 				{
 					var lvl = new Internals.PropertyLevel(lastType, parts[i], j, this.ValueChanged);
 					this.Levels.Add(lvl);
-					lastType = this.HandleType(lvl);
+					lastType = this.HandleType(lvl, (i + 1) == parts.Length);
 				}
 			}
 			this.Evaluate();
@@ -288,16 +288,19 @@ namespace ClashEngine.NET.Data
 		/// </summary>
 		/// <param name="lvl"></param>
 		/// <returns></returns>
-		private Type HandleType(Internals.IPropertyLevel lvl)
+		private Type HandleType(Internals.IPropertyLevel lvl, bool isLast)
 		{
 			if (lvl.Type == typeof(object))
 			{
 				this.Evaluate();
-				if (this.Levels[this.Levels.Count - 1].Value == null)
+				if (this.Levels[this.Levels.Count - 1].Value == null && !isLast)
 				{
 					throw new InvalidOperationException("Cannot evaluate full path");
 				}
-				return this.Levels[this.Levels.Count - 1].Value.GetType();
+				else if (!isLast)
+				{
+					return this.Levels[this.Levels.Count - 1].Value.GetType();
+				}
 			}
 			return lvl.Type;
 		}

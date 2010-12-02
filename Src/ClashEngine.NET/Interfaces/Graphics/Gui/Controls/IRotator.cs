@@ -12,9 +12,9 @@
 		IRotatorObjectsCollection Items { get; }
 
 		/// <summary>
-		/// Liczba elementów które mogą być aktualnie wyświetlane.
+		/// Maksymalna liczba elementów, które mogą być aktualnie wybrane.
 		/// </summary>
-		uint SelectedItemsCount { get; set; }
+		uint MaxSelectedItems { get; set; }
 
 		/// <summary>
 		/// Pierwszy wybrany element.

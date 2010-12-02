@@ -66,7 +66,10 @@ namespace Kingdoms_Clash.NET
 			this.Content.ContentDirectory = "Content";
 			var c = this.Content.Load<XamlGuiContainer>("TestGui.xml");
 			
-			var ctrl = c.Controls["Button1"];
+			var ctrl = c.Controls["Rotator1"] as ClashEngine.NET.Graphics.Gui.Controls.Rotator;
+			ctrl.Items.Add(this.Content.Load<Texture>("a.png"));
+			ctrl.Items.Add(this.Content.Load<Texture>("b.png"));
+
 			//new ClashEngine.NET.Data.Binding(ctrl, "Clicked", this, "IsButton1Clicked");
 
 			c.Bind(this);
@@ -78,8 +81,6 @@ namespace Kingdoms_Clash.NET
 			{
 				g.Exit();
 			}
-			this.Control("Button2");
-			this.Control("Button3");
 		}
 	}
 }

@@ -16,6 +16,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls.Internals
 	{
 		#region Private fields
 		private List<object> Objects = new List<object>();
+		private Rotator Rotator = null;
 		#endregion
 
 		#region IRotatorObjectsCollection Members
@@ -55,6 +56,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls.Internals
 				throw new ArgumentException(string.Format("Item is not of type {0}", this.ObjectsType.Name), "item");
 			}
 			this.Objects.Add(item);
+			this.Rotator.SendItemChanged(this.Count - 1);
 		}
 
 		/// <summary>
@@ -64,7 +66,12 @@ namespace ClashEngine.NET.Graphics.Gui.Controls.Internals
 		/// <returns></returns>
 		public bool Remove(object item)
 		{
-			return this.Objects.Remove(item);
+			if (this.Objects.Remove(item))
+			{
+				this.Rotator.SendItemChanged(this.Count);
+				return true;
+			}
+			return false;
 		}
 
 		/// <summary>
@@ -73,6 +80,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls.Internals
 		public void Clear()
 		{
 			this.Objects.Clear();
+			this.Rotator.SendItemChanged(-1);
 		}
 
 		/// <summary>
@@ -124,6 +132,13 @@ namespace ClashEngine.NET.Graphics.Gui.Controls.Internals
 		{
 			return this.Objects.GetEnumerator();
 		}
+		#endregion
+
+		#region Constructors
+		public RotatorObjectsCollection(Rotator rotator)
+		{
+			this.Rotator = rotator;
+		}		
 		#endregion
 	}
 }

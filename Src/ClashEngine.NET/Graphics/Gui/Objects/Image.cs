@@ -11,7 +11,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 	/// </summary>
 	[DebuggerDisplay("Image {Texture.Id,nq}")]
 	public class Image
-		: IImage
+		: Data.DataContextBase, IImage
 	{
 		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -44,7 +44,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			set
 			{
 				this._Texture = value;
-				if (this.Stretch == StretchType.Fill && !this.WasSizeSet)
+				if (this.Stretch == StretchType.Fill && !this.WasSizeSet && this._Texture != null)
 				{
 					this.Quad.Size = new Vector2(this._Texture.Width, this._Texture.Height);
 				}

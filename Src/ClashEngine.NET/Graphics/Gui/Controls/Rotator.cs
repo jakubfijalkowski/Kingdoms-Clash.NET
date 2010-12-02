@@ -25,7 +25,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		/// <summary>
 		/// Liczba elementów które mogą być aktualnie wyświetlane.
 		/// </summary>
-		public uint SelectedItemsCount { get; set; }
+		public uint MaxSelectedItems { get; set; }
 
 		/// <summary>
 		/// Pierwszy wybrany element.
@@ -35,14 +35,17 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 			get { return this._First; }
 			set
 			{
-				if (value > this.Items.Count - this.First)
+				if (value > this.Items.Count - this.MaxSelectedItems)
 				{
-					value = this.Items.Count - this.First;
+					value = (int)(this.Items.Count - MaxSelectedItems);
 				}
 				if (value < 0)
 					value = 0;
-				this._First = value;
-				this.SendPropertyChanged("Item");
+				if (this._First != value)
+				{
+					this._First = value;
+					(this.Selected as Internals.RotatorSelectedItems).SendChanged();
+				}
 			}
 		}
 
@@ -56,7 +59,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		{
 			get
 			{
-				if (index > this.SelectedItemsCount)
+				if (index > this.MaxSelectedItems)
 				{
 					throw new IndexOutOfRangeException("Index must be less than SelectedItemsCount");
 				}
@@ -85,9 +88,27 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		#region Constructors
 		public Rotator()
 		{
-			this.Items = new Internals.RotatorObjectsCollection();
+			this.Items = new Internals.RotatorObjectsCollection(this);
 			this.Selected = new Internals.RotatorSelectedItems(this);
 			base.Size = new OpenTK.Vector2(1, 1);
+		}
+		#endregion
+
+		#region Internals
+		/// <summary>
+		/// Używane przez RotatorObjectsCollection.
+		/// </summary>
+		/// <param name="index"></param>
+		internal void SendItemChanged(int index)
+		{
+			if (index == -1)
+			{
+				(this.Selected as Internals.RotatorSelectedItems).SendChanged();
+			}
+			if (index >= this.First && index < this.First + this.MaxSelectedItems)
+			{
+				(this.Selected as Internals.RotatorSelectedItems).SendChanged(index - this.First);
+			}
 		}
 		#endregion
 	}
