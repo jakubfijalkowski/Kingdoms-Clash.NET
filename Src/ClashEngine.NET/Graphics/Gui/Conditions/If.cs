@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Reflection;
 using System.Windows.Markup;
 
 namespace ClashEngine.NET.Graphics.Gui.Conditions
 {
+	using Interfaces.Data;
 	using Interfaces.Graphics.Gui.Conditions;
 
 	/// <summary>
@@ -19,7 +19,6 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 		#region Private fields
 		private object _Object = null;
 		private object ConvertedValue = null;
-		private PropertyInfo Property = null;
 		private bool _Value = false;
 		#endregion
 
@@ -44,18 +43,15 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 				{
 					throw new ArgumentNullException("value");
 				}
-				if (!(value is INotifyPropertyChanged))
-				{
-					throw new ArgumentException("Must implement INotifyPropertyChanged interface", "value");
-				}
 				this._Object = value;
 			}
 		}
 
 		/// <summary>
-		/// Właściwość.
+		/// Ścieżka, do której przypisana zostanie wartość.
 		/// </summary>
-		public string PropertyName { get; set; }
+		[TypeConverter(typeof(Converters.PropertyPathConverter))]
+		public IPropertyPath Path { get; set; }
 
 		/// <summary>
 		/// Wartość do porównywania.
@@ -93,36 +89,43 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 
 		public void EndInit()
 		{
-			if (this.Object == null || string.IsNullOrWhiteSpace(this.PropertyName))
+			if (this.Object == null || this.Path == null)
 			{
-				throw new InvalidOperationException("Properties Object and Property must be set");
+				throw new InvalidOperationException("Properties Object and Path must be set");
 			}
-			this.Property = this.Object.GetType().GetProperty(this.PropertyName.Trim());
-			if (this.Property == null)
+
+			if (!this.Path.Initialized)
 			{
-				throw new InvalidOperationException(string.Format("Cannot find property {0} in object", this.PropertyName.Trim()));
+				this.Path.BeginInit();
+				this.Path.Root = this.Object;
+				this.Path.EndInit();
 			}
-			(this.Object as INotifyPropertyChanged).PropertyChanged += new PropertyChangedEventHandler(OnObjectPropertyChanged);
+			else
+			{
+				this.Path.Root = this.Object;
+			}
+
+			this.Path.PropertyChanged += this.OnPathValueChanged;
 
 			this.ConvertedValue = this.Value;
 			if (this.CustomConverter != null)
 			{
 				var converter = Activator.CreateInstance(this.CustomConverter) as TypeConverter;
-				this.ConvertedValue = converter.ConvertTo(this.Value, this.Property.PropertyType);
+				this.ConvertedValue = converter.ConvertTo(this.Value, this.Path.ValueType);
 			}
 			else
 			{
 				try
 				{
-					this.ConvertedValue = Convert.ChangeType(this.Value, this.Property.PropertyType);
+					this.ConvertedValue = Convert.ChangeType(this.Value, this.Path.ValueType);
 				}
 				catch (InvalidCastException)
 				{ }
 			}
 
-			if (!this.Property.PropertyType.IsInstanceOfType(this.ConvertedValue))
+			if (!this.Path.ValueType.IsInstanceOfType(this.ConvertedValue))
 			{
-				var targetConverter = Converters.Utilities.GetTypeConverter(this.Property);
+				var targetConverter = TypeDescriptor.GetConverter(this.Path.ValueType);
 				if (targetConverter != null && targetConverter.CanConvertFrom(this.ConvertedValue.GetType()))
 				{
 					this.ConvertedValue = targetConverter.ConvertFrom(this.ConvertedValue);
@@ -139,32 +142,29 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 		#endregion
 
 		#region Private methods
-		void OnObjectPropertyChanged(object sender, PropertyChangedEventArgs e)
+		void OnPathValueChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == this.PropertyName)
+			object newValue = this.Path.Value;
+			if (newValue == this.ConvertedValue || newValue.Equals(this.ConvertedValue)
+				|| ((this.ConvertedValue is IComparable) && (this.ConvertedValue as IComparable).CompareTo(newValue) == 0)
+				|| ((newValue is IComparable) && (newValue as IComparable).CompareTo(this.ConvertedValue) == 0))
 			{
-				object newValue = this.Property.GetValue(this.Object, null);
-				if (newValue == this.ConvertedValue || newValue.Equals(this.ConvertedValue)
-					|| ((this.ConvertedValue is IComparable) && (this.ConvertedValue as IComparable).CompareTo(newValue) == 0)
-					|| ((newValue is IComparable) && (newValue as IComparable).CompareTo(this.ConvertedValue) == 0))
+				this.Triggers.TrigAll();
+				if (!this._Value)
 				{
-					this.Triggers.TrigAll();
-					if (!this._Value)
-					{
-						this._Value = true;
-						if (this.PropertyChanged != null)
-						{
-							this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
-						}
-					}
-				}
-				else if (this._Value)
-				{
-					this._Value = false;
+					this._Value = true;
 					if (this.PropertyChanged != null)
 					{
 						this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
 					}
+				}
+			}
+			else if (this._Value)
+			{
+				this._Value = false;
+				if (this.PropertyChanged != null)
+				{
+					this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
 				}
 			}
 		}

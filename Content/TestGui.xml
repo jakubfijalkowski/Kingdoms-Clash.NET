@@ -17,11 +17,11 @@
       </MultiIf.Triggers>
     </MultiIf>-->
 
-    <If Object="Button2" PropertyName="Clicked" Value="true">
-      <Set Object="Panel1Txt" PropertyName="DataContext" Value="{x:Reference Tb1}" />
+    <If Object="Button2" Path="Clicked" Value="true">
+      <Set Object="Panel1Txt" Path="DataContext" Value="{x:Reference Tb1}" />
     </If>
-    <If Object="Button3" PropertyName="Clicked" Value="true">
-      <Set Object="Panel1Txt" PropertyName="DataContext" Value="{x:Reference Tb2}" />
+    <If Object="Button3" Path="Clicked" Value="true">
+      <Set Object="Panel1Txt" Path="DataContext" Value="{x:Reference Tb2}" />
     </If>
   </XamlGuiContainer.Triggers>
 

@@ -4,6 +4,8 @@ using System.Windows.Markup;
 
 namespace ClashEngine.NET.Interfaces.Graphics.Gui.Conditions
 {
+	using Data;
+
 	/// <summary>
 	/// Prosty warunek - jeśli coś jest równe czemuś ustaw coś na daną wartość.
 	/// </summary>
@@ -17,9 +19,10 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Conditions
 		object Object { get; set; }
 
 		/// <summary>
-		/// Właściwość.
+		/// Ścieżka, do której przypisana zostanie wartość.
 		/// </summary>
-		string PropertyName { get; set; }
+		[TypeConverter(typeof(Converters.PropertyPathConverter))]
+		IPropertyPath Path { get; set; }
 
 		/// <summary>
 		/// Wartość do porównywania.

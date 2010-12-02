@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Reflection;
 using System.Windows.Markup;
 
 namespace ClashEngine.NET.Graphics.Gui.Conditions
 {
+	using Interfaces.Data;
 	using Interfaces.Graphics.Gui.Conditions;
 
 	/// <summary>
@@ -15,7 +15,7 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 	{
 		#region Private fields
 		private object ConvertedValue = null;
-		private PropertyInfo Property = null;
+		//private PropertyInfo Property = null;
 		#endregion
 
 		#region ISet Members
@@ -26,9 +26,10 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 		public object Object { get; set; }
 
 		/// <summary>
-		/// Właściwość, której zostanie przypisana dana wartość.
+		/// Ścieżka, do której przypisana zostanie wartość.
 		/// </summary>
-		public string PropertyName { get; set; }
+		[TypeConverter(typeof(Converters.PropertyPathConverter))]
+		public IPropertyPath Path { get; set; }
 
 		/// <summary>
 		/// Wartość do przypisania.
@@ -49,11 +50,11 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 		/// </summary>
 		public void Trig()
 		{
-			if (this.Property == null)
+			if (this.Path == null || !this.Path.Initialized)
 			{
 				throw new InvalidOperationException("Initialize first");
 			}
-			this.Property.SetValue(this.Object, this.ConvertedValue, null);
+			this.Path.Value = this.ConvertedValue;
 		}
 		#endregion
 
@@ -63,35 +64,41 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 
 		public void EndInit()
 		{
-			if (this.Object == null || string.IsNullOrWhiteSpace(this.PropertyName))
+			if (this.Object == null || this.Path == null)
 			{
-				throw new InvalidOperationException("Properties Object and Property must be set");
+				throw new InvalidOperationException("Properties Object and Path must be set");
 			}
-			this.Property = this.Object.GetType().GetProperty(this.PropertyName.Trim());
-			if (this.Property == null)
+
+			if (!this.Path.Initialized)
 			{
-				throw new InvalidOperationException(string.Format("Cannot find property {0} in object", this.PropertyName.Trim()));
+				this.Path.BeginInit();
+				this.Path.Root = this.Object;
+				this.Path.EndInit();
+			}
+			else
+			{
+				this.Path.Root = this.Object;
 			}
 
 			this.ConvertedValue = this.Value;
 			if (this.CustomConverter != null)
 			{
 				var converter = Activator.CreateInstance(this.CustomConverter) as TypeConverter;
-				this.ConvertedValue = converter.ConvertTo(this.Value, this.Property.PropertyType);
+				this.ConvertedValue = converter.ConvertTo(this.Value, this.Path.ValueType);
 			}
 			else
 			{
 				try
 				{
-					this.ConvertedValue = Convert.ChangeType(this.Value, this.Property.PropertyType);
+					this.ConvertedValue = Convert.ChangeType(this.Value, this.Path.ValueType);
 				}
 				catch (InvalidCastException)
 				{ }
 			}
 
-			if (!this.Property.PropertyType.IsInstanceOfType(this.ConvertedValue))
+			if (!this.Path.ValueType.IsInstanceOfType(this.ConvertedValue))
 			{
-				var targetConverter = Converters.Utilities.GetTypeConverter(this.Property);
+				var targetConverter = TypeDescriptor.GetConverter(this.Path.ValueType);
 				if (targetConverter != null && targetConverter.CanConvertFrom(this.ConvertedValue.GetType()))
 				{
 					this.ConvertedValue = targetConverter.ConvertFrom(this.ConvertedValue);
