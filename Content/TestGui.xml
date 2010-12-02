@@ -1,4 +1,4 @@
-﻿<XamlGuiContainer xmlns="GUI"
+﻿<XamlGuiContainer xmlns="http://schemas.fiolek.org/gui"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <XamlGuiContainer.Triggers>
