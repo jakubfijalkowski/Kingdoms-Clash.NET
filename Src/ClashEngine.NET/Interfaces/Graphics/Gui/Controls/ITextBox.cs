@@ -6,7 +6,7 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Controls
 	/// Pole tekstowe.
 	/// </summary>
 	public interface ITextBox
-		: IObjectControl, INotifyPropertyChanged
+		: IControl, INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Tekst.

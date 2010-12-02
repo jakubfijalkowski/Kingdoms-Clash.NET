@@ -46,6 +46,11 @@
 		bool Visible { get; set; }
 
 		/// <summary>
+		/// Kolekcja z obiektami renderera dla kontrolki.
+		/// </summary>
+		IObjectsCollection Objects { get; }
+
+		/// <summary>
 		/// Sprawdza, czy myszka znajduje się nad kontrolką.
 		/// </summary>
 		/// <returns>Prawda, gdy myszka jest nad kontrolką. W przeciwnym razie fałsz.</returns>

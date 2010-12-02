@@ -11,6 +11,7 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// Bazowa klasa dla kontrolek GUI.
 	/// </summary>
 	[RuntimeNameProperty("Id")]
+	[ContentProperty("Objects")]
 	[DebuggerDisplay("{GetType().Name,nq} {Id,nq}")]
 	public abstract class ControlBase
 		: IControl, INotifyPropertyChanged, ISupportInitialize
@@ -94,15 +95,28 @@ namespace ClashEngine.NET.Graphics.Gui
 		public bool Visible { get; set; }
 
 		/// <summary>
+		/// Lista z obiektami dla renderera.
+		/// </summary>
+		public IObjectsCollection Objects { get; private set; }
+
+		/// <summary>
 		/// Czy kontrolka ma być "permanentnie" aktywna, tzn. czy po puszczeniu przycisku myszy przestaje być aktywna.
 		/// </summary>
 		public abstract bool PermanentActive { get; }
 
 		/// <summary>
-		/// Nic nie robi.
+		/// Renderuje wszystkie obiekty.
 		/// </summary>
-		public virtual void Render()
-		{ }
+		public void Render()
+		{
+			foreach (var obj in this.Objects)
+			{
+				if (obj.Visible)
+				{
+					this.Data.Renderer.Draw(obj);
+				}
+			}
+		}
 
 		/// <summary>
 		/// Sprawdza, czy myszka znajduje się nad kontrolką.
@@ -143,6 +157,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		public ControlBase()
 		{
 			this.Visible = true;
+			this.Objects = new ObjectsCollection(this);
 		}
 		#endregion
 

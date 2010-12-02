@@ -12,7 +12,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 	///    Text
 	/// </remarks>
 	public class TextBox
-		: ObjectControlBase, ITextBox
+		: ControlBase, ITextBox
 	{
 		#region Private fields
 		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]

@@ -9,7 +9,7 @@
 		/// <summary>
 		/// Obiekty rotatora.
 		/// </summary>
-		IRotatorObjectsCollection Objects { get; }
+		IRotatorObjectsCollection Items { get; }
 
 		/// <summary>
 		/// Liczba elementów które mogą być aktualnie wyświetlane.

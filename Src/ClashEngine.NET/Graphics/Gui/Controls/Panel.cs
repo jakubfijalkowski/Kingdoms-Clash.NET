@@ -6,7 +6,7 @@
 	/// Panel - nie uczestniczy w interakcji z użytkownikiem, jest "statyczny".
 	/// </summary>
 	public class Panel
-		: ObjectControlBase, IPanel
+		: ControlBase, IPanel
 	{
 		#region Unused
 		public override bool PermanentActive { get { return false; } }
