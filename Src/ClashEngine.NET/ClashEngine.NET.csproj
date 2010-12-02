@@ -104,9 +104,13 @@
     <Compile Include="Game.cs" />
     <Compile Include="Data\BindingExtension.cs" />
     <Compile Include="Graphics\Gui\ConditionsCollection.cs" />
+    <Compile Include="Graphics\Gui\Conditions\Increase.cs" />
     <Compile Include="Graphics\Gui\Conditions\MultiIf.cs" />
     <Compile Include="Graphics\Gui\Conditions\Conditions.cs" />
     <Compile Include="Graphics\Gui\Container.cs" />
+    <Compile Include="Graphics\Gui\Controls\Internals\RotatorObjectsCollection.cs" />
+    <Compile Include="Graphics\Gui\Controls\Internals\RotatorSelectedItems.cs" />
+    <Compile Include="Graphics\Gui\Controls\Rotator.cs" />
     <Compile Include="Graphics\Gui\Entity.cs" />
     <Compile Include="Graphics\Gui\Conditions\If.cs" />
     <Compile Include="Graphics\Gui\ObjectsCollection.cs" />
@@ -144,11 +148,13 @@
     <Compile Include="Interfaces\EntitiesManager\IRenderableComponentsCollection.cs" />
     <Compile Include="Interfaces\Data\IBinding.cs" />
     <Compile Include="Interfaces\Data\IBindingExtension.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Conditions\IIncrease.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Conditions\IMultiIf.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Conditions\IMultiIfCondition.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Conditions\IMultiIfConditionsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Controls\IRotator.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Controls\IRotatorObjectsCollection.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Controls\IRotatorSelectedItems.cs" />
     <Compile Include="Interfaces\Graphics\Gui\ICondition.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IConditionsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IContainer.cs" />

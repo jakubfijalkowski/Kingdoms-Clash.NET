@@ -1,4 +1,4 @@
-﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui.Controls.Controls
+﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui.Controls
 {
 	/// <summary>
 	/// Kontrolka - rotator.
@@ -17,20 +17,21 @@
 		uint SelectedItemsCount { get; set; }
 
 		/// <summary>
-		/// Rozmiar pojedynczej strony.
+		/// Pierwszy wybrany element.
 		/// </summary>
-		uint PageSize { get; set; }
-
-		/// <summary>
-		/// Aktualna strona.
-		/// </summary>
-		uint CurrentPage { get; set; }
+		int First { get; set; }
 
 		/// <summary>
 		/// Pobiera jeden z wybranych elementów.
 		/// </summary>
+		/// <remarks>Elementy mogą być puste.</remarks>
 		/// <param name="index">Indeks. Od 0 do SelectedItemsCount.</param>
 		/// <returns></returns>
 		object this[int index] { get; }
+
+		/// <summary>
+		/// Aktualnie wybrane elementy.
+		/// </summary>
+		IRotatorSelectedItems Selected { get; }
 	}
 }

@@ -26,34 +26,26 @@
   </XamlGuiContainer.Triggers>
 
   <XamlGuiContainer.Controls>
+    <Rotator Id="Rotator1" SelectedItemsCount="1">
+    </Rotator>
     <Button Id="Button1" Position="10,10" Size="80,80">
       <Rectangle Color="1,1,1,1" Depth="2" />
       <Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
     </Button>
 
-    <Button Id="Button2" Position="100,10" Size="80,80">
+    <Button Id="Next" Position="100,10" Size="80,80">
       <Rectangle Color="1,1,1,1" Depth="2" />
-      <Text Font="Arial,15,bi" TextValue="Textbox 1" Color="0,0,1,1" Depth="0" />
+      <Text Font="Arial,15,bi" TextValue="Next" Color="0,0,1,1" Depth="0" />
     </Button>
 
-    <Button Id="Button3" Position="190,10" Size="80,80">
+    <Button Id="Prev" Position="190,10" Size="80,80">
       <Rectangle Color="1,1,1,1" Depth="2" />
-      <Text Font="Arial,15,bi" TextValue="Textbox 2" Color="0,0,1,1" Depth="0" />
+      <Text Font="Arial,15,bi" TextValue="Prev" Color="0,0,1,1" Depth="0" />
     </Button>
 
-    <Panel Id="Panel1" Position="150, 150" Size="100, 100">
+    <Panel Id="Panel1" Position="10, 100" Size="500, 500">
       <Rectangle Color="1,1,1,1" Depth="1" />
-      <Text x:Name="Panel1Txt" DataContext="Tb1" Font="Arial,15" TextValue="{Binding Text}" Color="0,1,0,1" Depth="0" />
+      <Image Texture="{Binding Source=Rotator1,Path=Selected[0]}" />
     </Panel>
-
-    <TextBox Id="Tb1" Position="300, 300" Size="250, 18">
-      <Rectangle Color="1,1,1,1" Depth="1" />
-      <Text DataContext="Tb1" Font="Arial,15" TextValue="{Binding Text}" Color="0,1,0,1" Depth="0" />
-    </TextBox>
-
-    <TextBox Id="Tb2" Position="300, 330" Size="250, 18">
-      <Rectangle Color="1,1,1,1" Depth="1" />
-      <Text DataContext="Tb2" Font="Arial,15" TextValue="{Binding Text}" Color="0,1,0,1" Depth="0" />
-    </TextBox>
   </XamlGuiContainer.Controls>
 </XamlGuiContainer>
