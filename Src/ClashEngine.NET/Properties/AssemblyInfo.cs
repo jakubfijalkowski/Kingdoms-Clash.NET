@@ -38,6 +38,8 @@ using System.Windows.Markup;
 [assembly: AssemblyVersion("0.0.1.0")]
 [assembly: AssemblyFileVersion("0.0.1.0")]
 
-[assembly: XmlnsDefinition("GUI", "ClashEngine.NET.Graphics.Gui")]
 [assembly: XmlnsDefinition("GUI", "ClashEngine.NET.Data")]
+[assembly: XmlnsDefinition("GUI", "ClashEngine.NET.Graphics.Gui")]
+[assembly: XmlnsDefinition("GUI", "ClashEngine.NET.Graphics.Gui.Controls")]
+[assembly: XmlnsDefinition("GUI", "ClashEngine.NET.Graphics.Gui.Conditions")]
 [assembly: XmlnsDefinition("GUI", "ClashEngine.NET.Graphics.Gui.Objects")]

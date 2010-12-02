@@ -1,6 +1,6 @@
-﻿namespace ClashEngine.NET.Graphics.Gui
+﻿namespace ClashEngine.NET.Graphics.Gui.Conditions
 {
-	using Interfaces.Graphics.Gui;
+	using Interfaces.Graphics.Gui.Conditions;
 
 	/// <summary>
 	/// Wielowarunkowy warunek.

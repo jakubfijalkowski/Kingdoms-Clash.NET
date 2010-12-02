@@ -1,4 +1,4 @@
-﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
+﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui.Conditions
 {
 	/// <summary>
 	/// Wyzwalacz - używany w warunkach, do stylizowania GUI.

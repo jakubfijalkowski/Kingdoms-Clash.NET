@@ -8,6 +8,6 @@
 		/// <summary>
 		/// Wyzwalacze wywoływane przy spełnieniu warunku.
 		/// </summary>
-		ITriggersCollection Triggers { get; }
+		Conditions.ITriggersCollection Triggers { get; }
 	}
 }

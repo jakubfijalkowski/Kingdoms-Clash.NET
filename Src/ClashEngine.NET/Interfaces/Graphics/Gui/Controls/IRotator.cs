@@ -1,4 +1,4 @@
-﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui.Controls
+﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui.Controls.Controls
 {
 	/// <summary>
 	/// Kontrolka - rotator.

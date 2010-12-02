@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace ClashEngine.NET.Graphics.Gui
+namespace ClashEngine.NET.Graphics.Gui.Conditions
 {
-	using Interfaces.Graphics.Gui;
+	using Interfaces.Graphics.Gui.Conditions;
 
 	/// <summary>
 	/// Kolekcja warunków do stylizacji GUI.

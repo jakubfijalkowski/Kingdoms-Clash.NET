@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ClashEngine.NET.Interfaces.Graphics.Gui
+namespace ClashEngine.NET.Interfaces.Graphics.Gui.Conditions
 {
 	/// <summary>
 	/// Typ warunku.

@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Markup;
 
-namespace ClashEngine.NET.Graphics.Gui
+namespace ClashEngine.NET.Graphics.Gui.Conditions
 {
-	using Interfaces.Graphics.Gui;
+	using Interfaces.Graphics.Gui.Conditions;
 
 	/// <summary>
 	/// Prosty warunek - jeśli coś jest równe czemuś ustaw coś na daną wartość.

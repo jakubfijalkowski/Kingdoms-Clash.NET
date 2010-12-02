@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ClashEngine.NET.Interfaces.Graphics.Gui
+namespace ClashEngine.NET.Interfaces.Graphics.Gui.Controls
 {
 	/// <summary>
 	/// Przycisk.

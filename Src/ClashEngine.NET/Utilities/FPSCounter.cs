@@ -107,7 +107,7 @@ namespace ClashEngine.NET.Utilities
 		{
 			if (this.RenderStatistics)
 			{
-				var panel = new Graphics.Gui.Panel();
+				var panel = new Graphics.Gui.Controls.Panel();
 				panel.Position = new OpenTK.Vector2(0, 0);
 				panel.Size = new OpenTK.Vector2(100, 30);
 				panel.Objects.Add(this.Text);

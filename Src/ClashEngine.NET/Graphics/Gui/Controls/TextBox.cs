@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace ClashEngine.NET.Graphics.Gui
+namespace ClashEngine.NET.Graphics.Gui.Controls
 {
-	using Interfaces.Graphics.Gui;
+	using Interfaces.Graphics.Gui.Controls;
 
 	/// <summary>
 	/// Pole tekstowe.
@@ -12,7 +12,7 @@ namespace ClashEngine.NET.Graphics.Gui
 	///    Text
 	/// </remarks>
 	public class TextBox
-		: ObjectControlBase, ITextBox, INotifyPropertyChanged
+		: ObjectControlBase, ITextBox
 	{
 		#region Private fields
 		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]

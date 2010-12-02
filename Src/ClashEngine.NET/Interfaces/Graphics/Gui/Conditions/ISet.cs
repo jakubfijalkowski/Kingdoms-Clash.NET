@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Markup;
 
-namespace ClashEngine.NET.Interfaces.Graphics.Gui
+namespace ClashEngine.NET.Interfaces.Graphics.Gui.Conditions
 {
 	/// <summary>
 	/// Prosty wyzwalacz - przypisanie.
