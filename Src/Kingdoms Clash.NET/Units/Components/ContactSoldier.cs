@@ -34,32 +34,6 @@ namespace Kingdoms_Clash.NET.Units.Components
 		}
 		#endregion
 
-		#region IXmlSerializable Members
-		public void Serialize(System.Xml.XmlElement element)
-		{
-			element.SetAttribute("strength", this.Strength.ToString());
-		}
-
-		public void Deserialize(System.Xml.XmlElement element)
-		{
-			if (element.HasAttribute("strength"))
-			{
-				try
-				{
-					this.Strength = int.Parse(element.GetAttribute("strength"));
-				}
-				catch (System.Exception ex)
-				{
-					new System.Xml.XmlException("Parsing error", ex);
-				}
-			}
-			else
-			{
-				throw new System.Xml.XmlException("Insufficient data: strength");
-			}
-		}
-		#endregion
-
 		#region Constructors
 		/// <summary>
 		/// Inicjalizuje opis.

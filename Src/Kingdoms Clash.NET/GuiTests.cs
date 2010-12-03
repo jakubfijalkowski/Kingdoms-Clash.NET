@@ -18,11 +18,7 @@ namespace Kingdoms_Clash.NET
 		public override void Init()
 		{
 			UserData.Loader loader = new UserData.Loader(Defaults.UserData, Defaults.ConfigurationFile);
-			Defaults.RegisterBuiltInComponents(loader);
 			loader.LoadNations();
-
-			var n = loader.Nations[0];
-			var xaml = System.Xaml.XamlServices.Save(n);
 
 			GL.Enable(EnableCap.Texture2D);
 			GL.Enable(EnableCap.Blend);

@@ -4,7 +4,6 @@
 	/// Interfejs opisu komponentu.
 	/// </summary>
 	public interface IUnitComponentDescription
-		: Serialization.IXmlSerializable
 	{
 		/// <summary>
 		/// Tworzy komponent na podstawie opisu.

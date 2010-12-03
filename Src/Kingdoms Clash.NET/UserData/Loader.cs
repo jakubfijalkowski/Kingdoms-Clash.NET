@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xaml;
 using System.Xml;
 
 namespace Kingdoms_Clash.NET.UserData
 {
+	using Interfaces.Units;
+
 	/// <summary>
 	/// Loader dla danych użytkownika.
 	/// </summary>
@@ -23,11 +26,6 @@ namespace Kingdoms_Clash.NET.UserData
 		/// Ścieżka do pliku konfiguracyjnego.
 		/// </summary>
 		public string ConfigurationFile { get; private set; }
-
-		/// <summary>
-		/// Lista komponentów użytkownika.
-		/// </summary>
-		public IList<Type> Components { get; private set; }
 
 		/// <summary>
 		/// Załadowane nacje.
@@ -70,14 +68,18 @@ namespace Kingdoms_Clash.NET.UserData
 
 				foreach (var file in files)
 				{
-					var nation = new NationLoader(file, this.Components).Create();
-					if (nation != null)
+					try
 					{
+						var nation = XamlServices.Load(file) as INation;
 						Logger.Info("\tNation {0} loaded", nation.Name);
 						this.Nations.Add(nation);
 					}
+					catch (Exception ex)
+					{
+						Logger.WarnException("Cannot load nation from file " + file, ex);
+					}
 				}
-				
+
 			} while (false);
 		}
 
@@ -107,6 +109,7 @@ namespace Kingdoms_Clash.NET.UserData
 		}
 		#endregion
 
+		#region Constructors
 		/// <summary>
 		/// Inicjalizuje loader.
 		/// </summary>
@@ -116,8 +119,8 @@ namespace Kingdoms_Clash.NET.UserData
 		{
 			this.Path = rootPath;
 			this.ConfigurationFile = configFile;
-			this.Components = new List<Type>();
 			this.Nations = new List<Interfaces.Units.INation>();
 		}
+		#endregion
 	}
 }

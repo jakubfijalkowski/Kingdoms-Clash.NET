@@ -5,8 +5,7 @@ namespace Kingdoms_Clash.NET.UserData
 	/// <summary>
 	/// Klasa serializera konfiguracji.
 	/// </summary>
-	class ConfigurationSerializer
-		: Interfaces.Serialization.IXmlSerializable
+	internal class ConfigurationSerializer
 	{
 		/// <summary>
 		/// Obiekt konfiguracji do serializacji/deserializacji.

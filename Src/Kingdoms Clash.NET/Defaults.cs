@@ -58,27 +58,5 @@ namespace Kingdoms_Clash.NET
 			new Resources.ResourceDescription("wood", "Drewno", "Podstawowy zasób gry", new OpenTK.Vector2(5f, 10f), "Resources/Wood.png")
 		};
 		#endregion
-
-		#region Reflections
-		/// <summary>
-		/// Rejestruje wbudowane komponenty do loadera.
-		/// </summary>
-		/// <param name="loader"></param>
-		public static void RegisterBuiltInComponents(Interfaces.IUserDataLoader loader)
-		{
-			var current = Assembly.GetExecutingAssembly();
-
-			Logger.Trace("Loading built-in components");
-			foreach (var type in current.GetTypes())
-			{
-				if (type.Namespace == "Kingdoms_Clash.NET.Units.Components" &&
-					type.GetInterfaces().Any(i => i == typeof(Interfaces.Units.IUnitComponentDescription)))
-				{
-					Logger.Trace("\tComponent {0} loaded", type.Name);
-					loader.Components.Add(type);
-				}
-			}
-		}
-		#endregion
 	}
 }

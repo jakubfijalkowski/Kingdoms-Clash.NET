@@ -19,11 +19,6 @@ namespace Kingdoms_Clash.NET.Interfaces
 		string ConfigurationFile { get; }
 
 		/// <summary>
-		/// Lista komponentów użytkownika.
-		/// </summary>
-		IList<Type> Components { get; }
-
-		/// <summary>
 		/// Załadowane nacje.
 		/// Dostępne dopiero po wywołaniu LoadNations.
 		/// </summary>

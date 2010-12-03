@@ -35,32 +35,6 @@ namespace Kingdoms_Clash.NET.Units.Components
 		}
 		#endregion
 
-		#region IXmlSerializable Members
-		public void Serialize(System.Xml.XmlElement element)
-		{
-			element.SetAttribute("MaxCargoSize", this.MaxCargoSize.ToString());
-		}
-
-		public void Deserialize(System.Xml.XmlElement element)
-		{
-			if (element.HasAttribute("maxcargosize"))
-			{
-				try
-				{
-					this.MaxCargoSize = uint.Parse(element.GetAttribute("maxcargosize"));
-				}
-				catch (System.Exception ex)
-				{
-					new System.Xml.XmlException("Parsing error", ex);
-				}
-			}
-			else
-			{
-				throw new System.Xml.XmlException("Insufficient data: maxcargosize");
-			}
-		}
-		#endregion
-
 		#region Constructors
 		/// <summary>
 		/// Inicjalizuje opis.

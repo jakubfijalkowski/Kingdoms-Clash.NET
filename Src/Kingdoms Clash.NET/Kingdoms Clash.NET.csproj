@@ -86,7 +86,6 @@
     <Compile Include="Interfaces\Resources\IResourceDescription.cs" />
     <Compile Include="Interfaces\Resources\IResourcesCollection.cs" />
     <Compile Include="Interfaces\Resources\IResourcesList.cs" />
-    <Compile Include="Interfaces\Serialization\IXmlSerializable.cs" />
     <Compile Include="Interfaces\Units\Components\ICollector.cs" />
     <Compile Include="Interfaces\Units\Components\IContactSoldier.cs" />
     <Compile Include="Interfaces\Units\IUnitComponentDescription.cs" />
@@ -130,8 +129,6 @@
     <Compile Include="Units\UnitDescriptionsCollection.cs" />
     <Compile Include="UserData\ConfigurationSerializer.cs" />
     <Compile Include="UserData\Loader.cs" />
-    <Compile Include="UserData\NationLoader.cs" />
-    <Compile Include="UserData\ResourcesCollectionSerializer.cs" />
     <None Include="NLog.Release.config" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
