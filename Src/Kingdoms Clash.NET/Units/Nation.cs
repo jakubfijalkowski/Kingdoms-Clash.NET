@@ -7,6 +7,7 @@ namespace Kingdoms_Clash.NET.Units
 	/// <summary>
 	/// Nacja.
 	/// </summary>
+	[System.Windows.Markup.ContentProperty("AvailableUnits")]
 	public class Nation
 		: INation
 	{
@@ -16,12 +17,12 @@ namespace Kingdoms_Clash.NET.Units
 		/// <summary>
 		/// Nazwa nacji.
 		/// </summary>
-		public string Name { get; private set; }
+		public string Name { get; set; }
 
 		/// <summary>
 		/// Ścieżka do obrazka zamku.
 		/// </summary>
-		public string CastleImage { get; private set; }
+		public string CastleImage { get; set; }
 
 		/// <summary>
 		/// Dostępne jednostki nacji.
@@ -46,6 +47,7 @@ namespace Kingdoms_Clash.NET.Units
 		}
 		#endregion
 
+		#region Constructors
 		/// <summary>
 		/// Inicjalizuje nową nacje.
 		/// </summary>
@@ -57,6 +59,15 @@ namespace Kingdoms_Clash.NET.Units
 			this.CastleImage = image;
 			this.AvailableUnits = new UnitDescriptionsCollection(descriptions);
 		}
+
+		/// <summary>
+		/// Domyślny konstruktor - nic nie ustawia.
+		/// </summary>
+		public Nation()
+		{
+			this.AvailableUnits = new UnitDescriptionsCollection();
+		}
+		#endregion
 
 		public override string ToString()
 		{

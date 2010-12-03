@@ -23,7 +23,8 @@ namespace Kingdoms_Clash.NET.Units.Components
 		/// <summary>
 		/// Prędkość jednostki.
 		/// </summary>
-		public OpenTK.Vector2 Velocity { get; private set; }
+		[System.ComponentModel.TypeConverter(typeof(ClashEngine.NET.Converters.Vector2Converter))]
+		public OpenTK.Vector2 Velocity { get; set; }
 		#endregion
 
 		#region IUnitComponentDescription Members

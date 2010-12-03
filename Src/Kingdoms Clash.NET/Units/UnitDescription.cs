@@ -10,6 +10,7 @@ namespace Kingdoms_Clash.NET.Units
 	/// Jednostka do opisu wymaga tylko trzech właściwości: Health, Width, Height. Reszta jest opcjonalna(ale może być wymagana przez komponenty!).
 	/// </summary>
 	[DebuggerDisplay("Id = {Id,nq}")]
+	[System.Windows.Markup.ContentProperty("Components")]
 	public class UnitDescription
 		: IUnitDescription
 	{
@@ -17,7 +18,7 @@ namespace Kingdoms_Clash.NET.Units
 		/// <summary>
 		/// Identyfikator jednostki.
 		/// </summary>
-		public string Id { get; private set; }
+		public string Id { get; set; }
 
 		/// <summary>
 		/// Koszta wyprodukowania jednostki.
@@ -62,14 +63,21 @@ namespace Kingdoms_Clash.NET.Units
 		/// <param name="width">Szerokość jednostki.</param>
 		/// <param name="height">Wysokość jednostki.</param>
 		public UnitDescription(string id, int health, float width, float height)
+			: this()
 		{
-			this.Costs = new Resources.ResourcesCollection();
-			this.Components = new UnitComponentDescriptionsCollection();
-
 			this.Id = id;
 			this.Health = health;
 			this.Width = width;
 			this.Height = height;
+		}
+
+		/// <summary>
+		/// Domyślny konstruktor - nic nie ustawia.
+		/// </summary>
+		public UnitDescription()
+		{
+			this.Costs = new Resources.ResourcesCollection();
+			this.Components = new UnitComponentDescriptionsCollection();
 		}
 		#endregion
 	}

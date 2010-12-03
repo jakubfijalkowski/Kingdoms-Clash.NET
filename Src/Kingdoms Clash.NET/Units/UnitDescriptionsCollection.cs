@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Kingdoms_Clash.NET.Units
 {
@@ -10,11 +10,13 @@ namespace Kingdoms_Clash.NET.Units
 	/// Kolekcja jednostek. Publicznie dostępna tylko do odczytu.
 	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
-	class UnitDescriptionsCollection
+	public class UnitDescriptionsCollection
 		: IUnitDescriptionsCollection
 	{
+		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IUnitDescription> Descriptions;
+		#endregion
 
 		#region IUnitDescriptionsCollection Members
 		/// <summary>
@@ -45,7 +47,15 @@ namespace Kingdoms_Clash.NET.Units
 		/// <param name="item"></param>
 		public void Add(IUnitDescription item)
 		{
-			throw new NotSupportedException();
+			if (item == null)
+			{
+				throw new ArgumentNullException("item");
+			}
+			else if (this.Contains(item))
+			{
+				throw new ClashEngine.NET.Exceptions.ArgumentAlreadyExistsException("item");
+			}
+			this.Descriptions.Add(item);
 		}
 
 		/// <summary>
@@ -54,7 +64,11 @@ namespace Kingdoms_Clash.NET.Units
 		/// <param name="item"></param>
 		public bool Remove(IUnitDescription item)
 		{
-			throw new NotSupportedException();
+			if (item == null)
+			{
+				throw new ArgumentNullException("item");
+			}
+			return this.Descriptions.RemoveAll(ud => ud.Id == item.Id) > 0;
 		}
 
 		/// <summary>
@@ -63,7 +77,7 @@ namespace Kingdoms_Clash.NET.Units
 		/// <param name="item"></param>
 		public void Clear()
 		{
-			throw new NotSupportedException();
+			this.Descriptions.Clear();
 		}
 
 		/// <summary>
@@ -105,7 +119,7 @@ namespace Kingdoms_Clash.NET.Units
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		public bool IsReadOnly
 		{
-			get { return true; }
+			get { return false; }
 		}
 		#endregion
 
@@ -139,47 +153,6 @@ namespace Kingdoms_Clash.NET.Units
 		public UnitDescriptionsCollection(IEnumerable<IUnitDescription> items)
 		{
 			this.Descriptions = new List<IUnitDescription>(items);
-		}
-		#endregion
-
-		#region Internals
-		/// <summary>
-		/// Dodaje do kolekcji opis.
-		/// </summary>
-		/// <param name="item">Element do dodania.</param>
-		internal void InternalAdd(IUnitDescription item)
-		{
-			if (item == null)
-			{
-				throw new ArgumentNullException("item");
-			}
-			else if (this.Contains(item))
-			{
-				throw new ClashEngine.NET.Exceptions.ArgumentAlreadyExistsException("item");
-			}
-			this.Descriptions.Add(item);
-		}
-
-		/// <summary>
-		/// Usuwa element o id identycznym jak wskazany.
-		/// </summary>
-		/// <param name="item">Opis do porównania.</param>
-		/// <returns>Czy usunięto.</returns>
-		internal bool InternalRemove(IUnitDescription item)
-		{
-			if (item == null)
-			{
-				throw new ArgumentNullException("item");
-			}
-			return this.Descriptions.RemoveAll(ud => ud.Id == item.Id) > 0;
-		}
-
-		/// <summary>
-		/// Czyści kolekcję.
-		/// </summary>
-		internal void InternalClear()
-		{
-			this.Descriptions.Clear();
 		}
 		#endregion
 	}

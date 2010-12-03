@@ -20,7 +20,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 		/// <summary>
 		/// Siła jednostki.
 		/// </summary>
-		public int Strength { get; private set; }
+		public int Strength { get; set; }
 		#endregion
 
 		#region IUnitComponentDescription Members

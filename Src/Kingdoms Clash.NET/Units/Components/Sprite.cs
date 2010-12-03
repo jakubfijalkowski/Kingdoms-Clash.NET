@@ -18,7 +18,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 		/// <summary>
 		/// Ścieżka do obrazka
 		/// </summary>
-		public string ImagePath { get; private set; }
+		public string ImagePath { get; set; }
 		#endregion
 
 		#region IUnitComponentDescription Members

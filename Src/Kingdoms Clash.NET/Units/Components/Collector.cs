@@ -21,7 +21,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 		/// <summary>
 		/// Maksymalny rozmiar ładunku, który może unieść jednostka.
 		/// </summary>
-		public uint MaxCargoSize { get; private set; }
+		public uint MaxCargoSize { get; set; }
 		#endregion
 
 		#region IUnitComponentDescription Members
