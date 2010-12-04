@@ -29,7 +29,7 @@ namespace Kingdoms_Clash.NET.Controllers
 		/// <param name="id"></param>
 		/// <param name="player"></param>
 		/// <returns></returns>
-		public bool RequestNewUnit(string id, IPlayer player)
+		public IUnitRequestToken RequestNewUnit(string id, IPlayer player)
 		{
 			//Sprawdzamy, czy gracz ma wystarczającą ilość zasobów.
 			var ud = player.Nation.AvailableUnits[id];
@@ -40,7 +40,7 @@ namespace Kingdoms_Clash.NET.Controllers
 					if (!player.Resources.Contains(cost))
 					{
 						Logger.Debug("Insufficient resources({0}) to create unit {1}", cost.Key, ud.Id);
-						return false;
+						return null;
 					}
 				}
 				//Tak, posiadamy - czyli możemy je zmniejszyć
@@ -51,7 +51,7 @@ namespace Kingdoms_Clash.NET.Controllers
 			}
 			else
 			{
-				return false;
+				return null;
 			}
 
 			var unit = player.Nation.CreateUnit(id, player);
@@ -70,10 +70,10 @@ namespace Kingdoms_Clash.NET.Controllers
 					unit.Position = this.GameState.Map.SecondCastle + new OpenTK.Vector2(-unit.Description.Width, Configuration.Instance.CastleSize.Y - unit.Description.Height);
 				}
 				Logger.Info("Player {0} created unit {1}", player.Nation, unit.Description.Id);
-				return true;
+				return null;
 			}
 			Logger.Warn("Unit with id {0} not found in nation {1}", id, player.Nation.Name);
-			return false;
+			return null;
 		}
 
 		/// <summary>

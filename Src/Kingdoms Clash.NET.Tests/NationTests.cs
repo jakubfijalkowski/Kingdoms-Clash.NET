@@ -20,8 +20,8 @@ namespace Kingdoms_Clash.NET.Tests
 			this.Player = new Mock<UnitTests.TestPlayer>();
 			this.Player.SetupAllProperties();
 
-			this.Description1 = new UnitDescription("Unit1", 100, 5f, 5f);
-			this.Description2 = new UnitDescription("Unit2", 100, 5f, 5f);
+			this.Description1 = new UnitDescription("Unit1", 100, 1f, 5f, 5f);
+			this.Description2 = new UnitDescription("Unit2", 100, 1f, 5f, 5f);
 
 			this.Nation = new Nation("TestNation", "NonExisting", new IUnitDescription[] { this.Description1, this.Description2 });
 		}

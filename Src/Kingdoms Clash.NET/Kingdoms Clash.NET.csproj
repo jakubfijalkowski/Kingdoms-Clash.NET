@@ -91,6 +91,7 @@
     <Compile Include="Interfaces\Units\IUnitComponentDescription.cs" />
     <Compile Include="Interfaces\Units\IUnitComponentDescriptionsCollection.cs" />
     <Compile Include="Interfaces\IUserDataLoader.cs" />
+    <Compile Include="Interfaces\Units\IUnitRequestToken.cs" />
     <Compile Include="Interfaces\Units\UnitEvents.cs" />
     <Compile Include="Maps\ResourceOnMap.cs" />
     <Compile Include="Player\KeyboardControlledPlayer.cs" />

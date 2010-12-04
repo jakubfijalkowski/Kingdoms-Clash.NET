@@ -20,7 +20,7 @@ namespace Kingdoms_Clash.NET.Tests
 			this.Player = new Mock<TestPlayer>();
 			this.Player.SetupAllProperties();
 
-			this.Description = new UnitDescription("sth", 100, 5f, 10f);
+			this.Description = new UnitDescription("sth", 100, 1f, 5f, 10f);
 
 			this.Unit = new Unit(this.Description, this.Player.Object);
 			this.Unit.OwnerManager = null;

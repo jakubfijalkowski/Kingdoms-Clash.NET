@@ -28,7 +28,12 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// <summary>
 		/// Życie.
 		/// </summary>
-		int Health { get; }
+		uint Health { get; }
+
+		/// <summary>
+		/// Czas potrzebny na wyprodukowanie jednostki.
+		/// </summary>
+		float CreationTime { get; }
 
 		/// <summary>
 		/// Szerokość jednostki.

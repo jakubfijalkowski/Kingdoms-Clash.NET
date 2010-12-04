@@ -23,8 +23,8 @@
 		/// </summary>
 		/// <param name="id">Identyfikator jednostki.</param>
 		/// <param name="player">Gracz, który o nią prosi.</param>
-		/// <returns>Czy dodano nową jednostkę.</returns>
-		bool RequestNewUnit(string id, IPlayer player);
+		/// <returns>Token lub null, gdy nie dało się utworzyć jednostki.</returns>
+		IUnitRequestToken RequestNewUnit(string id, IPlayer player);
 
 		/// <summary>
 		/// Prosi o nowy zasób na mapie.

@@ -37,7 +37,12 @@ namespace Kingdoms_Clash.NET.Units
 		/// <summary>
 		/// Życie.
 		/// </summary>
-		public int Health { get; set; }
+		public uint Health { get; set; }
+
+		/// <summary>
+		/// Czas potrzebny na wyprodukowanie jednostki.
+		/// </summary>
+		public float CreationTime { get; set; }
 
 		/// <summary>
 		/// Szerokość jednostki.
@@ -59,21 +64,14 @@ namespace Kingdoms_Clash.NET.Units
 
 		#region Constructors
 		/// <summary>
-		/// Inicjalizuje nowy obiekt pozostawiając parametry niezainicjalizowane.
-		/// </summary>
-		/// <param name="id">Identyfikator jednostki.</param>
-		public UnitDescription(string id)
-			: this(id, 0, 0f, 0f)
-		{ }
-
-		/// <summary>
 		/// Inicjalizuje nowy obiekt.
 		/// </summary>
 		/// <param name="id">Identyfikator jednostki.</param>
 		/// <param name="health">Życie jednostki.</param>
+		/// <param name="creationTime">Czas potrzebny na wyprodukowanie jednostki.</param>
 		/// <param name="width">Szerokość jednostki.</param>
 		/// <param name="height">Wysokość jednostki.</param>
-		public UnitDescription(string id, int health, float width, float height)
+		public UnitDescription(string id, uint health, float creationTime, float width, float height)
 			: this()
 		{
 			this.Id = id;

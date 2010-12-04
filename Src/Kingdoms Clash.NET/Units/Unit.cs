@@ -103,7 +103,7 @@ namespace Kingdoms_Clash.NET.Units
 			this.Health_ = this.Attributes.GetOrCreate<int>("Health");
 			this.Position_ = this.Attributes.GetOrCreate<Vector2>("Position");
 
-			this.Health = this.Description.Health;
+			this.Health = (int)this.Description.Health;
 
 			//Ustawiamy właściwości ciała tak, by poruszało się po naszej myśli
 			pObj.Body.SleepingAllowed = false;

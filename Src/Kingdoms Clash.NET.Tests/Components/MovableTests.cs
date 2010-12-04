@@ -32,7 +32,7 @@ namespace Kingdoms_Clash.NET.Tests.Components
 
 			this.Component = new Movable(new OpenTK.Vector2(Velocity, 0f));
 
-			UnitDescription desc = new UnitDescription("TestUnit", 100, 5f, 5f);
+			UnitDescription desc = new UnitDescription("TestUnit", 100, 1f, 5f, 5f);
 			desc.Components.Add(this.Component);
 			//(desc.Attributes as UnitAttributesCollection).Add(new UnitAttribute<float>("Velocity", Velocity));
 			//desc.Components.Add(this.Component);
