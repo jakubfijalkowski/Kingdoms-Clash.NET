@@ -76,7 +76,8 @@ namespace Kingdoms_Clash.NET.Tests
 			Assert.AreEqual(1, this.State.Players[1].Units.Count);
 
 			//Tu już powinny być wszystkie jednostki stworzone
-			this.Controller.Update(GameState.TestUnit.CreationTime * 2);
+			this.Controller.Update(GameState.TestUnit.CreationTime);
+			this.Controller.Update(GameState.TestUnit.CreationTime);
 			AreCompleted(tokensP1);
 			AreCompleted(tokensP2);
 			Assert.AreEqual(6, this.State.Units.Count);
@@ -92,7 +93,7 @@ namespace Kingdoms_Clash.NET.Tests
 
 			for (int i = start; i < end; i++)
 			{
-				Assert.IsFalse(tokens[i].IsCompleted);
+				Assert.IsFalse(tokens[i].IsCompleted, "Token: {0}", i);
 			}
 		}
 
@@ -103,7 +104,7 @@ namespace Kingdoms_Clash.NET.Tests
 
 			for (int i = start; i < end; i++)
 			{
-				Assert.IsTrue(tokens[i].IsCompleted);
+				Assert.IsTrue(tokens[i].IsCompleted, "Token: {0}", i);
 			}
 		}
 		#endregion

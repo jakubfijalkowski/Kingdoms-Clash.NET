@@ -21,7 +21,8 @@ namespace Kingdoms_Clash.NET.Controllers
 		#endregion
 
 		#region Private fields
-		private List<Internals.UnitRequestToken> UnitTokens = new List<Internals.UnitRequestToken>();
+		private List<Internals.UnitRequestToken> UnitTokens1 = new List<Internals.UnitRequestToken>();
+		private List<Internals.UnitRequestToken> UnitTokens2 = new List<Internals.UnitRequestToken>();
 		#endregion
 
 		#region IGameController Members
@@ -58,7 +59,14 @@ namespace Kingdoms_Clash.NET.Controllers
 
 				//I możemy dodać token.
 				var token = new Internals.UnitRequestToken(ud, player, true);
-				this.UnitTokens.Add(token);
+				if (this.GameState.Players[0] == player)
+				{
+					this.UnitTokens1.Add(token);
+				}
+				else
+				{
+					this.UnitTokens2.Add(token);
+				}
 				return token;
 			}
 			Logger.Warn("Unit with id {0} not found in nation {1}", id, player.Nation.Name);
@@ -81,39 +89,8 @@ namespace Kingdoms_Clash.NET.Controllers
 		/// <param name="delta"></param>
 		public void Update(double delta)
 		{
-			for (int i = 0; i < this.UnitTokens.Count; i++)
-			{
-				if (!this.UnitTokens[i].IsPaused)
-				{
-					this.UnitTokens[i].TimeLeft -= (float)delta;
-
-					//Jednostka została ukończona.
-					if (this.UnitTokens[i].IsCompleted)
-					{
-						//Dodajemy jednostkę
-						var unit = this.UnitTokens[i].CreateUnit();
-						this.UnitTokens[i].Owner.Units.Add(unit);
-						this.GameState.Add(unit);
-
-						//TODO: napisać ładniejszą dedukcje gdzie umieścić jednostkę.
-						if (this.UnitTokens[i].Owner == this.GameState.Players[0])
-						{
-							unit.Position = this.GameState.Map.FirstCastle + Configuration.Instance.CastleSize - new OpenTK.Vector2(0f, unit.Description.Height);
-						}
-						else
-						{
-							unit.Position = this.GameState.Map.SecondCastle + new OpenTK.Vector2(-unit.Description.Width, Configuration.Instance.CastleSize.Y - unit.Description.Height);
-						}
-						Logger.Info("Player {0} created unit {1}", this.UnitTokens[i].Owner.Name, unit.Description.Id);
-
-						//Niszczymy token
-						this.UnitTokens[i].IsValidToken = false;
-						this.UnitTokens.RemoveAt(i);
-						--i;
-					}
-					break;
-				}
-			}
+			this.HandleUnits(this.UnitTokens1, delta);
+			this.HandleUnits(this.UnitTokens2, delta);
 		}
 
 		/// <summary>
@@ -121,11 +98,16 @@ namespace Kingdoms_Clash.NET.Controllers
 		/// </summary>
 		public void Reset()
 		{
-			foreach (var token in this.UnitTokens)
+			foreach (var token in this.UnitTokens1)
 			{
 				token.IsValidToken = false;
 			}
-			this.UnitTokens.Clear();
+			foreach (var token in this.UnitTokens2)
+			{
+				token.IsValidToken = false;
+			}
+			this.UnitTokens1.Clear();
+			this.UnitTokens2.Clear();
 			this.SetDefaults();
 		}
 
@@ -224,6 +206,43 @@ namespace Kingdoms_Clash.NET.Controllers
 			{
 				this.GameState.Players[0].Resources.Add(res.Id, Configuration.Instance.StartResources);
 				this.GameState.Players[1].Resources.Add(res.Id, Configuration.Instance.StartResources);
+			}
+		}
+
+		private void HandleUnits(List<Internals.UnitRequestToken> tokens, double delta)
+		{
+			for (int i = 0; i < tokens.Count; i++)
+			{
+				if (!tokens[i].IsPaused)
+				{
+					tokens[i].TimeLeft -= (float)delta;
+
+					//Jednostka została ukończona.
+					if (tokens[i].IsCompleted)
+					{
+						//Dodajemy jednostkę
+						var unit = tokens[i].CreateUnit();
+						tokens[i].Owner.Units.Add(unit);
+						this.GameState.Add(unit);
+
+						//TODO: napisać ładniejszą dedukcje gdzie umieścić jednostkę.
+						if (tokens[i].Owner == this.GameState.Players[0])
+						{
+							unit.Position = this.GameState.Map.FirstCastle + Configuration.Instance.CastleSize - new OpenTK.Vector2(0f, unit.Description.Height);
+						}
+						else
+						{
+							unit.Position = this.GameState.Map.SecondCastle + new OpenTK.Vector2(-unit.Description.Width, Configuration.Instance.CastleSize.Y - unit.Description.Height);
+						}
+						Logger.Info("Player {0} created unit {1}", tokens[i].Owner.Name, unit.Description.Id);
+
+						//Niszczymy token
+						tokens[i].IsValidToken = false;
+						tokens.RemoveAt(i);
+						--i;
+					}
+					break;
+				}
 			}
 		}
 		#endregion
