@@ -34,29 +34,25 @@ namespace Kingdoms_Clash.NET.Tests
 		}
 
 		[Test]
-		public void NationCreatesCorrectUnitWithExisitngId1()
+		public void NationsReturnsCorrectUnit1()
 		{
-			var unit = this.Nation.CreateUnit("Unit1", this.Player.Object);
-			unit.OwnerManager = null;
-			unit.OnInit();
-			Assert.AreEqual(100, unit.Health);
-			Assert.AreEqual(this.Description1, unit.Description);
+			var unit = this.Nation.AvailableUnits["Unit1"];
+			Assert.IsNotNull(unit);
+			Assert.AreEqual(this.Description1, unit);
 		}
 
 		[Test]
-		public void NationCreatesCorrectUnitWithExisitngId2()
+		public void NationsReturnsCorrectUnit2()
 		{
-			var unit = this.Nation.CreateUnit("Unit2", this.Player.Object);
-			unit.OwnerManager = null;
-			unit.OnInit();
-			Assert.AreEqual(100, unit.Health);
-			Assert.AreEqual(this.Description2, unit.Description);
+			var unit = this.Nation.AvailableUnits["Unit2"];
+			Assert.IsNotNull(unit);
+			Assert.AreEqual(this.Description2, unit);
 		}
 
 		[Test]
-		public void CreatingUnitWithWrongIdReturnsNull()
+		public void GettingUnitDescriptionWithWrongIdReturnsNull()
 		{
-			var unit = this.Nation.CreateUnit("FancyUnitName", this.Player.Object);
+			var unit = this.Nation.AvailableUnits["MyFancyUnit"];
 			Assert.IsNull(unit);
 		}
 	}
