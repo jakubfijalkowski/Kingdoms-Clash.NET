@@ -14,8 +14,9 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 
 		/// <summary>
 		/// Procent ukończenia jednostki.
+		/// Wartość jest z zakresu 0..1.
 		/// </summary>
-		byte Percentage { get; }
+		float Percentage { get; }
 
 		/// <summary>
 		/// Czy token jest poprawny i nadal można go używać.
