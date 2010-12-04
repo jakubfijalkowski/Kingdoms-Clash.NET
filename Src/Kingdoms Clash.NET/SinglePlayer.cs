@@ -34,6 +34,11 @@ namespace Kingdoms_Clash.NET
 		/// Czas od ostatniego dodania zasobu.
 		/// </summary>
 		private float ResourceRenewalAccumulator = 0f;
+
+		/// <summary>
+		/// Kontrolery graczy.
+		/// </summary>
+		private IPlayerController[] PlayerControllers = new IPlayerController[2];
 		#endregion
 
 		#region IGameState Members
@@ -60,9 +65,15 @@ namespace Kingdoms_Clash.NET
 		/// </summary>
 		/// <param name="playerA">Pierwszy gracz.</param>
 		/// <param name="playerB">Drugi gracz.</param>
-		public void Initialize(IPlayer playerA, IPlayer playerB, IMap map, IGameController controller)
+		public void Initialize(IPlayerInfo playerA, IPlayerInfo playerB, IMap map, IGameController controller)
 		{
-			this.Players = new IPlayer[] { playerA, playerB };
+			this.Players = new IPlayer[]
+			{
+				new Player.Player(playerA.Name, playerA.Nation),
+				new Player.Player(playerB.Name, playerB.Nation)
+			};
+			this.PlayerControllers[0] = playerA.Controller;
+			this.PlayerControllers[1] = playerB.Controller;
 			this.Map = map;
 			this.Controller = controller;
 		}
@@ -137,11 +148,15 @@ namespace Kingdoms_Clash.NET
 
 			this.Controller.GameState = this;
 
-			this.Players[0].GameState = this;
 			this.Players[0].Type = PlayerType.First;
+			this.PlayerControllers[0].Player = this.Players[0];
+			this.PlayerControllers[0].GameState = this;
+			this.PlayerControllers[0].Initialize(this.OwnerManager, this.Input);
 
-			this.Players[1].GameState = this;
 			this.Players[1].Type = PlayerType.Second;
+			this.PlayerControllers[1].Player = this.Players[1];
+			this.PlayerControllers[1].GameState = this;
+			this.PlayerControllers[1].Initialize(this.OwnerManager, this.Input);
 
 			//this.StaticEntities.Add(new ClashEngine.NET.Graphics.Cameras.OrthoCamera(
 			//    new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + Configuration.Instance.MapMargin, Configuration.Instance.ScreenSize.Y)),
@@ -156,8 +171,8 @@ namespace Kingdoms_Clash.NET
 			
 
 			this.StaticEntities.Add(this.Map);
-			this.StaticEntities.Add(this.Players[0]);
-			this.StaticEntities.Add(this.Players[1]);
+			this.StaticEntities.Add(new Player.PlayerEntity(this.Players[0], this));
+			this.StaticEntities.Add(new Player.PlayerEntity(this.Players[1], this));
 
 			//Od tej chwili to kontroler jest odpowiedzialny za wszystko.
 			this.Controller.OnGameStarted();

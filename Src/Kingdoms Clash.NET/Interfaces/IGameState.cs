@@ -37,7 +37,7 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// <param name="playerB">Drugi gracz.</param>
 		/// <param name="map">Mapa.</param>
 		/// <param name="controller">Kontroler gry.</param>
-		void Initialize(IPlayer playerA, IPlayer playerB, IMap map, IGameController controller);
+		void Initialize(IPlayerInfo playerA, IPlayerInfo playerB, IMap map, IGameController controller);
 
 		/// <summary>
 		/// Resetuje stan gry(zaczyna od początku).

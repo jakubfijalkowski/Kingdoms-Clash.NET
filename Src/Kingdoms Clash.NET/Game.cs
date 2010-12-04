@@ -96,8 +96,8 @@ namespace Kingdoms_Clash.NET
 			}
 
 			this.Game = new SinglePlayer();
-			this.Game.Initialize(new Player.KeyboardControlledPlayer("A", nation1),
-				new Player.KeyboardControlledPlayer("B", nation2),
+			this.Game.Initialize(new Player.PlayerInfo("A", nation1, new Player.Controllers.KeyboardController()),
+				new Player.PlayerInfo("B", nation2, new Player.Controllers.KeyboardController()),
 				new Maps.DefaultMap(),
 				new Controllers.ClassicGame());
 

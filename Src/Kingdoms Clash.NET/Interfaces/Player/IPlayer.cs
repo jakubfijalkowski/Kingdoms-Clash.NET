@@ -28,7 +28,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 	}
 
 	/// <summary>
-	/// Gracz.
+	/// Gracz - podstawowe informacje o nim.
 	/// </summary>
 	public interface IPlayer
 	{
