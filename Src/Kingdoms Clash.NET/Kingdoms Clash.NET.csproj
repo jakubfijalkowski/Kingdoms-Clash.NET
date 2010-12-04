@@ -127,6 +127,10 @@
     <Compile Include="Units\UnitComponentDescriptionsCollection.cs" />
     <Compile Include="Units\UnitDescription.cs" />
     <Compile Include="Units\UnitDescriptionsCollection.cs" />
+    <Compile Include="Units\XAML\IResource.cs" />
+    <Compile Include="Units\XAML\Raw.cs" />
+    <Compile Include="Units\XAML\ResourcesCollection.cs" />
+    <Compile Include="Units\XAML\Wood.cs" />
     <Compile Include="UserData\ConfigurationSerializer.cs" />
     <Compile Include="UserData\Loader.cs" />
     <None Include="NLog.Release.config" />

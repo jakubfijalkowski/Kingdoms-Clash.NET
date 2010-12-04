@@ -19,8 +19,10 @@ namespace Kingdoms_Clash.NET.Resources
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
 
+		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private Dictionary<string, uint> Resources = new Dictionary<string, uint>();
+		#endregion
 
 		#region IDictionary<string,uint> Members
 		/// <summary>
@@ -233,55 +235,6 @@ namespace Kingdoms_Clash.NET.Resources
 			}
 			uint val;
 			return this.Resources.TryGetValue(id, out val) && val >= value;
-		}
-		#endregion
-		
-		#region IXmlSerializable Members
-		/// <summary>
-		/// Serializuje jako:
-		/// &lt;resourcescollection&gt;
-		///		&lt;resId value="resValue" /&gt;
-		/// &lt;/resourcescollection&gt;
-		/// </summary>
-		/// <param name="element"></param>
-		public void Serialize(System.Xml.XmlElement element)
-		{
-			var doc = element.OwnerDocument;
-
-			foreach (var res in this.Resources)
-			{
-				var el = doc.CreateElement(res.Key);
-				el.SetAttribute("value", res.Value.ToString());
-				element.AppendChild(el);
-			}
-		}
-
-		/// <summary>
-		/// Deserializuje z takiego samego drzewa jakie tworzy <see cref="Serialize"/>.
-		/// TODO: dopisać sprawdzanie, czy taki zasób istnieje.
-		/// </summary>
-		/// <param name="element"></param>
-		public void Deserialize(System.Xml.XmlElement element)
-		{
-			foreach (System.Xml.XmlElement el in element.ChildNodes)
-			{
-				if (!ResourcesList.Instance.Exists(el.Name))
-				{
-					Logger.Warn("Resource {0} does not exists, skipping", el.Name);
-					continue;
-				}
-				uint value = 0;
-				try
-				{
-					value = uint.Parse(el.GetAttribute("value"));
-				}
-				catch
-				{
-					Logger.Warn("Cannot parse value for {0}, skipping", el.Name);
-					continue;
-				}
-				this.Resources.Add(el.Name, value);
-			}
 		}
 		#endregion
 	}

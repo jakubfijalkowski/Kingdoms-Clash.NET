@@ -38,3 +38,4 @@ using System.Windows.Markup;
 
 [assembly: XmlnsDefinition("http://schemas.fiolek.org/units", "Kingdoms_Clash.NET.Units")]
 [assembly: XmlnsDefinition("http://schemas.fiolek.org/units", "Kingdoms_Clash.NET.Units.Components")]
+[assembly: XmlnsDefinition("http://schemas.fiolek.org/units", "Kingdoms_Clash.NET.Units.XAML")]

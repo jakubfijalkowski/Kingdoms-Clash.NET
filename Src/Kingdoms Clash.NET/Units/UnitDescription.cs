@@ -14,6 +14,10 @@ namespace Kingdoms_Clash.NET.Units
 	public class UnitDescription
 		: IUnitDescription
 	{
+		#region Private fields
+		private IResourcesCollection _Costs = null;
+		#endregion
+
 		#region IUnitDescription Members
 		/// <summary>
 		/// Identyfikator jednostki.
@@ -23,7 +27,7 @@ namespace Kingdoms_Clash.NET.Units
 		/// <summary>
 		/// Koszta wyprodukowania jednostki.
 		/// </summary>
-		public IResourcesCollection Costs { get; private set; }
+		IResourcesCollection IUnitDescription.Costs { get { return this._Costs; } }
 
 		/// <summary>
 		/// Komponenty, z których składa się jednostka.
@@ -44,6 +48,13 @@ namespace Kingdoms_Clash.NET.Units
 		/// Wysokość jednostki.
 		/// </summary>
 		public float Height { get; set; }
+		#endregion
+
+		#region XAML integration
+		/// <summary>
+		/// Koszta wyprodukowania jednostki.
+		/// </summary>
+		public XAML.ResourcesCollection Costs { get; private set; }
 		#endregion
 
 		#region Constructors
@@ -76,7 +87,8 @@ namespace Kingdoms_Clash.NET.Units
 		/// </summary>
 		public UnitDescription()
 		{
-			this.Costs = new Resources.ResourcesCollection();
+			this._Costs = new Resources.ResourcesCollection();
+			this.Costs = new XAML.ResourcesCollection(this._Costs);
 			this.Components = new UnitComponentDescriptionsCollection();
 		}
 		#endregion

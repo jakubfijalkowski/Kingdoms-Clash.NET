@@ -15,8 +15,10 @@ namespace Kingdoms_Clash.NET.Units
 	public class UnitComponentDescriptionsCollection
 		: IUnitComponentDescriptionsCollection
 	{
+		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IUnitComponentDescription> Descriptions = new List<IUnitComponentDescription>();
+		#endregion
 
 		#region IUnitComponentDescriptionsCollection Members
 		/// <summary>
