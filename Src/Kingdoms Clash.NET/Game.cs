@@ -150,20 +150,19 @@ namespace Kingdoms_Clash.NET
 		}
 		#endregion
 
-		//#region Main
-		//static void Main(string[] args)
-		//{
-		//    UserData.Loader loader = new UserData.Loader(Defaults.UserData, Defaults.ConfigurationFile);
-		//    Defaults.RegisterBuiltInComponents(loader);
+		#region Main
+		static void Main(string[] args)
+		{
+			UserData.Loader loader = new UserData.Loader(Defaults.UserData, Defaults.ConfigurationFile);
 
-		//    loader.LoadConfiguration();
-		//    loader.LoadNations();
+			loader.LoadConfiguration();
+			loader.LoadNations();
 
-		//    using (var game = new KingdomsClashNetGame(loader.Nations))
-		//    {
-		//        game.Run();
-		//    }
-		//}
-		//#endregion
+			using (var game = new KingdomsClashNetGame(loader.Nations))
+			{
+				game.Run();
+			}
+		}
+		#endregion
 	}
 }
