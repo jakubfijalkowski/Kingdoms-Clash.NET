@@ -76,6 +76,7 @@ namespace Kingdoms_Clash.NET.Units
 		{
 			this.Id = id;
 			this.Health = health;
+			this.CreationTime = creationTime;
 			this.Width = width;
 			this.Height = height;
 		}

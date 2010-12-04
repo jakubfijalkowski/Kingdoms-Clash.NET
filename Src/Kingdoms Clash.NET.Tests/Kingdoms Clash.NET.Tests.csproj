@@ -71,10 +71,12 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassicGameTests.cs" />
     <Compile Include="Components\MovableTests.cs" />
     <Compile Include="NationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourcesCollectionTests.cs" />
+    <Compile Include="TestObjects\GameState.cs" />
     <Compile Include="UnitComponentDescriptionsCollectionTests.cs" />
     <Compile Include="UnitTests.cs" />
   </ItemGroup>

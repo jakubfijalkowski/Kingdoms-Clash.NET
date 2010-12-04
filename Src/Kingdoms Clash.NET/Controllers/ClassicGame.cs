@@ -121,6 +121,10 @@ namespace Kingdoms_Clash.NET.Controllers
 		/// </summary>
 		public void Reset()
 		{
+			foreach (var token in this.UnitTokens)
+			{
+				token.IsValidToken = false;
+			}
 			this.UnitTokens.Clear();
 			this.SetDefaults();
 		}

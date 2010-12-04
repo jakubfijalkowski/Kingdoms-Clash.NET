@@ -142,7 +142,7 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 			this.IsValidToken = true;
 			this.IsCompleted = false;
 
-			this.TimeLeft = this.Unit.CreationTime;
+			this._TimeLeft = this.Unit.CreationTime;
 		}
 		#endregion
 	}
