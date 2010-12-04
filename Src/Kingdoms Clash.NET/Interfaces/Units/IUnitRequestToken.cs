@@ -68,5 +68,11 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// Anuluje tworzenie jednostki.
 		/// </summary>
 		void Abort();
+
+		/// <summary>
+		/// Tworzy jednostkę z tokenu.
+		/// </summary>
+		/// <returns>Nowoutworzona jednostka.</returns>
+		IUnit CreateUnit();
 	}
 }

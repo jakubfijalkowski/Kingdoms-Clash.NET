@@ -19,7 +19,7 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 		public float TimeLeft
 		{
 			get { return this._TimeLeft; }
-			set
+			internal set
 			{
 				this._TimeLeft = value;
 				if (this._TimeLeft <= 0f)
@@ -95,7 +95,7 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 		/// <remarks>
 		///	Wykonuje się tylko jeśli IsPaused = false.
 		/// </remarks>
-		void Resume()
+		public void Resume()
 		{
 			if (!this.IsCompleted && this.IsValidToken)
 			{
@@ -109,6 +109,19 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 		public void Abort()
 		{
 			//TODO
+		}
+
+		/// <summary>
+		/// Tworzy jednostkę z tokenu.
+		/// </summary>
+		/// <returns>Nowoutworzona jednostka.</returns>
+		public IUnit CreateUnit()
+		{
+			if (this.IsValidToken)
+			{
+				return new Units.Unit(this.Unit, this.Owner);
+			}
+			return null;
 		}
 		#endregion
 
@@ -128,6 +141,8 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 			this.IsPaused = !start;
 			this.IsValidToken = true;
 			this.IsCompleted = false;
+
+			this.TimeLeft = this.Unit.CreationTime;
 		}
 		#endregion
 	}

@@ -79,6 +79,7 @@
     <Compile Include="AdditionalScreens\WinnerScreen.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\ClassicGame.cs" />
+    <Compile Include="Controllers\Internals\UnitRequestToken.cs" />
     <Compile Include="Defaults.cs" />
     <Compile Include="GuiTests.cs" />
     <Compile Include="Interfaces\Controllers\IClassicGame.cs" />
