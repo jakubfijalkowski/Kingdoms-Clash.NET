@@ -83,6 +83,8 @@
     <Compile Include="Defaults.cs" />
     <Compile Include="Interfaces\Controllers\IClassicGame.cs" />
     <Compile Include="Interfaces\Map\IResourceOnMap.cs" />
+    <Compile Include="Interfaces\Player\IPlayerController.cs" />
+    <Compile Include="Interfaces\Player\IPlayerEntity.cs" />
     <Compile Include="Interfaces\Resources\IResourceDescription.cs" />
     <Compile Include="Interfaces\Resources\IResourcesCollection.cs" />
     <Compile Include="Interfaces\Resources\IResourcesList.cs" />
@@ -95,6 +97,8 @@
     <Compile Include="Interfaces\Units\UnitEvents.cs" />
     <Compile Include="Maps\ResourceOnMap.cs" />
     <Compile Include="Player\KeyboardControlledPlayer.cs" />
+    <Compile Include="Player\Player.cs" />
+    <Compile Include="Player\PlayerEntity.cs" />
     <Compile Include="Resources\ResourceDescription.cs" />
     <Compile Include="Resources\ResourcesCollection.cs" />
     <Compile Include="Resources\ResourcesList.cs" />
@@ -105,7 +109,6 @@
     <Compile Include="Interfaces\IGameState.cs" />
     <Compile Include="Interfaces\IMenuState.cs" />
     <Compile Include="Interfaces\Map\IMap.cs" />
-    <Compile Include="Interfaces\Player\IHuman.cs" />
     <Compile Include="Interfaces\Player\IPlayer.cs" />
     <Compile Include="Interfaces\Units\Components\IMovable.cs" />
     <Compile Include="Interfaces\Units\Components\ISprite.cs" />

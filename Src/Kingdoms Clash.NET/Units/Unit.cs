@@ -126,9 +126,9 @@ namespace Kingdoms_Clash.NET.Units
 					this.CollisionWithUnit(this, fixtureB.Body.UserData as IUnit);
 					return false;
 				}
-				else if (fixtureB.Body.UserData is IPlayer && this.CollisionWithPlayer != null)
+				else if (fixtureB.Body.UserData is IPlayerEntity && this.CollisionWithPlayer != null)
 				{
-					this.CollisionWithPlayer(this, fixtureB.Body.UserData as IPlayer);
+					this.CollisionWithPlayer(this, (fixtureB.Body.UserData as IPlayerEntity).Player);
 				}
 				else if (fixtureB.Body.UserData is IResourceOnMap && this.CollisionWithResource != null)
 				{

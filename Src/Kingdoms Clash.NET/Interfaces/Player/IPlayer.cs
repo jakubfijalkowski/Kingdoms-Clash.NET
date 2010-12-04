@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ClashEngine.NET.Interfaces.EntitiesManager;
 
 namespace Kingdoms_Clash.NET.Interfaces.Player
 {
@@ -29,20 +28,14 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 	}
 
 	/// <summary>
-	/// Bazowy interfejs dla gracza.
+	/// Gracz.
 	/// </summary>
 	public interface IPlayer
-		: IGameEntity
 	{
 		/// <summary>
 		/// Nazwa gracza.
 		/// </summary>
 		string Name { get; }
-
-		/// <summary>
-		/// Stan gry do której należy gracz.
-		/// </summary>
-		IGameState GameState { get; set; }
 
 		/// <summary>
 		/// Nacja gracza.
@@ -61,7 +54,6 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 
 		/// <summary>
 		/// Zdrowie bohatera(jego zamku).
-		/// Powinno być zaimplementowane na bazie IAttribute.
 		/// </summary>
 		int Health { get; set; }
 
