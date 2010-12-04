@@ -52,6 +52,11 @@ namespace ClashEngine.NET.Utilities
 		/// Używana tylko, jeśli RenderStatistics == true.
 		/// </summary>
 		private Interfaces.Graphics.Gui.Objects.IText Text = null;
+
+		/// <summary>
+		/// Kamera używana przez ekran.
+		/// </summary>
+		private Interfaces.Graphics.ICamera Camera;
 		#endregion
 		
 		#region IFPSCounter Members
@@ -163,6 +168,7 @@ namespace ClashEngine.NET.Utilities
 			//if(this.AllFrames == long.MaxValue) // Zabezpieczenie przed buffer overflowem.
 			if (this.RenderStatistics)
 			{
+				this.Renderer.Camera = this.Camera;
 				this.Gui.Render();
 				this.Renderer.Flush();
 			}
@@ -196,6 +202,8 @@ namespace ClashEngine.NET.Utilities
 			: this(0)
 		{
 			this.RenderStatistics = true;
+			this.Camera = new Graphics.Cameras.Movable2DCamera(screenSize, new System.Drawing.RectangleF(0, 0, screenSize.X, screenSize.Y));
+
 			this.Text = new Graphics.Gui.Objects.Text();
 			this.Text.Font = font;
 			this.Text.Color = textColor.ToVector4();
