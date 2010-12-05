@@ -23,6 +23,11 @@
 		/// Kontroler.
 		/// </summary>
 		public IPlayerController Controller { get; private set; }
+
+		/// <summary>
+		/// Czy pokazywać statystyki dla tego gracza.
+		/// </summary>
+		public bool ShowStatistics { get; private set; }
 		#endregion
 
 		#region Constructors
@@ -32,11 +37,13 @@
 		/// <param name="name"></param>
 		/// <param name="nation"></param>
 		/// <param name="controller"></param>
-		public PlayerInfo(string name, Interfaces.Units.INation nation, IPlayerController controller)
+		/// <param name="showStatistics"></param>
+		public PlayerInfo(string name, Interfaces.Units.INation nation, IPlayerController controller, bool showStatistics)
 		{
 			this.Name = name;
 			this.Nation = nation;
 			this.Controller = controller;
+			this.ShowStatistics = showStatistics;
 		}
 		#endregion
 	}

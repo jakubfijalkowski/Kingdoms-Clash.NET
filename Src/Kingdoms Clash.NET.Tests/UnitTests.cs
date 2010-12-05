@@ -63,6 +63,8 @@ namespace Kingdoms_Clash.NET.Tests
 
 			public abstract int Health { get; set; }
 
+			public abstract uint MaxHealth { get; set; }
+
 			public abstract PlayerType Type { get; set; }
 
 			public abstract event CollisionWithPlayerEventHandler Collide;

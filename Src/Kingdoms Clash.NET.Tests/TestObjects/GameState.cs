@@ -58,10 +58,9 @@ namespace Kingdoms_Clash.NET.Tests.TestObjects
 		{
 			this.Players = new Interfaces.Player.IPlayer[]
 			{
-				new Player.Player("A", new Units.Nation("TestNation", "", new Interfaces.Units.IUnitDescription[] { TestUnit })),
-				new Player.Player("B", new Units.Nation("TestNation", "", new Interfaces.Units.IUnitDescription[] { TestUnit }))
+				new Player.Player("A", new Units.Nation("TestNation", "", new Interfaces.Units.IUnitDescription[] { TestUnit }), 100),
+				new Player.Player("B", new Units.Nation("TestNation", "", new Interfaces.Units.IUnitDescription[] { TestUnit }), 100)
 			};
-
 
 			this.Entities = new EntitiesManager(null, null, null);
 			this.Map = new Maps.DefaultMap();

@@ -19,5 +19,10 @@
 		/// Kontroler.
 		/// </summary>
 		IPlayerController Controller { get; }
+
+		/// <summary>
+		/// Czy pokazywać statystyki dla tego gracza.
+		/// </summary>
+		bool ShowStatistics { get; }
 	}
 }

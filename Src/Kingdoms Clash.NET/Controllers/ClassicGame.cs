@@ -198,7 +198,7 @@ namespace Kingdoms_Clash.NET.Controllers
 			foreach (var player in this.GameState.Players)
 			{
 				player.Units.Clear();
-				player.Health = 100;
+				player.Health = (int)player.MaxHealth;
 			}
 
 			//Testowe, początkowe zasoby

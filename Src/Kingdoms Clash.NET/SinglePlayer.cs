@@ -69,8 +69,8 @@ namespace Kingdoms_Clash.NET
 		{
 			this.Players = new IPlayer[]
 			{
-				new Player.Player(playerA.Name, playerA.Nation),
-				new Player.Player(playerB.Name, playerB.Nation)
+				new Player.Player(playerA.Name, playerA.Nation, 100),
+				new Player.Player(playerB.Name, playerB.Nation, 100)
 			};
 			this.PlayerControllers[0] = playerA.Controller;
 			this.PlayerControllers[1] = playerB.Controller;

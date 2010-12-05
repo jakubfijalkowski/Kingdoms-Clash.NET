@@ -58,6 +58,11 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 		int Health { get; set; }
 
 		/// <summary>
+		/// Maksymalna ilość zdrowia.
+		/// </summary>
+		uint MaxHealth { get; }
+
+		/// <summary>
 		/// Typ gracza.
 		/// </summary>
 		PlayerType Type { get; set; }

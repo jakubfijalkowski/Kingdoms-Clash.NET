@@ -13,6 +13,10 @@ namespace Kingdoms_Clash.NET.Player
 	public class Player
 		: IPlayer
 	{
+		#region Private fields
+		private int _Health = 0;
+		#endregion
+
 		#region IPlayer Members
 		/// <summary>
 		/// Nazwa gracza.
@@ -37,7 +41,23 @@ namespace Kingdoms_Clash.NET.Player
 		/// <summary>
 		/// Zdrowie bohatera(jego zamku).
 		/// </summary>
-		public int Health { get; set; }
+		public int Health
+		{
+			get { return this._Health; }
+			set
+			{
+				this._Health = value;
+				if (this._Health > this.MaxHealth)
+				{
+					this._Health = (int)this.MaxHealth;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Maksymalna ilość zdrowia.
+		/// </summary>
+		public uint MaxHealth { get; private set; }
 
 		/// <summary>
 		/// Typ gracza.
@@ -52,7 +72,7 @@ namespace Kingdoms_Clash.NET.Player
 		/// <param name="id">Nazwa gracza</param>
 		/// <param name="name">Nazwa.</param>
 		/// <param name="nation">Jego nacja.</param>
-		public Player(string name, INation nation)
+		public Player(string name, INation nation, uint maxHealth)
 		{
 			if (string.IsNullOrWhiteSpace(name))
 			{
@@ -68,6 +88,7 @@ namespace Kingdoms_Clash.NET.Player
 
 			this.Name = name;
 			this.Nation = nation;
+			this.MaxHealth = maxHealth;
 		}
 		#endregion
 	}
