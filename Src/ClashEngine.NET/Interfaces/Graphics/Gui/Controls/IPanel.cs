@@ -4,6 +4,6 @@
 	/// Panel - kontener na kontrolki. Umożliwia grupowanie kontrolek.
 	/// </summary>
 	public interface IPanel
-		: IControl
+		: IControl, IContainer
 	{ }
 }

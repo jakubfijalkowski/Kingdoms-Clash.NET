@@ -127,7 +127,7 @@
     <Compile Include="Graphics\Gui\Conditions\TriggersCollection.cs" />
     <Compile Include="Graphics\Gui\XamlGuiContainer.cs" />
     <Compile Include="Graphics\Gui\ControlBase.cs" />
-    <Compile Include="Graphics\Gui\ControlsCollection.cs" />
+    <Compile Include="Graphics\Gui\Internals\ControlsCollection.cs" />
     <Compile Include="Graphics\Objects\Internals\SystemFontObject.cs" />
     <Compile Include="Graphics\Objects\Quad.cs" />
     <Compile Include="Graphics\Objects\Sprite.cs" />

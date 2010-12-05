@@ -1,5 +1,6 @@
 ﻿namespace ClashEngine.NET.Graphics.Gui.Controls
 {
+	using Interfaces.Graphics.Gui;
 	using Interfaces.Graphics.Gui.Controls;
 
 	/// <summary>
@@ -8,11 +9,43 @@
 	public class Panel
 		: ControlBase, IPanel
 	{
+		#region IContainer Members
+		/// <summary>
+		/// Nieużywane.
+		/// </summary>
+		Interfaces.IInput IContainer.Input
+		{
+			get { return this.Data.Input; }
+			set { }
+		}
+
+		/// <summary>
+		/// Nieużywane.
+		/// </summary>
+		Interfaces.Graphics.IRenderer IContainer.Renderer
+		{
+			get { return this.Data.Renderer; }
+			set { }
+		}
+
+		/// <summary>
+		/// Kontrolki w tej kontrolce.
+		/// </summary>
+		public Interfaces.Graphics.Gui.IControlsCollection Controls { get; private set; }
+
+		/// <summary>
+		/// Sprawdza kontrolkę w 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public int Control(string id)
+		{
+			return this.Controls[id].Check();
+		}
+		#endregion
+
 		#region Unused
 		public override bool PermanentActive { get { return false; } }
-
-		//public override void Update(double delta)
-		//{ }
 
 		public override int Check()
 		{
@@ -24,5 +57,10 @@
 			return false;
 		}
 		#endregion
+
+		public Panel()
+		{
+			this.Controls = new Gui.Internals.ControlsCollection(this);
+		}
 	}
 }

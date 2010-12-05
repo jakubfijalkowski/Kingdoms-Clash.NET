@@ -276,6 +276,15 @@ namespace ClashEngine.NET
 			Logger.Debug("Screen {0} removed from manager", s.Id);
 			base.RemoveItem(index);
 		}
+
+		protected override void ClearItems()
+		{
+			foreach (var item in this)
+			{
+				item.OnDeinit();
+			}
+			base.ClearItems();
+		}
 		#endregion
 
 		#region Constructors/Descructors

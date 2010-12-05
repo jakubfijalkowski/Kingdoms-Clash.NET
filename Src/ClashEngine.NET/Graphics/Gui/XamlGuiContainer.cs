@@ -113,7 +113,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		#region Constructors
 		public XamlGuiContainer()
 		{
-			this.Controls = new ControlsCollection();
+			this.Controls = new Internals.ControlsCollection();
 			this.Triggers = new ConditionsCollection();
 		}
 		#endregion

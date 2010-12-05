@@ -1,50 +1,25 @@
 ﻿<XamlGuiContainer xmlns="http://schemas.fiolek.org/gui"
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Button Id="Button1" Position="10,10" Size="80,80">
+    <Rectangle Color="1,1,1,1" Depth="2" />
+    <Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
+  </Button>
+  
+  <Panel Id="Panel1" Position="10, 100" Size="500, 500">
+    <Panel.Controls>
+      <Button Id="Button2" Position="100,100" Size="80,80">
+        <Rectangle Color="1,1,1,1" Depth="2" />
+        <Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
+      </Button>
 
-  <XamlGuiContainer.Triggers>
-    <!--<MultiIf Type="Or">
-      <If Object="Button2" PropertyName="IsHot" Value="true" />
-      <If Object="Button3" PropertyName="IsHot" Value="true" />
-      <MultiIf.Triggers>
-        <Set Object="Panel1Img" PropertyName="Visible" Value="true" />
-      </MultiIf.Triggers>
-    </MultiIf>
-    <MultiIf Type="And">
-      <If Object="Button2" PropertyName="IsHot" Value="false" />
-      <If Object="Button3" PropertyName="IsHot" Value="false" />
-      <MultiIf.Triggers>
-        <Set Object="Panel1Img" PropertyName="Visible" Value="false" />
-      </MultiIf.Triggers>
-    </MultiIf>-->
-
-    <If Object="Next" Path="Clicked" Value="true">
-      <Increase Object="Rotator1" Path="First" Amount="1" />
-    </If>
-    <If Object="Prev" Path="Clicked" Value="true">
-      <Increase Object="Rotator1" Path="First" Amount="-1" />
-    </If>
-  </XamlGuiContainer.Triggers>
-
-  <XamlGuiContainer.Controls>
-    <Rotator Id="Rotator1" MaxSelectedItems="1" />
-    <Button Id="Button1" Position="10,10" Size="80,80">
-      <Rectangle Color="1,1,1,1" Depth="2" />
-      <Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
-    </Button>
-
-    <Button Id="Prev" Position="100,10" Size="80,80">
-      <Rectangle Color="1,1,1,1" Depth="2" />
-      <Text Font="Arial,15,bi" TextValue="Prev" Color="0,0,1,1" Depth="0" />
-    </Button>
-
-    <Button Id="Next" Position="190,10" Size="80,80">
-      <Rectangle Color="1,1,1,1" Depth="2" />
-      <Text Font="Arial,15,bi" TextValue="Next" Color="0,0,1,1" Depth="0" />
-    </Button>
-
-    <Panel Id="Panel1" Position="10, 100" Size="500, 500">
-      <Rectangle Color="1,1,1,1" Depth="1" />
-      <Image DataContext="Rotator1" Texture="{Binding Path=Selected[0]}" />
-    </Panel>
-  </XamlGuiContainer.Controls>
+      <Panel Id="Panel2" Position="10, 100" Size="500, 500">
+        <Panel.Controls>
+          <Button Id="Button3" Position="200,200" Size="80,80">
+            <Rectangle Color="1,1,1,1" Depth="2" />
+            <Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
+          </Button>
+        </Panel.Controls>
+      </Panel>
+    </Panel.Controls>
+  </Panel>
 </XamlGuiContainer>

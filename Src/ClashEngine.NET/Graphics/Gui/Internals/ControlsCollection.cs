@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
-namespace ClashEngine.NET.Graphics.Gui
+namespace ClashEngine.NET.Graphics.Gui.Internals
 {
 	using Interfaces.Graphics.Gui;
 
@@ -11,7 +11,7 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// Kontener na kontrolki.
 	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
-	public class ControlsCollection
+	internal class ControlsCollection
 		: KeyedCollection<string, IControl>, IControlsCollection
 	{
 		#region Private fields
@@ -53,6 +53,10 @@ namespace ClashEngine.NET.Graphics.Gui
 				throw new Exceptions.ArgumentAlreadyExistsException("item");
 			}
 			base.InsertItem(this.Count, control);
+			if (this.Owner is IControl)
+			{
+				(this.Owner as IControl).Owner.Controls.AddChildControl(control);
+			}
 		}
 		#endregion
 
@@ -71,6 +75,10 @@ namespace ClashEngine.NET.Graphics.Gui
 			item.Owner = this.Owner;
 			item.Data = this.UIData;
 			base.InsertItem(index, item);
+			if (this.Owner is IControl)
+			{
+				(this.Owner as IControl).Owner.Controls.AddChildControl(item);
+			}
 		}
 		#endregion
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Windows.Markup;	
+using System.Windows.Markup;
 
 namespace ClashEngine.NET.Graphics.Gui
 {
@@ -20,7 +20,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		private bool _IsActive = false;
 		private bool _IsHot = false;
 		#endregion
-		
+
 		#region IControl Members
 		/// <summary>
 		/// Identyfikator.
@@ -30,24 +30,32 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <summary>
 		/// Właściciel kontrolki.
 		/// </summary>
-		IContainer IControl.Owner { get; set; }
+		IContainer IControl.Owner
+		{
+			get { return this.Owner; }
+			set { this.Owner = value; }
+		}
 
 		/// <summary>
 		/// Właściciel kontrolki.
 		/// </summary>
-		protected IContainer Owner { get { return (this as IControl).Owner; } }
+		protected virtual IContainer Owner { get; set; }
 
 		/// <summary>
 		/// Dane UI.
 		/// </summary>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		IUIData IControl.Data { get; set; }
+		IUIData IControl.Data
+		{
+			get { return this.Data; }
+			set { this.Data = value; }
+		}
 
 		/// <summary>
 		/// Dane UI.
 		/// </summary>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		protected IUIData Data { get { return (this as IControl).Data; } }
+		protected virtual IUIData Data { get; set; }
 
 		/// <summary>
 		/// Pozycja.

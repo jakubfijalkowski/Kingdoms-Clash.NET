@@ -96,12 +96,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <returns>Nr akcji bądź 0, gdy żadna akcja nie zaszła.</returns>
 		public int Control(string id)
 		{
-			var ctrl = this.Controls[id];
-			if (ctrl == null)
-			{
-				throw new Exceptions.NotFoundException("control");
-			}
-			return ctrl.Check();
+			return this.Controls[id].Check();
 		}
 		#endregion
 
@@ -113,7 +108,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <param name="renderer">Renderer.</param>
 		public Container(Interfaces.IInput input = null, Interfaces.Graphics.IRenderer renderer = null)
 		{
-			this.Controls = new ControlsCollection(this, this.CurrentData);
+			this.Controls = new Internals.ControlsCollection(this, this.CurrentData);
 			this.CurrentData.Input = input;
 			this.Renderer = renderer;
 		}
