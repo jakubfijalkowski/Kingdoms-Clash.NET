@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace ClashEngine.NET
@@ -13,13 +13,11 @@ namespace ClashEngine.NET
 	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
 	public class ScreensManager
-		: IScreensManager
+		: KeyedCollection<string, IScreen>, IScreensManager
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
 		#region Private fields
-		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-		private List<IScreen> Screens = new List<IScreen>();
 		private IInput Input = null;
 		private IResourcesManager Content = null;
 		private IRenderer Renderer = null;
@@ -38,16 +36,6 @@ namespace ClashEngine.NET
 		}
 
 		/// <summary>
-		/// Pobiera ekran o wskazanym Id.
-		/// </summary>
-		/// <param name="index">Identyfikator ekranu.</param>
-		/// <returns>Ekran, bądź null, gdy nie znaleziono</returns>
-		public IScreen this[string id]
-		{
-			get { return this.Screens.Find(s => s.Id == id); }
-		}
-
-		/// <summary>
 		/// Przesuwa ekran we wskazane miejsce.
 		/// </summary>
 		/// <param name="screen">Ekran.</param>
@@ -61,19 +49,19 @@ namespace ClashEngine.NET
 			{
 				throw new ArgumentNullException("screen");
 			}
-			int idx = this.Screens.IndexOf(screen);
+			int idx = base.Items.IndexOf(screen);
 			if (idx == -1)
 			{
 				throw new Exceptions.ArgumentNotExistsException("screen");
 			}
-			this.Screens.RemoveAt(idx);
+			base.Items.RemoveAt(idx);
 			if (screen.State == ScreenState.Activated ||
 				(screen.State < ScreenState.Hidden && screen.Type == ScreenType.Fullscreen)) //Tylko, gdy ekran był aktywny coś się może zmienić
 			{
 				this.SetStates(0, idx);
 			}
 
-			this.Screens.Insert(newPos, screen);
+			base.Items.Insert(newPos, screen);
 			screen.State = this.CheckStateAt(newPos);
 
 			//Jeśli jest to popup to nie musimy nic pod zmieniać
@@ -130,7 +118,7 @@ namespace ClashEngine.NET
 			{
 				throw new ArgumentNullException("screen");
 			}
-			int idx = this.Screens.IndexOf(screen);
+			int idx = base.Items.IndexOf(screen);
 			if (idx == -1)
 			{
 				throw new ArgumentException("Not member of manager", "screen");
@@ -165,7 +153,7 @@ namespace ClashEngine.NET
 			{
 				throw new ArgumentNullException("screen");
 			}
-			int idx = this.Screens.IndexOf(screen);
+			int idx = base.Items.IndexOf(screen);
 			if (idx == -1)
 			{
 				throw new Exceptions.ArgumentNotExistsException("screen");
@@ -211,17 +199,17 @@ namespace ClashEngine.NET
 		/// <param name="delta">Czas od ostatniej aktualizacji.</param>
 		public void Update(double delta)
 		{
-			for (int i = 0; i < this.Screens.Count; i++)
+			for (int i = 0; i < base.Items.Count; i++)
 			{
-				if (this.Screens[i].State == ScreenState.Deactivated)
+				if (base.Items[i].State == ScreenState.Deactivated)
 				{
 					continue;
 				}
-				else if (this.Screens[i].State >= ScreenState.Covered)
+				else if (base.Items[i].State >= ScreenState.Covered)
 				{
 					break;
 				}
-				this.Screens[i].Update(delta);
+				base.Items[i].Update(delta);
 			}
 		}
 
@@ -231,132 +219,24 @@ namespace ClashEngine.NET
 		/// </summary>
 		public void Render()
 		{
-			for (int i = this.Screens.FindLastIndex(s => s.State <= ScreenState.Covered); i >= 0; i--)
+			int last = 0;
+			for (int i = this.Items.Count - 1; i >= 0; i--)
 			{
-				if (this.Screens[i].State != ScreenState.Deactivated)
+				if (base[i].State <= ScreenState.Covered)
 				{
-					this.Screens[i].Render();
-					this.Screens[i].Renderer.Flush();
+					last = i;
+					break;
 				}
 			}
-		}
-		#endregion
 
-		#region ICollection<IScreen> Members
-		/// <summary>
-		/// Dodaje ekran do kolekcji.
-		/// </summary>
-		/// <param name="item">Ekran.</param>
-		/// <exception cref="ArgumentNullException">item == null</exception>
-		/// <exception cref="Exceptions.ArgumentAlreadyExistsException">Ekran o Id równym wskazanemu już istnieje.</exception>
-		public void Add(IScreen item)
-		{
-			if (item == null)
+			for (int i = last; i >= 0; i--)
 			{
-				throw new ArgumentNullException("item");
-			}
-			if (this.Contains(item))
-			{
-				throw new Exceptions.ArgumentAlreadyExistsException("item");
-			}
-			this.Screens.Add(item);
-			item.OwnerManager = this;
-			item.Input = this.Input;
-			item.Content = this.Content;
-			item.Renderer = this.Renderer;
-			item.State = ScreenState.Deactivated;
-			item.OnInit();
-			Logger.Debug("Screen {0} added to manager", item.Id);
-		}
-
-		/// <summary>
-		/// Usuwa ekran z kolekcji(o takim samym id).
-		/// </summary>
-		/// <param name="item">Ekran.</param>
-		/// <returns>Czy usunięto.</returns>
-		public bool Remove(IScreen item)
-		{
-			if (item == null)
-			{
-				throw new ArgumentNullException("item");
-			}
-			return this.Screens.RemoveAll(s =>
+				if (base.Items[i].State != ScreenState.Deactivated)
 				{
-					if (s.Id == item.Id)
-					{
-						s.OnDeinit();
-						Logger.Debug("Screen {0} removed from manager", item.Id);
-						return true;
-					}
-					return false;
-				}) > 0;
-		}
-
-		/// <summary>
-		/// Czyści kolekcję.
-		/// </summary>
-		public void Clear()
-		{
-			foreach (var screen in this.Screens)
-			{
-				screen.OnDeinit();
+					base.Items[i].Render();
+					base.Items[i].Renderer.Flush();
+				}
 			}
-			this.Screens.Clear();
-			Logger.Debug("Screens manager cleared");
-		}
-
-		/// <summary>
-		/// Sprawdza, czy w kolekcji znajduje się ekran o Id równym wskazanemu.
-		/// </summary>
-		/// <param name="item">Ekran do porównywania.</param>
-		/// <returns>Czy zawiera, czy nie.</returns>
-		public bool Contains(IScreen item)
-		{
-			if (item == null)
-			{
-				throw new ArgumentNullException("item");
-			}
-			return this.Screens.Find(s => s.Id == item.Id) != null;
-		}
-
-		/// <summary>
-		/// Kopiuje kolekcje do tablicy.
-		/// </summary>
-		/// <param name="array">Tablica.</param>
-		/// <param name="arrayIndex">Indeks początkowy.</param>
-		public void CopyTo(IScreen[] array, int arrayIndex)
-		{
-			this.Screens.CopyTo(array, arrayIndex);
-		}
-
-		/// <summary>
-		/// Pobiera liczbę ekranów w kolekcji.
-		/// </summary>
-		public int Count
-		{
-			get { return this.Screens.Count; }
-		}
-
-		/// <summary>
-		/// Czy kolekcja jest tylko do odczytu - zawsze false.
-		/// </summary>
-		public bool IsReadOnly
-		{
-			get { return false; }
-		}
-		#endregion
-
-		#region IEnumerable<IScreen> Members
-		public IEnumerator<IScreen> GetEnumerator()
-		{
-			return this.Screens.GetEnumerator();
-		}
-		#endregion
-
-		#region IEnumerable Members
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-		{
-			return this.Screens.GetEnumerator();
 		}
 		#endregion
 
@@ -364,6 +244,37 @@ namespace ClashEngine.NET
 		public void Dispose()
 		{
 			this.Clear();
+		}
+		#endregion
+
+		#region KeyedCollection Members
+		protected override string GetKeyForItem(IScreen item)
+		{
+			if (string.IsNullOrWhiteSpace(item.Id))
+			{
+				throw new ArgumentNullException("item.Id");
+			}
+			return item.Id;
+		}
+
+		protected override void InsertItem(int index, IScreen item)
+		{
+			item.OwnerManager = this;
+			item.Input = this.Input;
+			item.Content = this.Content;
+			item.Renderer = this.Renderer;
+			item.State = ScreenState.Deactivated;
+			item.OnInit();
+			Logger.Debug("Screen {0} added to manager", item.Id);
+			base.InsertItem(index, item);
+		}
+
+		protected override void RemoveItem(int index)
+		{
+			var s = base[index];
+			s.OnDeinit();
+			Logger.Debug("Screen {0} removed from manager", s.Id);
+			base.RemoveItem(index);
 		}
 		#endregion
 
@@ -394,7 +305,7 @@ namespace ClashEngine.NET
 		///// <param name="e"></param>
 		//private void FireEvent(Func<IScreen, bool> e)
 		//{
-		//    foreach (IScreen screen in this.Screens)
+		//    foreach (IScreen screen in base.Items)
 		//    {
 		//        if (screen.State == ScreenState.Activated && e(screen))
 		//        {
@@ -429,13 +340,13 @@ namespace ClashEngine.NET
 			ScreenState state = ScreenState.Activated;
 			for (int i = 0; i < position; i++)
 			{
-				if (this.Screens[i].State != ScreenState.Deactivated)
+				if (base.Items[i].State != ScreenState.Deactivated)
 				{
-					if (this.Screens[i].Type == ScreenType.Normal)
+					if (base.Items[i].Type == ScreenType.Normal)
 					{
 						state = ScreenState.Covered;
 					}
-					else if (this.Screens[i].Type == ScreenType.Fullscreen)
+					else if (base.Items[i].Type == ScreenType.Fullscreen)
 					{
 						state = ScreenState.Hidden;
 						break;
@@ -452,29 +363,29 @@ namespace ClashEngine.NET
 		/// <param name="endIdx"></param>
 		void SetStates(int startIdx, int endIdx)
 		{
-			ScreenState state = this.Screens[startIdx].State;
+			ScreenState state = base.Items[startIdx].State;
 			if (state == ScreenState.Deactivated)
 			{
 				state = ScreenState.Activated;
 			}
-			else if (this.Screens[startIdx].Type == ScreenType.Fullscreen)
+			else if (base.Items[startIdx].Type == ScreenType.Fullscreen)
 			{
 				state = ScreenState.Hidden;
 			}
-			else if (this.Screens[startIdx].Type == ScreenType.Normal)
+			else if (base.Items[startIdx].Type == ScreenType.Normal)
 			{
 				state = ScreenState.Covered;
 			}
 			for (int i = startIdx + 1; i < endIdx; i++)
 			{
-				if (this.Screens[i].State != ScreenState.Deactivated)
+				if (base.Items[i].State != ScreenState.Deactivated)
 				{
-					this.Screens[i].State = state;
-					if (this.Screens[i].Type == ScreenType.Fullscreen)
+					base.Items[i].State = state;
+					if (base.Items[i].Type == ScreenType.Fullscreen)
 					{
 						state = ScreenState.Hidden;
 					}
-					else if (state < ScreenState.Covered && this.Screens[i].Type == ScreenType.Normal)
+					else if (state < ScreenState.Covered && base.Items[i].Type == ScreenType.Normal)
 					{
 						state = ScreenState.Covered;
 					}
@@ -488,7 +399,7 @@ namespace ClashEngine.NET
 		/// <param name="startIdx"></param>
 		void SetStates(int startIdx)
 		{
-			this.SetStates(startIdx, this.Screens.Count);
+			this.SetStates(startIdx, base.Items.Count);
 		}
 		#endregion
 	}

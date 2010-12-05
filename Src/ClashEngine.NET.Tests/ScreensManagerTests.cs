@@ -85,7 +85,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void ThrowsExectpionOnAddingNull()
 		{
-			Assert.Throws<ArgumentNullException>(() => this.Manager.Add(null));
+			Assert.Throws<NullReferenceException>(() => this.Manager.Add(null));
 		}
 
 		[Test]
@@ -97,7 +97,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void ThrowsExectpionOnAddingExistingScreen()
 		{
-			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Manager.Add(this.Screen1.Object));
+			Assert.Throws<ArgumentException>(() => this.Manager.Add(this.Screen1.Object));
 		}
 
 		[Test]
