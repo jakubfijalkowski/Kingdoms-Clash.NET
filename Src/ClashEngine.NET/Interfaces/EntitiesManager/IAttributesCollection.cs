@@ -12,7 +12,7 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 		/// Wyszukuje atrybutu po ID.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
-		/// <returns>Atrybut lub null, gdy nie znaleziono.</returns>
+		/// <returns>Atrybut.</returns>
 		IAttribute this[string id] { get; }
 
 		/// <summary>

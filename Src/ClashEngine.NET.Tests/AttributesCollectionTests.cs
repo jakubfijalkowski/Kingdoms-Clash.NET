@@ -35,7 +35,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void ThrowsExceptionOnAddingSameAttributeManyTimes()
 		{
-			Assert.Throws<Exceptions.ArgumentAlreadyExistsException>(() => this.Collection.Add(this.Attribute.Object));
+			Assert.Throws<System.ArgumentException>(() => this.Collection.Add(this.Attribute.Object));
 		}
 
 		[Test]
@@ -60,10 +60,9 @@ namespace ClashEngine.NET.Tests
 		}
 
 		[Test]
-		public void GettingNonExistionAttributeReturnsNull()
+		public void GettingNonExistionAttributeThrowsException()
 		{
-			var attrib = this.Collection["FancyAttribute"];
-			Assert.IsNull(attrib);
+			Assert.Throws<System.Collections.Generic.KeyNotFoundException>(() => { var tmp = this.Collection["FancyAttribute"]; });
 		}
 	}
 }

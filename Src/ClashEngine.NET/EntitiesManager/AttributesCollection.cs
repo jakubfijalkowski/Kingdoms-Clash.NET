@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace ClashEngine.NET.EntitiesManager
@@ -10,26 +10,14 @@ namespace ClashEngine.NET.EntitiesManager
 	/// Kolekcja atrybutów encji.
 	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
-	class AttributesCollection
-		: IAttributesCollection
+	internal class AttributesCollection
+		: KeyedCollection<string, IAttribute>, IAttributesCollection
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
-		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-		private List<IAttribute> Attributes = new List<IAttribute>();
 		private IGameEntity Parent = null;
 
 		#region IAttributesCollection Members
-		/// <summary>
-		/// Wyszukuje atrybutu po ID.
-		/// </summary>
-		/// <param name="id">Identyfikator.</param>
-		/// <returns>Atrybut lub null, gdy nie znaleziono.</returns>
-		public IAttribute this[string id]
-		{
-			get { return this.Attributes.Find(a => a.Id == id); }
-		}
-
 		/// <summary>
 		/// Wyszukuje atrybutu po ID.
 		/// </summary>
@@ -39,7 +27,7 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <returns>Atrybut lub null, gdy nie znaleziono.</returns>
 		public IAttribute<T> Get<T>(string id)
 		{
-			var attr = this[id];
+			var attr = this.Find(id);
 			if (attr == null || attr is IAttribute<T>)
 			{
 				return attr as IAttribute<T>;
@@ -54,11 +42,11 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <returns>Atrybut.</returns>
 		public IAttribute GetOrCreate(string id)
 		{
-			var attr = this[id];
+			var attr = this.Find(id);
 			if (attr == null)
 			{
 				attr = new Attribute(id, null);
-				this.Attributes.Add(attr);
+				base.Add(attr);
 			}
 			return attr;
 		}
@@ -76,7 +64,7 @@ namespace ClashEngine.NET.EntitiesManager
 			if (attr == null)
 			{
 				attr = new Attribute<T>(id, default(T));
-				this.Attributes.Add(attr);
+				base.Add(attr);
 			}
 			return attr;
 		}
@@ -89,115 +77,71 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <param name="with">Atrybut zamieniany. Jeśli jest null to atrybut zostanie usunięty.</param>
 		public void Replace(string id, IAttribute with)
 		{
-			var i = this.Attributes.FindIndex(a => a.Id == id);
-			if (i == -1)
+			int index = -1;
+			//index = this.Attributes.FindIndex(a => a.Id == id);
+			for (int i = 0; i < this.Count; i++)
 			{
-				this.Attributes.Add(with);
+				if (this.Comparer.Equals(id, base.Items[i].Id))
+				{
+					index = i;
+					break;
+				}
+			}			
+			if (index == -1)
+			{
+				base.Add(with);
 			}
 			else if (with == null)
 			{
-				this.Attributes.RemoveAt(i);
+				base.RemoveAt(index);
 			}
 			else
 			{
-				this.Attributes[i] = with;
+				base.SetItem(index, with);
 			}
 		}
 		#endregion
 
-		#region ICollection<IAttribute> Members
-		/// <summary>
-		/// Dodaje atrybut do encji.
-		/// </summary>
-		/// <exception cref="Exceptions.ArgumentAlreadyExistsException">Rzucane gdy taki atrybut został już dodany.</exception>
-		/// <param name="attribute">Atrybut. Musi być unikatowy.</param>
-		public void Add(IAttribute item)
+		#region KeyedCollection Members
+		protected override string GetKeyForItem(IAttribute item)
 		{
-			if (this.Attributes.Contains(item))
+			if (string.IsNullOrWhiteSpace(item.Id))
 			{
-				throw new Exceptions.ArgumentAlreadyExistsException("item");
+				throw new ArgumentNullException("item.Id");
 			}
-			this.Attributes.Add(item);
+			return item.Id;
+		}
+
+		protected override void InsertItem(int index, IAttribute item)
+		{
+			base.InsertItem(index, item);
 			Logger.Trace("Attribute {0} added to entity {1}", item.Id, this.Parent.Id);
 		}
 
-		/// <summary>
-		/// Usuwa wskazany atrybut.
-		/// </summary>
-		/// <param name="item">Atrybut.</param>
-		/// <returns>True jeśli usunięto, w przeciwnym razie false.</returns>
-		public bool Remove(IAttribute item)
+		protected override void RemoveItem(int index)
 		{
-			var deleted = this.Remove(item);
-			if (deleted)
-			{
-				Logger.Debug("Attribute {0} removed from entity {1}", item.Id, this.Parent.Id);
-			}
-			return deleted;
-		}
-
-		/// <summary>
-		/// Czyści kolekcję.
-		/// </summary>
-		public void Clear()
-		{
-			this.Attributes.Clear();
-		}
-
-		/// <summary>
-		/// Sprawdza czy w kolekcji znajduje się wskazany atrybut.
-		/// </summary>
-		/// <param name="item">Atrybut.</param>
-		/// <returns></returns>
-		public bool Contains(IAttribute item)
-		{
-			return this.Attributes.Contains(item);
-		}
-
-		/// <summary>
-		/// Kopiuje kolekcje do tablicy.
-		/// </summary>
-		/// <param name="array">Tablica.</param>
-		/// <param name="arrayIndex">Początkowy indeks.</param>
-		public void CopyTo(IAttribute[] array, int arrayIndex)
-		{
-			this.Attributes.CopyTo(array, arrayIndex);
-		}
-
-		/// <summary>
-		/// Liczba atrybutów.
-		/// </summary>
-		public int Count
-		{
-			get { return this.Attributes.Count; }
-		}
-
-		/// <summary>
-		/// Czy kolekcja jest tylko do odczytu - zawsze false.
-		/// </summary>
-		public bool IsReadOnly
-		{
-			get { return false; }
-		}
-		#endregion
-		
-		#region IEnumerable<IAttribute> Members
-		public IEnumerator<IAttribute> GetEnumerator()
-		{
-			return this.Attributes.GetEnumerator();
+			Logger.Trace("Attribute {0} removed from entity {1}", this[index].Id, this.Parent.Id);
+			base.RemoveItem(index);
 		}
 		#endregion
 
-		#region IEnumerable Members
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-		{
-			return this.Attributes.GetEnumerator();
-		}
-		#endregion
-
+		#region Constructors
 		internal AttributesCollection(IGameEntity parent)
 		{
 			this.Parent = parent;
 		}
+		#endregion
+
+		#region Private methods
+		private IAttribute Find(string id)
+		{
+			IAttribute attr = null;
+			if (this.Count == 0 || !base.Dictionary.TryGetValue(id, out attr))
+			{
+				return null;
+			}
+			return attr;
+		}
+		#endregion
 	}
 }
