@@ -113,7 +113,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <param name="renderer">Renderer.</param>
 		public Container(Interfaces.IInput input = null, Interfaces.Graphics.IRenderer renderer = null)
 		{
-			this.Controls = new ControlsCollection(this.CurrentData);
+			this.Controls = new ControlsCollection(this, this.CurrentData);
 			this.CurrentData.Input = input;
 			this.Renderer = renderer;
 		}

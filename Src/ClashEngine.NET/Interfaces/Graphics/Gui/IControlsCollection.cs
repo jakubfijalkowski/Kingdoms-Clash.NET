@@ -6,13 +6,19 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 	/// Kolekcja kontrolek.
 	/// </summary>
 	public interface IControlsCollection
-		: ICollection<IControl>
+		: ICollection<IControl>, IList<IControl>
 	{
 		/// <summary>
 		/// Dodaje listę kontrolek do kolekcji.
 		/// </summary>
 		/// <param name="items">Lista.</param>
 		void AddRange(IEnumerable<IControl> items);
+
+		/// <summary>
+		/// Dodaje kontrolkę, która jest w kontrolce niżej.
+		/// </summary>
+		/// <param name="control"></param>
+		void AddChildControl(IControl control);
 
 		/// <summary>
 		/// Usuwa kontrolkę o wskazanym Id.

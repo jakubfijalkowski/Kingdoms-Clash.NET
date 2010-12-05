@@ -28,10 +28,26 @@ namespace ClashEngine.NET.Graphics.Gui
 		public string Id { get; set; }
 
 		/// <summary>
+		/// Właściciel kontrolki.
+		/// </summary>
+		IContainer IControl.Owner { get; set; }
+
+		/// <summary>
+		/// Właściciel kontrolki.
+		/// </summary>
+		protected IContainer Owner { get { return (this as IControl).Owner; } }
+
+		/// <summary>
 		/// Dane UI.
 		/// </summary>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		IUIData IControl.Data { get; set; }
+
+		/// <summary>
+		/// Dane UI.
+		/// </summary>
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
+		protected IUIData Data { get { return (this as IControl).Data; } }
 
 		/// <summary>
 		/// Pozycja.
@@ -44,12 +60,6 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		[TypeConverter(typeof(Converters.Vector2Converter))]
 		public OpenTK.Vector2 Size { get; set; }
-
-		/// <summary>
-		/// Dane UI.
-		/// </summary>
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		protected IUIData Data { get { return (this as IControl).Data; } }
 
 		/// <summary>
 		/// Czy kontrolka jest aktywna.

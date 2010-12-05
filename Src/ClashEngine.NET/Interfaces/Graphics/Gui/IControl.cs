@@ -9,6 +9,11 @@
 		/// Identyfikator kontrolki.
 		/// </summary>
 		string Id { get; }
+		
+		/// <summary>
+		/// Właściciel kontrolki.
+		/// </summary>
+		IContainer Owner { get; set; }
 
 		/// <summary>
 		/// Dane UI dla kontrolki.
