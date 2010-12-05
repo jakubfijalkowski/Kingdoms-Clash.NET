@@ -6,12 +6,13 @@ using System.Linq;
 namespace ClashEngine.NET.EntitiesManager
 {
 	using Interfaces.EntitiesManager;
+	using System.Collections.ObjectModel;
 
 	/// <summary>
 	/// Kolekcja komponentów.
 	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
-	class ComponentsCollection
+	internal class ComponentsCollection
 		: IComponentsCollection
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");

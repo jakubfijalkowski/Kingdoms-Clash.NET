@@ -19,7 +19,7 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 		/// Pobiera komponent o wskazanym id.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
-		/// <returns>Komponent lub null, gdy nie znaleziono.</returns>
+		/// <returns>Komponent.</returns>
 		IComponent this[string id] { get; }
 
 		/// <summary>

@@ -9,7 +9,7 @@ namespace ClashEngine.NET.Interfaces
 	/// W kolekcji nie mogą znajdować się dwa ekrany o takim samym Id.
 	/// </summary>
 	public interface IScreensManager
-		: IDisposable, ICollection<IScreen>
+		: IDisposable, ICollection<IScreen>, IList<IScreen>
 	{
 		#region List management
 		/// <summary>
