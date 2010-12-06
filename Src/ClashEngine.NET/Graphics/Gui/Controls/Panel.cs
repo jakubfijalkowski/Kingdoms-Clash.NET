@@ -70,9 +70,11 @@
 		}
 		#endregion
 
+		#region Constructors
 		public Panel()
 		{
 			this.Controls = new Gui.Internals.ControlsCollection(this);
 		}
+		#endregion
 	}
 }

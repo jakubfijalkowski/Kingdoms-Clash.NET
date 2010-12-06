@@ -103,7 +103,7 @@
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Data\BindingExtension.cs" />
-    <Compile Include="Graphics\Gui\ConditionsCollection.cs" />
+    <Compile Include="Graphics\Gui\Internals\ConditionsCollection.cs" />
     <Compile Include="Graphics\Gui\Conditions\Increase.cs" />
     <Compile Include="Graphics\Gui\Conditions\MultiIf.cs" />
     <Compile Include="Graphics\Gui\Conditions\Conditions.cs" />
@@ -113,7 +113,7 @@
     <Compile Include="Graphics\Gui\Controls\Rotator.cs" />
     <Compile Include="Graphics\Gui\Entity.cs" />
     <Compile Include="Graphics\Gui\Conditions\If.cs" />
-    <Compile Include="Graphics\Gui\ObjectsCollection.cs" />
+    <Compile Include="Graphics\Gui\Internals\ObjectsCollection.cs" />
     <Compile Include="Graphics\Gui\Objects\Image.cs" />
     <Compile Include="Graphics\Gui\Objects\Rectangle.cs" />
     <Compile Include="Graphics\Gui\Objects\Text.cs" />

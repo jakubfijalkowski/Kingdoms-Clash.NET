@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace ClashEngine.NET.Graphics.Gui
+namespace ClashEngine.NET.Graphics.Gui.Internals
 {
 	using Interfaces.Graphics.Gui;
 
@@ -10,7 +10,7 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// Kolekcja obiektów renderera GUI.
 	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
-	public class ObjectsCollection
+	internal class ObjectsCollection
 		: IObjectsCollection
 	{
 		#region Private fields

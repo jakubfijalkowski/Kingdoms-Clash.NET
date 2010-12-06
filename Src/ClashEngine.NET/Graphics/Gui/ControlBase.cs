@@ -187,7 +187,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		public ControlBase()
 		{
 			this.Visible = true;
-			this.Objects = new ObjectsCollection(this);
+			this.Objects = new Internals.ObjectsCollection(this);
 		}
 		#endregion
 
