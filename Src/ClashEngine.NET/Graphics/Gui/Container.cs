@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenTK.Input;
+﻿using OpenTK.Input;
 
 namespace ClashEngine.NET.Graphics.Gui
 {
@@ -23,14 +21,8 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		public Interfaces.IInput Input
 		{
-			get
-			{
-				return this.CurrentData.Input;
-			}
-			set
-			{
-				this.CurrentData.Input = value;
-			}
+			get { return this.CurrentData.Input; }
+			set { this.CurrentData.Input = value; }
 		}
 
 		/// <summary>

@@ -9,6 +9,13 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		: ICollection<IControl>, IList<IControl>
 	{
 		/// <summary>
+		/// Pobiera kontrolkę o wskazanym Id.
+		/// </summary>
+		/// <param name="index">Id.</param>
+		/// <returns></returns>
+		IControl this[string id] { get; }
+
+		/// <summary>
 		/// Dodaje listę kontrolek do kolekcji.
 		/// </summary>
 		/// <param name="items">Lista.</param>
@@ -35,10 +42,9 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		bool Contains(string id);
 
 		/// <summary>
-		/// Pobiera kontrolkę o wskazanym Id.
+		/// Uaktualnia rodzica dla kontenera kontrolki.
+		/// Umożliwia to późną jego inicjalizację.
 		/// </summary>
-		/// <param name="index">Id.</param>
-		/// <returns></returns>
-		IControl this[string id] { get; }
+		void UpdateOwner();
 	}
 }

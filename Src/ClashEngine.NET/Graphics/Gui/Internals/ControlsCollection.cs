@@ -32,8 +32,6 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 				{
 					throw new Exceptions.ArgumentAlreadyExistsException("item");
 				}
-				item.Owner = this.Owner;
-				item.Data = this.UIData;
 				base.Add(item);
 			}
 		}
@@ -52,10 +50,26 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 			{
 				throw new Exceptions.ArgumentAlreadyExistsException("item");
 			}
+			control.Data = this.UIData;
 			base.InsertItem(this.Count, control);
-			if (this.Owner is IControl)
+			if (this.Owner is IControl && (this.Owner as IControl).Owner != null)
 			{
 				(this.Owner as IControl).Owner.Controls.AddChildControl(control);
+			}
+		}
+
+		/// <summary>
+		/// Uaktualnia rodzica dla tej kontrolki.
+		/// Umożliwia to późną jego inicjalizację.
+		/// </summary>
+		public void UpdateOwner()
+		{
+			if (this.Owner is IControl && (this.Owner as IControl).Owner != null)
+			{
+				foreach (var control in this.Items)
+				{
+					(this.Owner as IControl).Owner.Controls.AddChildControl(control);
+				}
 			}
 		}
 		#endregion
@@ -75,7 +89,7 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 			item.Owner = this.Owner;
 			item.Data = this.UIData;
 			base.InsertItem(index, item);
-			if (this.Owner is IControl)
+			if (this.Owner is IControl && (this.Owner as IControl).Owner != null)
 			{
 				(this.Owner as IControl).Owner.Controls.AddChildControl(item);
 			}

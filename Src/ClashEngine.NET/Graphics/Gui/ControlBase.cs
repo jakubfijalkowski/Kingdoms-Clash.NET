@@ -19,6 +19,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		#region Private fields
 		private bool _IsActive = false;
 		private bool _IsHot = false;
+		private IContainer _Owner = null;
 		#endregion
 
 		#region IControl Members
@@ -39,7 +40,18 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <summary>
 		/// Właściciel kontrolki.
 		/// </summary>
-		protected virtual IContainer Owner { get; set; }
+		protected virtual IContainer Owner
+		{
+			get { return this._Owner; }
+			set
+			{
+				if (this._Owner != null)
+				{
+					throw new System.InvalidOperationException("Control can be assigned only to one container");
+				}
+				this._Owner = value;
+			}
+		}
 
 		/// <summary>
 		/// Dane UI.
@@ -55,7 +67,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// Dane UI.
 		/// </summary>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		protected virtual IUIData Data { get; set; }
+		protected IUIData Data { get; set; }
 
 		/// <summary>
 		/// Pozycja.
@@ -208,7 +220,7 @@ namespace ClashEngine.NET.Graphics.Gui
 			}
 			if (string.IsNullOrWhiteSpace(this.Id))
 			{
-				throw new System.InvalidOperationException("Cannot create control with empty");
+				throw new System.InvalidOperationException("Cannot create control with empty Id");
 			}
 		}
 		#endregion

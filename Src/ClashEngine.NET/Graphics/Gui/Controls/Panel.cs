@@ -44,6 +44,18 @@
 		}
 		#endregion
 
+		#region ControlBase Members
+		protected override IContainer Owner
+		{
+			get { return base.Owner; }
+			set
+			{
+				base.Owner = value;
+				this.Controls.UpdateOwner();
+			}
+		}
+		#endregion
+
 		#region Unused
 		public override bool PermanentActive { get { return false; } }
 
