@@ -72,6 +72,7 @@
     <Compile Include="AttributesCollectionTests.cs" />
     <Compile Include="BindingTests.cs" />
     <Compile Include="ComponentsCollectionTests.cs" />
+    <Compile Include="ControlsCollectionTests.cs" />
     <Compile Include="ConvertersClass.cs" />
     <Compile Include="EntitiesManagerTests.cs" />
     <Compile Include="GameEntityTests.cs" />
