@@ -58,7 +58,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		#endregion
 
 		#region IObject Members
-		public abstract Interfaces.Graphics.Resources.ITexture Texture { get; }
+		public abstract Interfaces.Graphics.Resources.ITexture Texture { get; set; }
 		public abstract float Depth { get; set; }
 		public abstract Interfaces.Graphics.Vertex[] Vertices { get; }
 		public abstract int[] Indecies { get; }

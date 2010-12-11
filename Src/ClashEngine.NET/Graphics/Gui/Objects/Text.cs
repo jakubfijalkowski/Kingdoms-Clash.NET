@@ -123,7 +123,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// <summary>
 		/// Tekstura z tekstem.
 		/// </summary>
-		public override Interfaces.Graphics.Resources.ITexture Texture { get { return this.TextObject.Texture; } }
+		public override Interfaces.Graphics.Resources.ITexture Texture { get { return this.TextObject.Texture; } set { } }
 
 		/// <summary>
 		/// Głębokość, na jakiej znajduje się tekst.

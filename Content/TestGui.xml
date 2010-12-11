@@ -16,6 +16,7 @@
         <Panel.Controls>
           <Button Id="Button3" Size="80,80">
             <Rectangle Color="1,1,1,1" Depth="2" />
+            <Image Texture="UserData/Nations/TestNation/Unit1.png" />
             <Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
           </Button>
         </Panel.Controls>

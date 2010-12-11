@@ -60,7 +60,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			protected set { this.InnerQuad.Position = value;}
 		}
 
-		public override Interfaces.Graphics.Resources.ITexture Texture { get { return null; } }
+		public override Interfaces.Graphics.Resources.ITexture Texture { get { return null; } set { } }
 		public override Interfaces.Graphics.Vertex[] Vertices { get { return this.InnerQuad.Vertices; } }
 		public override int[] Indecies { get { return this.InnerQuad.Indecies; } }
 
