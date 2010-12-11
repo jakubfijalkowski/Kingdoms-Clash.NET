@@ -11,89 +11,65 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 	/// <summary>
 	/// Prostokąt.
 	/// </summary>
-	[DebuggerDisplay("Rectangle")]	
+	[DebuggerDisplay("Rectangle")]
 	public class Rectangle
-		: Quad, IRectangle
+		: ObjectBase, IRectangle
 	{
 		#region Private fields
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private bool WasPositionSet = false;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private bool WasSizeSet = false;
+		private Quad InnerQuad = new Quad(Vector2.Zero, Vector2.Zero, Vector4.One);
 		#endregion
-	
-		#region Quad Members
-		//Nadpisujemy, by dodać konwertery typów.
 
-		/// <summary>
-		/// Pozycja.
-		/// </summary>
-		[TypeConverter(typeof(Vector2Converter))]
-		public new Vector2 Position
-		{
-			get { return base.Position; }
-			set
-			{
-				base.Position = value;
-				this.WasPositionSet = true;
-			}
-		}
-
+		#region IRectangle Members
 		/// <summary>
 		/// Rozmiar
 		/// </summary>
 		[TypeConverter(typeof(Vector2Converter))]
-		public new Vector2 Size
+		public Vector2 Size
 		{
-			get { return base.Size; }
-			set
-			{
-				base.Size = value;
-				this.WasSizeSet = true;
-			}
+			get { return this.InnerQuad.Size; }
+			set { this.InnerQuad.Size = value; }
 		}
 
 		/// <summary>
 		/// Kolor prostokąta.
 		/// </summary>
 		[TypeConverter(typeof(Vector4Converter))]
-		public new Vector4 Color
+		public Vector4 Color
 		{
-			get { return base.Color; }
-			set { base.Color = value; }
+			get { return this.InnerQuad.Color; }
+			set { this.InnerQuad.Color = value; }
 		}
 
 		/// <summary>
 		/// Głębokość, na której prostokąt się znajduje.
 		/// </summary>
-		public new float Depth
+		public override float Depth
 		{
-			get { return base.Depth; }
-			set { base.Depth = value; }
+			get { return this.InnerQuad.Depth; }
+			set { this.InnerQuad.Depth = value; }
 		}
 		#endregion
 
-		#region IObject Members
+		#region ObjectBase Members
 		/// <summary>
-		/// Kontrolka-rodzic.
+		/// Pozycja absolutna - uwzględnia pozycję(absolutną!) kontrolki(<see cref="ParentControl"/>).
 		/// </summary>
-		public Interfaces.Graphics.Gui.IControl ParentControl { get; set; }
+		public override Vector2 AbsolutePosition
+		{
+			get { return this.InnerQuad.Position; }
+			protected set { this.InnerQuad.Position = value;}
+		}
 
-		/// <summary>
-		/// Czy obiekt jest widoczny.
-		/// </summary>
-		public bool Visible { get; set; }
+		public override Interfaces.Graphics.Resources.ITexture Texture { get { return null; } }
+		public override Interfaces.Graphics.Vertex[] Vertices { get { return this.InnerQuad.Vertices; } }
+		public override int[] Indecies { get { return this.InnerQuad.Indecies; } }
 
 		/// <summary>
 		/// Zmieniamy rozmiar i pozycję, jeśli nie zostały zmienione wcześniej.
 		/// </summary>
-		public void Finish()
+		public override void Finish()
 		{
-			if (!this.WasPositionSet)
-			{
-				this.Position = this.ParentControl.AbsolutePosition;
-			}
-			if (!this.WasSizeSet)
+			if (this.Size == Vector2.Zero)
 			{
 				this.Size = this.ParentControl.Size;
 			}
@@ -102,7 +78,6 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 
 		#region Constructor
 		public Rectangle()
-			: base(Vector2.Zero, Vector2.Zero, System.Drawing.Color.White)
 		{
 			this.Visible = true;
 		}

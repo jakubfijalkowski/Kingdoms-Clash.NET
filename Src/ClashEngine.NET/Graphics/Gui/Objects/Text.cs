@@ -1,27 +1,57 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using OpenTK;
+using System.Windows.Markup;
 
 namespace ClashEngine.NET.Graphics.Gui.Objects
 {
 	using Interfaces.Graphics.Gui.Objects;
 	using Interfaces.Graphics.Resources;
+	using Interfaces.Data;
 
 	/// <summary>
 	/// Tekst.
 	/// </summary>
 	[DebuggerDisplay("Text {TextValue}")]
 	public class Text
-		: Data.DataContextBase, IText
+		: ObjectBase, IDataContext, IText
 	{
 		#region Private fields
 		private IFont _Font = null;
 		private string _TextValue = string.Empty;
 		private Vector4 _Color = new Vector4(0, 0, 0, 1);
 		private Interfaces.Graphics.Objects.IText TextObject = Resources.SystemFont.CreateEmptyObject();
-		private bool WasSizeSet = false;
-		private bool WasPositionSet = false;
 		private bool Initialized = false;
+		private object _DataContext = null;
+		#endregion
+
+		#region IDataContext Members
+		/// <summary>
+		/// Kontekst danych.
+		/// </summary>
+		[TypeConverter(typeof(NameReferenceConverter))]
+		public object DataContext
+		{
+			get { return this._DataContext; }
+			set
+			{
+				if (value != this._DataContext)
+				{
+					this._DataContext = value;
+					if(this.PropertyChanged != null)
+					{
+					this.PropertyChanged(this, new PropertyChangedEventArgs("DataContext"));
+					}
+				}
+			}
+		}
+
+		#region INotifyPropertyChanged Members
+		/// <summary>
+		/// Wywoływane przy zmianie którejś z właściwości.
+		/// </summary>
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+		#endregion
 		#endregion
 
 		#region IText Members
@@ -67,20 +97,6 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		}
 
 		/// <summary>
-		/// Pozycja.
-		/// </summary>
-		[TypeConverter(typeof(Converters.Vector2Converter))]
-		public Vector2 Position
-		{
-			get { return this.TextObject.Position; }
-			set
-			{
-				this.TextObject.Position = value;
-				this.WasPositionSet = true;
-			}
-		}
-
-		/// <summary>
 		/// Rozmiar.
 		/// </summary>
 		[TypeConverter(typeof(Converters.Vector2Converter))]
@@ -90,21 +106,29 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			set
 			{
 				this.TextObject.Size = value;
-				this.WasSizeSet = true;
 			}
 		}
 		#endregion
 
-		#region IObject Members
+		#region ObjectBase Members
+		/// <summary>
+		/// Pozycja absolutna - uwzględnia pozycję(absolutną!) kontrolki(<see cref="ParentControl"/>).
+		/// </summary>
+		public override Vector2 AbsolutePosition
+		{
+			get { return this.TextObject.Position; }
+			protected set { this.TextObject.Position = value; }
+		}
+
 		/// <summary>
 		/// Tekstura z tekstem.
 		/// </summary>
-		public Interfaces.Graphics.Resources.ITexture Texture { get { return this.TextObject.Texture; } }
+		public override Interfaces.Graphics.Resources.ITexture Texture { get { return this.TextObject.Texture; } }
 
 		/// <summary>
 		/// Głębokość, na jakiej znajduje się tekst.
 		/// </summary>
-		public float Depth
+		public override float Depth
 		{
 			get { return this.TextObject.Depth; }
 			set { this.TextObject.Depth = value; }
@@ -113,7 +137,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// <summary>
 		/// Wierzchołki prostokąta, na którym wyświetlany jest tekst.
 		/// </summary>
-		public Interfaces.Graphics.Vertex[] Vertices
+		public override Interfaces.Graphics.Vertex[] Vertices
 		{
 			get { return this.TextObject.Vertices; }
 		}
@@ -121,32 +145,18 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// <summary>
 		/// Indeksy.
 		/// </summary>
-		public int[] Indecies
+		public override int[] Indecies
 		{
 			get { return this.TextObject.Indecies; }
 		}
 
 		/// <summary>
-		/// Kontrolka-rodzic.
-		/// </summary>
-		public Interfaces.Graphics.Gui.IControl ParentControl { get; set; }
-
-		/// <summary>
-		/// Czy obiekt jest widoczny.
-		/// </summary>
-		public bool Visible { get; set; }
-
-		/// <summary>
 		/// Aktualizujemy pozycję, jeśli nie była zmieniona.
 		/// </summary>
-		public void Finish()
+		public override void Finish()
 		{
 			this.Initialized = true;
-			if (!this.WasPositionSet)
-			{
-				this.Position = this.ParentControl.AbsolutePosition;
-			}
-			if (!this.WasSizeSet)
+			if (this.Size == Vector2.Zero)
 			{
 				this.Size = this.ParentControl.Size;
 			}

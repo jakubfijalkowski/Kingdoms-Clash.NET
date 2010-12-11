@@ -32,6 +32,7 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 				throw new ArgumentNullException("item");
 			}
 			item.ParentControl = this.Owner;
+			item.Position = item.Position; //Wymuszamy aktualizację
 			this.Objects.Add(item);
 			item.Finish();
 		}
@@ -98,6 +99,16 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return this.Objects.GetEnumerator();
+		}
+		#endregion
+
+		#region Internal methods
+		internal void UpdatePositions()
+		{
+			foreach (var item in this.Objects)
+			{
+				item.Position = item.Position;
+			}
 		}
 		#endregion
 

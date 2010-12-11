@@ -38,12 +38,6 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Objects
 		: IObject
 	{
 		/// <summary>
-		/// Pozycja obrazka.
-		/// </summary>
-		[TypeConverter(typeof(Converters.Vector2Converter))]
-		Vector2 Position { get; set; }
-
-		/// <summary>
 		/// Rozmiar obrazka.
 		/// </summary>
 		[TypeConverter(typeof(Converters.Vector2Converter))]

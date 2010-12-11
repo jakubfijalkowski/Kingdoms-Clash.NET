@@ -23,6 +23,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		private IContainer _Owner = null;
 		private Vector2 _Offset = Vector2.Zero;
 		private Vector2 _Position = Vector2.Zero;
+		private Vector2 _AbsolutePosition = Vector2.Zero;
 		#endregion
 
 		#region IControl Members
@@ -103,7 +104,15 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <summary>
 		/// Pozycja kontrolki - absoulutna, uwzględnia offset kontenera.
 		/// </summary>
-		public virtual OpenTK.Vector2 AbsolutePosition { get; protected set; }
+		public virtual OpenTK.Vector2 AbsolutePosition
+		{
+			get { return this._AbsolutePosition; }
+			protected set
+			{
+				this._AbsolutePosition = value;
+				(this.Objects as Internals.ObjectsCollection).UpdatePositions();
+			}
+		}
 
 		/// <summary>
 		/// Rozmiar przycisku.
