@@ -91,7 +91,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		{
 			if (!this.WasPositionSet)
 			{
-				this.Position = this.ParentControl.Position;
+				this.Position = this.ParentControl.AbsolutePosition;
 			}
 			if (!this.WasSizeSet)
 			{

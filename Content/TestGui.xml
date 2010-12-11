@@ -7,14 +7,14 @@
   
   <Panel Id="Panel1" Position="10, 100" Size="500, 500">
     <Panel.Controls>
-      <Button Id="Button2" Position="100,100" Size="80,80">
+      <Button Id="Button2" Size="80,80">
         <Rectangle Color="1,1,1,1" Depth="2" />
         <Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
       </Button>
 
-      <Panel Id="Panel2" Position="10, 100" Size="500, 500">
+      <Panel Id="Panel2" Position="0, 100" Size="500, 500">
         <Panel.Controls>
-          <Button Id="Button3" Position="200,200" Size="80,80">
+          <Button Id="Button3" Size="80,80">
             <Rectangle Color="1,1,1,1" Depth="2" />
             <Text Font="Arial,15,bi" TextValue="Wyjście" Color="0,0,1,1" Depth="0" />
           </Button>

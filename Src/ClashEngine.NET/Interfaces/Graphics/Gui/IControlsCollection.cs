@@ -4,6 +4,7 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 {
 	/// <summary>
 	/// Kolekcja kontrolek.
+	/// Ma za zadanie ustawić właściwości Data, Owner i ContainerOffset kontrolek do niej dodanych.
 	/// </summary>
 	public interface IControlsCollection
 		: ICollection<IControl>, IList<IControl>

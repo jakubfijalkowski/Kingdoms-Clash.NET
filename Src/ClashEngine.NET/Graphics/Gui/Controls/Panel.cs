@@ -54,6 +54,16 @@
 				this.Controls.UpdateOwner();
 			}
 		}
+
+		public override OpenTK.Vector2 AbsolutePosition
+		{
+			get	{ return base.AbsolutePosition; }
+			protected set
+			{
+				base.AbsolutePosition = value;
+				(this.Controls as Gui.Internals.ControlsCollection).SetOffset(base.AbsolutePosition);
+			}
+		}
 		#endregion
 
 		#region Unused

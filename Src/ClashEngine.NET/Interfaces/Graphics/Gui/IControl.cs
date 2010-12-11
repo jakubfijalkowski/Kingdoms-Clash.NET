@@ -21,9 +21,20 @@
 		IUIData Data { get; set; }
 
 		/// <summary>
-		/// Pozycja kontrolki.
+		/// Offset dla kontrolki ustawiany przez kontener.
+		/// Nie do zmiany ręcznej.
+		/// </summary>
+		OpenTK.Vector2 ContainerOffset { get; set; }
+
+		/// <summary>
+		/// Pozycja kontrolki - relatywna, nie uwzględnia offsetu kontenera.
 		/// </summary>
 		OpenTK.Vector2 Position { get; set; }
+
+		/// <summary>
+		/// Pozycja kontrolki - absoulutna, uwzględnia offset kontenera.
+		/// </summary>
+		OpenTK.Vector2 AbsolutePosition { get; }
 
 		/// <summary>
 		/// Rozmiar kontrolki.

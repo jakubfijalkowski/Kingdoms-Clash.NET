@@ -88,10 +88,22 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 		{
 			item.Owner = this.Owner;
 			item.Data = this.UIData;
+			item.ContainerOffset = OpenTK.Vector2.Zero;
 			base.InsertItem(index, item);
 			if (this.Owner is IControl && (this.Owner as IControl).Owner != null)
 			{
 				(this.Owner as IControl).Owner.Controls.AddChildControl(item);
+			}
+		}
+		#endregion
+
+		#region Internal methods
+		internal void SetOffset(OpenTK.Vector2 offset)
+		{
+			foreach (var c in this)
+			{
+				if (c.Owner == this.Owner)
+					c.ContainerOffset = offset;
 			}
 		}
 		#endregion

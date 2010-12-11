@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Markup;
+using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Gui
 {
@@ -20,6 +21,8 @@ namespace ClashEngine.NET.Graphics.Gui
 		private bool _IsActive = false;
 		private bool _IsHot = false;
 		private IContainer _Owner = null;
+		private Vector2 _Offset = Vector2.Zero;
+		private Vector2 _Position = Vector2.Zero;
 		#endregion
 
 		#region IControl Members
@@ -70,10 +73,37 @@ namespace ClashEngine.NET.Graphics.Gui
 		protected IUIData Data { get; set; }
 
 		/// <summary>
+		/// Offset dla kontrolki ustawiany przez kontener.
+		/// Nie do zmiany ręcznej.
+		/// </summary>
+		public OpenTK.Vector2 ContainerOffset
+		{
+			get { return this._Offset; }
+			set
+			{
+				this._Offset = value;
+				this.AbsolutePosition = this.Position + this._Offset;
+			}
+		}
+
+		/// <summary>
 		/// Pozycja.
 		/// </summary>
 		[TypeConverter(typeof(Converters.Vector2Converter))]
-		public OpenTK.Vector2 Position { get; set; }
+		public OpenTK.Vector2 Position
+		{
+			get { return this._Position; }
+			set
+			{
+				this._Position = value;
+				this.AbsolutePosition = this._Position + this._Offset;
+			}
+		}
+
+		/// <summary>
+		/// Pozycja kontrolki - absoulutna, uwzględnia offset kontenera.
+		/// </summary>
+		public virtual OpenTK.Vector2 AbsolutePosition { get; protected set; }
 
 		/// <summary>
 		/// Rozmiar przycisku.

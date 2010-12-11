@@ -144,7 +144,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			this.Initialized = true;
 			if (!this.WasPositionSet)
 			{
-				this.Position = this.ParentControl.Position;
+				this.Position = this.ParentControl.AbsolutePosition;
 			}
 			if (!this.WasSizeSet)
 			{
