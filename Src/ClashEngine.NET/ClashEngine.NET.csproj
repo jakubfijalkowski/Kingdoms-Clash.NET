@@ -103,6 +103,7 @@
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Data\BindingExtension.cs" />
+    <Compile Include="Graphics\Gui\ContainerExtension.cs" />
     <Compile Include="Graphics\Gui\Internals\ConditionsCollection.cs" />
     <Compile Include="Graphics\Gui\Conditions\Increase.cs" />
     <Compile Include="Graphics\Gui\Conditions\MultiIf.cs" />

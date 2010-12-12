@@ -80,7 +80,7 @@ namespace Kingdoms_Clash.NET
 
 		public override void CheckControls()
 		{
-			if (this.Control("Button1") == 1 || this.Control("Button2") == 1)
+			if (this.Button("Button1") || this.Button("Button2", OpenTK.Input.MouseButton.Middle) || this.Button("Button3", OpenTK.Input.MouseButton.Right))
 			{
 				g.Exit();
 			}
