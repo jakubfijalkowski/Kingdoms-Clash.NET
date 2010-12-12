@@ -26,12 +26,11 @@
 		IUnitQueue Player2Queue { get; }
 
 		/// <summary>
-		/// Prosi o nową jednostkę i jeśli wszystkie wymagania są spełnione to dodaje ją do listy jednostek gracza i jako encje do gry.
+		/// Pobiera kolejkę jednostek dla wskazanego gracza.
 		/// </summary>
-		/// <param name="id">Identyfikator jednostki.</param>
-		/// <param name="player">Gracz, który o nią prosi.</param>
-		/// <returns>Token lub null, gdy nie dało się utworzyć jednostki.</returns>
-		IUnitRequestToken RequestNewUnit(string id, IPlayer player);
+		/// <param name="player">Gracz.</param>
+		/// <returns></returns>
+		IUnitQueue this[IPlayer player] { get; }
 
 		/// <summary>
 		/// Prosi o nowy zasób na mapie.

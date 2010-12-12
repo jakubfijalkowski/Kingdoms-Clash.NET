@@ -7,7 +7,7 @@ namespace Kingdoms_Clash.NET.Tests
 {
 	using TestObjects;
 
-	[TestFixture(Description = "Testy dla kontrolera gry: ClassicGame")]
+	[TestFixture(Description = "Testy dla kontrolera gry: ClassicGame(+ UnitQueue)")]
 	public class ClassicGameTests
 	{
 		private GameState State = null;
@@ -20,6 +20,7 @@ namespace Kingdoms_Clash.NET.Tests
 			this.Controller = new ClassicGame();
 			this.Controller.GameState = this.State;
 			this.State.Controller = this.Controller;
+			this.Controller.OnGameStarted();
 		}
 
 		[TearDown]
@@ -31,7 +32,7 @@ namespace Kingdoms_Clash.NET.Tests
 		[Test]
 		public void RequestUnitWorks()
 		{
-			var token = this.Controller.RequestNewUnit("Unit1", this.State.Players[0]);
+			var token = this.Controller[this.State.Players[0]].Request("Unit1");
 			Assert.IsNotNull(token);
 			Assert.IsTrue(token.IsValidToken);
 			Assert.IsFalse(token.IsPaused);
@@ -44,16 +45,16 @@ namespace Kingdoms_Clash.NET.Tests
 		{
 			var tokensP1 = new IUnitRequestToken[]
 			{
-				this.Controller.RequestNewUnit("Unit1", this.State.Players[0]),
-				this.Controller.RequestNewUnit("Unit1", this.State.Players[0]),
-				this.Controller.RequestNewUnit("Unit1", this.State.Players[0])
+				this.Controller[this.State.Players[0]].Request("Unit1"),
+				this.Controller[this.State.Players[0]].Request("Unit1"),
+				this.Controller[this.State.Players[0]].Request("Unit1")
 			};
 
 			var tokensP2 = new IUnitRequestToken[]
 			{
-				this.Controller.RequestNewUnit("Unit1", this.State.Players[1]),
-				this.Controller.RequestNewUnit("Unit1", this.State.Players[1]),
-				this.Controller.RequestNewUnit("Unit1", this.State.Players[1])
+				this.Controller[this.State.Players[1]].Request("Unit1"),
+				this.Controller[this.State.Players[1]].Request("Unit1"),
+				this.Controller[this.State.Players[1]].Request("Unit1")
 			};
 
 			AreNotCompleted(tokensP1);

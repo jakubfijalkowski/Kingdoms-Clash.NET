@@ -70,7 +70,7 @@ namespace Kingdoms_Clash.NET.Player.Controllers
 				}
 				if (i == unitNo)
 				{
-					this.GameState.Controller.RequestNewUnit(ud.Id, this.Player);
+					this.GameState.Controller[this.Player].Request(ud.Id);
 				}
 			}
 		}

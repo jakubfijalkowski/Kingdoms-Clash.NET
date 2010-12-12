@@ -37,6 +37,23 @@ namespace Kingdoms_Clash.NET.Controllers
 		public IUnitQueue Player2Queue { get; private set; }
 
 		/// <summary>
+		/// Pobiera kolejkę jednostek dla wskazanego gracza.
+		/// </summary>
+		/// <param name="player">Gracz.</param>
+		/// <returns></returns>
+		public IUnitQueue this[IPlayer player]
+		{
+			get
+			{
+				if (player == this.GameState.Players[0])
+				{
+					return this.Player1Queue;
+				}
+				return this.Player2Queue;
+			}
+		}
+
+		/// <summary>
 		/// Dodaje nową jednostke.
 		/// </summary>
 		/// <param name="id"></param>
