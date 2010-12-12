@@ -90,6 +90,7 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 			item.Data = this.UIData;
 			item.ContainerOffset = OpenTK.Vector2.Zero;
 			base.InsertItem(index, item);
+			item.OnAdd();
 			if (this.Owner is IControl && (this.Owner as IControl).Owner != null)
 			{
 				(this.Owner as IControl).Owner.Controls.AddChildControl(item);
@@ -103,6 +104,7 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 			{
 				(this.Owner as IControl).Owner.Controls.Remove(item);
 			}
+			item.OnRemove();
 			base.RemoveItem(index);
 		}
 
