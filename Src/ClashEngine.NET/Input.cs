@@ -1,10 +1,10 @@
 ﻿using System;
+using OpenTK;
 using OpenTK.Input;
 
 namespace ClashEngine.NET
 {
 	using Interfaces;
-	using OpenTK;
 
 	/// <summary>
 	/// Klasa wejścia.
@@ -12,10 +12,12 @@ namespace ClashEngine.NET
 	public class Input
 		: IInput
 	{
+		#region Private fields
 		private bool[] KeyStates = new bool[(int)Key.LastKey];
 		private bool[] ButtonStates = new bool[(int)OpenTK.Input.MouseButton.LastButton];
 		private System.Drawing.RectangleF _MouseTransformation = System.Drawing.RectangleF.Empty;
-		private Vector2 _MousePosition = Vector2.Zero;
+		private Vector2 _MousePosition = Vector2.Zero; 
+		#endregion
 
 		#region IInput Members
 		#region Keyboard
