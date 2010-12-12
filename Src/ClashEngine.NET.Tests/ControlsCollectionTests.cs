@@ -30,9 +30,11 @@ namespace ClashEngine.NET.Tests
 
 			this.Control = new Mock<Control>("Control");
 			this.Control.SetupAllProperties();
+			this.Control.Setup(c => c.OnAdd());
 
 			this.ChildControl = new Mock<Control>("ChildControl");
 			this.ChildControl.SetupAllProperties();
+			this.ChildControl.Setup(c => c.OnAdd());
 
 			this.Controls = new ControlsCollection(this.Owner1.Object, this.Data.Object);
 			this.Controls.Add(this.Control.Object);
@@ -46,6 +48,7 @@ namespace ClashEngine.NET.Tests
 		{
 			Assert.AreEqual(this.Owner1.Object, this.Control.Object.Owner);
 			Assert.AreEqual(this.Owner2.Object, this.ChildControl.Object.Owner);
+			this.Control.Verify(c => c.OnAdd(), Times.Once());
 		}
 
 		[Test]
@@ -61,28 +64,36 @@ namespace ClashEngine.NET.Tests
 			Mock<Control> ctrl1 = new Mock<Control>("ctrl1"), ctrl2 = new Mock<Control>("ctrl2");
 			ctrl1.SetupAllProperties();
 			ctrl2.SetupAllProperties();
+			ctrl1.Setup(c => c.OnAdd());
+			ctrl2.Setup(c => c.OnAdd());
 
 			int oldCount = this.Controls.Count;
 			this.Controls.AddRange(new IControl[] { ctrl1.Object, ctrl2.Object });
 			Assert.AreEqual(oldCount + 2, this.Controls.Count);
 			Assert.AreEqual(this.Owner1.Object, ctrl1.Object.Owner);
 			Assert.AreEqual(this.Owner1.Object, ctrl2.Object.Owner);
+			ctrl1.Verify(c => c.OnAdd(), Times.Once());
+			ctrl2.Verify(c => c.OnAdd(), Times.Once());
 		}
 
 		[Test]
 		public void RemoveByItemWorks()
 		{
+			this.Control.Setup(c => c.OnRemove());
 			int oldCount = this.Controls.Count;
 			Assert.IsTrue(this.Controls.Remove(this.Control.Object));
 			Assert.AreEqual(oldCount - 1, this.Controls.Count);
+			this.Control.Verify(c => c.OnRemove(), Times.Once());
 		}
 
 		[Test]
 		public void RemoveByIdWorks()
 		{
+			this.Control.Setup(c => c.OnRemove());
 			int oldCount = this.Controls.Count;
 			Assert.IsTrue(this.Controls.Remove("Control"));
 			Assert.AreEqual(oldCount - 1, this.Controls.Count);
+			this.Control.Verify(c => c.OnRemove(), Times.Once());
 		}
 
 		[Test]
