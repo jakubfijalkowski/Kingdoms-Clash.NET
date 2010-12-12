@@ -28,6 +28,8 @@ namespace ClashEngine.NET.Tests.TestObjects
 		public abstract void Update(double delta);
 		public abstract void Render();
 		public abstract int Check();
+		public abstract void OnAdd();
+		public abstract void OnRemove();
 		#endregion
 	}
 }

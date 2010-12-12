@@ -195,6 +195,18 @@ namespace ClashEngine.NET.Graphics.Gui
 		{
 			return this.Data.Input.MousePosition.IsIn(this.AbsolutePosition, this.Size);
 		}
+
+		/// <summary>
+		/// Wywoływane przy dodaniu do kontenera.
+		/// </summary>
+		public virtual void OnAdd()
+		{ }
+
+		/// <summary>
+		/// Wywoływane przy usunięciu z kontenera.
+		/// </summary>
+		public virtual void OnRemove()
+		{ }
 		#endregion
 
 		#region INotifyPropertyChanged Members

@@ -88,5 +88,15 @@
 		/// </summary>
 		/// <returns>Nr akcji lub 0, gdy takowa nie zaszła.</returns>
 		int Check();
+
+		/// <summary>
+		/// Wywoływane przy dodaniu do kontenera.
+		/// </summary>
+		void OnAdd();
+
+		/// <summary>
+		/// Wywoływane przy usunięciu z kontenera.
+		/// </summary>
+		void OnRemove();
 	}
 }
