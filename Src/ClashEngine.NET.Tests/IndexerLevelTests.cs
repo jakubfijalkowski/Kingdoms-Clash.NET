@@ -25,7 +25,7 @@ namespace ClashEngine.NET.Tests
 			this.Data.DataList.Add(4);
 
 			this.WasValueChangedCalled = false;
-			this.Level = new IndexerLevel(typeof(DataClass), new object[] { 0 }, 150, this.ValueChanged);
+			this.Level = new IndexerLevel(typeof(DataClass), "0", 150, this.ValueChanged);
 			this.Level.RegisterPropertyChanged(this.Data);
 		}
 

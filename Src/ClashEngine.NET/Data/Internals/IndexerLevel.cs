@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Reflection;
+using System.Text;
 
 namespace ClashEngine.NET.Data.Internals
 {
@@ -9,10 +11,10 @@ namespace ClashEngine.NET.Data.Internals
 	/// </summary>
 	internal sealed class IndexerLevel
 		: IPropertyLevel
-	{		
+	{
 		#region Private fields
 		private PropertyInfo Indexer = null;
-		private object[] Indexes = null;
+		private object[] Indecies = null;
 		#endregion
 
 		#region IPropertyLevel Members
@@ -35,7 +37,7 @@ namespace ClashEngine.NET.Data.Internals
 		/// Wartość.
 		/// </summary>
 		public object Value { get; private set; }
-		
+
 		/// <summary>
 		/// Metoda, która będzie wywoływana przy zmianie Value.
 		/// Parametr: Level.
@@ -48,7 +50,7 @@ namespace ClashEngine.NET.Data.Internals
 		/// <param name="root">Obiekt przed.</param>
 		public void UpdateValue(object root)
 		{
-			this.Value = this.Indexer.GetValue(root, this.Indexes);
+			this.Value = this.Indexer.GetValue(root, this.Indecies);
 		}
 
 		/// <summary>
@@ -58,7 +60,7 @@ namespace ClashEngine.NET.Data.Internals
 		/// <param name="value">Wartość.</param>
 		public void SetValue(object to, object value)
 		{
-			this.Indexer.SetValue(to, value, this.Indexes);
+			this.Indexer.SetValue(to, value, this.Indecies);
 			this.Value = value;
 		}
 
@@ -101,23 +103,24 @@ namespace ClashEngine.NET.Data.Internals
 		/// Inicjalizuje nowy poziom.
 		/// </summary>
 		/// <param name="rootType">Typ - rodzic dla danego indeksera.</param>
-		/// <param name="indexes">Indeksy dla indeksera.</param>
+		/// <param name="indecies">Indeksy(do sparsowania) dla indeksera.</param>
 		/// <param name="level">Poziom - wewnętrzna reprezentacja.</param>
 		/// <param name="valueChanged">Wywoływane gdy zmieni się wartość w danym poziomie.</param>
-		public IndexerLevel(Type rootType, object[] indexes, int level, Action<int> valueChanged)
+		public IndexerLevel(Type rootType, string indecies, int level, Action<int> valueChanged)
 		{
 			this.Level = level;
 			this.ValueChanged = valueChanged;
-			this.Indexes = indexes;
 			this.Indexer = rootType.GetProperty("Item");
-			this.Name = "Item";
-			foreach (var idx in indexes)
-			{
-				this.Name += "." + idx.ToString();
-			}
 			if (this.Indexer == null)
 			{
 				throw new ArgumentException(string.Format("Cannot find indexer in type {0}", rootType.Name));
+			}
+
+			this.Name = "Item";
+			this.ParseIndecies(indecies);
+			foreach (var idx in this.Indecies)
+			{
+				this.Name += "." + idx.ToString();
 			}
 		}
 		#endregion
@@ -128,6 +131,72 @@ namespace ClashEngine.NET.Data.Internals
 			if (e.PropertyName == this.Name || e.PropertyName == "Item")
 			{
 				this.ValueChanged(this.Level);
+			}
+		}
+
+		private void ParseIndecies(string indecies)
+		{
+			var parameters = this.Indexer.GetIndexParameters();
+			this.Indecies = new object[parameters.Length];
+
+			//Musimy sparsować nasze parametry uwzględniając ' i "
+			#region Parsing
+			StringCollection s = new StringCollection();
+			StringBuilder quoteBuilder = new StringBuilder();
+			char isQuote = '\0';
+
+			for (int i = 0; i < indecies.Length; ++i)
+			{
+				if (indecies[i] == '"' || indecies[i] == '\'') //' lub " - musimy pominąć teraz przecinki
+				{
+					if (indecies[i] == isQuote) //Kończymy zakres
+					{
+						quoteBuilder.Append(indecies.Substring(0, i).Trim());
+						indecies = indecies.Remove(0, i + 1); //Usuwamy razem z ' lub "
+						i = -1;
+						isQuote = '\0';
+					}
+					else if (isQuote == '\0') //Nowy zakres!
+					{
+						isQuote = indecies[i];
+						quoteBuilder.Append(indecies.Substring(0, i)); //Dodajemy to, co już było
+						indecies = indecies.Remove(0, i + 1); //Usuwamy razem z " lub '
+						i = 0;
+					}
+				}
+				else if (isQuote == '\0' && indecies[i] == ',')
+				{
+					s.Add(quoteBuilder.ToString() + indecies.Substring(0, i).Trim());
+					indecies = indecies.Remove(0, i + 1);
+					quoteBuilder.Clear();
+					i = -1;
+				}
+			}
+			s.Add(quoteBuilder.ToString() + indecies);
+			#endregion
+
+			for (int i = 0; i < parameters.Length; i++)
+			{
+				if (s.Count > i)
+				{
+					var converter = TypeDescriptor.GetConverter(parameters[i]);
+					if (converter.CanConvertFrom(typeof(string)))
+					{
+						this.Indecies[i] = converter.ConvertFrom(s[i]);
+					}
+					else
+					{
+						this.Indecies[i] = Convert.ChangeType(s[i], parameters[i].ParameterType);
+					}
+				}
+				else if (parameters[i].DefaultValue != DBNull.Value)
+				{
+					this.Indecies[i] = parameters[i].DefaultValue;
+				}
+				else
+				{
+					throw new ArgumentException("Insufficient parameters");
+				}
 			}
 		}
 		#endregion

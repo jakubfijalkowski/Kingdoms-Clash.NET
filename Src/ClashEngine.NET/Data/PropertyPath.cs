@@ -162,7 +162,7 @@ namespace ClashEngine.NET.Data
 					lastType = this.HandleType(lvl, (i + 1) == parts.Length);
 					++j;
 
-					lvl = new Internals.IndexerLevel(lastType, CreateIndecies(parts[i].Substring(openBracket + 1, closeBracket - openBracket - 1)), j, this.ValueChanged);
+					lvl = new Internals.IndexerLevel(lastType, parts[i].Substring(openBracket + 1, closeBracket - openBracket - 1), j, this.ValueChanged);
 					this.Levels.Add(lvl);
 					lastType = this.HandleType(lvl, (i + 1) == parts.Length);
 				}
