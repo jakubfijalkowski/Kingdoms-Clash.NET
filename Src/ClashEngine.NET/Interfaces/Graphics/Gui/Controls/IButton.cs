@@ -9,8 +9,12 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Controls
 		: IControl, INotifyPropertyChanged
 	{
 		/// <summary>
-		/// Czy przycisk jest wciśnięty.
+		/// Lista wciśniętych przycisków.
 		/// </summary>
-		bool Clicked { get; }
+		/// <remarks>
+		/// Poszczególne bity odpowiadają stanowi klawisza z MouseButton.
+		/// Bit 12(LastButton) odpowiada puszczeniu lewego klawisza nad przyciskiem.
+		/// </remarks>
+		ushort ClickedButtons { get; }
 	}
 }

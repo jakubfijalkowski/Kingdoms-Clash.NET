@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using OpenTK.Input;
 
 namespace ClashEngine.NET.Graphics.Gui.Controls
 {
@@ -15,17 +16,18 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		: ControlBase, IButton
 	{
 		#region Private fields
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private bool WasActive = false;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private bool _Clicked = false;
+		private ushort _Clicked = 0;
 		#endregion
-		
+
 		#region IButton Members
 		/// <summary>
-		/// Czy przycisk jest wciśnięty.
+		/// Lista wciśniętych przycisków.
 		/// </summary>
-		public bool Clicked
+		/// <remarks>
+		/// Poszczególne bity odpowiadają stanowi klawisza z MouseButton.
+		/// </remarks>
+		public ushort ClickedButtons
 		{
 			get { return this._Clicked; }
 			private set
@@ -57,7 +59,35 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 			this.WasActive = this.IsActive;
 			base.Update(delta);
 
-			this.Clicked = this.WasActive && this.Data.Active == null && this.IsHot;
+			int newState = 0;
+			if (this.IsHot)
+			{
+				for (int i = 0; i < (int)MouseButton.LastButton; i++)
+				{
+					if (this.Data.Input[(MouseButton)i])
+					{
+						newState |= (1 << i);
+					}
+					else
+					{
+						newState &= ~(1 << i);
+					}
+				}
+				if (this.WasActive && this.Data.Active == null)
+				{
+					newState |= (1 << 12);
+				}
+				else
+				{
+					newState &= ~(1 << 12);
+				}
+
+				this.ClickedButtons = (ushort)newState;
+			}
+			else
+			{
+				this.ClickedButtons = 0;
+			}
 		}
 
 		/// <summary>
@@ -66,7 +96,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		/// <returns></returns>
 		public override int Check()
 		{
-			return (this.Clicked ? 1 : 0);
+			return this.ClickedButtons;
 		}
 		#endregion
 	}
