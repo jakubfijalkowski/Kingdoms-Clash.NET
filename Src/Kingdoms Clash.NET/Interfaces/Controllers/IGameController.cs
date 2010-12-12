@@ -10,14 +10,21 @@
 	/// </summary>
 	public interface IGameController
 	{
-		#region Properties
 		/// <summary>
 		/// Stan gry. Ustawiany przez IGameState.
 		/// </summary>
 		IGameState GameState { get; set; }
-		#endregion
 
-		#region Methods
+		/// <summary>
+		/// Kolejka produkcji jednostek dla pierwszego gracza.
+		/// </summary>
+		IUnitQueue Player1Queue { get; }
+
+		/// <summary>
+		/// Kolejka produkcji jednostek dla drugiego gracza.
+		/// </summary>
+		IUnitQueue Player2Queue { get; }
+
 		/// <summary>
 		/// Prosi o nową jednostkę i jeśli wszystkie wymagania są spełnione to dodaje ją do listy jednostek gracza i jako encje do gry.
 		/// </summary>
@@ -73,7 +80,6 @@
 		/// Wywoływane przy rozpoczęciu gry, pozwala ustawić początkowe wartości.
 		/// </summary>
 		void OnGameStarted();
-		#endregion
 		#endregion
 	}
 }

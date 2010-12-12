@@ -20,16 +20,21 @@ namespace Kingdoms_Clash.NET.Controllers
 		private static Random Random = new Random();
 		#endregion
 
-		#region Private fields
-		private List<Internals.UnitRequestToken> UnitTokens1 = new List<Internals.UnitRequestToken>();
-		private List<Internals.UnitRequestToken> UnitTokens2 = new List<Internals.UnitRequestToken>();
-		#endregion
-
 		#region IGameController Members
 		/// <summary>
 		/// Stan aktualnej gry.
 		/// </summary>
 		public IGameState GameState { get; set; }
+
+		/// <summary>
+		/// Kolejka produkcji jednostek dla pierwszego gracza.
+		/// </summary>
+		public IUnitQueue Player1Queue { get; private set; }
+
+		/// <summary>
+		/// Kolejka produkcji jednostek dla drugiego gracza.
+		/// </summary>
+		public IUnitQueue Player2Queue { get; private set; }
 
 		/// <summary>
 		/// Dodaje nową jednostke.
@@ -39,38 +44,14 @@ namespace Kingdoms_Clash.NET.Controllers
 		/// <returns></returns>
 		public IUnitRequestToken RequestNewUnit(string id, IPlayer player)
 		{
-			//Sprawdzamy, czy gracz ma wystarczającą ilość zasobów.
-			var ud = player.Nation.AvailableUnits[id];
-			if (ud != null)
+			if (this.GameState.Players[0] == player)
 			{
-				foreach (var cost in ud.Costs)
-				{
-					if (!player.Resources.Contains(cost))
-					{
-						Logger.Debug("Insufficient resources({0}) to create unit {1}", cost.Key, ud.Id);
-						return null;
-					}
-				}
-				//Tak, posiadamy - czyli możemy je zmniejszyć
-				foreach (var cost in ud.Costs)
-				{
-					player.Resources.Remove(cost);
-				}
-
-				//I możemy dodać token.
-				var token = new Internals.UnitRequestToken(ud, player, true);
-				if (this.GameState.Players[0] == player)
-				{
-					this.UnitTokens1.Add(token);
-				}
-				else
-				{
-					this.UnitTokens2.Add(token);
-				}
-				return token;
+				return this.Player1Queue.Request(id);
 			}
-			Logger.Warn("Unit with id {0} not found in nation {1}", id, player.Nation.Name);
-			return null;
+			else
+			{
+				return this.Player2Queue.Request(id);
+			}
 		}
 
 		/// <summary>
@@ -89,8 +70,16 @@ namespace Kingdoms_Clash.NET.Controllers
 		/// <param name="delta"></param>
 		public void Update(double delta)
 		{
-			this.HandleUnits(this.UnitTokens1, delta);
-			this.HandleUnits(this.UnitTokens2, delta);
+			var u1 = this.Player1Queue.Update(delta);
+			var u2 = this.Player2Queue.Update(delta);
+			if (u1 != null)
+			{
+				this.HandleUnit(u1);
+			}
+			if (u2 != null)
+			{
+				this.HandleUnit(u2);
+			}
 		}
 
 		/// <summary>
@@ -98,16 +87,8 @@ namespace Kingdoms_Clash.NET.Controllers
 		/// </summary>
 		public void Reset()
 		{
-			foreach (var token in this.UnitTokens1)
-			{
-				token.IsValidToken = false;
-			}
-			foreach (var token in this.UnitTokens2)
-			{
-				token.IsValidToken = false;
-			}
-			this.UnitTokens1.Clear();
-			this.UnitTokens2.Clear();
+			this.Player1Queue.Clear();
+			this.Player2Queue.Clear();
 			this.SetDefaults();
 		}
 
@@ -187,6 +168,8 @@ namespace Kingdoms_Clash.NET.Controllers
 		/// </summary>
 		public void OnGameStarted()
 		{
+			this.Player1Queue = new Internals.UnitQueue(this.GameState.Players[0]);
+			this.Player2Queue = new Internals.UnitQueue(this.GameState.Players[1]);
 			this.SetDefaults();
 		}
 		#endregion
@@ -209,41 +192,21 @@ namespace Kingdoms_Clash.NET.Controllers
 			}
 		}
 
-		private void HandleUnits(List<Internals.UnitRequestToken> tokens, double delta)
+		private void HandleUnit(IUnit unit)
 		{
-			for (int i = 0; i < tokens.Count; i++)
+			unit.Owner.Units.Add(unit);
+			this.GameState.Add(unit);
+
+			//TODO: napisać ładniejszą dedukcje gdzie umieścić jednostkę.
+			if (unit.Owner == this.GameState.Players[0])
 			{
-				if (!tokens[i].IsPaused)
-				{
-					tokens[i].TimeLeft -= (float)delta;
-
-					//Jednostka została ukończona.
-					if (tokens[i].IsCompleted)
-					{
-						//Dodajemy jednostkę
-						var unit = tokens[i].CreateUnit();
-						tokens[i].Owner.Units.Add(unit);
-						this.GameState.Add(unit);
-
-						//TODO: napisać ładniejszą dedukcje gdzie umieścić jednostkę.
-						if (tokens[i].Owner == this.GameState.Players[0])
-						{
-							unit.Position = this.GameState.Map.FirstCastle + Configuration.Instance.CastleSize - new OpenTK.Vector2(0f, unit.Description.Height);
-						}
-						else
-						{
-							unit.Position = this.GameState.Map.SecondCastle + new OpenTK.Vector2(-unit.Description.Width, Configuration.Instance.CastleSize.Y - unit.Description.Height);
-						}
-						Logger.Info("Player {0} created unit {1}", tokens[i].Owner.Name, unit.Description.Id);
-
-						//Niszczymy token
-						tokens[i].IsValidToken = false;
-						tokens.RemoveAt(i);
-						--i;
-					}
-					break;
-				}
+				unit.Position = this.GameState.Map.FirstCastle + Configuration.Instance.CastleSize - new OpenTK.Vector2(0f, unit.Description.Height);
 			}
+			else
+			{
+				unit.Position = this.GameState.Map.SecondCastle + new OpenTK.Vector2(-unit.Description.Width, Configuration.Instance.CastleSize.Y - unit.Description.Height);
+			}
+			Logger.Info("Player {0} created unit {1}", unit.Owner.Name, unit.Description.Id);
 		}
 		#endregion
 	}

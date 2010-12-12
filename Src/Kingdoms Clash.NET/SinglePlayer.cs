@@ -76,6 +76,9 @@ namespace Kingdoms_Clash.NET
 			this.PlayerControllers[1] = playerB.Controller;
 			this.Map = map;
 			this.Controller = controller;
+
+			this.PlayerControllers[0].ShowStatistics = playerA.ShowStatistics;
+			this.PlayerControllers[1].ShowStatistics = playerB.ShowStatistics;
 		}
 
 		/// <summary>

@@ -18,6 +18,11 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 		IGameState GameState { get; set; }
 
 		/// <summary>
+		/// Czy kontroler ma pokazywać statystyki.
+		/// </summary>
+		bool ShowStatistics { get; set; }
+
+		/// <summary>
 		/// Inicjalizuje kontroler.
 		/// Wywoływane przez IGameState.
 		/// </summary>
