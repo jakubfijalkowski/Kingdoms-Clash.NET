@@ -76,6 +76,8 @@
     <Compile Include="ConvertersClass.cs" />
     <Compile Include="EntitiesManagerTests.cs" />
     <Compile Include="GameEntityTests.cs" />
+    <Compile Include="GuiContainerTests.cs" />
+    <Compile Include="GuiPanelTests.cs" />
     <Compile Include="IndexerLevelTests.cs" />
     <Compile Include="MainThreadCallbacksManagerTests.cs" />
     <Compile Include="OneLevelPropertyPathTests.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="PropertyPathTests.cs" />
     <Compile Include="ResourcesManagerTests.cs" />
     <Compile Include="ScreensManagerTests.cs" />
+    <Compile Include="TestObjects\Control.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClashEngine.NET\ClashEngine.NET.csproj">

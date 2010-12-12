@@ -5,6 +5,8 @@ using NUnit.Framework;
 
 namespace ClashEngine.NET.Tests
 {
+	using TestObjects;
+
 	[TestFixture(Description = "Testy dla klasy ControlsCollection")]
 	public class ControlsCollectionTests
 	{
@@ -12,8 +14,8 @@ namespace ClashEngine.NET.Tests
 		private Mock<IUIData> Data;
 		private Mock<IContainer> Owner1;
 		private Mock<IContainer> Owner2;
-		private Mock<ControlImpl> Control;
-		private Mock<ControlImpl> ChildControl;
+		private Mock<Control> Control;
+		private Mock<Control> ChildControl;
 
 		[SetUp]
 		public void SetUp()
@@ -26,10 +28,10 @@ namespace ClashEngine.NET.Tests
 			this.Owner2 = new Mock<IContainer>();
 			this.Owner2.SetupAllProperties();
 
-			this.Control = new Mock<ControlImpl>("Control");
+			this.Control = new Mock<Control>("Control");
 			this.Control.SetupAllProperties();
 
-			this.ChildControl = new Mock<ControlImpl>("ChildControl");
+			this.ChildControl = new Mock<Control>("ChildControl");
 			this.ChildControl.SetupAllProperties();
 
 			this.Controls = new ControlsCollection(this.Owner1.Object, this.Data.Object);
@@ -56,7 +58,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void AddRangeWorks()
 		{
-			Mock<ControlImpl> ctrl1 = new Mock<ControlImpl>("ctrl1"), ctrl2 = new Mock<ControlImpl>("ctrl2");
+			Mock<Control> ctrl1 = new Mock<Control>("ctrl1"), ctrl2 = new Mock<Control>("ctrl2");
 			ctrl1.SetupAllProperties();
 			ctrl2.SetupAllProperties();
 
@@ -103,35 +105,6 @@ namespace ClashEngine.NET.Tests
 			this.Controls.SetOffset(new OpenTK.Vector2(10, 10));
 			Assert.AreEqual(new OpenTK.Vector2(10, 10), this.Control.Object.ContainerOffset);
 			Assert.AreEqual(new OpenTK.Vector2(0, 0), this.ChildControl.Object.ContainerOffset);
-		}
-		
-		public abstract class ControlImpl
-			: IControl
-		{
-			public string Id { get; private set; }
-
-			public ControlImpl(string id)
-			{
-				this.Id = id;
-			}
-
-			#region IControl Members
-			public abstract IContainer Owner { get; set; }
-			public abstract IUIData Data { get; set; }
-			public abstract OpenTK.Vector2 ContainerOffset { get; set; }
-			public abstract OpenTK.Vector2 Position { get; set; }
-			public abstract OpenTK.Vector2 AbsolutePosition { get; set; }
-			public abstract OpenTK.Vector2 Size { get; set; }
-			public abstract bool PermanentActive { get; set; }
-			public abstract bool IsActive { get; set; }
-			public abstract bool IsHot { get; set; }
-			public abstract bool Visible { get; set; }
-			public abstract IObjectsCollection Objects { get; set; }
-			public abstract bool ContainsMouse();
-			public abstract void Update(double delta);
-			public abstract void Render();
-			public abstract int Check();
-			#endregion
 		}
 	}
 }
