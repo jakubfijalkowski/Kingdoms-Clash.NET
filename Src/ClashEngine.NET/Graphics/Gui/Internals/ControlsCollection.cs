@@ -95,6 +95,27 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 				(this.Owner as IControl).Owner.Controls.AddChildControl(item);
 			}
 		}
+
+		protected override void RemoveItem(int index)
+		{
+			var item = this[index];
+			if (this.Owner is IControl && (this.Owner as IControl).Owner != null)
+			{
+				(this.Owner as IControl).Owner.Controls.Remove(item);
+			}
+			base.RemoveItem(index);
+		}
+
+		protected override void SetItem(int index, IControl item)
+		{
+			var oldItem = this[index];
+			if (this.Owner is IControl && (this.Owner as IControl).Owner != null)
+			{
+				(this.Owner as IControl).Owner.Controls.Remove(oldItem);
+				(this.Owner as IControl).Owner.Controls.AddChildControl(item);
+			}
+			base.SetItem(index, item);
+		}
 		#endregion
 
 		#region Internal methods

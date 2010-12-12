@@ -68,6 +68,22 @@ namespace ClashEngine.NET.Tests
 		}
 
 		[Test]
+		public void RemoveByItemWorks()
+		{
+			int oldCount = this.Controls.Count;
+			Assert.IsTrue(this.Controls.Remove(this.Control.Object));
+			Assert.AreEqual(oldCount - 1, this.Controls.Count);
+		}
+
+		[Test]
+		public void RemoveByIdWorks()
+		{
+			int oldCount = this.Controls.Count;
+			Assert.IsTrue(this.Controls.Remove("Control"));
+			Assert.AreEqual(oldCount - 1, this.Controls.Count);
+		}
+
+		[Test]
 		public void ContainsWorks()
 		{
 			Assert.IsTrue(this.Controls.Contains("Control"));
