@@ -11,7 +11,7 @@
 	{
 		#region IContainer Members
 		/// <summary>
-		/// Nieużywane.
+		/// Nieużywane - kontrolki dziedziczą wejście po głównym kontenerze.
 		/// </summary>
 		Interfaces.IInput IContainer.Input
 		{
@@ -20,7 +20,7 @@
 		}
 
 		/// <summary>
-		/// Nieużywane.
+		/// Nieużywane - kontrolki dziedziczą renderer po głównym kontenerze.
 		/// </summary>
 		Interfaces.Graphics.IRenderer IContainer.Renderer
 		{
@@ -34,7 +34,7 @@
 		public Interfaces.Graphics.Gui.IControlsCollection Controls { get; private set; }
 
 		/// <summary>
-		/// Sprawdza kontrolkę w 
+		/// Sprawdza kontrolkę. 
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
@@ -45,6 +45,9 @@
 		#endregion
 
 		#region ControlBase Members
+		/// <summary>
+		/// Przy zmianie uaktualnia rodzica swoim kontrolkom.
+		/// </summary>
 		protected override IContainer Owner
 		{
 			get { return base.Owner; }
@@ -55,6 +58,9 @@
 			}
 		}
 
+		/// <summary>
+		/// Przy zmianie zmienia offset swoim kontrolką.
+		/// </summary>
 		public override OpenTK.Vector2 AbsolutePosition
 		{
 			get	{ return base.AbsolutePosition; }
@@ -64,16 +70,38 @@
 				(this.Controls as Gui.Internals.ControlsCollection).SetOffset(base.AbsolutePosition);
 			}
 		}
+
+		/// <summary>
+		/// Usuwa własne kontrolki z rodzica.
+		/// </summary>
+		public override void OnRemove()
+		{
+			foreach (var c in this.Controls)
+			{
+				this.Owner.Controls.Remove(c);
+			}
+		}
 		#endregion
 
 		#region Unused
+		/// <summary>
+		/// Nie potrzebujemy zdarzeń - zawsze false.
+		/// </summary>
 		public override bool PermanentActive { get { return false; } }
 
+		/// <summary>
+		/// Nie potrzebujemy zdarzeń - zawsze zero.
+		/// </summary>
+		/// <returns></returns>
 		public override int Check()
 		{
 			return 0;
 		}
 
+		/// <summary>
+		/// Nie potrzebujemy zdarzeń - zawsze false.
+		/// </summary>
+		/// <returns></returns>
 		public override bool ContainsMouse()
 		{
 			return false;
