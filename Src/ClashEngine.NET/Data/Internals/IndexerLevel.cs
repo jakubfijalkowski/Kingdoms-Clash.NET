@@ -151,7 +151,7 @@ namespace ClashEngine.NET.Data.Internals
 				{
 					if (indecies[i] == isQuote) //Kończymy zakres
 					{
-						quoteBuilder.Append(indecies.Substring(0, i).Trim());
+						quoteBuilder.Append(indecies.Substring(0, i));
 						indecies = indecies.Remove(0, i + 1); //Usuwamy razem z ' lub "
 						i = -1;
 						isQuote = '\0';
@@ -159,7 +159,7 @@ namespace ClashEngine.NET.Data.Internals
 					else if (isQuote == '\0') //Nowy zakres!
 					{
 						isQuote = indecies[i];
-						quoteBuilder.Append(indecies.Substring(0, i)); //Dodajemy to, co już było
+						quoteBuilder.Append(indecies.Substring(0, i).Trim()); //Dodajemy to, co już było
 						indecies = indecies.Remove(0, i + 1); //Usuwamy razem z " lub '
 						i = 0;
 					}
@@ -172,7 +172,7 @@ namespace ClashEngine.NET.Data.Internals
 					i = -1;
 				}
 			}
-			s.Add(quoteBuilder.ToString() + indecies);
+			s.Add(quoteBuilder.ToString() + indecies.Trim());
 			#endregion
 
 			for (int i = 0; i < parameters.Length; i++)

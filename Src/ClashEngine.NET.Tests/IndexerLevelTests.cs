@@ -56,6 +56,22 @@ namespace ClashEngine.NET.Tests
 			Assert.True(this.WasValueChangedCalled);
 		}
 
+		[Test]
+		public void MultiParameterIndexer1()
+		{
+			var level = new IndexerLevel(typeof(DataClass2), "5, asd", 0, (i) => { });
+			level.UpdateValue(new DataClass2());
+			Assert.AreEqual("asd5", level.Value);
+		}
+
+		[Test]
+		public void MultiParameterIndexer2()
+		{
+			var level = new IndexerLevel(typeof(DataClass2), "5,' asd'", 0, (i) => { });
+			level.UpdateValue(new DataClass2());
+			Assert.AreEqual(" asd5", level.Value);
+		}
+
 		private void ValueChanged(int lvl)
 		{
 			Assert.AreEqual(150, lvl);
@@ -83,6 +99,16 @@ namespace ClashEngine.NET.Tests
 			#region INotifyPropertyChanged Members
 			public event PropertyChangedEventHandler PropertyChanged;
 			#endregion
+		}
+
+		private class DataClass2
+		{
+			public string this[int index, string text]
+			{
+				get { return text + index; }
+				set
+				{ }
+			}
 		}
 	}
 }
