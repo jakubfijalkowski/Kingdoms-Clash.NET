@@ -47,27 +47,6 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// Zdarzenie wywoływane przy stworzeniu jednostki.
 		/// </summary>
 		event EventHandler UnitCreated;
-		
-		/// <summary>
-		/// Pauzuje tworzenie jednostki.
-		/// </summary>
-		/// <remarks>
-		///	Wykonuje się tylko jeśli IsPaused = true.
-		/// </remarks>
-		void Pause();
-
-		/// <summary>
-		/// Wznawia tworzenie jednostki.
-		/// </summary>
-		/// <remarks>
-		///	Wykonuje się tylko jeśli IsPaused = false.
-		/// </remarks>
-		void Resume();
-
-		/// <summary>
-		/// Anuluje tworzenie jednostki.
-		/// </summary>
-		void Abort();
 
 		/// <summary>
 		/// Tworzy jednostkę z tokenu.

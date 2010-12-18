@@ -76,42 +76,6 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 		public event EventHandler UnitCreated;
 
 		/// <summary>
-		/// Pauzuje tworzenie jednostki.
-		/// </summary>
-		/// <remarks>
-		///	Wykonuje się tylko jeśli IsPaused = true.
-		/// </remarks>
-		public void Pause()
-		{
-			if (!this.IsCompleted && this.IsValidToken)
-			{
-				this.IsPaused = true;
-			}
-		}
-
-		/// <summary>
-		/// Wznawia tworzenie jednostki.
-		/// </summary>
-		/// <remarks>
-		///	Wykonuje się tylko jeśli IsPaused = false.
-		/// </remarks>
-		public void Resume()
-		{
-			if (!this.IsCompleted && this.IsValidToken)
-			{
-				this.IsPaused = false;
-			}
-		}
-
-		/// <summary>
-		/// Anuluje tworzenie jednostki.
-		/// </summary>
-		public void Abort()
-		{
-			//TODO
-		}
-
-		/// <summary>
 		/// Tworzy jednostkę z tokenu.
 		/// </summary>
 		/// <returns>Nowoutworzona jednostka.</returns>
