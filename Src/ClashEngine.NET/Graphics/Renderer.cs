@@ -84,6 +84,7 @@ namespace ClashEngine.NET.Graphics
 
 			foreach (var obj in this.Objects)
 			{
+				obj.Key.PreRender();
 				if (obj.Key.Texture != null)
 				{
 					obj.Key.Texture.Bind();

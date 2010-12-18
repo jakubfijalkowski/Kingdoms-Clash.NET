@@ -55,6 +55,12 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// Poprawia rozmiar elementu tak, by pasował do kontrolki.
 		/// </summary>
 		public abstract void Finish();
+
+		/// <summary>
+		/// Wywoływane przed wyrenderowaniem obiektu.
+		/// </summary>
+		public virtual void PreRender()
+		{ }
 		#endregion
 
 		#region IObject Members

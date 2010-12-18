@@ -96,6 +96,12 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// Indeksy.
 		/// </summary>
 		public int[] Indecies { get { return this._Indecies; } }
+
+		/// <summary>
+		/// Wywoływane przed wyrenderowaniem obiektu.
+		/// </summary>
+		public void PreRender()
+		{ }
 		#endregion
 
 		#region Constructors

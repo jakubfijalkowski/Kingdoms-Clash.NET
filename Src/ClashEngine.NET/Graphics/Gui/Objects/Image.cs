@@ -129,11 +129,6 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		{
 			get
 			{
-				if (this.DoTexCoordsNeedUpdate)
-				{
-					this.UpdateTexCoords();
-					this.DoTexCoordsNeedUpdate = false;
-				}
 				return this.Quad.Vertices;
 			}
 		}
@@ -155,6 +150,18 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			if (!this.WasSizeSet)
 			{
 				this.Size = this.ParentControl.Size;
+			}
+		}
+
+		/// <summary>
+		/// Wywoływane przed wyrenderowaniem obiektu.
+		/// </summary>
+		public override void PreRender()
+		{
+			if (this.DoTexCoordsNeedUpdate)
+			{
+				this.UpdateTexCoords();
+				this.DoTexCoordsNeedUpdate = false;
 			}
 		}
 		#endregion

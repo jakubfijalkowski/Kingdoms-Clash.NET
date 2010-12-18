@@ -51,5 +51,10 @@ namespace ClashEngine.NET.Interfaces.Graphics
 		/// Jeśli jest null, renderer nie używa ich.
 		/// </summary>
 		int[] Indecies { get; }
+
+		/// <summary>
+		/// Wywoływane tuż przed wyrenderowaniem obiektu.
+		/// </summary>
+		void PreRender();
 	}
 }

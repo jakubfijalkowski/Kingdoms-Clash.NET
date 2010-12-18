@@ -25,6 +25,9 @@ namespace ClashEngine.NET.Graphics.Objects
 		public float Depth { get; set; }
 		public Vertex[] Vertices { get; private set; }
 		public int[] Indecies { get; private set; }
+
+		public void PreRender()
+		{ }
 		#endregion
 
 		#region Constructors

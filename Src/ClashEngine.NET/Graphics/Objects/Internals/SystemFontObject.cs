@@ -42,6 +42,9 @@ namespace ClashEngine.NET.Graphics.Objects.Internals
 		public Interfaces.Graphics.Vertex[] Vertices { get { return this.Quad.Vertices; } }
 
 		public int[] Indecies { get { return this.Quad.Indecies; } }
+
+		public void PreRender()
+		{ }
 		#endregion
 
 		#region Constructors

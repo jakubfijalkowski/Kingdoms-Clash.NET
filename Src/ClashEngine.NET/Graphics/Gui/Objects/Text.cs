@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
-using OpenTK;
 using System.Windows.Markup;
+using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Gui.Objects
 {
+	using Interfaces.Data;
 	using Interfaces.Graphics.Gui.Objects;
 	using Interfaces.Graphics.Resources;
-	using Interfaces.Data;
 
 	/// <summary>
 	/// Tekst.
@@ -23,6 +23,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		private Interfaces.Graphics.Objects.IText TextObject = Resources.SystemFont.CreateEmptyObject();
 		private bool Initialized = false;
 		private object _DataContext = null;
+		private bool DoTextureNeedUpdate = false;
 		#endregion
 
 		#region IDataContext Members
@@ -38,9 +39,9 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 				if (value != this._DataContext)
 				{
 					this._DataContext = value;
-					if(this.PropertyChanged != null)
+					if (this.PropertyChanged != null)
 					{
-					this.PropertyChanged(this, new PropertyChangedEventArgs("DataContext"));
+						this.PropertyChanged(this, new PropertyChangedEventArgs("DataContext"));
 					}
 				}
 			}
@@ -65,7 +66,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			set
 			{
 				this._Font = value;
-				this.UpdateTexture();
+				this.DoTextureNeedUpdate = true;
 			}
 		}
 
@@ -78,7 +79,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			set
 			{
 				this._TextValue = value;
-				this.UpdateTexture();
+				this.DoTextureNeedUpdate = true;
 			}
 		}
 
@@ -92,7 +93,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			set
 			{
 				this._Color = value;
-				this.UpdateTexture();
+				this.DoTextureNeedUpdate = true;
 			}
 		}
 
@@ -123,7 +124,11 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// <summary>
 		/// Tekstura z tekstem.
 		/// </summary>
-		public override Interfaces.Graphics.Resources.ITexture Texture { get { return this.TextObject.Texture; } set { } }
+		public override Interfaces.Graphics.Resources.ITexture Texture
+		{
+			get { return this.TextObject.Texture; }
+			set { }
+		}
 
 		/// <summary>
 		/// Głębokość, na jakiej znajduje się tekst.
@@ -139,7 +144,10 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// </summary>
 		public override Interfaces.Graphics.Vertex[] Vertices
 		{
-			get { return this.TextObject.Vertices; }
+			get
+			{
+				return this.TextObject.Vertices;
+			}
 		}
 
 		/// <summary>
@@ -160,7 +168,19 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			{
 				this.Size = this.ParentControl.Size;
 			}
-			this.UpdateTexture();
+			this.DoTextureNeedUpdate = true;
+		}
+
+		/// <summary>
+		/// Wywoływane przed wyrenderowaniem obiektu.
+		/// </summary>
+		public override void PreRender()
+		{
+			if (this.DoTextureNeedUpdate)
+			{
+				this.UpdateTexture();
+				this.DoTextureNeedUpdate = false;
+			}
 		}
 		#endregion
 
@@ -176,8 +196,10 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		{
 			if (this.Initialized)
 			{
+				float multX = this.ParentControl.Data.Renderer.ViewPortSize.X / this.ParentControl.Data.Renderer.Camera.Size.X;
+				float multY = this.ParentControl.Data.Renderer.ViewPortSize.Y / this.ParentControl.Data.Renderer.Camera.Size.Y;
 				this.Font.Draw(this.TextValue, this.Color,
-					new System.Drawing.RectangleF(0f, 0f, this.Size.X, this.Size.Y),
+					new System.Drawing.RectangleF(0f, 0f, this.Size.X * multX, this.Size.Y * multY),
 						this.TextObject);
 			}
 		}

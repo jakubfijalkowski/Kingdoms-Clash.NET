@@ -22,12 +22,18 @@ namespace ClashEngine.NET.Graphics.Gui.Controls.Internals
 
 		public void SendChanged()
 		{
-			this.PropertyChanged(this, new PropertyChangedEventArgs("Item"));
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs("Item"));
+			}
 		}
 
 		public void SendChanged(int idx)
 		{
-			this.PropertyChanged(this, new PropertyChangedEventArgs("Item." + idx));
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs("Item." + idx));
+			}
 		}
 
 		public RotatorSelectedItems(IRotator rotator)

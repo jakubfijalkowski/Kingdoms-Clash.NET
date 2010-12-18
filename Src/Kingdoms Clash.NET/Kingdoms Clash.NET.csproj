@@ -106,6 +106,7 @@
     <Compile Include="Interfaces\Units\UnitEvents.cs" />
     <Compile Include="Maps\ResourceOnMap.cs" />
     <Compile Include="Player\Controllers\GuiControllerFactory.cs" />
+    <Compile Include="Player\Controllers\Internals\ControlerScreen.cs" />
     <Compile Include="Player\Controllers\Internals\GuiController1.cs" />
     <Compile Include="Player\Controllers\Internals\GuiController2.cs" />
     <Compile Include="Player\Controllers\KeyboardController.cs" />
