@@ -112,6 +112,7 @@
             Position="0,0" Size="0.05,0.05" Visible="false">
       <Rectangle />
       <Text Font="Arial,10" DataContext="{Binding Source=P1Unit1,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
+      <Text Font="Arial,5" DataContext="{Binding Source=root,Path=Player1Queue[0]}" TextValue="{Binding QueueLength}" Color="0,0,0,1" Position="0,0.025" />
     </Button>
     <Button Id="P1Unit2" DataContext="{Binding Source=Player1Units,Path=Selected[1]}"
             Position="0.05,0" Size="0.05,0.05" Visible="false">

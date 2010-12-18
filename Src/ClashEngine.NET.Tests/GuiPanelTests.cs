@@ -72,7 +72,7 @@ namespace ClashEngine.NET.Tests
 			this.Control1.Setup(c => c.Update(delta));
 			this.Control2.Setup(c => c.Update(delta));
 			this.Container.Update(delta);
-			this.Control1.Verify(c => c.Update(delta), Times.Once());
+			this.Control1.Verify(c => c.Update(delta), Times.Never());
 			this.Control2.Verify(c => c.Update(delta), Times.Once());
 		}
 

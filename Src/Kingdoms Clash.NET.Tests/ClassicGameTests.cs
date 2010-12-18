@@ -20,6 +20,7 @@ namespace Kingdoms_Clash.NET.Tests
 			this.Controller = new ClassicGame();
 			this.Controller.GameState = this.State;
 			this.State.Controller = this.Controller;
+			this.Controller.PreGameStarted();
 			this.Controller.GameStarted();
 		}
 
@@ -39,7 +40,7 @@ namespace Kingdoms_Clash.NET.Tests
 			Assert.IsFalse(token.IsCompleted);
 			Assert.AreEqual(token.TimeLeft, GameState.TestUnit.CreationTime);
 
-			var stats = this.Controller[this.State.Players[0]]["Unit1"];
+			var stats = this.Controller[this.State.Players[0]][0];
 			Assert.AreEqual(token, stats.CurrentToken);
 			Assert.AreEqual(1, stats.QueueLength);
 		}
@@ -73,7 +74,7 @@ namespace Kingdoms_Clash.NET.Tests
 			Assert.AreEqual(0, this.State.Players[1].Units.Count);
 
 			//Statystyki
-			var stats = this.Controller[this.State.Players[0]]["Unit1"];
+			var stats = this.Controller[this.State.Players[0]][0];
 			Assert.AreEqual(tokensP1[0], stats.CurrentToken);
 			Assert.AreEqual(3, stats.QueueLength);
 
@@ -86,7 +87,7 @@ namespace Kingdoms_Clash.NET.Tests
 			Assert.AreEqual(1, this.State.Players[1].Units.Count);
 
 			//Statystyki
-			stats = this.Controller[this.State.Players[0]]["Unit1"];
+			stats = this.Controller[this.State.Players[0]][0];
 			Assert.AreEqual(tokensP1[1], stats.CurrentToken);
 			Assert.AreEqual(2, stats.QueueLength);
 

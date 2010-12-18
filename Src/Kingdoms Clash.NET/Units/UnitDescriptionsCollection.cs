@@ -30,6 +30,13 @@ namespace Kingdoms_Clash.NET.Units
 		}
 
 		/// <summary>
+		/// Pobiera informacje o jednostce na wskazanej pozycji w liście.
+		/// </summary>
+		/// <param name="idx">Indeks.</param>
+		/// <returns></returns>
+		public IUnitDescription this[int idx] { get { return this.Descriptions[idx]; } }
+
+		/// <summary>
 		/// Wyszukuje jednostki na podstawie id.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>

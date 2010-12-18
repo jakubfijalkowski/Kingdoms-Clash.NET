@@ -16,6 +16,13 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		IUnitDescription this[string id] { get; }
 
 		/// <summary>
+		/// Pobiera informacje o jednostce na wskazanej pozycji w liście.
+		/// </summary>
+		/// <param name="idx">Indeks.</param>
+		/// <returns></returns>
+		IUnitDescription this[int idx] { get; }
+
+		/// <summary>
 		/// Wyszukuje jednostki na podstawie id.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>

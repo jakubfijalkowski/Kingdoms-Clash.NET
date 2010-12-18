@@ -45,14 +45,14 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 		/// <summary>
 		/// Pobiera statystyki produkcji danego typu jednostki.
 		/// </summary>
-		/// <param name="id">Identyfikator jednostki.</param>
+		/// <param name="idx">Pozycja na liście Player.Nation.AvailableUnits.</param>
 		/// <returns></returns>
-		public IUnitQueueStats this[string id]
+		public IUnitQueueStats this[int idx]
 		{
 			get
 			{
-				var unit = this.Player.Nation.AvailableUnits[id];
-				return new Internals.UnitQueueStats(this.Queue.First(t => t.Unit == unit), (uint)this.Queue.Count(t => t.Unit == unit));
+				var unit = this.Player.Nation.AvailableUnits[idx];
+				return new Internals.UnitQueueStats(this.Queue.FirstOrDefault(t => t.Unit == unit), (uint)this.Queue.Count(t => t.Unit == unit));
 			}
 		}
 
@@ -76,7 +76,7 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 							this.Queue.RemoveAt(i);
 							if (this.PropertyChanged != null)
 							{
-								this.PropertyChanged(this, new PropertyChangedEventArgs("Item." + token.Unit.Id));
+								this.PropertyChanged(this, new PropertyChangedEventArgs("Item"));
 								this.PropertyChanged(this, new PropertyChangedEventArgs("QueueLength"));
 							}
 							var unit = token.CreateUnit();
@@ -120,7 +120,7 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 				this.Queue.Add(token);
 				if (this.PropertyChanged != null)
 				{
-					this.PropertyChanged(this, new PropertyChangedEventArgs("Item." + token.Unit.Id));
+					this.PropertyChanged(this, new PropertyChangedEventArgs("Item"));
 					this.PropertyChanged(this, new PropertyChangedEventArgs("QueueLength"));
 				}
 				return token;
@@ -128,6 +128,7 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 			Logger.Warn("Unit with id {0} not found in nation {1}", id, this.Player.Nation.Name);
 			return null;
 		}
+
 		/// <summary>
 		/// Czyści kolejkę.
 		/// </summary>

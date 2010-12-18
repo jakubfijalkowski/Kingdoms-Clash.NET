@@ -39,9 +39,9 @@ namespace Kingdoms_Clash.NET.Interfaces.Controllers
 		/// <summary>
 		/// Pobiera statystyki produkcji danego typu jednostki.
 		/// </summary>
-		/// <param name="id">Identyfikator jednostki.</param>
+		/// <param name="idx">Pozycja na liście Player.Nation.AvailableUnits.</param>
 		/// <returns></returns>
-		IUnitQueueStats this[string id] { get; }
+		IUnitQueueStats this[int idx] { get; }
 		
 		/// <summary>
 		/// Uaktualnia kolejkę.

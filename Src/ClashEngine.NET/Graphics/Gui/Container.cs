@@ -48,19 +48,22 @@ namespace ClashEngine.NET.Graphics.Gui
 			this.CurrentData.Hot = null;
 			foreach (var c in this.Controls)
 			{
-				if (c.ContainsMouse())
+				if (c.Visible)
 				{
-					this.CurrentData.Hot = c;
+					if (c.ContainsMouse())
+					{
+						this.CurrentData.Hot = c;
+					}
+					if (this.CurrentData.Input[MouseButton.Left])
+					{
+						this.CurrentData.Active = this.CurrentData.Hot;
+					}
+					else if (this.CurrentData.Active != null && !this.CurrentData.Active.PermanentActive)
+					{
+						this.CurrentData.Active = null;
+					}
+					c.Update(delta);
 				}
-				if (this.CurrentData.Input[MouseButton.Left])
-				{
-					this.CurrentData.Active = this.CurrentData.Hot;
-				}
-				else if (this.CurrentData.Active != null && !this.CurrentData.Active.PermanentActive)
-				{
-					this.CurrentData.Active = null;
-				}
-				c.Update(delta);
 			}
 		}
 
