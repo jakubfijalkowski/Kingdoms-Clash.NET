@@ -1,16 +1,36 @@
 <p:PlayersGUIContainer xmlns:p="http://schemas.fiolek.org/kingdomsclash.net/players" xmlns="http://schemas.fiolek.org/gui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <p:PlayersGUIContainer.Triggers>
+    
     <If Object="Unit1" Path="ClickedButtons" Value="1">
       <Set Object="Rc1" Path="Color" Value="1,0,0,1" />
       <If.Else>
         <Set Object="Rc1" Path="Color" Value="1,1,1,1" />
       </If.Else>
     </If>
+    
+    <If Object="U1Img" Path="DataContext" Value="{x:Null}">
+      <Set Object="Unit1" Path="Visible" Value="false" />
+      <If.Else>
+        <Set Object="Unit1" Path="Visible" Value="true" />
+      </If.Else>
+    </If>
+
+    <If Object="U2Img" Path="DataContext" Value="{x:Null}">
+      <Set Object="Unit2" Path="Visible" Value="false" />
+      <If.Else>
+        <Set Object="Unit2" Path="Visible" Value="true" />
+      </If.Else>
+    </If>
   </p:PlayersGUIContainer.Triggers>
+
+  <Rotator Id="Player1Units" DataContext="{Binding Source=root,Path=Player1.Nation.AvailableUnits,Mode=TwoWay}" MaxSelectedItems="2" />
   
-	<Rotator Id="Player1Units" DataContext="{Binding Source=root,Path=Player1.Nation.AvailableUnits,Mode=TwoWay}" MaxSelectedItems="2" />
-	<Button Id="Unit1" Position="0,0.95" Size="0.05,0.05">
-		<Rectangle x:Name="Rc1" />
-		<Text Font="Arial,10" DataContext="{Binding Source=Player1Units,Path=Selected[0]}" TextValue="{Binding Id}" Color="0,0,0,1" />
+  <Button Id="Unit1" Position="0,0.95" Size="0.05,0.05" Visible="false">
+    <Rectangle x:Name="Rc1" />
+    <Text x:Name="U1Img" Font="Arial,10" DataContext="{Binding Source=Player1Units,Path=Selected[0]}" TextValue="{Binding Id}" Color="0,0,0,1" />
 	</Button>
+  <Button Id="Unit2" Position="0.05,0.95" Size="0.05,0.05" Visible="false">
+    <Rectangle />
+    <Text x:Name="U2Img" Font="Arial,10" DataContext="{Binding Source=Player1Units,Path=Selected[1]}" TextValue="{Binding Id}" Color="0,0,0,1" />
+  </Button>
 </p:PlayersGUIContainer>

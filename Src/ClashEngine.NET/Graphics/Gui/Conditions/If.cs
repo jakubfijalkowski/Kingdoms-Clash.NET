@@ -128,7 +128,7 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 				{ }
 			}
 
-			if (!this.Path.ValueType.IsInstanceOfType(this.ConvertedValue))
+			if (this.ConvertedValue != null && !this.Path.ValueType.IsInstanceOfType(this.ConvertedValue))
 			{
 				var targetConverter = TypeDescriptor.GetConverter(this.Path.ValueType);
 				if (targetConverter != null && targetConverter.CanConvertFrom(this.ConvertedValue.GetType()))
@@ -136,6 +136,10 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 					this.ConvertedValue = targetConverter.ConvertFrom(this.ConvertedValue);
 				}
 			}
+			object newValue = this.Path.Value;
+			this._Value = newValue == this.ConvertedValue || newValue.Equals(this.ConvertedValue)
+				|| ((this.ConvertedValue is IComparable) && (this.ConvertedValue as IComparable).CompareTo(newValue) == 0)
+				|| ((newValue is IComparable) && (newValue as IComparable).CompareTo(this.ConvertedValue) == 0);
 		}
 		#endregion
 
