@@ -20,6 +20,8 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 		private object _Object = null;
 		private object ConvertedValue = null;
 		private bool _Value = false;
+		private OperatorType _Operator = OperatorType.Equals;
+		private Func<bool> Compare;
 		#endregion
 
 		#region ICondition Members
@@ -66,6 +68,19 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 		public Type CustomConverter { get; set; }
 
 		/// <summary>
+		/// Operator porównania.
+		/// </summary>
+		public OperatorType Operator
+		{
+			get { return this._Operator; }
+			set
+			{
+				this._Operator = value;
+				this.DeduceOperatorMethod();
+			}
+		}
+
+		/// <summary>
 		/// Wyzwalacze wywoływane gdy warunek nie jest(ale był!) spełniony.
 		/// </summary>
 		public ITriggersCollection Else { get; private set; }
@@ -90,7 +105,9 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 
 		#region ISupportInitialize Members
 		public void BeginInit()
-		{ }
+		{
+			this.DeduceOperatorMethod();
+		}
 
 		public void EndInit()
 		{
@@ -112,17 +129,24 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 
 			this.Path.PropertyChanged += this.OnPathValueChanged;
 
+			Type reqType = this.Path.ValueType;
+			if (this.Operator == OperatorType.And)
+			{
+				this.CustomConverter = typeof(System.ComponentModel.Int64Converter);
+				reqType = typeof(Int64);
+			}
+
 			this.ConvertedValue = this.Value;
 			if (this.CustomConverter != null)
 			{
 				var converter = Activator.CreateInstance(this.CustomConverter) as TypeConverter;
-				this.ConvertedValue = converter.ConvertTo(this.Value, this.Path.ValueType);
+				this.ConvertedValue = converter.ConvertTo(this.Value, reqType);
 			}
 			else
 			{
 				try
 				{
-					this.ConvertedValue = Convert.ChangeType(this.Value, this.Path.ValueType);
+					this.ConvertedValue = Convert.ChangeType(this.Value, reqType);
 				}
 				catch (InvalidCastException)
 				{ }
@@ -130,16 +154,15 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 
 			if (this.ConvertedValue != null && !this.Path.ValueType.IsInstanceOfType(this.ConvertedValue))
 			{
-				var targetConverter = TypeDescriptor.GetConverter(this.Path.ValueType);
+				var targetConverter = TypeDescriptor.GetConverter(reqType);
 				if (targetConverter != null && targetConverter.CanConvertFrom(this.ConvertedValue.GetType()))
 				{
 					this.ConvertedValue = targetConverter.ConvertFrom(this.ConvertedValue);
 				}
 			}
-			object newValue = this.Path.Value;
-			this._Value = newValue == this.ConvertedValue || newValue.Equals(this.ConvertedValue)
-				|| ((this.ConvertedValue is IComparable) && (this.ConvertedValue as IComparable).CompareTo(newValue) == 0)
-				|| ((newValue is IComparable) && (newValue as IComparable).CompareTo(this.ConvertedValue) == 0);
+
+			this.DeduceOperatorMethod();
+			this._Value = this.Compare();
 		}
 		#endregion
 
@@ -154,10 +177,7 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 		#region Private methods
 		void OnPathValueChanged(object sender, PropertyChangedEventArgs e)
 		{
-			object newValue = this.Path.Value;
-			if (newValue == this.ConvertedValue || newValue.Equals(this.ConvertedValue)
-				|| ((this.ConvertedValue is IComparable) && (this.ConvertedValue as IComparable).CompareTo(newValue) == 0)
-				|| ((newValue is IComparable) && (newValue as IComparable).CompareTo(this.ConvertedValue) == 0))
+			if (this.Compare())
 			{
 				this.Triggers.TrigAll();
 				if (!this._Value)
@@ -177,6 +197,32 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 				{
 					this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
 				}
+			}
+		}
+
+		void DeduceOperatorMethod()
+		{
+			switch (this.Operator)
+			{
+			case OperatorType.Equals:
+				this.Compare = () => this.Path.Value == this.ConvertedValue || this.Path.Value.Equals(this.ConvertedValue)
+				|| ((this.ConvertedValue is IComparable) && (this.ConvertedValue as IComparable).CompareTo(this.Path.Value) == 0)
+				|| ((this.Path.Value is IComparable) && (this.Path.Value as IComparable).CompareTo(this.ConvertedValue) == 0);
+				break;
+
+			case OperatorType.NotEquals:
+				this.Compare = () => this.Path.Value != this.ConvertedValue || !this.Path.Value.Equals(this.ConvertedValue)
+				|| ((this.ConvertedValue is IComparable) && (this.ConvertedValue as IComparable).CompareTo(this.Path.Value) != 0)
+				|| ((this.Path.Value is IComparable) && (this.Path.Value as IComparable).CompareTo(this.ConvertedValue) != 0);
+				break;
+
+			case OperatorType.And:
+				this.Compare = () =>
+					{
+						long val = (long)Convert.ChangeType(this.Path.Value, TypeCode.Int64);
+						return (val & (long)this.ConvertedValue) != 0;
+					};
+				break;
 			}
 		}
 		#endregion

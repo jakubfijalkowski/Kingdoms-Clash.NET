@@ -7,6 +7,27 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Conditions
 	using Data;
 
 	/// <summary>
+	/// Operator do porónywania wartości w warunku.
+	/// </summary>
+	public enum OperatorType
+	{
+		/// <summary>
+		/// Równe(==).
+		/// </summary>
+		Equals,
+
+		/// <summary>
+		/// Nierówne(!=).
+		/// </summary>
+		NotEquals,
+
+		/// <summary>
+		/// Bitowe "i" - wykorzystywane przy flagach bitowych((Value & sth) != 0).
+		/// </summary>
+		And
+	}
+
+	/// <summary>
 	/// Prosty warunek - jeśli coś jest równe czemuś ustaw coś na daną wartość.
 	/// </summary>
 	public interface IIf
@@ -35,6 +56,11 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Conditions
 		[DefaultValue(null)]
 		[TypeConverter(typeof(Converters.SystemTypeConverter))]
 		Type CustomConverter { get; set; }
+
+		/// <summary>
+		/// Operator porównania.
+		/// </summary>
+		OperatorType Operator { get; set; }
 
 		/// <summary>
 		/// Wyzwalacze wywoływane gdy warunek nie jest(ale był!) spełniony.
