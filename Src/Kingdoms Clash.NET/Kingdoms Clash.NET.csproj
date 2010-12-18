@@ -79,11 +79,13 @@
     <Compile Include="AdditionalScreens\WinnerScreen.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\ClassicGame.cs" />
+    <Compile Include="Controllers\Internals\UnitQueueStats.cs" />
     <Compile Include="Controllers\Internals\UnitRequestToken.cs" />
     <Compile Include="Controllers\Internals\UnitQueue.cs" />
     <Compile Include="Defaults.cs" />
     <Compile Include="Interfaces\Controllers\IClassicGame.cs" />
     <Compile Include="Interfaces\Controllers\IUnitQueue.cs" />
+    <Compile Include="Interfaces\Controllers\IUnitQueueStats.cs" />
     <Compile Include="Interfaces\Player\Controllers\IKeyboardController.cs" />
     <Compile Include="Interfaces\Player\IPlayerInfo.cs" />
     <Compile Include="Interfaces\Map\IResourceOnMap.cs" />

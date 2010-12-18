@@ -38,6 +38,10 @@ namespace Kingdoms_Clash.NET.Tests
 			Assert.IsFalse(token.IsPaused);
 			Assert.IsFalse(token.IsCompleted);
 			Assert.AreEqual(token.TimeLeft, GameState.TestUnit.CreationTime);
+
+			var stats = this.Controller[this.State.Players[0]]["Unit1"];
+			Assert.AreEqual(token, stats.CurrentToken);
+			Assert.AreEqual(1, stats.QueueLength);
 		}
 
 		[Test]
@@ -68,6 +72,11 @@ namespace Kingdoms_Clash.NET.Tests
 			Assert.AreEqual(0, this.State.Players[0].Units.Count);
 			Assert.AreEqual(0, this.State.Players[1].Units.Count);
 
+			//Statystyki
+			var stats = this.Controller[this.State.Players[0]]["Unit1"];
+			Assert.AreEqual(tokensP1[0], stats.CurrentToken);
+			Assert.AreEqual(3, stats.QueueLength);
+
 			//Tu już po jednej jednostce powinno być stworzone.
 			this.Controller.Update(GameState.TestUnit.CreationTime / 2);
 			AreNotCompleted(tokensP1, 1);
@@ -75,6 +84,11 @@ namespace Kingdoms_Clash.NET.Tests
 			Assert.AreEqual(2, this.State.Units.Count);
 			Assert.AreEqual(1, this.State.Players[0].Units.Count);
 			Assert.AreEqual(1, this.State.Players[1].Units.Count);
+
+			//Statystyki
+			stats = this.Controller[this.State.Players[0]]["Unit1"];
+			Assert.AreEqual(tokensP1[1], stats.CurrentToken);
+			Assert.AreEqual(2, stats.QueueLength);
 
 			//Tu już powinny być wszystkie jednostki stworzone
 			this.Controller.Update(GameState.TestUnit.CreationTime);

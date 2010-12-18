@@ -43,20 +43,16 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 		public uint MaxProducedUnits { get { return 1; } }
 
 		/// <summary>
-		/// Pobiera dłogość kolejki produkcyjnej danej jednostki.
+		/// Pobiera statystyki produkcji danego typu jednostki.
 		/// </summary>
 		/// <param name="id">Identyfikator jednostki.</param>
 		/// <returns></returns>
-		public uint this[string id]
+		public IUnitQueueStats this[string id]
 		{
 			get
 			{
 				var unit = this.Player.Nation.AvailableUnits[id];
-				if (unit == null)
-				{
-					return 0;
-				}
-				return (uint)this.Queue.Count(t => t.Unit == unit);
+				return new Internals.UnitQueueStats(this.Queue.First(t => t.Unit == unit), (uint)this.Queue.Count(t => t.Unit == unit));
 			}
 		}
 

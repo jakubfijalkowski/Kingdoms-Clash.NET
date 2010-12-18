@@ -37,11 +37,11 @@ namespace Kingdoms_Clash.NET.Interfaces.Controllers
 		uint MaxProducedUnits { get; }
 
 		/// <summary>
-		/// Pobiera dłogość kolejki produkcyjnej danej jednostki.
+		/// Pobiera statystyki produkcji danego typu jednostki.
 		/// </summary>
 		/// <param name="id">Identyfikator jednostki.</param>
 		/// <returns></returns>
-		uint this[string id] { get; }
+		IUnitQueueStats this[string id] { get; }
 		
 		/// <summary>
 		/// Uaktualnia kolejkę.
