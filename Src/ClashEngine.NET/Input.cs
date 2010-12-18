@@ -135,7 +135,7 @@ namespace ClashEngine.NET
 			wnd.Keyboard.KeyUp += new EventHandler<KeyboardKeyEventArgs>(Window_KeyUp);
 			wnd.KeyPress += new EventHandler<OpenTK.KeyPressEventArgs>(Window_Text);
 
-			this.WindowSize = new Vector2(wnd.Size.Width, wnd.Size.Height);
+			this.WindowSize = new Vector2(wnd.Width, wnd.Height);
 		}
 		#endregion
 
