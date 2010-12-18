@@ -12,6 +12,7 @@ namespace Kingdoms_Clash.NET.Player.Controllers
 	/// </summary>
 	/// <remarks>
 	/// Wykorzystuje tylko input.
+	/// Tymczasowo można tworzyć bezpośrednio, nie trzeba przez fabrykę.
 	/// </remarks>
 	public class KeyboardController
 		: IKeyboardController

@@ -5,3 +5,4 @@ Kontroler nie musi sprawdzać, czy zasoby są poprawne - one są poprawne.
 Zasoby mają kategorie kolizji 10 - jednostki bez komponentu Collector nie powinny z nią kolidować.
 Zasoby kolidują tylko z kategorią 11 i 12(odpowiednio: zbieracze gracza 1 i 2).
 Zamek(obu graczy) ma kategorię kolizji 20.
+Kontrolerów graczy nie tworzymy bezpośrednio tylko przez fabrykę.

@@ -86,6 +86,9 @@
     <Compile Include="Interfaces\Controllers\IClassicGame.cs" />
     <Compile Include="Interfaces\Controllers\IUnitQueue.cs" />
     <Compile Include="Interfaces\Controllers\IUnitQueueStats.cs" />
+    <Compile Include="Interfaces\Factories\IPlayerControllerFactory.cs" />
+    <Compile Include="Interfaces\Player\Controllers\IGuiControllerFactory.cs" />
+    <Compile Include="Interfaces\Player\Controllers\IGuiController.cs" />
     <Compile Include="Interfaces\Player\Controllers\IKeyboardController.cs" />
     <Compile Include="Interfaces\Player\IPlayerInfo.cs" />
     <Compile Include="Interfaces\Map\IResourceOnMap.cs" />
@@ -102,7 +105,11 @@
     <Compile Include="Interfaces\Units\IUnitRequestToken.cs" />
     <Compile Include="Interfaces\Units\UnitEvents.cs" />
     <Compile Include="Maps\ResourceOnMap.cs" />
+    <Compile Include="Player\Controllers\GuiControllerFactory.cs" />
+    <Compile Include="Player\Controllers\Internals\GuiController1.cs" />
+    <Compile Include="Player\Controllers\Internals\GuiController2.cs" />
     <Compile Include="Player\Controllers\KeyboardController.cs" />
+    <Compile Include="Player\Controllers\XAML\PlayersGUIContainer.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\PlayerEntity.cs" />
     <Compile Include="Player\PlayerInfo.cs" />

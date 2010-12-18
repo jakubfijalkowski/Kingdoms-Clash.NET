@@ -36,6 +36,8 @@ using System.Windows.Markup;
 [assembly: AssemblyVersion("0.0.1.0")]
 [assembly: AssemblyFileVersion("0.0.1.0")]
 
-[assembly: XmlnsDefinition("http://schemas.fiolek.org/units", "Kingdoms_Clash.NET.Units")]
-[assembly: XmlnsDefinition("http://schemas.fiolek.org/units", "Kingdoms_Clash.NET.Units.Components")]
-[assembly: XmlnsDefinition("http://schemas.fiolek.org/units", "Kingdoms_Clash.NET.Units.XAML")]
+[assembly: XmlnsDefinition("http://schemas.fiolek.org/kingdomsclash.net/units", "Kingdoms_Clash.NET.Units")]
+[assembly: XmlnsDefinition("http://schemas.fiolek.org/kingdomsclash.net/units", "Kingdoms_Clash.NET.Units.Components")]
+[assembly: XmlnsDefinition("http://schemas.fiolek.org/kingdomsclash.net/units", "Kingdoms_Clash.NET.Units.XAML")]
+
+[assembly: XmlnsDefinition("http://schemas.fiolek.org/kingdomsclash.net/players", "Kingdoms_Clash.NET.Player.Controllers.XAML")]
