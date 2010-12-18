@@ -34,7 +34,7 @@ namespace Kingdoms_Clash.NET.Units
 		/// </summary>
 		/// <param name="idx">Indeks.</param>
 		/// <returns></returns>
-		public IUnitDescription this[int idx] { get { return this.Descriptions[idx]; } }
+		public IUnitDescription this[int idx] { get { return (idx < this.Descriptions.Count ? this.Descriptions[idx] : null); } }
 
 		/// <summary>
 		/// Wyszukuje jednostki na podstawie id.

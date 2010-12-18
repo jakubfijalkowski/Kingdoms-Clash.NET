@@ -52,7 +52,9 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 			get
 			{
 				var unit = this.Player.Nation.AvailableUnits[idx];
-				return new Internals.UnitQueueStats(this.Queue.FirstOrDefault(t => t.Unit == unit), (uint)this.Queue.Count(t => t.Unit == unit));
+				return (unit != null ?
+					new Internals.UnitQueueStats(this.Queue.FirstOrDefault(t => t.Unit == unit), (uint)this.Queue.Count(t => t.Unit == unit))
+					: null);
 			}
 		}
 
