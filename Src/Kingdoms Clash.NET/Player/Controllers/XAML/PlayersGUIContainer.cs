@@ -4,6 +4,7 @@ using ClashEngine.NET.Graphics.Gui;
 namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 {
 	using Interfaces.Controllers;
+	using Interfaces.Units;
 
 	/// <summary>
 	/// Kontener GUI dla kontrolera gracza.
@@ -18,6 +19,7 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 		private IUnitQueue _Player2Queue;
 		#endregion
 
+		#region Players
 		/// <summary>
 		/// Pierwszy gracz.
 		/// </summary>
@@ -81,12 +83,33 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 				}
 			}
 		}
+		#endregion
 
 		#region INotifyPropertyChanged Members
 		/// <summary>
 		/// Wywoływane przy zmianie Player1, Player1Queue, Player2 i Player2Queue.
 		/// </summary>
 		public event PropertyChangedEventHandler PropertyChanged;
+		#endregion
+
+		#region Methods
+		/// <summary>
+		/// Do wywoływania z kodu XAML.
+		/// Próbuje dodać jednostkę do kolejki.
+		/// </summary>
+		/// <param name="playerNo">Numer gracza(1 lub 2).</param>
+		/// <param name="unit">Jednostka.</param>
+		public void RequestUnit(int playerNo, IUnitDescription unit)
+		{
+			if (playerNo == 1)
+			{
+				this.Player1Queue.Request(unit.Id);
+			}
+			else
+			{
+				this.Player2Queue.Request(unit.Id);
+			}
+		}
 		#endregion
 	}
 }
