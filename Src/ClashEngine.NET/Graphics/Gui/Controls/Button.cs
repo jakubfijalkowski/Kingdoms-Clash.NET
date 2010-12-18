@@ -17,7 +17,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 	{
 		#region Private fields
 		private bool WasActive = false;
-		private ushort _Clicked = 0;
+		private ushort _ClickedButtons = 0;
 		#endregion
 
 		#region IButton Members
@@ -29,13 +29,13 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		/// </remarks>
 		public ushort ClickedButtons
 		{
-			get { return this._Clicked; }
+			get { return this._ClickedButtons; }
 			private set
 			{
-				if (value != this._Clicked)
+				if (value != this._ClickedButtons)
 				{
-					this._Clicked = value;
-					base.SendPropertyChanged("Clicked");
+					this._ClickedButtons = value;
+					base.SendPropertyChanged("ClickedButtons");
 				}
 			}
 		}

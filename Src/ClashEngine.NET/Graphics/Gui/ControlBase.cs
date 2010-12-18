@@ -193,7 +193,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <returns></returns>
 		public virtual bool ContainsMouse()
 		{
-			return this.Data.Input.MousePosition.IsIn(this.AbsolutePosition, this.Size);
+			return this.Data.Input.TransformedMousePosition.IsIn(this.AbsolutePosition, this.Size);
 		}
 
 		/// <summary>

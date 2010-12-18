@@ -97,6 +97,10 @@ namespace ClashEngine.NET.Data
 				{
 					throw new InvalidOperationException("Initialize first");
 				}
+				if (value != null && !this.ValueType.IsInstanceOfType(value) && this.ValueConverter.CanConvertFrom(value.GetType()))
+				{
+					value = this.ValueConverter.ConvertFrom(value);
+				}
 				this.Levels[this.Levels.Count - 1].SetValue(
 					this.Levels.Count == 1 ? this.Root : this.Levels[this.Levels.Count - 2].Value
 				, value);

@@ -1,7 +1,13 @@
-<p:PlayersGUIContainer xmlns:p="http://schemas.fiolek.org/kingdomsclash.net/players" xmlns="http://schemas.fiolek.org/gui">
+<p:PlayersGUIContainer xmlns:p="http://schemas.fiolek.org/kingdomsclash.net/players" xmlns="http://schemas.fiolek.org/gui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <p:PlayersGUIContainer.Triggers>
+    <If Object="Unit1" Path="ClickedButtons" Value="4096">
+      <Set Object="Rc1" Path="Color" Value="1,0,0,1" />
+    </If>
+  </p:PlayersGUIContainer.Triggers>
+  
 	<Rotator Id="Player1Units" DataContext="{Binding Source=root,Path=Player1.Nation.AvailableUnits,Mode=TwoWay}" MaxSelectedItems="2" />
-	<Panel Id="Test" Size="0.1,0.05">
-		<Rectangle />
-		<Text Font="Arial,8" TextValue="{Binding Source=Player1Units,Path=Selected[0]}" Color="0,0,0,1" />
-	</Panel>
+	<Button Id="Unit1" Position="0,0.95" Size="0.05,0.05">
+		<Rectangle x:Name="Rc1" />
+		<Text Font="Arial,10" DataContext="{Binding Source=Player1Units,Path=Selected[0]}" TextValue="{Binding Id}" Color="0,0,0,1" />
+	</Button>
 </p:PlayersGUIContainer>
