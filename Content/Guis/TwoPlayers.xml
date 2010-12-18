@@ -1,36 +1,105 @@
 <p:PlayersGUIContainer xmlns:p="http://schemas.fiolek.org/kingdomsclash.net/players" xmlns="http://schemas.fiolek.org/gui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <p:PlayersGUIContainer.Triggers>
-    
-    <If Object="Unit1" Path="ClickedButtons" Value="1">
-      <Set Object="Rc1" Path="Color" Value="1,0,0,1" />
+    <!-- Jednostki gracza pierwszego - wyświetlanie -->
+    <If Object="P1Unit1" Path="DataContext" Value="{x:Null}">
+      <Set Object="P1Unit1" Path="Visible" Value="false" />
       <If.Else>
-        <Set Object="Rc1" Path="Color" Value="1,1,1,1" />
+        <Set Object="P1Unit1" Path="Visible" Value="true" />
       </If.Else>
     </If>
-    
-    <If Object="U1Img" Path="DataContext" Value="{x:Null}">
-      <Set Object="Unit1" Path="Visible" Value="false" />
+    <If Object="P1Unit2" Path="DataContext" Value="{x:Null}">
+      <Set Object="P1Unit2" Path="Visible" Value="false" />
       <If.Else>
-        <Set Object="Unit1" Path="Visible" Value="true" />
+        <Set Object="P1Unit2" Path="Visible" Value="true" />
+      </If.Else>
+    </If>
+    <If Object="P1Unit2" Path="DataContext" Value="{x:Null}">
+      <Set Object="P1Unit3" Path="Visible" Value="false" />
+      <If.Else>
+        <Set Object="P1Unit3" Path="Visible" Value="true" />
+      </If.Else>
+    </If>
+    <If Object="P1Unit4" Path="DataContext" Value="{x:Null}">
+      <Set Object="P1Unit4" Path="Visible" Value="false" />
+      <If.Else>
+        <Set Object="P1Unit4" Path="Visible" Value="true" />
       </If.Else>
     </If>
 
-    <If Object="U2Img" Path="DataContext" Value="{x:Null}">
-      <Set Object="Unit2" Path="Visible" Value="false" />
+    <!-- Jednostki gracza drugiego - wyświetlanie -->
+    <If Object="P2Unit1" Path="DataContext" Value="{x:Null}">
+      <Set Object="P2Unit1" Path="Visible" Value="false" />
       <If.Else>
-        <Set Object="Unit2" Path="Visible" Value="true" />
+        <Set Object="P2Unit1" Path="Visible" Value="true" />
+      </If.Else>
+    </If>
+    <If Object="P2Unit2" Path="DataContext" Value="{x:Null}">
+      <Set Object="P2Unit2" Path="Visible" Value="false" />
+      <If.Else>
+        <Set Object="P2Unit2" Path="Visible" Value="true" />
+      </If.Else>
+    </If>
+    <If Object="P2Unit2" Path="DataContext" Value="{x:Null}">
+      <Set Object="P2Unit3" Path="Visible" Value="false" />
+      <If.Else>
+        <Set Object="P2Unit3" Path="Visible" Value="true" />
+      </If.Else>
+    </If>
+    <If Object="P2Unit4" Path="DataContext" Value="{x:Null}">
+      <Set Object="P2Unit4" Path="Visible" Value="false" />
+      <If.Else>
+        <Set Object="P2Unit4" Path="Visible" Value="true" />
       </If.Else>
     </If>
   </p:PlayersGUIContainer.Triggers>
 
-  <Rotator Id="Player1Units" DataContext="{Binding Source=root,Path=Player1.Nation.AvailableUnits,Mode=TwoWay}" MaxSelectedItems="2" />
+  <!-- Jednostki gracza drugiego -->
+  <Panel Id="Player1UnitsPanel" Position="0,0.95" Size="0.2,0.05">
+    <Rotator Id="Player1Units" DataContext="{Binding Source=root,Path=Player1.Nation.AvailableUnits,Mode=TwoWay}" MaxSelectedItems="4" />
+    <Button Id="P1Unit1" DataContext="{Binding Source=Player1Units,Path=Selected[0]}"
+            Position="0,0" Size="0.05,0.05" Visible="false">
+      <Rectangle />
+      <Text Font="Arial,10" DataContext="{Binding Source=P1Unit1,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
+    </Button>
+    <Button Id="P1Unit2" DataContext="{Binding Source=Player1Units,Path=Selected[1]}"
+            Position="0.05,0" Size="0.05,0.05" Visible="false">
+      <Rectangle />
+      <Text Font="Arial,10" DataContext="{Binding Source=P1Unit2,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
+    </Button>
+    <Button Id="P1Unit3" DataContext="{Binding Source=Player1Units,Path=Selected[2]}"
+            Position="0.1,0" Size="0.05,0.05" Visible="false">
+      <Rectangle />
+      <Text Font="Arial,10" DataContext="{Binding Source=P1Unit3,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
+    </Button>
+    <Button Id="P1Unit4" DataContext="{Binding Source=Player1Units,Path=Selected[3]}"
+            Position="0.15,0" Size="0.05,0.05" Visible="false">
+      <Rectangle />
+      <Text Font="Arial,10" DataContext="{Binding Source=P1Unit4,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
+    </Button>
+  </Panel>
   
-  <Button Id="Unit1" Position="0,0.95" Size="0.05,0.05" Visible="false">
-    <Rectangle x:Name="Rc1" />
-    <Text x:Name="U1Img" Font="Arial,10" DataContext="{Binding Source=Player1Units,Path=Selected[0]}" TextValue="{Binding Id}" Color="0,0,0,1" />
-	</Button>
-  <Button Id="Unit2" Position="0.05,0.95" Size="0.05,0.05" Visible="false">
-    <Rectangle />
-    <Text x:Name="U2Img" Font="Arial,10" DataContext="{Binding Source=Player1Units,Path=Selected[1]}" TextValue="{Binding Id}" Color="0,0,0,1" />
-  </Button>
+  <!-- Jednostki gracza drugiego -->
+  <Panel Id="Player2UnitsPanel" Position="0.8,0.0" Size="0.2,0.05">
+    <Rotator Id="Player2Units" DataContext="{Binding Source=root,Path=Player2.Nation.AvailableUnits,Mode=TwoWay}" MaxSelectedItems="4" />
+    <Button Id="P2Unit1" DataContext="{Binding Source=Player2Units,Path=Selected[0]}"
+            Position="0,0" Size="0.05,0.05" Visible="false">
+      <Rectangle />
+      <Text Font="Arial,10" DataContext="{Binding Source=P2Unit1,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
+    </Button>
+    <Button Id="P2Unit2" DataContext="{Binding Source=Player2Units,Path=Selected[1]}"
+            Position="0.05,0" Size="0.05,0.05" Visible="false">
+      <Rectangle />
+      <Text Font="Arial,10" DataContext="{Binding Source=P2Unit2,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
+    </Button>
+    <Button Id="P2Unit3" DataContext="{Binding Source=Player2Units,Path=Selected[2]}"
+            Position="0.1,0" Size="0.05,0.05" Visible="false">
+      <Rectangle />
+      <Text Font="Arial,10" DataContext="{Binding Source=P2Unit3,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
+    </Button>
+    <Button Id="P2Unit4" DataContext="{Binding Source=Player2Units,Path=Selected[3]}"
+            Position="0.15,0" Size="0.05,0.05" Visible="false">
+      <Rectangle />
+      <Text Font="Arial,10" DataContext="{Binding Source=P2Unit4,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
+    </Button>
+  </Panel>
 </p:PlayersGUIContainer>

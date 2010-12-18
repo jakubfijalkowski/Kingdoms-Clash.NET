@@ -31,5 +31,13 @@ namespace ClashEngine.NET.Tests.TestObjects
 		public abstract void OnAdd();
 		public abstract void OnRemove();
 		#endregion
+
+		#region IDataContext Members
+		public abstract object DataContext { get; set; }
+		#endregion
+
+		#region INotifyPropertyChanged Members
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+		#endregion
 	}
 }

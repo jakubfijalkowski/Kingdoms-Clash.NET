@@ -24,6 +24,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		private Vector2 _Offset = Vector2.Zero;
 		private Vector2 _Position = Vector2.Zero;
 		private Vector2 _AbsolutePosition = Vector2.Zero;
+		private object _DataContext = null;
 		#endregion
 
 		#region IControl Members
@@ -207,6 +208,24 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		public virtual void OnRemove()
 		{ }
+		#endregion
+
+		#region IDataContext Members
+		/// <summary>
+		/// Kontekst danych dla danego
+		/// </summary>
+		public virtual object DataContext
+		{
+			get { return this._DataContext; }
+			set
+			{
+				if (value != this._DataContext)
+				{
+					this._DataContext = value;
+					this.SendPropertyChanged("DataContext");
+				}
+			}
+		}
 		#endregion
 
 		#region INotifyPropertyChanged Members

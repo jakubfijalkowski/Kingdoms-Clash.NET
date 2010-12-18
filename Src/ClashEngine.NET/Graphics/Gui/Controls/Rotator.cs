@@ -15,7 +15,6 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 	{
 		#region Private fields
 		private int _First = 0;
-		private object _DataContext = null;
 		#endregion
 
 		#region IRotator Members
@@ -83,12 +82,12 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		/// Obiekt musi implementować IEnumerable.
 		/// Można ustawić tylko raz.
 		/// </remarks>
-		public object DataContext
+		public override object DataContext
 		{
-			get { return this._DataContext; }
+			get { return base.DataContext; }
 			set
 			{
-				if (this._DataContext != null)
+				if (base.DataContext != null)
 				{
 					throw new InvalidOperationException("DataContext can be specified only once");
 				}
@@ -96,8 +95,8 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 				{
 					throw new ArgumentException("DataContext must implement IEnumerable", "value");
 				}
-				this._DataContext = value;
-				if (this._DataContext != null)
+				base.DataContext = value;
+				if (base.DataContext != null)
 				{
 					foreach (object item in (value as IEnumerable))
 					{
