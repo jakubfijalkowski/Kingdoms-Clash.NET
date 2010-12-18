@@ -20,7 +20,7 @@ namespace Kingdoms_Clash.NET.Tests
 			this.Controller = new ClassicGame();
 			this.Controller.GameState = this.State;
 			this.State.Controller = this.Controller;
-			this.Controller.OnGameStarted();
+			this.Controller.GameStarted();
 		}
 
 		[TearDown]

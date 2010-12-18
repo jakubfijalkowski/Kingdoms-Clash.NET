@@ -76,9 +76,14 @@
 		bool HandleCollision(IUnit unit, IResourceOnMap resource);
 
 		/// <summary>
-		/// Wywoływane przy rozpoczęciu gry, pozwala ustawić początkowe wartości.
+		/// Wywoływane na początku inicjalizacji, przy rozpoczynaniu gry.
 		/// </summary>
-		void OnGameStarted();
+		void PreGameStarted();
+
+		/// <summary>
+		/// Wywoływane na koncu inicjalizacji, przy rozpoczęciu gry.
+		/// </summary>
+		void GameStarted();
 		#endregion
 	}
 }

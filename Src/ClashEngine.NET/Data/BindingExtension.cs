@@ -13,8 +13,9 @@ namespace ClashEngine.NET.Data
 	/// </summary>
 	/// <remarks>
 	/// Gdy Source jest nullem i obiekt-rodzic dziedziczy z IDataContex to za source podstawiany jest kontekst.
-	/// Gdy Source jest ciągiem znaków traktowany jest jak nazwa XAML i rozwiązywany jest za pomocą IXamlNameResolver lub,
-	/// gdy jest równy "self" - do Source przypisywany jest obiekt-rodzic. 
+	/// Gdy Source jest ciągiem znaków traktowany jest jak nazwa XAML i rozwiązywany jest za pomocą IXamlNameResolver.
+	/// Gdy Source jest równy "self" - do Source przypisywany jest obiekt-rodzic.
+	/// Gdy Source jest równy "root" - do Source przypisywany jest główny element dokumentu.
 	/// Gdy Source jest pusty i kontekst danych jest nullem - czekamy na ustawienie kontekstu.
 	/// </remarks>
 	[MarkupExtensionReturnType(typeof(object))]
@@ -107,6 +108,15 @@ namespace ClashEngine.NET.Data
 				if ((this.Source as string).ToLower() == "self")
 				{
 					this.Source = this.Target;
+				}
+				else if ((this.Source as string).ToLower() == "root")
+				{
+					var rootObj = serviceProvider.GetService(typeof(IRootObjectProvider)) as IRootObjectProvider;
+					if (rootObj == null || rootObj.RootObject == null)
+					{
+						throw new InvalidOperationException("IRootObjectProvider");
+					}
+					this.Source = rootObj.RootObject;
 				}
 				else
 				{

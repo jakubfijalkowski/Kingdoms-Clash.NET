@@ -40,7 +40,7 @@ namespace Kingdoms_Clash.NET.Player.Controllers.Internals
 		public void Initialize(IScreensManager screens, IInput input)
 		{
 			this.Container.Player2 = this.Player;
-			this.Container.Player2Queue = this.GameState.Controller.Player1Queue;
+			this.Container.Player2Queue = this.GameState.Controller.Player2Queue;
 		}
 		#endregion
 

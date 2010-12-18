@@ -95,9 +95,13 @@ namespace Kingdoms_Clash.NET
 				return;
 			}
 
+			Player.Controllers.GuiControllerFactory factory = new Player.Controllers.GuiControllerFactory();
+			factory.Content = this.Content;
+			var controlers = factory.Produce();
+
 			this.Game = new SinglePlayer();
-			this.Game.Initialize(new Player.PlayerInfo("A", nation1, new Player.Controllers.KeyboardController(), true),
-				new Player.PlayerInfo("B", nation2, new Player.Controllers.KeyboardController(), true),
+			this.Game.Initialize(new Player.PlayerInfo("A", nation1, controlers[0], true),
+				new Player.PlayerInfo("B", nation2, controlers[1], true),
 				new Maps.DefaultMap(),
 				new Controllers.ClassicGame());
 

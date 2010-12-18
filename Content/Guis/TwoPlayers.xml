@@ -1,1 +1,7 @@
-asd
+<p:PlayersGUIContainer xmlns:p="http://schemas.fiolek.org/kingdomsclash.net/players" xmlns="http://schemas.fiolek.org/gui">
+	<Rotator Id="Player1Units" DataContext="{Binding Source=root,Path=Player1.Nation.AvailableUnits,Mode=TwoWay}" MaxSelectedItems="2" />
+	<Panel Id="Test" Size="100,100">
+		<Rectangle />
+		<Text Font="Arial,15" TextValue="{Binding Source=Player1Units,Path=Selected[0]}" />
+	</Panel>
+</p:PlayersGUIContainer>

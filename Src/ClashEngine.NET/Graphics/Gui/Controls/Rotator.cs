@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Markup;
+using System.Collections;
 
 namespace ClashEngine.NET.Graphics.Gui.Controls
 {
@@ -14,6 +15,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 	{
 		#region Private fields
 		private int _First = 0;
+		private object _DataContext = null;
 		#endregion
 
 		#region IRotator Members
@@ -73,6 +75,39 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		public IRotatorSelectedItems Selected { get; private set; }
 		#endregion
 
+		#region IDataContext Members
+		/// <summary>
+		/// Kontekst danych dla rotatora.
+		/// </summary>
+		/// <remarks>
+		/// Obiekt musi implementować IEnumerable.
+		/// Można ustawić tylko raz.
+		/// </remarks>
+		public object DataContext
+		{
+			get { return this._DataContext; }
+			set
+			{
+				if (this._DataContext != null)
+				{
+					throw new InvalidOperationException("DataContext can be specified only once");
+				}
+				if(value != null && !(value is IEnumerable))
+				{
+					throw new ArgumentException("DataContext must implement IEnumerable", "value");
+				}
+				this._DataContext = value;
+				if (this._DataContext != null)
+				{
+					foreach (object item in (value as IEnumerable))
+					{
+						this.Items.Add(item);
+					}
+				}
+			}
+		}
+		#endregion
+
 		#region Unused
 		public override bool PermanentActive { get { return false; } }
 
@@ -111,5 +146,6 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 			}
 		}
 		#endregion
+
 	}
 }

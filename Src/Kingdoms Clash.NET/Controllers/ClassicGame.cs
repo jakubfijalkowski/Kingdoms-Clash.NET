@@ -180,12 +180,19 @@ namespace Kingdoms_Clash.NET.Controllers
 		}
 
 		/// <summary>
-		/// 
+		/// Wywoływane na początku inicjalizacji, przy rozpoczynaniu gry.
 		/// </summary>
-		public void OnGameStarted()
+		public void PreGameStarted()
 		{
 			this.Player1Queue = new Internals.UnitQueue(this.GameState.Players[0]);
 			this.Player2Queue = new Internals.UnitQueue(this.GameState.Players[1]);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public void GameStarted()
+		{
 			this.SetDefaults();
 		}
 		#endregion

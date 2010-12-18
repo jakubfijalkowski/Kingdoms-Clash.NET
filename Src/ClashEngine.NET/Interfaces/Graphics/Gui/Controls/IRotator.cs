@@ -4,7 +4,7 @@
 	/// Kontrolka - rotator.
 	/// </summary>
 	public interface IRotator
-		: IControl
+		: IControl, Data.IDataContext
 	{
 		/// <summary>
 		/// Obiekty rotatora.

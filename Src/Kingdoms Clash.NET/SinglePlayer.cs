@@ -151,6 +151,8 @@ namespace Kingdoms_Clash.NET
 
 			this.Controller.GameState = this;
 
+			this.Controller.PreGameStarted();
+
 			this.Players[0].Type = PlayerType.First;
 			this.PlayerControllers[0].Player = this.Players[0];
 			this.PlayerControllers[0].GameState = this;
@@ -178,7 +180,7 @@ namespace Kingdoms_Clash.NET
 			this.StaticEntities.Add(new Player.PlayerEntity(this.Players[1], this));
 
 			//Od tej chwili to kontroler jest odpowiedzialny za wszystko.
-			this.Controller.OnGameStarted();
+			this.Controller.GameStarted();
 		}
 
 		public override void Update(double delta)
