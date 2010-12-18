@@ -1,7 +1,10 @@
 <p:PlayersGUIContainer xmlns:p="http://schemas.fiolek.org/kingdomsclash.net/players" xmlns="http://schemas.fiolek.org/gui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <p:PlayersGUIContainer.Triggers>
-    <If Object="Unit1" Path="ClickedButtons" Value="4096">
+    <If Object="Unit1" Path="ClickedButtons" Value="1">
       <Set Object="Rc1" Path="Color" Value="1,0,0,1" />
+      <If.Else>
+        <Set Object="Rc1" Path="Color" Value="1,1,1,1" />
+      </If.Else>
     </If>
   </p:PlayersGUIContainer.Triggers>
   

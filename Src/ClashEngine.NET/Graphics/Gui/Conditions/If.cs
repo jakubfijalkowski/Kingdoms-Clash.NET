@@ -64,6 +64,11 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 		[DefaultValue(null)]
 		[TypeConverter(typeof(Converters.SystemTypeConverter))]
 		public Type CustomConverter { get; set; }
+
+		/// <summary>
+		/// Wyzwalacze wywoływane gdy warunek nie jest(ale był!) spełniony.
+		/// </summary>
+		public ITriggersCollection Else { get; private set; }
 		#endregion
 
 		#region IMultiIfCondition Members
@@ -138,6 +143,7 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 		public If()
 		{
 			this.Triggers = new TriggersCollection();
+			this.Else = new TriggersCollection();
 		}
 		#endregion
 
@@ -161,6 +167,7 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 			}
 			else if (this._Value)
 			{
+				this.Else.TrigAll();
 				this._Value = false;
 				if (this.PropertyChanged != null)
 				{

@@ -35,5 +35,10 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Conditions
 		[DefaultValue(null)]
 		[TypeConverter(typeof(Converters.SystemTypeConverter))]
 		Type CustomConverter { get; set; }
+
+		/// <summary>
+		/// Wyzwalacze wywoływane gdy warunek nie jest(ale był!) spełniony.
+		/// </summary>
+		Conditions.ITriggersCollection Else { get; }
 	}
 }

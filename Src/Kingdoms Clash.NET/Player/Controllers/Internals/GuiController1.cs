@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ClashEngine.NET.Interfaces;
+﻿using ClashEngine.NET.Interfaces;
 
 namespace Kingdoms_Clash.NET.Player.Controllers.Internals
 {
 	using Interfaces;
 	using Interfaces.Player;
-	using Interfaces.Player.Controllers;
 
 	/// <summary>
 	/// Kontroler GUI - ten właściwy.
