@@ -1,9 +1,12 @@
-﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui.Conditions
+﻿using System.ComponentModel;
+
+namespace ClashEngine.NET.Interfaces.Graphics.Gui.Conditions
 {
 	/// <summary>
 	/// Parametr dla ICall.
 	/// </summary>
 	public interface IParameter
+		: INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Wartość.

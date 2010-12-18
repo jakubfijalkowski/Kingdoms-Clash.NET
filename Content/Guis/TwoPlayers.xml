@@ -28,6 +28,28 @@
     
     <!-- Jednostki gracza pierwszego - zdarzenia -->
     <If Object="P1Unit1" Path="ClickedButtons" Value="4096" Operator="And">
+      <Call Object="{RootObject}" Method="RequestUnit">
+        <Parameter>1</Parameter>
+        <Parameter Value="{Binding Source=Player1Units,Path=Selected[0]}" />
+      </Call>
+    </If>
+    <If Object="P1Unit2" Path="ClickedButtons" Value="4096" Operator="And">
+      <Call Object="{RootObject}" Method="RequestUnit">
+        <Parameter>1</Parameter>
+        <Parameter Value="{Binding Source=Player1Units,Path=Selected[1]}" />
+      </Call>
+    </If>
+    <If Object="P1Unit3" Path="ClickedButtons" Value="4096" Operator="And">
+      <Call Object="{RootObject}" Method="RequestUnit">
+        <Parameter>1</Parameter>
+        <Parameter Value="{Binding Source=Player1Units,Path=Selected[2]}" />
+      </Call>
+    </If>
+    <If Object="P1Unit4" Path="ClickedButtons" Value="4096" Operator="And">
+      <Call Object="{RootObject}" Method="RequestUnit">
+        <Parameter>1</Parameter>
+        <Parameter Value="{Binding Source=Player1Units,Path=Selected[3]}" />
+      </Call>
     </If>
 
     <!-- Jednostki gracza drugiego - wyświetlanie -->
@@ -54,6 +76,32 @@
       <If.Else>
         <Set Object="P2Unit4" Path="Visible" Value="true" />
       </If.Else>
+    </If>
+    
+    <!-- Jednostki gracza drugiego - zdarzenia -->
+    <If Object="P2Unit1" Path="ClickedButtons" Value="4096" Operator="And">
+      <Call Object="{RootObject}" Method="RequestUnit">
+        <Parameter>2</Parameter>
+        <Parameter Value="{Binding Source=Player2Units,Path=Selected[0]}" />
+      </Call>
+    </If>
+    <If Object="P2Unit2" Path="ClickedButtons" Value="4096" Operator="And">
+      <Call Object="{RootObject}" Method="RequestUnit">
+        <Parameter>2</Parameter>
+        <Parameter Value="{Binding Source=Player2Units,Path=Selected[1]}" />
+      </Call>
+    </If>
+    <If Object="P2Unit3" Path="ClickedButtons" Value="4096" Operator="And">
+      <Call Object="{RootObject}" Method="RequestUnit">
+        <Parameter>2</Parameter>
+        <Parameter Value="{Binding Source=Player2Units,Path=Selected[2]}" />
+      </Call>
+    </If>
+    <If Object="P2Unit4" Path="ClickedButtons" Value="4096" Operator="And">
+      <Call Object="{RootObject}" Method="RequestUnit">
+        <Parameter>2</Parameter>
+        <Parameter Value="{Binding Source=Player2Units,Path=Selected[3]}" />
+      </Call>
     </If>
   </p:PlayersGUIContainer.Triggers>
 

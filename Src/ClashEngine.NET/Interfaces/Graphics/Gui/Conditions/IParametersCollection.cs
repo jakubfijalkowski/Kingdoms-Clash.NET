@@ -7,5 +7,12 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Conditions
 	/// </summary>
 	public interface IParametersCollection
 		: ICollection<IParameter>
-	{ }
+	{
+		/// <summary>
+		/// Pobiera parametr o wskazanym indeksie.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		IParameter this[int index] { get; }
+	}
 }

@@ -86,6 +86,7 @@
     <Compile Include="Data\OneLevelPropertyPath.cs" />
     <Compile Include="Data\Internals\PropertyLevel.cs" />
     <Compile Include="Data\PropertyPath.cs" />
+    <Compile Include="Data\RootObjectExtension.cs" />
     <Compile Include="Graphics\Cameras\Movable2DCamera.cs" />
     <Compile Include="Components\BoundingBox.cs" />
     <Compile Include="Graphics\Components\Sprite.cs" />
@@ -103,6 +104,8 @@
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Data\BindingExtension.cs" />
+    <Compile Include="Graphics\Gui\Conditions\Call.cs" />
+    <Compile Include="Graphics\Gui\Conditions\ParametersCollection.cs" />
     <Compile Include="Graphics\Gui\ContainerExtension.cs" />
     <Compile Include="Graphics\Gui\Internals\ConditionsCollection.cs" />
     <Compile Include="Graphics\Gui\Conditions\Increase.cs" />
@@ -142,6 +145,7 @@
     <Compile Include="Input.cs" />
     <Compile Include="Interfaces\Data\IDataContext.cs" />
     <Compile Include="Interfaces\Data\IPropertyPath.cs" />
+    <Compile Include="Interfaces\Data\IRootObjectExtension.cs" />
     <Compile Include="Interfaces\Graphics\Cameras\IMovable2DCamera.cs" />
     <Compile Include="Interfaces\Graphics\Components\ITerrain.cs" />
     <Compile Include="Interfaces\Components\IBoundingBox.cs" />
@@ -150,10 +154,13 @@
     <Compile Include="Interfaces\EntitiesManager\IRenderableComponentsCollection.cs" />
     <Compile Include="Interfaces\Data\IBinding.cs" />
     <Compile Include="Interfaces\Data\IBindingExtension.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Conditions\ICall.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Conditions\IIncrease.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Conditions\IMultiIf.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Conditions\IMultiIfCondition.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Conditions\IMultiIfConditionsCollection.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Conditions\IParameter.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Conditions\IParametersCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Controls\IRotator.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Controls\IRotatorObjectsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Controls\IRotatorSelectedItems.cs" />

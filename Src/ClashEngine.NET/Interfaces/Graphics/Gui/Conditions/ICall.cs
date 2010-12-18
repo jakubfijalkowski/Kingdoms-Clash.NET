@@ -1,4 +1,7 @@
-﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui.Conditions
+﻿using System.ComponentModel;
+using System.Windows.Markup;
+
+namespace ClashEngine.NET.Interfaces.Graphics.Gui.Conditions
 {
 	/// <summary>
 	/// Wyzwalacz wywołujący metodę.
@@ -9,12 +12,13 @@
 		/// <summary>
 		/// Obiekt na którym będziemy wywoływać metodę.
 		/// </summary>
+		[TypeConverter(typeof(NameReferenceConverter))]
 		object Object { get; set; }
 
 		/// <summary>
 		/// Nazwa metody.
 		/// </summary>
-		string Name { get; set; }
+		string Method { get; set; }
 
 		/// <summary>
 		/// Parametry wywołania metody.
