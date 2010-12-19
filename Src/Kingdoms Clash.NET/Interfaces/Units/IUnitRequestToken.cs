@@ -46,7 +46,7 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		/// <summary>
 		/// Zdarzenie wywoływane przy stworzeniu jednostki.
 		/// </summary>
-		event EventHandler UnitCreated;
+		//event EventHandler UnitCreated;
 
 		/// <summary>
 		/// Tworzy jednostkę z tokenu.

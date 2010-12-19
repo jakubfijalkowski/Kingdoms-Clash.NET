@@ -41,11 +41,5 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		/// <param name="id">Identyfikator.</param>
 		/// <returns></returns>
 		bool Contains(string id);
-
-		/// <summary>
-		/// Uaktualnia rodzica dla kontenera kontrolki.
-		/// Umożliwia to późną jego inicjalizację.
-		/// </summary>
-		void UpdateOwner();
 	}
 }

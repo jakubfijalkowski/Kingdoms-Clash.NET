@@ -20,6 +20,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		#region Private fields
 		private bool _IsActive = false;
 		private bool _IsHot = false;
+		private bool _Visible = false;
 		private IContainer _Owner = null;
 		private Vector2 _Offset = Vector2.Zero;
 		private Vector2 _Position = Vector2.Zero;
@@ -162,7 +163,18 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <summary>
 		/// Czy kontrolka jest widoczna.
 		/// </summary>
-		public bool Visible { get; set; }
+		public bool Visible
+		{
+			get { return this._Visible; }
+			set
+			{
+				if (value != this._Visible)
+				{
+					this._Visible = value;
+					this.SendPropertyChanged("Visible");
+				}
+			}
+		}
 
 		/// <summary>
 		/// Lista z obiektami dla renderera.

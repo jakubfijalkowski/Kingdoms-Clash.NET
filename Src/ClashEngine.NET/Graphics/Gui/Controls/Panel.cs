@@ -57,7 +57,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 			set
 			{
 				base.Owner = value;
-				this.Controls.UpdateOwner();
+				(this.Controls as Gui.Internals.ControlsCollection).UpdateOwner();
 			}
 		}
 

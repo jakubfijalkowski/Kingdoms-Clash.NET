@@ -73,7 +73,7 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 		/// <summary>
 		/// Zdarzenie wywoływane przy stworzeniu jednostki.
 		/// </summary>
-		public event EventHandler UnitCreated;
+		//public event EventHandler UnitCreated;
 
 		/// <summary>
 		/// Tworzy jednostkę z tokenu.
