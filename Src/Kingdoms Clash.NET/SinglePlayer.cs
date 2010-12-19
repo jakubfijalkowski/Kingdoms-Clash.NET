@@ -262,6 +262,7 @@ namespace Kingdoms_Clash.NET
 				Logger.Error("User {0} has won the match!", this.Players[1].Name);
 				var winnerScreen = this.OwnerManager["WinnerScreen"] as AdditionalScreens.WinnerScreen;
 				winnerScreen.ChangeWinner(true);
+				winnerScreen.MoveToFront();
 				winnerScreen.Activate();
 			}
 			else if (this.Players[1].Health <= 0)
@@ -269,6 +270,7 @@ namespace Kingdoms_Clash.NET
 			    Logger.Error("User {0} has won the match!", this.Players[0].Name);
 			    var winnerScreen = this.OwnerManager["WinnerScreen"] as AdditionalScreens.WinnerScreen;
 			    winnerScreen.ChangeWinner(false);
+				winnerScreen.MoveToFront();
 			    winnerScreen.Activate();
 			}
 		}
