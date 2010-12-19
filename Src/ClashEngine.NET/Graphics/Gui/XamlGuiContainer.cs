@@ -63,7 +63,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		#region IResource Members
 		string IResource.Id { get; set; }
 		string IResource.FileName { get; set; }
-		IResourcesManager IResource.Manager 
+		IResourcesManager IResource.Manager
 		{
 			get { return this.Manager; }
 			set { this.ParentManager = value; }
@@ -75,30 +75,22 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <returns></returns>
 		public Interfaces.ResourceLoadingState Load()
 		{
-			try
+			Logger.Info("Creating resource manager for GUI");
+			if (this.ParentManager is ICloneable)
 			{
-				Logger.Info("Creating resource manager for GUI");
-				if (this.ParentManager is ICloneable)
-				{
-					this.Manager = (this.ParentManager as ICloneable).Clone() as IResourcesManager;
-				}
-				else
-				{
-					this.Manager = new ResourcesManager();
-					this.Manager.ContentDirectory = this.ParentManager.ContentDirectory;
-				}
-				XamlXmlReader reader = new XamlXmlReader((this as IResource).FileName);
-				XamlObjectWriter writer = new XamlObjectWriter(reader.SchemaContext, new XamlObjectWriterSettings
-				{
-					RootObjectInstance = this
-				});
-				XamlServices.Transform(reader, writer);
+				this.Manager = (this.ParentManager as ICloneable).Clone() as IResourcesManager;
 			}
-			catch (Exception ex)
+			else
 			{
-				Logger.ErrorException("Cannot load GUI from XAML", ex);
-				return ResourceLoadingState.Failure;
+				this.Manager = new ResourcesManager();
+				this.Manager.ContentDirectory = this.ParentManager.ContentDirectory;
 			}
+			XamlXmlReader reader = new XamlXmlReader((this as IResource).FileName);
+			XamlObjectWriter writer = new XamlObjectWriter(reader.SchemaContext, new XamlObjectWriterSettings
+			{
+				RootObjectInstance = this
+			});
+			XamlServices.Transform(reader, writer);
 			return ResourceLoadingState.Success;
 		}
 

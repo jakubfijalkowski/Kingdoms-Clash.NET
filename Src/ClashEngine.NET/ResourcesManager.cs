@@ -216,25 +216,33 @@ namespace ClashEngine.NET
 			res.FileName = this.ContentDirectory + @"\" + id;
 			res.Manager = this;
 
-			switch (res.Load())
+#if !DEBUG
+			try
 			{
-			case ResourceLoadingState.Success:
-				this.Resources.Add(id, res);
-				Logger.Info("Resource '{0}' of type '{1}' loaded succesfully.", id, res.GetType().Name);
-				break;
-
-			case ResourceLoadingState.Failure:
-#if DEBUG
-				throw new Exception("Cannot load resource");
 #endif
-				Logger.Error("Cannot load resource '{0}' of type '{1}'", id, res.GetType().Name);
-				break;
+				switch (res.Load())
+				{
+				case ResourceLoadingState.Success:
+					this.Resources.Add(id, res);
+					Logger.Info("Resource '{0}' of type '{1}' loaded succesfully.", id, res.GetType().Name);
+					break;
 
-			case ResourceLoadingState.DefaultUsed:
-				this.Resources.Add(id, res);
-				Logger.Warn("Cannot load resource '{0}' of type '{1}'. Default used.", id, res.GetType().Name);
-				break;
+				case ResourceLoadingState.Failure:
+					Logger.Error("Cannot load resource '{0}' of type '{1}'", id, res.GetType().Name);
+					break;
+
+				case ResourceLoadingState.DefaultUsed:
+					this.Resources.Add(id, res);
+					Logger.Warn("Cannot load resource '{0}' of type '{1}'. Default used.", id, res.GetType().Name);
+					break;
+				}
+#if !DEBUG
 			}
+			catch (Exception ex)
+			{
+				Logger.ErrorException(string.Format("Cannot load resource '{0}' of type '{1}'", id, res.GetType().Name), ex);
+			}
+#endif
 		}
 
 		/// <summary>

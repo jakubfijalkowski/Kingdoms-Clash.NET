@@ -25,7 +25,7 @@
         <Set Object="P1Unit4" Path="Visible" Value="true" />
       </If.Else>
     </If>
-    
+    a
     <!-- Jednostki gracza pierwszego - zdarzenia -->
     <If Object="P1Unit1" Path="ClickedButtons" Value="4096" Operator="And">
       <Call Object="{RootObject}" Method="RequestUnit">
