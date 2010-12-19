@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Kingdoms_Clash.NET.Player
 {
@@ -11,7 +12,7 @@ namespace Kingdoms_Clash.NET.Player
 	/// Gracz.
 	/// </summary>
 	public class Player
-		: IPlayer
+		: IPlayer, INotifyPropertyChanged
 	{
 		#region Private fields
 		private int _Health = 0;
@@ -46,10 +47,17 @@ namespace Kingdoms_Clash.NET.Player
 			get { return this._Health; }
 			set
 			{
-				this._Health = value;
-				if (this._Health > this.MaxHealth)
+				if (this._Health != value)
 				{
-					this._Health = (int)this.MaxHealth;
+					this._Health = value;
+					if (this._Health > this.MaxHealth)
+					{
+						this._Health = (int)this.MaxHealth;
+					}
+					if (this.PropertyChanged != null)
+					{
+						this.PropertyChanged(this, new PropertyChangedEventArgs("Health"));
+					}
 				}
 			}
 		}
@@ -63,6 +71,13 @@ namespace Kingdoms_Clash.NET.Player
 		/// Typ gracza.
 		/// </summary>
 		public PlayerType Type { get; set; }
+		#endregion
+
+		#region INotifyPropertyChanged Members
+		/// <summary>
+		/// Wywoływane przy zmianie Health.
+		/// </summary>
+		public event PropertyChangedEventHandler PropertyChanged;
 		#endregion
 
 		#region Constructors
