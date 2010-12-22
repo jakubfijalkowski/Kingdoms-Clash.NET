@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using ClashEngine.NET.Extensions;
 using ClashEngine.NET.Graphics.Gui;
 
 namespace Kingdoms_Clash.NET.Player.Controllers.XAML
@@ -29,10 +30,6 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 			internal set
 			{
 				this._Player1 = value;
-				if (this.PropertyChanged != null)
-				{
-					this.PropertyChanged(this, new PropertyChangedEventArgs("Player1"));
-				}
 			}
 		}
 
@@ -45,10 +42,6 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 			internal set
 			{
 				this._Player2 = value;
-				if (this.PropertyChanged != null)
-				{
-					this.PropertyChanged(this, new PropertyChangedEventArgs("Player2"));
-				}
 			}
 		}
 
@@ -61,10 +54,6 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 			internal set
 			{
 				this._Player1Queue = value;
-				if (this.PropertyChanged != null)
-				{
-					this.PropertyChanged(this, new PropertyChangedEventArgs("Player1Queue"));
-				}
 			}
 		}
 
@@ -77,10 +66,7 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 			internal set
 			{
 				this._Player2Queue = value;
-				if (this.PropertyChanged != null)
-				{
-					this.PropertyChanged(this, new PropertyChangedEventArgs("Player2Queue"));
-				}
+				this.PropertyChanged.Raise(this, () => Player2Queue);
 			}
 		}
 		#endregion

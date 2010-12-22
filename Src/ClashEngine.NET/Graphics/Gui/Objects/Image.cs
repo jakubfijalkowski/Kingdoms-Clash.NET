@@ -5,6 +5,7 @@ using System.Windows.Markup;
 
 namespace ClashEngine.NET.Graphics.Gui.Objects
 {
+	using Extensions;
 	using Interfaces.Graphics.Gui.Objects;
 	using Interfaces.Data;
 	
@@ -37,10 +38,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 				if (value != this._DataContext)
 				{
 					this._DataContext = value;
-					if (this.PropertyChanged != null)
-					{
-						this.PropertyChanged(this, new PropertyChangedEventArgs("DataContext"));
-					}
+					this.PropertyChanged.Raise(this, () => DataContext);
 				}
 			}
 		}

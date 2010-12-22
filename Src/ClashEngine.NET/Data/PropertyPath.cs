@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace ClashEngine.NET.Data
 {
+	using Extensions;
 	using Interfaces.Data;
 
 	/// <summary>
@@ -45,10 +46,7 @@ namespace ClashEngine.NET.Data
 				this._Root = value;
 				this.RegisterListeners();
 				this.Evaluate();
-				if (this.PropertyChanged != null)
-				{
-					this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
-				}
+				this.PropertyChanged.Raise(this, () => Value);
 			}
 		}
 
@@ -263,10 +261,7 @@ namespace ClashEngine.NET.Data
 				prevObject = this.Levels[i].Value;
 			}
 
-			if (this.PropertyChanged != null)
-			{
-				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs("Value"));
-			}
+			this.PropertyChanged.Raise(this, () => Value);
 		}
 
 		/// <summary>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace ClashEngine.NET.Graphics.Gui.Conditions
 {
+	using Extensions;
 	using Interfaces.Graphics.Gui.Conditions;
 
 	/// <summary>
@@ -29,10 +30,7 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 				if (value != this._Value)
 				{
 					this._Value = value;
-					if (this.PropertyChanged != null)
-					{
-						this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs("Value"));
-					}
+					this.PropertyChanged.Raise(this, () => Value);
 				}
 			}
 		}

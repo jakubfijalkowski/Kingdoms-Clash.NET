@@ -29,7 +29,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 			set
 			{
 				this._Text = value;
-				base.SendPropertyChanged("Text");
+				base.RaisePropertyChanged(() => Text);
 			}
 		}
 		#endregion

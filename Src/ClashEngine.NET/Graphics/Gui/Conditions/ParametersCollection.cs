@@ -5,6 +5,7 @@ using System.Windows.Markup;
 
 namespace ClashEngine.NET.Graphics.Gui.Conditions
 {
+	using Extensions;
 	using Interfaces.Graphics.Gui.Conditions;
 
 	/// <summary>
@@ -30,10 +31,7 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 				if (this._Value != value)
 				{
 					this._Value = value;
-					if (this.PropertyChanged != null)
-					{
-						this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
-					}
+					this.PropertyChanged.Raise(this, () => Value);
 				}
 			}
 		} 

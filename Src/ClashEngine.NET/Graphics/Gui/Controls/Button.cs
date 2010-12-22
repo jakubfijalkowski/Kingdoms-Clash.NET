@@ -35,7 +35,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 				if (value != this._ClickedButtons)
 				{
 					this._ClickedButtons = value;
-					base.SendPropertyChanged("ClickedButtons");
+					base.RaisePropertyChanged(() => ClickedButtons);
 				}
 			}
 		}

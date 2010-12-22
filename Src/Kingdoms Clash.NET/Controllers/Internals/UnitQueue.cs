@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using ClashEngine.NET.Extensions;
 
 namespace Kingdoms_Clash.NET.Controllers.Internals
 {
@@ -76,11 +77,9 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 						{
 							var token = this.Queue[i];
 							this.Queue.RemoveAt(i);
-							if (this.PropertyChanged != null)
-							{
-								this.PropertyChanged(this, new PropertyChangedEventArgs("Item"));
-								this.PropertyChanged(this, new PropertyChangedEventArgs("QueueLength"));
-							}
+							this.PropertyChanged.Raise(this, "Item");
+							this.PropertyChanged.Raise(this, () => "QueueLength");
+
 							var unit = token.CreateUnit();
 							token.IsValidToken = false;
 							return unit;
@@ -120,11 +119,8 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 				//I możemy dodać token.
 				var token = new Internals.UnitRequestToken(ud, this.Player, true);
 				this.Queue.Add(token);
-				if (this.PropertyChanged != null)
-				{
-					this.PropertyChanged(this, new PropertyChangedEventArgs("Item"));
-					this.PropertyChanged(this, new PropertyChangedEventArgs("QueueLength"));
-				}
+				this.PropertyChanged.Raise(this, "Item");
+				this.PropertyChanged.Raise(this, () => QueueLength);
 				return token;
 			}
 			Logger.Warn("Unit with id {0} not found in nation {1}", id, this.Player.Nation.Name);

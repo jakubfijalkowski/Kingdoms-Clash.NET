@@ -5,6 +5,7 @@ using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Gui.Objects
 {
+	using Extensions;
 	using Interfaces.Data;
 	using Interfaces.Graphics.Gui.Objects;
 	using Interfaces.Graphics.Resources;
@@ -39,10 +40,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 				if (value != this._DataContext)
 				{
 					this._DataContext = value;
-					if (this.PropertyChanged != null)
-					{
-						this.PropertyChanged(this, new PropertyChangedEventArgs("DataContext"));
-					}
+					this.PropertyChanged.Raise(this, () => DataContext);
 				}
 			}
 		}

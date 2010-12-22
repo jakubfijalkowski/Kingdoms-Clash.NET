@@ -45,7 +45,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 				if (this._First != value)
 				{
 					this._First = value;
-					(this.Selected as Internals.RotatorSelectedItems).SendChanged();
+					(this.Selected as Internals.RotatorSelectedItems).RaiseChanged();
 				}
 			}
 		}
@@ -137,11 +137,11 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		{
 			if (index == -1)
 			{
-				(this.Selected as Internals.RotatorSelectedItems).SendChanged();
+				(this.Selected as Internals.RotatorSelectedItems).RaiseChanged();
 			}
 			if (index >= this.First && index < this.First + this.MaxSelectedItems)
 			{
-				(this.Selected as Internals.RotatorSelectedItems).SendChanged(index - this.First);
+				(this.Selected as Internals.RotatorSelectedItems).RaiseChanged(index - this.First);
 			}
 		}
 		#endregion

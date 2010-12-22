@@ -7,6 +7,8 @@ namespace ClashEngine.NET.Graphics.Gui
 {
 	using Extensions;
 	using Interfaces.Graphics.Gui;
+using System;
+using System.Linq.Expressions;
 
 	/// <summary>
 	/// Bazowa klasa dla kontrolek GUI.
@@ -136,7 +138,7 @@ namespace ClashEngine.NET.Graphics.Gui
 				if (value != this._IsActive)
 				{
 					this._IsActive = value;
-					this.SendPropertyChanged("IsActive");
+					this.RaisePropertyChanged(() => IsActive);
 				}
 			}
 		}
@@ -155,7 +157,7 @@ namespace ClashEngine.NET.Graphics.Gui
 				if (value != this._IsHot)
 				{
 					this._IsHot = value;
-					this.SendPropertyChanged("IsHot");
+					this.RaisePropertyChanged(() => IsHot);
 				}
 			}
 		}
@@ -171,7 +173,7 @@ namespace ClashEngine.NET.Graphics.Gui
 				if (value != this._Visible)
 				{
 					this._Visible = value;
-					this.SendPropertyChanged("Visible");
+					this.RaisePropertyChanged(() => Visible);
 				}
 			}
 		}
@@ -234,7 +236,7 @@ namespace ClashEngine.NET.Graphics.Gui
 				if (value != this._DataContext)
 				{
 					this._DataContext = value;
-					this.SendPropertyChanged("DataContext");
+					this.RaisePropertyChanged(() => DataContext);
 				}
 			}
 		}
@@ -245,6 +247,26 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// Wywoływane przy zmianie IsActive, IsHot.
 		/// </summary>
 		public event PropertyChangedEventHandler PropertyChanged;
+		#endregion
+
+		#region ISupportInitialize Members
+		public void BeginInit()
+		{ }
+
+		/// <summary>
+		/// Sprawdza, czy wszystkie właściwości są poprawne.
+		/// </summary>
+		public void EndInit()
+		{
+			if (this.Size.X == 0 || this.Size.Y == 0)
+			{
+				throw new System.InvalidOperationException("Cannot create control with 0 size");
+			}
+			if (string.IsNullOrWhiteSpace(this.Id))
+			{
+				throw new System.InvalidOperationException("Cannot create control with empty Id");
+			}
+		}
 		#endregion
 
 		#region To override
@@ -273,37 +295,14 @@ namespace ClashEngine.NET.Graphics.Gui
 		}
 		#endregion
 
-		#region Protected methods
+		#region Raising events
 		/// <summary>
-		/// Wywyła, jeśli może, zdarzenie PropertyChanged.
+		/// Wysyła zdarzenie PropertyChanged.
 		/// </summary>
-		/// <param name="propertyName">Nazwa właściwości.</param>
-		protected void SendPropertyChanged(string propertyName)
+		/// <param name="propertyExpression"></param>
+		protected void RaisePropertyChanged(Expression<Func<object>> propertyExpression)
 		{
-			if (this.PropertyChanged != null)
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		#endregion
-
-		#region ISupportInitialize Members
-		public void BeginInit()
-		{ }
-
-		/// <summary>
-		/// Sprawdza, czy wszystkie właściwości są poprawne.
-		/// </summary>
-		public void EndInit()
-		{
-			if (this.Size.X == 0 || this.Size.Y == 0)
-			{
-				throw new System.InvalidOperationException("Cannot create control with 0 size");
-			}
-			if (string.IsNullOrWhiteSpace(this.Id))
-			{
-				throw new System.InvalidOperationException("Cannot create control with empty Id");
-			}
+			this.PropertyChanged.Raise(this, propertyExpression);
 		}
 		#endregion
 	}

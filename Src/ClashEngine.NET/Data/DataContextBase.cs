@@ -1,8 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Windows.Markup;
 
 namespace ClashEngine.NET.Data
 {
+	using Extensions;
 	using Interfaces.Data;
 
 	/// <summary>
@@ -28,7 +31,7 @@ namespace ClashEngine.NET.Data
 				if (value != this._DataContext)
 				{
 					this._DataContext = value;
-					this.SendPropertyChanged("DataContext");
+					this.RaisePropertyChanged(() => DataContext);
 				}
 			}
 		}
@@ -41,16 +44,15 @@ namespace ClashEngine.NET.Data
 		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 		#endregion
 
+		#region Raising events
 		/// <summary>
-		/// Jako iż nie da się wysyłać zdarzeń z klas dziedziczących - musimy to umożlwić.
+		/// Wysyła zdarzenie PropertyChanged.
 		/// </summary>
-		/// <param name="propertyName"></param>
-		protected void SendPropertyChanged(string propertyName)
+		/// <param name="propertyExpression"></param>
+		protected void RaisePropertyChanged(Expression<Func<object>> propertyExpression)
 		{
-			if (this.PropertyChanged != null)
-			{
-				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-			}
+			this.PropertyChanged.Raise(this, propertyExpression);
 		}
+		#endregion
 	}
 }

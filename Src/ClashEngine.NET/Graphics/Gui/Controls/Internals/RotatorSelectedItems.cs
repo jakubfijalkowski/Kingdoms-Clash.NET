@@ -2,6 +2,7 @@
 
 namespace ClashEngine.NET.Graphics.Gui.Controls.Internals
 {
+	using Extensions;
 	using Interfaces.Graphics.Gui.Controls;
 
 	internal class RotatorSelectedItems
@@ -20,21 +21,17 @@ namespace ClashEngine.NET.Graphics.Gui.Controls.Internals
 		public event PropertyChangedEventHandler PropertyChanged;
 		#endregion
 
-		public void SendChanged()
+		#region Raising events
+		public void RaiseChanged()
 		{
-			if (this.PropertyChanged != null)
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs("Item"));
-			}
+			this.PropertyChanged.Raise(this, "Item");
 		}
 
-		public void SendChanged(int idx)
+		public void RaiseChanged(int idx)
 		{
-			if (this.PropertyChanged != null)
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs("Item." + idx));
-			}
+			this.PropertyChanged.Raise(this, "Item");
 		}
+		#endregion
 
 		public RotatorSelectedItems(IRotator rotator)
 		{

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using ClashEngine.NET.Data;
+using ClashEngine.NET.Extensions;
 using ClashEngine.NET.Interfaces.Data;
 using NUnit.Framework;
 
@@ -70,10 +71,7 @@ namespace ClashEngine.NET.Tests
 				set
 				{
 					_Data = value;
-					if (this.PropertyChanged != null)
-					{
-						this.PropertyChanged(this, new PropertyChangedEventArgs("Data"));
-					}
+					this.PropertyChanged.Raise(this, () => Data);
 				}
 			}
 

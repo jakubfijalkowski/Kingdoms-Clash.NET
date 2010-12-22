@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using ClashEngine.NET.Extensions;
 
 namespace Kingdoms_Clash.NET.Player
 {
@@ -54,10 +55,7 @@ namespace Kingdoms_Clash.NET.Player
 					{
 						this._Health = (int)this.MaxHealth;
 					}
-					if (this.PropertyChanged != null)
-					{
-						this.PropertyChanged(this, new PropertyChangedEventArgs("Health"));
-					}
+					this.PropertyChanged.Raise(this, () => Health);
 				}
 			}
 		}

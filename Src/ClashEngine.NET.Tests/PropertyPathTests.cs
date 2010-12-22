@@ -1,8 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using ClashEngine.NET.Data;
+using ClashEngine.NET.Extensions;
 using ClashEngine.NET.Interfaces.Data;
 using NUnit.Framework;
-using System;
 
 namespace ClashEngine.NET.Tests
 {
@@ -145,10 +146,7 @@ namespace ClashEngine.NET.Tests
 				set
 				{
 					this._Data = value;
-					if (this.PropertyChanged != null)
-					{
-						this.PropertyChanged(this, new PropertyChangedEventArgs("Data"));
-					}
+					this.PropertyChanged.Raise(this, () => Data);
 				}
 			}
 
@@ -167,10 +165,6 @@ namespace ClashEngine.NET.Tests
 				set
 				{
 					this._Items = value;
-					if (this.PropertyChanged != null)
-					{
-						this.PropertyChanged(this, new PropertyChangedEventArgs("Item"));
-					}
 				}
 			}
 
@@ -180,10 +174,7 @@ namespace ClashEngine.NET.Tests
 				set
 				{
 					this.Items[index] = value;
-					if (this.PropertyChanged != null)
-					{
-						this.PropertyChanged(this, new PropertyChangedEventArgs("Item." + index));
-					}
+					this.PropertyChanged.Raise(this, "Item." + index);
 				}
 			}
 
@@ -203,10 +194,7 @@ namespace ClashEngine.NET.Tests
 				set
 				{
 					this._Value = value;
-					if (this.PropertyChanged != null)
-					{
-						this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
-					}
+					this.PropertyChanged.Raise(this, () => Value);
 				}
 			}
 

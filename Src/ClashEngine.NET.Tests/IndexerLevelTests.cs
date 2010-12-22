@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ClashEngine.NET.Extensions;
 using NUnit.Framework;
 using ClashEngine.NET.Data.Internals;
 using System.ComponentModel;
@@ -89,10 +90,7 @@ namespace ClashEngine.NET.Tests
 				set
 				{
 					this.DataList[index] = value;
-					if (this.PropertyChanged != null)
-					{
-						this.PropertyChanged(this, new PropertyChangedEventArgs("Item." + index));
-					}
+					this.PropertyChanged.Raise(this, "Item." + index);
 				}
 			}
 

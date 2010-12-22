@@ -5,6 +5,7 @@ using System.Windows.Markup;
 
 namespace ClashEngine.NET.Graphics.Gui.Conditions
 {
+	using Extensions;
 	using Interfaces.Data;
 	using Interfaces.Graphics.Gui.Conditions;
 
@@ -183,20 +184,14 @@ namespace ClashEngine.NET.Graphics.Gui.Conditions
 				if (!this._Value)
 				{
 					this._Value = true;
-					if (this.PropertyChanged != null)
-					{
-						this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
-					}
+					this.PropertyChanged.Raise(this, () => Value);
 				}
 			}
 			else if (this._Value)
 			{
 				this.Else.TrigAll();
 				this._Value = false;
-				if (this.PropertyChanged != null)
-				{
-					this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
-				}
+				this.PropertyChanged.Raise(this, () => Value);
 			}
 		}
 

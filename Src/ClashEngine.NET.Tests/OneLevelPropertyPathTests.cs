@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using ClashEngine.NET.Data;
 using System.ComponentModel;
+using ClashEngine.NET.Data;
+using ClashEngine.NET.Extensions;
+using NUnit.Framework;
 
 namespace ClashEngine.NET.Tests
 {
@@ -83,10 +81,7 @@ namespace ClashEngine.NET.Tests
 				set
 				{
 					this._Value = value;
-					if (this.PropertyChanged != null)
-					{
-						this.PropertyChanged(this, new PropertyChangedEventArgs("Value"));
-					}
+					this.PropertyChanged.Raise(this, () => Value);
 				}
 			}
 
