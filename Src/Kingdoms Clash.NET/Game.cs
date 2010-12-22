@@ -116,7 +116,6 @@ namespace Kingdoms_Clash.NET
 			this.Screens.Add(new AdditionalScreens.WinnerScreen(this.Game));
 			this.Screens.AddAndActivate(this.Game);
 			//this.ScreensManager.AddAndMakeActive(this.Menu);
-			base.Init();
 		}
 
 		public override void Update(double delta)

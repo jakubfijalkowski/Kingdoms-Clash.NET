@@ -1,4 +1,6 @@
-﻿namespace ClashEngine.NET.Interfaces
+﻿using System;
+
+namespace ClashEngine.NET.Interfaces
 {
 	/// <summary>
 	/// Stan załadowania zasobu.
@@ -25,7 +27,7 @@
 	/// Interfejs bazowy dla zasobu.
 	/// </summary>
 	public interface IResource
-		: System.IDisposable
+		: IDisposable
 	{
 		#region Properties
 		/// <summary>

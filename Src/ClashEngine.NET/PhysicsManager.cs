@@ -11,7 +11,10 @@
 	public class PhysicsManager
 		: IPhysicsManager
 	{
+		#region Private fields
 		private const float DefaultPhysicsTimeStep = 1f / 60f;
+		private float Accumulator = 0f;
+		#endregion
 
 		#region Singleton
 		private static PhysicsManager _Instance = null;
@@ -58,6 +61,19 @@
 		/// Krok czasowy fizyki.
 		/// </summary>
 		public float TimeStep { get; set; }
+
+		/// <summary>
+		/// Uaktualnia World.
+		/// </summary>
+		public void Update(double delta)
+		{
+			this.Accumulator += (float)delta;
+			while (this.Accumulator >= this.TimeStep)
+			{
+				this.World.Step(this.TimeStep);
+				this.Accumulator -= this.TimeStep;
+			}
+		}
 		#endregion
 
 		private PhysicsManager()

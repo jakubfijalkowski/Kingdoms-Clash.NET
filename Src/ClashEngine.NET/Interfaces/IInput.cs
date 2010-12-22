@@ -55,6 +55,7 @@ namespace ClashEngine.NET.Interfaces
 		/// </summary>
 		Vector2 MousePosition { get; }
 
+		//TODO: wyrzucić to do jakiejś innej klasy wejścia
 		/// <summary>
 		/// Rozmiar okna.
 		/// Nie jest to stricte związane z wejściem, ale jest wymagane, by poprawnie przekształcić pozycję myszki.

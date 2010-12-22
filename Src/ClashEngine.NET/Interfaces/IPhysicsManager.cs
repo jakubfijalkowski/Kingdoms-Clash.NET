@@ -23,5 +23,10 @@ namespace ClashEngine.NET.Interfaces
 		/// Krok czasowy obliczeń.
 		/// </summary>
 		float TimeStep { get; set; }
+
+		/// <summary>
+		/// Uaktualnia World.
+		/// </summary>
+		void Update(double delta);
 	}
 }

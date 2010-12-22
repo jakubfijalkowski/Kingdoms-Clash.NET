@@ -80,7 +80,7 @@
 
 		/// <summary>
 		/// Manager zasobów dla ekranu.
-		/// Ustawiany przez właściciela, ale nie ma wymogu, by to właśnie jego używać.
+		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
 		/// </summary>
 		IResourcesManager Content { get; set; }
 

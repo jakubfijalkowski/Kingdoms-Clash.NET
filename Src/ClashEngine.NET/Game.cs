@@ -20,41 +20,14 @@ namespace ClashEngine.NET
 		/// Okno.
 		/// </summary>
 		private GameWindow Window;
-
-		/// <summary>
-		/// Akumulator czasu do obliczeń fizyki.
-		/// </summary>
-		private float Accumulator = 0f;
 		#endregion
 
 		#region IGame members
 		#region Properties
-		#region Window info
 		/// <summary>
 		/// Nazwa gry.
 		/// </summary>
 		public string Name { get; private set; }
-		/// <summary>
-		/// Szerokość okna.
-		/// </summary>
-		public int Width
-		{
-			get
-			{
-				return this.Window.Width;
-			}
-		}
-
-		/// <summary>
-		/// Wysokość okna.
-		/// </summary>
-		public int Height
-		{
-			get
-			{
-				return this.Window.Height;
-			}
-		}
 
 		/// <summary>
 		/// Rozmiar okna gry.
@@ -110,9 +83,7 @@ namespace ClashEngine.NET
 				return this.Window.Context.GraphicsMode;
 			}
 		}
-		#endregion
 
-		#region Managers
 		/// <summary>
 		/// Manager ekranów dla gry.
 		/// </summary>
@@ -129,7 +100,6 @@ namespace ClashEngine.NET
 		///	Jeśli pozwolimy używać takiego managera musimy zapewnić, że klasy zasobów będą thread-safe.
 		/// </remarks>
 		public IResourcesManager Content { get; private set; }
-		#endregion
 
 		/// <summary>
 		/// Wejście.
@@ -147,8 +117,7 @@ namespace ClashEngine.NET
 		/// Inicjalizacja gry.
 		/// Wywoływana np. przy ładowaniu okna.
 		/// </summary>
-		public virtual void Init()
-		{ }
+		public abstract void Init();
 
 		/// <summary>
 		/// Deinicjalizacja gry.
@@ -167,12 +136,7 @@ namespace ClashEngine.NET
 		/// <param name="delta">Czas od ostatniego uaktualnienia.</param>
 		public virtual void Update(double delta)
 		{
-			this.Accumulator += (float)delta;
-			while (this.Accumulator >= PhysicsManager.Instance.TimeStep)
-			{
-				PhysicsManager.Instance.World.Step(PhysicsManager.Instance.TimeStep);
-				this.Accumulator -= PhysicsManager.Instance.TimeStep;
-			}
+			PhysicsManager.Instance.Update(delta);
 			this.Screens.Update(delta);
 		}
 
@@ -186,7 +150,6 @@ namespace ClashEngine.NET
 			this.Renderer.End();
 		}
 
-		#region Running
 		/// <summary>
 		/// Uruchamia grę z maksymalną wydajnością.
 		/// </summary>
@@ -194,26 +157,6 @@ namespace ClashEngine.NET
 		{
 			this.Window.Run();
 		}
-
-		/// <summary>
-		/// Uruchamia grę ze stałą liczbą wywołań metod Update i Render.
-		/// </summary>
-		/// <param name="updatesPerSecond">Liczba uaktualnień i odrysowań na sekundę.</param>
-		public void Run(double updatesPerSecond)
-		{
-			this.Window.Run(updatesPerSecond);
-		}
-
-		/// <summary>
-		/// Uruchamia grę ze stałą liczbą wywołań metod Update i Render.
-		/// </summary>
-		/// <param name="updatesPerSecond">Liczba uaktualnień na sekundę.</param>
-		/// <param name="framesPerSecond">Liczba klatek na sekundę.</param>
-		public void Run(double updatesPerSecond, double framesPerSecond)
-		{
-			this.Window.Run(updatesPerSecond, framesPerSecond);
-		}
-		#endregion
 
 		/// <summary>
 		/// Zamyka grę.

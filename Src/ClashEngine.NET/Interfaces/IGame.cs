@@ -9,21 +9,10 @@
 	public interface IGame
 	{
 		#region Properties
-		#region Window info
 		/// <summary>
 		/// Nazwa gry.
 		/// </summary>
 		string Name { get; }
-		
-		/// <summary>
-		/// Szerokość okna.
-		/// </summary>
-		int Width { get; }
-
-		/// <summary>
-		/// Wysokość okna.
-		/// </summary>
-		int Height { get; }
 
 		/// <summary>
 		/// Rozmiar okna gry.
@@ -49,9 +38,7 @@
 		/// Tryb graficzny.
 		/// </summary>
 		OpenTK.Graphics.GraphicsMode Mode { get; }
-		#endregion
 
-		#region Managers
 		/// <summary>
 		/// Manager ekranów dla gry.
 		/// </summary>
@@ -61,7 +48,6 @@
 		/// Manager zasobów.
 		/// </summary>
 		IResourcesManager Content { get; }
-		#endregion
 
 		/// <summary>
 		/// Wejście.
@@ -102,19 +88,6 @@
 		/// Uruchamia grę z maksymalną wydajnością.
 		/// </summary>
 		void Run();
-
-		/// <summary>
-		/// Uruchamia grę ze stałą liczbą wywołań metod Update i Render.
-		/// </summary>
-		/// <param name="updatesPerSecond">Liczba uaktualnień i odrysowań na sekundę.</param>
-		void Run(double updatesPerSecond);
-
-		/// <summary>
-		/// Uruchamia grę ze stałą liczbą wywołań metod Update i Render.
-		/// </summary>
-		/// <param name="updatesPerSecond">Liczba uaktualnień na sekundę.</param>
-		/// <param name="framesPerSecond">Liczba klatek na sekundę.</param>
-		void Run(double updatesPerSecond, double framesPerSecond);
 
 		/// <summary>
 		/// Zamyka grę.
