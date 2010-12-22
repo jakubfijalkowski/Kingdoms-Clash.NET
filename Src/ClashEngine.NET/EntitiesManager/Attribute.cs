@@ -1,7 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 
 namespace ClashEngine.NET.EntitiesManager
 {
+	using Extensions;
 	using Interfaces.EntitiesManager;
 
 	/// <summary>
@@ -11,8 +13,11 @@ namespace ClashEngine.NET.EntitiesManager
 	public class Attribute
 		: IAttribute
 	{
+		#region Private fields
 		private object _Value = null;
+		#endregion
 
+		#region IAttribute Members
 		/// <summary>
 		/// Identyfikator atrybutu.
 		/// </summary>
@@ -27,18 +32,19 @@ namespace ClashEngine.NET.EntitiesManager
 			set
 			{
 				this._Value = value;
-				if (this.ValueChanged != null)
-				{
-					this.ValueChanged(this);
-				}
+				this.PropertyChanged.Raise(this, () => Value);
 			}
 		}
+		#endregion
 
+		#region INotifyPropertyChanged Members
 		/// <summary>
-		/// Zdarzenie wywoływane przy zmianie wartości atrybutu.
+		/// Wywoływane przy zmianie Value.
 		/// </summary>
-		public event ValueChangedDelegate ValueChanged;
+		public event PropertyChangedEventHandler PropertyChanged;
+		#endregion
 
+		#region Constructors
 		/// <summary>
 		/// Inicjalizuje nowy atrybut.
 		/// </summary>
@@ -49,5 +55,6 @@ namespace ClashEngine.NET.EntitiesManager
 			this.Id = id;
 			this._Value = value;
 		}
+		#endregion
 	}
 }

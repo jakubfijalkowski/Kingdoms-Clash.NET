@@ -37,6 +37,7 @@ namespace ClashEngine.NET.Tests.TestObjects
 		#endregion
 
 		#region INotifyPropertyChanged Members
+		#pragma warning disable 0067
 		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 		#endregion
 	}

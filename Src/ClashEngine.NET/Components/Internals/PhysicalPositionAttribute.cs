@@ -5,6 +5,7 @@ using OpenTK;
 
 namespace ClashEngine.NET.Components.Internals
 {
+	using Extensions;
 	using Interfaces.EntitiesManager;
 	using Utilities;
 
@@ -28,11 +29,8 @@ namespace ClashEngine.NET.Components.Internals
 			set
 			{
 				this.Body.Position = value.ToXNA();
-				if (this.ValueChanged != null)
-				{
-					this.ValueChanged(this);
-				}
-			} 
+				this.PropertyChanged.Raise(this, () => Value);
+			}
 		}
 		#endregion
 
@@ -52,13 +50,13 @@ namespace ClashEngine.NET.Components.Internals
 					throw new ArgumentException("Must be of type Microsoft.Xna.Framework.Vector2", "value");
 				}
 				this.Body.Position = (Microsoft.Xna.Framework.Vector2)value;
-				if (this.ValueChanged != null)
-				{
-					this.ValueChanged(this);
-				}
+				this.PropertyChanged.Raise(this, () => Value);
 			}
 		}
-		public event ValueChangedDelegate ValueChanged;
+		#endregion
+
+		#region INotifyPropertyChanged Members
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 		#endregion
 
 		public PhysicalPositionAttribute(string id, Body body)

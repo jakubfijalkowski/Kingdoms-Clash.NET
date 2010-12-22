@@ -85,8 +85,10 @@
     <Compile Include="Data\Internals\IPropertyLevel.cs" />
     <Compile Include="Data\OneLevelPropertyPath.cs" />
     <Compile Include="Data\Internals\PropertyLevel.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Data\PropertyPath.cs" />
     <Compile Include="Data\RootObjectExtension.cs" />
+    <Compile Include="Extensions\PropertyChangedExtensions.cs" />
     <Compile Include="Graphics\Cameras\Movable2DCamera.cs" />
     <Compile Include="Components\BoundingBox.cs" />
     <Compile Include="Graphics\Components\Sprite.cs" />

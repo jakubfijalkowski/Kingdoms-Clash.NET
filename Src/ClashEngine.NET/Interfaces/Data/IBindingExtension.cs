@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+
 namespace ClashEngine.NET.Interfaces.Data
 {
 	/// <summary>
@@ -16,7 +17,6 @@ namespace ClashEngine.NET.Interfaces.Data
 		/// Ścieżka do elementu źródłowego.
 		/// Alias dla IBinding.SourcePath.
 		/// </summary>
-		[TypeConverter(typeof(Converters.PropertyPathConverter))]
 		IPropertyPath Path { get; set; }
 	}
 }

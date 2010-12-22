@@ -9,7 +9,6 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 	public interface IEntitiesManager
 		: ICollection<IGameEntity>
 	{
-		#region Methods
 		/// <summary>
 		/// Uaktualnia eszystkie encje.
 		/// </summary>
@@ -20,6 +19,5 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 		/// Renderuje wszystkie renderowalne komponenty encji.
 		/// </summary>
 		void Render();
-		#endregion
 	}
 }

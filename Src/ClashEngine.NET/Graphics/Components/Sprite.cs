@@ -99,10 +99,10 @@ namespace ClashEngine.NET.Graphics.Components
 		public override void OnInit()
 		{
 			this._Position = this.Owner.Attributes.GetOrCreate<Vector2>("Position");
-			this._Position.ValueChanged += a => this._Sprite.Position = this.Position;
+			this._Position.PropertyChanged += (a, b) => this._Sprite.Position = this.Position;
 
 			this._Size = this.Owner.Attributes.GetOrCreate<Vector2>("Size");
-			this._Size.ValueChanged += a => this._Sprite.Size = this.Size;
+			this._Size.PropertyChanged += (a, b) => this._Sprite.Size = this.Size;
 
 			this._Sprite = new Objects.Sprite(this._Texture, this.Position, this.Size);
 		}

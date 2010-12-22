@@ -7,7 +7,7 @@
 		: IComponent
 	{
 		/// <summary>
-		/// Odrysowywuje kontrolkę.
+		/// Odrysowywuje komponent.
 		/// </summary>
 		void Render();
 	}
