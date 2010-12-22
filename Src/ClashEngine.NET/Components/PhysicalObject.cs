@@ -14,8 +14,10 @@ namespace ClashEngine.NET.Components
 	public class PhysicalObject
 		: Component, IPhysicalObject
 	{
+		#region Private fields
 		private bool IsDynamic = false;
-		private IAttribute<Body> Body_ = null;
+		private IAttribute<Body> _Body = null;
+		#endregion
 
 		#region IPhysicalObject Members
 		/// <summary>
@@ -23,9 +25,38 @@ namespace ClashEngine.NET.Components
 		/// </summary>
 		public Body Body
 		{
-			get { return this.Body_.Value; }
-			private set { this.Body_.Value = value; }
+			get { return this._Body.Value; }
+			private set { this._Body.Value = value; }
 		}
+		#endregion
+
+		#region Component Members
+		/// <summary>
+		/// Tworzymy ciało, dodajemy do managera i zamieniamy atrybut Position na taki, który trzyma pozycje zgodną z silnikiem fizycznym.
+		/// </summary>
+		public override void OnInit()
+		{
+			this._Body = this.Owner.Attributes.GetOrCreate<Body>("Body");
+			this.Body = PhysicsManager.Instance.World.CreateBody();
+			this.Body.BodyType = (this.IsDynamic ? BodyType.Dynamic : BodyType.Static);
+
+			this.Owner.Attributes.Replace("Position", new Internals.PhysicalPositionAttribute("Position", this.Body));
+		}
+
+		/// <summary>
+		/// Usuwamy ze świata.
+		/// </summary>
+		public override void OnDeinit()
+		{
+			PhysicsManager.Instance.World.RemoveBody(this.Body);
+		}
+
+		/// <summary>
+		/// Niepotrzebujemy.
+		/// </summary>
+		/// <param name="delta"></param>
+		public override void Update(double delta)
+		{ }
 		#endregion
 
 		/// <summary>
@@ -37,22 +68,5 @@ namespace ClashEngine.NET.Components
 		{
 			this.IsDynamic = isDynamic;
 		}
-
-		public override void OnInit()
-		{
-			this.Body_ = this.Owner.Attributes.GetOrCreate<Body>("Body");
-			this.Body = PhysicsManager.Instance.World.CreateBody();
-			this.Body.BodyType = (this.IsDynamic ? BodyType.Dynamic : BodyType.Static);
-
-			this.Owner.Attributes.Replace("Position", new Internals.PhysicalPositionAttribute("Position", this.Body));
-		}
-
-		public override void OnDeinit()
-		{
-			PhysicsManager.Instance.World.RemoveBody(this.Body);
-		}
-
-		public override void Update(double delta)
-		{ }
 	}
 }

@@ -18,13 +18,6 @@ namespace ClashEngine.NET.Components
 	{
 		#region IBoundingBox Members
 		/// <summary>
-		/// Fixture.
-		/// </summary>
-		public Fixture Fixture { get; private set; }
-		#endregion
-
-		#region Properties
-		/// <summary>
 		/// Rozmiar prostokąta.
 		/// </summary>
 		public Vector2 Size { get; private set; }
@@ -33,28 +26,11 @@ namespace ClashEngine.NET.Components
 		/// Pozycja prostokąta w ciele.
 		/// </summary>
 		public Vector2 Position { get; private set; }
-		#endregion
-
-		#region Constructors
-		/// <summary>
-		/// Inicjalizuje nowy obiekt.
-		/// </summary>
-		/// <param name="size">Rozmiar prostokąta.</param>
-		public BoundingBox(Vector2 size)
-			: this(size, new Vector2())
-		{ }
 
 		/// <summary>
-		/// Inicjalizuje nowy obiekt.
+		/// Fixture.
 		/// </summary>
-		/// <param name="size">Rozmiar prostokąta.</param>
-		/// <param name="position">Pozycja prostokąta w ciele.</param>
-		public BoundingBox(Vector2 size, Vector2 position)
-			: base("BoundingBox")
-		{
-			this.Size = size;
-			this.Position = position;
-		}
+		public Fixture Fixture { get; private set; }
 		#endregion
 
 		#region Component Members
@@ -77,11 +53,35 @@ namespace ClashEngine.NET.Components
 			PolygonShape poly = new PolygonShape(verts);
 			this.Fixture = body.Value.CreateFixture(poly);
 		}
-		#endregion
 
-		#region Unused
+		/// <summary>
+		/// Niepotrzebujemy niczego uaktualniać.
+		/// </summary>
+		/// <param name="delta"></param>
 		public override void Update(double delta)
 		{ }
+		#endregion
+
+		#region Constructors
+		/// <summary>
+		/// Inicjalizuje nowy obiekt.
+		/// </summary>
+		/// <param name="size">Rozmiar prostokąta.</param>
+		public BoundingBox(Vector2 size)
+			: this(size, new Vector2())
+		{ }
+
+		/// <summary>
+		/// Inicjalizuje nowy obiekt.
+		/// </summary>
+		/// <param name="size">Rozmiar prostokąta.</param>
+		/// <param name="position">Pozycja prostokąta w ciele.</param>
+		public BoundingBox(Vector2 size, Vector2 position)
+			: base("BoundingBox")
+		{
+			this.Size = size;
+			this.Position = position;
+		}
 		#endregion
 	}
 }
