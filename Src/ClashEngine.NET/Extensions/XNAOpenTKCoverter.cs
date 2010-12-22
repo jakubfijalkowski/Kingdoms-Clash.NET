@@ -1,7 +1,7 @@
 ﻿using TK = OpenTK;
 using XNA = Microsoft.Xna.Framework;
 
-namespace ClashEngine.NET.Utilities
+namespace ClashEngine.NET.Extensions
 {
 	/// <summary>
 	/// Konwersje z typów OpenTK do XNA(typu używane w Farseer Physics Engine 3) i na odwrót.

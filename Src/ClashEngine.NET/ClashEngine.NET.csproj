@@ -235,7 +235,7 @@
     <Compile Include="Extensions\RectangleExtensions.cs" />
     <Compile Include="Extensions\Vector2Extensions.cs" />
     <Compile Include="Extensions\Vector4Extensions.cs" />
-    <Compile Include="Utilities\XNAOpenTKCoverter.cs" />
+    <Compile Include="Extensions\XNAOpenTKCoverter.cs" />
     <Compile Include="Utilities\FPSCounter.cs" />
     <Compile Include="Utilities\VBO.cs" />
   </ItemGroup>

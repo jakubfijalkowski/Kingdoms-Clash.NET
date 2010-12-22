@@ -6,8 +6,8 @@ using OpenTK;
 namespace ClashEngine.NET.Components
 {
 	using EntitiesManager;
+	using Extensions;
 	using Interfaces.Components;
-	using Utilities;
 
 	/// <summary>
 	/// Dodaje do ciała obiektu prostokąt je okalający.

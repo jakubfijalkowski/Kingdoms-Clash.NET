@@ -7,7 +7,7 @@ namespace ClashEngine.NET.Graphics.Components
 {
 	using EntitiesManager;
 	using Interfaces.Graphics.Components;
-	using Utilities;
+	using Extensions;
 
 	/// <summary>
 	/// Komponent-teren 2D.

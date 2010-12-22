@@ -1,6 +1,6 @@
 ﻿using ClashEngine.NET.EntitiesManager;
+using ClashEngine.NET.Extensions;
 using ClashEngine.NET.Graphics.Resources;
-using ClashEngine.NET.Utilities;
 using FarseerPhysics.Dynamics;
 
 namespace Kingdoms_Clash.NET.Maps

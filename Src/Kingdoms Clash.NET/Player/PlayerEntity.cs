@@ -1,8 +1,8 @@
 ﻿using ClashEngine.NET.Components;
 using ClashEngine.NET.EntitiesManager;
+using ClashEngine.NET.Extensions;
 using ClashEngine.NET.Graphics.Components;
 using ClashEngine.NET.Graphics.Resources;
-using ClashEngine.NET.Utilities;
 using OpenTK;
 
 namespace Kingdoms_Clash.NET.Player

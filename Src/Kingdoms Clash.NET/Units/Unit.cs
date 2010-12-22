@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using ClashEngine.NET.Components;
 using ClashEngine.NET.EntitiesManager;
+using ClashEngine.NET.Extensions;
 using ClashEngine.NET.Interfaces.EntitiesManager;
-using ClashEngine.NET.Utilities;
 using FarseerPhysics.Dynamics;
 using OpenTK;
 

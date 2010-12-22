@@ -1,7 +1,7 @@
 ﻿namespace ClashEngine.NET
 {
 	using Interfaces;
-	using Utilities;
+	using Extensions;
 
 	/// <summary>
 	/// Manager fizyki.
