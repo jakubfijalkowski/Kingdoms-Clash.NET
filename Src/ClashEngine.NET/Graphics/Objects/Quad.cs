@@ -2,9 +2,9 @@
 
 namespace ClashEngine.NET.Graphics.Objects
 {
+	using Extensions;
 	using Interfaces.Graphics;
 	using Interfaces.Graphics.Objects;
-	using Utilities;
 
 	/// <summary>
 	/// Prostokąt.

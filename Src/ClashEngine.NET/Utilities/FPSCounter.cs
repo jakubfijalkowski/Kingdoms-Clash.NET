@@ -1,10 +1,10 @@
-﻿using System;
-
+﻿
 namespace ClashEngine.NET.Utilities
 {
-	using Interfaces.Utilities;
+	using Extensions;
 	using Interfaces.Graphics.Gui;
 	using Interfaces.Graphics.Resources;
+	using Interfaces.Utilities;
 
 	/// <summary>
 	/// Licznik FPS.

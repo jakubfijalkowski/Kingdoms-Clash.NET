@@ -6,7 +6,7 @@ using OpenTK;
 
 namespace ClashEngine.NET.Converters
 {
-	using NET.Utilities;
+	using Extensions;
 
 	/// <summary>
 	/// Konwerter OpenTK.Vector4.

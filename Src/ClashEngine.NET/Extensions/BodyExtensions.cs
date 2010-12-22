@@ -1,6 +1,6 @@
 ﻿using FarseerPhysics.Dynamics;
 
-namespace ClashEngine.NET.Utilities
+namespace ClashEngine.NET.Extensions
 {
 	/// <summary>
 	/// Metody rozszerzające dla ciała fizycznego.

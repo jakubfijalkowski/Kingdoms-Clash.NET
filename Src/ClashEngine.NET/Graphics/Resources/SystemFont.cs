@@ -4,9 +4,9 @@ using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Resources
 {
+	using Extensions;
 	using Interfaces.Graphics.Objects;
 	using Interfaces.Graphics.Resources;
-	using Utilities;
 
 	/// <summary>
 	/// Czcionka systemowa.

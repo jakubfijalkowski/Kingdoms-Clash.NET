@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using OpenTK;
 
-namespace ClashEngine.NET.Utilities
+namespace ClashEngine.NET.Extensions
 {
 	/// <summary>
 	/// Rozszerzenie klas Rectangle i RectangleF z przestrzeni nazw System.Drawing.

@@ -5,8 +5,8 @@ using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Gui
 {
+	using Extensions;
 	using Interfaces.Graphics.Gui;
-	using Utilities;
 
 	/// <summary>
 	/// Bazowa klasa dla kontrolek GUI.
