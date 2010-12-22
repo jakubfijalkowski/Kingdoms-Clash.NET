@@ -15,11 +15,14 @@ namespace ClashEngine.NET
 		#region Private fields
 		private bool[] KeyStates = new bool[(int)Key.LastKey];
 		private bool[] ButtonStates = new bool[(int)OpenTK.Input.MouseButton.LastButton];
-		private System.Drawing.RectangleF _MouseTransformation = System.Drawing.RectangleF.Empty;
-		private Vector2 _MousePosition = Vector2.Zero; 
 		#endregion
 
 		#region IInput Members
+		/// <summary>
+		/// Okno(gra), do którego wejście sie odnosi.
+		/// </summary>
+		public Game Owner { get; private set; }
+
 		#region Keyboard
 		/// <summary>
 		/// Pobiera stan danego klawisza.
@@ -43,45 +46,7 @@ namespace ClashEngine.NET
 		/// <summary>
 		/// Pozycja myszki.
 		/// </summary>
-		public Vector2 MousePosition
-		{
-			get
-			{
-				return this._MousePosition;
-			}
-			private set
-			{
-				this._MousePosition = value;
-				this.TransformMousePosition();
-			}
-		}
-
-		/// <summary>
-		/// "Transformacja" myszki. Służy skalowania pozycji myszki do, np., aktualnej kamery.
-		/// </summary>
-		public System.Drawing.RectangleF MouseTransformation
-		{
-			get
-			{
-				return this._MouseTransformation;
-			}
-			set
-			{
-				this._MouseTransformation = value;
-				this.TransformMousePosition();
-			}
-		}
-
-		/// <summary>
-		/// Rozmiar okna.
-		/// Nie jest to stricte związane z wejściem, ale jest wymagane, by poprawnie przekształcić pozycję myszki.
-		/// </summary>
-		public Vector2 WindowSize { get; set; }
-
-		/// <summary>
-		/// Pozycja myszki przekształcona przez <see cref="MouseTransformation"/>.
-		/// </summary>
-		public Vector2 TransformedMousePosition { get; private set; }
+		public Vector2 MousePosition { get; private set; }
 
 		/// <summary>
 		/// Pobiera stan danego przycisku.
@@ -124,7 +89,7 @@ namespace ClashEngine.NET
 		#endregion
 
 		#region Constructors
-		internal Input(OpenTK.GameWindow wnd)
+		internal Input(Game g, OpenTK.GameWindow wnd)
 		{
 			wnd.Mouse.Move += new EventHandler<MouseMoveEventArgs>(Window_MouseMove);
 			wnd.Mouse.ButtonDown += new EventHandler<MouseButtonEventArgs>(Window_ButtonEvent);
@@ -135,7 +100,8 @@ namespace ClashEngine.NET
 			wnd.Keyboard.KeyUp += new EventHandler<KeyboardKeyEventArgs>(Window_KeyUp);
 			wnd.KeyPress += new EventHandler<OpenTK.KeyPressEventArgs>(Window_Text);
 
-			this.WindowSize = new Vector2(wnd.Width, wnd.Height);
+			this.Owner = g;
+			//this.WindowSize = new Vector2(wnd.Width, wnd.Height);
 		}
 		#endregion
 
@@ -195,23 +161,28 @@ namespace ClashEngine.NET
 			this.LastCharacter = e.KeyChar;
 		}
 		#endregion
-
-		#region Private methods
+		
+		#region Methods
 		/// <summary>
-		/// Przekształca pozycje myszki.
+		/// Skaluje pozycję myszki do perpektywy kamery.
 		/// </summary>
-		private void TransformMousePosition()
+		/// <param name="camera"></param>
+		/// <returns></returns>
+		public Vector2 TransformMousePosition(Interfaces.Graphics.ICamera camera)
 		{
-			if (!this.MouseTransformation.IsEmpty)
+			if (camera == null)
 			{
-				this.TransformedMousePosition = new Vector2(
-					this.MouseTransformation.Left + this.MousePosition.X / this.WindowSize.X * this.MouseTransformation.Width,
-					this.MouseTransformation.Top + this.MousePosition.Y / this.WindowSize.Y * this.MouseTransformation.Height);
+				return this.MousePosition;
 			}
-			else
+			float x = this.MousePosition.X / this.Owner.Size.X * camera.Size.X;
+			float y = this.MousePosition.Y / this.Owner.Size.Y * camera.Size.Y;
+			if (camera is Interfaces.Graphics.Cameras.IMovable2DCamera)
 			{
-				this.TransformedMousePosition = this.MousePosition;
+				Interfaces.Graphics.Cameras.IMovable2DCamera cam = camera as Interfaces.Graphics.Cameras.IMovable2DCamera;
+				x += cam.CurrentPosition.X;
+				y += cam.CurrentPosition.Y;
 			}
+			return new Vector2(x, y);
 		}
 		#endregion
 	}

@@ -200,7 +200,7 @@ namespace ClashEngine.NET
 			Logger.Info("\tVSync: {0}", (useVSync ? "on" : "off"));
 			this.Name = name;
 			this.Window = new GameWindow(this, name, width, height, fullscreen, useVSync, mode);
-			this.Input = new Input(this.Window);
+			this.Input = new Input(this, this.Window);
 			this.Renderer = new Graphics.Renderer(this.Size);
 
 			#if (DEBUG || FORCEHOTREPLACEMANAGER) && !FORCENOTUSINGHOTREPLACEMANAGER

@@ -32,6 +32,16 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		}
 
 		/// <summary>
+		/// Kamera używana przez kontener.
+		/// Może być null.
+		/// </summary>
+		public Interfaces.Graphics.ICamera Camera
+		{
+			get { return this.Owner.Camera; }
+			set { }
+		}
+
+		/// <summary>
 		/// Kontrolki w tej kontrolce.
 		/// </summary>
 		public Interfaces.Graphics.Gui.IControlsCollection Controls { get; private set; }

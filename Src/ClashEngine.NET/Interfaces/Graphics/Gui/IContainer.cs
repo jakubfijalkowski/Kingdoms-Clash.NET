@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ClashEngine.NET.Interfaces.Graphics.Gui
+﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
 {
 	/// <summary>
 	/// Kontener na kontrolki.
@@ -17,6 +15,12 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		/// Renderer GUI.
 		/// </summary>
 		Graphics.IRenderer Renderer { get; set; }
+
+		/// <summary>
+		/// Kamera używana przez kontener.
+		/// Może być null.
+		/// </summary>
+		Graphics.ICamera Camera { get; set; }
 
 		/// <summary>
 		/// Kolekcja kontrolek.

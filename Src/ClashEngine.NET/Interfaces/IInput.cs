@@ -34,6 +34,11 @@ namespace ClashEngine.NET.Interfaces
 	/// </summary>
 	public interface IInput
 	{
+		/// <summary>
+		/// Okno(gra), do którego wejście sie odnosi.
+		/// </summary>
+		Game Owner { get; }
+
 		#region Keyboard
 		/// <summary>
 		/// Pobiera stan danego klawisza.
@@ -54,23 +59,6 @@ namespace ClashEngine.NET.Interfaces
 		/// Pozycja myszki.
 		/// </summary>
 		Vector2 MousePosition { get; }
-
-		//TODO: wyrzucić to do jakiejś innej klasy wejścia
-		/// <summary>
-		/// Rozmiar okna.
-		/// Nie jest to stricte związane z wejściem, ale jest wymagane, by poprawnie przekształcić pozycję myszki.
-		/// </summary>
-		Vector2 WindowSize { get; set; }
-
-		/// <summary>
-		/// "Transformacja" myszki. Służy skalowania pozycji myszki do, np., aktualnej kamery.
-		/// </summary>
-		System.Drawing.RectangleF MouseTransformation { get; set; }
-
-		/// <summary>
-		/// Pozycja myszki przekształcona przez <see cref="MouseTransformation"/>.
-		/// </summary>
-		Vector2 TransformedMousePosition { get; }
 
 		/// <summary>
 		/// Pobiera stan danego przycisku.
@@ -105,6 +93,18 @@ namespace ClashEngine.NET.Interfaces
 		/// Zdarzenie zmiany kółka myszy.
 		/// </summary>
 		event EventHandler<MouseWheelEventArgs> MouseWheel;
+		#endregion
+
+		#region Methods
+		/// <summary>
+		/// Skaluje pozycję myszki do perpektywy kamery.
+		/// </summary>
+		/// <remarks>
+		/// Powinno obsługiwać podawanie nulla za kamerę.
+		/// </remarks>
+		/// <param name="camera">Kamera.</param>
+		/// <returns>Przeskalowana pozycja myszki.</returns>
+		Vector2 TransformMousePosition(Graphics.ICamera camera);
 		#endregion
 	}
 }

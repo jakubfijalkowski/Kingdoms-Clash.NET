@@ -12,7 +12,6 @@ namespace ClashEngine.NET.Graphics.Gui
 		: Container, Interfaces.Graphics.Gui.IScreen
 	{
 		private ScreenState _State = ScreenState.Deactivated;
-		private Interfaces.Graphics.Cameras.IMovable2DCamera Camera = null;
 
 		#region IGuiScreen Members
 		/// <summary>
@@ -69,9 +68,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// Zdarzenie wywoływane przy inicjalizacji ekranu(dodaniu do managera).
 		/// </summary>
 		public virtual void OnInit()
-		{
-			this.Input.MouseTransformation = this.Rectangle;
-		}
+		{ }
 
 		/// <summary>
 		/// Zdarzenie wywoływane przy deinicjalizacji ekranu(usunięcie z managera).

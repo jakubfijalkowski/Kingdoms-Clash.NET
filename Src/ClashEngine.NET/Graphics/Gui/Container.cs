@@ -35,6 +35,12 @@ namespace ClashEngine.NET.Graphics.Gui
 		}
 
 		/// <summary>
+		/// Kamera używana przez kontener.
+		/// Może być null.
+		/// </summary>
+		public Interfaces.Graphics.ICamera Camera { get; set; }
+
+		/// <summary>
 		/// Kolekcja kontrolek.
 		/// </summary>
 		public IControlsCollection Controls { get; private set; }
@@ -74,6 +80,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		{
 			var oldMode = this.Renderer.SortMode;
 			this.Renderer.SortMode = Interfaces.Graphics.SortMode.FrontToBack;
+			this.Renderer.Camera = this.Camera;
 			foreach (var c in this.Controls)
 			{
 				if (c.Visible)
