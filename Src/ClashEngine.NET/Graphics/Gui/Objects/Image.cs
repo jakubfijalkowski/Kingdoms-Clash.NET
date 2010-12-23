@@ -64,7 +64,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 				this._Texture = value;
 				if (this.Stretch == StretchType.Fill && !this.WasSizeSet && this._Texture != null)
 				{
-					this.Quad.Size = new Vector2(this._Texture.Width, this._Texture.Height);
+					this.Quad.Size = this._Texture.Size;
 				}
 				else if (this.Stretch == StretchType.Repeat || this.Stretch == StretchType.RepeatX || this.Stretch == StretchType.RepeatY)
 				{
@@ -191,16 +191,16 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			switch (this.Stretch)
 			{
 			case StretchType.RepeatX:
-				x = realW / this.Texture.Width;
+				x = realW / this.Texture.Size.X;
 				break;
 
 			case StretchType.RepeatY:
-				y = realH / this.Texture.Height;
+				y = realH / this.Texture.Size.Y;
 				break;
 
 			case StretchType.Repeat:
-				x = realW / this.Texture.Width;
-				y = realH / this.Texture.Height;
+				x = realW / this.Texture.Size.X;
+				y = realH / this.Texture.Size.Y;
 				break;
 			}
 

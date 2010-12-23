@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using OpenTK;
 
 namespace ClashEngine.NET.Interfaces.Graphics.Resources
 {
@@ -14,14 +15,9 @@ namespace ClashEngine.NET.Interfaces.Graphics.Resources
 		int TextureId { get; }
 
 		/// <summary>
-		/// Szerokość w pikselach.
+		/// Rozmiar(w pikselach) tekstury.
 		/// </summary>
-		int Width { get; }
-
-		/// <summary>
-		/// Wysokość w pikselach.
-		/// </summary>
-		int Height { get; }
+		Vector2 Size { get; }
 
 		/// <summary>
 		/// Pobiera koordynaty tekstury.

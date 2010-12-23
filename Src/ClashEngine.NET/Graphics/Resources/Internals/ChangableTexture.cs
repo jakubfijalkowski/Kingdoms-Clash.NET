@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using OpenTK.Graphics.OpenGL;
+using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Resources.Internals
 {
@@ -20,8 +21,7 @@ namespace ClashEngine.NET.Graphics.Resources.Internals
 
 		#region ITexture Members
 		public int TextureId { get; private set; }
-		public int Width { get; private set; }
-		public int Height { get; private set; }
+		public Vector2 Size { get; private set; }
 		public System.Drawing.RectangleF Coordinates { get { return _Coordinates; } }
 
 		public void Bind()
@@ -67,7 +67,8 @@ namespace ClashEngine.NET.Graphics.Resources.Internals
 		#region Constructors
 		public ChangableTexture()
 		{
-			this.Width = this.Height = this.TextureId = 0;
+			this.TextureId = 0;
+			this.Size = Vector2.Zero;
 		}
 		#endregion
 
@@ -83,8 +84,7 @@ namespace ClashEngine.NET.Graphics.Resources.Internals
 				this.TextureId = GL.GenTexture();
 			}
 
-			this.Width = bm.Width;
-			this.Height = bm.Height;
+			this.Size = new Vector2(bm.Width, bm.Height);
 
 			BitmapData data = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 			this.Bind();

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using OpenTK;
+
 using OpenTK.Graphics.OpenGL;
 
 namespace ClashEngine.NET.Graphics.Resources
@@ -65,8 +67,7 @@ namespace ClashEngine.NET.Graphics.Resources
 					{
 						BitmapData data = bm.LockBits(new Rectangle(0, 0, bm.Width, bm.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-						this.Width = bm.Width;
-						this.Height = bm.Height;
+						this.Size = new Vector2(bm.Width, bm.Height);
 
 						this.TextureId = GL.GenTexture();
 						this.Bind();
@@ -86,8 +87,7 @@ namespace ClashEngine.NET.Graphics.Resources
 					DefaultTexture.Instance.Load();
 					this.DefaultUsed = true;
 					this.TextureId = DefaultTexture.Instance.TextureId;
-					this.Width = DefaultTexture.Instance.Width;
-					this.Height = DefaultTexture.Instance.Height;
+					this.Size = DefaultTexture.Instance.Size;
 
 					return Interfaces.ResourceLoadingState.DefaultUsed;
 				}
@@ -122,14 +122,9 @@ namespace ClashEngine.NET.Graphics.Resources
 		public int TextureId { get; protected set; }
 
 		/// <summary>
-		/// Szerokość w pikselach.
+		/// Rozmiar(w pikselach) tekstury.
 		/// </summary>
-		public int Width { get; protected set; }
-
-		/// <summary>
-		/// Wysokość w pikselach.
-		/// </summary>
-		public int Height { get; protected set; }
+		public Vector2 Size { get; protected set; }
 
 		/// <summary>
 		/// Pobiera koordynaty tekstury.

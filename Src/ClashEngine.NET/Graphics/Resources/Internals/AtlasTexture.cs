@@ -1,4 +1,6 @@
-﻿namespace ClashEngine.NET.Graphics.Resources.Internals
+﻿using OpenTK;
+
+namespace ClashEngine.NET.Graphics.Resources.Internals
 {
 	using Interfaces.Graphics.Resources;
 
@@ -22,14 +24,9 @@
 		}
 
 		/// <summary>
-		/// Szerokość tekstury w atlasie.
+		/// Rozmiar(w pikselach) tekstury.
 		/// </summary>
-		public int Width { get; private set; }
-
-		/// <summary>
-		/// Wysokość tekstury w atlasie.
-		/// </summary>
-		public int Height { get; private set; }
+		public Vector2 Size { get; private set; }
 
 		/// <summary>
 		/// Koordynaty tekstury w atlasie.
@@ -89,8 +86,7 @@
 		{
 			this.Id = this.FileName = string.Format("{0}/{1}", atlasName, id);
 			this.Coordinates = rect;
-			this.Width = (int)(inner.Width * rect.Width);
-			this.Height = (int)(inner.Height * rect.Height);
+			this.Size = new Vector2(inner.Size.X * rect.Width, inner.Size.Y * rect.Height);
 			this.InnerTexture = inner;
 		}
 		#endregion

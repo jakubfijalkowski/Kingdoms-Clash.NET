@@ -62,7 +62,7 @@ namespace ClashEngine.NET.Graphics.Resources.Internals
 			{
 				Logger.Trace("Creating default texture...");
 				this.TextureId = GL.GenTexture();
-				this.Width = this.Height = 16;
+				this.Size = new OpenTK.Vector2(16, 16);
 				this.Bind();
 				GL.TexImage2D<uint>(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, 16, 16, 0, PixelFormat.Bgra, PixelType.UnsignedByte, TextureData);
 				GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);

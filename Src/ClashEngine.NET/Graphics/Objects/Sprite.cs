@@ -43,6 +43,7 @@ namespace ClashEngine.NET.Graphics.Objects
 			set
 			{
 				this._MaintainAspectRation = true;
+				this.Size = this.Size;
 			}
 		}
 		#endregion
@@ -67,7 +68,7 @@ namespace ClashEngine.NET.Graphics.Objects
 		public new Vector2 Size
 		{
 			get { return base.Size; }
-			set { base.Size = (this._MaintainAspectRation ? value * System.Math.Min(value.X / this.Texture.Width, value.Y / this.Texture.Height) : value); }
+			set { base.Size = (this._MaintainAspectRation ? value * System.Math.Min(value.X / this.Texture.Size.X, value.Y / this.Texture.Size.Y) : value); }
 		}
 		#endregion
 
@@ -79,7 +80,7 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// <param name="position">Pozycja.</param>
 		/// <param name="effect">Efekt.</param>
 		public Sprite(ITexture texture, Vector2 position)
-			: base(position, new Vector2(texture.Width, texture.Height), Vector4.One)
+			: base(position, texture.Size, Vector4.One)
 		{
 			this.Texture = texture;
 			this.Depth = 0f;
