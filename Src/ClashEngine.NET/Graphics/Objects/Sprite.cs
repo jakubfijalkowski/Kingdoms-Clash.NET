@@ -1,20 +1,23 @@
-﻿using ClashEngine.NET.Interfaces.Graphics.Resources;
-using OpenTK;
+﻿using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Objects
 {
-	using Interfaces.Graphics;
 	using Interfaces.Graphics.Objects;
+	using Interfaces.Graphics.Resources;
 
 	/// <summary>
 	/// Obiekt renderera - duszek.
 	/// </summary>
+	/// <remarks>
+	/// Dzięki przysłonięciu właściwości Texture możemy bez przeszkód wykorzystać Quad jako bazę dla duszka.
+	/// </remarks>
 	public class Sprite
 		: Quad, ISprite
 	{
 		#region Private fields
 		private ITexture _Texture = null;
 		private SpriteEffect _Effect = SpriteEffect.No;
+		private bool _MaintainAspectRation = false;
 		#endregion
 
 		#region ISprite Members
@@ -28,6 +31,18 @@ namespace ClashEngine.NET.Graphics.Objects
 			{
 				this._Effect = value;
 				this.UpdateTexCoords();
+			}
+		}
+
+		/// <summary>
+		/// Wymusza zachowanie proporcji duszka.
+		/// </summary>
+		public bool MaintainAspectRatio
+		{
+			get { return this._MaintainAspectRation; }
+			set
+			{
+				this._MaintainAspectRation = true;
 			}
 		}
 		#endregion
@@ -44,6 +59,15 @@ namespace ClashEngine.NET.Graphics.Objects
 				this._Texture = value;
 				this.UpdateTexCoords();
 			}
+		}
+
+		/// <summary>
+		/// Rozmiar duszka.
+		/// </summary>
+		public new Vector2 Size
+		{
+			get { return base.Size; }
+			set { base.Size = (this._MaintainAspectRation ? value * System.Math.Min(value.X / this.Texture.Width, value.Y / this.Texture.Height) : value); }
 		}
 		#endregion
 

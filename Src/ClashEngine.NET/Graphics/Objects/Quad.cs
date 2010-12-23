@@ -34,10 +34,7 @@ namespace ClashEngine.NET.Graphics.Objects
 		public Vector2 Position
 		{
 			get { return this._Vertices[0].Position; }
-			set
-			{
-				this.UpdatePositions(value, this.Size);
-			}
+			set { this.UpdatePositions(value, this.Size); }
 		}
 
 		/// <summary>
@@ -51,10 +48,7 @@ namespace ClashEngine.NET.Graphics.Objects
 					this._Vertices[1].Position.X - this._Vertices[0].Position.X,
 					this._Vertices[3].Position.Y - this._Vertices[0].Position.Y);
 			}
-			set
-			{
-				this.UpdatePositions(this.Position, value);
-			}
+			set { this.UpdatePositions(this.Position, value); }
 		}
 
 		/// <summary>
@@ -62,10 +56,7 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// </summary>
 		public OpenTK.Vector4 Color
 		{
-			get
-			{
-				return this.Vertices[0].Color;
-			}
+			get { return this.Vertices[0].Color; }
 			set
 			{
 				for (int i = 0; i < this.Vertices.Length; i++)
@@ -96,12 +87,6 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// Indeksy.
 		/// </summary>
 		public int[] Indecies { get { return this._Indecies; } }
-
-		/// <summary>
-		/// Wywoływane przed wyrenderowaniem obiektu.
-		/// </summary>
-		public void PreRender()
-		{ }
 		#endregion
 
 		#region Constructors

@@ -45,5 +45,10 @@ namespace ClashEngine.NET.Interfaces.Graphics.Objects
 		/// Efekty.
 		/// </summary>
 		SpriteEffect Effect { get; set; }
+
+		/// <summary>
+		/// Wymusza zachowanie proporcji duszka.
+		/// </summary>
+		bool MaintainAspectRatio { get; set; }
 	}
 }
