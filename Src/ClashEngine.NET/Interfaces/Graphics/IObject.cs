@@ -55,6 +55,6 @@ namespace ClashEngine.NET.Interfaces.Graphics
 		/// <summary>
 		/// Wywoływane tuż przed wyrenderowaniem obiektu.
 		/// </summary>
-		void PreRender();
+		//void PreRender();
 	}
 }

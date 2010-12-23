@@ -21,12 +21,21 @@ namespace ClashEngine.NET.Graphics
 		#endregion
 
 		#region IRenderer Members
+		/// <summary>
+		/// Tryb sortowania.
+		/// </summary>
 		public SortMode SortMode
 		{
 			get { return this.Comparer.SortMode; }
 			set { this.Comparer.SortMode = value; }
 		}
 
+		/// <summary>
+		/// Kamera.
+		/// </summary>
+		/// <remarks>
+		/// Jeśli kamera jest zmieniana w trakcie pracy(pomiędzy Begin i End) przed zmianą zostaje opróżniony bufor obiektów.
+		/// </remarks>
 		public ICamera Camera
 		{
 			get { return this._Camera; }
@@ -34,7 +43,10 @@ namespace ClashEngine.NET.Graphics
 			{
 				if (this._Camera != value)
 				{
-					this.Flush();
+					if (this.IsRunning)
+					{
+						this.Flush();
+					}
 					this._Camera = value;
 					this.UpdateMatricies();
 					this.Camera.NeedUpdate = false;
@@ -42,8 +54,16 @@ namespace ClashEngine.NET.Graphics
 			}
 		}
 
+		/// <summary>
+		/// Rozmiar viewportu okna przed przekształceniami.
+		/// </summary>
 		public OpenTK.Vector2 ViewPortSize { get; private set; }
 
+		/// <summary>
+		/// Rysuje obiekt.
+		/// Musi być wywołana pomiędzy <see cref="Begin"/> i <see cref="End"/>.
+		/// </summary>
+		/// <param name="obj">Obiekt do odrysowania.</param>
 		public void Draw(IObject obj)
 		{
 			if (obj == null)
@@ -57,18 +77,28 @@ namespace ClashEngine.NET.Graphics
 			this.Objects.Add(obj, null);
 		}
 
+		/// <summary>
+		/// Rozpoczyna rysowanie.
+		/// </summary>
 		public void Begin()
 		{
 			this.IsRunning = true;
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 		}
 
+		/// <summary>
+		/// Kończy rysowanie.
+		/// </summary>
 		public void End()
 		{
 			this.Flush();
 			this.IsRunning = false;
 		}
 
+		/// <summary>
+		/// Opróżnia renderer.
+		/// Musi być wywołana pomiędzy <see cref="Begin"/> i <see cref="End"/>.
+		/// </summary>
 		public void Flush()
 		{
 			if (!this.IsRunning)
@@ -84,7 +114,7 @@ namespace ClashEngine.NET.Graphics
 
 			foreach (var obj in this.Objects)
 			{
-				obj.Key.PreRender();
+				//obj.Key.PreRender();
 				if (obj.Key.Texture != null)
 				{
 					obj.Key.Texture.Bind();

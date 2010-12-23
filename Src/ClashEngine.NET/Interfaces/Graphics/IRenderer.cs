@@ -41,6 +41,7 @@
 		/// <summary>
 		/// Rozmiar viewportu okna przed przekształceniami.
 		/// </summary>
+		//TODO: zastanowić się, co z tym zrobić
 		OpenTK.Vector2 ViewPortSize { get; }
 
 		/// <summary>
