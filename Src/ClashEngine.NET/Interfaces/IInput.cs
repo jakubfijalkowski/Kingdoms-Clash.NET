@@ -35,9 +35,9 @@ namespace ClashEngine.NET.Interfaces
 	public interface IInput
 	{
 		/// <summary>
-		/// Okno(gra), do którego wejście sie odnosi.
+		/// Okno, do którego przynależy.
 		/// </summary>
-		//Game Owner { get; }
+		IWindow Owner { get; }
 
 		#region Keyboard
 		/// <summary>
@@ -94,17 +94,5 @@ namespace ClashEngine.NET.Interfaces
 		/// </summary>
 		event EventHandler<MouseWheelEventArgs> MouseWheel;
 		#endregion
-
-		//#region Methods
-		///// <summary>
-		///// Skaluje pozycję myszki do perpektywy kamery.
-		///// </summary>
-		///// <remarks>
-		///// Powinno obsługiwać podawanie nulla za kamerę.
-		///// </remarks>
-		///// <param name="camera">Kamera.</param>
-		///// <returns>Przeskalowana pozycja myszki.</returns>
-		//Vector2 TransformMousePosition(Graphics.ICamera camera);
-		//#endregion
 	}
 }

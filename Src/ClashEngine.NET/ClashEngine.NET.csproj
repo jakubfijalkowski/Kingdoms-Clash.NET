@@ -104,7 +104,6 @@
     <Compile Include="Exceptions\ArgumentAlreadyExistsException.cs" />
     <Compile Include="Exceptions\ArgumentNotExistsException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
-    <Compile Include="Game.cs" />
     <Compile Include="Data\BindingExtension.cs" />
     <Compile Include="Graphics\Gui\Conditions\Call.cs" />
     <Compile Include="Graphics\Gui\Conditions\ParametersCollection.cs" />
@@ -144,7 +143,6 @@
     <Compile Include="Graphics\Resources\SystemFont.cs" />
     <Compile Include="Graphics\Resources\Internals\AtlasTexture.cs" />
     <Compile Include="Graphics\Resources\TexturesAtlas.cs" />
-    <Compile Include="Input.cs" />
     <Compile Include="Interfaces\Data\IDataContext.cs" />
     <Compile Include="Interfaces\Data\IPropertyPath.cs" />
     <Compile Include="Interfaces\Data\IRootObjectExtension.cs" />

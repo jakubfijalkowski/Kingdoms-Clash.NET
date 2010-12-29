@@ -18,6 +18,11 @@ namespace ClashEngine.NET.Internals
 		#endregion
 
 		#region IInput Members
+		/// <summary>
+		/// Okno, do którego przynależy.
+		/// </summary>
+		public IWindow Owner { get; private set; }
+
 		#region Keyboard
 		/// <summary>
 		/// Pobiera stan danego klawisza.
@@ -96,6 +101,8 @@ namespace ClashEngine.NET.Internals
 			wnd.InputDriver.Keyboard[0].KeyUp     += new EventHandler<KeyboardKeyEventArgs>(Window_KeyUp);
 			wnd.KeyPress                          += new EventHandler<OpenTK.KeyPressEventArgs>(Window_Text);
 			#pragma warning restore 0612
+
+			this.Owner = wnd;
 		}
 		#endregion
 
