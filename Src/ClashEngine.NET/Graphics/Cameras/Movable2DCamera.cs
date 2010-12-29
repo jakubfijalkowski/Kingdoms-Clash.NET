@@ -153,19 +153,19 @@ namespace ClashEngine.NET.Graphics.Cameras
 			public override void Update(double delta)
 			{
 				Vector2 pt = this.ParentCamera.CurrentPosition;
-				if (this.Input[OpenTK.Input.Key.Left])
+				if (this.GameInfo.MainWindow.Input[OpenTK.Input.Key.Left])
 				{
 					pt.X -= (float)(delta * this.CameraSpeed);
 				}
-				if (this.Input[OpenTK.Input.Key.Right])
+				if (this.GameInfo.MainWindow.Input[OpenTK.Input.Key.Right])
 				{
 					pt.X += (float)(delta * this.CameraSpeed);
 				}
-				if (this.Input[OpenTK.Input.Key.Up])
+				if (this.GameInfo.MainWindow.Input[OpenTK.Input.Key.Up])
 				{
 					pt.Y -= (float)(delta * this.CameraSpeed);
 				}
-				if (this.Input[OpenTK.Input.Key.Down])
+				if (this.GameInfo.MainWindow.Input[OpenTK.Input.Key.Down])
 				{
 					pt.Y += (float)(delta * this.CameraSpeed);
 				}

@@ -113,14 +113,14 @@ namespace Kingdoms_Clash.NET.AdditionalScreens
 				var size = new Vector2(w, h);
 				var position = new Vector2((1f - w) / 2f, (1f * aspect - h) / 2f);
 
-				this.ImageAWon = new Sprite(this.Content.Load<Texture>("PlayerAWon.png"), position, size);
-				this.ImageBWon = new Sprite(this.Content.Load<Texture>("PlayerBWon.png"), position, size);
+				this.ImageAWon = new Sprite(this.GameInfo.Content.Load<Texture>("PlayerAWon.png"), position, size);
+				this.ImageBWon = new Sprite(this.GameInfo.Content.Load<Texture>("PlayerBWon.png"), position, size);
 				this.Current = this.ImageAWon;
 			}
 
 			public override void Render()
 			{
-				base.Renderer.Draw(this.Current);
+				base.GameInfo.Renderer.Draw(this.Current);
 			}
 			#endregion
 

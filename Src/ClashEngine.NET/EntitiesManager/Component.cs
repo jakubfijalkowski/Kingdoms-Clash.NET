@@ -26,12 +26,12 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <summary>
 		/// Wejście właściciela.
 		/// </summary>
-		protected IInput Input { get { return this.Owner.Input; } }
+		protected IInput Input { get { return this.Owner.GameInfo.MainWindow.Input; } }
 
 		/// <summary>
 		/// Manager zasobów właściciela.
 		/// </summary>
-		protected IResourcesManager Content { get { return this.Owner.Content; } }
+		protected IResourcesManager Content { get { return this.Owner.GameInfo.Content; } }
 
 		/// <summary>
 		/// Inicjalizuje nowy komponent.

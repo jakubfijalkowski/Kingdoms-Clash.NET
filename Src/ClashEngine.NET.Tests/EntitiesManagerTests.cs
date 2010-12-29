@@ -16,7 +16,7 @@ namespace ClashEngine.NET.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			this.Manager = new EntitiesManager.EntitiesManager(null, null, null);
+			this.Manager = new EntitiesManager.EntitiesManager(null);
 			this.Entity1 = new Mock<GameEntity>("Entity1");
 			this.Entity1.Setup(e => e.OnInit());
 			this.Entity1.Setup(e => e.OnDeinit());

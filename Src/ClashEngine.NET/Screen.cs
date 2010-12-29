@@ -79,7 +79,7 @@ namespace ClashEngine.NET
 		/// </summary>
 		public virtual void OnInit()
 		{
-			this._Entities = new EntitiesManager.EntitiesManager(this.GameInfo.MainWindow.Input, this.GameInfo.Content, this.GameInfo.Renderer);
+			this._Entities = new EntitiesManager.EntitiesManager(this.GameInfo);
 		}
 
 		/// <summary>

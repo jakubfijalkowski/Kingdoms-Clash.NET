@@ -4,7 +4,7 @@ namespace ClashEngine.NET.Interfaces.EntitiesManager
 {
 	/// <summary>
 	/// Bazowy interfejs dla managera encji.
-	/// Musi ustawiać właściwości Input, OwnerManager i Content encji.
+	/// Musi ustawiać właściwości OwnerManager i GameInfo encji.
 	/// </summary>
 	public interface IEntitiesManager
 		: ICollection<IGameEntity>

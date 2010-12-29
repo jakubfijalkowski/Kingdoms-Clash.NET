@@ -11,7 +11,7 @@
 		/// <summary>
 		/// Renderer właściciela.
 		/// </summary>
-		protected Interfaces.Graphics.IRenderer Renderer { get { return this.Owner.Renderer; } }
+		protected Interfaces.Graphics.IRenderer Renderer { get { return this.Owner.GameInfo.Renderer; } }
 
 		/// <summary>
 		/// Inicjalizuje nowy komponent.

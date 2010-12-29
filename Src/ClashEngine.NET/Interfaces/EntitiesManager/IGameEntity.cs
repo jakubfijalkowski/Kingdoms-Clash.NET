@@ -16,24 +16,12 @@
 		/// Ustawiany przez niego samego przy dodaniu encji.
 		/// </summary>
 		IEntitiesManager OwnerManager { get; set; }
-
+		
 		/// <summary>
-		/// Wejście.
+		/// Informacje o grze, w której isnieje encja.
 		/// Ustawiane przez manager.
 		/// </summary>
-		IInput Input { get; set; }
-
-		/// <summary>
-		/// Manager zasobów.
-		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
-		/// </summary>
-		IResourcesManager Content { get; set; }
-
-		/// <summary>
-		/// Renderer.
-		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
-		/// </summary>
-		Graphics.IRenderer Renderer { get; set; }
+		IGameInfo GameInfo { get; set; }
 
 		/// <summary>
 		/// Lista komponentów.

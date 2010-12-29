@@ -34,22 +34,10 @@ namespace ClashEngine.NET.EntitiesManager
 		public IEntitiesManager OwnerManager { get; set; }
 
 		/// <summary>
-		/// Wejście.
+		/// Informacje o grze, w której isnieje encja.
 		/// Ustawiane przez manager.
 		/// </summary>
-		public IInput Input { get; set; }
-
-		/// <summary>
-		/// Manager zasobów.
-		/// Ustawiany przez właściciela, ale nie ma wymogu, by to właśnie jego używać.
-		/// </summary>
-		public Interfaces.IResourcesManager Content { get; set; }
-
-		/// <summary>
-		/// Renderer.
-		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
-		/// </summary>
-		public Interfaces.Graphics.IRenderer Renderer { get; set; }
+		public IGameInfo GameInfo { get; set; }
 
 		/// <summary>
 		/// Lista komponentów.

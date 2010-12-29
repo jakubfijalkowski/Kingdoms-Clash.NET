@@ -20,9 +20,7 @@ namespace ClashEngine.NET.EntitiesManager
 		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IGameEntity> Entities = new List<IGameEntity>();
-		private IInput Input = null;
-		private IResourcesManager Content = null;
-		private IRenderer Renderer = null;
+		private IGameInfo GameInfo = null;
 		#endregion
 
 		#region IEntitiesManager Members
@@ -84,9 +82,7 @@ namespace ClashEngine.NET.EntitiesManager
 				throw new Exceptions.ArgumentAlreadyExistsException("entity");
 			}
 			entity.OwnerManager = this;
-			entity.Input = this.Input;
-			entity.Content = this.Content;
-			entity.Renderer = this.Renderer;
+			entity.GameInfo = this.GameInfo;
 			this.Entities.Add(entity);
 			entity.OnInit();
 			Logger.Trace("Entity {0} added to manager", entity.Id);
@@ -165,11 +161,9 @@ namespace ClashEngine.NET.EntitiesManager
 		/// <param name="input">Wejście.</param>
 		/// <param name="content">Manager zasobów.</param>
 		/// <param name="renderer">Renderer dla encji.</param>
-		public EntitiesManager(IInput input, IResourcesManager content, IRenderer renderer)
+		public EntitiesManager(IGameInfo gameInfo)
 		{
-			this.Input = input;
-			this.Content = content;
-			this.Renderer = renderer;
+			this.GameInfo = gameInfo;
 		}
 
 		~EntitiesManager()

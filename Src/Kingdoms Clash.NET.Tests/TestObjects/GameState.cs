@@ -62,7 +62,7 @@ namespace Kingdoms_Clash.NET.Tests.TestObjects
 				new Player.Player("B", new Units.Nation("TestNation", "", new Interfaces.Units.IUnitDescription[] { TestUnit }), 100)
 			};
 
-			this.Entities = new EntitiesManager(null, null, null);
+			this.Entities = new EntitiesManager(null);
 			this.Map = new Maps.DefaultMap();
 			this.Units = new List<Interfaces.Units.IUnit>();
 			this.Resources = new List<Interfaces.Map.IResourceOnMap>();
