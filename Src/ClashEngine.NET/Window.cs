@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Input;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Input;
 
 namespace ClashEngine.NET
 {
@@ -20,13 +17,22 @@ namespace ClashEngine.NET
 		#region Private fields
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 		private WindowFlags _Flags = WindowFlags.None;
+		private IGraphicsContext _Context = null;
+		private IInput _Input = null;
 		#endregion
 
 		#region IWindow Members
 		/// <summary>
 		/// Kontekst grafiki.
 		/// </summary>
-		public IGraphicsContext Context { get; private set; }
+		public IGraphicsContext Context
+		{
+			get
+			{
+				base.EnsureUndisposed();
+				return this._Context;
+			}
+		}
 
 		/// <summary>
 		/// Rozmiar okna.
@@ -36,8 +42,16 @@ namespace ClashEngine.NET
 		/// </remarks>
 		public new Vector2 Size
 		{
-			get { return new Vector2(base.ClientSize.Width, base.ClientSize.Height); }
-			set { base.ClientSize = new System.Drawing.Size((int)value.X, (int)value.Y); }
+			get
+			{
+				base.EnsureUndisposed();
+				return new Vector2(base.ClientSize.Width, base.ClientSize.Height);
+			}
+			set
+			{
+				base.EnsureUndisposed();
+				base.ClientSize = new System.Drawing.Size((int)value.X, (int)value.Y);
+			}
 		}
 
 		/// <summary>
@@ -48,6 +62,7 @@ namespace ClashEngine.NET
 		{
 			get
 			{
+				base.EnsureUndisposed();
 				if (this.Context.VSync)
 					this._Flags |= WindowFlags.VSync;
 				else
@@ -56,6 +71,7 @@ namespace ClashEngine.NET
 			}
 			set
 			{
+				base.EnsureUndisposed();
 				this._Flags = value;
 				this.UpdateFlags();
 			}
@@ -64,13 +80,26 @@ namespace ClashEngine.NET
 		/// <summary>
 		/// Czy kontekst graficzny okna jest aktualnie "wybrany".
 		/// </summary>
-		public bool IsCurrent { get { return this.Context.IsCurrent; } }
+		public bool IsCurrent
+		{
+			get
+			{
+				base.EnsureUndisposed();
+				return this.Context.IsCurrent;
+			}
+		}
 
 		/// <summary>
 		/// Wejście okna.
 		/// </summary>
-		//TODO: dopisać obsługę
-		public IInput Input { get; private set; }
+		public IInput Input
+		{
+			get
+			{
+				base.EnsureUndisposed();
+				return this._Input;
+			}
+		}
 
 		/// <summary>
 		/// Czy okno jest akutalnie zamykane.
@@ -87,6 +116,7 @@ namespace ClashEngine.NET
 		/// </summary>
 		public void Use()
 		{
+			base.EnsureUndisposed();
 			if (!this.IsCurrent && !this.Context.IsDisposed)
 			{
 				this.Context.MakeCurrent(base.WindowInfo);
@@ -147,9 +177,11 @@ namespace ClashEngine.NET
 			: base(width, height, title, ((flags & WindowFlags.Fullscreen) == WindowFlags.Fullscreen ? GameWindowFlags.Fullscreen : GameWindowFlags.Default),
 			(mode != null ? mode : GraphicsMode.Default), (device != null ? device : DisplayDevice.Default))
 		{
-			this.Context = new GraphicsContext((mode != null ? mode : GraphicsMode.Default), this.WindowInfo, openGLVer.Major, openGLVer.Minor, GraphicsContextFlags.Default);
-			this.Context.MakeCurrent(this.WindowInfo);
-			this.Context.LoadAll();
+			this._Input = new Internals.WindowInput(this);
+
+			this._Context = new GraphicsContext((mode != null ? mode : GraphicsMode.Default), this.WindowInfo, openGLVer.Major, openGLVer.Minor, GraphicsContextFlags.Default);
+			this._Context.MakeCurrent(this.WindowInfo);
+			this._Context.LoadAll();
 
 			try
 			{
@@ -175,6 +207,20 @@ namespace ClashEngine.NET
 			this.VisibleChanged += new EventHandler<EventArgs>(Window_VisibleChanged);
 			this.WindowBorderChanged += new EventHandler<EventArgs>(Window_WindowBorderChanged);
 			this.WindowStateChanged += new EventHandler<EventArgs>(Window_WindowStateChanged);
+		}
+		#endregion
+
+		#region Overrides
+		new public void ProcessEvents()
+		{
+			this.Input.LastCharacter = '\0';
+			base.ProcessEvents();
+		}
+
+		public override void Dispose()
+		{
+			this.Context.Dispose();
+			base.Dispose();
 		}
 		#endregion
 
@@ -238,10 +284,10 @@ namespace ClashEngine.NET
 			this.Context.VSync = (this.Flags & WindowFlags.VSync) == WindowFlags.VSync;
 			base.Visible = (this.Flags & WindowFlags.Visible) == WindowFlags.Visible;
 
-			//if ((this.Flags & WindowFlags.AltF4) == WindowFlags.AltF4)
-			//    this.Input.KeyChanged += this.SupportAltF4;
-			//else
-			//    this.Input.KeyChanged -= this.SupportAltF4;
+			if ((this.Flags & WindowFlags.AltF4) == WindowFlags.AltF4)
+				this.Input.KeyChanged += this.SupportAltF4;
+			else
+				this.Input.KeyChanged -= this.SupportAltF4;
 		}
 
 		/// <summary>

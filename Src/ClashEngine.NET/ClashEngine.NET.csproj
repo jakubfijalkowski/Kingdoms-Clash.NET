@@ -219,6 +219,7 @@
     <Compile Include="Interfaces\Utilities\IVBO.cs" />
     <Compile Include="Interfaces\Graphics\IRenderer.cs" />
     <Compile Include="Interfaces\Graphics\IObject.cs" />
+    <Compile Include="Internals\WindowInput.cs" />
     <Compile Include="MainThreadCallbacksManager.cs" />
     <Compile Include="Components\PhysicalObject.cs" />
     <Compile Include="Components\Internals\PhysicalPositionAttribute.cs" />
