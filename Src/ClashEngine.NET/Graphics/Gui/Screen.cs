@@ -12,6 +12,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		: Container, Interfaces.Graphics.Gui.IScreen
 	{
 		private ScreenState _State = ScreenState.Deactivated;
+		private IGameInfo _GameInfo = null;
 
 		#region IGuiScreen Members
 		/// <summary>
@@ -35,10 +36,23 @@ namespace ClashEngine.NET.Graphics.Gui
 		public IScreensManager OwnerManager { get; set; }
 
 		/// <summary>
-		/// Manager zasobów dla ekranu.
-		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
+		/// Informacje o grze.
+		/// Ustawiane przez właściciela.
 		/// </summary>
-		public Interfaces.IResourcesManager Content { get; set; }
+		public IGameInfo GameInfo
+		{
+			get { return this._GameInfo; }
+			set
+			{
+				if (value == null)
+				{
+					throw new System.ArgumentNullException("value");
+				}
+				this._GameInfo = value;
+				base.Input = this.GameInfo.MainWindow.Input;
+				base.Renderer = this.GameInfo.Renderer;
+			}
+		}
 
 		/// <summary>
 		/// Typ ekranu.

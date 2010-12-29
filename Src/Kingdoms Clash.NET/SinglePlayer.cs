@@ -147,7 +147,7 @@ namespace Kingdoms_Clash.NET
 		public override void OnInit()
 		{
 			base.OnInit();
-			this.StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager(this.Input, this.Content, this.Renderer);
+			this.StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager(this.GameInfo.MainWindow.Input, this.GameInfo.Content, this.GameInfo.Renderer);
 
 			this.Controller.GameState = this;
 
@@ -156,12 +156,12 @@ namespace Kingdoms_Clash.NET
 			this.Players[0].Type = PlayerType.First;
 			this.PlayerControllers[0].Player = this.Players[0];
 			this.PlayerControllers[0].GameState = this;
-			this.PlayerControllers[0].Initialize(this.OwnerManager, this.Input);
+			this.PlayerControllers[0].Initialize(this.OwnerManager, this.GameInfo.MainWindow.Input);
 
 			this.Players[1].Type = PlayerType.Second;
 			this.PlayerControllers[1].Player = this.Players[1];
 			this.PlayerControllers[1].GameState = this;
-			this.PlayerControllers[1].Initialize(this.OwnerManager, this.Input);
+			this.PlayerControllers[1].Initialize(this.OwnerManager, this.GameInfo.MainWindow.Input);
 
 			//this.StaticEntities.Add(new ClashEngine.NET.Graphics.Cameras.OrthoCamera(
 			//    new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + Configuration.Instance.MapMargin, Configuration.Instance.ScreenSize.Y)),
@@ -218,7 +218,7 @@ namespace Kingdoms_Clash.NET
 		/// <returns></returns>
 		private bool HandleInput()
 		{
-			if (this.Input[OpenTK.Input.Key.R])
+			if (this.GameInfo.MainWindow.Input[OpenTK.Input.Key.R])
 			{
 				this.Reset();
 				return true;

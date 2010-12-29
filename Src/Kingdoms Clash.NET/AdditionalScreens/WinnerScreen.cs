@@ -65,7 +65,7 @@ namespace Kingdoms_Clash.NET.AdditionalScreens
 		/// <returns></returns>
 		private bool HandleInput()
 		{
-			if (this.Input[OpenTK.Input.Key.R])
+			if (this.GameInfo.MainWindow.Input[OpenTK.Input.Key.R])
 			{
 				this.GameState.Reset();
 				this.Deactivate();

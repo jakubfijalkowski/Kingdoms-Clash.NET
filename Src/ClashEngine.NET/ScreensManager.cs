@@ -18,9 +18,7 @@ namespace ClashEngine.NET
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
 		#region Private fields
-		private IInput Input = null;
-		private IResourcesManager Content = null;
-		private IRenderer Renderer = null;
+		private IGameInfo GameInfo = null;
 		#endregion
 
 		#region IScreensManager Members
@@ -234,16 +232,9 @@ namespace ClashEngine.NET
 				if (base.Items[i].State != ScreenState.Deactivated)
 				{
 					base.Items[i].Render();
-					base.Items[i].Renderer.Flush();
+					base.Items[i].GameInfo.Renderer.Flush();
 				}
 			}
-		}
-		#endregion
-
-		#region IDisposable members
-		public void Dispose()
-		{
-			this.Clear();
 		}
 		#endregion
 
@@ -260,9 +251,7 @@ namespace ClashEngine.NET
 		protected override void InsertItem(int index, IScreen item)
 		{
 			item.OwnerManager = this;
-			item.Input = this.Input;
-			item.Content = this.Content;
-			item.Renderer = this.Renderer;
+			item.GameInfo = this.GameInfo;
 			item.State = ScreenState.Deactivated;
 			item.OnInit();
 			Logger.Debug("Screen {0} added to manager", item.Id);
@@ -294,16 +283,14 @@ namespace ClashEngine.NET
 		/// <param name="input">Wejście, które zostanie przypisane ekranom.</param>
 		/// <param name="content">Manager zasobów.</param>
 		/// <param name="renderer">Renderer.</param>
-		public ScreensManager(IInput input, IResourcesManager content, IRenderer renderer)
+		public ScreensManager(IGameInfo gameInfo)
 		{
-			this.Input = input;
-			this.Content = content;
-			this.Renderer = renderer;
+			this.GameInfo = gameInfo;
 		}
 
 		~ScreensManager()
 		{
-			this.Clear();
+			this.Dispose();
 		}
 		#endregion
 
@@ -409,6 +396,13 @@ namespace ClashEngine.NET
 		void SetStates(int startIdx)
 		{
 			this.SetStates(startIdx, base.Items.Count);
+		}
+		#endregion
+
+		#region IDisposable members
+		public void Dispose()
+		{
+			this.Clear();
 		}
 		#endregion
 	}

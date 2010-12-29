@@ -2,6 +2,7 @@
 namespace ClashEngine.NET.Utilities
 {
 	using Extensions;
+	using Interfaces;
 	using Interfaces.Graphics.Gui;
 	using Interfaces.Graphics.Resources;
 	using Interfaces.Utilities;
@@ -57,6 +58,8 @@ namespace ClashEngine.NET.Utilities
 		/// Kamera używana przez ekran.
 		/// </summary>
 		private Interfaces.Graphics.ICamera Camera;
+
+		private IGameInfo _GameInfo = null;
 		#endregion
 		
 		#region IFPSCounter Members
@@ -94,17 +97,20 @@ namespace ClashEngine.NET.Utilities
 		#region IScreen Members
 		public string Id { get { return "FPSCounter"; }	}
 		public Interfaces.IScreensManager OwnerManager { get; set; }
-		public Interfaces.IInput Input
+		public IGameInfo GameInfo
 		{
-			get { return this.Gui.Input; }
-			set { this.Gui.Input = value; }
+			get { return this._GameInfo; }
+			set
+			{
+				if (value == null)
+				{
+					throw new System.ArgumentNullException("value");
+				}
+				this._GameInfo = value;
+				this.Gui.Input = this.GameInfo.MainWindow.Input;
+				this.Gui.Renderer = this.GameInfo.Renderer;
+			}
 		}
-		public Interfaces.Graphics.IRenderer Renderer
-		{
-			get { return this.Gui.Renderer; }
-			set { this.Gui.Renderer = value; }
-		}
-		public Interfaces.IResourcesManager Content { get; set; }
 		public Interfaces.ScreenType Type { get { return Interfaces.ScreenType.Popup; } }
 		public Interfaces.ScreenState State { get; set; }
 
@@ -170,7 +176,7 @@ namespace ClashEngine.NET.Utilities
 			if (this.RenderStatistics)
 			{
 				this.Gui.Render();
-				this.Renderer.Flush();
+				this.GameInfo.Renderer.Flush();
 			}
 		}
 		#endregion

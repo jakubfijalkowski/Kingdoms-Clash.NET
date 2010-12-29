@@ -87,6 +87,7 @@
     <Compile Include="ResourcesManagerTests.cs" />
     <Compile Include="ScreensManagerTests.cs" />
     <Compile Include="TestObjects\Control.cs" />
+    <Compile Include="TestObjects\GameInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClashEngine.NET\ClashEngine.NET.csproj">

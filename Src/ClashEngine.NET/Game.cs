@@ -123,7 +123,7 @@ namespace ClashEngine.NET
 			#endif
 
 			this._Info.Renderer = new Graphics.Renderer(this._Info.MainWindow.Size);
-			this._Info.Screens = new ScreensManager(this._Info.MainWindow.Input, this._Info.Content, this._Info.Renderer);
+			this._Info.Screens = new ScreensManager(this.Info);
 		}
 		#endregion
 

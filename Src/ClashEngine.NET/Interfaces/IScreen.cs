@@ -73,22 +73,10 @@
 		IScreensManager OwnerManager { get; set; }
 
 		/// <summary>
-		/// Wejście.
+		/// Informacje o grze.
 		/// Ustawiane przez właściciela.
 		/// </summary>
-		IInput Input { get; set; }
-
-		/// <summary>
-		/// Manager zasobów dla ekranu.
-		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
-		/// </summary>
-		IResourcesManager Content { get; set; }
-
-		/// <summary>
-		/// Renderer.
-		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
-		/// </summary>
-		Graphics.IRenderer Renderer { get; set; }
+		IGameInfo GameInfo { get; set; }
 
 		/// <summary>
 		/// Typ ekranu.

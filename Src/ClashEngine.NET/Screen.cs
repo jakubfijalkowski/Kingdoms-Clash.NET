@@ -32,21 +32,10 @@ namespace ClashEngine.NET
 		public IScreensManager OwnerManager { get; set; }
 
 		/// <summary>
-		/// Wejście.
+		/// Informacje o grze.
+		/// Ustawiane przez właściciela.
 		/// </summary>
-		public IInput Input { get; set; }
-
-		/// <summary>
-		/// Manager zasobów dla ekranu.
-		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
-		/// </summary>
-		public Interfaces.IResourcesManager Content { get; set; }
-
-		/// <summary>
-		/// Renderer.
-		/// Ustawiany przez właściciela, ale nie ma wymogu, by go używać.
-		/// </summary>
-		public Interfaces.Graphics.IRenderer Renderer { get; set; }
+		public IGameInfo GameInfo { get; set; }
 
 		/// <summary>
 		/// Typ ekranu.
@@ -90,7 +79,7 @@ namespace ClashEngine.NET
 		/// </summary>
 		public virtual void OnInit()
 		{
-			this._Entities = new EntitiesManager.EntitiesManager(this.Input, this.Content, this.Renderer);
+			this._Entities = new EntitiesManager.EntitiesManager(this.GameInfo.MainWindow.Input, this.GameInfo.Content, this.GameInfo.Renderer);
 		}
 
 		/// <summary>
@@ -122,7 +111,7 @@ namespace ClashEngine.NET
 		{
 			if (this.Camera != null)
 			{
-				this.Renderer.Camera = this.Camera;
+				this.GameInfo.Renderer.Camera = this.Camera;
 			}
 			this._Entities.Render();
 		}
