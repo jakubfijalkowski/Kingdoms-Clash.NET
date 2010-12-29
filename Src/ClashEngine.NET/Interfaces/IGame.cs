@@ -1,33 +1,18 @@
-﻿namespace ClashEngine.NET.Interfaces
+﻿using System;
+
+namespace ClashEngine.NET.Interfaces
 {
 	/// <summary>
 	/// Bazowy interfejs dla obiektu gry.
 	/// </summary>
 	public interface IGame
+		: IDisposable
 	{
-		#region Properties
 		/// <summary>
-		/// Okno gry.
+		/// Informacje o grze.
 		/// </summary>
-		IWindow Window { get; }
+		IGameInfo Info { get; }
 
-		/// <summary>
-		/// Manager ekranów dla gry.
-		/// </summary>
-		IScreensManager Screens { get; }
-
-		/// <summary>
-		/// Manager zasobów.
-		/// </summary>
-		IResourcesManager Content { get; }
-
-		/// <summary>
-		/// Renderer.
-		/// </summary>
-		Graphics.IRenderer Renderer { get; }
-		#endregion
-
-		#region Methods
 		/// <summary>
 		/// Inicjalizacja gry.
 		/// </summary>
@@ -58,6 +43,5 @@
 		/// Zamyka grę.
 		/// </summary>
 		void Exit();
-		#endregion
 	}
 }

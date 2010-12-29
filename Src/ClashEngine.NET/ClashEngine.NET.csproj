@@ -89,6 +89,7 @@
     <Compile Include="Data\PropertyPath.cs" />
     <Compile Include="Data\RootObjectExtension.cs" />
     <Compile Include="Extensions\PropertyChangedExtensions.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="Graphics\Cameras\Movable2DCamera.cs" />
     <Compile Include="Components\BoundingBox.cs" />
     <Compile Include="Graphics\Components\Sprite.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Interfaces\Graphics\Objects\ITerrain.cs" />
     <Compile Include="Interfaces\Graphics\Objects\IText.cs" />
     <Compile Include="Interfaces\Graphics\Resources\IFont.cs" />
+    <Compile Include="Interfaces\IGameInfo.cs" />
     <Compile Include="Interfaces\IInput.cs" />
     <Compile Include="Interfaces\IMainThreadCallbacksManager.cs" />
     <Compile Include="Interfaces\Graphics\Components\ISprite.cs" />
@@ -217,6 +219,7 @@
     <Compile Include="Interfaces\Utilities\IVBO.cs" />
     <Compile Include="Interfaces\Graphics\IRenderer.cs" />
     <Compile Include="Interfaces\Graphics\IObject.cs" />
+    <Compile Include="Internals\GameInfo.cs" />
     <Compile Include="Internals\WindowInput.cs" />
     <Compile Include="MainThreadCallbacksManager.cs" />
     <Compile Include="Components\PhysicalObject.cs" />

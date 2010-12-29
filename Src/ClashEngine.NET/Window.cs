@@ -177,6 +177,15 @@ namespace ClashEngine.NET
 			: base(width, height, title, ((flags & WindowFlags.Fullscreen) == WindowFlags.Fullscreen ? GameWindowFlags.Fullscreen : GameWindowFlags.Default),
 			(mode != null ? mode : GraphicsMode.Default), (device != null ? device : DisplayDevice.Default))
 		{
+			Logger.Info("Creating window");
+			Logger.Info("\tTitle: {0}", title);
+			Logger.Info("\tWindow size: {0} x {1}", width, height);
+			Logger.Info("\tFlags: {0}", flags.ToString());
+			if (openGLVer.Major == int.MaxValue)
+				Logger.Info("\tOpenGL Version: newest");
+			else
+				Logger.Info("\tOpenGL Version: {0}.{1}", openGLVer.Major, openGLVer.Minor);
+
 			this._Input = new Internals.WindowInput(this);
 
 			this._Context = new GraphicsContext((mode != null ? mode : GraphicsMode.Default), this.WindowInfo, openGLVer.Major, openGLVer.Minor, GraphicsContextFlags.Default);
@@ -207,6 +216,8 @@ namespace ClashEngine.NET
 			this.VisibleChanged += new EventHandler<EventArgs>(Window_VisibleChanged);
 			this.WindowBorderChanged += new EventHandler<EventArgs>(Window_WindowBorderChanged);
 			this.WindowStateChanged += new EventHandler<EventArgs>(Window_WindowStateChanged);
+
+			Logger.Info("Window created(OpenGL version: {0}.{1})", this.OpenGLVersion.Major, this.OpenGLVersion.Minor);
 		}
 		#endregion
 
