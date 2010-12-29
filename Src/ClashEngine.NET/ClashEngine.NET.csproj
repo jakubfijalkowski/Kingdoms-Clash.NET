@@ -214,6 +214,7 @@
     <Compile Include="Interfaces\Graphics\Resources\ITexturesAtlas.cs" />
     <Compile Include="Interfaces\IScreen.cs" />
     <Compile Include="Interfaces\IScreensManager.cs" />
+    <Compile Include="Interfaces\IWindow.cs" />
     <Compile Include="Interfaces\Utilities\IFPSCounter.cs" />
     <Compile Include="Interfaces\Utilities\IVBO.cs" />
     <Compile Include="Interfaces\Graphics\IRenderer.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Extensions\XNAOpenTKCoverter.cs" />
     <Compile Include="Utilities\FPSCounter.cs" />
     <Compile Include="Utilities\VBO.cs" />
+    <Compile Include="Window.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DataSamples\TexturesAtlas.xml" />
