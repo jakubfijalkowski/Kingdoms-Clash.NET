@@ -18,10 +18,12 @@ namespace ClashEngine.NET.Graphics.Components
 	public class Sprite
 		: RenderableComponent, ISprite
 	{
+		#region Private fields
 		private IAttribute<Vector2> _Position;
 		private IAttribute<Vector2> _Size;
 		private Objects.Sprite _Sprite;
 		private ITexture _Texture;
+		#endregion
 
 		#region ISprite Members
 		/// <summary>
@@ -31,10 +33,7 @@ namespace ClashEngine.NET.Graphics.Components
 		public ITexture Texture
 		{
 			get { return this._Sprite.Texture; }
-			set
-			{
-				this._Texture = value;
-			}
+			set { this._Texture = value; }
 		}
 
 		/// <summary>
@@ -62,6 +61,15 @@ namespace ClashEngine.NET.Graphics.Components
 		{
 			get { return this._Sprite.Effect; }
 			set { this._Sprite.Effect = value; }
+		}
+
+		/// <summary>
+		/// Wymusza zachowanie proporcji duszka.
+		/// </summary>
+		public bool MaintainAspectRatio
+		{
+			get { return this._Sprite.MaintainAspectRatio; }
+			set { this._Sprite.MaintainAspectRatio = value; }
 		}
 		#endregion
 
@@ -102,7 +110,14 @@ namespace ClashEngine.NET.Graphics.Components
 			this._Position.PropertyChanged += (a, b) => this._Sprite.Position = this.Position;
 
 			this._Size = this.Owner.Attributes.GetOrCreate<Vector2>("Size");
-			this._Size.PropertyChanged += (a, b) => this._Sprite.Size = this.Size;
+			this._Size.PropertyChanged += (a, b) =>
+				{
+					this._Sprite.Size = this.Size;
+					if (this._Sprite.Size != this.Size) //Nadzorujemy aspect ratio
+					{
+						this.Size = this._Sprite.Size;
+					}
+				};
 
 			this._Sprite = new Objects.Sprite(this._Texture, this.Position, this.Size);
 		}
