@@ -31,7 +31,7 @@
 		/// <summary>
 		/// Okno, na którym renderer będzie wyświetlał elementy.
 		/// </summary>
-		IWindow Window { get; }
+		IWindow Owner { get; }
 
 		/// <summary>
 		/// Tryb sortowania.

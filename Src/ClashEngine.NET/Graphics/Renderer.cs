@@ -25,7 +25,7 @@ namespace ClashEngine.NET.Graphics
 		/// <summary>
 		/// Okno, na którym renderer będzie wyświetlał elementy.
 		/// </summary>
-		public IWindow Window { get; private set; }
+		public IWindow Owner { get; private set; }
 
 		/// <summary>
 		/// Tryb sortowania.
@@ -158,7 +158,7 @@ namespace ClashEngine.NET.Graphics
 		public Renderer(IWindow owner)
 		{
 			this.Objects = new SortedList<IObject, object>(this.Comparer);
-			this.Window = owner;
+			this.Owner = owner;
 		}
 		#endregion
 

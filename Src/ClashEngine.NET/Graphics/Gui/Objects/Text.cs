@@ -194,8 +194,8 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		{
 			if (this.Initialized)
 			{
-				float multX = this.ParentControl.Data.Renderer.Window.Size.X / this.ParentControl.Data.Renderer.Camera.Size.X;
-				float multY = this.ParentControl.Data.Renderer.Window.Size.Y / this.ParentControl.Data.Renderer.Camera.Size.Y;
+				float multX = this.ParentControl.Data.Renderer.Owner.Size.X / this.ParentControl.Data.Renderer.Camera.Size.X;
+				float multY = this.ParentControl.Data.Renderer.Owner.Size.Y / this.ParentControl.Data.Renderer.Camera.Size.Y;
 				this.Font.Draw(this.TextValue, this.Color,
 					new System.Drawing.RectangleF(0f, 0f, this.Size.X * multX, this.Size.Y * multY),
 						this.TextObject);
