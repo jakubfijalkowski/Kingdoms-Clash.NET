@@ -208,8 +208,7 @@ using System.Linq.Expressions;
 		/// <returns></returns>
 		public virtual bool ContainsMouse()
 		{
-			return false;
-			//return this.Data.Input.TransformMousePosition(this.Owner.Camera).IsIn(this.AbsolutePosition, this.Size);
+			return this.Data.Input.Transform(this.Owner.Camera).IsIn(this.AbsolutePosition, this.Size);
 		}
 
 		/// <summary>

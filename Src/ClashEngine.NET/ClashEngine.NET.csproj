@@ -85,6 +85,7 @@
     <Compile Include="Data\Internals\IPropertyLevel.cs" />
     <Compile Include="Data\OneLevelPropertyPath.cs" />
     <Compile Include="Data\Internals\PropertyLevel.cs" />
+    <Compile Include="Extensions\IInputExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Data\PropertyPath.cs" />
     <Compile Include="Data\RootObjectExtension.cs" />
