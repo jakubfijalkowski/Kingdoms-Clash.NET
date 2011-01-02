@@ -1,4 +1,5 @@
 ﻿using ClashEngine.NET.Interfaces;
+using Moq;
 
 namespace ClashEngine.NET.Tests.TestObjects
 {
@@ -11,5 +12,15 @@ namespace ClashEngine.NET.Tests.TestObjects
 		public IResourcesManager Content { get; set; }
 		public Interfaces.Graphics.IRenderer Renderer { get; set; }
 		#endregion
+
+		public void Mock()
+		{
+			this.MainWindow = new Window();
+			(this.MainWindow as Window).Input = new Mock<IInput>().Object;
+
+			this.Screens = new Mock<IScreensManager>().Object;
+			this.Content = new Mock<IResourcesManager>().Object;
+			this.Renderer = new Mock<Interfaces.Graphics.IRenderer>().Object;
+		}
 	}
 }

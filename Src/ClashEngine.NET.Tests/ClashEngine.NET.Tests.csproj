@@ -67,6 +67,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributesCollectionTests.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="ScreensManagerTests.cs" />
     <Compile Include="TestObjects\Control.cs" />
     <Compile Include="TestObjects\GameInfo.cs" />
+    <Compile Include="TestObjects\Window.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClashEngine.NET\ClashEngine.NET.csproj">

@@ -7,14 +7,9 @@
 	public interface IContainer
 	{
 		/// <summary>
-		/// Wejście dla GUI.
+		/// Informacje o grze.
 		/// </summary>
-		IInput Input { get; set; }
-
-		/// <summary>
-		/// Renderer GUI.
-		/// </summary>
-		Graphics.IRenderer Renderer { get; set; }
+		IGameInfo GameInfo { get; set; }
 
 		/// <summary>
 		/// Kamera używana przez kontener.

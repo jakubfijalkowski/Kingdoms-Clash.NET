@@ -21,7 +21,10 @@ namespace ClashEngine.NET.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			this.Container = new Container(new Mock<IInput>().Object, new Mock<IRenderer>().Object);
+			GameInfo gameInfo = new GameInfo();
+			gameInfo.Mock();
+			this.Container = new Container(gameInfo);
+
 			this.Panel = new Panel();
 			this.Panel.Id = "Panel";
 

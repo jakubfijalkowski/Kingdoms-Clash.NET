@@ -2,6 +2,7 @@
 
 namespace ClashEngine.NET.Graphics.Gui
 {
+	using Interfaces;
 	using Interfaces.Graphics.Gui;
 
 	/// <summary>
@@ -11,27 +12,27 @@ namespace ClashEngine.NET.Graphics.Gui
 		: IContainer
 	{
 		#region Private fields
-		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
 		private UIData CurrentData = new UIData();
+		private IGameInfo _GameInfo = null;
 		#endregion
 
 		#region IContainer Members
 		/// <summary>
-		/// Wejście dla GUI.
+		/// Informacje o grze.
 		/// </summary>
-		public Interfaces.IInput Input
+		public IGameInfo GameInfo
 		{
-			get { return this.CurrentData.Input; }
-			set { this.CurrentData.Input = value; }
-		}
-
-		/// <summary>
-		/// Renderer GUI.
-		/// </summary>
-		public Interfaces.Graphics.IRenderer Renderer
-		{
-			get { return this.CurrentData.Renderer; }
-			set { this.CurrentData.Renderer = value; }
+			get { return this._GameInfo; }
+			set
+			{
+				if (value == null)
+				{
+					throw new System.ArgumentNullException("value");
+				}
+				this._GameInfo = value;
+				this.CurrentData.Input = this.GameInfo.MainWindow.Input;
+				this.CurrentData.Renderer = this.GameInfo.Renderer;
+			}
 		}
 
 		/// <summary>
@@ -78,9 +79,9 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		public void Render()
 		{
-			var oldMode = this.Renderer.SortMode;
-			this.Renderer.SortMode = Interfaces.Graphics.SortMode.FrontToBack;
-			this.Renderer.Camera = this.Camera;
+			var oldMode = this.GameInfo.Renderer.SortMode;
+			this.GameInfo.Renderer.SortMode = Interfaces.Graphics.SortMode.FrontToBack;
+			this.GameInfo.Renderer.Camera = this.Camera;
 			foreach (var c in this.Controls)
 			{
 				if (c.Visible)
@@ -88,7 +89,7 @@ namespace ClashEngine.NET.Graphics.Gui
 					c.Render();
 				}
 			}
-			this.Renderer.SortMode = oldMode;
+			this.GameInfo.Renderer.SortMode = oldMode;
 		}
 
 		/// <summary>
@@ -108,11 +109,10 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		/// <param name="input">Wejście.</param>
 		/// <param name="renderer">Renderer.</param>
-		public Container(Interfaces.IInput input = null, Interfaces.Graphics.IRenderer renderer = null)
+		public Container(Interfaces.IGameInfo gameInfo = null)
 		{
 			this.Controls = new Internals.ControlsCollection(this, this.CurrentData);
-			this.CurrentData.Input = input;
-			this.Renderer = renderer;
+			this.GameInfo = gameInfo;
 		}
 		#endregion
 

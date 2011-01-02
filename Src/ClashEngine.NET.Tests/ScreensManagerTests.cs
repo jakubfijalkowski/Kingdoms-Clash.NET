@@ -5,6 +5,8 @@ using NUnit.Framework;
 
 namespace ClashEngine.NET.Tests
 {
+	using TestObjects;
+
 	[TestFixture(Description = "Testy managera ekranów")]
 	public class ScreensManagerTests
 	{
@@ -20,8 +22,8 @@ namespace ClashEngine.NET.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			var gameInfo = new TestObjects.GameInfo();
-			gameInfo.Renderer = new Mock<Interfaces.Graphics.IRenderer>().Object;
+			GameInfo gameInfo = new GameInfo();
+			gameInfo.Mock();
 			this.Manager = new ScreensManager(gameInfo);
 
 			this.Screen1 = new Mock<Screen>("Screen1", ScreenType.Fullscreen);

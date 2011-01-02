@@ -58,8 +58,6 @@ namespace ClashEngine.NET.Utilities
 		/// Kamera używana przez ekran.
 		/// </summary>
 		private Interfaces.Graphics.ICamera Camera;
-
-		private IGameInfo _GameInfo = null;
 		#endregion
 		
 		#region IFPSCounter Members
@@ -99,17 +97,8 @@ namespace ClashEngine.NET.Utilities
 		public Interfaces.IScreensManager OwnerManager { get; set; }
 		public IGameInfo GameInfo
 		{
-			get { return this._GameInfo; }
-			set
-			{
-				if (value == null)
-				{
-					throw new System.ArgumentNullException("value");
-				}
-				this._GameInfo = value;
-				this.Gui.Input = this.GameInfo.MainWindow.Input;
-				this.Gui.Renderer = this.GameInfo.Renderer;
-			}
+			get { return this.Gui.GameInfo; }
+			set { this.Gui.GameInfo = value; }
 		}
 		public Interfaces.ScreenType Type { get { return Interfaces.ScreenType.Popup; } }
 		public Interfaces.ScreenState State { get; set; }

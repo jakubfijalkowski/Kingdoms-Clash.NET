@@ -18,7 +18,9 @@ namespace ClashEngine.NET.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			this.Container = new Container(new Mock<IInput>().Object, new Mock<IRenderer>().Object);
+			GameInfo gameInfo = new GameInfo();
+			gameInfo.Mock();
+			this.Container = new Container(gameInfo);
 
 			this.Control1 = new Mock<Control>("Control1");
 			this.Control1.SetupAllProperties();

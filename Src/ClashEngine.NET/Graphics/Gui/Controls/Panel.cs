@@ -14,22 +14,9 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 	{
 		#region IContainer Members
 		/// <summary>
-		/// Nieużywane - kontrolki dziedziczą wejście po głównym kontenerze.
+		/// Nieużywane - kontrolki dziedziczą informacje o grze po głównym kontenerze.
 		/// </summary>
-		Interfaces.IInput IContainer.Input
-		{
-			get { return this.Data.Input; }
-			set { }
-		}
-
-		/// <summary>
-		/// Nieużywane - kontrolki dziedziczą renderer po głównym kontenerze.
-		/// </summary>
-		Interfaces.Graphics.IRenderer IContainer.Renderer
-		{
-			get { return this.Data.Renderer; }
-			set { }
-		}
+		Interfaces.IGameInfo IContainer.GameInfo { get; set; }
 
 		/// <summary>
 		/// Kamera używana przez kontener.
