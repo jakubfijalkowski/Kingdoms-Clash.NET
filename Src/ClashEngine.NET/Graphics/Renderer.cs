@@ -4,6 +4,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace ClashEngine.NET.Graphics
 {
+	using Interfaces;
 	using Interfaces.Graphics;
 
 	/// <summary>
@@ -21,6 +22,11 @@ namespace ClashEngine.NET.Graphics
 		#endregion
 
 		#region IRenderer Members
+		/// <summary>
+		/// Okno, na którym renderer będzie wyświetlał elementy.
+		/// </summary>
+		public IWindow Window { get; private set; }
+
 		/// <summary>
 		/// Tryb sortowania.
 		/// </summary>
@@ -53,11 +59,6 @@ namespace ClashEngine.NET.Graphics
 				}
 			}
 		}
-
-		/// <summary>
-		/// Rozmiar viewportu okna przed przekształceniami.
-		/// </summary>
-		public OpenTK.Vector2 ViewPortSize { get; private set; }
 
 		/// <summary>
 		/// Rysuje obiekt.
@@ -150,10 +151,14 @@ namespace ClashEngine.NET.Graphics
 		#endregion
 
 		#region Constructors
-		public Renderer(OpenTK.Vector2 viewPortSize)
+		/// <summary>
+		/// Inicjalizuje renderer.
+		/// </summary>
+		/// <param name="owner">Okno, na którym renderer będzie wyświetlał elementy.</param>
+		public Renderer(IWindow owner)
 		{
 			this.Objects = new SortedList<IObject, object>(this.Comparer);
-			this.ViewPortSize = viewPortSize;
+			this.Window = owner;
 		}
 		#endregion
 

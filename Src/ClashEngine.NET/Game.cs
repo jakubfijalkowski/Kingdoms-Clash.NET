@@ -122,7 +122,7 @@ namespace ClashEngine.NET
 			this._Info.Content = new ResourcesManager();
 			#endif
 
-			this._Info.Renderer = new Graphics.Renderer(this._Info.MainWindow.Size);
+			this._Info.Renderer = new Graphics.Renderer(this.Info.MainWindow);
 			this._Info.Screens = new ScreensManager(this.Info);
 		}
 		#endregion

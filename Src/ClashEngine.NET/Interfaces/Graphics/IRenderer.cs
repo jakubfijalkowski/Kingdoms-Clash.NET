@@ -29,6 +29,11 @@
 	public interface IRenderer
 	{
 		/// <summary>
+		/// Okno, na którym renderer będzie wyświetlał elementy.
+		/// </summary>
+		IWindow Window { get; }
+
+		/// <summary>
 		/// Tryb sortowania.
 		/// </summary>
 		SortMode SortMode { get; set; }
@@ -37,12 +42,6 @@
 		/// Kamera.
 		/// </summary>
 		ICamera Camera { get; set; }
-
-		/// <summary>
-		/// Rozmiar viewportu okna przed przekształceniami.
-		/// </summary>
-		//TODO: zastanowić się, co z tym zrobić
-		OpenTK.Vector2 ViewPortSize { get; }
 
 		/// <summary>
 		/// Rysuje obiekt.

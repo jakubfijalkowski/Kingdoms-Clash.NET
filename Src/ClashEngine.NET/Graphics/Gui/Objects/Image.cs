@@ -180,8 +180,8 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// </remarks>
 		private void UpdateTexCoords()
 		{
-			float multX = this.ParentControl.Data.Renderer.ViewPortSize.X / this.ParentControl.Data.Renderer.Camera.Size.X;
-			float multY = this.ParentControl.Data.Renderer.ViewPortSize.Y / this.ParentControl.Data.Renderer.Camera.Size.Y;
+			float multX = this.ParentControl.Data.Renderer.Window.Size.X / this.ParentControl.Data.Renderer.Camera.Size.X;
+			float multY = this.ParentControl.Data.Renderer.Window.Size.Y / this.ParentControl.Data.Renderer.Camera.Size.Y;
 
 			float realW = this.Size.X * multX;
 			float realH = this.Size.Y * multY;
