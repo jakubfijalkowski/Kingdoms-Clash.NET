@@ -217,7 +217,7 @@ namespace ClashEngine.NET
 		/// </summary>
 		public void Render()
 		{
-			int last = 0;
+			int last = -1;
 			for (int i = this.Items.Count - 1; i >= 0; i--)
 			{
 				if (base[i].State <= ScreenState.Covered)
