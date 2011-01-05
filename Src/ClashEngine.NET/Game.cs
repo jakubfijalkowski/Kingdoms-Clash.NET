@@ -105,6 +105,44 @@ namespace ClashEngine.NET
 			}
 		}
 		#endregion
+		
+		#region Protected members
+		/// <summary>
+		/// Manager ekranów.
+		/// Odpowiada <see cref="IGameInfo.Screens"/>.
+		/// </summary>
+		protected IScreensManager Screens
+		{
+			get { return this.Info.Screens; }
+		}
+
+		/// <summary>
+		/// Okno główne.
+		/// Odpowiada <see cref="IGameInfo.MainWindow"/>.
+		/// </summary>
+		protected IWindow Window
+		{
+			get { return this.Info.MainWindow; }
+		}
+
+		/// <summary>
+		/// Manager zasobów.
+		/// Odpowiada <see cref="IGameInfo.Content"/>.
+		/// </summary>
+		protected IResourcesManager Content
+		{
+			get { return this.Info.Content; }
+		}
+
+		/// <summary>
+		/// Główny renderer.
+		/// Odpowiada <see cref="IGameInfo.Renderer"/>.
+		/// </summary>
+		protected Interfaces.Graphics.IRenderer Renderer
+		{
+			get { return this.Info.Renderer; }
+		}
+		#endregion
 
 		#region Constructors
 		public Game(int width, int height, string title, WindowFlags flags = WindowFlags.Default)
