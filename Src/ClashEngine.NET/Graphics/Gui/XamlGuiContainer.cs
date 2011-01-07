@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Xaml;
 
 namespace ClashEngine.NET.Graphics.Gui
@@ -12,51 +11,22 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// </summary>
 	[System.Windows.Markup.ContentProperty("Controls")]
 	public class XamlGuiContainer
-		: IXamlGuiContainer
+		: Container, IXamlGuiContainer
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 
 		#region Private fields
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private bool Usable = true;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private IResourcesManager Manager = null;
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private IResourcesManager ParentManager = null;
 		#endregion
 
-		#region IXamlGuiContainer Members
+		#region XAML Properties
 		/// <summary>
-		/// Kontrolki.
+		/// Kontrolki głównego elementu.
 		/// </summary>
-		public IControlsCollection Controls { get; private set; }
-
-		/// <summary>
-		/// Warunki do stylizacji GUI.
-		/// </summary>
-		public IConditionsCollection Triggers { get; private set; }
-
-		/// <summary>
-		/// Binduje kontrner XAML do kontenera GUI.
-		/// </summary>
-		/// <param name="container"></param>
-		public void Bind(Interfaces.Graphics.Gui.IContainer container)
+		public IControlsCollection Controls
 		{
-			if (!this.Usable)
-			{
-				throw new NotSupportedException("Multiple binding to container is not supported");
-			}
-			this.Usable = false;
-			container.Controls.AddRange(this.Controls);
-		}
-
-		/// <summary>
-		/// Zapisuje kontener do wskazanego wyjścia.
-		/// </summary>
-		/// <param name="output">Wyjście.</param>
-		public void Save(System.IO.TextWriter output)
-		{
-			XamlServices.Save(output, this);
+			get { return this.Root.Controls; }
 		}
 		#endregion
 
@@ -96,18 +66,19 @@ namespace ClashEngine.NET.Graphics.Gui
 
 		public void Free()
 		{
-			this.Controls.Clear();
+			this.Root.Controls.Clear();
 			this.Manager.Dispose();
-			this.Usable = true;
 		}
 		#endregion
 
 		#region Constructors
-		public XamlGuiContainer()
-		{
-			this.Controls = new Internals.ControlsCollection();
-			this.Triggers = new Internals.ConditionsCollection();
-		}
+		/// <summary>
+		/// Inicjalizuje kontener.
+		/// </summary>
+		/// <param name="gameInfo">Informacje o grze.</param>
+		public XamlGuiContainer(IGameInfo gameInfo)
+			: base(gameInfo)
+		{ }
 		#endregion
 
 		#region IDisposable Members
