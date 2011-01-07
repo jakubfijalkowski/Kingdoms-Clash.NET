@@ -38,7 +38,10 @@
 		/// </summary>
 		public void Render()
 		{
+			var oldSortMode = this.GameInfo.Renderer.SortMode;
+			this.GameInfo.Renderer.SortMode = SortMode.FrontToBack;
 			this.Root.Render();
+			this.GameInfo.Renderer.SortMode = oldSortMode;
 		}
 		#endregion
 
