@@ -14,7 +14,7 @@
 		/// <summary>
 		/// Informacje o grze.
 		/// </summary>
-		IGameInfo GameInfo { get; set; }
+		IGameInfo GameInfo { get; }
 
 		/// <summary>
 		/// Kamera używana przez kontener.
