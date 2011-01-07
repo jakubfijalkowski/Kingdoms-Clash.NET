@@ -13,9 +13,9 @@
 	{
 		#region IPlayerControllerFactory Members
 		/// <summary>
-		/// Manager zasobów wykorzystywany jest do załadowania GUI.
+		/// Informacje o grze.
 		/// </summary>
-		public ClashEngine.NET.Interfaces.IResourcesManager Content { get; set; }
+		public ClashEngine.NET.Interfaces.IGameInfo GameInfo { get; set; }
 
 		/// <summary>
 		/// Ładuje kontener GUI i udostępnia dwa "dojścia" do niego - jedno jako zaślepkę, drugie, to właściwe, które obsługuje obu graczy.
@@ -23,8 +23,8 @@
 		/// <returns></returns>
 		public Interfaces.Player.IPlayerController[] Produce()
 		{
-			var container = new XAML.PlayersGUIContainer();
-			//this.Content.Load("Guis/TwoPlayers.xml", container);
+			var container = new XAML.PlayersGUIContainer(this.GameInfo);
+			this.GameInfo.Content.Load("Guis/TwoPlayers.xml", container);
 
 			return new Interfaces.Player.IPlayerController[]
 				{

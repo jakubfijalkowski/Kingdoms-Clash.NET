@@ -124,6 +124,7 @@
     <Compile Include="Graphics\Gui\Controls\Button.cs" />
     <Compile Include="Graphics\Gui\Controls\Internals\RotatorObjectsCollection.cs" />
     <Compile Include="Graphics\Gui\Controls\Internals\RotatorSelectedItems.cs" />
+    <Compile Include="Graphics\Gui\Controls\Pane.cs" />
     <Compile Include="Graphics\Gui\Controls\Panel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -177,6 +178,7 @@
     <Compile Include="Interfaces\Graphics\Conditions\ITrigger.cs" />
     <Compile Include="Interfaces\Graphics\Conditions\ITriggersCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Controls\IButton.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Controls\IPane.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Controls\IPanel.cs">
       <SubType>Code</SubType>
     </Compile>

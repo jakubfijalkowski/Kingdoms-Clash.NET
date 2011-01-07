@@ -17,12 +17,6 @@
 		public IGameInfo GameInfo { get; private set; }
 
 		/// <summary>
-		/// Kamera używana przez kontener.
-		/// Może być null.
-		/// </summary>
-		public ICamera Camera { get; set; }
-
-		/// <summary>
 		/// Główna kontrolka.
 		/// </summary>
 		/// <remarks>
@@ -44,7 +38,6 @@
 		/// </summary>
 		public void Render()
 		{
-			this.GameInfo.Renderer.Camera = this.Camera;
 			this.Root.Render();
 		}
 		#endregion

@@ -42,10 +42,9 @@ namespace Kingdoms_Clash.NET.Player.Controllers.Internals
 			this.Container.Player1 = this.Player;
 			this.Container.Player1Queue = this.GameState.Controller.Player1Queue;
 
-			//var screen = new ControlerScreen();
-			//this.Container.Bind(screen);
-			//screens.AddAndActivate(screen);
-			//screens.MoveToFront(screen);
+			var screen = new ControlerScreen(this.Container);
+			screens.AddAndActivate(screen);
+			screens.MoveToFront(screen);
 		}
 		#endregion
 

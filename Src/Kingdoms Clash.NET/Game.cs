@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ClashEngine.NET;
-using ClashEngine.NET.Utilities;
 using ClashEngine.NET.Interfaces;
+using ClashEngine.NET.Utilities;
 using OpenTK.Graphics.OpenGL;
 
 namespace Kingdoms_Clash.NET
@@ -97,7 +97,7 @@ namespace Kingdoms_Clash.NET
 			}
 
 			Player.Controllers.GuiControllerFactory factory = new Player.Controllers.GuiControllerFactory();
-			factory.Content = this.Info.Content;
+			factory.GameInfo = this.Info;
 			var controlers = factory.Produce();
 
 			this.Game = new SinglePlayer();
@@ -143,19 +143,19 @@ namespace Kingdoms_Clash.NET
 		}
 		#endregion
 
-		//#region Main
-		//static void Main(string[] args)
-		//{
-		//    UserData.Loader loader = new UserData.Loader(Defaults.UserData, Defaults.ConfigurationFile);
+		#region Main
+		static void Main(string[] args)
+		{
+			UserData.Loader loader = new UserData.Loader(Defaults.UserData, Defaults.ConfigurationFile);
 
-		//    loader.LoadConfiguration();
-		//    loader.LoadNations();
+			loader.LoadConfiguration();
+			loader.LoadNations();
 
-		//    using (var game = new KingdomsClashNetGame(loader.Nations))
-		//    {
-		//        game.Run();
-		//    }
-		//}
-		//#endregion
+			using (var game = new KingdomsClashNetGame(loader.Nations))
+			{
+				game.Run();
+			}
+		}
+		#endregion
 	}
 }

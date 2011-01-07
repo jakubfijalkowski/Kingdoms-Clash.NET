@@ -8,9 +8,9 @@ namespace Kingdoms_Clash.NET.Interfaces.Factories
 	public interface IPlayerControllerFactory
 	{
 		/// <summary>
-		/// Manager zasobów, który dana fabryka może wykorzystać.
+		/// Informacje o grze.
 		/// </summary>
-		IResourcesManager Content { get; set; }
+		IGameInfo GameInfo { get; set; }
 
 		/// <summary>
 		/// Produkuje dwa kontrolery graczy.

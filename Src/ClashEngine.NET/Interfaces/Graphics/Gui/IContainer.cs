@@ -17,12 +17,6 @@
 		IGameInfo GameInfo { get; }
 
 		/// <summary>
-		/// Kamera używana przez kontener.
-		/// Może być null.
-		/// </summary>
-		Graphics.ICamera Camera { get; set; }
-
-		/// <summary>
 		/// Główna kontrolka.
 		/// </summary>
 		IContainerControl Root { get; }

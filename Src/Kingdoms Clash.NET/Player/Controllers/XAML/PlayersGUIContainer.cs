@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using ClashEngine.NET.Extensions;
 using ClashEngine.NET.Graphics.Gui;
+using ClashEngine.NET.Interfaces;
 
 namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 {
@@ -11,7 +12,7 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 	/// Kontener GUI dla kontrolera gracza.
 	/// </summary>
 	public class PlayersGUIContainer
-		: /*XamlGuiContainer,*/ INotifyPropertyChanged
+		: XamlGuiContainer, INotifyPropertyChanged
 	{
 		#region Private fields
 		private Interfaces.Player.IPlayer _Player1;
@@ -95,6 +96,14 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 			{
 				this.Player2Queue.Request(unit.Id);
 			}
+		}
+		#endregion
+
+		#region Constructors
+		public PlayersGUIContainer(IGameInfo gameInfo)
+			: base(gameInfo)
+		{
+
 		}
 		#endregion
 	}
