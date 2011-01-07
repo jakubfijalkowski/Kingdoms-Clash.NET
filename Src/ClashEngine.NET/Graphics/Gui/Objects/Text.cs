@@ -120,15 +120,6 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		}
 
 		/// <summary>
-		/// Tekstura z tekstem.
-		/// </summary>
-		public override Interfaces.Graphics.Resources.ITexture Texture
-		{
-			get { return this.TextObject.Texture; }
-			set { }
-		}
-
-		/// <summary>
 		/// Głębokość, na jakiej znajduje się tekst.
 		/// </summary>
 		public override float Depth
@@ -138,28 +129,9 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		}
 
 		/// <summary>
-		/// Wierzchołki prostokąta, na którym wyświetlany jest tekst.
-		/// </summary>
-		public override Interfaces.Graphics.Vertex[] Vertices
-		{
-			get
-			{
-				return this.TextObject.Vertices;
-			}
-		}
-
-		/// <summary>
-		/// Indeksy.
-		/// </summary>
-		public override int[] Indecies
-		{
-			get { return this.TextObject.Indecies; }
-		}
-
-		/// <summary>
 		/// Aktualizujemy pozycję, jeśli nie była zmieniona.
 		/// </summary>
-		public override void Finish()
+		public override void OnAdd()
 		{
 			this.Initialized = true;
 			if (this.Size == Vector2.Zero)
@@ -170,15 +142,16 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		}
 
 		/// <summary>
-		/// Wywoływane przed wyrenderowaniem obiektu.
+		/// Wyświetla obiekt.
 		/// </summary>
-		public override void PreRender()
+		public override void Render()
 		{
 			if (this.DoTextureNeedUpdate)
 			{
 				this.UpdateTexture();
 				this.DoTextureNeedUpdate = false;
 			}
+			this.Owner.Data.Renderer.Draw(this.TextObject);
 		}
 		#endregion
 

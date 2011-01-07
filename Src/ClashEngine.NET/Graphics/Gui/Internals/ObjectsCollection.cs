@@ -33,7 +33,7 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 			item.Owner = this.Owner;
 			item.Position = item.Position; //Wymuszamy aktualizację
 			this.Objects.Add(item);
-			item.Finish();
+			item.OnAdd();
 		}
 
 		/// <summary>

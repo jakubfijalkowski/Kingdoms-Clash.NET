@@ -17,7 +17,6 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		: ObjectBase, IDataContext, IImage
 	{
 		#region Private fields
-		private Interfaces.Graphics.Resources.ITexture _Texture = null;
 		private Graphics.Objects.Quad Quad = new Graphics.Objects.Quad(Vector2.Zero, Vector2.Zero, System.Drawing.Color.White);
 		private bool WasSizeSet = false;
 		private StretchType _Stretch = StretchType.Fill;
@@ -56,15 +55,15 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// Tekstura dla obrazka.
 		/// </summary>
 		[TypeConverter(typeof(Converters.TextureConverter))]
-		public override Interfaces.Graphics.Resources.ITexture Texture
+		public Interfaces.Graphics.Resources.ITexture Texture
 		{
-			get { return this._Texture; }
+			get { return this.Quad.Texture; }
 			set
 			{
-				this._Texture = value;
-				if (this.Stretch == StretchType.Fill && !this.WasSizeSet && this._Texture != null)
+				this.Quad.Texture = value;
+				if (this.Stretch == StretchType.Fill && !this.WasSizeSet && this.Quad.Texture != null)
 				{
-					this.Quad.Size = this._Texture.Size;
+					this.Quad.Size = this.Quad.Texture.Size;
 				}
 				else if (this.Stretch == StretchType.Repeat || this.Stretch == StretchType.RepeatX || this.Stretch == StretchType.RepeatY)
 				{
@@ -121,25 +120,9 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		}
 
 		/// <summary>
-		/// Wierzchołki prostokąta, na którym wyświetlany jest tekst.
-		/// </summary>
-		public override Interfaces.Graphics.Vertex[] Vertices
-		{
-			get { return this.Quad.Vertices; }
-		}
-
-		/// <summary>
-		/// Indeksy.
-		/// </summary>
-		public override int[] Indecies
-		{
-			get { return this.Quad.Indecies; }
-		}
-
-		/// <summary>
 		/// Poprawia pozycję i/lub rozmiar elementu tak, by pasował do kontrolki.
 		/// </summary>
-		public override void Finish()
+		public override void OnAdd()
 		{
 			this.DoTexCoordsNeedUpdate = true;
 			if (!this.WasSizeSet)
@@ -149,15 +132,16 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		}
 
 		/// <summary>
-		/// Wywoływane przed wyrenderowaniem obiektu.
+		/// Wyświetla obiekt.
 		/// </summary>
-		public override void PreRender()
+		public override void Render()
 		{
 			if (this.DoTexCoordsNeedUpdate)
 			{
 				this.UpdateTexCoords();
 				this.DoTexCoordsNeedUpdate = false;
 			}
+			this.Owner.Data.Renderer.Draw(this.Quad);
 		}
 		#endregion
 

@@ -60,19 +60,23 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			protected set { this.InnerQuad.Position = value;}
 		}
 
-		public override Interfaces.Graphics.Resources.ITexture Texture { get { return null; } set { } }
-		public override Interfaces.Graphics.Vertex[] Vertices { get { return this.InnerQuad.Vertices; } }
-		public override int[] Indecies { get { return this.InnerQuad.Indecies; } }
-
 		/// <summary>
 		/// Zmieniamy rozmiar i pozycję, jeśli nie zostały zmienione wcześniej.
 		/// </summary>
-		public override void Finish()
+		public override void OnAdd()
 		{
 			if (this.Size == Vector2.Zero)
 			{
 				this.Size = this.Owner.Size;
 			}
+		}
+
+		/// <summary>
+		/// Wyświetla obiekt.
+		/// </summary>
+		public override void Render()
+		{
+			this.Owner.Data.Renderer.Draw(this.InnerQuad);
 		}
 		#endregion
 

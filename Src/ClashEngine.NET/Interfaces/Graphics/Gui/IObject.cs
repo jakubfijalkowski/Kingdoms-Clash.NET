@@ -1,12 +1,9 @@
-﻿using System.ComponentModel;
-
-namespace ClashEngine.NET.Interfaces.Graphics.Gui
+﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
 {
 	/// <summary>
 	/// Bazowy interfejs dla obiektów renderera kontrolki GUI.
 	/// </summary>
 	public interface IObject
-		: Graphics.IObject
 	{
 		/// <summary>
 		/// Pozycja relatywna - nie uwzględnia pozycji kontrolki.
@@ -29,9 +26,19 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		bool Visible { get; set; }
 
 		/// <summary>
-		/// Metoda, w której wszystko już ma prawidłowe wartości.
-		/// Służy do np. korekty rozmiarów kontrolki lub jej pozycji.
+		/// Głębokość, na któej obiekt się znajduje.
 		/// </summary>
-		void Finish();
+		float Depth { get; set; }
+
+		/// <summary>
+		/// Metoda wywoływana przy dodaniu do kolekcji obiektów.
+		/// Służy do np. korekty rozmiarów/pozycji kontrolki.
+		/// </summary>
+		void OnAdd();
+
+		/// <summary>
+		/// Wyświetla obiekt.
+		/// </summary>
+		void Render();
 	}
 }

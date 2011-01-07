@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace ClashEngine.NET.Graphics.Gui.Objects
 {
@@ -52,16 +48,19 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		public bool Visible { get; set; }
 
 		/// <summary>
+		/// Głębokość, na któej obiekt się znajduje.
+		/// </summary>
+		public virtual float Depth { get; set; }
+
+		/// <summary>
 		/// Poprawia rozmiar elementu tak, by pasował do kontrolki.
 		/// </summary>
-		public abstract void Finish();
-		#endregion
+		public abstract void OnAdd();
 
-		#region IObject Members
-		public abstract Interfaces.Graphics.Resources.ITexture Texture { get; set; }
-		public abstract float Depth { get; set; }
-		public abstract Interfaces.Graphics.Vertex[] Vertices { get; }
-		public abstract int[] Indecies { get; }
+		/// <summary>
+		/// Wyświetla obiekt.
+		/// </summary>
+		public abstract void Render();
 		#endregion
 	}
 }

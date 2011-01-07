@@ -69,9 +69,9 @@ namespace ClashEngine.NET.Graphics.Objects
 
 		#region IObject Members
 		/// <summary>
-		/// Nie posiada tekstury.
+		/// Tekstura.
 		/// </summary>
-		public Interfaces.Graphics.Resources.ITexture Texture { get { return null; } }
+		public Interfaces.Graphics.Resources.ITexture Texture { get; set; }
 
 		/// <summary>
 		/// Głębokość, na której znajduje się obiekt.

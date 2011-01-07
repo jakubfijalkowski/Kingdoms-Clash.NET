@@ -38,6 +38,11 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Objects
 		: IObject
 	{
 		/// <summary>
+		/// Tekstura obrazka.
+		/// </summary>
+		Resources.ITexture Texture { get; set; }
+
+		/// <summary>
 		/// Rozmiar obrazka.
 		/// </summary>
 		Vector2 Size { get; set; }

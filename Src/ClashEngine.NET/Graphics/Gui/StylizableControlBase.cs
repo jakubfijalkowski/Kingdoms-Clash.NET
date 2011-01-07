@@ -28,7 +28,7 @@ namespace ClashEngine.NET.Graphics.Gui
 			{
 				if (obj.Visible)
 				{
-					this.Data.Renderer.Draw(obj);
+					obj.Render();
 				}
 			}
 		}
