@@ -127,6 +127,24 @@
     <Compile Include="Interfaces\EntitiesManager\IRenderableComponentsCollection.cs" />
     <Compile Include="Interfaces\Data\IBinding.cs" />
     <Compile Include="Interfaces\Data\IBindingExtension.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\IContainer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\Graphics\Gui\IContainerControl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\Graphics\Gui\IControl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\Graphics\Gui\IControlsCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\Graphics\Gui\IStylizableControl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\Graphics\Gui\IUIData.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Interfaces\Graphics\ICamera.cs" />
     <Compile Include="Interfaces\Graphics\Objects\IQuad.cs" />
     <Compile Include="Interfaces\Graphics\Objects\ISprite.cs" />
@@ -187,7 +205,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Graphics\Gui\" />
-    <Folder Include="Interfaces\Graphics\Gui\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

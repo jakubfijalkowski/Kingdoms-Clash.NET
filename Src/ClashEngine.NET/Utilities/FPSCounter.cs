@@ -52,7 +52,7 @@ namespace ClashEngine.NET.Utilities
 		/// Tekst z liczbą FPS.
 		/// Używana tylko, jeśli RenderStatistics == true.
 		/// </summary>
-		private Interfaces.Graphics.Gui.Objects.IText Text = null;
+		//private Interfaces.Graphics.Gui.Objects.IText Text = null;
 
 		/// <summary>
 		/// Kamera używana przez ekran.
@@ -107,12 +107,12 @@ namespace ClashEngine.NET.Utilities
 		{
 			if (this.RenderStatistics)
 			{
-				var panel = new Graphics.Gui.Controls.Panel();
-				panel.Id = "FPSPanel";
-				panel.Position = new OpenTK.Vector2(0, 0);
-				panel.Size = new OpenTK.Vector2(100, 30);
-				panel.Objects.Add(this.Text);
-				this.Gui.Controls.Add(panel);
+				//var panel = new Graphics.Gui.Controls.Panel();
+				//panel.Id = "FPSPanel";
+				//panel.Position = new OpenTK.Vector2(0, 0);
+				//panel.Size = new OpenTK.Vector2(100, 30);
+				//panel.Objects.Add(this.Text);
+				//this.Gui.Controls.Add(panel);
 			}
 		}
 
@@ -139,7 +139,7 @@ namespace ClashEngine.NET.Utilities
 
 				if (this.RenderStatistics && (int)currAverage != (int)this.AverageFPS)
 				{
-					this.Text.TextValue = "FPS: " + (int)currAverage;
+					//this.Text.TextValue = "FPS: " + (int)currAverage;
 				}
 				this.AverageFPS = currAverage;
 
@@ -164,7 +164,7 @@ namespace ClashEngine.NET.Utilities
 			//if(this.AllFrames == long.MaxValue) // Zabezpieczenie przed buffer overflowem.
 			if (this.RenderStatistics)
 			{
-				this.Gui.Render();
+				//this.Gui.Render();
 				this.GameInfo.Renderer.Flush();
 			}
 		}
@@ -184,7 +184,7 @@ namespace ClashEngine.NET.Utilities
 			this.RenderStatistics = false;
 			this.LogStatistics = logStatistics;
 
-			this.Gui = new Graphics.Gui.Container();
+			//this.Gui = new Graphics.Gui.Container();
 		}
 
 		/// <summary>
@@ -199,9 +199,9 @@ namespace ClashEngine.NET.Utilities
 			this.RenderStatistics = true;
 			this.Gui.Camera = this.Camera = new Graphics.Cameras.Movable2DCamera(screenSize, new System.Drawing.RectangleF(0, 0, screenSize.X, screenSize.Y));
 
-			this.Text = new Graphics.Gui.Objects.Text();
-			this.Text.Font = font;
-			this.Text.Color = textColor.ToVector4();
+			//this.Text = new Graphics.Gui.Objects.Text();
+			//this.Text.Font = font;
+			//this.Text.Color = textColor.ToVector4();
 		}
 		#endregion
 	}

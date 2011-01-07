@@ -3,6 +3,7 @@
 	/// <summary>
 	/// Kontrolka-kontener, posiada listę kontrolek-dzieci.
 	/// </summary>
+	/// <seealso cref="IContainer"/>
 	public interface IContainerControl
 		: IControl
 	{

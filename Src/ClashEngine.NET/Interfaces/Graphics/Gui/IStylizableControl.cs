@@ -9,6 +9,6 @@
 		/// <summary>
 		/// Kolekcja z obiektami renderera dla kontrolki.
 		/// </summary>
-		IObjectsCollection Objects { get; }
+		//IObjectsCollection Objects { get; }
 	}
 }

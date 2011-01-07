@@ -14,7 +14,7 @@
 		/// <summary>
 		/// Właściciel kontrolki.
 		/// </summary>
-		IContainer Owner { get; set; }
+		IContainerControl Owner { get; set; }
 
 		/// <summary>
 		/// Dane UI dla kontrolki.
@@ -22,7 +22,17 @@
 		IUIData Data { get; set; }
 
 		/// <summary>
-		/// Offset dla kontrolki ustawiany przez kontener.
+		/// Czy kontrolka ma być "permanentnie" aktywna, tzn. czy po puszczeniu przycisku myszy przestaje być aktywna.
+		/// </summary>
+		bool PermanentActive { get; }
+
+		/// <summary>
+		/// Czy kontrolka jest widoczna.
+		/// </summary>
+		bool Visible { get; set; }
+
+		/// <summary>
+		/// Offset dla kontrolki ustawiany przez kontener. Równy <see cref="Owner.AbsolutePosition"/>.
 		/// Nie do zmiany ręcznej.
 		/// </summary>
 		OpenTK.Vector2 ContainerOffset { get; set; }
@@ -41,16 +51,6 @@
 		/// Rozmiar kontrolki.
 		/// </summary>
 		OpenTK.Vector2 Size { get; set; }
-
-		/// <summary>
-		/// Czy kontrolka ma być "permanentnie" aktywna, tzn. czy po puszczeniu przycisku myszy przestaje być aktywna.
-		/// </summary>
-		bool PermanentActive { get; }
-
-		/// <summary>
-		/// Czy kontrolka jest widoczna.
-		/// </summary>
-		bool Visible { get; set; }
 
 		/// <summary>
 		/// Sprawdza, czy myszka znajduje się nad kontrolką.

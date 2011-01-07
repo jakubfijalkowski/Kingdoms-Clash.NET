@@ -23,7 +23,7 @@ namespace ClashEngine.NET.Tests.TestObjects
 		public abstract bool IsActive { get; set; }
 		public abstract bool IsHot { get; set; }
 		public abstract bool Visible { get; set; }
-		public abstract IObjectsCollection Objects { get; set; }
+		//public abstract IObjectsCollection Objects { get; set; }
 		public abstract bool ContainsMouse();
 		public abstract void Update(double delta);
 		public abstract void Render();

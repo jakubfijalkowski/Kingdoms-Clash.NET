@@ -6,8 +6,9 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 	/// Kolekcja kontrolek.
 	/// Ma za zadanie ustawić właściwości Data, Owner i ContainerOffset kontrolek do niej dodanych.
 	/// </summary>
+	/// <seealso cref="IContainer"/>
 	public interface IControlsCollection
-		: ICollection<IControl>, IList<IControl>
+		: ICollection<IControl>//, IList<IControl>
 	{
 		/// <summary>
 		/// Właściciel.
@@ -30,8 +31,11 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		/// <summary>
 		/// Dodaje kontrolkę, która jest w kontrolce niżej.
 		/// </summary>
+		/// <remarks>
+		/// Takie dodanie kontrolki nie zmienia jej właściwości a jedynie umożliwia sprawdzanie stanu kontrolki z poziomu korzenia.
+		/// </remarks>
 		/// <param name="control"></param>
-		void AddChildControl(IControl control);
+		void AddChild(IControl control);
 
 		/// <summary>
 		/// Usuwa kontrolkę o wskazanym Id.
