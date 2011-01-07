@@ -165,6 +165,7 @@ namespace ClashEngine.NET.Tests
 				set
 				{
 					this._Items = value;
+					this.PropertyChanged.Raise(this, "Item");
 				}
 			}
 
@@ -197,7 +198,6 @@ namespace ClashEngine.NET.Tests
 					this.PropertyChanged.Raise(this, () => Value);
 				}
 			}
-
 
 			#region INotifyPropertyChanged Members
 			public event PropertyChangedEventHandler PropertyChanged;

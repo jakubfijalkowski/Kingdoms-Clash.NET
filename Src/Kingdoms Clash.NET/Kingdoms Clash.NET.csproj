@@ -151,6 +151,7 @@
     <Compile Include="Units\XAML\Wood.cs" />
     <Compile Include="UserData\ConfigurationSerializer.cs" />
     <Compile Include="UserData\Loader.cs" />
+    <None Include="app.config" />
     <None Include="NLog.Release.config" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
