@@ -52,6 +52,7 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 			{
 				throw new Exceptions.ArgumentAlreadyExistsException("item");
 			}
+			control.Data = this.Owner.Data; //Dziedziczymy Data od głównej kontrolki
 			base.InsertItem(this.Count, control);
 			if (this.Owner.Owner != null)
 			{
@@ -74,7 +75,7 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 		{
 			item.Owner = this.Owner;
 			item.Data = this.Owner.Data;
-			item.ContainerOffset = OpenTK.Vector2.Zero;
+			item.ContainerOffset = this.Owner.AbsolutePosition;
 			base.InsertItem(index, item);
 			item.OnAdd();
 			if (this.Owner.Owner != null)

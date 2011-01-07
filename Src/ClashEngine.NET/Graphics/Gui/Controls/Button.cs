@@ -13,7 +13,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 	///	  Clicked
 	/// </remarks>
 	public class Button
-		: ControlBase, IButton
+		: StylizableControlBase, IButton
 	{
 		#region Private fields
 		private bool WasActive = false;

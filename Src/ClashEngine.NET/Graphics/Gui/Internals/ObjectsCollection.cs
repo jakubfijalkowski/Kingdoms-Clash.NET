@@ -124,7 +124,7 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 		/// <param name="e"></param>
 		private void UpdatePositions(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == this.Owner.NameOf(_ => _.Position))
+			if (e.PropertyName == this.Owner.NameOf(_ => _.AbsolutePosition))
 			{
 				foreach (var item in this.Objects)
 				{

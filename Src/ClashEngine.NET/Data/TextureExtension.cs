@@ -2,10 +2,10 @@
 using System.Windows.Markup;
 using System.Xaml;
 
-namespace ClashEngine.NET.Graphics.Gui
+namespace ClashEngine.NET.Data
 {
-	using Interfaces.Graphics.Gui;
-	using Resources;
+	using Graphics.Resources;
+	using Interfaces.Data;
 
 	/// <summary>
 	/// Rozszerzenie XAML pobierające teksturę z managera zasobów kontenera GUI.

@@ -45,7 +45,7 @@ namespace ClashEngine.NET.Graphics
 		/// </remarks>
 		public ICamera Camera
 		{
-			get { return (this._Camera == this.DefaultCamera ? null : this._Camera); }
+			get { return this._Camera; }
 			set
 			{
 				if (this._Camera != value)
@@ -86,6 +86,14 @@ namespace ClashEngine.NET.Graphics
 				}
 				this._DefaultCamera = value;
 			}
+		}
+
+		/// <summary>
+		/// Czy użytko domyślnej kamery.
+		/// </summary>
+		public bool IsDefaultUsed
+		{
+			get { return this._Camera == this._DefaultCamera; }
 		}
 
 		/// <summary>

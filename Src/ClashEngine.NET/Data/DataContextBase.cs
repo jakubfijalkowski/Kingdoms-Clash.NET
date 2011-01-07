@@ -23,7 +23,7 @@ namespace ClashEngine.NET.Data
 		/// Kontekst danych.
 		/// </summary>
 		[TypeConverter(typeof(NameReferenceConverter))]
-		public object DataContext 
+		public virtual object DataContext 
 		{
 			get { return this._DataContext; }
 			set

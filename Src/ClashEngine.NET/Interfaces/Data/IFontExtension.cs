@@ -1,4 +1,4 @@
-﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
+﻿namespace ClashEngine.NET.Interfaces.Data
 {
 	/// <summary>
 	/// Interfejs dla rozszerzenia XAML: czcionka.

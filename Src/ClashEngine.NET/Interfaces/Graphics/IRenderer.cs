@@ -50,6 +50,11 @@
 		ICamera DefaultCamera { get; set; }
 
 		/// <summary>
+		/// Czy użytko domyślnej kamery.
+		/// </summary>
+		bool IsDefaultUsed { get; }
+
+		/// <summary>
 		/// Rysuje obiekt.
 		/// Musi być wywołana pomiędzy <see cref="Begin"/> i <see cref="End"/>.
 		/// </summary>

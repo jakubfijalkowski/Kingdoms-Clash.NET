@@ -32,8 +32,10 @@ namespace Kingdoms_Clash.NET
 		public override void OnInit()
 		{
 			string xaml = @"<XamlGuiContainer xmlns='http://schemas.fiolek.org/gui' xmlns:cni='clr-namespace:ClashEngine.NET.Internals;assembly=ClashEngine.NET' xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'>
-					<Panel Id='Test' Size='10,10'>
-						<Panel Id='Test2' Size='1,1'/>
+					<Panel Id='Test' Size='100,100' Position='50,50'>
+						<Button Id='b1' Size='100,100'>
+							<Rectangle Color='1,0,0,1' />
+						</Button>
 					</Panel>
 					</XamlGuiContainer>";
 			XamlGuiContainer container = new XamlGuiContainer(this.Info);
@@ -43,6 +45,7 @@ namespace Kingdoms_Clash.NET
 				RootObjectInstance = container
 			});
 			XamlServices.Transform(reader, writer);
+			this.Screens.AddAndActivate(new ClashEngine.NET.Graphics.Gui.Screen("Test", container, this.Window.ClientRectangle));
 		}
 
 		public override void OnDeinit()

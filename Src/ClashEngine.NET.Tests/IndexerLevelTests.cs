@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using ClashEngine.NET.Data.Internals;
 using ClashEngine.NET.Extensions;
 using NUnit.Framework;
-using ClashEngine.NET.Data.Internals;
-using System.ComponentModel;
 
 namespace ClashEngine.NET.Tests
 {

@@ -6,7 +6,7 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Controls
 	/// Przycisk.
 	/// </summary>
 	public interface IButton
-		: IStylizableControl
+		: IStylizableControl, INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Lista wciśniętych przycisków.

@@ -116,7 +116,12 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		}
 
 		public override int Check()
-		{ return 0; }
+		{
+			return 0;
+		}
+
+		public override void Render()
+		{ }
 		#endregion
 
 		#region Constructors

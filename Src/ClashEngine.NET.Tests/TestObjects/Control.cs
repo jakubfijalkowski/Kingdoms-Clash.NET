@@ -3,7 +3,7 @@
 namespace ClashEngine.NET.Tests.TestObjects
 {
 	public abstract class Control
-			: IControl
+		: IContainerControl
 	{
 		public string Id { get; private set; }
 
@@ -15,6 +15,7 @@ namespace ClashEngine.NET.Tests.TestObjects
 		#region IControl Members
 		public abstract IContainerControl Owner { get; set; }
 		public abstract IUIData Data { get; set; }
+		public abstract IControlsCollection Controls { get; set; }
 		public abstract OpenTK.Vector2 ContainerOffset { get; set; }
 		public abstract OpenTK.Vector2 Position { get; set; }
 		public abstract OpenTK.Vector2 AbsolutePosition { get; set; }
@@ -23,13 +24,13 @@ namespace ClashEngine.NET.Tests.TestObjects
 		public abstract bool IsActive { get; set; }
 		public abstract bool IsHot { get; set; }
 		public abstract bool Visible { get; set; }
-		//public abstract IObjectsCollection Objects { get; set; }
 		public abstract bool ContainsMouse();
 		public abstract void Update(double delta);
 		public abstract void Render();
 		public abstract int Check();
 		public abstract void OnAdd();
 		public abstract void OnRemove();
+		int IContainerControl.Control(string id) { return 0; }
 		#endregion
 
 		#region IDataContext Members

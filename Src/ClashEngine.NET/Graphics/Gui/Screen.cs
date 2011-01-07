@@ -4,159 +4,93 @@ using OpenTK.Input;
 namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces;
+	using Interfaces.Graphics.Gui;
 
 	/// <summary>
-	/// Ekran jako kontener na kontrolki(i nic więcej).
+	/// Ekran jako kontener na kontrolki.
 	/// </summary>
-	public abstract class Screen
-		: Container, Interfaces.Graphics.Gui.IScreen
+	public class Screen
+		: NET.Screen, Interfaces.Graphics.Gui.IScreen
 	{
-		private ScreenState _State = ScreenState.Deactivated;
-
-		#region IGuiScreen Members
+		#region IScreen Members
 		/// <summary>
 		/// Prostokąt, w którym zawiera się GUI.
-		/// Nadpisuje IInput.MouseTransformation i jest używane przez kamerę.
 		/// </summary>
-		public RectangleF Rectangle { get; private set; }
-		#endregion
-
-		#region IScreen Members
-		#region Properties
-		/// <summary>
-		/// Identyfikator ekranu.
-		/// </summary>
-		public string Id { get; private set; }
-
-		/// <summary>
-		/// Manager - rodzic.
-		/// Ustawiane przez nieg samego.
-		/// </summary>
-		public IScreensManager OwnerManager { get; set; }
-
-		/// <summary>
-		/// Typ ekranu.
-		/// </summary>
-		public ScreenType Type { get; private set; }
-
-		/// <summary>
-		/// Aktualny stan ekranu.
-		/// </summary>
-		public ScreenState State
+		public RectangleF Rectangle
 		{
-			get { return this._State; }
-			set
-			{
-				if (value != this._State)
-				{
-					var oldState = this._State;
-					this._State = value;
-					this.StateChanged(oldState);
-				}
-			}
+			get { return (base.Camera as Cameras.Movable2DCamera).Borders; }
 		}
+
+		/// <summary>
+		/// Kontener GUI.
+		/// </summary>
+		public IContainer Gui { get; protected set; }
 		#endregion
 
-		#region Events
+		#region Screen overrides
 		/// <summary>
-		/// Zdarzenie wywoływane przy inicjalizacji ekranu(dodaniu do managera).
+		/// Ukrywamy przed innymi.
 		/// </summary>
-		public virtual void OnInit()
-		{ }
-
-		/// <summary>
-		/// Zdarzenie wywoływane przy deinicjalizacji ekranu(usunięcie z managera).
-		/// </summary>
-		public virtual void OnDeinit()
-		{ }
-
-		/// <summary>
-		/// Zmienił się stan ekranu.
-		/// </summary>
-		/// <param name="oldState">Stan sprzed zmiany.</param>
-		public virtual void StateChanged(ScreenState oldState)
-		{ }
-
-		/// <summary>
-		/// Uaktualnienie.
-		/// </summary>
-		/// <param name="delta">Czas od ostatniego uaktualnienia.</param>
-		void IScreen.Update(double delta)
+		private new EntitiesManager.EntitiesManager Entities
 		{
-			this.Update(delta);
+			get { return base.Entities; }
+		}
+
+		/// <summary>
+		/// Wyświetla GUI.
+		/// </summary>
+		public override void Render()
+		{
+			if (this.Camera != null)
+			{
+				this.GameInfo.Renderer.Camera = this.Camera;
+			}
+			this.Gui.Render();
+		}
+
+		/// <summary>
+		/// Aktualizuje GUI.
+		/// </summary>
+		/// <param name="delta"></param>
+		public override void Update(double delta)
+		{
+			this.Gui.Update(delta);
 			this.CheckControls();
 		}
-
-		/// <summary>
-		/// Ekran ma się odrysować.
-		/// </summary>
-		void IScreen.Render()
-		{
-			this.GameInfo.Renderer.Camera = this.Camera;
-			this.Render();
-		}
-
-		#region Keyboard
-		/// <summary>
-		/// Zdarzenie naciśnięcia/zwolnienia klawisza.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		public virtual bool KeyChanged(KeyEventArgs e)
-		{ return false; }
-		#endregion
-
-		#region Mouse
-		/// <summary>
-		/// Zdarzenie naciśnięcia/zwolnienia przycisku myszy.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns>Czy zdarzenie zostało obsłużone.</returns>
-		public virtual bool MouseButton(MouseButtonEventArgs e)
-		{ return false; }
-
-		/// <summary>
-		/// Zdarzenie poruszenia myszy.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns>Czy zostało obsłużonę.</returns>
-		public virtual bool MouseMove(MouseMoveEventArgs e)
-		{ return false; }
-
-		/// <summary>
-		/// Zdarzenie "przekręcenia" kółka myszy.
-		/// </summary>
-		/// <param name="e"></param>
-		/// <returns>Czy zostało obsłużonę.</returns>
-		public virtual bool MouseWheel(MouseWheelEventArgs e)
-		{ return false; }
-		#endregion
-		#endregion
 		#endregion
 
 		#region Constructors
 		/// <summary>
-		/// Inicjalizuje nowy ekran.
+		/// Inicjalizuje ekran.
 		/// </summary>
 		/// <param name="id">Identyfikator.</param>
-		/// <param name="rect">Prostokąt, w któym zawiera się ekran. Zobacz <see cref="Rectangle"/>.</param>
-		/// <param name="type">Typ.</param>
+		/// <param name="container">Gui.</param>
+		/// <param name="type">Typ ekranu.</param>
 		public Screen(string id, RectangleF rect, ScreenType type = ScreenType.Popup)
+			: base(id, type)
 		{
-			this.Id = id;
-			this.Type = type;
-			this.Rectangle = rect;
+			this.Camera = new Cameras.Movable2DCamera(new OpenTK.Vector2(rect.Width, rect.Height), rect);
+		}
 
-			//this.Camera = new ClashEngine.NET.Graphics.Components.OrthoCamera(rect, new OpenTK.Vector2(rect.Width, rect.Height), 0f, true);
-			this.Camera = new Graphics.Cameras.Movable2DCamera(new OpenTK.Vector2(rect.Width, rect.Height), rect);
+		/// <summary>
+		/// Inicjalizuje ekran.
+		/// </summary>
+		/// <param name="id">Identyfikator.</param>
+		/// <param name="container">Gui.</param>
+		/// <param name="type">Typ ekranu.</param>
+		public Screen(string id, IContainer container, RectangleF rect, ScreenType type = ScreenType.Popup)
+			: this(id, rect, type)
+		{
+			this.Gui = container;
 		}
 		#endregion
 
-		#region Others
+		#region Protected Members
 		/// <summary>
-		/// Metoda-zdarzenie służąca do sprawdzenia kontrolek.
+		/// Metoda do sprawdzania, czy zaszły jakieś zdarzenia w GUI.
 		/// </summary>
-		public abstract void CheckControls();
+		protected virtual void CheckControls()
+		{ }
 		#endregion
 	}
 }

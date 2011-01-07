@@ -108,7 +108,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		/// </summary>
 		public Panel()
 		{
-			this.Controls = new Internals.ControlsCollection(this);
+			this.Controls = new Gui.Internals.ControlsCollection(this);
 		}
 		#endregion
 	}
