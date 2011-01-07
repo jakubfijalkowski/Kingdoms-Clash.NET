@@ -12,6 +12,7 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 	/// Kontener na kontrolki.
 	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
+	[DebuggerTypeProxy(typeof(ControlsCollectionDebugView))]
 	internal class ControlsCollection
 		: KeyedCollection<string, IControl>, IControlsCollection
 	{

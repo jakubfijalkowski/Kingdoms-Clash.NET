@@ -116,6 +116,7 @@
     <Compile Include="Graphics\Gui\Controls\Panel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Graphics\Gui\Internals\ControlsCollectionDebugView.cs" />
     <Compile Include="Graphics\Gui\Internals\ControlsCollection.cs">
       <SubType>Code</SubType>
     </Compile>

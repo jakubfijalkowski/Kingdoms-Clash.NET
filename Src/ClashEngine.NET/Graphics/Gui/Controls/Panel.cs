@@ -86,6 +86,20 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		{
 			return 0;
 		}
+
+		/// <summary>
+		/// Usuwamy własne kontrolki z właściciela.
+		/// </summary>
+		public override void OnRemove()
+		{
+			if (this.Owner != null)
+			{
+				foreach (var control in this.Controls)
+				{
+					this.Owner.Controls.Remove(control);
+				}
+			}
+		}
 		#endregion
 
 		#region Constructors

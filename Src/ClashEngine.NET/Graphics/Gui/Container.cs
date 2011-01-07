@@ -25,6 +25,9 @@
 		/// <summary>
 		/// Główna kontrolka.
 		/// </summary>
+		/// <remarks>
+		/// W tej implementacji jest ona typu <see cref="Controls.Panel"/>.
+		/// </remarks>
 		public IContainerControl Root { get; private set; }
 
 		/// <summary>
@@ -47,10 +50,14 @@
 		#endregion
 
 		#region Constructors
+		/// <summary>
+		/// Inicjalizuje kontener.
+		/// </summary>
+		/// <param name="gameInfo">Informacje o grze.</param>
 		public Container(IGameInfo gameInfo)
 		{
 			this.GameInfo = gameInfo;
-			this.Root = new Controls.Panel();
+			this.Root = new Controls.Panel() { Id = "Root" };
 			this.Root.Data = new Internals.UIData(gameInfo.MainWindow.Input, gameInfo.Renderer);
 		}
 		#endregion
