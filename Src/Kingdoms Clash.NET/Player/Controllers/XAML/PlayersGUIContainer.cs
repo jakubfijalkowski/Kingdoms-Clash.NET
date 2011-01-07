@@ -11,7 +11,7 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 	/// Kontener GUI dla kontrolera gracza.
 	/// </summary>
 	public class PlayersGUIContainer
-		: XamlGuiContainer, INotifyPropertyChanged
+		: /*XamlGuiContainer,*/ INotifyPropertyChanged
 	{
 		#region Private fields
 		private Interfaces.Player.IPlayer _Player1;

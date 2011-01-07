@@ -14,12 +14,12 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 	internal class ControlsCollection
 		: KeyedCollection<string, IControl>, IControlsCollection
 	{
-		#region Private fields
-		private IUIData UIData = null;
-		private IContainer Owner = null;
-		#endregion
-
 		#region IControlsCollection Members
+		/// <summary>
+		/// Właściciel.
+		/// </summary>
+		public IContainerControl Owner { get; private set; }
+
 		/// <summary>
 		/// Dodaje listę kontrolek do kolekcji.
 		/// </summary>
@@ -40,7 +40,7 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 		/// Dodaje kontrolkę, która jest w kontrolce niżej.
 		/// </summary>
 		/// <param name="control"></param>
-		public void AddChildControl(IControl control)
+		public void AddChild(IControl control)
 		{
 			if (control == null)
 			{
@@ -50,26 +50,10 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 			{
 				throw new Exceptions.ArgumentAlreadyExistsException("item");
 			}
-			control.Data = this.UIData;
 			base.InsertItem(this.Count, control);
-			if (this.Owner is IControl && (this.Owner as IControl).Owner != null)
+			if (this.Owner.Owner != null)
 			{
-				(this.Owner as IControl).Owner.Controls.AddChildControl(control);
-			}
-		}
-
-		/// <summary>
-		/// Uaktualnia rodzica dla tej kontrolki.
-		/// Umożliwia to późną jego inicjalizację.
-		/// </summary>
-		public void UpdateOwner()
-		{
-			if (this.Owner is IControl && (this.Owner as IControl).Owner != null)
-			{
-				foreach (var control in this.Items)
-				{
-					(this.Owner as IControl).Owner.Controls.AddChildControl(control);
-				}
+				this.Owner.Owner.Controls.AddChild(control);
 			}
 		}
 		#endregion
@@ -87,22 +71,22 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 		protected override void InsertItem(int index, IControl item)
 		{
 			item.Owner = this.Owner;
-			item.Data = this.UIData;
+			item.Data = this.Owner.Data;
 			item.ContainerOffset = OpenTK.Vector2.Zero;
 			base.InsertItem(index, item);
 			item.OnAdd();
-			if (this.Owner is IControl && (this.Owner as IControl).Owner != null)
+			if (this.Owner.Owner != null)
 			{
-				(this.Owner as IControl).Owner.Controls.AddChildControl(item);
+				this.Owner.Owner.Controls.AddChild(item);
 			}
 		}
 
 		protected override void RemoveItem(int index)
 		{
 			var item = this[index];
-			if (this.Owner is IControl && (this.Owner as IControl).Owner != null)
+			if (this.Owner.Owner != null)
 			{
-				(this.Owner as IControl).Owner.Controls.Remove(item);
+				this.Owner.Owner.Controls.Remove(item);
 			}
 			item.OnRemove();
 			base.RemoveItem(index);
@@ -111,30 +95,18 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 		protected override void SetItem(int index, IControl item)
 		{
 			var oldItem = this[index];
-			if (this.Owner is IControl && (this.Owner as IControl).Owner != null)
+			if (this.Owner.Owner != null)
 			{
-				(this.Owner as IControl).Owner.Controls.Remove(oldItem);
-				(this.Owner as IControl).Owner.Controls.AddChildControl(item);
+				this.Owner.Owner.Controls.Remove(oldItem);
+				this.Owner.Owner.Controls.AddChild(item);
 			}
 			base.SetItem(index, item);
 		}
 		#endregion
 
-		#region Internal methods
-		internal void SetOffset(OpenTK.Vector2 offset)
-		{
-			foreach (var c in this)
-			{
-				if (c.Owner == this.Owner)
-					c.ContainerOffset = offset;
-			}
-		}
-		#endregion
-
 		#region Constructors
-		public ControlsCollection(IContainer owner = null, IUIData uiData = null)
+		public ControlsCollection(IContainerControl owner = null)
 		{
-			this.UIData = uiData;
 			this.Owner = owner;
 		}
 		#endregion

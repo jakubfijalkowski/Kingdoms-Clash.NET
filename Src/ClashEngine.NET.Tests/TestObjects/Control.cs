@@ -13,7 +13,7 @@ namespace ClashEngine.NET.Tests.TestObjects
 		}
 
 		#region IControl Members
-		public abstract IContainer Owner { get; set; }
+		public abstract IContainerControl Owner { get; set; }
 		public abstract IUIData Data { get; set; }
 		public abstract OpenTK.Vector2 ContainerOffset { get; set; }
 		public abstract OpenTK.Vector2 Position { get; set; }

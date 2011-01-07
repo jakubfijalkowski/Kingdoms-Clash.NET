@@ -24,7 +24,7 @@
 		public Interfaces.Player.IPlayerController[] Produce()
 		{
 			var container = new XAML.PlayersGUIContainer();
-			this.Content.Load("Guis/TwoPlayers.xml", container);
+			//this.Content.Load("Guis/TwoPlayers.xml", container);
 
 			return new Interfaces.Player.IPlayerController[]
 				{
