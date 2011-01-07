@@ -24,7 +24,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// Rozmiar
 		/// </summary>
 		[TypeConverter(typeof(Vector2Converter))]
-		public Vector2 Size
+		public override Vector2 Size
 		{
 			get { return this.InnerQuad.Size; }
 			set { this.InnerQuad.Size = value; }

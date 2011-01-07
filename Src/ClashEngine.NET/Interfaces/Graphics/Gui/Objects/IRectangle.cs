@@ -9,11 +9,6 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Objects
 		: IObject
 	{
 		/// <summary>
-		/// Rozmiar.
-		/// </summary>
-		Vector2 Size { get; set; }
-
-		/// <summary>
 		/// Jego kolor.
 		/// </summary>
 		Vector4 Color { get; set; }

@@ -16,23 +16,6 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 
 		#region IObject Members
 		/// <summary>
-		/// Pozycja relatywna - nie uwzględnia pozycji kontrolki.
-		/// </summary>
-		[TypeConverter(typeof(Converters.Vector2Converter))]
-		public OpenTK.Vector2 Position
-		{
-			get { return this._Position; }
-			set
-			{
-				this._Position = value;
-				if (this.Owner != null)
-				{
-					this.AbsolutePosition = this._Position + this.Owner.AbsolutePosition;
-				}
-			}
-		}
-
-		/// <summary>
 		/// Pozycja absolutna - uwzględnia pozycję(absolutną!) kontrolki(<see cref="Owner"/>).
 		/// </summary>
 		public abstract OpenTK.Vector2 AbsolutePosition { get; protected set; }
@@ -61,6 +44,30 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// Wyświetla obiekt.
 		/// </summary>
 		public abstract void Render();
+		#endregion
+
+		#region IPositionableElement Members
+		/// <summary>
+		/// Pozycja relatywna - nie uwzględnia pozycji kontrolki.
+		/// </summary>
+		[TypeConverter(typeof(Converters.Vector2Converter))]
+		public OpenTK.Vector2 Position
+		{
+			get { return this._Position; }
+			set
+			{
+				this._Position = value;
+				if (this.Owner != null)
+				{
+					this.AbsolutePosition = this._Position + this.Owner.AbsolutePosition;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Rozmiar obiektu.
+		/// </summary>
+		public abstract OpenTK.Vector2 Size { get; set; }
 		#endregion
 	}
 }

@@ -4,7 +4,7 @@
 	/// Bazowy interfejs dla kontrolki GUI.
 	/// </summary>
 	public interface IControl
-		: Data.IDataContext
+		: Data.IDataContext, IPositionableElement
 	{
 		/// <summary>
 		/// Identyfikator kontrolki.
@@ -39,19 +39,9 @@
 		OpenTK.Vector2 ContainerOffset { get; set; }
 
 		/// <summary>
-		/// Pozycja kontrolki - relatywna, nie uwzględnia offsetu kontenera.
-		/// </summary>
-		OpenTK.Vector2 Position { get; set; }
-
-		/// <summary>
 		/// Pozycja kontrolki - absoulutna, uwzględnia offset kontenera.
 		/// </summary>
 		OpenTK.Vector2 AbsolutePosition { get; }
-
-		/// <summary>
-		/// Rozmiar kontrolki.
-		/// </summary>
-		OpenTK.Vector2 Size { get; set; }
 
 		/// <summary>
 		/// Sprawdza, czy myszka znajduje się nad kontrolką.

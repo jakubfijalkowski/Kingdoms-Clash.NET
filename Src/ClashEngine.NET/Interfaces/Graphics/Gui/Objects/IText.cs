@@ -22,10 +22,5 @@
 		/// Kolor.
 		/// </summary>
 		OpenTK.Vector4 Color { get; set; }
-
-		/// <summary>
-		/// Rozmiar.
-		/// </summary>
-		OpenTK.Vector2 Size { get; set; }
 	}
 }

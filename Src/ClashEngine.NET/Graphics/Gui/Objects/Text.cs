@@ -99,13 +99,10 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// Rozmiar.
 		/// </summary>
 		[TypeConverter(typeof(Converters.Vector2Converter))]
-		public Vector2 Size
+		public override Vector2 Size
 		{
 			get { return this.TextObject.Size; }
-			set
-			{
-				this.TextObject.Size = value;
-			}
+			set { this.TextObject.Size = value; }
 		}
 		#endregion
 

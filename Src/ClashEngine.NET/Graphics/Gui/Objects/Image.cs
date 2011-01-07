@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
-using OpenTK;
 using System.Windows.Markup;
+using OpenTK;
 
 namespace ClashEngine.NET.Graphics.Gui.Objects
 {
 	using Extensions;
-	using Interfaces.Graphics.Gui.Objects;
 	using Interfaces.Data;
+	using Interfaces.Graphics.Gui.Objects;
 	
 	/// <summary>
 	/// Obrazek.
@@ -76,7 +76,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// Rozmiar.
 		/// </summary>
 		[TypeConverter(typeof(Converters.Vector2Converter))]
-		public Vector2 Size
+		public override Vector2 Size
 		{
 			get { return this.Quad.Size; }
 			set

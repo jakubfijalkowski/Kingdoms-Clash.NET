@@ -43,11 +43,6 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Objects
 		Resources.ITexture Texture { get; set; }
 
 		/// <summary>
-		/// Rozmiar obrazka.
-		/// </summary>
-		Vector2 Size { get; set; }
-
-		/// <summary>
 		/// Typ rozciągania obrazka.
 		/// </summary>
 		StretchType Stretch { get; set; }

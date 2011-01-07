@@ -4,12 +4,8 @@
 	/// Bazowy interfejs dla obiektów renderera kontrolki GUI.
 	/// </summary>
 	public interface IObject
+		: IPositionableElement
 	{
-		/// <summary>
-		/// Pozycja relatywna - nie uwzględnia pozycji kontrolki.
-		/// </summary>
-		OpenTK.Vector2 Position { get; set; }
-
 		/// <summary>
 		/// Pozycja absolutna - uwzględnia pozycję(absolutną!) kontrolki(<see cref="Owner"/>).
 		/// </summary>

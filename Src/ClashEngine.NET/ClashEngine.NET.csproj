@@ -203,6 +203,7 @@
     <Compile Include="Interfaces\Data\IFontExtension.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IObject.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IObjectsCollection.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\IPositionableElement.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IScreen.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IStylizableControl.cs">
       <SubType>Code</SubType>
