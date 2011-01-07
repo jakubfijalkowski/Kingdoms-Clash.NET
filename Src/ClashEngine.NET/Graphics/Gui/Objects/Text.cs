@@ -164,7 +164,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			this.Initialized = true;
 			if (this.Size == Vector2.Zero)
 			{
-				this.Size = this.ParentControl.Size;
+				this.Size = this.Owner.Size;
 			}
 			this.DoTextureNeedUpdate = true;
 		}
@@ -194,8 +194,8 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		{
 			if (this.Initialized)
 			{
-				float multX = this.ParentControl.Data.Renderer.Owner.Size.X / this.ParentControl.Data.Renderer.Camera.Size.X;
-				float multY = this.ParentControl.Data.Renderer.Owner.Size.Y / this.ParentControl.Data.Renderer.Camera.Size.Y;
+				float multX = this.Owner.Data.Renderer.Owner.Size.X / this.Owner.Data.Renderer.Camera.Size.X;
+				float multY = this.Owner.Data.Renderer.Owner.Size.Y / this.Owner.Data.Renderer.Camera.Size.Y;
 				this.Font.Draw(this.TextValue, this.Color,
 					new System.Drawing.RectangleF(0f, 0f, this.Size.X * multX, this.Size.Y * multY),
 						this.TextObject);

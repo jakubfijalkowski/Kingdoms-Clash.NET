@@ -29,22 +29,22 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			set
 			{
 				this._Position = value;
-				if (this.ParentControl != null)
+				if (this.Owner != null)
 				{
-					this.AbsolutePosition = this._Position + this.ParentControl.AbsolutePosition;
+					this.AbsolutePosition = this._Position + this.Owner.AbsolutePosition;
 				}
 			}
 		}
 
 		/// <summary>
-		/// Pozycja absolutna - uwzględnia pozycję(absolutną!) kontrolki(<see cref="ParentControl"/>).
+		/// Pozycja absolutna - uwzględnia pozycję(absolutną!) kontrolki(<see cref="Owner"/>).
 		/// </summary>
 		public abstract OpenTK.Vector2 AbsolutePosition { get; protected set; }
 
 		/// <summary>
 		/// Kontrolka-rodzic.
 		/// </summary>
-		public IControl ParentControl { get; set; }
+		public IStylizableControl Owner { get; set; }
 
 		/// <summary>
 		/// Czy obiekt jest widoczny.
@@ -55,12 +55,6 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// Poprawia rozmiar elementu tak, by pasował do kontrolki.
 		/// </summary>
 		public abstract void Finish();
-
-		/// <summary>
-		/// Wywoływane przed wyrenderowaniem obiektu.
-		/// </summary>
-		public virtual void PreRender()
-		{ }
 		#endregion
 
 		#region IObject Members

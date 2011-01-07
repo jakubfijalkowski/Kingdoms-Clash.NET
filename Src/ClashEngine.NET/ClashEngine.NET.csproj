@@ -131,6 +131,10 @@
     </Compile>
     <Compile Include="Graphics\Gui\Internals\ObjectsCollection.cs" />
     <Compile Include="Graphics\Gui\Internals\UIData.cs" />
+    <Compile Include="Graphics\Gui\Objects\Image.cs" />
+    <Compile Include="Graphics\Gui\Objects\ObjectBase.cs" />
+    <Compile Include="Graphics\Gui\Objects\Rectangle.cs" />
+    <Compile Include="Graphics\Gui\Objects\Text.cs" />
     <Compile Include="Graphics\Gui\StylizableControlBase.cs" />
     <Compile Include="Graphics\Gui\XamlGuiContainer.cs" />
     <Compile Include="Graphics\Objects\Internals\SystemFontObject.cs" />
@@ -190,6 +194,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Interfaces\Graphics\Gui\IXamlGuiContainer.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Objects\IImage.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Objects\IRectangle.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Objects\IText.cs" />
     <Compile Include="Interfaces\Graphics\ICamera.cs" />
     <Compile Include="Interfaces\Graphics\Objects\IQuad.cs" />
     <Compile Include="Interfaces\Graphics\Objects\ISprite.cs" />

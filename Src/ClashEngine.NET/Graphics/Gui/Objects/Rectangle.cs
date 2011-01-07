@@ -71,7 +71,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		{
 			if (this.Size == Vector2.Zero)
 			{
-				this.Size = this.ParentControl.Size;
+				this.Size = this.Owner.Size;
 			}
 		}
 		#endregion

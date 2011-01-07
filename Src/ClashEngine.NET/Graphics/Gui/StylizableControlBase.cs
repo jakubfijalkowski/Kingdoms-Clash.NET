@@ -18,6 +18,22 @@ namespace ClashEngine.NET.Graphics.Gui
 		public IObjectsCollection Objects { get; private set;}
 		#endregion
 
+		#region IControl Members
+		/// <summary>
+		/// Rysuje widoczne obiekty.
+		/// </summary>
+		public override void Render()
+		{
+			foreach (var obj in this.Objects)
+			{
+				if (obj.Visible)
+				{
+					this.Data.Renderer.Draw(obj);
+				}
+			}
+		}
+		#endregion
+
 		#region Constructors
 		public StylizableControlBase()
 		{

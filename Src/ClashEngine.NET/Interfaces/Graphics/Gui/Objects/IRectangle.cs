@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using OpenTK;
 
 namespace ClashEngine.NET.Interfaces.Graphics.Gui.Objects
 {
@@ -11,13 +11,11 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Objects
 		/// <summary>
 		/// Rozmiar.
 		/// </summary>
-		[TypeConverter(typeof(Converters.Vector2Converter))]
-		OpenTK.Vector2 Size { get; set; }
+		Vector2 Size { get; set; }
 
 		/// <summary>
 		/// Jego kolor.
 		/// </summary>
-		[TypeConverter(typeof(Converters.Vector4Converter))]
-		OpenTK.Vector4 Color { get; set; }
+		Vector4 Color { get; set; }
 	}
 }

@@ -40,7 +40,6 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Objects
 		/// <summary>
 		/// Rozmiar obrazka.
 		/// </summary>
-		[TypeConverter(typeof(Converters.Vector2Converter))]
 		Vector2 Size { get; set; }
 
 		/// <summary>

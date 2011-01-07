@@ -125,10 +125,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// </summary>
 		public override Interfaces.Graphics.Vertex[] Vertices
 		{
-			get
-			{
-				return this.Quad.Vertices;
-			}
+			get { return this.Quad.Vertices; }
 		}
 
 		/// <summary>
@@ -147,7 +144,7 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			this.DoTexCoordsNeedUpdate = true;
 			if (!this.WasSizeSet)
 			{
-				this.Size = this.ParentControl.Size;
+				this.Size = this.Owner.Size;
 			}
 		}
 
@@ -180,8 +177,8 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// </remarks>
 		private void UpdateTexCoords()
 		{
-			float multX = this.ParentControl.Data.Renderer.Owner.Size.X / this.ParentControl.Data.Renderer.Camera.Size.X;
-			float multY = this.ParentControl.Data.Renderer.Owner.Size.Y / this.ParentControl.Data.Renderer.Camera.Size.Y;
+			float multX = this.Owner.Data.Renderer.Owner.Size.X / this.Owner.Data.Renderer.Camera.Size.X;
+			float multY = this.Owner.Data.Renderer.Owner.Size.Y / this.Owner.Data.Renderer.Camera.Size.Y;
 
 			float realW = this.Size.X * multX;
 			float realH = this.Size.Y * multY;
