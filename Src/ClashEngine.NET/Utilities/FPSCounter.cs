@@ -98,7 +98,7 @@ namespace ClashEngine.NET.Utilities
 		public IGameInfo GameInfo
 		{
 			get { return this.Gui.GameInfo; }
-			set { this.Gui.GameInfo = value; }
+			set { }
 		}
 		public Interfaces.ScreenType Type { get { return Interfaces.ScreenType.Popup; } }
 		public Interfaces.ScreenState State { get; set; }

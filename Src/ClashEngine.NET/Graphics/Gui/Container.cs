@@ -50,7 +50,7 @@
 		public Container(IGameInfo gameInfo)
 		{
 			this.GameInfo = gameInfo;
-			//this.Root = new Panel();
+			this.Root = new Controls.Panel();
 			this.Root.Data = new Internals.UIData(gameInfo.MainWindow.Input, gameInfo.Renderer);
 		}
 		#endregion

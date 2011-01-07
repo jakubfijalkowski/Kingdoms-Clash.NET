@@ -7,8 +7,6 @@ namespace ClashEngine.NET.Graphics.Gui
 {
 	using Extensions;
 	using Interfaces.Graphics.Gui;
-using System;
-using System.Linq.Expressions;
 
 	/// <summary>
 	/// Bazowa klasa dla kontrolek GUI.
@@ -17,17 +15,16 @@ using System.Linq.Expressions;
 	[ContentProperty("Objects")]
 	[DebuggerDisplay("{GetType().Name,nq} {Id,nq}")]
 	public abstract class ControlBase
-		: IControl, INotifyPropertyChanged, ISupportInitialize
+		: Data.DataContextBase, IControl, ISupportInitialize
 	{
 		#region Private fields
 		private bool _IsActive = false;
 		private bool _IsHot = false;
 		private bool _Visible = false;
-		private IContainer _Owner = null;
+		private IContainerControl _Owner = null;
 		private Vector2 _Offset = Vector2.Zero;
 		private Vector2 _Position = Vector2.Zero;
 		private Vector2 _AbsolutePosition = Vector2.Zero;
-		private object _DataContext = null;
 		#endregion
 
 		#region IControl Members
@@ -36,10 +33,11 @@ using System.Linq.Expressions;
 		/// </summary>
 		public string Id { get; set; }
 
+		#region Owner
 		/// <summary>
 		/// Właściciel kontrolki.
 		/// </summary>
-		IContainer IControl.Owner
+		IContainerControl IControl.Owner
 		{
 			get { return this.Owner; }
 			set { this.Owner = value; }
@@ -48,7 +46,7 @@ using System.Linq.Expressions;
 		/// <summary>
 		/// Właściciel kontrolki.
 		/// </summary>
-		protected virtual IContainer Owner
+		protected virtual IContainerControl Owner
 		{
 			get { return this._Owner; }
 			set
@@ -58,9 +56,12 @@ using System.Linq.Expressions;
 					throw new System.InvalidOperationException("Control can be assigned only to one container");
 				}
 				this._Owner = value;
+				base.RaisePropertyChanged(() => Owner);
 			}
 		}
+		#endregion
 
+		#region Data
 		/// <summary>
 		/// Dane UI.
 		/// </summary>
@@ -76,6 +77,7 @@ using System.Linq.Expressions;
 		/// </summary>
 		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		protected IUIData Data { get; set; }
+		#endregion
 
 		/// <summary>
 		/// Offset dla kontrolki ustawiany przez kontener.
@@ -114,7 +116,7 @@ using System.Linq.Expressions;
 			protected set
 			{
 				this._AbsolutePosition = value;
-				(this.Objects as Internals.ObjectsCollection).UpdatePositions();
+				base.RaisePropertyChanged(() => AbsolutePosition);
 			}
 		}
 
@@ -179,36 +181,12 @@ using System.Linq.Expressions;
 		}
 
 		/// <summary>
-		/// Lista z obiektami dla renderera.
-		/// </summary>
-		public IObjectsCollection Objects { get; private set; }
-
-		/// <summary>
-		/// Czy kontrolka ma być "permanentnie" aktywna, tzn. czy po puszczeniu przycisku myszy przestaje być aktywna.
-		/// </summary>
-		public abstract bool PermanentActive { get; }
-
-		/// <summary>
-		/// Renderuje wszystkie obiekty.
-		/// </summary>
-		public void Render()
-		{
-			foreach (var obj in this.Objects)
-			{
-				if (obj.Visible)
-				{
-					this.Data.Renderer.Draw(obj);
-				}
-			}
-		}
-
-		/// <summary>
 		/// Sprawdza, czy myszka znajduje się nad kontrolką.
 		/// </summary>
 		/// <returns></returns>
 		public virtual bool ContainsMouse()
 		{
-			return this.Data.Input.Transform(this.Owner.Camera).IsIn(this.AbsolutePosition, this.Size);
+			return this.Data.Input.Transform(this.Data.Renderer.Camera).IsIn(this.AbsolutePosition, this.Size);
 		}
 
 		/// <summary>
@@ -222,31 +200,6 @@ using System.Linq.Expressions;
 		/// </summary>
 		public virtual void OnRemove()
 		{ }
-		#endregion
-
-		#region IDataContext Members
-		/// <summary>
-		/// Kontekst danych dla danego
-		/// </summary>
-		public virtual object DataContext
-		{
-			get { return this._DataContext; }
-			set
-			{
-				if (value != this._DataContext)
-				{
-					this._DataContext = value;
-					this.RaisePropertyChanged(() => DataContext);
-				}
-			}
-		}
-		#endregion
-
-		#region INotifyPropertyChanged Members
-		/// <summary>
-		/// Wywoływane przy zmianie IsActive, IsHot.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
 		#endregion
 
 		#region ISupportInitialize Members
@@ -271,6 +224,11 @@ using System.Linq.Expressions;
 
 		#region To override
 		/// <summary>
+		/// Czy kontrolka ma być "permanentnie" aktywna, tzn. czy po puszczeniu przycisku myszy przestaje być aktywna.
+		/// </summary>
+		public abstract bool PermanentActive { get; }
+
+		/// <summary>
 		/// Aktualizuje kontrolkę.
 		/// </summary>
 		/// <param name="delta"></param>
@@ -281,6 +239,11 @@ using System.Linq.Expressions;
 		}
 
 		/// <summary>
+		/// Renderuje wszystkie obiekty.
+		/// </summary>
+		public abstract void Render();
+
+		/// <summary>
 		/// Sprawdza stan kontrolki.
 		/// </summary>
 		/// <returns></returns>
@@ -288,21 +251,12 @@ using System.Linq.Expressions;
 		#endregion
 
 		#region Constructors
+		/// <summary>
+		/// Inicjalizuje kontrolkę.
+		/// </summary>
 		public ControlBase()
 		{
 			this.Visible = true;
-			this.Objects = new Internals.ObjectsCollection(this);
-		}
-		#endregion
-
-		#region Raising events
-		/// <summary>
-		/// Wysyła zdarzenie PropertyChanged.
-		/// </summary>
-		/// <param name="propertyExpression"></param>
-		protected void RaisePropertyChanged(Expression<Func<object>> propertyExpression)
-		{
-			this.PropertyChanged.Raise(this, propertyExpression);
 		}
 		#endregion
 	}

@@ -5,6 +5,7 @@ using System.Diagnostics;
 
 namespace ClashEngine.NET.Graphics.Gui.Internals
 {
+	using Extensions;
 	using Interfaces.Graphics.Gui;
 
 	/// <summary>
@@ -105,9 +106,42 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 		#endregion
 
 		#region Constructors
-		public ControlsCollection(IContainerControl owner = null)
+		/// <summary>
+		/// Inicjalizuje kolekcje kontrolek.
+		/// </summary>
+		/// <param name="owner">Właściciel.</param>
+		public ControlsCollection(IContainerControl owner)
 		{
 			this.Owner = owner;
+			this.Owner.PropertyChanged += this.OwnerChanged;
+			this.Owner.PropertyChanged += this.AbsolutePositionChanged;
+		}
+		#endregion
+
+		#region Events
+		void OwnerChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == this.Owner.NameOf(_ => _.Owner))
+			{
+				if (this.Owner.Owner != null)
+				{
+					foreach (var control in base.Items)
+					{
+						this.Owner.Owner.Controls.AddChild(control);
+					}
+				}
+			}
+		}
+
+		void AbsolutePositionChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == this.Owner.NameOf(_ => _.AbsolutePosition))
+			{
+				foreach (var control in base.Items)
+				{
+					control.ContainerOffset = this.Owner.AbsolutePosition;
+				}
+			}
 		}
 		#endregion
 	}

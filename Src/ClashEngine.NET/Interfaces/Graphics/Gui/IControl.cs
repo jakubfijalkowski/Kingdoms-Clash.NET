@@ -13,6 +13,7 @@
 		
 		/// <summary>
 		/// Właściciel kontrolki.
+		/// Może być null-em ale może być ustawiony tylko raz, NIE MOŻNA mieszać właścicieli.
 		/// </summary>
 		IContainerControl Owner { get; set; }
 

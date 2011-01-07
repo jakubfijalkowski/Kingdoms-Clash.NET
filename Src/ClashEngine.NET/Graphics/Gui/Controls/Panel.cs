@@ -1,4 +1,5 @@
 ﻿using System.Windows.Markup;
+using OpenTK.Input;
 
 namespace ClashEngine.NET.Graphics.Gui.Controls
 {
@@ -12,106 +13,88 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 	public class Panel
 		: ControlBase, IPanel
 	{
-		#region IContainer Members
+		#region IContainerControl Members
 		/// <summary>
-		/// Nieużywane - kontrolki dziedziczą informacje o grze po głównym kontenerze.
+		/// Kolekcja kontrolek.
 		/// </summary>
-		Interfaces.IGameInfo IContainer.GameInfo { get; set; }
+		public IControlsCollection Controls { get; private set; }
 
 		/// <summary>
-		/// Kamera używana przez kontener.
-		/// Może być null.
+		/// Sprawdza stan kontrolki za pomocą <see cref="IGuiControl.Check"/>.
 		/// </summary>
-		public Interfaces.Graphics.ICamera Camera
-		{
-			get { return this.Owner.Camera; }
-			set { }
-		}
-
-		/// <summary>
-		/// Kontrolki w tej kontrolce.
-		/// </summary>
-		public Interfaces.Graphics.Gui.IControlsCollection Controls { get; private set; }
-
-		/// <summary>
-		/// Sprawdza kontrolkę. 
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
+		/// <param name="id">Identyfikator kontrolki.</param>
+		/// <returns>Nr akcji bądź 0, gdy żadna akcja nie zaszła.</returns>
 		public int Control(string id)
 		{
 			return this.Controls[id].Check();
 		}
 		#endregion
 
-		#region ControlBase Members
+		#region IControl Members
 		/// <summary>
-		/// Przy zmianie uaktualnia rodzica swoim kontrolkom.
-		/// </summary>
-		protected override IContainer Owner
-		{
-			get { return base.Owner; }
-			set
-			{
-				base.Owner = value;
-				(this.Controls as Gui.Internals.ControlsCollection).UpdateOwner();
-			}
-		}
-
-		/// <summary>
-		/// Przy zmianie zmienia offset swoim kontrolką.
-		/// </summary>
-		public override OpenTK.Vector2 AbsolutePosition
-		{
-			get	{ return base.AbsolutePosition; }
-			protected set
-			{
-				base.AbsolutePosition = value;
-				(this.Controls as Gui.Internals.ControlsCollection).SetOffset(base.AbsolutePosition);
-			}
-		}
-
-		/// <summary>
-		/// Usuwa własne kontrolki z rodzica.
-		/// </summary>
-		public override void OnRemove()
-		{
-			foreach (var c in this.Controls)
-			{
-				this.Owner.Controls.Remove(c);
-			}
-		}
-		#endregion
-
-		#region Unused
-		/// <summary>
-		/// Nie potrzebujemy zdarzeń - zawsze false.
+		/// Nie potrzebujemy być aktywni.
 		/// </summary>
 		public override bool PermanentActive { get { return false; } }
 
 		/// <summary>
-		/// Nie potrzebujemy zdarzeń - zawsze zero.
+		/// Rysujemy kontrolki.
+		/// </summary>
+		public override void Render()
+		{
+			foreach (var control in this.Controls)
+			{
+				if (control.Visible)
+				{
+					control.Render();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Aktualizujemy kontrolki.
+		/// </summary>
+		/// <param name="delta"></param>
+		public override void Update(double delta)
+		{
+			this.Data.Hot = null;
+			foreach (var control in this.Controls)
+			{
+				if (control.Visible)
+				{
+					if (control.ContainsMouse())
+					{
+						this.Data.Hot = control;
+					}
+					if (this.Data.Input[MouseButton.Left])
+					{
+						this.Data.Active = this.Data.Hot;
+					}
+					else if (this.Data.Active != null && !this.Data.Active.PermanentActive)
+					{
+						this.Data.Active = null;
+					}
+					control.Update(delta);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Nieużywane.
 		/// </summary>
 		/// <returns></returns>
 		public override int Check()
 		{
 			return 0;
 		}
-
-		/// <summary>
-		/// Nie potrzebujemy zdarzeń - zawsze false.
-		/// </summary>
-		/// <returns></returns>
-		public override bool ContainsMouse()
-		{
-			return false;
-		}
 		#endregion
 
 		#region Constructors
+		/// <summary>
+		/// Inicjalizuje kontrolkę.
+		/// </summary>
 		public Panel()
 		{
-			this.Controls = new Gui.Internals.ControlsCollection(this);
+			this.Controls = new Internals.ControlsCollection(this);
 		}
 		#endregion
 	}
