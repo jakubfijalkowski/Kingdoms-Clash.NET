@@ -40,8 +40,14 @@
 
 		/// <summary>
 		/// Kamera.
+		/// Nie ma prawa być null.
 		/// </summary>
 		ICamera Camera { get; set; }
+
+		/// <summary>
+		/// Domyślna kamera. Używana, gdy <see cref="Camera"/> == null.
+		/// </summary>
+		ICamera DefaultCamera { get; set; }
 
 		/// <summary>
 		/// Rysuje obiekt.

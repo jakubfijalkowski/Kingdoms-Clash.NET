@@ -19,6 +19,7 @@ namespace ClashEngine.NET.Graphics
 		private SortedList<IObject, object> Objects;
 		private bool IsRunning = false;
 		private ICamera _Camera = null;
+		private ICamera _DefaultCamera = null;
 		#endregion
 
 		#region IRenderer Members
@@ -44,7 +45,7 @@ namespace ClashEngine.NET.Graphics
 		/// </remarks>
 		public ICamera Camera
 		{
-			get { return this._Camera; }
+			get { return (this._Camera == this.DefaultCamera ? null : this._Camera); }
 			set
 			{
 				if (this._Camera != value)
@@ -53,10 +54,37 @@ namespace ClashEngine.NET.Graphics
 					{
 						this.Flush();
 					}
-					this._Camera = value;
+					if (value == null)
+					{
+						this._Camera = this.DefaultCamera;
+					}
+					else
+					{
+						this._Camera = value;
+					}
 					this.UpdateMatricies();
 					this.Camera.NeedUpdate = false;
 				}
+			}
+		}
+
+		/// <summary>
+		/// Domyślna kamera. Używana, gdy <see cref="Camera"/> == null.
+		/// </summary>
+		public ICamera DefaultCamera
+		{
+			get { return this._DefaultCamera; }
+			set
+			{
+				if (value == null)
+				{
+					throw new ArgumentNullException("value");
+				}
+				if (this.Camera == null)
+				{
+					this.Camera = value;
+				}
+				this._DefaultCamera = value;
 			}
 		}
 
@@ -157,8 +185,13 @@ namespace ClashEngine.NET.Graphics
 		/// <param name="owner">Okno, na którym renderer będzie wyświetlał elementy.</param>
 		public Renderer(IWindow owner)
 		{
+			if (owner == null)
+			{
+				throw new ArgumentNullException("owner");
+			}
 			this.Objects = new SortedList<IObject, object>(this.Comparer);
 			this.Owner = owner;
+			this._Camera = this._DefaultCamera = new Cameras.Movable2DCamera(owner.Size, new System.Drawing.RectangleF(0, 0, owner.Size.X, owner.Size.Y));
 		}
 		#endregion
 
