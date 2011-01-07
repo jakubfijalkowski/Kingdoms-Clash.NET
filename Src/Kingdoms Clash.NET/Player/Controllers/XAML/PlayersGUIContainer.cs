@@ -31,6 +31,7 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 			internal set
 			{
 				this._Player1 = value;
+				this.PropertyChanged.Raise(this, () => Player1);
 			}
 		}
 
@@ -43,6 +44,7 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 			internal set
 			{
 				this._Player2 = value;
+				this.PropertyChanged.Raise(this, () => Player2);
 			}
 		}
 
@@ -55,6 +57,7 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 			internal set
 			{
 				this._Player1Queue = value;
+				this.PropertyChanged.Raise(this, () => Player1Queue);
 			}
 		}
 

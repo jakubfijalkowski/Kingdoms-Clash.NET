@@ -78,7 +78,7 @@ namespace Kingdoms_Clash.NET.Controllers.Internals
 							var token = this.Queue[i];
 							this.Queue.RemoveAt(i);
 							this.PropertyChanged.Raise(this, "Item");
-							this.PropertyChanged.Raise(this, () => "QueueLength");
+							this.PropertyChanged.Raise(this, () => QueueLength);
 
 							var unit = token.CreateUnit();
 							token.IsValidToken = false;
