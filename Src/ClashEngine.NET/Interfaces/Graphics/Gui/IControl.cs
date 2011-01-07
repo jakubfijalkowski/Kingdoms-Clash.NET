@@ -48,24 +48,9 @@
 		bool PermanentActive { get; }
 
 		/// <summary>
-		/// Czy kontrolka jest aktywna.
-		/// </summary>
-		bool IsActive { get; }
-
-		/// <summary>
-		/// Czy kontrolka jest "gorąca".
-		/// </summary>
-		bool IsHot { get; }
-
-		/// <summary>
 		/// Czy kontrolka jest widoczna.
 		/// </summary>
 		bool Visible { get; set; }
-
-		/// <summary>
-		/// Kolekcja z obiektami renderera dla kontrolki.
-		/// </summary>
-		IObjectsCollection Objects { get; }
 
 		/// <summary>
 		/// Sprawdza, czy myszka znajduje się nad kontrolką.

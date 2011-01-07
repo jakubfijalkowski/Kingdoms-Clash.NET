@@ -10,6 +10,11 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		: ICollection<IControl>, IList<IControl>
 	{
 		/// <summary>
+		/// Właściciel.
+		/// </summary>
+		IContainerControl Owner { get; }
+
+		/// <summary>
 		/// Pobiera kontrolkę o wskazanym Id.
 		/// </summary>
 		/// <param name="index">Id.</param>

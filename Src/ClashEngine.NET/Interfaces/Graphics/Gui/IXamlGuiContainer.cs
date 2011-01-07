@@ -21,11 +21,5 @@
 		/// </summary>
 		/// <param name="container">Kontener.</param>
 		void Bind(IContainer container);
-
-		/// <summary>
-		/// Zapisuje kontener.
-		/// </summary>
-		/// <param name="output"></param>
-		void Save(System.IO.TextWriter output);
 	}
 }

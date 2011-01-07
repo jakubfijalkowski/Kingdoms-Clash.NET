@@ -11,7 +11,6 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		/// <summary>
 		/// Pozycja relatywna - nie uwzględnia pozycji kontrolki.
 		/// </summary>
-		[TypeConverter(typeof(Converters.Vector2Converter))]
 		OpenTK.Vector2 Position { get; set; }
 
 		/// <summary>

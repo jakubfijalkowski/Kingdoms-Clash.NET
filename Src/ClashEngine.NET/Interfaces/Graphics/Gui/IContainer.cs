@@ -2,7 +2,6 @@
 {
 	/// <summary>
 	/// Kontener na kontrolki.
-	/// W kontenerze nie mogą istnieć dwie kontrolki o takim samym Id.
 	/// </summary>
 	public interface IContainer
 	{
@@ -18,9 +17,9 @@
 		Graphics.ICamera Camera { get; set; }
 
 		/// <summary>
-		/// Kolekcja kontrolek.
+		/// Główna kontrolka.
 		/// </summary>
-		IControlsCollection Controls { get; }
+		IContainerControl Root { get; }
 
 		/// <summary>
 		/// Uaktualnia wszystkie kontrolki w kontenerze.
@@ -32,12 +31,5 @@
 		/// Renderuje wszystkie kontrolki.
 		/// </summary>
 		void Render();
-
-		/// <summary>
-		/// Sprawdza stan kontrolki za pomocą <see cref="IGuiControl.Check"/>.
-		/// </summary>
-		/// <param name="id">Identyfikator kontrolki.</param>
-		/// <returns>Nr akcji bądź 0, gdy żadna akcja nie zaszła.</returns>
-		int Control(string id);
 	}
 }

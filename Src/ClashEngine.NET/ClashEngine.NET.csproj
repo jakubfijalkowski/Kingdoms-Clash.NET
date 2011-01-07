@@ -107,34 +107,6 @@
     <Compile Include="Exceptions\ArgumentNotExistsException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Data\BindingExtension.cs" />
-    <Compile Include="Graphics\Gui\Conditions\Call.cs" />
-    <Compile Include="Graphics\Gui\Conditions\ParametersCollection.cs" />
-    <Compile Include="Graphics\Gui\ContainerExtension.cs" />
-    <Compile Include="Graphics\Gui\Internals\ConditionsCollection.cs" />
-    <Compile Include="Graphics\Gui\Conditions\Increase.cs" />
-    <Compile Include="Graphics\Gui\Conditions\MultiIf.cs" />
-    <Compile Include="Graphics\Gui\Conditions\Conditions.cs" />
-    <Compile Include="Graphics\Gui\Container.cs" />
-    <Compile Include="Graphics\Gui\Controls\Internals\RotatorObjectsCollection.cs" />
-    <Compile Include="Graphics\Gui\Controls\Internals\RotatorSelectedItems.cs" />
-    <Compile Include="Graphics\Gui\Controls\Rotator.cs" />
-    <Compile Include="Graphics\Gui\Conditions\If.cs" />
-    <Compile Include="Graphics\Gui\Internals\ObjectsCollection.cs" />
-    <Compile Include="Graphics\Gui\Objects\Image.cs" />
-    <Compile Include="Graphics\Gui\Objects\ObjectBase.cs" />
-    <Compile Include="Graphics\Gui\Objects\Rectangle.cs" />
-    <Compile Include="Graphics\Gui\Objects\Text.cs" />
-    <Compile Include="Graphics\Gui\Controls\Panel.cs" />
-    <Compile Include="Graphics\Gui\Screen.cs" />
-    <Compile Include="Graphics\Gui\Controls\Button.cs" />
-    <Compile Include="Graphics\Gui\SystemFontExtension.cs" />
-    <Compile Include="Graphics\Gui\Controls\TextBox.cs" />
-    <Compile Include="Graphics\Gui\TextureExtension.cs" />
-    <Compile Include="Graphics\Gui\Conditions\Set.cs" />
-    <Compile Include="Graphics\Gui\Conditions\TriggersCollection.cs" />
-    <Compile Include="Graphics\Gui\XamlGuiContainer.cs" />
-    <Compile Include="Graphics\Gui\ControlBase.cs" />
-    <Compile Include="Graphics\Gui\Internals\ControlsCollection.cs" />
     <Compile Include="Graphics\Objects\Internals\SystemFontObject.cs" />
     <Compile Include="Graphics\Objects\Quad.cs" />
     <Compile Include="Graphics\Objects\Sprite.cs" />
@@ -155,38 +127,6 @@
     <Compile Include="Interfaces\EntitiesManager\IRenderableComponentsCollection.cs" />
     <Compile Include="Interfaces\Data\IBinding.cs" />
     <Compile Include="Interfaces\Data\IBindingExtension.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Conditions\ICall.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Conditions\IIncrease.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Conditions\IMultiIf.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Conditions\IMultiIfCondition.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Conditions\IMultiIfConditionsCollection.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Conditions\IParameter.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Conditions\IParametersCollection.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Controls\IRotator.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Controls\IRotatorObjectsCollection.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Controls\IRotatorSelectedItems.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\ICondition.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IConditionsCollection.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IContainer.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IControl.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Conditions\IIf.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IObject.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IObjectsCollection.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Controls\IPanel.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IScreen.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IFontExtension.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Conditions\ISet.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Controls\ITextBox.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\ITextureExtension.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Conditions\ITrigger.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Conditions\ITriggersCollection.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IUIData.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Objects\IImage.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Objects\IRectangle.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Controls\IButton.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IXamlGuiContainer.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IControlsCollection.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\Objects\IText.cs" />
     <Compile Include="Interfaces\Graphics\ICamera.cs" />
     <Compile Include="Interfaces\Graphics\Objects\IQuad.cs" />
     <Compile Include="Interfaces\Graphics\Objects\ISprite.cs" />
@@ -245,7 +185,10 @@
   <ItemGroup>
     <Content Include="DataSamples\TexturesAtlas.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Graphics\Gui\" />
+    <Folder Include="Interfaces\Graphics\Gui\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
