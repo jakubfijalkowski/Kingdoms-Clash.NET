@@ -107,6 +107,14 @@
     <Compile Include="Exceptions\ArgumentNotExistsException.cs" />
     <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Data\BindingExtension.cs" />
+    <Compile Include="Graphics\Gui\Conditions\Call.cs" />
+    <Compile Include="Graphics\Gui\Conditions\Conditions.cs" />
+    <Compile Include="Graphics\Gui\Conditions\If.cs" />
+    <Compile Include="Graphics\Gui\Conditions\Increase.cs" />
+    <Compile Include="Graphics\Gui\Conditions\MultiIf.cs" />
+    <Compile Include="Graphics\Gui\Conditions\ParametersCollection.cs" />
+    <Compile Include="Graphics\Gui\Conditions\Set.cs" />
+    <Compile Include="Graphics\Gui\Conditions\TriggersCollection.cs" />
     <Compile Include="Graphics\Gui\Container.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -116,6 +124,7 @@
     <Compile Include="Graphics\Gui\Controls\Panel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Graphics\Gui\Internals\ConditionsCollection.cs" />
     <Compile Include="Graphics\Gui\Internals\ControlsCollectionDebugView.cs" />
     <Compile Include="Graphics\Gui\Internals\ControlsCollection.cs">
       <SubType>Code</SubType>
@@ -142,9 +151,22 @@
     <Compile Include="Interfaces\EntitiesManager\IRenderableComponentsCollection.cs" />
     <Compile Include="Interfaces\Data\IBinding.cs" />
     <Compile Include="Interfaces\Data\IBindingExtension.cs" />
+    <Compile Include="Interfaces\Graphics\Conditions\ICall.cs" />
+    <Compile Include="Interfaces\Graphics\Conditions\IIf.cs" />
+    <Compile Include="Interfaces\Graphics\Conditions\IIncrease.cs" />
+    <Compile Include="Interfaces\Graphics\Conditions\IMultiIf.cs" />
+    <Compile Include="Interfaces\Graphics\Conditions\IMultiIfCondition.cs" />
+    <Compile Include="Interfaces\Graphics\Conditions\IMultiIfConditionsCollection.cs" />
+    <Compile Include="Interfaces\Graphics\Conditions\IParameter.cs" />
+    <Compile Include="Interfaces\Graphics\Conditions\IParametersCollection.cs" />
+    <Compile Include="Interfaces\Graphics\Conditions\ISet.cs" />
+    <Compile Include="Interfaces\Graphics\Conditions\ITrigger.cs" />
+    <Compile Include="Interfaces\Graphics\Conditions\ITriggersCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Controls\IPanel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Interfaces\Graphics\Gui\ICondition.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\IConditionsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IContainer.cs">
       <SubType>Code</SubType>
     </Compile>

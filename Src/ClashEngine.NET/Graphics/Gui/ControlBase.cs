@@ -12,7 +12,6 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// Bazowa klasa dla kontrolek GUI.
 	/// </summary>
 	[RuntimeNameProperty("Id")]
-	[ContentProperty("Objects")]
 	[DebuggerDisplay("{GetType().Name,nq} {Id,nq}")]
 	public abstract class ControlBase
 		: Data.DataContextBase, IControl, ISupportInitialize

@@ -9,6 +9,6 @@
 		/// <summary>
 		/// Warunki do stylizacji GUI.
 		/// </summary>
-		//IConditionsCollection Triggers { get; }
+		IConditionsCollection Triggers { get; }
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Markup;
 using System.Xaml;
 
 namespace ClashEngine.NET.Graphics.Gui
@@ -9,7 +10,7 @@ namespace ClashEngine.NET.Graphics.Gui
 	/// <summary>
 	/// Kontener XAML.
 	/// </summary>
-	[System.Windows.Markup.ContentProperty("Controls")]
+	[ContentProperty("Controls")]
 	public class XamlGuiContainer
 		: Container, IXamlGuiContainer
 	{
@@ -71,6 +72,13 @@ namespace ClashEngine.NET.Graphics.Gui
 		}
 		#endregion
 
+		#region IXamlGuiContainer Members
+		/// <summary>
+		/// Warunki do stylizacji GUI.
+		/// </summary>
+		public IConditionsCollection Triggers { get; private set; }
+		#endregion
+
 		#region Constructors
 		/// <summary>
 		/// Inicjalizuje kontener.
@@ -78,7 +86,9 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <param name="gameInfo">Informacje o grze.</param>
 		public XamlGuiContainer(IGameInfo gameInfo)
 			: base(gameInfo)
-		{ }
+		{
+			this.Triggers = new Internals.ConditionsCollection();
+		}
 		#endregion
 
 		#region IDisposable Members
