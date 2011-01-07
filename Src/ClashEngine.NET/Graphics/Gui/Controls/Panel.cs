@@ -43,7 +43,8 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		{
 			foreach (var control in this.Controls)
 			{
-				if (control.Visible)
+				//Tylko widoczne i swoje.
+				if (control.Visible && control.Owner == this)
 				{
 					control.Render();
 				}
@@ -59,7 +60,8 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 			this.Data.Hot = null;
 			foreach (var control in this.Controls)
 			{
-				if (control.Visible)
+				//Tylko widoczne i swoje.
+				if (control.Visible && control.Owner == this)
 				{
 					if (control.ContainsMouse())
 					{
@@ -85,6 +87,15 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		public override int Check()
 		{
 			return 0;
+		}
+
+		/// <summary>
+		/// Nie potrzebujemy kiedykolwiek zmieniać stanu.
+		/// </summary>
+		/// <returns></returns>
+		public override bool ContainsMouse()
+		{
+			return false;
 		}
 
 		/// <summary>
