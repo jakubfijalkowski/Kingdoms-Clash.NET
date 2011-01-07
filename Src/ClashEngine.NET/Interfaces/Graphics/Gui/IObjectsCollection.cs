@@ -7,5 +7,10 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 	/// </summary>
 	public interface IObjectsCollection
 		: ICollection<IObject>
-	{ }
+	{
+		/// <summary>
+		/// Właściciel.
+		/// </summary>
+		IStylizableControl Owner { get; }
+	}
 }

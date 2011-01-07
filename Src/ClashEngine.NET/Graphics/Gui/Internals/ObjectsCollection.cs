@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace ClashEngine.NET.Graphics.Gui.Internals
 {
+	using Extensions;
 	using Interfaces.Graphics.Gui;
 
 	/// <summary>
@@ -16,8 +17,6 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 		#region Private fields
 		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IObject> Objects = new List<IObject>();
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-		private IControl Owner = null;
 		#endregion
 
 		#region ICollection<IObject> Members
@@ -31,7 +30,7 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 			{
 				throw new ArgumentNullException("item");
 			}
-			item.ParentControl = this.Owner;
+			item.Owner = this.Owner;
 			item.Position = item.Position; //Wymuszamy aktualizację
 			this.Objects.Add(item);
 			item.Finish();
@@ -88,6 +87,13 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 		bool ICollection<IObject>.IsReadOnly { get { return false; } }
 		#endregion
 
+		#region IObjectsCollection Members
+		/// <summary>
+		/// Właściciel.
+		/// </summary>
+		public IStylizableControl Owner { get; private set; }
+		#endregion
+
 		#region IEnumerable<IObject> Members
 		public IEnumerator<IObject> GetEnumerator()
 		{
@@ -102,20 +108,29 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 		}
 		#endregion
 
-		#region Internal methods
-		internal void UpdatePositions()
+		#region Constructors
+		public ObjectsCollection(IStylizableControl owner)
 		{
-			foreach (var item in this.Objects)
-			{
-				item.Position = item.Position;
-			}
+			this.Owner = owner;
+			this.Owner.PropertyChanged += this.UpdatePositions;
 		}
 		#endregion
 
-		#region Constructors
-		public ObjectsCollection(IControl owner)
+		#region Events
+		/// <summary>
+		/// Przy poruszeniu kontrolki-rodzica zmienia pozycję obiektów.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void UpdatePositions(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			this.Owner = owner;
+			if (e.PropertyName == this.Owner.NameOf(_ => _.Position))
+			{
+				foreach (var item in this.Objects)
+				{
+					item.Position = item.Position;
+				}
+			}
 		}
 		#endregion
 	}

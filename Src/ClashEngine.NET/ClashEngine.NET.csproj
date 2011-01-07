@@ -129,7 +129,9 @@
     <Compile Include="Graphics\Gui\Internals\ControlsCollection.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Graphics\Gui\Internals\ObjectsCollection.cs" />
     <Compile Include="Graphics\Gui\Internals\UIData.cs" />
+    <Compile Include="Graphics\Gui\StylizableControlBase.cs" />
     <Compile Include="Graphics\Gui\XamlGuiContainer.cs" />
     <Compile Include="Graphics\Objects\Internals\SystemFontObject.cs" />
     <Compile Include="Graphics\Objects\Quad.cs" />
@@ -177,6 +179,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Interfaces\Graphics\Gui\IControlsCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\Graphics\Gui\IObject.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\IObjectsCollection.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\IStylizableControl.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Interfaces\Graphics\Gui\IUIData.cs">

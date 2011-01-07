@@ -14,14 +14,14 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		OpenTK.Vector2 Position { get; set; }
 
 		/// <summary>
-		/// Pozycja absolutna - uwzględnia pozycję(absolutną!) kontrolki(<see cref="ParentControl"/>).
+		/// Pozycja absolutna - uwzględnia pozycję(absolutną!) kontrolki(<see cref="Owner"/>).
 		/// </summary>
 		OpenTK.Vector2 AbsolutePosition { get; }
 
 		/// <summary>
 		/// Kontrolka-rodzic.
 		/// </summary>
-		IControl ParentControl { get; set; }
+		IStylizableControl Owner { get; set; }
 
 		/// <summary>
 		/// Czy obiekt jest widoczny.
