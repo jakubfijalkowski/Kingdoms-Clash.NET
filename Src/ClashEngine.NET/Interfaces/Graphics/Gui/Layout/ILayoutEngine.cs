@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace ClashEngine.NET.Interfaces.Graphics.Gui
+namespace ClashEngine.NET.Interfaces.Graphics.Gui.Layout
 {
 	/// <summary>
 	/// Silnik odpowiedzialny za układanie kontrolek/obiektów.
@@ -11,7 +11,7 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		/// Układa wszystkie elementy.
 		/// </summary>
 		/// <remarks>
-		/// Możemy mieć pewność, że poszczególne elementu dziedziczą z IPositionableElement.
+		/// Możemy mieć pewność, że poszczególne elementu listy dziedziczą z IPositionableElement.
 		/// </remarks>
 		/// <param name="elements">Lista elementów do ułożenia.</param>
 		void Layout(IList elements);

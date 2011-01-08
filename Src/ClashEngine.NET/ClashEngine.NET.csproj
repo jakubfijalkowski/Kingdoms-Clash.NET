@@ -201,9 +201,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Interfaces\Data\IFontExtension.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\ILayoutEngine.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IObject.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IObjectsCollection.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Layout\ILayoutEngine.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Objects\IObject.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Objects\IObjectsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IPositionableElement.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IScreen.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IStylizableControl.cs">

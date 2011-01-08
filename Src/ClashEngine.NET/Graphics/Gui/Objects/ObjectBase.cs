@@ -3,6 +3,7 @@
 namespace ClashEngine.NET.Graphics.Gui.Objects
 {
 	using Interfaces.Graphics.Gui;
+	using Interfaces.Graphics.Gui.Objects;
 
 	/// <summary>
 	/// Wewnętrzna klasa bazowa dla obiektów GUI.

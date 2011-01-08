@@ -3,6 +3,7 @@
 namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces.Graphics.Gui;
+	using Interfaces.Graphics.Gui.Objects;
 
 	/// <summary>
 	/// Klasa bazowa dla kontrolek, które można stylizować za pomocą obiektów(<see cref="IObject"/>).

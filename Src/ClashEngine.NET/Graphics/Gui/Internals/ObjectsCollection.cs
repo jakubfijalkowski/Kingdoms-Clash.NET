@@ -6,6 +6,7 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 {
 	using Extensions;
 	using Interfaces.Graphics.Gui;
+	using Interfaces.Graphics.Gui.Objects;
 
 	/// <summary>
 	/// Kolekcja obiektów renderera GUI.

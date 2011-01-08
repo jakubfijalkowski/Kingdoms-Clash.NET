@@ -1,5 +1,7 @@
 ﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
 {
+	using Objects;
+
 	/// <summary>
 	/// Kontrolka, którą można stylizować za pomocą obiektów(<see cref="IObject"/>).
 	/// </summary>
