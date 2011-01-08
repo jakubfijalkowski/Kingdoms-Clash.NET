@@ -186,8 +186,8 @@
     <Compile Include="Interfaces\Graphics\Gui\Controls\IRotatorObjectsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Controls\IRotatorSelectedItems.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Controls\ITextBox.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\ICondition.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\IConditionsCollection.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Conditions\ICondition.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Conditions\IConditionsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IContainer.cs">
       <SubType>Code</SubType>
     </Compile>

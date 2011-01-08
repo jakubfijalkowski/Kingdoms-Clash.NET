@@ -6,6 +6,7 @@ namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces;
 	using Interfaces.Graphics.Gui;
+	using Interfaces.Graphics.Gui.Conditions;
 
 	/// <summary>
 	/// Kontener XAML.

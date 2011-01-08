@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace ClashEngine.NET.Graphics.Gui.Internals
 {
-	using Interfaces.Graphics.Gui;
+	using Interfaces.Graphics.Gui.Conditions;
 
 	/// <summary>
 	/// Kolekcja warunków do stylizacji GUI.

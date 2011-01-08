@@ -1,4 +1,4 @@
-﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
+﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui.Conditions
 {
 	/// <summary>
 	/// Interfejs bazowy dla warunków do stylizacji GUI.
@@ -8,6 +8,6 @@
 		/// <summary>
 		/// Wyzwalacze wywoływane przy spełnieniu warunku.
 		/// </summary>
-		Conditions.ITriggersCollection Triggers { get; }
+		ITriggersCollection Triggers { get; }
 	}
 }
