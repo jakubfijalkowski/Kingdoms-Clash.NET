@@ -16,11 +16,31 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 	internal class ControlsCollection
 		: KeyedCollection<string, IControl>, IControlsCollection
 	{
+		#region Private fields
+		private Dictionary<string, IControl> ChildControls = new Dictionary<string, IControl>();
+		#endregion
+
 		#region IControlsCollection Members
 		/// <summary>
 		/// Właściciel.
 		/// </summary>
 		public IContainerControl Owner { get; private set; }
+
+		/// <summary>
+		/// Pobiera kontrolkę o wskazanym Id.
+		/// Może to być kontrolka-dziecko, albo kontrolka zawarta w kontrolce-dziecku.
+		/// </summary>
+		/// <param name="id">Identyfikator.</param>
+		/// <exception cref="System.Collections.Generic.KeyNotFoundException">Rzucane, gdy nie znaleziono kontrolki.</exception>
+		/// <returns>Kontrolka.</returns>
+		public IControl Get(string id)
+		{
+			if (this.Contains(id))
+			{
+				return this[id];
+			}
+			return this.ChildControls[id];
+		}
 
 		/// <summary>
 		/// Dodaje listę kontrolek do kolekcji.
@@ -53,11 +73,24 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 				throw new Exceptions.ArgumentAlreadyExistsException("item");
 			}
 			control.Data = this.Owner.Data; //Dziedziczymy Data od głównej kontrolki
-			base.InsertItem(this.Count, control);
+			this.ChildControls.Add(control.Id, control);
 			if (this.Owner.Owner != null)
 			{
 				this.Owner.Owner.Controls.AddChild(control);
 			}
+		}
+
+		/// <summary>
+		/// Usuwa kontrolkę, która jest w kontrolce niżej.
+		/// </summary>
+		/// <param name="control"></param>
+		public bool RemoveChild(IControl control)
+		{
+			if (control == null)
+			{
+				throw new ArgumentNullException("item");
+			}
+			return this.ChildControls.Remove(control.Id);
 		}
 		#endregion
 
@@ -76,6 +109,8 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 			item.Owner = this.Owner;
 			item.Data = this.Owner.Data;
 			item.ContainerOffset = this.Owner.AbsolutePosition;
+			item.PropertyChanged += this.ChildVisibilityChanged;
+
 			base.InsertItem(index, item);
 			item.OnAdd();
 			if (this.Owner.Owner != null)
@@ -89,8 +124,9 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 			var item = this[index];
 			if (this.Owner.Owner != null)
 			{
-				this.Owner.Owner.Controls.Remove(item);
+				this.Owner.Owner.Controls.RemoveChild(item);
 			}
+			item.PropertyChanged -= this.ChildVisibilityChanged;
 			item.OnRemove();
 			base.RemoveItem(index);
 		}
@@ -121,6 +157,11 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 		#endregion
 
 		#region Events
+		/// <summary>
+		/// Zmienił się właściciel(może nastąpić raz) - dodajemy swoje kontrolki jako dziedzi dzieci do rodzica.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		void OwnerChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == this.Owner.NameOf(_ => _.Owner))
@@ -135,6 +176,11 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 			}
 		}
 
+		/// <summary>
+		/// Jeśli zmieniła się absolutna pozycja kontrolki-rodzica musimy uaktualnić offset kontenera w kontrolkach-dzieciach.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		void AbsolutePositionChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == this.Owner.NameOf(_ => _.AbsolutePosition))
@@ -143,6 +189,19 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 				{
 					control.ContainerOffset = this.Owner.AbsolutePosition;
 				}
+			}
+		}
+
+		/// <summary>
+		/// Któreś dziecko zmieniło swoją widoczność - poprawiamy layout.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void ChildVisibilityChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == (sender as IControl).NameOf(_ => _.Visible))
+			{
+				this.Owner.Layout();
 			}
 		}
 		#endregion

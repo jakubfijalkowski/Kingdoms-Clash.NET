@@ -22,6 +22,10 @@ namespace ClashEngine.NET.Graphics.Gui.Layout
 
 			for (int i = 0; i < elements.Count; i++)
 			{
+				if (!elements[i].Visible)
+				{
+					continue;
+				}
 				if (currPos.X + elements[i].Size.X > size.X) //Element nie mieści się
 				{
 					if (currPos.X == 0) //Element nie mieści się w pustym wierszu

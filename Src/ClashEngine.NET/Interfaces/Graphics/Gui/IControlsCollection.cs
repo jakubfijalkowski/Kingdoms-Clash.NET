@@ -23,6 +23,14 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		IControl this[string id] { get; }
 
 		/// <summary>
+		/// Pobiera kontrolkę o wskazanym Id.
+		/// Może to być kontrolka-dziecko, albo kontrolka zawarta w kontrolce-dziecku.
+		/// </summary>
+		/// <param name="id">Identyfikator.</param>
+		/// <returns>Kontrolka.</returns>
+		IControl Get(string id);
+
+		/// <summary>
 		/// Dodaje listę kontrolek do kolekcji.
 		/// </summary>
 		/// <param name="items">Lista.</param>
@@ -33,9 +41,17 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		/// </summary>
 		/// <remarks>
 		/// Takie dodanie kontrolki nie zmienia jej właściwości a jedynie umożliwia sprawdzanie stanu kontrolki z poziomu korzenia.
+		/// Nie powinny być w głównej liście, tylko w wewnętrznej, tak, by layouter nie miał do nich dostępu.
+		/// Takie kontrolki muszą być dostępne z poziomu <see cref="Get"/> i <see cref="RemoveChild"/>.
 		/// </remarks>
 		/// <param name="control"></param>
 		void AddChild(IControl control);
+
+		/// <summary>
+		/// Usuwa kontrolkę, która jest w kontrolce niżej.
+		/// </summary>
+		/// <param name="control"></param>
+		bool RemoveChild(IControl control);
 
 		/// <summary>
 		/// Usuwa kontrolkę o wskazanym Id.

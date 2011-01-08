@@ -32,7 +32,7 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		/// <returns>Nr akcji bądź 0, gdy żadna akcja nie zaszła.</returns>
 		public int Control(string id)
 		{
-			return this.Controls[id].Check();
+			return this.Controls.Get(id).Check();
 		}
 		#endregion
 

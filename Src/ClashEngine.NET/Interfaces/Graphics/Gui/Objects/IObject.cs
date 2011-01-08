@@ -17,11 +17,6 @@
 		IStylizableControl Owner { get; set; }
 
 		/// <summary>
-		/// Czy obiekt jest widoczny.
-		/// </summary>
-		bool Visible { get; set; }
-
-		/// <summary>
 		/// Głębokość, na któej obiekt się znajduje.
 		/// </summary>
 		float Depth { get; set; }

@@ -125,7 +125,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		}
 
 		/// <summary>
-		/// Rozmiar przycisku.
+		/// Rozmiar kontrolki.
 		/// </summary>
 		[TypeConverter(typeof(Converters.Vector2Converter))]
 		public OpenTK.Vector2 Size

@@ -27,11 +27,6 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		public IStylizableControl Owner { get; set; }
 
 		/// <summary>
-		/// Czy obiekt jest widoczny.
-		/// </summary>
-		public bool Visible { get; set; }
-
-		/// <summary>
 		/// Głębokość, na któej obiekt się znajduje.
 		/// </summary>
 		public virtual float Depth { get; set; }
@@ -69,6 +64,11 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		/// Rozmiar obiektu.
 		/// </summary>
 		public abstract OpenTK.Vector2 Size { get; set; }
+
+		/// <summary>
+		/// Czy obiekt jest widoczny.
+		/// </summary>
+		public bool Visible { get; set; }
 		#endregion
 	}
 }

@@ -14,5 +14,10 @@
 		/// Rozmiar.
 		/// </summary>
 		OpenTK.Vector2 Size { get; set; }
+
+		/// <summary>
+		/// Czy element jest widoczny.
+		/// </summary>
+		bool Visible { get; set; }
 	}
 }

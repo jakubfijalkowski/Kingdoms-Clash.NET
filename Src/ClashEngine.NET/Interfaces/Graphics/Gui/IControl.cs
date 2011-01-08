@@ -28,11 +28,6 @@
 		bool PermanentActive { get; }
 
 		/// <summary>
-		/// Czy kontrolka jest widoczna.
-		/// </summary>
-		bool Visible { get; set; }
-
-		/// <summary>
 		/// Offset dla kontrolki ustawiany przez kontener. Równy <see cref="Owner.AbsolutePosition"/>.
 		/// Nie do zmiany ręcznej.
 		/// </summary>

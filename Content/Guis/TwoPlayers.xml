@@ -106,33 +106,33 @@
   </p:PlayersGUIContainer.Triggers>
 
   <!-- Jednostki gracza drugiego -->
-  <Panel Id="Player1UnitsPanel" Position="0,0.95" Size="0.3,0.05">
+  <Panel Id="Player1UnitsPanel" Position="0,0.95" Size="0.3,0.05" LayoutEngine="LeftToRight">
     <Rotator Id="Player1Units" DataContext="{Binding Source=root,Path=Player1.Nation.AvailableUnits}" MaxSelectedItems="4" />
     <Button Id="P1Unit1" DataContext="{Binding Source=Player1Units,Path=Selected[0]}"
-            Position="0,0" Size="0.05,0.05" Visible="false">
+            Size="0.05,0.05" Visible="false">
       <Rectangle />
       <Text Font="Arial,12" DataContext="{Binding Source=P1Unit1,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
       <Text Font="Arial,10" DataContext="{Binding Source=root,Path=Player1Queue[0]}" TextValue="{Binding QueueLength}" Color="0,0,0,1" Position="0,0.025" />
     </Button>
     <Button Id="P1Unit2" DataContext="{Binding Source=Player1Units,Path=Selected[1]}"
-            Position="0.05,0" Size="0.05,0.05" Visible="false">
+            Size="0.05,0.05" Visible="false">
       <Rectangle />
       <Text Font="Arial,12" DataContext="{Binding Source=P1Unit2,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
       <Text Font="Arial,10" DataContext="{Binding Source=root,Path=Player1Queue[1]}" TextValue="{Binding QueueLength}" Color="0,0,0,1" Position="0,0.025" />
     </Button>
     <Button Id="P1Unit3" DataContext="{Binding Source=Player1Units,Path=Selected[2]}"
-            Position="0.1,0" Size="0.05,0.05" Visible="false">
+            Size="0.05,0.05" Visible="false">
       <Rectangle />
       <Text Font="Arial,12" DataContext="{Binding Source=P1Unit3,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
       <Text Font="Arial,10" DataContext="{Binding Source=root,Path=Player1Queue[2]}" TextValue="{Binding QueueLength}" Color="0,0,0,1" Position="0,0.025" />
     </Button>
     <Button Id="P1Unit4" DataContext="{Binding Source=Player1Units,Path=Selected[3]}"
-            Position="0.15,0" Size="0.05,0.05" Visible="false">
+            Size="0.05,0.05" Visible="false">
       <Rectangle />
       <Text Font="Arial,12" DataContext="{Binding Source=P1Unit4,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
       <Text Font="Arial,10" DataContext="{Binding Source=root,Path=Player1Queue[3]}" TextValue="{Binding QueueLength}" Color="0,0,0,1" Position="0,0.025" />
     </Button>
-    <Pane Id="Player1Stats" Position="0.2,0" Size="0.1,0.5">
+    <Pane Id="Player1Stats" Size="0.1,0.05">
       <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player1}" TextValue="{Binding Name}" Color="1,1,0,1" />
       <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player1}" TextValue="{Binding Health}" Color="1,1,0,1" Position="0,0.018" />
       <Text Font="Arial,12" TextValue="/" Color="1,1,0,1" Position="0.025,0.018" />
@@ -141,34 +141,34 @@
   </Panel>
 
   <!-- Jednostki gracza drugiego -->
-  <Panel Id="Player2UnitsPanel" Position="0.7,0.0" Size="0.3,0.05">
+  <Panel Id="Player2UnitsPanel" Position="0.7,0.0" Size="0.3,0.05" LayoutEngine="LeftToRight">
     <Rotator Id="Player2Units" DataContext="{Binding Source=root,Path=Player2.Nation.AvailableUnits}" MaxSelectedItems="4" />
-    <Pane Id="Player2Stats" Position="0.0,0" Size="0.1,0.5">
+    <Pane Id="Player2Stats" Size="0.1,0.05">
       <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player2}" TextValue="{Binding Name}" Color="1,1,0,1" />
       <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player2}" TextValue="{Binding Health}" Color="1,1,0,1" Position="0,0.018" />
       <Text Font="Arial,12" TextValue="/" Color="1,1,0,1" Position="0.025,0.018" />
       <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player2}" TextValue="{Binding MaxHealth}" Color="1,1,0,1" Position="0.027,0.018" />
     </Pane>
     <Button Id="P2Unit1" DataContext="{Binding Source=Player2Units,Path=Selected[0]}"
-            Position="0.1,0" Size="0.05,0.05" Visible="false">
+            Size="0.05,0.05" Visible="false">
       <Rectangle />
       <Text Font="Arial,12" DataContext="{Binding Source=P2Unit1,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
       <Text Font="Arial,10" DataContext="{Binding Source=root,Path=Player2Queue[0]}" TextValue="{Binding QueueLength}" Color="0,0,0,1" Position="0,0.025" />
     </Button>
     <Button Id="P2Unit2" DataContext="{Binding Source=Player2Units,Path=Selected[1]}"
-            Position="0.15,0" Size="0.05,0.05" Visible="false">
+            Size="0.05,0.05" Visible="false">
       <Rectangle />
       <Text Font="Arial,12" DataContext="{Binding Source=P2Unit2,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
       <Text Font="Arial,10" DataContext="{Binding Source=root,Path=Player2Queue[1]}" TextValue="{Binding QueueLength}" Color="0,0,0,1" Position="0,0.025" />
     </Button>
     <Button Id="P2Unit3" DataContext="{Binding Source=Player2Units,Path=Selected[2]}"
-            Position="0.2,0" Size="0.05,0.05" Visible="false">
+            Size="0.05,0.05" Visible="false">
       <Rectangle />
       <Text Font="Arial,12" DataContext="{Binding Source=P2Unit3,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
       <Text Font="Arial,10" DataContext="{Binding Source=root,Path=Player2Queue[2]}" TextValue="{Binding QueueLength}" Color="0,0,0,1" Position="0,0.025" />
     </Button>
     <Button Id="P2Unit4" DataContext="{Binding Source=Player2Units,Path=Selected[3]}"
-            Position="0.25,0" Size="0.05,0.05" Visible="false">
+            Size="0.05,0.05" Visible="false">
       <Rectangle />
       <Text Font="Arial,12" DataContext="{Binding Source=P2Unit4,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
       <Text Font="Arial,10" DataContext="{Binding Source=root,Path=Player2Queue[3]}" TextValue="{Binding QueueLength}" Color="0,0,0,1" Position="0,0.025" />

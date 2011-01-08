@@ -1,20 +1,149 @@
 ﻿using System;
-using System.Windows.Markup;
 using System.Collections;
+using System.ComponentModel;
+using System.Windows.Markup;
 
 namespace ClashEngine.NET.Graphics.Gui.Controls
 {
+	using Interfaces.Graphics.Gui;
 	using Interfaces.Graphics.Gui.Controls;
 
 	/// <summary>
 	/// Kontrolka - rotator.
 	/// </summary>
 	[ContentProperty("Items")]
+	[RuntimeNameProperty("Id")]
 	public class Rotator
-		: ControlBase, IRotator
+		: IRotator, ISupportInitialize
 	{
 		#region Private fields
 		private int _First = 0;
+		private IContainerControl _Owner = null;
+		private IUIData _Data = null;
+		private object _DataContext = null;
+		#endregion
+
+		#region IControl Members
+		/// <summary>
+		/// Identyfikator.
+		/// </summary>
+		public string Id { get; set; }
+
+		/// <summary>
+		/// Właściciel kontrolki.
+		/// </summary>
+		IContainerControl IControl.Owner
+		{
+			get { return this._Owner; }
+			set { this._Owner = value; }
+		}
+
+		/// <summary>
+		/// Dane UI.
+		/// </summary>
+		IUIData IControl.Data
+		{
+			get { return this._Data; }
+			set { this._Data = value; }
+		}
+
+		/// <summary>
+		/// Offset dla kontrolki ustawiany przez kontener.
+		/// Nieużywane - zawsze 0,0.
+		/// </summary>
+		public OpenTK.Vector2 ContainerOffset
+		{
+			get { return new OpenTK.Vector2(0, 0); }
+			set { }
+		}
+
+		/// <summary>
+		/// Pozycja.
+		/// Nieużywane - zawsze 0,0.
+		/// </summary>
+		public OpenTK.Vector2 Position
+		{
+			get { return new OpenTK.Vector2(0, 0); }
+			set { }
+		}
+
+		/// <summary>
+		/// Pozycja kontrolki - absoulutna, uwzględnia offset kontenera.
+		/// Nieużywane - zawsze 0,0.
+		/// </summary>
+		public virtual OpenTK.Vector2 AbsolutePosition
+		{
+			get { return new OpenTK.Vector2(0, 0); }
+		}
+
+		/// <summary>
+		/// Rozmiar - nieużywane, zawsze 0x0.
+		/// </summary>
+		public OpenTK.Vector2 Size
+		{
+			get { return new OpenTK.Vector2(0, 0); }
+			set { }
+		}
+
+		/// <summary>
+		/// Nieużywane - zawsze false.
+		/// </summary>
+		public bool Visible
+		{
+			get { return false; }
+			set { }
+		}
+
+		/// <summary>
+		/// Zawsze false.
+		/// </summary>
+		public bool PermanentActive
+		{
+			get { return false; }
+		}
+
+		/// <summary>
+		/// Wywoływane przy dodaniu do kontenera.
+		/// </summary>
+		public void OnAdd()
+		{ }
+
+		/// <summary>
+		/// Wywoływane przy usunięciu z kontenera.
+		/// </summary>
+		public void OnRemove()
+		{ }
+
+		/// <summary>
+		/// Nieużywane - zawsze false.
+		/// </summary>
+		/// <returns></returns>
+		public bool ContainsMouse()
+		{
+			return false;
+		}
+
+		/// <summary>
+		/// Nieużywane - zawsze 0.
+		/// </summary>
+		/// <returns></returns>
+		public int Check()
+		{
+			return 0;
+		}
+
+		/// <summary>
+		/// Nieużywane.
+		/// </summary>
+		public void Render()
+		{ }
+
+		/// <summary>
+		/// Nieużywane.
+		/// </summary>
+		/// <param name="delta"></param>
+		public void Update(double delta)
+		{ }
 		#endregion
 
 		#region IRotator Members
@@ -82,21 +211,21 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		/// Obiekt musi implementować IEnumerable.
 		/// Można ustawić tylko raz.
 		/// </remarks>
-		public override object DataContext
+		public object DataContext
 		{
-			get { return base.DataContext; }
+			get { return this._DataContext; }
 			set
 			{
-				if (base.DataContext != null)
+				if (this._DataContext != null)
 				{
 					throw new InvalidOperationException("DataContext can be specified only once");
 				}
-				if(value != null && !(value is IEnumerable))
+				if (value != null && !(value is IEnumerable))
 				{
 					throw new ArgumentException("DataContext must implement IEnumerable", "value");
 				}
-				base.DataContext = value;
-				if (base.DataContext != null)
+				this._DataContext = value;
+				if (this._DataContext != null)
 				{
 					foreach (object item in (value as IEnumerable))
 					{
@@ -107,21 +236,32 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		}
 		#endregion
 
-		#region Unused
-		public override bool PermanentActive { get { return false; } }
-
-		public override bool ContainsMouse()
-		{
-			return false;
-		}
-
-		public override int Check()
-		{
-			return 0;
-		}
-
-		public override void Render()
+		#region ISupportInitialize Members
+		/// <summary>
+		/// Nieużywane.
+		/// </summary>
+		public void BeginInit()
 		{ }
+
+		/// <summary>
+		/// Sprawdza, czy Id nie jest puste.
+		/// </summary>
+		public void EndInit()
+		{
+			if (string.IsNullOrWhiteSpace(this.Id))
+			{
+				throw new System.InvalidOperationException("Cannot create control with empty Id");
+			}
+		}
+		#endregion
+
+		#region INotifyPropertyChanged Members
+		/// <summary>
+		/// Wywoływane przy zmianie właściwości.
+		/// </summary>
+		#pragma warning disable 0067
+		public event PropertyChangedEventHandler PropertyChanged;
+		#pragma warning restore 0067
 		#endregion
 
 		#region Constructors
@@ -129,7 +269,6 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		{
 			this.Items = new Internals.RotatorObjectsCollection(this);
 			this.Selected = new Internals.RotatorSelectedItems(this);
-			base.Size = new OpenTK.Vector2(1, 1);
 		}
 		#endregion
 
@@ -150,6 +289,5 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 			}
 		}
 		#endregion
-
 	}
 }
