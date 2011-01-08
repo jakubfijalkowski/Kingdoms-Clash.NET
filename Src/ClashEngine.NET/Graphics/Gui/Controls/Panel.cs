@@ -26,6 +26,35 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 		public IControlsCollection Controls { get; private set; }
 
 		/// <summary>
+		/// Silnik używany do układania.
+		/// </summary>
+		[TypeConverter(typeof(Converters.LayoutConverter))]
+		public ILayoutEngine LayoutEngine
+		{
+			get { return this._LayoutEngine; }
+			set
+			{
+				if (value == null)
+				{
+					value = new Layout.DefaultLayout();
+				}
+				this._LayoutEngine = value;
+				this.Layout();
+			}
+		}
+
+		/// <summary>
+		/// Wymusza ponowne rozłożenie elementów.
+		/// </summary>
+		public void Layout()
+		{
+			if (base.IsInitialized)
+			{
+				this.Size = this.LayoutEngine.Layout(this.Controls, this.Size);
+			}
+		}
+
+		/// <summary>
 		/// Sprawdza stan kontrolki za pomocą <see cref="IGuiControl.Check"/>.
 		/// </summary>
 		/// <param name="id">Identyfikator kontrolki.</param>
@@ -115,37 +144,6 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 				{
 					this.Owner.Controls.Remove(control);
 				}
-			}
-		}
-		#endregion
-
-		#region ILayoutControl Members
-		/// <summary>
-		/// Silnik używany do układania.
-		/// </summary>
-		[TypeConverter(typeof(Converters.LayoutConverter))]
-		public ILayoutEngine LayoutEngine
-		{
-			get { return this._LayoutEngine; }
-			set
-			{
-				if (value == null)
-				{
-					value = new Layout.DefaultLayout();
-				}
-				this._LayoutEngine = value;
-				this.Layout();
-			}
-		}
-
-		/// <summary>
-		/// Wymusza ponowne rozłożenie elementów.
-		/// </summary>
-		public void Layout()
-		{
-			if (base.IsInitialized)
-			{
-				this.Size = this.LayoutEngine.Layout(this.Controls, this.Size);
 			}
 		}
 		#endregion

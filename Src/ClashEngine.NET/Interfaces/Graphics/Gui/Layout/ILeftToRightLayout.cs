@@ -5,5 +5,15 @@
 	/// </summary>
 	public interface ILeftToRightLayout
 		: ILayoutEngine
-	{ }
+	{
+		/// <summary>
+		/// Czy elementy mają się układać w jedną linie(true) czy w wiele(false).
+		/// </summary>
+		bool Singleline { get; set; }
+
+		/// <summary>
+		/// W którą stronę wyrównywać elementy - lewą(false) czy prawą(true).
+		/// </summary>
+		bool AlignRight { get; set; }
+	}
 }

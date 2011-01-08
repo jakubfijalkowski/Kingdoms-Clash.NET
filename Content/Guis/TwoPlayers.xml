@@ -141,7 +141,7 @@
   </Panel>
 
   <!-- Jednostki gracza drugiego -->
-  <Panel Id="Player2UnitsPanel" Position="0.7,0.0" Size="0.3,0.05" LayoutEngine="LeftToRight">
+  <Panel Id="Player2UnitsPanel" Position="0.7,0.0" Size="0.3,0.05" LayoutEngine="LeftToRight" LayoutEngine.AlignRight="true">
     <Rotator Id="Player2Units" DataContext="{Binding Source=root,Path=Player2.Nation.AvailableUnits}" MaxSelectedItems="4" />
     <Pane Id="Player2Stats" Size="0.1,0.05">
       <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player2}" TextValue="{Binding Name}" Color="1,1,0,1" />

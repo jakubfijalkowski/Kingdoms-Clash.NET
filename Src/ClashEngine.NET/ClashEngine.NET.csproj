@@ -205,7 +205,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Interfaces\Data\IFontExtension.cs" />
-    <Compile Include="Interfaces\Graphics\Gui\ILayoutControl.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Layout\IAutoSizeLayout.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Layout\IDefaultLayout.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Layout\ILayoutEngine.cs" />
