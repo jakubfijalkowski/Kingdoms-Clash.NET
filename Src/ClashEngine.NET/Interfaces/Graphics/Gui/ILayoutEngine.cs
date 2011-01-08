@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
 
 namespace ClashEngine.NET.Interfaces.Graphics.Gui
 {
@@ -8,13 +8,12 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 	public interface ILayoutEngine
 	{
 		/// <summary>
-		/// Lista elementów.
+		/// Układa wszystkie elementy.
 		/// </summary>
-		IList<IPositionableElement> Elements { get; set; }
-
-		/// <summary>
-		/// Uaktualnia wszystkie elementy.
-		/// </summary>
-		void Layout();
+		/// <remarks>
+		/// Możemy mieć pewność, że poszczególne elementu dziedziczą z IPositionableElement.
+		/// </remarks>
+		/// <param name="elements">Lista elementów do ułożenia.</param>
+		void Layout(IList elements);
 	}
 }

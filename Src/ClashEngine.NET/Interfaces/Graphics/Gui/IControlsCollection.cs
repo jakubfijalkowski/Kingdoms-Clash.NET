@@ -8,7 +8,7 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 	/// </summary>
 	/// <seealso cref="IContainer"/>
 	public interface IControlsCollection
-		: ICollection<IControl>//, IList<IControl>
+		: ICollection<IControl>, IList<IControl>
 	{
 		/// <summary>
 		/// Właściciel.
