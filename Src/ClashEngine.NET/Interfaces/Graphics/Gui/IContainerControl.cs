@@ -5,7 +5,7 @@
 	/// </summary>
 	/// <seealso cref="IContainer"/>
 	public interface IContainerControl
-		: IControl
+		: IControl, ILayoutControl
 	{
 		/// <summary>
 		/// Kolekcja kontrolek.

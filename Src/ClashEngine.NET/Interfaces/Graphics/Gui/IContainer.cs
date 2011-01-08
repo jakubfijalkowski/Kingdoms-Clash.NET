@@ -1,4 +1,6 @@
-﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui
+﻿using System.ComponentModel;
+
+namespace ClashEngine.NET.Interfaces.Graphics.Gui
 {
 	/// <summary>
 	/// Kontener na kontrolki.
@@ -10,6 +12,7 @@
 	/// używając metody <see cref="IControlsCollection.AddChild"/>.
 	/// </remarks>
 	public interface IContainer
+		: ISupportInitialize
 	{
 		/// <summary>
 		/// Informacje o grze.

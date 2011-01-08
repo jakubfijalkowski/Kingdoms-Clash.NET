@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
+using Moq;
 
 namespace ClashEngine.NET.Tests
 {
 	using Interfaces;
-using Moq;
 
 	[TestFixture(Description = "Testuje manager callbacków.")]
 	public class MainThreadCallbacksManagerTests

@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\FontConverter.cs" />
+    <Compile Include="Converters\LayoutConverter.cs" />
     <Compile Include="Converters\PropertyPathConverter.cs" />
     <Compile Include="Converters\SystemTypeConverter.cs" />
     <Compile Include="Converters\TextureConverter.cs" />
@@ -137,6 +138,9 @@
     </Compile>
     <Compile Include="Graphics\Gui\Internals\ObjectsCollection.cs" />
     <Compile Include="Graphics\Gui\Internals\UIData.cs" />
+    <Compile Include="Graphics\Gui\Layout\AutoSizeLayout.cs" />
+    <Compile Include="Graphics\Gui\Layout\DefaultLayout.cs" />
+    <Compile Include="Graphics\Gui\Layout\LeftToRightLayout.cs" />
     <Compile Include="Graphics\Gui\Objects\Image.cs" />
     <Compile Include="Graphics\Gui\Objects\ObjectBase.cs" />
     <Compile Include="Graphics\Gui\Objects\Rectangle.cs" />
@@ -201,7 +205,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Interfaces\Data\IFontExtension.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\ILayoutControl.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Layout\IAutoSizeLayout.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Layout\IDefaultLayout.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Layout\ILayoutEngine.cs" />
+    <Compile Include="Interfaces\Graphics\Gui\Layout\ILeftToRightLayout.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Objects\IObject.cs" />
     <Compile Include="Interfaces\Graphics\Gui\Objects\IObjectsCollection.cs" />
     <Compile Include="Interfaces\Graphics\Gui\IPositionableElement.cs" />

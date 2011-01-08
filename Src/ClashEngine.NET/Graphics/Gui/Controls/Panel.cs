@@ -1,10 +1,12 @@
-﻿using System.Windows.Markup;
+﻿using System.ComponentModel;
+using System.Windows.Markup;
 using OpenTK.Input;
 
 namespace ClashEngine.NET.Graphics.Gui.Controls
 {
 	using Interfaces.Graphics.Gui;
 	using Interfaces.Graphics.Gui.Controls;
+	using Interfaces.Graphics.Gui.Layout;
 
 	/// <summary>
 	/// Panel - nie uczestniczy w interakcji z użytkownikiem, jest "statyczny".
@@ -13,6 +15,10 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 	public class Panel
 		: ControlBase, IPanel
 	{
+		#region Private fields
+		private ILayoutEngine _LayoutEngine = new Layout.DefaultLayout();
+		#endregion
+
 		#region IContainerControl Members
 		/// <summary>
 		/// Kolekcja kontrolek.
@@ -110,6 +116,48 @@ namespace ClashEngine.NET.Graphics.Gui.Controls
 					this.Owner.Controls.Remove(control);
 				}
 			}
+		}
+		#endregion
+
+		#region ILayoutControl Members
+		/// <summary>
+		/// Silnik używany do układania.
+		/// </summary>
+		[TypeConverter(typeof(Converters.LayoutConverter))]
+		public ILayoutEngine LayoutEngine
+		{
+			get { return this._LayoutEngine; }
+			set
+			{
+				if (value == null)
+				{
+					value = new Layout.DefaultLayout();
+				}
+				this._LayoutEngine = value;
+				this.Layout();
+			}
+		}
+
+		/// <summary>
+		/// Wymusza ponowne rozłożenie elementów.
+		/// </summary>
+		public void Layout()
+		{
+			if (base.IsInitialized)
+			{
+				this.Size = this.LayoutEngine.Layout(this.Controls, this.Size);
+			}
+		}
+		#endregion
+
+		#region ISupportInitialize Members
+		/// <summary>
+		/// Układa kontrolki.
+		/// </summary>
+		public override void EndInit()
+		{
+			this.Size = this.LayoutEngine.Layout(this.Controls, this.Size);
+			base.EndInit();
 		}
 		#endregion
 

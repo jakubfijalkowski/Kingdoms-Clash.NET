@@ -24,6 +24,7 @@ namespace ClashEngine.NET.Graphics.Gui
 		private Vector2 _Offset = Vector2.Zero;
 		private Vector2 _Position = Vector2.Zero;
 		private Vector2 _AbsolutePosition = Vector2.Zero;
+		private Vector2 _Size = Vector2.Zero;
 		#endregion
 
 		#region IControl Members
@@ -101,8 +102,12 @@ namespace ClashEngine.NET.Graphics.Gui
 			get { return this._Position; }
 			set
 			{
-				this._Position = value;
-				this.AbsolutePosition = this._Position + this._Offset;
+				if (value != this._Position)
+				{
+					this._Position = value;
+					this.AbsolutePosition = this._Position + this._Offset;
+					this.RaisePropertyChanged(() => Position);
+				}
 			}
 		}
 
@@ -123,7 +128,23 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// Rozmiar przycisku.
 		/// </summary>
 		[TypeConverter(typeof(Converters.Vector2Converter))]
-		public OpenTK.Vector2 Size { get; set; }
+		public OpenTK.Vector2 Size
+		{
+			get { return this._Size; }
+			set
+			{
+				if (value.X == 0 || value.Y == 0)
+				{
+					throw new System.ArgumentException("Size must be non-zero", "value");
+				}
+				if (value != this._Size)
+				{
+					this._Size = value;
+					if (this.Owner != null)
+						this.Owner.Layout();
+				}
+			}
+		}
 
 		/// <summary>
 		/// Czy kontrolka jest aktywna.
@@ -202,13 +223,18 @@ namespace ClashEngine.NET.Graphics.Gui
 		#endregion
 
 		#region ISupportInitialize Members
-		public void BeginInit()
-		{ }
+		/// <summary>
+		/// Nieużywane.
+		/// </summary>
+		public virtual void BeginInit()
+		{
+			this.IsInitialized = false;
+		}
 
 		/// <summary>
 		/// Sprawdza, czy wszystkie właściwości są poprawne.
 		/// </summary>
-		public void EndInit()
+		public virtual void EndInit()
 		{
 			if (this.Size.X == 0 || this.Size.Y == 0)
 			{
@@ -218,7 +244,15 @@ namespace ClashEngine.NET.Graphics.Gui
 			{
 				throw new System.InvalidOperationException("Cannot create control with empty Id");
 			}
+			this.IsInitialized = true;
 		}
+		#endregion
+
+		#region Protected members
+		/// <summary>
+		/// Czy kontrolka została zainicjalizowana.
+		/// </summary>
+		protected bool IsInitialized { get; private set; }
 		#endregion
 
 		#region To override

@@ -1,4 +1,6 @@
-﻿namespace ClashEngine.NET.Graphics.Gui
+﻿using System.ComponentModel;
+
+namespace ClashEngine.NET.Graphics.Gui
 {
 	using Interfaces;
 	using Interfaces.Graphics;
@@ -8,7 +10,7 @@
 	/// Kontener GUI.
 	/// </summary>
 	public class Container
-		: IContainer
+		: IContainer, ISupportInitialize
 	{
 		#region IContainer Members
 		/// <summary>
@@ -42,6 +44,24 @@
 			this.GameInfo.Renderer.SortMode = SortMode.FrontToBack;
 			this.Root.Render();
 			this.GameInfo.Renderer.SortMode = oldSortMode;
+		}
+		#endregion
+
+		#region ISupportInitialize Members
+		/// <summary>
+		/// Rozpoczyna inicjalizację.
+		/// </summary>
+		public void BeginInit()
+		{
+			(this.Root as ISupportInitialize).BeginInit();
+		}
+
+		/// <summary>
+		/// Kończy inicjalizację.
+		/// </summary>
+		public void EndInit()
+		{
+			(this.Root as ISupportInitialize).EndInit();
 		}
 		#endregion
 

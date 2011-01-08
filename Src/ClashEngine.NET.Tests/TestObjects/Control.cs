@@ -15,7 +15,6 @@ namespace ClashEngine.NET.Tests.TestObjects
 		#region IControl Members
 		public abstract IContainerControl Owner { get; set; }
 		public abstract IUIData Data { get; set; }
-		public abstract IControlsCollection Controls { get; set; }
 		public abstract OpenTK.Vector2 ContainerOffset { get; set; }
 		public abstract OpenTK.Vector2 Position { get; set; }
 		public abstract OpenTK.Vector2 AbsolutePosition { get; set; }
@@ -30,7 +29,16 @@ namespace ClashEngine.NET.Tests.TestObjects
 		public abstract int Check();
 		public abstract void OnAdd();
 		public abstract void OnRemove();
+		#endregion
+
+		#region IContainerControl Members		
+		public abstract IControlsCollection Controls { get; set; }
 		int IContainerControl.Control(string id) { return 0; }
+		#endregion
+
+		#region ILayoutControl Members
+		public abstract Interfaces.Graphics.Gui.Layout.ILayoutEngine LayoutEngine { get; set; }
+		public abstract void Layout();
 		#endregion
 
 		#region IDataContext Members

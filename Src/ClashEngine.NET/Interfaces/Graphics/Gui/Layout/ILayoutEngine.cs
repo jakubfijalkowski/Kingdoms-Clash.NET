@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
+using OpenTK;
 
 namespace ClashEngine.NET.Interfaces.Graphics.Gui.Layout
 {
@@ -14,6 +15,9 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Layout
 		/// Możemy mieć pewność, że poszczególne elementu listy dziedziczą z IPositionableElement.
 		/// </remarks>
 		/// <param name="elements">Lista elementów do ułożenia.</param>
-		void Layout(IList elements);
+		/// <param name="size">Rozmiar kontrrolki w której powinny zmieścić się elementy.</param>
+		/// <returns>Nowy rozmiar(zostanie zaaplikowany do kontrolki).</returns>
+		Vector2 Layout<T>(IList<T> elements, Vector2 size)
+			where T : IPositionableElement;
 	}
 }

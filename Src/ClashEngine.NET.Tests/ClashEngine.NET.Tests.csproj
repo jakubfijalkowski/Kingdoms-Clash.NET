@@ -79,6 +79,7 @@
     <Compile Include="GameEntityTests.cs" />
     <Compile Include="GuiPanelTests.cs" />
     <Compile Include="IndexerLevelTests.cs" />
+    <Compile Include="LeftToRightLayoutTests.cs" />
     <Compile Include="MainThreadCallbacksManagerTests.cs" />
     <Compile Include="OneLevelPropertyPathTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="ScreensManagerTests.cs" />
     <Compile Include="TestObjects\Control.cs" />
     <Compile Include="TestObjects\GameInfo.cs" />
+    <Compile Include="TestObjects\PositionableElement.cs" />
     <Compile Include="TestObjects\Window.cs" />
   </ItemGroup>
   <ItemGroup>
