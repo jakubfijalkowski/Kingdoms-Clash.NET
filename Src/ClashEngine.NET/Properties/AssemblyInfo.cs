@@ -43,3 +43,4 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://schemas.fiolek.org/gui", "ClashEngine.NET.Graphics.Gui.Controls")]
 [assembly: XmlnsDefinition("http://schemas.fiolek.org/gui", "ClashEngine.NET.Graphics.Gui.Conditions")]
 [assembly: XmlnsDefinition("http://schemas.fiolek.org/gui", "ClashEngine.NET.Graphics.Gui.Objects")]
+[assembly: XmlnsDefinition("http://schemas.fiolek.org/gui", "ClashEngine.NET.Graphics.Gui.Layout")]

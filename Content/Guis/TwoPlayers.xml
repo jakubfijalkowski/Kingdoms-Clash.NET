@@ -106,7 +106,10 @@
   </p:PlayersGUIContainer.Triggers>
 
   <!-- Jednostki gracza drugiego -->
-  <Panel Id="Player1UnitsPanel" Position="0,0.95" Size="0.3,0.05" LayoutEngine="LeftToRight">
+  <Panel Id="Player1UnitsPanel" Position="0,0.95">
+    <Panel.LayoutEngine>
+      <LeftToRightLayout Singleline="true" />
+    </Panel.LayoutEngine>
     <Rotator Id="Player1Units" DataContext="{Binding Source=root,Path=Player1.Nation.AvailableUnits}" MaxSelectedItems="4" />
     <Button Id="P1Unit1" DataContext="{Binding Source=Player1Units,Path=Selected[0]}"
             Size="0.05,0.05" Visible="false">
@@ -141,7 +144,10 @@
   </Panel>
 
   <!-- Jednostki gracza drugiego -->
-  <Panel Id="Player2UnitsPanel" Position="0.7,0.0" Size="0.3,0.05" LayoutEngine="LeftToRight" LayoutEngine.AlignRight="true">
+  <Panel Id="Player2UnitsPanel" Position="0.7,0.0" Size="0.3,0.05">
+    <Panel.LayoutEngine>
+      <LeftToRightLayout Singleline="true" AlignRight="true" />
+    </Panel.LayoutEngine>
     <Rotator Id="Player2Units" DataContext="{Binding Source=root,Path=Player2.Nation.AvailableUnits}" MaxSelectedItems="4" />
     <Pane Id="Player2Stats" Size="0.1,0.05">
       <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player2}" TextValue="{Binding Name}" Color="1,1,0,1" />

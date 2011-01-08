@@ -71,6 +71,10 @@ namespace ClashEngine.NET.Graphics.Gui.Layout
 				float usedX = 0;
 				for (int i = elements.Count - 1; i >= 0; i--)
 				{
+					if (!elements[i].Visible)
+					{
+						continue;
+					}
 					bool needReset = elements[i].Position.X == 0; //To był ostatni element linii
 
 					elements[i].Position = new Vector2(size.X - usedX - elements[i].Size.X, elements[i].Position.Y);
