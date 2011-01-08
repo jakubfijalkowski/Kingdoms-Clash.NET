@@ -27,6 +27,14 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 		public IContainerControl Owner { get; private set; }
 
 		/// <summary>
+		/// Całkowity rozmiar - uwzględnia dzieci.
+		/// </summary>
+		public int TotalCount
+		{
+			get { return this.Count + this.ChildControls.Count; }
+		}
+
+		/// <summary>
 		/// Pobiera kontrolkę o wskazanym Id.
 		/// Może to być kontrolka-dziecko, albo kontrolka zawarta w kontrolce-dziecku.
 		/// </summary>

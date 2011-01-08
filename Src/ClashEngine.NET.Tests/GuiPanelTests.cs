@@ -41,7 +41,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void PanelAddsControlsToOwner()
 		{
-			Assert.AreEqual(this.Container.Root.Controls.Count, 3);
+			Assert.AreEqual(this.Container.Root.Controls.TotalCount, 3);
 			Assert.AreEqual(this.Container.Root, (this.Panel as IControl).Owner);
 			Assert.AreEqual(this.Panel, this.Control1.Object.Owner);
 			Assert.AreEqual(this.Panel, this.Control2.Object.Owner);
@@ -91,10 +91,10 @@ namespace ClashEngine.NET.Tests
 		public void PanelRemovesHisControlsFromOwner()
 		{
 			int oldCountPanel = this.Panel.Controls.Count;
-			int oldCountContainer = this.Container.Root.Controls.Count;
+			int oldCountContainer = this.Container.Root.Controls.TotalCount;
 			Assert.IsTrue(this.Panel.Controls.Remove(this.Control1.Object), "This should not fail");
 			Assert.AreEqual(oldCountPanel - 1, this.Panel.Controls.Count);
-			Assert.AreEqual(oldCountContainer - 1, this.Container.Root.Controls.Count);
+			Assert.AreEqual(oldCountContainer - 1, this.Container.Root.Controls.TotalCount);
 		}
 
 		[Test]

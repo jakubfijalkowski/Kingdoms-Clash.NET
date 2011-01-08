@@ -17,6 +17,7 @@ namespace ClashEngine.NET.Tests.TestObjects
 		{
 			this.MainWindow = new Window();
 			(this.MainWindow as Window).Input = new Mock<IInput>().Object;
+			(this.MainWindow as Window).Size = new OpenTK.Vector2(1, 1);
 
 			this.Screens = new Mock<IScreensManager>().Object;
 			this.Content = new Mock<IResourcesManager>().Object;

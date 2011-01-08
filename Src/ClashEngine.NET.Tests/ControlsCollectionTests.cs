@@ -1,4 +1,5 @@
-﻿using ClashEngine.NET.Graphics.Gui.Internals;
+﻿using System.Collections.Generic;
+using ClashEngine.NET.Graphics.Gui.Internals;
 using ClashEngine.NET.Interfaces.Graphics.Gui;
 using Moq;
 using NUnit.Framework;
@@ -100,22 +101,14 @@ namespace ClashEngine.NET.Tests
 		public void ContainsWorks()
 		{
 			Assert.IsTrue(this.Controls.Contains("Control"));
-			Assert.IsTrue(this.Controls.Contains("ChildControl"));
+			Assert.IsFalse(this.Controls.Contains("ChildControl"));
 		}
 
 		[Test]
 		public void IndexerWorks()
 		{
 			Assert.AreEqual(this.Control.Object, this.Controls["Control"]);
-			Assert.AreEqual(this.ChildControl.Object, this.Controls["ChildControl"]);
-		}
-
-		[Test]
-		public void SetOffsetWorks()
-		{
-			//this.Controls.SetOffset(new OpenTK.Vector2(10, 10));
-			//Assert.AreEqual(new OpenTK.Vector2(10, 10), this.Control.Object.ContainerOffset);
-			//Assert.AreEqual(new OpenTK.Vector2(0, 0), this.ChildControl.Object.ContainerOffset);
+			Assert.Throws<KeyNotFoundException>(() => { var temp = this.Controls["ChildControl"]; });
 		}
 	}
 }

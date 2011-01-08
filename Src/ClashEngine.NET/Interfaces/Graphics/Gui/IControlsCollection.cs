@@ -23,6 +23,11 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui
 		IControl this[string id] { get; }
 
 		/// <summary>
+		/// Całkowity rozmiar - uwzględnia dzieci.
+		/// </summary>
+		int TotalCount { get; }
+
+		/// <summary>
 		/// Pobiera kontrolkę o wskazanym Id.
 		/// Może to być kontrolka-dziecko, albo kontrolka zawarta w kontrolce-dziecku.
 		/// </summary>
