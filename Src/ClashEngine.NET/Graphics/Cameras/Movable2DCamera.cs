@@ -70,6 +70,24 @@ namespace ClashEngine.NET.Graphics.Cameras
 				this.NeedUpdate = true;
 			}
 		}
+
+		/// <summary>
+		/// Zmienia(równolegle) rozmiar i zakres widoczności kamery.
+		/// </summary>
+		/// <param name="size">Rozmiar.</param>
+		/// <param name="borders">Zakres widoczności.</param>
+		public void Change(Vector2 size, RectangleF borders)
+		{
+			if (size.X > borders.Width ||
+				size.Y > borders.Height)
+			{
+				throw new System.ArgumentException("Camera size must be less than or equal to borders reactangle size", "size");
+			}
+			this._Size = size;
+			this._Borders = borders;
+			this.NeedUpdate = true;
+			this.CurrentPosition = this.CurrentPosition;
+		}
 		#endregion
 
 		#region ICamera Members

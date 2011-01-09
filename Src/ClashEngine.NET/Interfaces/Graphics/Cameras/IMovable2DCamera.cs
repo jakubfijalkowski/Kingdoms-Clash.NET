@@ -23,5 +23,12 @@ namespace ClashEngine.NET.Interfaces.Graphics.Cameras
 		/// Aktualna pozycja kamery.
 		/// </summary>
 		Vector2 CurrentPosition { get; set; }
+
+		/// <summary>
+		/// Zmienia(równolegle) rozmiar i zakres widoczności kamery.
+		/// </summary>
+		/// <param name="size">Rozmiar.</param>
+		/// <param name="borders">Zakres widoczności.</param>
+		void Change(Vector2 size, RectangleF borders);
 	}
 }
