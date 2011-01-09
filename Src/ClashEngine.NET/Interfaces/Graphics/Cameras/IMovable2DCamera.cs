@@ -10,9 +10,14 @@ namespace ClashEngine.NET.Interfaces.Graphics.Cameras
 		: ICamera
 	{
 		/// <summary>
+		/// Rozmiar viewportu po przekształceniach kamery.
+		/// </summary>
+		new OpenTK.Vector2 Size { get; set; }
+
+		/// <summary>
 		/// Zakres widoczności kamery.
 		/// </summary>
-		RectangleF Borders { get; }
+		RectangleF Borders { get; set; }
 
 		/// <summary>
 		/// Aktualna pozycja kamery.

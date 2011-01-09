@@ -162,6 +162,7 @@ namespace ClashEngine.NET.Utilities
 			//if(this.AllFrames == long.MaxValue) // Zabezpieczenie przed buffer overflowem.
 			if (this.RenderStatistics)
 			{
+				this.GameInfo.Renderer.Camera = this.Camera;
 				this.Gui.Render();
 				this.GameInfo.Renderer.Flush();
 			}

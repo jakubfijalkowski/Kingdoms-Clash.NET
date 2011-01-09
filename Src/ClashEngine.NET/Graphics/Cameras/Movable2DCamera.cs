@@ -15,13 +15,28 @@ namespace ClashEngine.NET.Graphics.Cameras
 		private Vector2 _CurrentPosition = Vector2.Zero;
 		private Matrix4 _ViewMatrix = Matrix4.Identity;
 		private Matrix4 _ProjectionMatrix = Matrix4.Identity;
+		private RectangleF _Borders = RectangleF.Empty;
+		private Vector2 _Size = Vector2.Zero;
 		#endregion
 
 		#region IMovable2DCamera Members
 		/// <summary>
 		/// Zakres widoczności kamery.
 		/// </summary>	
-		public RectangleF Borders { get; private set; }
+		public RectangleF Borders
+		{
+			get { return this._Borders; }
+			set
+			{
+				if (this.Size.X > value.Width ||
+					this.Size.Y > value.Height)
+				{
+					throw new System.ArgumentException("Camera size must be less than or equal to borders reactangle size", "value");
+				}
+				this.CurrentPosition = this.CurrentPosition;
+				this._Borders = value;
+			}
+		}
 
 		/// <summary>
 		/// Aktualna pozycja kamery.
@@ -61,7 +76,19 @@ namespace ClashEngine.NET.Graphics.Cameras
 		/// <summary>
 		/// Rozmiar kamery.
 		/// </summary>
-		public OpenTK.Vector2 Size { get; private set; }
+		public OpenTK.Vector2 Size {
+			get { return this._Size; }
+			set
+			{
+				if (value.X > this.Borders.Width ||
+					value.Y > this.Borders.Height)
+				{
+					throw new System.ArgumentException("Camera size must be less than or equal to borders reactangle size", "value");
+				}
+				this._Size = value;
+				this.NeedUpdate = true;
+			}
+		}
 
 		/// <summary>
 		/// Zawsze 0.
