@@ -156,8 +156,8 @@ namespace ClashEngine.NET.Graphics.Cameras
 		/// <param name="borders">Granice.</param>
 		public Movable2DCamera(Vector2 size, RectangleF borders)
 		{
-			this.Size = size;
-			this.Borders = borders;
+			this._Size = size;
+			this._Borders = borders;
 			this.NeedUpdate = true;
 
 			if (this.Size.X > this.Borders.Width ||
