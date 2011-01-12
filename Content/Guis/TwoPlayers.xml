@@ -135,12 +135,19 @@
       <Text Font="Arial,12" DataContext="{Binding Source=P1Unit4,Path=DataContext}" TextValue="{Binding Id}" Color="0,0,0,1" />
       <Text Font="Arial,10" DataContext="{Binding Source=root,Path=Player1Queue[3]}" TextValue="{Binding QueueLength}" Color="0,0,0,1" Position="0,0.025" />
     </Button>
-    <Pane Id="Player1Stats" Size="0.1,0.05">
-      <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player1}" TextValue="{Binding Name}" Color="1,1,0,1" />
-      <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player1}" TextValue="{Binding Health}" Color="1,1,0,1" Position="0,0.018" />
-      <Text Font="Arial,12" TextValue="/" Color="1,1,0,1" Position="0.025,0.018" />
-      <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player1}" TextValue="{Binding MaxHealth}" Color="1,1,0,1" Position="0.027,0.018" />
-    </Pane>
+    <Panel Id="Player1Stats" Size="0.1,0.05">
+      <Pane Id="Player1StatsName" LayoutEngine="AutoSize">
+        <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player1}" TextValue="{Binding Name}" Color="1,1,0,1" />
+      </Pane>
+      <Pane Id="Player1StatsHealth" Position="0.0,0.018">
+        <Pane.LayoutEngine>
+          <LeftToRightLayout Singleline="true" />
+        </Pane.LayoutEngine>
+        <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player1}" TextValue="{Binding Health}" Color="1,1,0,1" />
+        <Text Font="Arial,12" TextValue="/" Color="1,1,0,1" />
+        <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player1}" TextValue="{Binding MaxHealth}" Color="1,1,0,1" />
+      </Pane>
+    </Panel>
   </Panel>
 
   <!-- Jednostki gracza drugiego -->
@@ -149,12 +156,19 @@
       <LeftToRightLayout Singleline="true" AlignRight="true" />
     </Panel.LayoutEngine>
     <Rotator Id="Player2Units" DataContext="{Binding Source=root,Path=Player2.Nation.AvailableUnits}" MaxSelectedItems="4" />
-    <Pane Id="Player2Stats" Size="0.1,0.05">
-      <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player2}" TextValue="{Binding Name}" Color="1,1,0,1" />
-      <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player2}" TextValue="{Binding Health}" Color="1,1,0,1" Position="0,0.018" />
-      <Text Font="Arial,12" TextValue="/" Color="1,1,0,1" Position="0.025,0.018" />
-      <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player2}" TextValue="{Binding MaxHealth}" Color="1,1,0,1" Position="0.027,0.018" />
-    </Pane>
+    <Panel Id="Player2Stats" Size="0.1,0.05">
+      <Pane Id="Player2StatsName" LayoutEngine="AutoSize">
+        <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player2}" TextValue="{Binding Name}" Color="1,1,0,1" />
+      </Pane>
+      <Pane Id="Player2StatsHealth" Position="0.0,0.018">
+        <Pane.LayoutEngine>
+          <LeftToRightLayout Singleline="true" />
+        </Pane.LayoutEngine>
+        <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player2}" TextValue="{Binding Health}" Color="1,1,0,1" />
+        <Text Font="Arial,12" TextValue="/" Color="1,1,0,1" />
+        <Text Font="Arial,12" DataContext="{Binding Source=root,Path=Player2}" TextValue="{Binding MaxHealth}" Color="1,1,0,1" />
+      </Pane>
+    </Panel>
     <Button Id="P2Unit1" DataContext="{Binding Source=Player2Units,Path=Selected[0]}"
             Size="0.05,0.05" Visible="false">
       <Rectangle />

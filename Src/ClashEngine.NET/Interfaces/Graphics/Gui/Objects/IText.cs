@@ -1,4 +1,6 @@
-﻿namespace ClashEngine.NET.Interfaces.Graphics.Gui.Objects
+﻿using OpenTK;
+
+namespace ClashEngine.NET.Interfaces.Graphics.Gui.Objects
 {
 	using Graphics.Resources;
 
@@ -21,6 +23,11 @@
 		/// <summary>
 		/// Kolor.
 		/// </summary>
-		OpenTK.Vector4 Color { get; set; }
+		Vector4 Color { get; set; }
+
+		/// <summary>
+		/// Prawdziwy rozmiar
+		/// </summary>
+		Vector2 RealSize { get; }
 	}
 }

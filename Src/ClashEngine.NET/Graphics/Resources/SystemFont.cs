@@ -269,7 +269,8 @@ namespace ClashEngine.NET.Graphics.Resources
 		{
 			if (string.IsNullOrEmpty(onto.Id))
 			{
-				onto.Id = "Text." + text;
+				//TODO: do poprawki
+				onto.Id = string.Format("Text.{0}", Guid.NewGuid().ToString());
 				this.Manager.Add(onto);
 			}
 

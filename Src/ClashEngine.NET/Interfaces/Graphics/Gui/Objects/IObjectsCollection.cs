@@ -6,7 +6,7 @@ namespace ClashEngine.NET.Interfaces.Graphics.Gui.Objects
 	/// Kolekcja obiektów renderera GUI.
 	/// </summary>
 	public interface IObjectsCollection
-		: ICollection<IObject>
+		: ICollection<IObject>, IList<IObject>
 	{
 		/// <summary>
 		/// Właściciel.

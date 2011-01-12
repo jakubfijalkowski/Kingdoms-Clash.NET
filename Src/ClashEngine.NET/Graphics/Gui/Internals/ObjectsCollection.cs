@@ -88,6 +88,48 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 		bool ICollection<IObject>.IsReadOnly { get { return false; } }
 		#endregion
 
+		#region IList<IObject> Members
+		/// <summary>
+		/// Pobiera/zmienia element na wskazanej pozycji.
+		/// </summary>
+		/// <param name="index">Indeks.</param>
+		/// <returns></returns>
+		public IObject this[int index]
+		{
+			get { return this.Objects[index]; }
+			set { this.Objects[index] = value; }
+		}
+
+		/// <summary>
+		/// Wyszukuje indeksu wskazanego elementu.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public int IndexOf(IObject item)
+		{
+			return this.Objects.IndexOf(item);
+		}
+
+		/// <summary>
+		/// Dodaje element na wskazanej pozycji.
+		/// </summary>
+		/// <param name="index"></param>
+		/// <param name="item"></param>
+		public void Insert(int index, IObject item)
+		{
+			this.Objects.Insert(index, item);
+		}
+
+		/// <summary>
+		/// Usuwa element ze wskazanej pozycji.
+		/// </summary>
+		/// <param name="index"></param>
+		public void RemoveAt(int index)
+		{
+			this.Objects.RemoveAt(index);
+		}
+		#endregion
+
 		#region IObjectsCollection Members
 		/// <summary>
 		/// Właściciel.

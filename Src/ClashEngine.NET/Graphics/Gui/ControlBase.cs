@@ -75,7 +75,6 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// <summary>
 		/// Dane UI.
 		/// </summary>
-		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		protected IUIData Data { get; set; }
 		#endregion
 
@@ -133,10 +132,10 @@ namespace ClashEngine.NET.Graphics.Gui
 			get { return this._Size; }
 			set
 			{
-				if (value.X == 0 || value.Y == 0)
-				{
-					throw new System.ArgumentException("Size must be non-zero", "value");
-				}
+				//if (value.X == 0 || value.Y == 0)
+				//{
+				//    throw new System.ArgumentException("Size must be non-zero", "value");
+				//}
 				if (value != this._Size)
 				{
 					this._Size = value;
@@ -236,10 +235,10 @@ namespace ClashEngine.NET.Graphics.Gui
 		/// </summary>
 		public virtual void EndInit()
 		{
-			if (this.Size.X == 0 || this.Size.Y == 0)
-			{
-				throw new System.InvalidOperationException("Cannot create control with 0 size");
-			}
+			//if (this.Size.X == 0 || this.Size.Y == 0)
+			//{
+			//    throw new System.InvalidOperationException("Cannot create control with 0 size");
+			//}
 			if (string.IsNullOrWhiteSpace(this.Id))
 			{
 				throw new System.InvalidOperationException("Cannot create control with empty Id");

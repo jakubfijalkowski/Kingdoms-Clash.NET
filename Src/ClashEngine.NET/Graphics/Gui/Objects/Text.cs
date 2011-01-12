@@ -21,10 +21,12 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		private IFont _Font = null;
 		private string _TextValue = string.Empty;
 		private Vector4 _Color = new Vector4(0, 0, 0, 1);
+		private Vector2 _Size = new Vector2(0, 0);
 		private Interfaces.Graphics.Objects.IText TextObject = Resources.SystemFont.CreateEmptyObject();
 		private bool Initialized = false;
 		private object _DataContext = null;
 		private bool DoTextureNeedUpdate = false;
+		private bool WasSizeSet = false;
 		#endregion
 
 		#region IDataContext Members
@@ -101,8 +103,28 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 		[TypeConverter(typeof(Converters.Vector2Converter))]
 		public override Vector2 Size
 		{
+			get { return this._Size; }
+			set
+			{
+				if (this._Size != value)
+				{
+					this._Size = value;
+					if (this._Size.X == 0 && this._Size.Y == 0)
+					{
+						this.WasSizeSet = true;
+						this.DoTextureNeedUpdate = true;
+					}
+					this.Owner.Layout();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Prawdziwy rozmiar
+		/// </summary>
+		public Vector2 RealSize
+		{
 			get { return this.TextObject.Size; }
-			set { this.TextObject.Size = value; }
 		}
 		#endregion
 
@@ -166,9 +188,21 @@ namespace ClashEngine.NET.Graphics.Gui.Objects
 			{
 				float multX = this.Owner.Data.Renderer.Owner.Size.X / this.Owner.Data.Renderer.Camera.Size.X;
 				float multY = this.Owner.Data.Renderer.Owner.Size.Y / this.Owner.Data.Renderer.Camera.Size.Y;
-				this.Font.Draw(this.TextValue, this.Color,
-					new System.Drawing.RectangleF(0f, 0f, this.Size.X * multX, this.Size.Y * multY),
-						this.TextObject);
+
+				if (!this.WasSizeSet)
+				{
+					this.Font.Draw(this.TextValue, this.Color, this.TextObject);
+					this._Size.X = this.TextObject.Texture.Size.X / multX;
+					this._Size.Y = this.TextObject.Texture.Size.Y / multY;
+					this.TextObject.Size = this._Size;
+					this.Owner.Layout();
+				}
+				else
+				{
+					this.Font.Draw(this.TextValue, this.Color,
+					   new System.Drawing.RectangleF(0f, 0f, this.Size.X * multX, this.Size.Y * multY),
+						   this.TextObject);
+				}
 			}
 		}
 		#endregion

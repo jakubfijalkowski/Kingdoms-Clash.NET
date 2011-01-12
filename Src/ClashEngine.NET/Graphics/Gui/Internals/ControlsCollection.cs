@@ -180,6 +180,10 @@ namespace ClashEngine.NET.Graphics.Gui.Internals
 					{
 						this.Owner.Owner.Controls.AddChild(control);
 					}
+					foreach (var control in this.ChildControls)
+					{
+						this.Owner.Owner.Controls.AddChild(control.Value);
+					}
 				}
 			}
 		}
