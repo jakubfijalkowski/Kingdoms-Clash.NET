@@ -79,14 +79,17 @@ namespace ClashEngine.NET.Graphics.Components
 		private void AddShapes()
 		{
 			var bodyAttr = this.Owner.Attributes.Get<Body>("Body");
+			bodyAttr.Value.UserData = this;
 			if (bodyAttr != null)
 			{
 				for (int i = 0; i < this.Vertices.Length - 1; i++)
 				{
-					PolygonShape sector = new PolygonShape();
+					PolygonShape sector = new PolygonShape(0f);
 					sector.SetAsEdge(this.Vertices[i].ToXNA(), this.Vertices[i + 1].ToXNA());
 
-					bodyAttr.Value.CreateFixture(sector).Friction = 1f;
+					var f = bodyAttr.Value.CreateFixture(sector);
+					f.Friction = 0.5f;
+					f.CollisionFilter.CollisionCategories = Category.All;
 				}
 			}
 		}

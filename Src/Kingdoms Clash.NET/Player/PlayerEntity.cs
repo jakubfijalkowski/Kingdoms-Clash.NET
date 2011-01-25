@@ -34,7 +34,7 @@ namespace Kingdoms_Clash.NET.Player
 			var pObj = new PhysicalObject();
 			this.Components.Add(pObj);
 			this.Components.Add(new BoundingBox(Configuration.Instance.CastleSize));
-			pObj.Body.SetCollisionCategories(FarseerPhysics.Dynamics.CollisionCategory.Cat20);
+			pObj.Body.SetCollisionCategories(FarseerPhysics.Dynamics.Category.Cat20);
 			pObj.Body.UserData = this;
 
 			Sprite s = new Sprite("CastleImage", this.GameInfo.Content.Load<Texture>(this.Player.Nation.CastleImage));

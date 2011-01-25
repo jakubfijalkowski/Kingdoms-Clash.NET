@@ -53,8 +53,8 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FarseerPhysics3">
-      <HintPath>..\..\Lib\FarseerPhysics3.dll</HintPath>
+    <Reference Include="FarseerPhysics">
+      <HintPath>..\..\Lib\FarseerPhysics.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

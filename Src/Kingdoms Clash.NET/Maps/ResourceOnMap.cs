@@ -44,8 +44,8 @@ namespace Kingdoms_Clash.NET.Maps
 		public void Gather()
 		{
 			//Usuwamy kolizję, zabezpieczy to nas przed podwójnym zebraniem
-			this.Body.SetCollidesWith(CollisionCategory.None);
-			this.Body.SetCollisionCategories(CollisionCategory.None);
+			this.Body.SetCollidesWith(Category.None);
+			this.Body.SetCollisionCategories(Category.None);
 
 			//Usuwamy z gry
 			this.GameState.Remove(this);
@@ -80,8 +80,8 @@ namespace Kingdoms_Clash.NET.Maps
 			this.Body = pObj.Body;
 
 			pObj.Body.Position = this.Position.ToXNA();
-			pObj.Body.SetCollidesWith(CollisionCategory.Cat11 | CollisionCategory.Cat12);
-			pObj.Body.SetCollisionCategories(CollisionCategory.Cat10);
+			pObj.Body.SetCollidesWith(Category.Cat11 | Category.Cat12);
+			pObj.Body.SetCollisionCategories(Category.Cat10);
 			pObj.Body.UserData = this;
 
 			//Wygląd

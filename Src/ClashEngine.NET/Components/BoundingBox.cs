@@ -50,7 +50,7 @@ namespace ClashEngine.NET.Components
 			verts.Add((this.Position + this.Size).ToXNA());
 			verts.Add(new Microsoft.Xna.Framework.Vector2(this.Position.X, this.Position.Y + this.Size.Y));
 
-			PolygonShape poly = new PolygonShape(verts);
+			PolygonShape poly = new PolygonShape(verts, 0f);
 			this.Fixture = body.Value.CreateFixture(poly);
 		}
 

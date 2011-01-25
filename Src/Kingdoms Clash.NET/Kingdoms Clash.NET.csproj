@@ -56,9 +56,8 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FarseerPhysics3, Version=3.0.3919.25019, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\FarseerPhysics3.dll</HintPath>
+    <Reference Include="FarseerPhysics">
+      <HintPath>..\..\Lib\FarseerPhysics.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -104,6 +103,7 @@
     <Compile Include="Interfaces\IUserDataLoader.cs" />
     <Compile Include="Interfaces\Units\IUnitRequestToken.cs" />
     <Compile Include="Interfaces\Units\UnitEvents.cs" />
+    <Compile Include="Internals\VelocityLimit.cs" />
     <Compile Include="Maps\ResourceOnMap.cs" />
     <Compile Include="Player\Controllers\GuiControllerFactory.cs" />
     <Compile Include="Player\Controllers\Internals\ControlerScreen.cs" />

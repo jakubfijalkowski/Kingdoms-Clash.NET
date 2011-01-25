@@ -21,10 +21,14 @@ namespace Kingdoms_Clash.NET.Units.Components
 	{
 		#region IMovable Members
 		/// <summary>
-		/// Prędkość jednostki.
+		/// Maksymalna prędkość jednostki.
 		/// </summary>
-		[System.ComponentModel.TypeConverter(typeof(ClashEngine.NET.Converters.Vector2Converter))]
-		public OpenTK.Vector2 Velocity { get; set; }
+		public float MaxVelocity { get; set; }
+
+		/// <summary>
+		/// Siła, jaka działa na jednostkę.
+		/// </summary>
+		public float Force { get; set; }
 		#endregion
 
 		#region IUnitComponentDescription Members
@@ -42,19 +46,19 @@ namespace Kingdoms_Clash.NET.Units.Components
 		/// <summary>
 		/// Inicjalizuje opis.
 		/// </summary>
-		/// <param name="velocity">Prędkość jednostki.</param>
-		public Movable(OpenTK.Vector2 velocity)
+		/// <param name="maxVelocity">Prędkość jednostki.</param>
+		/// <param name="force">Siła, jaka działa na jednostkę.</param>
+		public Movable(float maxVelocity, float force)
 		{
-			this.Velocity = velocity;
+			this.MaxVelocity = maxVelocity;
+			this.Force = force;
 		}
 
 		/// <summary>
 		/// Inicjalizuje opis domyślnymi wartościami.
 		/// </summary>
 		public Movable()
-		{
-			this.Velocity = OpenTK.Vector2.Zero;
-		}
+		{ }
 		#endregion
 
 		#region Component
@@ -99,7 +103,8 @@ namespace Kingdoms_Clash.NET.Units.Components
 			/// <param name="delta"></param>
 			public override void Update(double delta)
 			{
-				this.Body.Value.Position += ((float)delta * (this.Description as IMovable).Velocity * this.VelocityMultiplier.Value).ToXNA();
+				var f = this.Body.Value.GetWorldVector(new Microsoft.Xna.Framework.Vector2((this.Description as IMovable).Force, 0f));
+				this.Body.Value.ApplyForce(ref f);
 			}
 			#endregion
 

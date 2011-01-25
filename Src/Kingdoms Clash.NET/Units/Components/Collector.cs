@@ -90,8 +90,8 @@ namespace Kingdoms_Clash.NET.Units.Components
 					throw new ClashEngine.NET.Exceptions.NotFoundException("Body");
 				}
 				//Dodajemy kolizję, by kolidował z zasobami
-				body.Value.AddCollidesWith(CollisionCategory.Cat10);
-				body.Value.AddCollisionCategories((CollisionCategory)((int)CollisionCategory.Cat11 << (int)(this.Owner as IUnit).Owner.Type));
+				body.Value.AddCollidesWith(Category.Cat10);
+				body.Value.AddCollisionCategories((Category)((int)Category.Cat11 << (int)(this.Owner as IUnit).Owner.Type));
 			}
 
 			public override void Update(double delta)
@@ -116,8 +116,8 @@ namespace Kingdoms_Clash.NET.Units.Components
 
 				//Dzięki temu nie będziemy więcej kolidować z zasobami.
 				var body = this.Owner.Attributes.GetOrCreate<Body>("Body");
-				body.Value.RemoveCollidesWith(CollisionCategory.Cat10);
-				body.Value.RemoveCollisionCategories((CollisionCategory)((int)CollisionCategory.Cat11 << (int)(this.Owner as IUnit).Owner.Type));
+				body.Value.RemoveCollidesWith(Category.Cat10);
+				body.Value.RemoveCollisionCategories((Category)((int)Category.Cat11 << (int)(this.Owner as IUnit).Owner.Type));
 				return true;
 			}
 

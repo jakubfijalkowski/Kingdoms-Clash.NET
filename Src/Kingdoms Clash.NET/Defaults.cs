@@ -22,7 +22,7 @@ namespace Kingdoms_Clash.NET
 			VSync = false,
 			CameraSpeed = 100f,
 			MapMargin = 75f / 2f,
-			Gravity = 100f,
+			Gravity = 200f,
 			CastleSize = new OpenTK.Vector2(20f, 30f),
 			ResourceRenewalTime = 8f,
 			ResourceRenewalValue = 30,

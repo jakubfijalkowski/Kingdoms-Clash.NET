@@ -179,6 +179,9 @@ namespace Kingdoms_Clash.NET
 			this.StaticEntities.Add(new Player.PlayerEntity(this.Players[0], this));
 			this.StaticEntities.Add(new Player.PlayerEntity(this.Players[1], this));
 
+			//Fizyka
+			PhysicsManager.Instance.World.AddController(new Internals.VelocityLimit());
+
 			//Od tej chwili to kontroler jest odpowiedzialny za wszystko.
 			this.Controller.GameStarted();
 		}

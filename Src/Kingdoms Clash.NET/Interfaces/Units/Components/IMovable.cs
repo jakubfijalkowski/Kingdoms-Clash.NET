@@ -7,8 +7,13 @@
 		: IUnitComponentDescription
 	{
 		/// <summary>
-		/// Prędkość jednostki.
+		/// Maksymalna prędkość jednostki.
 		/// </summary>
-		OpenTK.Vector2 Velocity { get; }
+		float MaxVelocity { get; }
+
+		/// <summary>
+		/// Siła, jaka działa na jednostkę.
+		/// </summary>
+		float Force { get; }
 	}
 }

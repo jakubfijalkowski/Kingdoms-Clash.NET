@@ -13,13 +13,13 @@ namespace ClashEngine.NET.Extensions
 		/// </summary>
 		/// <param name="body">this</param>
 		/// <returns>Kategorie kolizji lub All, gdy nie dodano jeszcze żadnej fixture.</returns>
-		public static CollisionCategory GetCollisionCategories(this Body body)
+		public static Category GetCollisionCategories(this Body body)
 		{
 			if (body.FixtureList.Count > 0)
 			{
-				return body.FixtureList[0].CollisionCategories;
+				return body.FixtureList[0].CollisionFilter.CollisionCategories;
 			}
-			return CollisionCategory.All;
+			return Category.All;
 		}
 
 		/// <summary>
@@ -27,11 +27,11 @@ namespace ClashEngine.NET.Extensions
 		/// </summary>
 		/// <param name="body">this</param>
 		/// <param name="categories">Kategorie.</param>
-		public static void SetCollisionCategories(this Body body, CollisionCategory categories)
+		public static void SetCollisionCategories(this Body body, Category categories)
 		{
 			foreach (var f in body.FixtureList)
 			{
-				f.CollisionCategories = categories;
+				f.CollisionFilter.CollisionCategories = categories;
 			}
 		}
 
@@ -40,11 +40,11 @@ namespace ClashEngine.NET.Extensions
 		/// </summary>
 		/// <param name="body">this</param>
 		/// <param name="categories">Kategorie do dodania.</param>
-		public static void AddCollisionCategories(this Body body, CollisionCategory categories)
+		public static void AddCollisionCategories(this Body body, Category categories)
 		{
 			foreach (var f in body.FixtureList)
 			{
-				f.CollisionCategories |= categories;
+				f.CollisionFilter.CollisionCategories |= categories;
 			}
 		}
 
@@ -53,11 +53,11 @@ namespace ClashEngine.NET.Extensions
 		/// </summary>
 		/// <param name="body">this</param>
 		/// <param name="categories">Kategorie do usunięcia.</param>
-		public static void RemoveCollisionCategories(this Body body, CollisionCategory categories)
+		public static void RemoveCollisionCategories(this Body body, Category categories)
 		{
 			foreach (var f in body.FixtureList)
 			{
-				f.CollisionCategories &= ~categories;
+				f.CollisionFilter.CollisionCategories &= ~categories;
 			}
 		}
 		#endregion
@@ -68,13 +68,13 @@ namespace ClashEngine.NET.Extensions
 		/// </summary>
 		/// <param name="body"></param>
 		/// <returns>Kategorie, z którymi koliduje.</returns>
-		public static CollisionCategory GetCollidesWith(this Body body)
+		public static Category GetCollidesWith(this Body body)
 		{
 			if (body.FixtureList.Count > 0)
 			{
-				return body.FixtureList[0].CollidesWith;
+				return body.FixtureList[0].CollisionFilter.CollidesWith;
 			}
-			return CollisionCategory.All;
+			return Category.All;
 		}
 
 		/// <summary>
@@ -82,11 +82,11 @@ namespace ClashEngine.NET.Extensions
 		/// </summary>
 		/// <param name="body">this</param>
 		/// <param name="categories">Kategorie do ustawienia.</param>
-		public static void SetCollidesWith(this Body body, CollisionCategory categories)
+		public static void SetCollidesWith(this Body body, Category categories)
 		{
 			foreach (var f in body.FixtureList)
 			{
-				f.CollidesWith = categories;
+				f.CollisionFilter.CollidesWith = categories;
 			}
 		}
 
@@ -95,11 +95,11 @@ namespace ClashEngine.NET.Extensions
 		/// </summary>
 		/// <param name="body">this</param>
 		/// <param name="categories">Kategorie do dodania.</param>
-		public static void AddCollidesWith(this Body body, CollisionCategory categories)
+		public static void AddCollidesWith(this Body body, Category categories)
 		{
 			foreach (var f in body.FixtureList)
 			{
-				f.CollidesWith |= categories;
+				f.CollisionFilter.CollidesWith |= categories;
 			}
 		}
 
@@ -108,11 +108,11 @@ namespace ClashEngine.NET.Extensions
 		/// </summary>
 		/// <param name="body">this</param>
 		/// <param name="categories">Kategorie do usunięcia.</param>
-		public static void RemoveCollidesWith(this Body body, CollisionCategory categories)
+		public static void RemoveCollidesWith(this Body body, Category categories)
 		{
 			foreach (var f in body.FixtureList)
 			{
-				f.CollidesWith &= ~categories;
+				f.CollisionFilter.CollidesWith &= ~categories;
 			}
 		}
 		#endregion
@@ -127,7 +127,7 @@ namespace ClashEngine.NET.Extensions
 		{
 			if (body.FixtureList.Count > 0)
 			{
-				return body.FixtureList[0].CollisionGroup;
+				return body.FixtureList[0].CollisionFilter.CollisionGroup;
 			}
 			return 0;
 		}
@@ -141,7 +141,7 @@ namespace ClashEngine.NET.Extensions
 		{
 			foreach (var f in body.FixtureList)
 			{
-				f.CollisionGroup = group;
+				f.CollisionFilter.CollisionGroup = group;
 			}
 		}
 		#endregion
@@ -152,7 +152,7 @@ namespace ClashEngine.NET.Extensions
 		/// </summary>
 		/// <param name="body">this</param>
 		/// <param name="eventHandler">Metoda obsługująca to zdarzenie.</param>
-		public static void SetCollisionEvent(this Body body, CollisionEventHandler eventHandler)
+		public static void SetCollisionEvent(this Body body, OnCollisionEventHandler eventHandler)
 		{
 			foreach (var f in body.FixtureList)
 			{

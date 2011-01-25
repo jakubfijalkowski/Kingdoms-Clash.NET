@@ -4,7 +4,9 @@ using ClashEngine.NET.Components;
 using ClashEngine.NET.EntitiesManager;
 using ClashEngine.NET.Extensions;
 using ClashEngine.NET.Interfaces.EntitiesManager;
+using ClashEngine.NET.Interfaces.Graphics.Components;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Dynamics.Joints;
 using OpenTK;
 
 namespace Kingdoms_Clash.NET.Units
@@ -20,8 +22,11 @@ namespace Kingdoms_Clash.NET.Units
 	public class Unit
 		: GameEntity, IUnit
 	{
+		#region Private fields
 		private IAttribute<int> Health_;
 		private IAttribute<Vector2> Position_;
+		private FixedAngleJoint FixedAngle;
+		#endregion
 
 		#region IUnit Members
 		/// <summary>
@@ -106,17 +111,22 @@ namespace Kingdoms_Clash.NET.Units
 			this.Health = (int)this.Description.Health;
 
 			//Ustawiamy właściwości ciała tak, by poruszało się po naszej myśli
-			pObj.Body.SleepingAllowed = false;
-			pObj.Body.FixedRotation = true;
+			pObj.Body.Mass = 10;
+			pObj.Body.LinearDamping = 0.2f;
+			//pObj.Body.SleepingAllowed = false;
+			//pObj.Body.FixedRotation = true;
 
 			pObj.Body.UserData = this;
 
 			//Ustawiamy maskę kolizji tak by kolidowało tylko z innymi graczami
-			pObj.Body.SetCollisionCategories((CollisionCategory)((int)CollisionCategory.Cat1 << (int)this.Owner.Type));
+			pObj.Body.SetCollisionCategories((Category)((int)Category.Cat1 << (int)this.Owner.Type));
 
 			//Koliduje ze wszystkim z wyłączeniem jednostek tego samego gracza i zasobami.
-			pObj.Body.SetCollidesWith(CollisionCategory.All & ~pObj.Body.GetCollisionCategories() &
-				~CollisionCategory.Cat10 & ~((CollisionCategory)((int)CollisionCategory.Cat11 << (int)this.Owner.Type)));
+			pObj.Body.SetCollidesWith(Category.All & ~pObj.Body.GetCollisionCategories() &
+				~Category.Cat10 & ~((Category)((int)Category.Cat11 << (int)this.Owner.Type)));
+
+			//Ustawianie stałego konta jednostek
+			this.FixedAngle = new FixedAngleJoint(pObj.Body);
 
 			//I zdarzenia kolizji pomiędzy jednostkami
 			pObj.Body.SetCollisionEvent((fixtureA, fixtureB, contact) =>
@@ -141,6 +151,20 @@ namespace Kingdoms_Clash.NET.Units
 							(fixtureB.Body.UserData as IResourceOnMap).Gather();
 							break;
 						}
+					}
+				}
+				else if (fixtureB.Body.UserData is ITerrain)
+				{
+					if (fixtureA.UserData != fixtureB)
+					{
+						FarseerPhysics.Common.FixedArray2<Microsoft.Xna.Framework.Vector2> points;
+						Microsoft.Xna.Framework.Vector2 normal;// = c.Manifold.LocalNormal;
+						contact.GetWorldManifold(out normal, out points);
+						var dot = Microsoft.Xna.Framework.Vector2.Dot(new Microsoft.Xna.Framework.Vector2(0, -1), normal);
+						var angle = (float)Math.Acos(dot) * Math.Sign(normal.X);
+						FixedAngle.TargetAngle = (float)angle;
+
+						fixtureA.UserData = fixtureB;
 					}
 				}
 				return true;

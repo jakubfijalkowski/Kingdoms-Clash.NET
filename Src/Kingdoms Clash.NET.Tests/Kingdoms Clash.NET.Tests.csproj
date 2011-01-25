@@ -51,9 +51,8 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FarseerPhysics3, Version=3.0.3919.25019, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\FarseerPhysics3.dll</HintPath>
+    <Reference Include="FarseerPhysics">
+      <HintPath>..\..\Lib\FarseerPhysics.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\..\Lib\Moq.dll</HintPath>

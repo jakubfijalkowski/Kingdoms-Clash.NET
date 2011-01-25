@@ -37,7 +37,7 @@ namespace ClashEngine.NET.Components
 		public override void OnInit()
 		{
 			this._Body = this.Owner.Attributes.GetOrCreate<Body>("Body");
-			this.Body = PhysicsManager.Instance.World.CreateBody();
+			this.Body = FarseerPhysics.Factories.BodyFactory.CreateBody(PhysicsManager.Instance.World);
 			this.Body.BodyType = (this.IsDynamic ? BodyType.Dynamic : BodyType.Static);
 
 			this.Owner.Attributes.Replace("Position", new Internals.PhysicalPositionAttribute("Position", this.Body));
