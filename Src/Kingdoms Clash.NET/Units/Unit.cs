@@ -153,7 +153,7 @@ namespace Kingdoms_Clash.NET.Units
 						}
 					}
 				}
-				else if (fixtureB.Body.UserData is ITerrain)
+				else if (fixtureB.Body.UserData is ITerrain) //Ustawiamy kąt nachylenia dla postaci
 				{
 					if (fixtureA.UserData != fixtureB)
 					{

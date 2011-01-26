@@ -103,7 +103,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 			/// <param name="delta"></param>
 			public override void Update(double delta)
 			{
-				var f = this.Body.Value.GetWorldVector(new Microsoft.Xna.Framework.Vector2((this.Description as IMovable).Force, 0f));
+				var f = this.Body.Value.GetWorldVector(new Microsoft.Xna.Framework.Vector2((this.Description as IMovable).Force * this.VelocityMultiplier.Value, 0f));
 				this.Body.Value.ApplyForce(ref f);
 			}
 			#endregion
