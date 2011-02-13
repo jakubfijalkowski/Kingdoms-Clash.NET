@@ -114,6 +114,7 @@ namespace Kingdoms_Clash.NET.Units
 			//Ustawiamy właściwości ciała tak, by poruszało się po naszej myśli
 			pObj.Body.Mass = 10;
 			pObj.Body.LinearDamping = 0.2f;
+			//pObj.Body.FixedRotation = true;
 
 			pObj.Body.UserData = this;
 

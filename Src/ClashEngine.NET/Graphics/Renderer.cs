@@ -6,6 +6,7 @@ namespace ClashEngine.NET.Graphics
 {
 	using Interfaces;
 	using Interfaces.Graphics;
+	using OpenTK;
 
 	/// <summary>
 	/// Renderer.
@@ -152,7 +153,7 @@ namespace ClashEngine.NET.Graphics
 			foreach (var obj in this.Objects)
 			{
 				GL.PushMatrix();
-				GL.Rotate(obj.Key.Rotation, 0, 0, 1);
+				GL.Rotate(MathHelper.RadiansToDegrees(obj.Key.Rotation), 0, 0, 1);
 				//obj.Key.PreRender();
 				if (obj.Key.Texture != null)
 				{
