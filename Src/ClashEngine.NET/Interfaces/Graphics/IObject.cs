@@ -42,6 +42,11 @@ namespace ClashEngine.NET.Interfaces.Graphics
 		float Depth { get; set; }
 
 		/// <summary>
+		/// Rotacja obiektu.
+		/// </summary>
+		float Rotation { get; set; }
+
+		/// <summary>
 		/// Wierzchołki obiektu.
 		/// </summary>
 		Vertex[] Vertices { get; }

@@ -102,8 +102,9 @@ namespace Kingdoms_Clash.NET.Units
 		{
 			//Najpierw komponenty fizyczne, by dało się pobrać prawidłowy atrybut prędkości.
 			var pObj = new PhysicalObject(true);
+			var bBox = new BoundingBox(new OpenTK.Vector2(this.Description.Width, this.Description.Height), 10f);
 			this.Components.Add(pObj);
-			this.Components.Add(new BoundingBox(new OpenTK.Vector2(this.Description.Width, this.Description.Height)));
+			this.Components.Add(bBox);
 
 			this.Health_ = this.Attributes.GetOrCreate<int>("Health");
 			this.Position_ = this.Attributes.GetOrCreate<Vector2>("Position");
@@ -113,8 +114,6 @@ namespace Kingdoms_Clash.NET.Units
 			//Ustawiamy właściwości ciała tak, by poruszało się po naszej myśli
 			pObj.Body.Mass = 10;
 			pObj.Body.LinearDamping = 0.2f;
-			//pObj.Body.SleepingAllowed = false;
-			//pObj.Body.FixedRotation = true;
 
 			pObj.Body.UserData = this;
 
@@ -127,6 +126,8 @@ namespace Kingdoms_Clash.NET.Units
 
 			//Ustawianie stałego konta jednostek
 			this.FixedAngle = new FixedAngleJoint(pObj.Body);
+			this.FixedAngle.BiasFactor = 0.08f;
+			ClashEngine.NET.PhysicsManager.Instance.World.AddJoint(this.FixedAngle);
 
 			//I zdarzenia kolizji pomiędzy jednostkami
 			pObj.Body.SetCollisionEvent((fixtureA, fixtureB, contact) =>
@@ -162,7 +163,7 @@ namespace Kingdoms_Clash.NET.Units
 						contact.GetWorldManifold(out normal, out points);
 						var dot = Microsoft.Xna.Framework.Vector2.Dot(new Microsoft.Xna.Framework.Vector2(0, -1), normal);
 						var angle = (float)Math.Acos(dot) * Math.Sign(normal.X);
-						FixedAngle.TargetAngle = (float)angle;
+						this.FixedAngle.TargetAngle = (float)angle;
 
 						fixtureA.UserData = fixtureB;
 					}

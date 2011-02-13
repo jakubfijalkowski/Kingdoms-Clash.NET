@@ -53,7 +53,8 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FarseerPhysics">
+    <Reference Include="FarseerPhysics, Version=3.2.4060.28504, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\FarseerPhysics.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
@@ -72,6 +73,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Internals\PhysicalRotationAttribute.cs" />
     <Compile Include="Converters\FontConverter.cs" />
     <Compile Include="Converters\LayoutConverter.cs" />
     <Compile Include="Converters\PropertyPathConverter.cs" />
@@ -282,7 +284,6 @@
   <ItemGroup>
     <Content Include="DataSamples\TexturesAtlas.xml" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

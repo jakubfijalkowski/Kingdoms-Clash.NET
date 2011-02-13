@@ -24,7 +24,12 @@ namespace ClashEngine.NET.Interfaces.Graphics.Components
 		/// Rozmiar.
 		/// </summary>
 		Vector2 Size { get; set; }
-		
+
+		/// <summary>
+		/// Rotacja duszka.
+		/// </summary>
+		float Rotation { get; set; }
+
 		/// <summary>
 		/// Efekty duszka.
 		/// </summary>

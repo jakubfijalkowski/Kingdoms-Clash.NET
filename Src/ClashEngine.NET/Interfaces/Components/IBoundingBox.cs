@@ -17,9 +17,9 @@ namespace ClashEngine.NET.Interfaces.Components
 		Vector2 Size { get; }
 
 		/// <summary>
-		/// Pozycja prostokąta w ciele.
+		/// Masa prostokąta.
 		/// </summary>
-		Vector2 Position { get; }
+		float Mass { get; }
 
 		/// <summary>
 		/// Fixture.

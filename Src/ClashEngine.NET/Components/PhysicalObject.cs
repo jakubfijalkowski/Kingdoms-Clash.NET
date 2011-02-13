@@ -41,6 +41,7 @@ namespace ClashEngine.NET.Components
 			this.Body.BodyType = (this.IsDynamic ? BodyType.Dynamic : BodyType.Static);
 
 			this.Owner.Attributes.Replace("Position", new Internals.PhysicalPositionAttribute("Position", this.Body));
+			this.Owner.Attributes.Replace("Rotation", new Internals.PhysicalRotationAttribute("Rotation", this.Body));
 		}
 
 		/// <summary>

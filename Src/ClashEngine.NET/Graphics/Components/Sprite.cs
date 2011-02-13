@@ -21,6 +21,7 @@ namespace ClashEngine.NET.Graphics.Components
 		#region Private fields
 		private IAttribute<Vector2> _Position;
 		private IAttribute<Vector2> _Size;
+		private IAttribute<float> _Rotation;
 		private Objects.Sprite _Sprite;
 		private ITexture _Texture;
 		#endregion
@@ -52,6 +53,15 @@ namespace ClashEngine.NET.Graphics.Components
 		{
 			get { return this._Size.Value; }
 			set { this._Size.Value = value; }
+		}
+
+		/// <summary>
+		/// Rotacja duszka.
+		/// </summary>
+		public float Rotation
+		{
+			get { return this._Rotation.Value; }
+			set { this._Rotation.Value = value; }
 		}
 
 		/// <summary>
@@ -119,6 +129,9 @@ namespace ClashEngine.NET.Graphics.Components
 					}
 				};
 
+			this._Rotation = this.Owner.Attributes.GetOrCreate<float>("Rotation");
+			this._Rotation.PropertyChanged += (a, b) => this._Sprite.Rotation = this.Rotation;
+
 			this._Sprite = new Objects.Sprite(this._Texture, this.Position, this.Size);
 		}
 
@@ -137,6 +150,10 @@ namespace ClashEngine.NET.Graphics.Components
 			if (this.Position != this._Sprite.Position)
 			{
 				this._Sprite.Position = this.Position;
+			}
+			if (this.Rotation != this._Sprite.Rotation)
+			{
+				this._Sprite.Rotation = this.Rotation;
 			}
 			this.Renderer.Draw(this._Sprite);
 		}

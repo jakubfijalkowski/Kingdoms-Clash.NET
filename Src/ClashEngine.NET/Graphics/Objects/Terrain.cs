@@ -23,6 +23,7 @@ namespace ClashEngine.NET.Graphics.Objects
 		#region IObject Members
 		public Interfaces.Graphics.Resources.ITexture Texture { get { return null; } }
 		public float Depth { get; set; }
+		public float Rotation { get; set; }
 		public Vertex[] Vertices { get; private set; }
 		public int[] Indecies { get; private set; }
 

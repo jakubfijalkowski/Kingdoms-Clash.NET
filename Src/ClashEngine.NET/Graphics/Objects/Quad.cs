@@ -79,6 +79,11 @@ namespace ClashEngine.NET.Graphics.Objects
 		public float Depth { get; set; }
 
 		/// <summary>
+		/// Rotacja obiektu.
+		/// </summary>
+		public float Rotation { get; set; }
+
+		/// <summary>
 		/// Wierzchołki obiektu.
 		/// </summary>
 		public Vertex[] Vertices { get { return this._Vertices; } }

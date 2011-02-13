@@ -23,9 +23,9 @@ namespace ClashEngine.NET.Components
 		public Vector2 Size { get; private set; }
 
 		/// <summary>
-		/// Pozycja prostokąta w ciele.
+		/// Masa prostokąta.
 		/// </summary>
-		public Vector2 Position { get; private set; }
+		public float Mass { get; private set; }
 
 		/// <summary>
 		/// Fixture.
@@ -44,14 +44,19 @@ namespace ClashEngine.NET.Components
 			{
 				throw new Exceptions.NotFoundException("Body", "Component PhysicalObject not added", null);
 			}
-			Vertices verts = new Vertices(4);
-			verts.Add(this.Position.ToXNA());
-			verts.Add(new Microsoft.Xna.Framework.Vector2(this.Position.X + this.Size.X, this.Position.Y));
-			verts.Add((this.Position + this.Size).ToXNA());
-			verts.Add(new Microsoft.Xna.Framework.Vector2(this.Position.X, this.Position.Y + this.Size.Y));
+			//Vertices verts = new Vertices(4);
+			//verts.Add(this.Position.ToXNA());
+			//verts.Add(new Microsoft.Xna.Framework.Vector2(this.Position.X + this.Size.X, this.Position.Y));
+			//verts.Add((this.Position + this.Size).ToXNA());
+			//verts.Add(new Microsoft.Xna.Framework.Vector2(this.Position.X, this.Position.Y + this.Size.Y));
 
-			PolygonShape poly = new PolygonShape(verts, 0f);
-			this.Fixture = body.Value.CreateFixture(poly);
+
+			this.Fixture = FarseerPhysics.Factories.FixtureFactory.CreateRectangle(this.Size.X, this.Size.Y,
+				this.Mass / (this.Size.X * this.Size.Y),
+				new Microsoft.Xna.Framework.Vector2(this.Size.X / 2f, this.Size.Y / 2f), body.Value);
+
+			//PolygonShape poly = new PolygonShape(verts, 0f);
+			//this.Fixture = body.Value.CreateFixture(poly);
 		}
 
 		/// <summary>
@@ -68,19 +73,22 @@ namespace ClashEngine.NET.Components
 		/// </summary>
 		/// <param name="size">Rozmiar prostokąta.</param>
 		public BoundingBox(Vector2 size)
-			: this(size, new Vector2())
-		{ }
+			: base("BoundingBox")
+		{
+			this.Size = size;
+			this.Mass = size.X * size.Y;
+		}
 
 		/// <summary>
 		/// Inicjalizuje nowy obiekt.
 		/// </summary>
 		/// <param name="size">Rozmiar prostokąta.</param>
-		/// <param name="position">Pozycja prostokąta w ciele.</param>
-		public BoundingBox(Vector2 size, Vector2 position)
+		/// <param name="mass">Masa prostokąta.</param>
+		public BoundingBox(Vector2 size, float mass)
 			: base("BoundingBox")
 		{
 			this.Size = size;
-			this.Position = position;
+			this.Mass = mass;
 		}
 		#endregion
 	}

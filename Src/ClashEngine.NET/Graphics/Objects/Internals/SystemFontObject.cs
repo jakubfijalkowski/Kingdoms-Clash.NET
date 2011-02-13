@@ -39,6 +39,12 @@ namespace ClashEngine.NET.Graphics.Objects.Internals
 			set { this.Quad.Depth = value; }
 		}
 
+		public float Rotation
+		{
+			get { return this.Quad.Rotation; }
+			set { this.Quad.Rotation = value; }
+		}
+
 		public Interfaces.Graphics.Vertex[] Vertices { get { return this.Quad.Vertices; } }
 
 		public int[] Indecies { get { return this.Quad.Indecies; } }

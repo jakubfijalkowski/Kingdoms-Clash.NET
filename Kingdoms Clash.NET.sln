@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingdoms Clash.NET", "Src\Kingdoms Clash.NET\Kingdoms Clash.NET.csproj", "{3A6CAB6A-27B7-4A22-88B6-F1D6CECBAA03}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashEngine.NET", "Src\ClashEngine.NET\ClashEngine.NET.csproj", "{B4B721BF-B415-4A71-AE0F-A2F379B1A730}"

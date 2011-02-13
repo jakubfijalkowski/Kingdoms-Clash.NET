@@ -8,6 +8,7 @@ namespace ClashEngine.NET.Graphics.Components
 	using EntitiesManager;
 	using Interfaces.Graphics.Components;
 	using Extensions;
+	using FarseerPhysics.Factories;
 
 	/// <summary>
 	/// Komponent-teren 2D.
@@ -84,10 +85,7 @@ namespace ClashEngine.NET.Graphics.Components
 			{
 				for (int i = 0; i < this.Vertices.Length - 1; i++)
 				{
-					PolygonShape sector = new PolygonShape(0f);
-					sector.SetAsEdge(this.Vertices[i].ToXNA(), this.Vertices[i + 1].ToXNA());
-
-					var f = bodyAttr.Value.CreateFixture(sector);
+					var f = FixtureFactory.CreateEdge(this.Vertices[i].ToXNA(), this.Vertices[i + 1].ToXNA(), bodyAttr.Value);
 					f.Friction = 0.5f;
 					f.CollisionFilter.CollisionCategories = Category.All;
 				}

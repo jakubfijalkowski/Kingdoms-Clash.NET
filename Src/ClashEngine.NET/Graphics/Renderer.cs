@@ -151,6 +151,8 @@ namespace ClashEngine.NET.Graphics
 
 			foreach (var obj in this.Objects)
 			{
+				GL.PushMatrix();
+				GL.Rotate(obj.Key.Rotation, 0, 0, 1);
 				//obj.Key.PreRender();
 				if (obj.Key.Texture != null)
 				{
@@ -181,6 +183,7 @@ namespace ClashEngine.NET.Graphics
 					}
 				}
 				GL.End();
+				GL.PopMatrix();
 			}
 			this.Objects.Clear();
 		}
