@@ -18,12 +18,18 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// Wysokość mapy.
 		/// </summary>
 		public float Height { get; private set; }
+
+		/// <summary>
+		/// Liczba elementów mapy.
+		/// </summary>
+		public int Blocks { get; private set; }
 		#endregion
 
 		#region IObject Members
 		public Interfaces.Graphics.Resources.ITexture Texture { get { return null; } }
 		public float Depth { get; set; }
 		public float Rotation { get; set; }
+		public Vector2 RotationPoint { get; set; }
 		public Vertex[] Vertices { get; private set; }
 		public int[] Indecies { get; private set; }
 
@@ -50,6 +56,7 @@ namespace ClashEngine.NET.Graphics.Objects
 
 			this.Depth = 5f;
 			this.Height = height;
+			this.Blocks = terrain.Length - 1;
 
 			this.Vertices = new Vertex[terrain.Length * 2];
 			this.Indecies = new int[(this.Vertices.Length - 1) * 6];

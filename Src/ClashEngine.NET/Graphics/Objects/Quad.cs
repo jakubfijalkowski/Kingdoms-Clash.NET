@@ -84,6 +84,11 @@ namespace ClashEngine.NET.Graphics.Objects
 		public float Rotation { get; set; }
 
 		/// <summary>
+		/// Punkt, w którym będziemy obracać nasz obiekt.
+		/// </summary>
+		public Vector2 RotationPoint { get; private set; }
+
+		/// <summary>
 		/// Wierzchołki obiektu.
 		/// </summary>
 		public Vertex[] Vertices { get { return this._Vertices; } }
@@ -130,6 +135,12 @@ namespace ClashEngine.NET.Graphics.Objects
 			this.Vertices[2].Position = pos + size;
 			this.Vertices[3].Position = pos;
 			this.Vertices[3].Position.Y += size.Y;
+
+			//TODO: poprawić tak, by to użytkownik mógł definiować miejsce obrotu.
+			this.RotationPoint = this.Vertices[0].Position;/* + new Vector2(
+				(this.Vertices[1].Position.X - this.Vertices[0].Position.X) / 2f,
+				(this.Vertices[3].Position.Y - this.Vertices[0].Position.Y) / 2f);
+				*/
 		}
 		#endregion
 	}

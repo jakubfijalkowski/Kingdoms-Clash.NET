@@ -1,6 +1,7 @@
 ﻿namespace ClashEngine.NET.Interfaces.Graphics.Components
 {
 	using Interfaces.EntitiesManager;
+	using FarseerPhysics.Dynamics;
 
 	/// <summary>
 	/// Komponent-teren 2D.
@@ -13,5 +14,10 @@
 		/// Wysokość mapy.
 		/// </summary>
 		float Height { get; }
+
+		/// <summary>
+		/// Liczba elementów mapy.
+		/// </summary>
+		int Blocks { get; }
 	}
 }

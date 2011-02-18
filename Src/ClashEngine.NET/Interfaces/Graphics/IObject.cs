@@ -47,6 +47,11 @@ namespace ClashEngine.NET.Interfaces.Graphics
 		float Rotation { get; set; }
 
 		/// <summary>
+		/// Punkt, w którym będziemy obracać nasz obiekt.
+		/// </summary>
+		Vector2 RotationPoint { get; }
+
+		/// <summary>
 		/// Wierzchołki obiektu.
 		/// </summary>
 		Vertex[] Vertices { get; }

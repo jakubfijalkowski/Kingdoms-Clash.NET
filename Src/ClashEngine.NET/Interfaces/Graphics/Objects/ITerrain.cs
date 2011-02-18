@@ -10,5 +10,10 @@
 		/// Wysokość terenu.
 		/// </summary>
 		float Height { get; }
+
+		/// <summary>
+		/// Liczba elementów mapy.
+		/// </summary>
+		int Blocks { get; }
 	}
 }

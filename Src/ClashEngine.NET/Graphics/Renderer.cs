@@ -153,7 +153,13 @@ namespace ClashEngine.NET.Graphics
 			foreach (var obj in this.Objects)
 			{
 				GL.PushMatrix();
-				GL.Rotate(MathHelper.RadiansToDegrees(obj.Key.Rotation), 0, 0, 1);
+				Matrix4 transA = Matrix4.CreateTranslation(obj.Key.RotationPoint.X, obj.Key.RotationPoint.Y, 0f);
+				Matrix4 transB = Matrix4.CreateTranslation(-obj.Key.RotationPoint.X, -obj.Key.RotationPoint.Y, 0f);
+				Matrix4 rotation = Matrix4.CreateRotationZ(obj.Key.Rotation);
+				GL.MultMatrix(ref transA);
+				GL.MultMatrix(ref rotation);
+				GL.MultMatrix(ref transB);
+				//GL.Rotate(MathHelper.RadiansToDegrees(obj.Key.Rotation), 0, 0, 1);
 				//obj.Key.PreRender();
 				if (obj.Key.Texture != null)
 				{
@@ -236,19 +242,19 @@ namespace ClashEngine.NET.Graphics
 			{
 				switch (this.SortMode)
 				{
-				case SortMode.Texture:
-					int cmp = (x.Texture != null && y.Texture != null ? x.Texture.GetHashCode().CompareTo(y.Texture.GetHashCode()) : 0);
-					if (cmp == 0)
-					{
+					case SortMode.Texture:
+						int cmp = (x.Texture != null && y.Texture != null ? x.Texture.GetHashCode().CompareTo(y.Texture.GetHashCode()) : 0);
+						if (cmp == 0)
+						{
+							return (x.Depth < y.Depth ? 1 : -1);
+						}
+						return cmp;
+
+					case SortMode.FrontToBack:
 						return (x.Depth < y.Depth ? 1 : -1);
-					}
-					return cmp;
 
-				case SortMode.FrontToBack:
-					return (x.Depth < y.Depth ? 1 : -1);
-
-				case SortMode.BackToFront:
-					return (x.Depth >= y.Depth ? 1 : -1);
+					case SortMode.BackToFront:
+						return (x.Depth >= y.Depth ? 1 : -1);
 				}
 				return 0;
 			}

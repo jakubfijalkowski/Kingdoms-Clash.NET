@@ -45,6 +45,11 @@ namespace ClashEngine.NET.Graphics.Objects.Internals
 			set { this.Quad.Rotation = value; }
 		}
 
+		public Vector2 RotationPoint
+		{
+			get { return this.Quad.RotationPoint; }
+		}
+
 		public Interfaces.Graphics.Vertex[] Vertices { get { return this.Quad.Vertices; } }
 
 		public int[] Indecies { get { return this.Quad.Indecies; } }

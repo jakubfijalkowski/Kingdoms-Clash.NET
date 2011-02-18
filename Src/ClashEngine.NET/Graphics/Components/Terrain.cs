@@ -30,6 +30,14 @@ namespace ClashEngine.NET.Graphics.Components
 		/// Wysokość terenu.
 		/// </summary>
 		public float Height { get; private set; }
+
+		/// <summary>
+		/// Liczba elementów mapy.
+		/// </summary>
+		public int Blocks
+		{
+			get { return this._Terrain.Blocks; }
+		}
 		#endregion
 
 		#region Component Members
@@ -67,7 +75,7 @@ namespace ClashEngine.NET.Graphics.Components
 			{
 				throw new ArgumentNullException("terrain");
 			}
-			
+
 			this.Height = height;
 			this.Vertices = terrain;
 		}
@@ -88,6 +96,7 @@ namespace ClashEngine.NET.Graphics.Components
 					var f = FixtureFactory.CreateEdge(this.Vertices[i].ToXNA(), this.Vertices[i + 1].ToXNA(), bodyAttr.Value);
 					f.Friction = 0.5f;
 					f.CollisionFilter.CollisionCategories = Category.All;
+					f.UserData = i;
 				}
 			}
 		}

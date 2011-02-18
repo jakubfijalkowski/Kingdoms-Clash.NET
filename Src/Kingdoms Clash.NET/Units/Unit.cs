@@ -130,6 +130,7 @@ namespace Kingdoms_Clash.NET.Units
 			this.FixedAngle.BiasFactor = 0.08f;
 			ClashEngine.NET.PhysicsManager.Instance.World.AddJoint(this.FixedAngle);
 
+			var velMult = this.Attributes.GetOrCreate<float>("VelocityMultiplier");
 			//I zdarzenia kolizji pomiędzy jednostkami
 			pObj.Body.SetCollisionEvent((fixtureA, fixtureB, contact) =>
 			{
@@ -157,16 +158,18 @@ namespace Kingdoms_Clash.NET.Units
 				}
 				else if (fixtureB.Body.UserData is ITerrain) //Ustawiamy kąt nachylenia dla postaci
 				{
-					if (fixtureA.UserData != fixtureB)
+					if (fixtureA.UserData == null ||
+						(velMult.Value >= 0.0 && (int)fixtureA.UserData < (int)fixtureB.UserData) ||
+						(velMult.Value < 0.0 && (int)fixtureA.UserData > (int)fixtureB.UserData))
 					{
 						FarseerPhysics.Common.FixedArray2<Microsoft.Xna.Framework.Vector2> points;
-						Microsoft.Xna.Framework.Vector2 normal;// = c.Manifold.LocalNormal;
+						Microsoft.Xna.Framework.Vector2 normal;
 						contact.GetWorldManifold(out normal, out points);
 						var dot = Microsoft.Xna.Framework.Vector2.Dot(new Microsoft.Xna.Framework.Vector2(0, -1), normal);
 						var angle = (float)Math.Acos(dot) * Math.Sign(normal.X);
 						this.FixedAngle.TargetAngle = (float)angle;
 
-						fixtureA.UserData = fixtureB;
+						fixtureA.UserData = fixtureB.UserData;
 					}
 				}
 				return true;
