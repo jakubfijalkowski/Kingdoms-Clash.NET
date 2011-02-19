@@ -23,6 +23,10 @@ namespace ClashEngine.NET.Graphics.Resources.Internals
 		public int TextureId { get; private set; }
 		public Vector2 Size { get; private set; }
 		public System.Drawing.RectangleF Coordinates { get { return _Coordinates; } }
+		public string UserData
+		{
+			get { return string.Empty; }
+		}
 
 		public void Bind()
 		{

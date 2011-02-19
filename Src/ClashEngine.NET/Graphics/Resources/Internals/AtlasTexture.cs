@@ -34,6 +34,14 @@ namespace ClashEngine.NET.Graphics.Resources.Internals
 		public System.Drawing.RectangleF Coordinates { get; private set; }
 
 		/// <summary>
+		/// Dane użytkownika - pobierane z głównej tekstury.
+		/// </summary>
+		public string UserData
+		{
+			get { return this.InnerTexture.UserData; }
+		}
+
+		/// <summary>
 		/// Binduje wewnętrzną teksturę.
 		/// </summary>
 		public void Bind()

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Text;
+using System.Text.RegularExpressions;
 using OpenTK;
-
 using OpenTK.Graphics.OpenGL;
 
 namespace ClashEngine.NET.Graphics.Resources
@@ -23,6 +24,8 @@ namespace ClashEngine.NET.Graphics.Resources
 		: ITexture
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
+		private static readonly int[] Properties = new int[] { 0x0320, 0x010E, 0x9286, 0x0131 };
+		private static readonly Regex UserDataRegex = new Regex(@"\[(.+)\]", RegexOptions.Compiled);
 
 		#region Private fields
 		/// <summary>
@@ -61,6 +64,8 @@ namespace ClashEngine.NET.Graphics.Resources
 			{
 				try
 				{
+					this.UserData = string.Empty;
+
 					GL.Enable(EnableCap.Texture2D);
 
 					using (Bitmap bm = new Bitmap(this.FileName))
@@ -73,6 +78,25 @@ namespace ClashEngine.NET.Graphics.Resources
 						this.Bind();
 						GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bm.Width, bm.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
 						bm.UnlockBits(data);
+
+						//Pobieramy dane z właściwości
+						PropertyItem property = null;
+						foreach (var propId in Properties)
+						{
+							try
+							{
+								property = bm.GetPropertyItem(propId); //PropertyTagImageTitle
+								break;
+							}
+							catch
+							{ }
+						}
+						Match match;
+						if((property != null && (match = UserDataRegex.Match(Encoding.Default.GetString(property.Value))).Success) ||
+							(match = UserDataRegex.Match(this.Id)).Success)
+						{
+							this.UserData = match.Groups[1].Value;
+						}
 					}
 
 					//Ustawiamy filtrowanie - w grach 2D linearne nas zadowala.
@@ -137,6 +161,17 @@ namespace ClashEngine.NET.Graphics.Resources
 				return new RectangleF(0.0f, 0.0f, 1.0f, 1.0f);
 			}
 		}
+
+		/// <summary>
+		/// Dane wpisane przez użytkownika.
+		/// Powinny być pobierane z(w takiej kolejności):
+		///		PropertyTagImageTitle
+		///		PropertyTagImageDescription
+		///		PropertyTagExifUserComment
+		///		PropertyTagSoftwareUsed
+		///	Jeśli nie istnieją - powinny być pobrane z nazwy pliku(pomiędzy [ i ], włącznie z [ i ]);
+		/// </summary>
+		public string UserData { get; private set; }
 
 		/// <summary>
 		/// Ustawia teksturę jako aktualnie używaną.

@@ -99,6 +99,39 @@ namespace ClashEngine.NET.Graphics.Components
 			get { return this._Sprite.MaintainAspectRatio; }
 			set { this._Sprite.MaintainAspectRatio = value; }
 		}
+
+		/// <summary>
+		/// Liczba klatek animacji na sprite.
+		/// </summary>
+		public uint FramesCount
+		{
+			get { return this._Sprite.FramesCount; }
+		}
+
+		/// <summary>
+		/// Czas trwania jednej klatki.
+		/// </summary>
+		public float FrameTime
+		{
+			get { return this._Sprite.FrameTime; }
+		}
+
+		/// <summary>
+		/// Aktualna klatka.
+		/// </summary>
+		public uint CurrentFrame
+		{
+			get { return this._Sprite.CurrentFrame; }
+			set { this._Sprite.CurrentFrame = value; }
+		}
+
+		/// <summary>
+		/// Rozmiar klatki.
+		/// </summary>
+		public Vector2 FrameSize
+		{
+			get { return this._Sprite.FrameSize; }
+		}
 		#endregion
 
 		#region Constructors
@@ -154,11 +187,13 @@ namespace ClashEngine.NET.Graphics.Components
 		}
 
 		/// <summary>
-		/// Nieużywana.
+		/// Aktualizuje animację.
 		/// </summary>
 		/// <param name="delta"></param>
 		public override void Update(double delta)
-		{ }
+		{
+			this._Sprite.AdvanceAnimation(delta);
+		}
 
 		/// <summary>
 		/// Rysuje duszka.

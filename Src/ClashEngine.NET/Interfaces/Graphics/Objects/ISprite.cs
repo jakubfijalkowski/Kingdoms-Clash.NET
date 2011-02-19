@@ -50,5 +50,31 @@ namespace ClashEngine.NET.Interfaces.Graphics.Objects
 		/// Wymusza zachowanie proporcji duszka.
 		/// </summary>
 		bool MaintainAspectRatio { get; set; }
+
+		/// <summary>
+		/// Liczba klatek animacji na sprite.
+		/// </summary>
+		uint FramesCount { get; }
+
+		/// <summary>
+		/// Czas trwania jednej klatki.
+		/// </summary>
+		float FrameTime { get; }
+
+		/// <summary>
+		/// Aktualna klatka.
+		/// </summary>
+		uint CurrentFrame { get; set; }
+
+		/// <summary>
+		/// Rozmiar klatki.
+		/// </summary>
+		Vector2 FrameSize { get; }
+
+		/// <summary>
+		/// Przesuwa animacje.
+		/// </summary>
+		/// <param name="time">Czas w sekundach.</param>
+		void AdvanceAnimation(double time);
 	}
 }
