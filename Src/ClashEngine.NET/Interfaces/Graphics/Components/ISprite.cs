@@ -31,6 +31,16 @@ namespace ClashEngine.NET.Interfaces.Graphics.Components
 		float Rotation { get; set; }
 
 		/// <summary>
+		/// Punkt rotacji.
+		/// </summary>
+		Vector2 RotationPoint { get; set; }
+
+		/// <summary>
+		/// Ustawienia automatycznego ustawiania punktu rotacji.
+		/// </summary>
+		RotationPointSettings RotationPointSettings { get; set; }
+
+		/// <summary>
 		/// Efekty duszka.
 		/// </summary>
 		SpriteEffect Effect { get; set; }

@@ -25,6 +25,7 @@ namespace ClashEngine.NET.Graphics.Objects
 			0, 2, 3,
 			0, 1, 2
 		};
+		private RotationPointSettings _RotationPointSettings = RotationPointSettings.TopLeft;
 		#endregion
 
 		#region IQuad Members
@@ -86,7 +87,24 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// <summary>
 		/// Punkt, w którym będziemy obracać nasz obiekt.
 		/// </summary>
-		public Vector2 RotationPoint { get; private set; }
+		public Vector2 RotationPoint { get; set; }
+
+		/// <summary>
+		/// Ustawienia automatycznego ustawiania punktu rotacji.
+		/// </summary>
+		/// <remarks>
+		/// Przy używaniu <see cref="RotationPointSettings.Custom"/> należy ręcznie ustawić <see cref="RotationPoint"/>.
+		/// Jeśli są inne ustawienia - nie zmieniać <see cref="RotationPoint"/> ręcznie.
+		/// </remarks>
+		public RotationPointSettings RotationPointSettings
+		{
+			get { return this._RotationPointSettings; }
+			set
+			{
+				if (this.RotationPointSettings != value)
+				{ this._RotationPointSettings = value; this.UpdatePositions(this.Position, this.Size); }
+			}
+		}
 
 		/// <summary>
 		/// Wierzchołki obiektu.
@@ -136,11 +154,26 @@ namespace ClashEngine.NET.Graphics.Objects
 			this.Vertices[3].Position = pos;
 			this.Vertices[3].Position.Y += size.Y;
 
-			//TODO: poprawić tak, by to użytkownik mógł definiować miejsce obrotu.
-			this.RotationPoint = this.Vertices[0].Position;/* + new Vector2(
-				(this.Vertices[1].Position.X - this.Vertices[0].Position.X) / 2f,
-				(this.Vertices[3].Position.Y - this.Vertices[0].Position.Y) / 2f);
-				*/
+			switch (this.RotationPointSettings)
+			{
+				case RotationPointSettings.TopLeft:
+					this.RotationPoint = this.Vertices[0].Position;
+					break;
+				case RotationPointSettings.BottomLeft:
+					this.RotationPoint = this.Vertices[3].Position;
+					break;
+				case RotationPointSettings.TopRight:
+					this.RotationPoint = this.Vertices[1].Position;
+					break;
+				case RotationPointSettings.BottomRight:
+					this.RotationPoint = this.Vertices[2].Position;
+					break;
+				case RotationPointSettings.Center:
+					this.RotationPoint = this.Vertices[0].Position + new Vector2(
+						(this.Vertices[1].Position.X - this.Vertices[0].Position.X) / 2f,
+						(this.Vertices[3].Position.Y - this.Vertices[0].Position.Y) / 2f);
+					break;
+			}
 		}
 		#endregion
 	}

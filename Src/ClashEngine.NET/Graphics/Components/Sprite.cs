@@ -65,6 +65,24 @@ namespace ClashEngine.NET.Graphics.Components
 		}
 
 		/// <summary>
+		/// Punkt rotacji.
+		/// </summary>
+		public Vector2 RotationPoint
+		{
+			get { return this._Sprite.RotationPoint; }
+			set { this._Sprite.RotationPoint = value; }
+		}
+
+		/// <summary>
+		/// Ustawienia automatycznego ustawiania punktu rotacji.
+		/// </summary>
+		public Interfaces.Graphics.Objects.RotationPointSettings RotationPointSettings
+		{
+			get { return this._Sprite.RotationPointSettings; }
+			set { this._Sprite.RotationPointSettings = value; }
+		}
+
+		/// <summary>
 		/// Efekty.
 		/// </summary>
 		public Interfaces.Graphics.Objects.SpriteEffect Effect

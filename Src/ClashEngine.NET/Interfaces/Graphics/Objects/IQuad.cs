@@ -3,6 +3,42 @@
 namespace ClashEngine.NET.Interfaces.Graphics.Objects
 {
 	/// <summary>
+	/// Punkt rotacji.
+	/// </summary>
+	public enum RotationPointSettings
+	{
+		/// <summary>
+		/// Lewy górny róg.
+		/// </summary>
+		TopLeft,
+
+		/// <summary>
+		/// Lewy dolny róg.
+		/// </summary>
+		BottomLeft,
+
+		/// <summary>
+		/// Prawy górny róg.
+		/// </summary>
+		TopRight,
+
+		/// <summary>
+		/// Prawy dolny róg.
+		/// </summary>
+		BottomRight,
+
+		/// <summary>
+		/// Środek.
+		/// </summary>
+		Center,
+
+		/// <summary>
+		/// Ustawiany ręcznie.
+		/// </summary>
+		Custom
+	}
+
+	/// <summary>
 	/// Prostokąt.
 	/// </summary>
 	public interface IQuad
@@ -22,5 +58,15 @@ namespace ClashEngine.NET.Interfaces.Graphics.Objects
 		/// Kolor prostokąta.
 		/// </summary>
 		Vector4 Color { get; set; }
+
+		/// <summary>
+		/// Punkt rotacji.
+		/// </summary>
+		new Vector2 RotationPoint { get; set; }
+
+		/// <summary>
+		/// Ustawienia automatycznego ustawiania punktu rotacji.
+		/// </summary>
+		RotationPointSettings RotationPointSettings { get; set; }
 	}
 }
