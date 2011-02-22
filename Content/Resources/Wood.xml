@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resource id="wood" size="5, 10" image="Resources/Wood.png">
+	<name>Drewno</name>
+	<description>Podstawowy zasób gry</description>
+	<polygon>
+		<point>0, 0</point>
+		<point>5, 0</point>
+		<point>5, 5</point>
+		<point>2.5, 10</point>
+		<point>0, 5</point>
+	</polygon>
+</resource>

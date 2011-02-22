@@ -1,4 +1,6 @@
-﻿namespace Kingdoms_Clash.NET.Interfaces.Resources
+﻿using OpenTK;
+
+namespace Kingdoms_Clash.NET.Interfaces.Resources
 {
 	/// <summary>
 	/// Opis zasobu.
@@ -27,8 +29,13 @@
 		OpenTK.Vector2 Size { get; }
 
 		/// <summary>
-		/// Obrazek z zasobem.
+		/// Tekstura dla zasobu.
 		/// </summary>
 		string Image { get; }
+
+		/// <summary>
+		/// Figura, która jest przybliżeniem zasobu. Używane do prezentacji fizyki.
+		/// </summary>
+		Vector2[] Polygon { get; }
 	}
 }

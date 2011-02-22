@@ -33,30 +33,22 @@ namespace Kingdoms_Clash.NET
 		};
 
 		/// <summary>
+		/// Zasoby, które są w grze.
+		/// </summary>
+		public static readonly string[] Resources = new string[]
+		{
+			"wood"
+		};
+
+		/// <summary>
 		/// Ścieżka do zasobów.
 		/// </summary>
-		public const string ContentDirectory = "Content";
+		public const string RootDirectory = "Content";
 
 		/// <summary>
 		/// Folder z danymi użytkownika.
 		/// </summary>
 		public const string UserData = "Content/UserData";
-
-		/// <summary>
-		/// Ścieżka do pliku konfiguracyjnego.
-		/// </summary>
-		public const string ConfigurationFile = "Content/Configuration.xml";
-		#endregion
-
-		#region Resources
-		/// <summary>
-		/// Lista zasobów dostępnych w grze.
-		/// </summary>
-		/// TODO: dodać zlokalizowane teksty
-		public static readonly Interfaces.Resources.IResourceDescription[] Resources = new Interfaces.Resources.IResourceDescription[]
-		{
-			new Resources.ResourceDescription("wood", "Drewno", "Podstawowy zasób gry", new OpenTK.Vector2(5f, 10f), "Resources/Wood.png")
-		};
 		#endregion
 	}
 }

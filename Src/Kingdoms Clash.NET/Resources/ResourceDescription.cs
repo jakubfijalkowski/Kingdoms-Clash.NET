@@ -1,4 +1,6 @@
-﻿namespace Kingdoms_Clash.NET.Resources
+﻿using OpenTK;
+
+namespace Kingdoms_Clash.NET.Resources
 {
 	using Interfaces.Resources;
 
@@ -34,23 +36,32 @@
 		/// Obrazek z zasobem.
 		/// </summary>
 		public string Image { get; private set; }
+
+		/// <summary>
+		/// Figura, która jest przybliżeniem zasobu. Używane do prezentacji fizyki.
+		/// </summary>
+		public Vector2[] Polygon { get; private set; }
 		#endregion
 
+		#region Constructors
 		/// <summary>
 		/// Inicjalizuje nowy opis zasobu.
 		/// </summary>
-		/// <param name="id">Identyfikator zasobu, zobacz: <see cref="Id"/></param>
-		/// <param name="name">Nazwa zasobu, zobacz: <see cref="Name"/></param>
+		/// <param name="id">Identyfikator zasobu, zobacz: <see cref="Id"/>.</param>
+		/// <param name="name">Nazwa zasobu, zobacz: <see cref="Name"/>.</param>
 		/// <param name="description">Dłuższy opis zasobu.</param>
 		/// <param name="size">Rozmiar zasobu.</param>
 		/// <param name="image">Obrazek z zasobem.</param>
-		public ResourceDescription(string id, string name, string description, OpenTK.Vector2 size, string image)
+		/// <param name="polygon">Figura dla zasobu, zobacz <see cref="Polygon"/>.</param>
+		public ResourceDescription(string id, string name, string description, OpenTK.Vector2 size, string image, Vector2[] polygon)
 		{
 			this.Id = id;
 			this.Name = name;
 			this.Description = description;
 			this.Size = size;
 			this.Image = image;
+			this.Polygon = polygon;
 		}
+		#endregion
 	}
 }

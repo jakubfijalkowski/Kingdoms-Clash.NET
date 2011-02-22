@@ -3,6 +3,7 @@
 namespace Kingdoms_Clash.NET.Resources
 {
 	using Interfaces.Resources;
+	using System.Diagnostics;
 
 	/// <summary>
 	/// Stała lista zasobów dla gry.
@@ -29,7 +30,9 @@ namespace Kingdoms_Clash.NET.Resources
 		}
 		#endregion
 
+		#region Private fields
 		private List<IResourceDescription> Descriptions = new List<IResourceDescription>();
+		#endregion
 
 		#region IResourcesList Members
 		/// <summary>
@@ -67,12 +70,17 @@ namespace Kingdoms_Clash.NET.Resources
 		}
 		#endregion
 
+		#region Constructors
 		private ResourcesList()
+		{ }
+		#endregion
+
+		#region Internals
+		internal void Init(List<IResourceDescription> resources)
 		{
-			foreach (var r in Defaults.Resources)
-			{
-				this.Descriptions.Add(r);
-			}
+			Debug.Assert(this.Descriptions.Count == 0, "Resources already loaded");
+			this.Descriptions.AddRange(resources);
 		}
+		#endregion
 	}
 }

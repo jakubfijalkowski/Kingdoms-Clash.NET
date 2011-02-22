@@ -11,12 +11,12 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// <summary>
 		/// Ścieżka do głównego folderu z danymi użytkownika.
 		/// </summary>
-		string Path { get; }
+		string RootPath { get; }
 
 		/// <summary>
-		/// Ścieżka do pliku konfiguracyjnego.
+		/// Ścieżka do głównego folderu z danymi użytkownika.
 		/// </summary>
-		string ConfigurationFile { get; }
+		string UserDataPath { get; }
 
 		/// <summary>
 		/// Załadowane nacje.
@@ -33,5 +33,10 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Ładuje konfigurację.
 		/// </summary>
 		void LoadConfiguration();
+
+		/// <summary>
+		/// Ładuje zasoby.
+		/// </summary>
+		void LoadResources();
 	}
 }

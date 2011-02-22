@@ -138,7 +138,7 @@ namespace Kingdoms_Clash.NET
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-			this.Info.Content.ContentDirectory = Defaults.ContentDirectory;
+			this.Info.Content.ContentDirectory = Defaults.RootDirectory;
 			ClashEngine.NET.PhysicsManager.Instance.Gravity = new OpenTK.Vector2(0f, Configuration.Instance.Gravity);
 		}
 		#endregion
@@ -146,10 +146,11 @@ namespace Kingdoms_Clash.NET
 		#region Main
 		static void Main(string[] args)
 		{
-			UserData.Loader loader = new UserData.Loader(Defaults.UserData, Defaults.ConfigurationFile);
+			UserData.Loader loader = new UserData.Loader(Defaults.RootDirectory, Defaults.UserData);
 
 			loader.LoadConfiguration();
 			loader.LoadNations();
+			loader.LoadResources();
 
 			using (var game = new KingdomsClashNetGame(loader.Nations))
 			{

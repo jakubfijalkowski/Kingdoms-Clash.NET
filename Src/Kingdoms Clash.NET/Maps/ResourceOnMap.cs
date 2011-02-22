@@ -76,13 +76,31 @@ namespace Kingdoms_Clash.NET.Maps
 			//Fizyka
 			var pObj = new ClashEngine.NET.Components.PhysicalObject();
 			this.Components.Add(pObj);
-			this.Components.Add(new ClashEngine.NET.Components.BoundingBox(desc.Size));
 			this.Body = pObj.Body;
 
-			pObj.Body.Position = this.Position.ToXNA();
-			pObj.Body.SetCollidesWith(Category.Cat11 | Category.Cat12);
-			pObj.Body.SetCollisionCategories(Category.Cat10);
-			pObj.Body.UserData = this;
+			//Tworzymy figurę dla zasobu
+			FarseerPhysics.Common.Vertices verts = new FarseerPhysics.Common.Vertices();
+			foreach (var point in desc.Polygon)
+			{
+				verts.Add(point.ToXNA());
+			}
+			FarseerPhysics.Factories.FixtureFactory.CreatePolygon(verts, 1, this.Body);
+
+			this.Body.Position = this.Position.ToXNA();
+			this.Body.SetCollidesWith(Category.Cat11 | Category.Cat12);
+			this.Body.SetCollisionCategories(Category.Cat10);
+			this.Body.UserData = this;
+
+			this.Body.BodyType = BodyType.Dynamic;
+			this.Body.SetCollisionEvent((a, b, c) =>
+				{
+					if (b.Body.UserData is ClashEngine.NET.Interfaces.Graphics.Components.ITerrain)
+					{
+						this.Body.IsStatic = true;
+						return false;
+					}
+					return true;
+				});
 
 			//Wygląd
 			this.Components.Add(new ClashEngine.NET.Graphics.Components.Sprite(this.Id, this.GameInfo.Content.Load<Texture>(desc.Image)));
