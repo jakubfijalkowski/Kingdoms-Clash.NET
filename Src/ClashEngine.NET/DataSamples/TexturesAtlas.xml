@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <atlas image="PathToImage">
   <!-- Wartość to prostokąt(4x float - lewo, góra, prawo, dół) z obrazkiem. Wartości muszą być z zakresu 0..1. -->
-  <image id="Identifier0">0.0, 0.0, 0.5, 0.5</image>
-  <image id="Identifier1">0.5, 0.5, 1.0, 1.0</image>
+  <image id="Identifier0" userData="userData">0.0, 0.0, 0.5, 0.5</image>
+  <image id="Identifier1" userData="userData">0.5, 0.5, 1.0, 1.0</image>
 </atlas>

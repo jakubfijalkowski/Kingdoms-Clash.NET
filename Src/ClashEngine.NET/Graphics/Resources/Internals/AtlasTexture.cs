@@ -34,12 +34,9 @@ namespace ClashEngine.NET.Graphics.Resources.Internals
 		public System.Drawing.RectangleF Coordinates { get; private set; }
 
 		/// <summary>
-		/// Dane użytkownika - pobierane z głównej tekstury.
+		/// Dane użytkownika.
 		/// </summary>
-		public string UserData
-		{
-			get { return this.InnerTexture.UserData; }
-		}
+		public string UserData { get; private set; }
 
 		/// <summary>
 		/// Binduje wewnętrzną teksturę.
@@ -90,12 +87,13 @@ namespace ClashEngine.NET.Graphics.Resources.Internals
 		/// <param name="rect">Koordynaty tekstury w atlasie.</param>
 		/// <param name="id">Identyfikator.</param>
 		/// <param name="atlasName">Nazwa atlasu.</param>
-		public AtlasTexture(ITexture inner, System.Drawing.RectangleF rect, string id, string atlasName)
+		public AtlasTexture(ITexture inner, System.Drawing.RectangleF rect, string id, string atlasName, string userData)
 		{
 			this.Id = this.FileName = string.Format("{0}/{1}", atlasName, id);
 			this.Coordinates = rect;
 			this.Size = new Vector2(inner.Size.X * rect.Width, inner.Size.Y * rect.Height);
 			this.InnerTexture = inner;
+			this.UserData = userData;
 		}
 		#endregion
 

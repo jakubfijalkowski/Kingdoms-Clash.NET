@@ -128,7 +128,8 @@ namespace ClashEngine.NET.Graphics.Resources
 						continue;
 					}
 
-					this.Textures.Add(id, new AtlasTexture(this.InnerTexture, System.Drawing.RectangleF.FromLTRB(left, top, right, bottom), id, this.Id));
+					this.Textures.Add(id, new AtlasTexture(this.InnerTexture, System.Drawing.RectangleF.FromLTRB(left, top, right, bottom),
+						id, this.Id, item.GetAttribute("userData").Trim()));
 				}
 			}
 			catch (System.Exception ex)
