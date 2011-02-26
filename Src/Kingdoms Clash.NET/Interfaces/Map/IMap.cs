@@ -31,20 +31,5 @@ namespace Kingdoms_Clash.NET.Interfaces.Map
 		/// Zawsze wskazuje na lewy górny róg.
 		/// </summary>
 		Vector2 SecondCastle { get; }
-
-		/// <summary>
-		/// Pobiera wysokość danego punktu.
-		/// </summary>
-		/// <param name="x">Ponkt na osi.</param>
-		/// <returns>Wysokość(z uwzględnieniem marginesu mapy).</returns>
-		float GetHeight(float x);
-
-		/// <summary>
-		/// Pobiera wysokość obiektu znajdującego się pomiędzy x1 a x2.
-		/// </summary>
-		/// <param name="x1">Pierwsza współrzędna.</param>
-		/// <param name="x2">Druga współrzędna.</param>
-		/// <returns>Wysokość(z uwzględnieniem marginesu mapy).</returns>
-		float GetHeight(float x1, float x2);
 	}
 }
