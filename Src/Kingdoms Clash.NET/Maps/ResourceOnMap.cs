@@ -71,8 +71,17 @@ namespace Kingdoms_Clash.NET.Maps
 		public override void OnInit()
 		{
 			var desc = ResourcesList.Instance[this.Id];
-			this.Position.Y = this.GameState.Map.GetHeight(this.Position.X, this.Position.X + desc.Size.X) - desc.Size.Y;
-
+			ClashEngine.NET.PhysicsManager.Instance.World.RayCast((fixture, point, n, f) =>
+				{
+					if (fixture.Body.UserData is ClashEngine.NET.Interfaces.Graphics.Components.ITerrain)
+					{
+						this.Position.Y = point.Y - desc.Size.Y;
+						return 0;
+					}
+					return -1;
+				}, new Microsoft.Xna.Framework.Vector2(this.Position.X + desc.Size.X / 2f, 0),
+				new Microsoft.Xna.Framework.Vector2(this.Position.X + desc.Size.X / 2f, float.MaxValue));
+			
 			//Fizyka
 			var pObj = new ClashEngine.NET.Components.PhysicalObject();
 			this.Components.Add(pObj);
