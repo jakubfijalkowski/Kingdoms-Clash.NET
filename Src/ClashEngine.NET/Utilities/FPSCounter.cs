@@ -33,14 +33,14 @@ namespace ClashEngine.NET.Utilities
 		private double LogTime = 0.0;
 
 		/// <summary>
-		/// Całkowita liczba klatek
+		/// Liczba klatek do liczenia średniej.
 		/// </summary>
-		private long AllFrames = 0;
+		private short AvgFrames = 0;
 
 		/// <summary>
-		/// Całkowity czas uruchomienia.
+		/// Czas do liczenia średniej.
 		/// </summary>
-		private double AllTime = 0.0;
+		private double AvgTime = 0.0;
 
 		/// <summary>
 		/// Gui.
@@ -120,7 +120,7 @@ namespace ClashEngine.NET.Utilities
 		public void Update(double delta)
 		{
 			this.FPSUpdateTime += delta;
-			this.AllTime += delta;
+			this.AvgTime += delta;
 			if (this.FPSUpdateTime > 1.0)
 			{
 				float fps = (float)(this.FPSCount / this.FPSUpdateTime);
@@ -133,16 +133,21 @@ namespace ClashEngine.NET.Utilities
 				{
 					this.MaxFPS = fps;
 				}
-				float currAverage = (float)(this.AllFrames / this.AllTime);
+
+				this.FPSCount = 0;
+				this.FPSUpdateTime = 0.0;
+			}
+			if (this.AvgFrames >= 50)
+			{
+				float currAverage = (float)(this.AvgFrames / this.AvgTime);
 
 				if (this.RenderStatistics && (int)currAverage != (int)this.AverageFPS)
 				{
 					this.Text.TextValue = "FPS: " + (int)currAverage;
 				}
 				this.AverageFPS = currAverage;
-
-				this.FPSCount = 0;
-				this.FPSUpdateTime = 0.0;
+				this.AvgFrames = 0;
+				this.AvgTime = 0f;
 			}
 			if (this.LogStatistics > 0.0f)
 			{
@@ -158,8 +163,7 @@ namespace ClashEngine.NET.Utilities
 		public void Render()
 		{
 			++this.FPSCount;
-			++this.AllFrames;
-			//if(this.AllFrames == long.MaxValue) // Zabezpieczenie przed buffer overflowem.
+			++this.AvgFrames;
 			if (this.RenderStatistics)
 			{
 				this.GameInfo.Renderer.Camera = this.Camera;
