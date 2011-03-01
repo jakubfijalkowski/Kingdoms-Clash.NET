@@ -70,7 +70,7 @@ namespace Kingdoms_Clash.NET.Maps
 		#region GameEntity Members
 		public override void OnInit()
 		{
-			var desc = ResourcesList.Instance[this.Id];
+			var desc = ResourcesList.Instance[this.Id];			
 			ClashEngine.NET.PhysicsManager.Instance.World.RayCast((fixture, point, n, f) =>
 				{
 					if (fixture.Body.UserData is ClashEngine.NET.Interfaces.Graphics.Components.ITerrain)
@@ -99,20 +99,20 @@ namespace Kingdoms_Clash.NET.Maps
 			this.Body.SetCollidesWith(Category.Cat11 | Category.Cat12);
 			this.Body.SetCollisionCategories(Category.Cat10);
 			this.Body.UserData = this;
+			this.Body.FixedRotation = true;
+
 
 			this.Body.BodyType = BodyType.Dynamic;
-			this.Body.SetCollisionEvent((a, b, c) =>
+			this.Body.FixtureList[0].AfterCollision = (a, b, c) =>
 				{
 					if (b.Body.UserData is ClashEngine.NET.Interfaces.Graphics.Components.ITerrain)
 					{
 						this.Body.IsStatic = true;
-						return false;
+						this.Components.Add(new ClashEngine.NET.Graphics.Components.Sprite(this.Id, this.GameInfo.Content.Load<Texture>(desc.Image)));
 					}
-					return true;
-				});
+				};
 
 			//Wygląd
-			this.Components.Add(new ClashEngine.NET.Graphics.Components.Sprite(this.Id, this.GameInfo.Content.Load<Texture>(desc.Image)));
 			this.Attributes.GetOrCreate<OpenTK.Vector2>("Size").Value = desc.Size;
 		}
 		#endregion
