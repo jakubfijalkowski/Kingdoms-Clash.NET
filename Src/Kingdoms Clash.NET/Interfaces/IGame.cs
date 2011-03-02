@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if !SERVER
+using System.Collections.Generic;
 
 namespace Kingdoms_Clash.NET.Interfaces
 {
@@ -23,3 +24,4 @@ namespace Kingdoms_Clash.NET.Interfaces
 		IList<Units.INation> Nations { get; }
 	}
 }
+#endif

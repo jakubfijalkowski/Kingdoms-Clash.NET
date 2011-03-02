@@ -108,12 +108,15 @@ namespace Kingdoms_Clash.NET.Maps
 					if (b.Body.UserData is ClashEngine.NET.Interfaces.Graphics.Components.ITerrain)
 					{
 						this.Body.IsStatic = true;
+#if !SERVER
 						this.Components.Add(new ClashEngine.NET.Graphics.Components.Sprite(this.Id, this.GameInfo.Content.Load<Texture>(desc.Image)));
+#endif
 					}
 				};
-
+#if !SERVER
 			//Wygląd
 			this.Attributes.GetOrCreate<OpenTK.Vector2>("Size").Value = desc.Size;
+#endif
 		}
 		#endregion
 	}

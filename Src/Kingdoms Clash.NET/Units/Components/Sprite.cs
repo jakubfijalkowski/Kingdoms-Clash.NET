@@ -51,7 +51,8 @@ namespace Kingdoms_Clash.NET.Units.Components
 		}
 		#endregion
 
-		#region Component
+		#region Components
+#if !SERVER
 		/// <summary>
 		/// Klasa właściwego komponentu - nie musi być widoczna publicznie.
 		/// </summary>
@@ -86,6 +87,31 @@ namespace Kingdoms_Clash.NET.Units.Components
 				: base("UnitSprite")
 			{ }
 		}
+#else
+		/// <summary>
+		/// Klasa właściwego komponentu - nie musi być widoczna publicznie.
+		/// Zaślepka - grafika nie jest używana w serwerze.
+		/// </summary>
+		private class SpriteComponent
+			: ClashEngine.NET.EntitiesManager.Component, IUnitComponent
+		{
+			#region IUnitComponent Members
+			/// <summary>
+			/// Opis komponentu.
+			/// </summary>
+			public IUnitComponentDescription Description { get; set; }
+			#endregion
+
+			#region Component Members
+			public override void Update(double delta)
+			{ }
+			#endregion
+
+			public SpriteComponent()
+				: base("UnitSprite")
+			{ }
+		}
+#endif
 		#endregion
 	}
 }

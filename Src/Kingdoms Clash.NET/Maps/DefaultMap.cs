@@ -57,6 +57,7 @@ namespace Kingdoms_Clash.NET.Maps
 				new Vector2(200f, margin + 0f)
 			};
 			this.Components.Add(new ClashEngine.NET.Components.PhysicalObject());
+			//TODO: przenieść Terrain do projektu gry
 			this.Components.Add(new Terrain(this.Size.Y - maxH, Vertices));
 		}
 		#endregion

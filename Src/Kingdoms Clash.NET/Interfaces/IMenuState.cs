@@ -1,4 +1,5 @@
-﻿using ClashEngine.NET.Interfaces;
+﻿#if !SERVER
+using ClashEngine.NET.Interfaces;
 
 namespace Kingdoms_Clash.NET.Interfaces
 {
@@ -10,3 +11,4 @@ namespace Kingdoms_Clash.NET.Interfaces
 	{
 	}
 }
+#endif

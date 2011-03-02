@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if !SERVER
+using System.Collections.Generic;
 using ClashEngine.NET;
 using ClashEngine.NET.Interfaces;
 using ClashEngine.NET.Utilities;
@@ -160,3 +161,4 @@ namespace Kingdoms_Clash.NET
 		#endregion
 	}
 }
+#endif

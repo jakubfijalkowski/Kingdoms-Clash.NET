@@ -69,11 +69,12 @@ namespace Kingdoms_Clash.NET.Interfaces
 		void Remove(IResourceOnMap resource);
 		#endregion
 	}
-
+#if !SERVER
 	/// <summary>
 	/// Ekran stanu gry.
 	/// </summary>
 	public interface IGameStateScreen
 		: IGameState, IScreen
 	{ }
+#endif
 }

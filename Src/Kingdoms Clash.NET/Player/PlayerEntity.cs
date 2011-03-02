@@ -36,7 +36,7 @@ namespace Kingdoms_Clash.NET.Player
 			this.Components.Add(new BoundingBox(Configuration.Instance.CastleSize));
 			pObj.Body.SetCollisionCategories(FarseerPhysics.Dynamics.Category.Cat20);
 			pObj.Body.UserData = this;
-
+#if !SERVER
 			Sprite s = new Sprite("CastleImage", this.GameInfo.Content.Load<Texture>(this.Player.Nation.CastleImage));
 			this.Components.Add(s);
 			if (this.Player.Type == PlayerType.Second)
@@ -50,6 +50,7 @@ namespace Kingdoms_Clash.NET.Player
 			}
 
 			this.Attributes.Get<Vector2>("Size").Value = Configuration.Instance.CastleSize;
+#endif
 		}
 		#endregion
 

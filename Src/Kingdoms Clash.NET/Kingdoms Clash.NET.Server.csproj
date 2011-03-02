@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F47E554A-C283-4CD0-BB86-A5A410087EFC}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kingdoms_Clash.NET.Server</RootNamespace>
+    <AssemblyName>Kingdoms Clash.NET.Server</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SERVER</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;SERVER</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Bin\Any CPU\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SERVER</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>..\..\Bin\Any CPU\Release\</OutputPath>
+    <DefineConstants>TRACE;SERVER</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FarseerPhysics, Version=3.2.4060.28504, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\FarseerPhysics.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK, Version=1.0.0.201, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration.cs" />
+    <Compile Include="Controllers\ClassicGame.cs" />
+    <Compile Include="Controllers\Internals\UnitQueueStats.cs" />
+    <Compile Include="Controllers\Internals\UnitRequestToken.cs" />
+    <Compile Include="Controllers\Internals\UnitQueue.cs" />
+    <Compile Include="Defaults.cs" />
+    <Compile Include="Interfaces\Controllers\IClassicGame.cs" />
+    <Compile Include="Interfaces\Controllers\IUnitQueue.cs" />
+    <Compile Include="Interfaces\Controllers\IUnitQueueStats.cs" />
+    <Compile Include="Interfaces\Factories\IPlayerControllerFactory.cs" />
+    <Compile Include="Interfaces\Player\Controllers\IGuiControllerFactory.cs" />
+    <Compile Include="Interfaces\Player\Controllers\IGuiController.cs" />
+    <Compile Include="Interfaces\Player\Controllers\IKeyboardController.cs" />
+    <Compile Include="Interfaces\Player\IPlayerInfo.cs" />
+    <Compile Include="Interfaces\Map\IResourceOnMap.cs" />
+    <Compile Include="Interfaces\Player\IPlayerController.cs" />
+    <Compile Include="Interfaces\Player\IPlayerEntity.cs" />
+    <Compile Include="Interfaces\Resources\IResourceDescription.cs" />
+    <Compile Include="Interfaces\Resources\IResourcesCollection.cs" />
+    <Compile Include="Interfaces\Resources\IResourcesList.cs" />
+    <Compile Include="Interfaces\Units\Components\ICollector.cs" />
+    <Compile Include="Interfaces\Units\Components\IContactSoldier.cs" />
+    <Compile Include="Interfaces\Units\IUnitComponentDescription.cs" />
+    <Compile Include="Interfaces\Units\IUnitComponentDescriptionsCollection.cs" />
+    <Compile Include="Interfaces\IUserDataLoader.cs" />
+    <Compile Include="Interfaces\Units\IUnitRequestToken.cs" />
+    <Compile Include="Interfaces\Units\UnitEvents.cs" />
+    <Compile Include="Internals\VelocityLimit.cs" />
+    <Compile Include="Maps\ResourceOnMap.cs" />
+    <Compile Include="Player\Controllers\GuiControllerFactory.cs" />
+    <Compile Include="Player\Controllers\Internals\ControlerScreen.cs" />
+    <Compile Include="Player\Controllers\Internals\GuiController1.cs" />
+    <Compile Include="Player\Controllers\Internals\GuiController2.cs" />
+    <Compile Include="Player\Controllers\KeyboardController.cs" />
+    <Compile Include="Player\Controllers\XAML\PlayersGUIContainer.cs" />
+    <Compile Include="Player\Player.cs" />
+    <Compile Include="Player\PlayerEntity.cs" />
+    <Compile Include="Player\PlayerInfo.cs" />
+    <Compile Include="Resources\ResourceDescription.cs" />
+    <Compile Include="Resources\ResourcesCollection.cs" />
+    <Compile Include="Resources\ResourcesList.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="SinglePlayer.cs" />
+    <Compile Include="Interfaces\Controllers\IGameController.cs" />
+    <Compile Include="Interfaces\IConfiguration.cs" />
+    <Compile Include="Interfaces\IGameState.cs" />
+    <Compile Include="Interfaces\Map\IMap.cs" />
+    <Compile Include="Interfaces\Player\IPlayer.cs" />
+    <Compile Include="Interfaces\Units\Components\IMovable.cs" />
+    <Compile Include="Interfaces\Units\Components\ISprite.cs" />
+    <Compile Include="Interfaces\Units\INation.cs" />
+    <Compile Include="Interfaces\Units\IUnit.cs" />
+    <Compile Include="Interfaces\Units\IUnitComponent.cs" />
+    <Compile Include="Interfaces\Units\IUnitDescription.cs" />
+    <Compile Include="Interfaces\Units\IUnitDescriptionsCollection.cs" />
+    <Compile Include="Maps\DefaultMap.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Units\Components\Collector.cs" />
+    <Compile Include="Units\Components\ContactSoldier.cs" />
+    <Compile Include="Units\Components\Movable.cs" />
+    <Compile Include="Units\Components\Sprite.cs" />
+    <Compile Include="Units\Nation.cs" />
+    <Compile Include="Units\Unit.cs" />
+    <Compile Include="Units\UnitComponentDescriptionsCollection.cs" />
+    <Compile Include="Units\UnitDescription.cs" />
+    <Compile Include="Units\UnitDescriptionsCollection.cs" />
+    <Compile Include="Units\XAML\IResource.cs" />
+    <Compile Include="Units\XAML\Raw.cs" />
+    <Compile Include="Units\XAML\ResourcesCollection.cs" />
+    <Compile Include="Units\XAML\Wood.cs" />
+    <Compile Include="UserData\ConfigurationSerializer.cs" />
+    <Compile Include="UserData\Loader.cs" />
+    <Compile Include="UserData\ResourceSerializer.cs" />
+    <None Include="app.config" />
+    <None Include="NLog.Release.config" />
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClashEngine.NET\ClashEngine.NET.csproj">
+      <Project>{B4B721BF-B415-4A71-AE0F-A2F379B1A730}</Project>
+      <Name>ClashEngine.NET</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataSamples\Configuration.xml" />
+    <Content Include="DataSamples\Nation.xml" />
+    <Content Include="DataSamples\Resource.xml" />
+    <Content Include="Guidelines.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
