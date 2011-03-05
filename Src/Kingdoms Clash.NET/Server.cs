@@ -1,7 +1,5 @@
 ﻿#if SERVER
 using System;
-using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 using ClashEngine.NET.Net;
 
@@ -18,26 +16,54 @@ namespace Kingdoms_Clash.NET.Server
 			server.Start();
 
 			Thread.Sleep(1000);
-			TcpClient client = new TcpClient();
-			client.Connect(new IPEndPoint(IPAddress.Loopback, 12345));
-			var stream = client.GetStream();
-			while (!stream.DataAvailable) ;
-			byte[] buffer = new byte[2048];
-			int i = 0;
-			while (stream.DataAvailable)
-			{
-				i += stream.Read(buffer, i, buffer.Length - i);
-			}
-			Array.Resize(ref buffer, i);
-			ClashEngine.NET.Net.Messages.ServerWelcome welcome = new ClashEngine.NET.Net.Messages.ServerWelcome(new ClashEngine.NET.Interfaces.Net.Message(buffer, 0, i));
+			TcpClient client = new TcpClient(new System.Net.IPEndPoint(System.Net.IPAddress.Loopback, 12345), new Version(0, 1, 0, 0));
+			client.Open();
+			while (client.Status == ClashEngine.NET.Interfaces.Net.ClientStatus.Welcome)
+				client.Prepare();
 
-			byte[] dataToSend = new byte[] { 0x02, 0x00, 0x00, 0x02, 0x00, 0x00, 0xFF, 0xFF };
-			stream.Write(dataToSend, 0, dataToSend.Length);
-			//client.Close();
 
-			while (server.IsRunning)
+			var key = Console.ReadKey();
+			do
 			{
-			}
+				client.Receive();
+				if (key.Key == ConsoleKey.A)
+				{
+					client.Send(new ClashEngine.NET.Interfaces.Net.Message(ClashEngine.NET.Interfaces.Net.MessageType.UserCommand + 1,
+						System.Text.Encoding.Unicode.GetBytes("Cześć!")));
+				}
+				else if (key.Key == ConsoleKey.S)
+				{
+					if (server.Clients.Count > 0 && server.Clients[0].Messages.Count > 0)
+					{
+						var msg = server.Clients[0].Messages[0];
+						Console.WriteLine("From client - {0}: {1}", msg.Type, System.Text.Encoding.Unicode.GetString(msg.Data));
+						server.Clients[0].Messages.RemoveAt(0);
+					}
+				}
+
+				else if (key.Key == ConsoleKey.Z)
+				{
+					if (server.Clients.Count > 0)
+					{
+						server.Clients[0].Send(new ClashEngine.NET.Interfaces.Net.Message(ClashEngine.NET.Interfaces.Net.MessageType.UserCommand + 1,
+							System.Text.Encoding.Unicode.GetBytes("Aye!")));
+					}
+				}
+				else if (key.Key == ConsoleKey.X)
+				{
+					if (client.Messages.Count > 0)
+					{
+						var msg = client.Messages[0];
+						Console.WriteLine("From server - {0}: {1}", msg.Type, System.Text.Encoding.Unicode.GetString(msg.Data));
+						client.Messages.RemoveAt(0);
+					}
+				}
+				key = Console.ReadKey();
+				Console.WriteLine();
+			} while (key.Key != ConsoleKey.Q);
+			server.Stop();
+
+			Console.ReadLine();
 		}
 	}
 }

@@ -140,7 +140,7 @@ namespace ClashEngine.NET.Net
 				for (int i = 0; i < this.Clients.Count; i++)
 				{
 					var client = this.Clients[i];
-					if (client.Status == MessageType.Welcome) //Sekwencja powitalna
+					if (client.Status == ClientStatus.Welcome) //Sekwencja powitalna
 					{
 						client.Prepare();
 						if ((client as Internals.ServerClient).WelcomeMessage.HasValue)
@@ -148,19 +148,22 @@ namespace ClashEngine.NET.Net
 							if ((client as Internals.ServerClient).WelcomeMessage.Value.Version == this.GameVersion)
 							{
 								client.Send(new Message(MessageType.AllOk, null));
-								(client as Internals.ServerClient).Status = MessageType.AllOk;
+								(client as Internals.ServerClient).Status = ClientStatus.Ok;
 								Logger.Info("Client {0}:{1} - welcome sequence went well", client.Endpoint.Address, client.Endpoint.Port);
 							}
 							else
 							{
 								client.Send(new Message(MessageType.IncompatibleVersion, null));
-								(client as Internals.ServerClient).Status = MessageType.IncompatibleVersion;
+								(client as Internals.ServerClient).Status = ClientStatus.IncompatibleVersion;
 								Logger.Info("Client {0}:{1} rejected, reason: incompatible version", client.Endpoint.Address, client.Endpoint.Port);
 								client.Close();
 								this._ClientsCollection.InternalRemoveAt(i--);
-								continue;
 							}
 						}
+					}
+					else if (client.Status == (ClientStatus)0xFFFF)
+					{
+						this._ClientsCollection.InternalRemoveAt(i--);
 					}
 					else
 					{
@@ -168,6 +171,11 @@ namespace ClashEngine.NET.Net
 					}
 				}
 			}
+			foreach (var client in this.Clients)
+			{
+				client.Close();
+			}
+			this._ClientsCollection.InternalClear();
 			this.ServerStop = false;
 		}
 		#endregion

@@ -45,7 +45,12 @@ namespace ClashEngine.NET.Net
 		/// <summary>
 		/// Status z serwerem.
 		/// </summary>
-		public MessageType Status { get; protected set; }
+		public ClientStatus Status { get; protected set; }
+
+		/// <summary>
+		/// Wersja klienta.
+		/// </summary>
+		public Version Version { get; protected set; }
 
 		/// <summary>
 		/// Otwiera połączenie.
@@ -53,7 +58,7 @@ namespace ClashEngine.NET.Net
 		public abstract void Open();
 
 		/// <summary>
-		/// Zamyka połączenie z klientem.
+		/// Zamyka połączenie.
 		/// </summary>
 		public abstract void Close();
 
@@ -63,22 +68,25 @@ namespace ClashEngine.NET.Net
 		/// <param name="message">Wiadomość.</param>
 		public virtual void Send(Message message)
 		{
-			byte[] messageType = BitConverter.GetBytes((ushort)message.Type);
-			byte[] endMessage = BitConverter.GetBytes((ushort)MessageType.MessageEnd);
-			if (!BitConverter.IsLittleEndian)
+			if (this.Socket.Connected)
 			{
-				byte tmp = messageType[0];
-				messageType[0] = messageType[1];
-				messageType[1] = tmp;
+				byte[] messageType = BitConverter.GetBytes((ushort)message.Type);
+				byte[] endMessage = BitConverter.GetBytes((ushort)MessageType.MessageEnd);
+				if (!BitConverter.IsLittleEndian)
+				{
+					byte tmp = messageType[0];
+					messageType[0] = messageType[1];
+					messageType[1] = tmp;
 
-				tmp = endMessage[0];
-				endMessage[0] = endMessage[1];
-				endMessage[1] = tmp;
+					tmp = endMessage[0];
+					endMessage[0] = endMessage[1];
+					endMessage[1] = tmp;
+				}
+				this.Socket.Send(messageType);
+				if (message.Data != null)
+					this.Socket.Send(message.Data);
+				this.Socket.Send(endMessage);
 			}
-			this.Socket.Send(messageType);
-			if (message.Data != null)
-				this.Socket.Send(message.Data);
-			this.Socket.Send(endMessage);
 		}
 
 		/// <summary>
@@ -86,7 +94,7 @@ namespace ClashEngine.NET.Net
 		/// </summary>
 		public void Receive()
 		{
-			if (this.Socket.Poll(0, SelectMode.SelectRead))
+			if (this.Socket.Connected && this.Socket.Poll(0, SelectMode.SelectRead))
 			{
 				int start = 0;
 				int i = this.BufferIndex;
@@ -102,7 +110,15 @@ namespace ClashEngine.NET.Net
 							messageEnd = (i += 2);
 							try
 							{
-								this._Messages.InternalAdd(new Message(this.Buffer, start, messageEnd - start));
+								var msg = new Message(this.Buffer, start, messageEnd - start);
+								if (msg.Type == MessageType.Close)
+								{
+									this.HandleCloseMsg();
+								}
+								else
+								{
+									this._Messages.InternalAdd(msg);
+								}
 							}
 							catch (Exception ex)
 							{
@@ -152,6 +168,14 @@ namespace ClashEngine.NET.Net
 						((ushort)MessageType.MessageEnd) & 0x00FF
 					};
 			}
+		}
+		#endregion
+
+		#region Private methods
+		private void HandleCloseMsg()
+		{
+			this.Socket.Close();
+			this.Status = ClientStatus.Closed;
 		}
 		#endregion
 	}

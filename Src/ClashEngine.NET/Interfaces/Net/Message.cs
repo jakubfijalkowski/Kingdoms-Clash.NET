@@ -41,12 +41,22 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// <summary>
 		/// Wszystko w porządku, można przekazać działanie użytkownikowi.
 		/// </summary>
-		AllOk = 0x0003,
+		AllOk,
 
 		/// <summary>
 		/// Niekompatybilna wersja.
 		/// </summary>
-		IncompatibleVersion = 0x0004,
+		IncompatibleVersion,
+
+		/// <summary>
+		/// Niepoprawna sekwencja powitalna.
+		/// </summary>
+		InvalidSequence,
+
+		/// <summary>
+		/// Zamknięcie połączenia.
+		/// </summary>
+		Close,
 
 		/// <summary>
 		/// Komenda użytkownika - wartości większe od UserCommand.
@@ -56,7 +66,7 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// <summary>
 		/// Wartość określająca koniec wiadomości.
 		/// </summary>
-		MessageEnd = 0xFFFF
+		MessageEnd = 0xFFFF,
 	}
 
 	/// <summary>

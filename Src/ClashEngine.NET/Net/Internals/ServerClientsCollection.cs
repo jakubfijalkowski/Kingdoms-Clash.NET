@@ -147,6 +147,11 @@ namespace ClashEngine.NET.Net.Internals
 		{
 			this.Clients.RemoveAt(index);
 		}
+
+		internal void InternalClear()
+		{
+			this.Clients.Clear();
+		}
 		#endregion
 	}
 }

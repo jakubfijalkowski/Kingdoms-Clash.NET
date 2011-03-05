@@ -1,8 +1,49 @@
-﻿using System.Net;
-using System.Collections.Generic;
+﻿using System;
+using System.Net;
 
 namespace ClashEngine.NET.Interfaces.Net
 {
+	/// <summary>
+	/// Status klienta.
+	/// </summary>
+	public enum ClientStatus
+	{
+		/// <summary>
+		/// Wszystko ok.
+		/// </summary>
+		Ok,
+
+		/// <summary>
+		/// W trakcie sekwencji powitalnej.
+		/// </summary>
+		Welcome,
+
+		/// <summary>
+		/// Niekompatybilna wersja.
+		/// </summary>
+		IncompatibleVersion,
+
+		/// <summary>
+		/// Zbyt dużo połączeń z serwerem.
+		/// </summary>
+		TooManyConnections,
+
+		/// <summary>
+		/// Wysłaliśmy niepoprawną sekwencję.
+		/// </summary>
+		InvalidSequence,
+
+		/// <summary>
+		/// Inny błąd(najczęściej związany z gniazdem).
+		/// </summary>
+		Error,
+
+		/// <summary>
+		/// Połączenie zamknięte.
+		/// </summary>
+		Closed
+	}
+
 	/// <summary>
 	/// Klient.
 	/// </summary>
@@ -20,13 +61,13 @@ namespace ClashEngine.NET.Interfaces.Net
 
 		/// <summary>
 		/// Status połączenia.
-		/// Możliwe wartości:
-		///		* <see cref="MessageType.AllOk"/> - wszystko ok, można przejść dalej
-		///		* <see cref="MessageType.IncompatibleVersion"/> - niekompatybilna wersja, połączenie zakończone
-		///		* <see cref="MessageType.Welcome"/> - jeszcze nie skończono sekwencji powitalnej
-		///		* <see cref="MessageType.TooManyConnection"/> - nie udało się podłączyć - za dużo połączeń do serwera
 		/// </summary>
-		MessageType Status { get; }
+		ClientStatus Status { get; }
+
+		/// <summary>
+		/// Wersja klienta.
+		/// </summary>
+		Version Version { get; }
 
 		/// <summary>
 		/// Otwiera połączenie.
