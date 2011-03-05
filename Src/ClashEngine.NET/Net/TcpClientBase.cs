@@ -53,6 +53,11 @@ namespace ClashEngine.NET.Net
 		public Version Version { get; protected set; }
 
 		/// <summary>
+		/// Data ostatniej aktywności drugiej strony.
+		/// </summary>
+		public DateTime LastAction { get; private set; }
+
+		/// <summary>
 		/// Otwiera połączenie.
 		/// </summary>
 		public abstract void Open();
@@ -99,6 +104,7 @@ namespace ClashEngine.NET.Net
 				int start = 0;
 				int i = this.BufferIndex;
 				this.BufferIndex += this.Socket.Receive(this.Buffer, this.BufferIndex, BufferSize - this.BufferIndex, SocketFlags.None);
+				this.LastAction = DateTime.Now;
 				int messageEnd = -1;
 				do
 				{

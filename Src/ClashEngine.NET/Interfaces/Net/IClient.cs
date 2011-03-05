@@ -70,6 +70,11 @@ namespace ClashEngine.NET.Interfaces.Net
 		Version Version { get; }
 
 		/// <summary>
+		/// Data ostatniej aktywności drugiej strony.
+		/// </summary>
+		DateTime LastAction { get; }
+
+		/// <summary>
 		/// Otwiera połączenie.
 		/// </summary>
 		void Open();

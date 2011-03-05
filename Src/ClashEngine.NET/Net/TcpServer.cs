@@ -15,6 +15,7 @@ namespace ClashEngine.NET.Net
 	{
 		#region Statics
 		private const int ListenBacklog = 10;
+		private static readonly TimeSpan MaxClientIdleTime = new TimeSpan(0, 0, 60);
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 		#endregion
 
@@ -163,6 +164,12 @@ namespace ClashEngine.NET.Net
 					}
 					else if (client.Status == (ClientStatus)0xFFFF)
 					{
+						this._ClientsCollection.InternalRemoveAt(i--);
+					}
+					else if (DateTime.Now - client.LastAction > MaxClientIdleTime)
+					{
+						Logger.Info("Client {0}:{1} - connection closed, client don't response", client.Endpoint.Address, client.Endpoint.Port);
+						client.Close();
 						this._ClientsCollection.InternalRemoveAt(i--);
 					}
 					else
