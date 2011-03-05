@@ -1,10 +1,20 @@
 ﻿using System.Net;
+using System;
 
 namespace ClashEngine.NET.Interfaces.Net
 {
 	/// <summary>
-	/// Klasa serwera.
+	/// Interfejs dla klas serwera.
 	/// </summary>
+	/// <remarks>
+	/// Dane binarne przesyłane są zawsze w little endian.
+	/// Ciągi znaków predefiniowanych wiadomości przesyłane są jako UTF-16LE poprzedzony dwoma bajtami określającymi ich długość.
+	/// Każda wiadomość kończy się specjalnym ciągiem bajtów określającym jej koniec: <see cref="MessageType.MessageEnd"/>.
+	/// Każda wiadomość wysyłana i odbierana przez serwer ma następujący format:
+	///  2B - wiadomość z <see cref="MessageType"/>
+	///  dane zależne od wiadomości.
+	///  2B - oznaczenie końca wiadomości.
+	/// </remarks>
 	public interface IServer
 	{
 		/// <summary>
@@ -21,5 +31,30 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// Lista klientów aktualnie podłączonych do serwera.
 		/// </summary>
 		IClientsCollection Clients { get; }
+
+		/// <summary>
+		/// Czy serwer jest uruchomiony.
+		/// </summary>
+		bool IsRunning { get; }
+
+		/// <summary>
+		/// Nazwa gry.
+		/// </summary>
+		string GameName { get; }
+
+		/// <summary>
+		/// Wersja gry.
+		/// </summary>
+		Version GameVersion { get; }
+
+		/// <summary>
+		/// Startuje serwer na nowym wkątku.
+		/// </summary>
+		void Start();
+
+		/// <summary>
+		/// Zatrzymuje działanie serwera rozłączając wszystkich klientów i kończąc dodatkowy wątek.
+		/// </summary>
+		void Stop();
 	}
 }

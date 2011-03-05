@@ -16,5 +16,11 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// Zamyka połączenie z klientem.
 		/// </summary>
 		void Close();
+
+		/// <summary>
+		/// Wysyła wskazaną wiadomość do klienta.
+		/// </summary>
+		/// <param name="message">Wiadomość.</param>
+		void Send(Message message);
 	}
 }

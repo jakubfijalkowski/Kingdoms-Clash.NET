@@ -253,7 +253,10 @@
     <Compile Include="Interfaces\IScreen.cs" />
     <Compile Include="Interfaces\IScreensManager.cs" />
     <Compile Include="Interfaces\IWindow.cs" />
+    <Compile Include="Interfaces\Net\IClient.cs" />
+    <Compile Include="Interfaces\Net\IClientsCollection.cs" />
     <Compile Include="Interfaces\Net\IServer.cs" />
+    <Compile Include="Interfaces\Net\Message.cs" />
     <Compile Include="Interfaces\Utilities\IFPSCounter.cs" />
     <Compile Include="Interfaces\Utilities\IVBO.cs" />
     <Compile Include="Interfaces\Graphics\IRenderer.cs" />
@@ -263,6 +266,10 @@
     <Compile Include="MainThreadCallbacksManager.cs" />
     <Compile Include="Components\PhysicalObject.cs" />
     <Compile Include="Components\Internals\PhysicalPositionAttribute.cs" />
+    <Compile Include="Net\Internals\ServerClient.cs" />
+    <Compile Include="Net\Internals\ServerClientsCollection.cs" />
+    <Compile Include="Net\TcpServer.cs" />
+    <Compile Include="Net\Messages\ServerWelcome.cs" />
     <Compile Include="PhysicsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HotReplaceResourcesManager.cs" />
