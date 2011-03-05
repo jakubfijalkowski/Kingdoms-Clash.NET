@@ -271,6 +271,7 @@
     <Compile Include="Net\Internals\ServerClient.cs" />
     <Compile Include="Net\Internals\ServerClientsCollection.cs" />
     <Compile Include="Net\Messages\ClientWelcome.cs" />
+    <Compile Include="Net\TcpClientBase.cs" />
     <Compile Include="Net\TcpServer.cs" />
     <Compile Include="Net\Messages\ServerWelcome.cs" />
     <Compile Include="PhysicsManager.cs" />

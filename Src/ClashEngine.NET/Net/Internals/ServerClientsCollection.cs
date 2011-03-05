@@ -143,9 +143,9 @@ namespace ClashEngine.NET.Net.Internals
 			this.Clients.Add(item);
 		}
 
-		internal bool InternalRemove(IClient item)
+		internal void InternalRemoveAt(int index)
 		{
-			return this.Clients.Remove(item);
+			this.Clients.RemoveAt(index);
 		}
 		#endregion
 	}

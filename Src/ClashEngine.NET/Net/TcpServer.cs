@@ -137,9 +137,10 @@ namespace ClashEngine.NET.Net
 						Logger.Info("Client {0}:{1} rejected, reason: too many connections", client.Endpoint.Address, client.Endpoint.Port);
 					}
 				}
-				foreach (var client in this._ClientsCollection)
+				for (int i = 0; i < this.Clients.Count; i++)
 				{
-					if (client.Status == MessageType.Welcome)
+					var client = this.Clients[i];
+					if (client.Status == MessageType.Welcome) //Sekwencja powitalna
 					{
 						client.Prepare();
 						if ((client as Internals.ServerClient).WelcomeMessage.HasValue)
@@ -156,6 +157,8 @@ namespace ClashEngine.NET.Net
 								(client as Internals.ServerClient).Status = MessageType.IncompatibleVersion;
 								Logger.Info("Client {0}:{1} rejected, reason: incompatible version", client.Endpoint.Address, client.Endpoint.Port);
 								client.Close();
+								this._ClientsCollection.InternalRemoveAt(i--);
+								continue;
 							}
 						}
 					}

@@ -29,6 +29,11 @@ namespace ClashEngine.NET.Interfaces.Net
 		MessageType Status { get; }
 
 		/// <summary>
+		/// Otwiera połączenie.
+		/// </summary>
+		void Open();
+
+		/// <summary>
 		/// Zamyka połączenie z klientem.
 		/// </summary>
 		void Close();
@@ -40,7 +45,7 @@ namespace ClashEngine.NET.Interfaces.Net
 		void Send(Message message);
 
 		/// <summary>
-		/// Odbiera, jeśli są, dane i, jeśli może, parsuje je na obiekty typu <see cref="Message"/>.
+		/// Odbiera, jeśli są, dane i, jeśli może, parsuje je na obiekty typu <see cref="Message"/> dodając do kolekcji <see cref="Messages"/>.
 		/// </summary>
 		void Receive();
 

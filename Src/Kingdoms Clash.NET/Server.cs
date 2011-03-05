@@ -31,7 +31,7 @@ namespace Kingdoms_Clash.NET.Server
 			Array.Resize(ref buffer, i);
 			ClashEngine.NET.Net.Messages.ServerWelcome welcome = new ClashEngine.NET.Net.Messages.ServerWelcome(new ClashEngine.NET.Interfaces.Net.Message(buffer, 0, i));
 
-			byte[] dataToSend = new byte[] { 0x02, 0x00, 0x00, 0x01, 0x00, 0x00, 0xFF, 0xFF };
+			byte[] dataToSend = new byte[] { 0x02, 0x00, 0x00, 0x02, 0x00, 0x00, 0xFF, 0xFF };
 			stream.Write(dataToSend, 0, dataToSend.Length);
 			//client.Close();
 
