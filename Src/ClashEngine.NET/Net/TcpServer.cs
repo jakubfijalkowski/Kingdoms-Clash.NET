@@ -13,8 +13,9 @@ namespace ClashEngine.NET.Net
 	public class TcpServer
 		: IServer
 	{
-		#region Consts
+		#region Statics
 		private const int ListenBacklog = 10;
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
 		#endregion
 
 		#region Private fields
@@ -97,6 +98,7 @@ namespace ClashEngine.NET.Net
 			this.GameVersion = gameVersion;
 
 			this.ServerThread = new Thread(this.ServerMain);
+			this.ServerThread.Name = "TcpServer: " + this.GameVersion.ToString() + " " + this.GameName;
 		}
 
 		/// <summary>
@@ -112,6 +114,7 @@ namespace ClashEngine.NET.Net
 		#region Private methods
 		private void ServerMain()
 		{
+			Logger.Info("Starting TcpServer: {0} {1} at {2}:{3}", this.GameName, this.GameVersion, this.Endpoint.Address, this.Endpoint.Port);
 			Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 			listenSocket.Blocking = false;
 			listenSocket.Bind(this.Endpoint);
@@ -122,8 +125,44 @@ namespace ClashEngine.NET.Net
 				if (listenSocket.Poll(0, SelectMode.SelectRead)) //Mamy kogoś do dodania 
 				{
 					var client = new Internals.ServerClient(listenSocket.Accept());
-					client.Send(new Messages.ServerWelcome(this.GameVersion, this.GameName).ToMessage());
-					this._ClientsCollection.InternalAdd(client);
+					if (this.MaxClients > this.Clients.Count)
+					{
+						client.Send(new Messages.ServerWelcome(this.GameVersion, this.GameName).ToMessage());
+						this._ClientsCollection.InternalAdd(client);
+						Logger.Info("Client {0}:{1} accepted, starting welcome sequence", client.Endpoint.Address, client.Endpoint.Port);
+					}
+					else
+					{
+						client.Send(new Message(MessageType.TooManyConnections, null));
+						Logger.Info("Client {0}:{1} rejected, reason: too many connections", client.Endpoint.Address, client.Endpoint.Port);
+					}
+				}
+				foreach (var client in this._ClientsCollection)
+				{
+					if (client.Status == MessageType.Welcome)
+					{
+						client.Prepare();
+						if ((client as Internals.ServerClient).WelcomeMessage.HasValue)
+						{
+							if ((client as Internals.ServerClient).WelcomeMessage.Value.Version == this.GameVersion)
+							{
+								client.Send(new Message(MessageType.AllOk, null));
+								(client as Internals.ServerClient).Status = MessageType.AllOk;
+								Logger.Info("Client {0}:{1} - welcome sequence went well", client.Endpoint.Address, client.Endpoint.Port);
+							}
+							else
+							{
+								client.Send(new Message(MessageType.IncompatibleVersion, null));
+								(client as Internals.ServerClient).Status = MessageType.IncompatibleVersion;
+								Logger.Info("Client {0}:{1} rejected, reason: incompatible version", client.Endpoint.Address, client.Endpoint.Port);
+								client.Close();
+							}
+						}
+					}
+					else
+					{
+						client.Receive();
+					}
 				}
 			}
 			this.ServerStop = false;

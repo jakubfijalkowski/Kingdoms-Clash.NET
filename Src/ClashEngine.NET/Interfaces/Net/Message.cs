@@ -39,6 +39,16 @@ namespace ClashEngine.NET.Interfaces.Net
 		Welcome = 0x0002,
 
 		/// <summary>
+		/// Wszystko w porządku, można przekazać działanie użytkownikowi.
+		/// </summary>
+		AllOk = 0x0003,
+
+		/// <summary>
+		/// Niekompatybilna wersja.
+		/// </summary>
+		IncompatibleVersion = 0x0004,
+
+		/// <summary>
 		/// Komenda użytkownika - wartości większe od UserCommand.
 		/// </summary>
 		UserCommand = 0x0100,
@@ -80,20 +90,23 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// Inicjalizuje(parsuje) otrzymaną wiadomość.
 		/// </summary>
 		/// <param name="data">Dane w formacie przedstawionym w opisie <see cref="IServer"/>.</param>
-		public Message(byte[] data)
+		public Message(byte[] data, int start, int length)
 		{
-			System.Diagnostics.Debug.Assert(data.Length > 2, "Invalid message");
+			if (length < 4)
+			{
+				throw new ArgumentException("Insufficient data");
+			}
 			if (BitConverter.IsLittleEndian)
 			{
-				this.Type = (MessageType)BitConverter.ToUInt16(data, 0);
+				this.Type = (MessageType)BitConverter.ToUInt16(data, start);
 			}
 			else
 			{
-				byte[] tmp = new byte[] { data[1], data[0] };
+				byte[] tmp = new byte[] { data[start + 1], data[start] };
 				this.Type = (MessageType)BitConverter.ToUInt16(tmp, 0);
 			}
-			this.Data = new byte[data.Length - 4];
-			System.Array.Copy(data, 2, this.Data, 0, data.Length - 4);
+			this.Data = new byte[length - 4];
+			System.Array.Copy(data, start + 2, this.Data, 0, length - 4);
 		}
 		#endregion	
 	}

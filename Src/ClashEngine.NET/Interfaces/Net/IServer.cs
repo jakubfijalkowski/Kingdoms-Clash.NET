@@ -11,9 +11,15 @@ namespace ClashEngine.NET.Interfaces.Net
 	/// Ciągi znaków predefiniowanych wiadomości przesyłane są jako UTF-16LE poprzedzony dwoma bajtami określającymi ich długość.
 	/// Każda wiadomość kończy się specjalnym ciągiem bajtów określającym jej koniec: <see cref="MessageType.MessageEnd"/>.
 	/// Każda wiadomość wysyłana i odbierana przez serwer ma następujący format:
-	///  2B - wiadomość z <see cref="MessageType"/>
-	///  dane zależne od wiadomości.
-	///  2B - oznaczenie końca wiadomości.
+	///  * 2B - wiadomość z <see cref="MessageType"/>
+	///  * dane zależne od wiadomości.
+	///  * 2B - oznaczenie końca wiadomości.
+	///  
+	/// Sekwencja powitalna:
+	///  * klient łączy się
+	///  * serwer wysyła wiadomość Welcome
+	///  * klient odpowiada wiadomością Welcome
+	///  * jeśli wszystko się zgadza serwer wysyła wiadomość <see cref="MessageType.AllOk"/>, jeśli wersja jest niekompatybilna serwer wysyła wiadomość <see cref="MessageType.IncopatibleVersion"/>
 	/// </remarks>
 	public interface IServer
 	{

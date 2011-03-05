@@ -1,9 +1,9 @@
 ﻿#if SERVER
+using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using ClashEngine.NET.Net;
-using System.Net;
-using System;
 
 namespace Kingdoms_Clash.NET.Server
 {
@@ -14,7 +14,7 @@ namespace Kingdoms_Clash.NET.Server
 	{
 		static void Main(string[] args)
 		{
-			TcpServer server = new TcpServer(12345, 5, "TestServer", new Version(0, 1));
+			TcpServer server = new TcpServer(12345, 5, "TestServer", new Version(0, 1, 0, 0));
 			server.Start();
 
 			Thread.Sleep(1000);
@@ -28,10 +28,12 @@ namespace Kingdoms_Clash.NET.Server
 			{
 				i += stream.Read(buffer, i, buffer.Length - i);
 			}
-			client.Close();
 			Array.Resize(ref buffer, i);
+			ClashEngine.NET.Net.Messages.ServerWelcome welcome = new ClashEngine.NET.Net.Messages.ServerWelcome(new ClashEngine.NET.Interfaces.Net.Message(buffer, 0, i));
 
-			ClashEngine.NET.Net.Messages.ServerWelcome welcome = new ClashEngine.NET.Net.Messages.ServerWelcome(new ClashEngine.NET.Interfaces.Net.Message(buffer));
+			byte[] dataToSend = new byte[] { 0x02, 0x00, 0x00, 0x01, 0x00, 0x00, 0xFF, 0xFF };
+			stream.Write(dataToSend, 0, dataToSend.Length);
+			//client.Close();
 
 			while (server.IsRunning)
 			{
