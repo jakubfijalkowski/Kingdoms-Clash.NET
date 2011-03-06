@@ -117,7 +117,7 @@ namespace ClashEngine.NET.Net
 							try
 							{
 								var msg = new Message(this.Buffer, start, messageEnd - start);
-								if(!this.HandleNewMessage(msg))
+								if(this.HandleNewMessage(msg))
 								{
 									this._Messages.InternalAdd(msg);
 								}

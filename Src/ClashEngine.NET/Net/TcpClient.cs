@@ -13,7 +13,7 @@ namespace ClashEngine.NET.Net
 		: TcpClientBase
 	{
 		#region Statics
-		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET.Client");
 		#endregion
 
 		#region Private fields
@@ -26,9 +26,8 @@ namespace ClashEngine.NET.Net
 		/// </summary>
 		public override void Open()
 		{
-			if (!this.Socket.Connected)
+			if (!this.Socket.Connected && this.Status == ClientStatus.Closed)
 			{
-				this.Status = ClientStatus.Welcome;
 				Logger.Info("Opening connection to {0}:{1}", base.Endpoint.Address, base.Endpoint.Port);
 				try
 				{
@@ -37,9 +36,11 @@ namespace ClashEngine.NET.Net
 				catch (Exception ex)
 				{
 					base.Status = ClientStatus.Error;
-					Logger.ErrorException("Cannot connecto to server", ex);
+					Logger.ErrorException("Cannot connect to server", ex);
 					throw;
 				}
+				this.Status = ClientStatus.Welcome;
+				Logger.Info("Connection opened");
 			}
 		}
 
@@ -48,9 +49,13 @@ namespace ClashEngine.NET.Net
 		/// </summary>
 		public override void Close()
 		{
-			this.Send(new Message(MessageType.Close, null));
-			this.Status = ClientStatus.Closed;
-			this.Socket.Close();
+			if (this.Status == ClientStatus.Ok)
+			{
+				this.Send(new Message(MessageType.Close, null));
+				this.Status = ClientStatus.Closed;
+				this.Socket.Close();
+				Logger.Info("Connection to {0}:{1} closed", base.Endpoint.Address, base.Endpoint.Port);
+			}
 		}
 
 		/// <summary>
@@ -87,6 +92,35 @@ namespace ClashEngine.NET.Net
 		{
 			base.Version = clientVersion;
 			base.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+			this.Status = ClientStatus.Closed;
+		}
+		#endregion
+
+		#region Protected Methods
+		protected override bool HandleNewMessage(Message msg)
+		{
+			switch (msg.Type)
+			{
+				case MessageType.TooManyConnections: //Tylko podczas sekwencji powitalnej
+				case MessageType.Welcome:
+				case MessageType.AllOk:
+				case MessageType.IncompatibleVersion:
+				case MessageType.InvalidSequence:
+					return this.Status == ClientStatus.Welcome;
+
+				case MessageType.Close:
+					this.Socket.Close();
+					this.Status = ClientStatus.Closed;
+					Logger.Info("Server have closed the connection");
+					return false;
+
+				case MessageType.TimeOut:
+					this.Socket.Close();
+					this.Status = ClientStatus.NotResponding;
+					Logger.Error("Time out");
+					return false;
+			}
+			return true;
 		}
 		#endregion
 
@@ -102,7 +136,17 @@ namespace ClashEngine.NET.Net
 				{
 					var msg = new Messages.ServerWelcome(this.Messages[0]);
 					Logger.Info("Connected to {0}:{1} - {2} {3}", this.Endpoint.Address, this.Endpoint.Port, msg.GameName, msg.ServerVersion);
-					this.Send(new Messages.ClientWelcome(this.Version).ToMessage());
+					if (msg.ServerVersion != this.Version) //Błędna wersja serwera.
+					{
+						this.Send(new Message(MessageType.IncompatibleVersion, null));
+						this.Socket.Close();
+						this.Status = ClientStatus.IncompatibleVersion;
+						Logger.Error("Server has incompatible version");
+					}
+					else
+					{
+						this.Send(new Messages.ClientWelcome(this.Version).ToMessage());
+					}
 				}
 				catch
 				{
@@ -115,19 +159,19 @@ namespace ClashEngine.NET.Net
 			}
 			else if (this.Messages[0].Type == MessageType.TooManyConnections)
 			{
-				Logger.Warn("Connection to {0}:{1} aborted - too many conections", this.Endpoint.Address, this.Endpoint.Port);
+				Logger.Error("Connection to {0}:{1} aborted - too many conections", this.Endpoint.Address, this.Endpoint.Port);
 				this.Status = ClientStatus.TooManyConnections;
 				this.Socket.Close();
 			}
 			else if (this.Messages[0].Type == MessageType.InvalidSequence)
 			{
-				Logger.Warn("Connection to {0}:{1} aborted - invalid welcome sequence(from us)", this.Endpoint.Address, this.Endpoint.Port);
+				Logger.Error("Connection to {0}:{1} aborted - invalid welcome sequence(from us)", this.Endpoint.Address, this.Endpoint.Port);
 				this.Status = ClientStatus.InvalidSequence;
 				this.Socket.Close();
 			}
 			else
 			{
-				Logger.Warn("Connection to {0}:{1} aborted - invalid welcome sequence", this.Endpoint.Address, this.Endpoint.Port);
+				Logger.Error("Connection to {0}:{1} aborted - invalid welcome sequence", this.Endpoint.Address, this.Endpoint.Port);
 				this.Status = ClientStatus.Error;
 				this.Send(new Message(MessageType.InvalidSequence, null));
 				this.Close();
@@ -135,6 +179,9 @@ namespace ClashEngine.NET.Net
 			this.WelcomeSent = true;
 		}
 
+		/// <summary>
+		/// Faza druga powitania - odebranie wiadomości o stanie połączenia.
+		/// </summary>
 		private void WelcomePhase2()
 		{
 			switch (this.Messages[0].Type)
@@ -145,22 +192,22 @@ namespace ClashEngine.NET.Net
 					break;
 
 				case MessageType.IncompatibleVersion:
-					Logger.Warn("Connection to {0}:{1} aborted - incompatible version", this.Endpoint.Address, this.Endpoint.Port);
+					Logger.Error("Connection to {0}:{1} aborted - incompatible version", this.Endpoint.Address, this.Endpoint.Port);
 					this.Status = ClientStatus.IncompatibleVersion;
 					this.Socket.Close();
 					break;
 
 				case MessageType.InvalidSequence:
-					Logger.Warn("Connection to {0}:{1} aborted - invalid welcome sequence(from us)", this.Endpoint.Address, this.Endpoint.Port);
+					Logger.Error("Connection to {0}:{1} aborted - invalid welcome sequence(from us)", this.Endpoint.Address, this.Endpoint.Port);
 					this.Status = ClientStatus.InvalidSequence;
 					this.Socket.Close();
 					break;
 
 				default:
-					Logger.Warn("Connection to {0}:{1} aborted - invalid welcome sequence", this.Endpoint.Address, this.Endpoint.Port);
+					Logger.Error("Connection to {0}:{1} aborted - invalid welcome sequence", this.Endpoint.Address, this.Endpoint.Port);
 					this.Status = ClientStatus.Error;
 					this.Send(new Message(MessageType.InvalidSequence, null));
-					this.Close();
+					this.Socket.Close();
 					break;
 			}
 			this.Messages.RemoveAt(0);
