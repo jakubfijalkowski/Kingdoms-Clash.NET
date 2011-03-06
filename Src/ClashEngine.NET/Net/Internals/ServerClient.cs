@@ -37,7 +37,7 @@ namespace ClashEngine.NET.Net.Internals
 		/// </summary>
 		public override void Close()
 		{
-			if (this.Status != ClientStatus.Closed)
+			if (this.Status == ClientStatus.Ok)
 			{
 				this.Send(new Message(MessageType.Close, null));
 				this.Status = ClientStatus.Closed;

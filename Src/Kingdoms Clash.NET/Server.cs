@@ -16,7 +16,7 @@ namespace Kingdoms_Clash.NET.Server
 			server.Start();
 
 			Thread.Sleep(1000);
-			TcpClient client = new TcpClient(new System.Net.IPEndPoint(System.Net.IPAddress.Loopback, 12345), new Version(0, 1, 0, 0));
+			TcpClient client = new TcpClient(new System.Net.IPEndPoint(System.Net.IPAddress.Loopback, 12345), new Version(1, 1, 0, 0));
 			client.Open();
 			while (client.Status == ClashEngine.NET.Interfaces.Net.ClientStatus.Welcome)
 				client.Prepare();
