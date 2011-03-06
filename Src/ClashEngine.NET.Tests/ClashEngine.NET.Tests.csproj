@@ -81,12 +81,14 @@
     <Compile Include="IndexerLevelTests.cs" />
     <Compile Include="LeftToRightLayoutTests.cs" />
     <Compile Include="MainThreadCallbacksManagerTests.cs" />
+    <Compile Include="MessagesCollectionTests.cs" />
     <Compile Include="OneLevelPropertyPathTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyLevelTests.cs" />
     <Compile Include="PropertyPathTests.cs" />
     <Compile Include="ResourcesManagerTests.cs" />
     <Compile Include="ScreensManagerTests.cs" />
+    <Compile Include="ServerClientsCollectionTests.cs" />
     <Compile Include="TestObjects\Control.cs" />
     <Compile Include="TestObjects\GameInfo.cs" />
     <Compile Include="TestObjects\PositionableElement.cs" />

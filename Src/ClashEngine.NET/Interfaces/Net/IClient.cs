@@ -41,7 +41,12 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// <summary>
 		/// Połączenie zamknięte.
 		/// </summary>
-		Closed
+		Closed,
+
+		/// <summary>
+		/// Druga strona nie odpowiada.
+		/// </summary>
+		NotResponding
 	}
 
 	/// <summary>
@@ -50,7 +55,7 @@ namespace ClashEngine.NET.Interfaces.Net
 	public interface IClient
 	{
 		/// <summary>
-		/// Informacje o kliencie.
+		/// Adres.
 		/// </summary>
 		IPEndPoint Endpoint { get; }
 
@@ -80,12 +85,12 @@ namespace ClashEngine.NET.Interfaces.Net
 		void Open();
 
 		/// <summary>
-		/// Zamyka połączenie z klientem.
+		/// Zamyka połączenie.
 		/// </summary>
 		void Close();
 
 		/// <summary>
-		/// Wysyła wskazaną wiadomość do klienta.
+		/// Wysyła wskazaną wiadomość.
 		/// </summary>
 		/// <param name="message">Wiadomość.</param>
 		void Send(Message message);

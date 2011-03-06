@@ -11,9 +11,6 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// <summary>
 		/// Zbyt dużo połączeń.
 		/// </summary>
-		/// <remarks>
-		/// Brak dodatkowych danych.
-		/// </remarks>
 		TooManyConnections = 0x0001,
 
 		/// <summary>
@@ -21,20 +18,13 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// </summary>
 		/// <remarks>
 		/// Dodatkowe dane:
-		///  4B - wersja serwera(major, minor, build, revision)
-		///  1B - flagi:
-		///  [
-		///    - 0b - czy potrzebne jest hasło
-		///  ]
-		///  2B - długość nazwy gry,
-		///  (długość nazwy)*2B - nazwa gry,
+		///  * 4B - wersja serwera(major, minor, build, revision)
+		///  * 1B - flagi:
+		///  * 2B - długość nazwy gry,
+		///  * (długość nazwy)*2B - nazwa gry,
 		/// 
 		/// Klient musi odpowiedzieć na tą wiadomość w takim formacie:
-		///  4B - wersja klienta(major, minor, build, revision)
-		///  [
-		///   2B - długość hasła,
-		///   (długość hasła)*2B - hasło
-		///  ]
+		///  * 4B - wersja klienta(major, minor, build, revision)
 		/// </remarks>
 		Welcome = 0x0002,
 
@@ -66,7 +56,7 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// <summary>
 		/// Wartość określająca koniec wiadomości.
 		/// </summary>
-		MessageEnd = 0xFFFF,
+		MessageEnd = 0xDEAD,
 	}
 
 	/// <summary>

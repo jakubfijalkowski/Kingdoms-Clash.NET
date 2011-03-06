@@ -37,12 +37,13 @@ namespace ClashEngine.NET.Net.Internals
 		}
 
 		/// <summary>
-		/// Niewspierane.
+		/// Usuwa klienta z kolekcji i zamyka połączenie.
 		/// </summary>
 		/// <param name="index"></param>
 		public void RemoveAt(int index)
 		{
-			throw new NotSupportedException();
+			this.Clients[index].Close();
+			this.Clients.RemoveAt(index);
 		}
 
 		/// <summary>
@@ -69,21 +70,32 @@ namespace ClashEngine.NET.Net.Internals
 		}
 
 		/// <summary>
-		/// Niewspierane.
+		/// Usuwa klienta z kolekcji.
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
 		public bool Remove(IClient item)
 		{
-			throw new NotSupportedException();
+			int idx = this.Clients.IndexOf(item);
+			if (idx > -1)
+			{
+				this.Clients[idx].Close();
+				this.Clients.RemoveAt(idx);
+				return true;
+			}
+			return false;
 		}
 
 		/// <summary>
-		/// Niewspierane.
+		/// Zamyka wszystkie połączenia i usuwa klientów z kolekcji.
 		/// </summary>
 		public void Clear()
 		{
-			throw new NotSupportedException();
+			foreach (var client in this.Clients)
+			{
+				client.Close();
+			}
+			this.Clients.Clear();
 		}
 
 		/// <summary>
@@ -141,16 +153,6 @@ namespace ClashEngine.NET.Net.Internals
 		internal void InternalAdd(IClient item)
 		{
 			this.Clients.Add(item);
-		}
-
-		internal void InternalRemoveAt(int index)
-		{
-			this.Clients.RemoveAt(index);
-		}
-
-		internal void InternalClear()
-		{
-			this.Clients.Clear();
 		}
 		#endregion
 	}
