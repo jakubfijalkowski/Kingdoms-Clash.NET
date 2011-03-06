@@ -1,11 +1,11 @@
-﻿using NUnit.Framework;
+﻿using System;
+using Moq;
+using NUnit.Framework;
 
-namespace ClashEngine.NET.Tests
+namespace ClashEngine.NET.Tests.Net
 {
-	using Net.Internals;
-	using Moq;
 	using Interfaces.Net;
-	using System;
+	using NET.Net.Internals;
 
 	[TestFixture(Description = "Testy dla ServerClientsCollectionTests")]
 	public class ServerClientsCollectionTests

@@ -1,15 +1,18 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
+using Moq;
+using NUnit.Framework;
 
-namespace ClashEngine.NET.Tests
+namespace ClashEngine.NET.Tests.Net
 {
+	using Interfaces.Net;
+	using NET.Net.Internals;
 	[TestFixture(Description = "Testy dla klasy MessagesCollection")]
 	public class MessagesCollectionTests
 	{
 		[Test]
 		public void AddAndInsertThrowsException()
 		{
-			var messages = new Net.Internals.MessagesCollection();
+			var messages = new MessagesCollection();
 			Assert.Throws<NotSupportedException>(() => messages.Add(new Interfaces.Net.Message()));
 			Assert.Throws<NotSupportedException>(() => messages.Insert(0, new Interfaces.Net.Message()));
 		}
@@ -17,7 +20,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void InteralAddWorks()
 		{
-			var messages = new Net.Internals.MessagesCollection();
+			var messages = new MessagesCollection();
 			messages.InternalAdd(new Interfaces.Net.Message());
 			Assert.AreEqual(1, messages.Count);
 		}
@@ -25,7 +28,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void RemoveAtWorks()
 		{
-			var messages = new Net.Internals.MessagesCollection();
+			var messages = new MessagesCollection();
 			messages.InternalAdd(new Interfaces.Net.Message());
 			messages.InternalAdd(new Interfaces.Net.Message());
 			messages.RemoveAt(0);
@@ -35,7 +38,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void RemoveWorks()
 		{
-			var messages = new Net.Internals.MessagesCollection();
+			var messages = new MessagesCollection();
 			var msg = new Interfaces.Net.Message();
 			messages.InternalAdd(msg);
 			messages.InternalAdd(new Interfaces.Net.Message());
@@ -46,7 +49,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void ContainsWorks()
 		{
-			var messages = new Net.Internals.MessagesCollection();
+			var messages = new MessagesCollection();
 			var msg = new Interfaces.Net.Message(Interfaces.Net.MessageType.AllOk, null);
 			messages.InternalAdd(msg);
 			Assert.AreEqual(1, messages.Count);
@@ -58,7 +61,7 @@ namespace ClashEngine.NET.Tests
 		[Test]
 		public void IndexOfWorks()
 		{
-			var messages = new Net.Internals.MessagesCollection();
+			var messages = new MessagesCollection();
 			var msg = new Interfaces.Net.Message(Interfaces.Net.MessageType.AllOk, null);
 			messages.InternalAdd(new Interfaces.Net.Message(Interfaces.Net.MessageType.InvalidSequence, null));
 			messages.InternalAdd(msg);
