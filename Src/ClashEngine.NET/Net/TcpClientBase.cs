@@ -117,11 +117,7 @@ namespace ClashEngine.NET.Net
 							try
 							{
 								var msg = new Message(this.Buffer, start, messageEnd - start);
-								if (msg.Type == MessageType.Close)
-								{
-									this.HandleCloseMsg();
-								}
-								else
+								if(!this.HandleNewMessage(msg))
 								{
 									this._Messages.InternalAdd(msg);
 								}
@@ -177,11 +173,15 @@ namespace ClashEngine.NET.Net
 		}
 		#endregion
 
-		#region Private methods
-		private void HandleCloseMsg()
+		#region Protected methods
+		/// <summary>
+		/// Obsługa nowych wiadomości przed dodaniem ich do kolekcji.
+		/// </summary>
+		/// <param name="msg">Wiadomość.</param>
+		/// <returns>Jeśli false - nie dodaje wiadomości do kolekcji.</returns>
+		protected virtual bool HandleNewMessage(Message msg)
 		{
-			this.Socket.Close();
-			this.Status = ClientStatus.Closed;
+			return true;
 		}
 		#endregion
 	}

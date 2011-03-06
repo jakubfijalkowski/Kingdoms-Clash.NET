@@ -49,6 +49,11 @@ namespace ClashEngine.NET.Interfaces.Net
 		Close,
 
 		/// <summary>
+		/// Klient zbyt długo nie odpowiada.
+		/// </summary>
+		TimeOut,
+
+		/// <summary>
 		/// Komenda użytkownika - wartości większe od UserCommand.
 		/// </summary>
 		UserCommand = 0x0100,

@@ -13,11 +13,7 @@ namespace ClashEngine.NET.Net.Internals
 		: TcpClientBase
 	{
 		#region Statics
-		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
-		#endregion
-
-		#region Internal fields
-		internal Messages.ClientWelcome? WelcomeMessage = null;
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET.Server");
 		#endregion
 
 		#region IClient Members
@@ -41,53 +37,20 @@ namespace ClashEngine.NET.Net.Internals
 		/// </summary>
 		public override void Close()
 		{
-			if (this.Status == ClientStatus.Closed) //Wywołane po zamknięciu połączenia z zewnątrz - usuwamy z serwera
+			if (this.Status != ClientStatus.Closed)
 			{
-				Logger.Info("Client {0}:{1} closed the connection", this.Endpoint.Address, this.Endpoint.Port);
-				this.Status = (ClientStatus)0xFFFF;
-			}
-			else if (this.Status != (ClientStatus)0xFFFF) //Wywołane ręcznie - zamykmy i usuwamy
-			{
-				Logger.Info("Client {0}:{1} - connection closed", this.Endpoint.Address, this.Endpoint.Port);
 				this.Send(new Message(MessageType.Close, null));
-				this.Status = (ClientStatus)0xFFFF;
+				this.Status = ClientStatus.Closed;
 				this.Socket.Close();
+				Logger.Info("Client {0}:{1} - connection closed", this.Endpoint.Address, this.Endpoint.Port);
 			}
 		}
 
 		/// <summary>
-		/// Przygotowuje klienta do współpracy z serwerem(wymiana podstawowych wiadomości).
+		/// 
 		/// </summary>
 		public override void Prepare()
-		{
-			this.Receive();
-			if (this.Messages.Count > 0)
-			{
-				if (this.Messages[0].Type == MessageType.Welcome)
-				{
-					try
-					{
-						this.WelcomeMessage = new Messages.ClientWelcome(this.Messages[0]);
-						this.Version = this.WelcomeMessage.Value.Version;
-					}
-					catch
-					{
-						Logger.Warn("Client {0}:{1} rejected - invalid Welcome message", this.Endpoint.Address, this.Endpoint.Port);
-						this.Status = ClientStatus.Error;
-						this.Send(new Message(MessageType.InvalidSequence, null));
-						this.Close();
-					}
-					this.Messages.RemoveAt(0);
-				}
-				else
-				{
-					Logger.Warn("Client {0}:{1} rejected - invalid welcome sequence", this.Endpoint.Address, this.Endpoint.Port);
-					this.Status = ClientStatus.Error;
-					this.Send(new Message(MessageType.InvalidSequence, null));
-					this.Close();
-				}
-			}
-		}
+		{ }
 		#endregion
 
 		#region Constructors
@@ -97,6 +60,40 @@ namespace ClashEngine.NET.Net.Internals
 			base.Socket = socket;
 			base.Socket.Blocking = false;
 			this.Status = ClientStatus.Welcome;
+		}
+		#endregion
+
+		#region Protected Members
+		protected override bool HandleNewMessage(Message msg)
+		{
+			switch (msg.Type)
+			{
+				case MessageType.TooManyConnections: //Tą wiadomość możemy ignorować - tylko serwer może ją wysłać
+					return false;
+
+				case MessageType.Welcome: //Jeśli wysłano ją w innym momencie niż przy sekwencji powitalnej - ignorujemy
+					return this.Status == ClientStatus.Welcome;
+
+				case MessageType.AllOk: //Tylko serwer może ją wysłać
+					return false;
+
+				case MessageType.Close: //Zamknięcie połączenia
+					this.CloseSocket();
+					this.Status = ClientStatus.Closed;
+					Logger.Info("Client {0}:{1} closed the connection", this.Endpoint.Address, this.Endpoint.Port);
+					return false;
+			}
+			return true;
+		}
+		#endregion
+
+		#region Internal fields
+		/// <summary>
+		/// Zamyka gniazdo.
+		/// </summary>
+		internal void CloseSocket()
+		{
+			this.Socket.Close();
 		}
 		#endregion
 	}
