@@ -76,16 +76,11 @@ namespace ClashEngine.NET.Net
 			if (this.Socket.Connected)
 			{
 				byte[] messageType = BitConverter.GetBytes((ushort)message.Type);
-				byte[] endMessage = BitConverter.GetBytes((ushort)MessageType.MessageEnd);
-				if (!BitConverter.IsLittleEndian)
+				byte[] endMessage = BitConverter.GetBytes(((ushort)MessageType.MessageEnd << 16) | (ushort)MessageType.MessageEnd);
+				if (!BitConverter.IsLittleEndian) //Odwracamy kolejność
 				{
-					byte tmp = messageType[0];
-					messageType[0] = messageType[1];
-					messageType[1] = tmp;
-
-					tmp = endMessage[0];
-					endMessage[0] = endMessage[1];
-					endMessage[1] = tmp;
+					Array.Reverse(messageType);
+					Array.Reverse(endMessage);
 				}
 				this.Socket.Send(messageType);
 				if (message.Data != null)
@@ -109,11 +104,14 @@ namespace ClashEngine.NET.Net
 				do
 				{
 					messageEnd = -1;
-					for (; i < this.BufferIndex - 1; i++)
+					for (; i < this.BufferIndex - 3; i++)
 					{
-						if (this.Buffer[i] == EndMessage[0] && this.Buffer[i + 1] == EndMessage[1]) //Mamy koniec wiadomości
+						if (this.Buffer[i + 0] == EndMessage[0] &&
+							this.Buffer[i + 1] == EndMessage[1] &&
+							this.Buffer[i + 2] == EndMessage[2] &&
+							this.Buffer[i + 3] == EndMessage[3]) //Mamy koniec wiadomości
 						{
-							messageEnd = (i += 2);
+							messageEnd = (i += 4);
 							try
 							{
 								var msg = new Message(this.Buffer, start, messageEnd - start);
@@ -158,14 +156,18 @@ namespace ClashEngine.NET.Net
 				EndMessage = new byte[]
 					{
 						((ushort)MessageType.MessageEnd) & 0x00FF,
+						(((ushort)MessageType.MessageEnd) & 0xFF00) >> 8,
+						((ushort)MessageType.MessageEnd) & 0x00FF,
 						(((ushort)MessageType.MessageEnd) & 0xFF00) >> 8
 					};
 			}
 			else
 			{
-				//TODO: to jest poprawna konwersja na big-endian?
+				//TODO: to jest poprawna konwersja z big-endian?
 				EndMessage = new byte[]
 					{
+						(((ushort)MessageType.MessageEnd) & 0xFF00) >> 8,
+						((ushort)MessageType.MessageEnd) & 0x00FF,
 						(((ushort)MessageType.MessageEnd) & 0xFF00) >> 8,
 						((ushort)MessageType.MessageEnd) & 0x00FF
 					};

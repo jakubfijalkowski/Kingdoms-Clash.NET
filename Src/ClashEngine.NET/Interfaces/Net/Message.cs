@@ -97,7 +97,7 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// <param name="data">Dane w formacie przedstawionym w opisie <see cref="IServer"/>.</param>
 		public Message(byte[] data, int start, int length)
 		{
-			if (length < 4)
+			if (length < 6)
 			{
 				throw new ArgumentException("Insufficient data");
 			}
@@ -110,8 +110,8 @@ namespace ClashEngine.NET.Interfaces.Net
 				byte[] tmp = new byte[] { data[start + 1], data[start] };
 				this.Type = (MessageType)BitConverter.ToUInt16(tmp, 0);
 			}
-			this.Data = new byte[length - 4];
-			System.Array.Copy(data, start + 2, this.Data, 0, length - 4);
+			this.Data = new byte[length - 6];
+			System.Array.Copy(data, start + 2, this.Data, 0, length - 6);
 		}
 		#endregion	
 	}
