@@ -1,9 +1,9 @@
-﻿using ClashEngine.NET.EntitiesManager;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 
-namespace ClashEngine.NET.Tests
+namespace ClashEngine.NET.Tests.EntitiesManager
 {
+	using NET.EntitiesManager;
 	[TestFixture(Description = "Testowanie tworzenia encji i komponentów")]
 	public class GameEntityTests
 	{

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using ClashEngine.NET.Data.Internals;
-using ClashEngine.NET.Extensions;
 using NUnit.Framework;
 
-namespace ClashEngine.NET.Tests
+namespace ClashEngine.NET.Tests.Data
 {
+	using NET.Data.Internals;
+	using NET.Extensions;
+
 	[TestFixture(Description = "Testy dla wewnętrznej klasy PropertyLevel")]
 	public class IndexerLevelTests
 	{

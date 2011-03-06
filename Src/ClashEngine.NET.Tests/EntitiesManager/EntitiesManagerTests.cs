@@ -1,14 +1,15 @@
 ﻿using System;
-using ClashEngine.NET.EntitiesManager;
 using Moq;
 using NUnit.Framework;
 
-namespace ClashEngine.NET.Tests
+namespace ClashEngine.NET.Tests.EntitiesManager
 {
+	using NET.EntitiesManager;
+
 	[TestFixture(Description = "Testy managera encji")]
 	public class EntitiesManagerTests
 	{
-		private EntitiesManager.EntitiesManager Manager { get; set; }
+		private EntitiesManager Manager { get; set; }
 		public Mock<GameEntity> Entity1 { get; set; }
 		public Mock<GameEntity> Entity2 { get; set; }
 		public Mock<GameEntity> Entity3 { get; set; }
@@ -16,7 +17,7 @@ namespace ClashEngine.NET.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			this.Manager = new EntitiesManager.EntitiesManager(null);
+			this.Manager = new EntitiesManager(null);
 			this.Entity1 = new Mock<GameEntity>("Entity1");
 			this.Entity1.Setup(e => e.OnInit());
 			this.Entity1.Setup(e => e.OnDeinit());

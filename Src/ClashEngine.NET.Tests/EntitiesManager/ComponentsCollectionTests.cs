@@ -1,10 +1,11 @@
-﻿using ClashEngine.NET.EntitiesManager;
-using ClashEngine.NET.Interfaces.EntitiesManager;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 
-namespace ClashEngine.NET.Tests
+namespace ClashEngine.NET.Tests.EntitiesManager
 {
+	using NET.EntitiesManager;
+	using NET.Interfaces.EntitiesManager;
+
 	[TestFixture(Description = "Testy dla ComponentsCollection")]
 	public class ComponentsCollectionTests
 	{

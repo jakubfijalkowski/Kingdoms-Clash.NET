@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using ClashEngine.NET.Graphics.Gui.Layout;
 using NUnit.Framework;
 using OpenTK;
 
-namespace ClashEngine.NET.Tests
+namespace ClashEngine.NET.Tests.Gui
 {
+	using NET.Graphics.Gui.Layout;
 	using TestObjects;
 
 	[TestFixture(Description = "Testuje silnik layouty: LeftToRight")]

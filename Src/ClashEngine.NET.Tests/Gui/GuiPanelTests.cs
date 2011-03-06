@@ -1,11 +1,11 @@
-﻿using ClashEngine.NET.Graphics.Gui;
-using ClashEngine.NET.Graphics.Gui.Controls;
-using ClashEngine.NET.Interfaces.Graphics.Gui;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 
-namespace ClashEngine.NET.Tests
+namespace ClashEngine.NET.Tests.Gui
 {
+	using NET.Graphics.Gui;
+	using NET.Graphics.Gui.Controls;
+	using NET.Interfaces.Graphics.Gui;
 	using TestObjects;
 
 	[TestFixture(Description = "Testy dla panelu GUI")]

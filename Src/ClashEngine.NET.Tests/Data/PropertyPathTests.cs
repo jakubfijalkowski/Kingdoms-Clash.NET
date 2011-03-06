@@ -1,12 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
-using ClashEngine.NET.Data;
-using ClashEngine.NET.Extensions;
-using ClashEngine.NET.Interfaces.Data;
 using NUnit.Framework;
 
-namespace ClashEngine.NET.Tests
+namespace ClashEngine.NET.Tests.Data
 {
+	using NET.Data;
+	using NET.Extensions;
+	using NET.Interfaces.Data;
+
 	[TestFixture(Description = "Testy dla PropertyPath")]
 	public class PropertyPathTests
 		: INotifyPropertyChanged
