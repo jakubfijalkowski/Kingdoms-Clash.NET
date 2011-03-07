@@ -10,7 +10,7 @@ namespace ClashEngine.NET.Net
 	/// Klient TCP.
 	/// </summary>
 	public class TcpClient
-		: TcpClientBase
+		: TcpClientBase, IDisposable
 	{
 		#region Statics
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET.Client");
@@ -93,6 +93,13 @@ namespace ClashEngine.NET.Net
 			base.Version = clientVersion;
 			base.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 			this.Status = ClientStatus.Closed;
+		}
+		#endregion
+
+		#region IDisposable Members
+		public void Dispose()
+		{
+			this.Close();
 		}
 		#endregion
 

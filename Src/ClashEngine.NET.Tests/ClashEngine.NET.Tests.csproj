@@ -83,6 +83,7 @@
     <Compile Include="MainThreadCallbacksManagerTests.cs" />
     <Compile Include="Net\MessagesCollectionTests.cs" />
     <Compile Include="Data\OneLevelPropertyPathTests.cs" />
+    <Compile Include="Net\TcpClientServerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\PropertyLevelTests.cs" />
     <Compile Include="Data\PropertyPathTests.cs" />

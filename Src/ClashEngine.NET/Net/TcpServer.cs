@@ -11,7 +11,7 @@ namespace ClashEngine.NET.Net
 	/// Serwer oparty na TCP.
 	/// </summary>
 	public class TcpServer
-		: IServer
+		: IServer, IDisposable
 	{
 		#region Statics
 		private const int ListenBacklog = 10;
@@ -122,6 +122,13 @@ namespace ClashEngine.NET.Net
 		public TcpServer(int port, uint maxClients, string name, Version version)
 			: this(new IPEndPoint(IPAddress.Any, port), maxClients, name, version)
 		{ }
+		#endregion
+
+		#region IDisposable Members
+		public void Dispose()
+		{
+			this.Stop();
+		}
 		#endregion
 
 		#region Private methods
