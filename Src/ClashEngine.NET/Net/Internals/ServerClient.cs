@@ -45,12 +45,6 @@ namespace ClashEngine.NET.Net.Internals
 				Logger.Info("Client {0}:{1} - connection closed", this.Endpoint.Address, this.Endpoint.Port);
 			}
 		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		public override void Prepare()
-		{ }
 		#endregion
 
 		#region Constructors
@@ -94,6 +88,14 @@ namespace ClashEngine.NET.Net.Internals
 		internal void CloseSocket()
 		{
 			this.Socket.Close();
+		}
+		
+		/// <summary>
+		/// Odbiera dane z socketu.
+		/// </summary>
+		internal void Receive()
+		{
+			base.Receive();
 		}
 		#endregion
 	}

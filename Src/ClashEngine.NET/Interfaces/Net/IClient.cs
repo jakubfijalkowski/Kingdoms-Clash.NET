@@ -94,15 +94,5 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// </summary>
 		/// <param name="message">Wiadomość.</param>
 		void Send(Message message);
-
-		/// <summary>
-		/// Odbiera, jeśli są, dane i, jeśli może, parsuje je na obiekty typu <see cref="Message"/> dodając do kolekcji <see cref="Messages"/>.
-		/// </summary>
-		void Receive();
-
-		/// <summary>
-		/// Przygotowuje klienta do współpracy z serwerem(wymiana podstawowych wiadomości).
-		/// </summary>
-		void Prepare();
 	}
 }

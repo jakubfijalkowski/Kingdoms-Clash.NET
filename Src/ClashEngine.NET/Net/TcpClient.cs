@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace ClashEngine.NET.Net
 {
@@ -18,65 +19,33 @@ namespace ClashEngine.NET.Net
 
 		#region Private fields
 		private bool WelcomeSent = false;
+		private Thread ClientThread = null;
+		private bool StopConnection = false;
+		private bool ConnectionOpened = false;
 		#endregion
 
 		#region IClient Members
 		/// <summary>
-		/// Otwiera połączenie z serwerem.
+		/// Startuje nowy wątek obsługujący połączenie.
 		/// </summary>
 		public override void Open()
 		{
-			if (!this.Socket.Connected && this.Status == ClientStatus.Closed)
+			if (this.Status == ClientStatus.Closed)
 			{
-				Logger.Info("Opening connection to {0}:{1}", base.Endpoint.Address, base.Endpoint.Port);
-				try
-				{
-					base.Socket.Connect(base.Endpoint);
-				}
-				catch (Exception ex)
-				{
-					base.Status = ClientStatus.Error;
-					Logger.ErrorException("Cannot connect to server", ex);
-					throw;
-				}
-				this.Status = ClientStatus.Welcome;
-				Logger.Info("Connection opened");
+				this.ClientThread.Start();
+				while (!this.ConnectionOpened) Thread.Sleep(10);
 			}
 		}
 
 		/// <summary>
-		/// Zamyka połączenie z serwerem.
+		/// Zamyka dodatkowy wątek.
 		/// </summary>
 		public override void Close()
 		{
 			if (this.Status == ClientStatus.Ok)
 			{
-				this.Send(new Message(MessageType.Close, null));
-				this.Status = ClientStatus.Closed;
-				this.Socket.Close();
-				Logger.Info("Connection to {0}:{1} closed", base.Endpoint.Address, base.Endpoint.Port);
-			}
-		}
-
-		/// <summary>
-		/// Obsługuje sekwencje powitalną.
-		/// </summary>
-		public override void Prepare()
-		{
-			if (this.Status == ClientStatus.Welcome)
-			{
-				base.Receive();
-				if (this.Messages.Count > 0)
-				{
-					if (!this.WelcomeSent)
-					{
-						this.WelcomePhase1();
-					}
-					else
-					{
-						this.WelcomePhase2();
-					}
-				}
+				this.StopConnection = true;
+				this.ClientThread.Join();
 			}
 		}
 		#endregion
@@ -93,6 +62,9 @@ namespace ClashEngine.NET.Net
 			base.Version = clientVersion;
 			base.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 			this.Status = ClientStatus.Closed;
+
+			this.ClientThread = new Thread(ClientMain);
+			this.ClientThread.Name = string.Format("TcpClient: {0}:{1}", this.Endpoint.Address, this.Endpoint.Port);
 		}
 		#endregion
 
@@ -132,6 +104,83 @@ namespace ClashEngine.NET.Net
 		#endregion
 
 		#region Private methods
+		/// <summary>
+		/// Obsługuje połączenie z serwerem.
+		/// </summary>
+		private void ClientMain()
+		{
+			#region Opening connection
+			this.ConnectionOpened = false;
+			Logger.Info("Opening connection to {0}:{1}", base.Endpoint.Address, base.Endpoint.Port);
+			try
+			{
+				base.Socket.Connect(base.Endpoint);
+			}
+			catch (Exception ex)
+			{
+				base.Status = ClientStatus.Error;
+				Logger.ErrorException("Cannot connect to server", ex);
+				return;
+			}
+			finally
+			{
+				this.ConnectionOpened = true;
+			}
+			this.Status = ClientStatus.Welcome;
+			Logger.Info("Connection opened");
+			#endregion
+
+			#region Welcome sequence
+			while (this.Status == ClientStatus.Welcome)
+			{
+				base.Receive(true);
+				if (this.Messages.Count > 0)
+				{
+					if (!this.WelcomeSent)
+					{
+						this.WelcomePhase1();
+					}
+					else
+					{
+						this.WelcomePhase2();
+					}
+				}
+			}
+			if (this.Status != ClientStatus.Ok) //Błąd - koniec
+			{
+				return;
+			}
+			#endregion
+
+			#region Main code
+			while (!this.StopConnection)
+			{
+				try
+				{
+					base.Receive();
+					if (this.Status != ClientStatus.Ok) //Błąd - koniec
+					{
+						return;
+					}
+				}
+				catch (Exception ex)
+				{
+					this.Socket.Close();
+					this.Status = ClientStatus.Error;
+					Logger.ErrorException("Error occured while retriving data", ex);
+					return;
+				}
+			}
+			#endregion
+
+			#region Closing connection
+			this.Send(new Message(MessageType.Close, null));
+			this.Status = ClientStatus.Closed;
+			this.Socket.Close();
+			Logger.Info("Connection to {0}:{1} closed", base.Endpoint.Address, base.Endpoint.Port);
+			#endregion
+		}
+
 		/// <summary>
 		/// Faza pierwsza powitania - wiadomość Welcome.
 		/// </summary>

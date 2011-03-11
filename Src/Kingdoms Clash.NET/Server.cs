@@ -16,16 +16,12 @@ namespace Kingdoms_Clash.NET.Server
 			server.Start();
 
 			Thread.Sleep(1000);
-			TcpClient client = new TcpClient(new System.Net.IPEndPoint(System.Net.IPAddress.Loopback, 12345), new Version(1, 1, 0, 0));
+			TcpClient client = new TcpClient(new System.Net.IPEndPoint(System.Net.IPAddress.Loopback, 12345), new Version(0, 1, 0, 0));
 			client.Open();
-			while (client.Status == ClashEngine.NET.Interfaces.Net.ClientStatus.Welcome)
-				client.Prepare();
-
 
 			var key = Console.ReadKey();
 			do
 			{
-				client.Receive();
 				if (key.Key == ConsoleKey.A)
 				{
 					client.Send(new ClashEngine.NET.Interfaces.Net.Message(ClashEngine.NET.Interfaces.Net.MessageType.UserCommand + 1,
@@ -61,6 +57,7 @@ namespace Kingdoms_Clash.NET.Server
 				key = Console.ReadKey();
 				Console.WriteLine();
 			} while (key.Key != ConsoleKey.Q);
+			//client.Close();
 			server.Stop();
 
 			Console.ReadLine();

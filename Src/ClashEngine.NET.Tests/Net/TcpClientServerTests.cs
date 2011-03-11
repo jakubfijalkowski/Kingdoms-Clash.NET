@@ -52,8 +52,9 @@ namespace ClashEngine.NET.Tests.Net
 			{
 				server.Start();
 				client.Open();
-				while (client.Status == ClientStatus.Welcome)
-					client.Prepare();
+				//while (client.Status == ClientStatus.Welcome)
+				//    client.Prepare();
+				while (client.Status == ClientStatus.Welcome) ;
 				
 				Assert.AreEqual(ClientStatus.Ok, client.Status);
 				Assert.AreEqual(1, server.Clients.Count);
@@ -70,8 +71,8 @@ namespace ClashEngine.NET.Tests.Net
 			{
 				server.Start();
 				client.Open();
-				while (client.Status == ClientStatus.Welcome)
-					client.Prepare();
+				//while (client.Status == ClientStatus.Welcome)
+				//    client.Prepare();
 
 				Assert.AreEqual(ClientStatus.Ok, client.Status);
 

@@ -88,59 +88,6 @@ namespace ClashEngine.NET.Net
 				this.Socket.Send(endMessage);
 			}
 		}
-
-		/// <summary>
-		/// Odbiera, jeśli są, dane i, jeśli może, parsuje je na obiekty typu <see cref="Message"/> dodając do kolekcji <see cref="Messages"/>.
-		/// </summary>
-		public void Receive()
-		{
-			if (this.Socket.Connected && this.Socket.Poll(0, SelectMode.SelectRead))
-			{
-				int start = 0;
-				int i = this.BufferIndex;
-				this.BufferIndex += this.Socket.Receive(this.Buffer, this.BufferIndex, BufferSize - this.BufferIndex, SocketFlags.None);
-				this.LastAction = DateTime.Now;
-				int messageEnd = -1;
-				do
-				{
-					messageEnd = -1;
-					for (; i < this.BufferIndex - 3; i++)
-					{
-						if (this.Buffer[i + 0] == EndMessage[0] &&
-							this.Buffer[i + 1] == EndMessage[1] &&
-							this.Buffer[i + 2] == EndMessage[2] &&
-							this.Buffer[i + 3] == EndMessage[3]) //Mamy koniec wiadomości
-						{
-							messageEnd = (i += 4);
-							try
-							{
-								var msg = new Message(this.Buffer, start, messageEnd - start);
-								if(this.HandleNewMessage(msg))
-								{
-									this._Messages.InternalAdd(msg);
-								}
-							}
-							catch (Exception ex)
-							{
-								Logger.WarnException(string.Format("Cannot parse message from {0}", this.Endpoint.Address), ex);
-							}
-							start = messageEnd;
-							continue;
-						}
-					}
-				} while (messageEnd != -1);
-				if (start != 0)
-				{
-					Array.Copy(this.Buffer, start, this.Buffer, 0, this.BufferIndex - start);
-					this.BufferIndex -= start;
-				}
-			}
-		}
-
-		/// <summary>
-		/// Przygotowuje klienta do współpracy z serwerem(wymiana podstawowych wiadomości).
-		/// </summary>
-		public abstract void Prepare();
 		#endregion
 
 		#region Constructors
@@ -184,6 +131,54 @@ namespace ClashEngine.NET.Net
 		protected virtual bool HandleNewMessage(Message msg)
 		{
 			return true;
+		}
+
+		/// <summary>
+		/// Odbiera, jeśli są, dane i, jeśli może, parsuje je na obiekty typu <see cref="Message"/> dodając do kolekcji <see cref="Messages"/>.
+		/// </summary>
+		protected void Receive(bool block = false)
+		{
+			if (this.Socket.Connected && (block || this.Socket.Poll(0, SelectMode.SelectRead)))
+			{
+				int start = 0;
+				int i = this.BufferIndex;
+				this.BufferIndex += this.Socket.Receive(this.Buffer, this.BufferIndex, BufferSize - this.BufferIndex, SocketFlags.None);
+				this.LastAction = DateTime.Now;
+				int messageEnd = -1;
+				do
+				{
+					messageEnd = -1;
+					for (; i < this.BufferIndex - 3; i++)
+					{
+						if (this.Buffer[i + 0] == EndMessage[0] &&
+							this.Buffer[i + 1] == EndMessage[1] &&
+							this.Buffer[i + 2] == EndMessage[2] &&
+							this.Buffer[i + 3] == EndMessage[3]) //Mamy koniec wiadomości
+						{
+							messageEnd = (i += 4);
+							try
+							{
+								var msg = new Message(this.Buffer, start, messageEnd - start);
+								if (this.HandleNewMessage(msg))
+								{
+									this._Messages.InternalAdd(msg);
+								}
+							}
+							catch (Exception ex)
+							{
+								Logger.WarnException(string.Format("Cannot parse message from {0}", this.Endpoint.Address), ex);
+							}
+							start = messageEnd;
+							continue;
+						}
+					}
+				} while (messageEnd != -1);
+				if (start != 0)
+				{
+					Array.Copy(this.Buffer, start, this.Buffer, 0, this.BufferIndex - start);
+					this.BufferIndex -= start;
+				}
+			}
 		}
 		#endregion
 	}
