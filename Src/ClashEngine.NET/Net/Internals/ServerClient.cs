@@ -42,7 +42,7 @@ namespace ClashEngine.NET.Net.Internals
 				this.Send(new Message(MessageType.Close, null));
 				this.Status = ClientStatus.Closed;
 				this.Socket.Close();
-				Logger.Info("Client {0}:{1} - connection closed", this.Endpoint.Address, this.Endpoint.Port);
+				Logger.Info("Client {0}:{1} - connection closed", this.RemoteEndpoint.Address, this.RemoteEndpoint.Port);
 			}
 		}
 		#endregion
@@ -74,7 +74,7 @@ namespace ClashEngine.NET.Net.Internals
 				case MessageType.Close: //Zamknięcie połączenia
 					this.CloseSocket();
 					this.Status = ClientStatus.Closed;
-					Logger.Info("Client {0}:{1} closed the connection", this.Endpoint.Address, this.Endpoint.Port);
+					Logger.Info("Client {0}:{1} closed the connection", this.RemoteEndpoint.Address, this.RemoteEndpoint.Port);
 					return false;
 			}
 			return true;

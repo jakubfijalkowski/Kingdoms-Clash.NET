@@ -64,7 +64,7 @@ namespace ClashEngine.NET.Net
 			this.Status = ClientStatus.Closed;
 
 			this.ClientThread = new Thread(ClientMain);
-			this.ClientThread.Name = string.Format("TcpClient: {0}:{1}", this.Endpoint.Address, this.Endpoint.Port);
+			this.ClientThread.Name = string.Format("TcpClient: {0}:{1}", this.RemoteEndpoint.Address, this.RemoteEndpoint.Port);
 		}
 		#endregion
 
@@ -111,10 +111,10 @@ namespace ClashEngine.NET.Net
 		{
 			#region Opening connection
 			this.ConnectionOpened = false;
-			Logger.Info("Opening connection to {0}:{1}", base.Endpoint.Address, base.Endpoint.Port);
+			Logger.Info("Opening connection to {0}:{1}", base.RemoteEndpoint.Address, base.RemoteEndpoint.Port);
 			try
 			{
-				base.Socket.Connect(base.Endpoint);
+				base.Socket.Connect(base.RemoteEndpoint);
 			}
 			catch (Exception ex)
 			{
@@ -177,7 +177,7 @@ namespace ClashEngine.NET.Net
 			this.Send(new Message(MessageType.Close, null));
 			this.Status = ClientStatus.Closed;
 			this.Socket.Close();
-			Logger.Info("Connection to {0}:{1} closed", base.Endpoint.Address, base.Endpoint.Port);
+			Logger.Info("Connection to {0}:{1} closed", base.RemoteEndpoint.Address, base.RemoteEndpoint.Port);
 			#endregion
 		}
 
@@ -191,7 +191,7 @@ namespace ClashEngine.NET.Net
 				try
 				{
 					var msg = new Messages.ServerWelcome(this.Messages[0]);
-					Logger.Info("Connected to {0}:{1} - {2} {3}", this.Endpoint.Address, this.Endpoint.Port, msg.GameName, msg.ServerVersion);
+					Logger.Info("Connected to {0}:{1} - {2} {3}", this.RemoteEndpoint.Address, this.RemoteEndpoint.Port, msg.GameName, msg.ServerVersion);
 					if (msg.ServerVersion != this.Version) //Błędna wersja serwera.
 					{
 						this.Send(new Message(MessageType.IncompatibleVersion, null));
@@ -206,7 +206,7 @@ namespace ClashEngine.NET.Net
 				}
 				catch
 				{
-					Logger.Warn("Client {0}:{1} rejected - invalid Welcome message", this.Endpoint.Address, this.Endpoint.Port);
+					Logger.Warn("Client {0}:{1} rejected - invalid Welcome message", this.RemoteEndpoint.Address, this.RemoteEndpoint.Port);
 					this.Status = ClientStatus.Error;
 					this.Send(new Message(MessageType.InvalidSequence, null));
 					this.Close();
@@ -215,19 +215,19 @@ namespace ClashEngine.NET.Net
 			}
 			else if (this.Messages[0].Type == MessageType.TooManyConnections)
 			{
-				Logger.Error("Connection to {0}:{1} aborted - too many conections", this.Endpoint.Address, this.Endpoint.Port);
+				Logger.Error("Connection to {0}:{1} aborted - too many conections", this.RemoteEndpoint.Address, this.RemoteEndpoint.Port);
 				this.Status = ClientStatus.TooManyConnections;
 				this.Socket.Close();
 			}
 			else if (this.Messages[0].Type == MessageType.InvalidSequence)
 			{
-				Logger.Error("Connection to {0}:{1} aborted - invalid welcome sequence(from us)", this.Endpoint.Address, this.Endpoint.Port);
+				Logger.Error("Connection to {0}:{1} aborted - invalid welcome sequence(from us)", this.RemoteEndpoint.Address, this.RemoteEndpoint.Port);
 				this.Status = ClientStatus.InvalidSequence;
 				this.Socket.Close();
 			}
 			else
 			{
-				Logger.Error("Connection to {0}:{1} aborted - invalid welcome sequence", this.Endpoint.Address, this.Endpoint.Port);
+				Logger.Error("Connection to {0}:{1} aborted - invalid welcome sequence", this.RemoteEndpoint.Address, this.RemoteEndpoint.Port);
 				this.Status = ClientStatus.Error;
 				this.Send(new Message(MessageType.InvalidSequence, null));
 				this.Close();
@@ -243,24 +243,24 @@ namespace ClashEngine.NET.Net
 			switch (this.Messages[0].Type)
 			{
 				case MessageType.AllOk:
-					Logger.Info("Connection to {0}:{1} established", this.Endpoint.Address, this.Endpoint.Port);
+					Logger.Info("Connection to {0}:{1} established", this.RemoteEndpoint.Address, this.RemoteEndpoint.Port);
 					this.Status = ClientStatus.Ok;
 					break;
 
 				case MessageType.IncompatibleVersion:
-					Logger.Error("Connection to {0}:{1} aborted - incompatible version", this.Endpoint.Address, this.Endpoint.Port);
+					Logger.Error("Connection to {0}:{1} aborted - incompatible version", this.RemoteEndpoint.Address, this.RemoteEndpoint.Port);
 					this.Status = ClientStatus.IncompatibleVersion;
 					this.Socket.Close();
 					break;
 
 				case MessageType.InvalidSequence:
-					Logger.Error("Connection to {0}:{1} aborted - invalid welcome sequence(from us)", this.Endpoint.Address, this.Endpoint.Port);
+					Logger.Error("Connection to {0}:{1} aborted - invalid welcome sequence(from us)", this.RemoteEndpoint.Address, this.RemoteEndpoint.Port);
 					this.Status = ClientStatus.InvalidSequence;
 					this.Socket.Close();
 					break;
 
 				default:
-					Logger.Error("Connection to {0}:{1} aborted - invalid welcome sequence", this.Endpoint.Address, this.Endpoint.Port);
+					Logger.Error("Connection to {0}:{1} aborted - invalid welcome sequence", this.RemoteEndpoint.Address, this.RemoteEndpoint.Port);
 					this.Status = ClientStatus.Error;
 					this.Send(new Message(MessageType.InvalidSequence, null));
 					this.Socket.Close();

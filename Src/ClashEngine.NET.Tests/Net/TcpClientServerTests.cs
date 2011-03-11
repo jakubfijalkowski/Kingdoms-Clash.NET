@@ -38,7 +38,7 @@ namespace ClashEngine.NET.Tests.Net
 			using (var client = new TcpClient(new IPEndPoint(IPAddress.Loopback, Port), Version))
 			{
 				Assert.AreEqual(Version, client.Version);
-				Assert.AreEqual(new IPEndPoint(IPAddress.Loopback, Port), client.Endpoint);
+				Assert.AreEqual(new IPEndPoint(IPAddress.Loopback, Port), client.RemoteEndpoint);
 				Assert.AreEqual(0, client.Messages.Count);
 				Assert.AreEqual(ClientStatus.Closed, client.Status);
 			}
@@ -59,7 +59,10 @@ namespace ClashEngine.NET.Tests.Net
 				Assert.AreEqual(ClientStatus.Ok, client.Status);
 				Assert.AreEqual(1, server.Clients.Count);
 				Assert.AreEqual(ClientStatus.Ok, server.Clients[0].Status);
-				Assert.AreEqual(IPAddress.Loopback, server.Clients[0].Endpoint.Address);
+				Assert.AreEqual(IPAddress.Loopback, server.Clients[0].RemoteEndpoint.Address);
+
+				Assert.AreEqual(client.RemoteEndpoint, server.Clients[0].LocalEndpoint);
+				Assert.AreEqual(client.LocalEndpoint, server.Clients[0].RemoteEndpoint);
 			}
 		}
 

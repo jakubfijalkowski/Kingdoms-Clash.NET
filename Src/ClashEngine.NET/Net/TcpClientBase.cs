@@ -30,9 +30,20 @@ namespace ClashEngine.NET.Net
 
 		#region IClient Members
 		/// <summary>
-		/// Dane klienta.
+		/// Adres docelowy.
 		/// </summary>
-		public IPEndPoint Endpoint { get; private set; }
+		public IPEndPoint RemoteEndpoint { get; private set; }
+
+		/// <summary>
+		/// Adres lokalny.
+		/// </summary>
+		public IPEndPoint LocalEndpoint
+		{
+			get
+			{
+				return (this.Socket != null ? (IPEndPoint)this.Socket.LocalEndPoint : null);
+			}
+		}
 
 		/// <summary>
 		/// Kolejka wiadomości.
@@ -93,7 +104,7 @@ namespace ClashEngine.NET.Net
 		#region Constructors
 		public TcpClientBase(IPEndPoint endpoint)
 		{
-			this.Endpoint = endpoint;
+			this.RemoteEndpoint = endpoint;
 		}
 
 		static TcpClientBase()
@@ -166,7 +177,7 @@ namespace ClashEngine.NET.Net
 							}
 							catch (Exception ex)
 							{
-								Logger.WarnException(string.Format("Cannot parse message from {0}", this.Endpoint.Address), ex);
+								Logger.WarnException(string.Format("Cannot parse message from {0}", this.RemoteEndpoint.Address), ex);
 							}
 							start = messageEnd;
 							continue;

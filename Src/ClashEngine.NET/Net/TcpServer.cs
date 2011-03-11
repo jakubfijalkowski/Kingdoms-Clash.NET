@@ -176,13 +176,13 @@ namespace ClashEngine.NET.Net
 			{
 				client.Send(new Messages.ServerWelcome(this.Version, this.Name).ToMessage());
 				this._ClientsCollection.InternalAdd(client);
-				Logger.Info("Client {0}:{1} accepted, starting welcome sequence", client.Endpoint.Address, client.Endpoint.Port);
+				Logger.Info("Client {0}:{1} accepted, starting welcome sequence", client.RemoteEndpoint.Address, client.RemoteEndpoint.Port);
 			}
 			else
 			{
 				client.Send(new Message(MessageType.TooManyConnections, null));
 				client.CloseSocket();
-				Logger.Info("Client {0}:{1} rejected, reason: too many connections", client.Endpoint.Address, client.Endpoint.Port);
+				Logger.Info("Client {0}:{1} rejected, reason: too many connections", client.RemoteEndpoint.Address, client.RemoteEndpoint.Port);
 			}
 		}
 
@@ -207,7 +207,7 @@ namespace ClashEngine.NET.Net
 					{
 						client.Send(new Message(MessageType.InvalidSequence, null));
 						client.CloseSocket();
-						Logger.Info("Client {0}:{1} rejected, reason: invalid welcome sequence", client.Endpoint.Address, client.Endpoint.Port);
+						Logger.Info("Client {0}:{1} rejected, reason: invalid welcome sequence", client.RemoteEndpoint.Address, client.RemoteEndpoint.Port);
 						this._ClientsCollection.RemoveAt(i--);
 						return;
 					} 
@@ -216,13 +216,13 @@ namespace ClashEngine.NET.Net
 					{
 						client.Send(new Message(MessageType.AllOk, null));
 						client.Status = ClientStatus.Ok;
-						Logger.Info("Client {0}:{1} - welcome sequence went well", client.Endpoint.Address, client.Endpoint.Port);
+						Logger.Info("Client {0}:{1} - welcome sequence went well", client.RemoteEndpoint.Address, client.RemoteEndpoint.Port);
 					}
 					else //Niepoprawna wersja
 					{
 						client.Send(new Message(MessageType.IncompatibleVersion, null));
 						client.CloseSocket();
-						Logger.Info("Client {0}:{1} rejected, reason: incompatible version", client.Endpoint.Address, client.Endpoint.Port);
+						Logger.Info("Client {0}:{1} rejected, reason: incompatible version", client.RemoteEndpoint.Address, client.RemoteEndpoint.Port);
 						this._ClientsCollection.RemoveAt(i--);
 					}
 				}
@@ -230,14 +230,14 @@ namespace ClashEngine.NET.Net
 					client.Messages[0].Type == MessageType.InvalidSequence) //Klient ma inną wersję niż my
 				{
 					client.CloseSocket();
-					Logger.Info("Client {0}:{1} closed the connection, reason: incompatible version", client.Endpoint.Address, client.Endpoint.Port);
+					Logger.Info("Client {0}:{1} closed the connection, reason: incompatible version", client.RemoteEndpoint.Address, client.RemoteEndpoint.Port);
 					this._ClientsCollection.RemoveAt(i--);
 				}
 				else //Błędna sekwencja ze strony klienta
 				{
 					client.Send(new Message(MessageType.InvalidSequence, null));
 					client.CloseSocket();
-					Logger.Info("Client {0}:{1} rejected, reason: invalid welcome sequence", client.Endpoint.Address, client.Endpoint.Port);
+					Logger.Info("Client {0}:{1} rejected, reason: invalid welcome sequence", client.RemoteEndpoint.Address, client.RemoteEndpoint.Port);
 					this._ClientsCollection.RemoveAt(i--);
 				}
 			}
@@ -254,7 +254,7 @@ namespace ClashEngine.NET.Net
 				client.Send(new Message(MessageType.TimeOut, null));
 				client.CloseSocket();
 				client.Status = ClientStatus.NotResponding;
-				Logger.Info("Client {0}:{1} - connection closed, client is not responding", client.Endpoint.Address, client.Endpoint.Port);
+				Logger.Info("Client {0}:{1} - connection closed, client is not responding", client.RemoteEndpoint.Address, client.RemoteEndpoint.Port);
 			}
 			else
 			{

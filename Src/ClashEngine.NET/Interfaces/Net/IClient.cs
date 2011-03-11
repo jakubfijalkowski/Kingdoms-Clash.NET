@@ -55,9 +55,14 @@ namespace ClashEngine.NET.Interfaces.Net
 	public interface IClient
 	{
 		/// <summary>
-		/// Adres.
+		/// Adres docelowy.
 		/// </summary>
-		IPEndPoint Endpoint { get; }
+		IPEndPoint RemoteEndpoint { get; }
+
+		/// <summary>
+		/// Adres lokalny.
+		/// </summary>
+		IPEndPoint LocalEndpoint { get; }
 
 		/// <summary>
 		/// Kolejka wiadomości.

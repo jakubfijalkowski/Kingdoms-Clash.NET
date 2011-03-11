@@ -54,6 +54,16 @@ namespace Kingdoms_Clash.NET.Server
 						client.Messages.RemoveAt(0);
 					}
 				}
+
+				else if (key.Key == ConsoleKey.T)
+				{
+					Console.WriteLine("Client:");
+					Console.WriteLine("\trenote: {0}:{1}", client.RemoteEndpoint.Address, client.RemoteEndpoint.Port);
+					Console.WriteLine("\tlocal: {0}:{1}", client.LocalEndpoint.Address, client.LocalEndpoint.Port);
+					Console.WriteLine("Server's client:");
+					Console.WriteLine("\tlocal: {0}:{1}", server.Clients[0].LocalEndpoint.Address, server.Clients[0].LocalEndpoint.Port);
+					Console.WriteLine("\tremote: {0}:{1}", server.Clients[0].RemoteEndpoint.Address, server.Clients[0].RemoteEndpoint.Port);
+				}
 				key = Console.ReadKey();
 				Console.WriteLine();
 			} while (key.Key != ConsoleKey.Q);
