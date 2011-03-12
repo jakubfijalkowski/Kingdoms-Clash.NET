@@ -19,13 +19,14 @@ namespace Kingdoms_Clash.NET.Tests.TestObjects
 		private IEntitiesManager Entities;
 
 		#region IGameState Members
+		public Interfaces.IGameSettings Settings { get; private set; }
 		public Interfaces.Player.IPlayer[] Players { get; private set; }
 
 		public Interfaces.Map.IMap Map { get; private set; }
 
 		public Interfaces.Controllers.IGameController Controller { get; set; }
 
-		public void Initialize(Interfaces.Player.IPlayerInfo playerA, Interfaces.Player.IPlayerInfo playerB, Interfaces.Map.IMap map, Interfaces.Controllers.IGameController controller)
+		public void Initialize(Interfaces.IGameSettings settings)
 		{ }
 
 		public void Reset()

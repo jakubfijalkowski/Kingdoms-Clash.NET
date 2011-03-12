@@ -14,6 +14,11 @@ namespace Kingdoms_Clash.NET.Interfaces
 	{
 		#region Properties
 		/// <summary>
+		/// Ustawienia gry.
+		/// </summary>
+		IGameSettings Settings { get; }
+
+		/// <summary>
 		/// Tablica dwóch, aktualnie grających, graczy.
 		/// </summary>
 		IPlayer[] Players { get; }
@@ -33,11 +38,8 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// <summary>
 		/// Inicjalizuje stan gry.
 		/// </summary>
-		/// <param name="playerA">Pierwszy gracz.</param>
-		/// <param name="playerB">Drugi gracz.</param>
-		/// <param name="map">Mapa.</param>
-		/// <param name="controller">Kontroler gry.</param>
-		void Initialize(IPlayerInfo playerA, IPlayerInfo playerB, IMap map, IGameController controller);
+		/// <param name="settings">Ustawienia gry.</param>
+		void Initialize(IGameSettings settings);
 
 		/// <summary>
 		/// Resetuje stan gry(zaczyna od początku).

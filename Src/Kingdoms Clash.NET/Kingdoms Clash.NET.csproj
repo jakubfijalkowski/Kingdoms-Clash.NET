@@ -83,7 +83,9 @@
     <Compile Include="Controllers\Internals\UnitRequestToken.cs" />
     <Compile Include="Controllers\Internals\UnitQueue.cs" />
     <Compile Include="Defaults.cs" />
+    <Compile Include="GameSettings.cs" />
     <Compile Include="Interfaces\Controllers\IClassicGame.cs" />
+    <Compile Include="Interfaces\IGameSettings.cs" />
     <Compile Include="Interfaces\Controllers\IUnitQueue.cs" />
     <Compile Include="Interfaces\Controllers\IUnitQueueStats.cs" />
     <Compile Include="Interfaces\Factories\IPlayerControllerFactory.cs" />

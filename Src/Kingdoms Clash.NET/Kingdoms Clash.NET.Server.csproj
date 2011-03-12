@@ -86,6 +86,7 @@
     <Compile Include="Interfaces\Controllers\IUnitQueue.cs" />
     <Compile Include="Interfaces\Controllers\IUnitQueueStats.cs" />
     <Compile Include="Interfaces\Factories\IPlayerControllerFactory.cs" />
+    <Compile Include="Interfaces\IGameSettings.cs" />
     <Compile Include="Interfaces\Player\Controllers\IGuiControllerFactory.cs" />
     <Compile Include="Interfaces\Player\Controllers\IGuiController.cs" />
     <Compile Include="Interfaces\Player\Controllers\IKeyboardController.cs" />

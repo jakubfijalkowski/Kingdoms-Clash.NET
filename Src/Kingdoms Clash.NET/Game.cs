@@ -101,11 +101,16 @@ namespace Kingdoms_Clash.NET
 			factory.GameInfo = this.Info;
 			var controlers = factory.Produce();
 
+			GameSettings settings = new GameSettings
+			{
+				PlayerA = new Player.PlayerInfo("A", nation1, controlers[0], true),
+				PlayerB = new Player.PlayerInfo("B", nation2, controlers[1], true),
+				Map = new Maps.DefaultMap(),
+				Controller = new Controllers.ClassicGame()
+			};
+
 			this.Game = new SinglePlayer();
-			this.Game.Initialize(new Player.PlayerInfo("A", nation1, controlers[0], true),
-				new Player.PlayerInfo("B", nation2, controlers[1], true),
-				new Maps.DefaultMap(),
-				new Controllers.ClassicGame());
+			this.Game.Initialize(settings);
 
 			if (Configuration.Instance.UseFPSCounter)
 			{

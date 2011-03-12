@@ -45,6 +45,11 @@ namespace Kingdoms_Clash.NET
 		#region IGameState Members
 		#region Properties
 		/// <summary>
+		/// Ustawienia gry.
+		/// </summary>
+		public IGameSettings Settings { get; private set; }
+
+		/// <summary>
 		/// Tablica dwóch, aktualnie grających, graczy.
 		/// </summary>
 		public IPlayer[] Players { get; private set; }
@@ -64,22 +69,22 @@ namespace Kingdoms_Clash.NET
 		/// <summary>
 		/// Inicjalizuje stan gry.
 		/// </summary>
-		/// <param name="playerA">Pierwszy gracz.</param>
-		/// <param name="playerB">Drugi gracz.</param>
-		public void Initialize(IPlayerInfo playerA, IPlayerInfo playerB, IMap map, IGameController controller)
+		/// <param name="settings">Ustawienia gry.</param>
+		public void Initialize(IGameSettings settings)
 		{
+			this.Settings = settings;
 			this.Players = new IPlayer[]
 			{
-				new Player.Player(playerA.Name, playerA.Nation, 100),
-				new Player.Player(playerB.Name, playerB.Nation, 100)
+				new Player.Player(settings.PlayerA.Name, settings.PlayerA.Nation, 100),
+				new Player.Player(settings.PlayerB.Name, settings.PlayerB.Nation, 100)
 			};
-			this.PlayerControllers[0] = playerA.Controller;
-			this.PlayerControllers[1] = playerB.Controller;
-			this.Map = map;
-			this.Controller = controller;
+			this.PlayerControllers[0] = settings.PlayerA.Controller;
+			this.PlayerControllers[1] = settings.PlayerB.Controller;
+			this.Map = settings.Map;
+			this.Controller = settings.Controller;
 
-			this.PlayerControllers[0].ShowStatistics = playerA.ShowStatistics;
-			this.PlayerControllers[1].ShowStatistics = playerB.ShowStatistics;
+			this.PlayerControllers[0].ShowStatistics = settings.PlayerA.ShowStatistics;
+			this.PlayerControllers[1].ShowStatistics = settings.PlayerB.ShowStatistics;
 		}
 
 		/// <summary>
@@ -171,7 +176,7 @@ namespace Kingdoms_Clash.NET
 			//    true));
 
 			var cam = new ClashEngine.NET.Graphics.Cameras.Movable2DCamera(Configuration.Instance.ScreenSize,
-				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + Settings.MapMargin, Configuration.Instance.ScreenSize.Y)));
+				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + NET.Settings.MapMargin, Configuration.Instance.ScreenSize.Y)));
 			this.Camera = cam;
 			this.StaticEntities.Add(cam.GetCameraEntity(Configuration.Instance.CameraSpeed));
 			
