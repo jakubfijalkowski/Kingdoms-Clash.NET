@@ -1,19 +1,17 @@
 ﻿using System;
+using ClashEngine.NET.Interfaces.Graphics;
 using OpenTK;
 
-namespace ClashEngine.NET.Graphics.Objects
+namespace Kingdoms_Clash.NET.Maps.Internals
 {
-	using Interfaces.Graphics;
-	using Interfaces.Graphics.Objects;
 
 	/// <summary>
 	/// Teren 2D.
 	/// Budowany na podstawie wierzchołków warstwy górnej i wysokości mapy.
 	/// </summary>
-	public class Terrain
-		: ITerrain
+	internal class TerrainObject
+		: IObject
 	{
-		#region ITerrain Members
 		/// <summary>
 		/// Wysokość mapy.
 		/// </summary>
@@ -23,10 +21,9 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// Liczba elementów mapy.
 		/// </summary>
 		public int Blocks { get; private set; }
-		#endregion
 
 		#region IObject Members
-		public Interfaces.Graphics.Resources.ITexture Texture { get { return null; } }
+		public ClashEngine.NET.Interfaces.Graphics.Resources.ITexture Texture { get { return null; } }
 		public float Depth { get; set; }
 		public float Rotation { get; set; }
 		public Vector2 RotationPoint { get; set; }
@@ -43,7 +40,7 @@ namespace ClashEngine.NET.Graphics.Objects
 		/// </summary>
 		/// <param name="height">Wysokość terenu od najniżej położonego wierzchołka.</param>
 		/// <param name="terrain">Wierzchołki.</param>
-		public Terrain(float height, params Vector2[] terrain)
+		public TerrainObject(float height, params Vector2[] terrain)
 		{
 			if (height <= 0.0)
 			{
@@ -92,7 +89,7 @@ namespace ClashEngine.NET.Graphics.Objects
 				this.Indecies[j + 4] = (i * 2) + 1;
 				this.Indecies[j + 5] = (i * 2) + 2;
 			}
-		} 
+		}
 		#endregion
 
 		#region Private members

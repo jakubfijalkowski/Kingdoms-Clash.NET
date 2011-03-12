@@ -73,7 +73,7 @@ namespace Kingdoms_Clash.NET.Maps
 			var desc = ResourcesList.Instance[this.Id];			
 			ClashEngine.NET.PhysicsManager.Instance.World.RayCast((fixture, point, n, f) =>
 				{
-					if (fixture.Body.UserData is ClashEngine.NET.Interfaces.Graphics.Components.ITerrain)
+					if (fixture.Body.UserData is IMap)
 					{
 						this.Position.Y = point.Y - desc.Size.Y;
 						return 0;
@@ -105,7 +105,7 @@ namespace Kingdoms_Clash.NET.Maps
 			this.Body.BodyType = BodyType.Dynamic;
 			this.Body.FixtureList[0].AfterCollision = (a, b, c) =>
 				{
-					if (b.Body.UserData is ClashEngine.NET.Interfaces.Graphics.Components.ITerrain)
+					if (b.Body.UserData is IMap)
 					{
 						this.Body.IsStatic = true;
 #if !SERVER

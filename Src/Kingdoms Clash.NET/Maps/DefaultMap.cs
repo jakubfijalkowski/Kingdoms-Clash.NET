@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using ClashEngine.NET.EntitiesManager;
-using ClashEngine.NET.Graphics.Components;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 using OpenTK;
 using Cfg = Kingdoms_Clash.NET.Configuration;
+using ClashEngine.NET.Extensions;
 
 namespace Kingdoms_Clash.NET.Maps
 {
 	using Interfaces.Map;
+	using ClashEngine.NET.Graphics.Components;
 
 	/// <summary>
 	/// Domyślna mapa.
@@ -57,8 +60,32 @@ namespace Kingdoms_Clash.NET.Maps
 				new Vector2(200f, margin + 0f)
 			};
 			this.Components.Add(new ClashEngine.NET.Components.PhysicalObject());
-			//TODO: przenieść Terrain do projektu gry
-			this.Components.Add(new Terrain(this.Size.Y - maxH, Vertices));
+			this.Attributes.Get<Body>("Body").Value.UserData = this;
+			this.AddShapes();
+#if !SERVER
+			this.Components.Add(new ObjectHolder(new Internals.TerrainObject(this.Size.Y - maxH, this.Vertices)));
+#endif
+		}
+		#endregion
+
+		#region Private Methods
+		/// <summary>
+		/// Gdy mamy otworzone ciało obiektu fizycznego dodajemy do niego odpowiednie figury.
+		/// </summary>
+		private void AddShapes()
+		{
+			var bodyAttr = this.Attributes.Get<Body>("Body");
+			bodyAttr.Value.UserData = this;
+			if (bodyAttr != null)
+			{
+				for (int i = 0; i < this.Vertices.Length - 1; i++)
+				{
+					var f = FixtureFactory.CreateEdge(this.Vertices[i].ToXNA(), this.Vertices[i + 1].ToXNA(), bodyAttr.Value);
+					f.Friction = 0.5f;
+					f.CollisionFilter.CollisionCategories = Category.All;
+					f.UserData = i;
+				}
+			}
 		}
 		#endregion
 	}
