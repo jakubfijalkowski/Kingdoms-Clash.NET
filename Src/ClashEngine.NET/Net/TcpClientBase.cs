@@ -71,12 +71,14 @@ namespace ClashEngine.NET.Net
 		/// <summary>
 		/// Otwiera połączenie.
 		/// </summary>
-		public abstract void Open();
+		/// <param name="wait">Określa, czy czekać na otwarcie połączenia i zakończenie sekwencji powitalnej.</param>
+		public abstract void Open(bool wait = true);
 
 		/// <summary>
 		/// Zamyka połączenie.
 		/// </summary>
-		public abstract void Close();
+		/// <param name="wait">Określa, czy czekać na zakończenie połączenia.</param>
+		public abstract void Close(bool wait = true);
 
 		/// <summary>
 		/// Wysyła wskazaną wiadomość do klienta.

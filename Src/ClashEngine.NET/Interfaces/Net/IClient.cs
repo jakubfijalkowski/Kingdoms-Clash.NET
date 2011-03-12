@@ -87,12 +87,14 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// <summary>
 		/// Otwiera połączenie.
 		/// </summary>
-		void Open();
+		/// <param name="wait">Określa, czy czekać na otwarcie połączenia i zakończenie sekwencji powitalnej.</param>
+		void Open(bool wait = true);
 
 		/// <summary>
 		/// Zamyka połączenie.
 		/// </summary>
-		void Close();
+		/// <param name="wait">Określa, czy czekać na zakończenie połączenia.</param>
+		void Close(bool wait = true);
 
 		/// <summary>
 		/// Wysyła wskazaną wiadomość.

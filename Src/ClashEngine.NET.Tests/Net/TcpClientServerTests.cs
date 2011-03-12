@@ -68,17 +68,14 @@ namespace ClashEngine.NET.Tests.Net
 		}
 
 		[Test]
-		public void ClientConnectsToServer()
+		public void ClientConnectsAndDisconnectsWait()
 		{
 			using (var server = new TcpServer(Port, 1, Name, Version))
 			using (var client = new TcpClient(new IPEndPoint(IPAddress.Loopback, Port), Version))
 			{
 				server.Start();
-				client.Open();
-				//while (client.Status == ClientStatus.Welcome)
-				//    client.Prepare();
-				while (client.Status == ClientStatus.Welcome) ;
-				
+				client.Open(true);
+								
 				Assert.AreEqual(ClientStatus.Ok, client.Status);
 				Assert.AreEqual(1, server.Clients.Count);
 				Assert.AreEqual(ClientStatus.Ok, server.Clients[0].Status);
@@ -86,20 +83,46 @@ namespace ClashEngine.NET.Tests.Net
 
 				Assert.AreEqual(client.RemoteEndpoint, server.Clients[0].LocalEndpoint);
 				Assert.AreEqual(client.LocalEndpoint, server.Clients[0].RemoteEndpoint);
+
+				client.Close(true);
+				Assert.AreEqual(ClientStatus.Closed, client.Status);
 			}
 		}
 
 		[Test]
-		public void ServerIsClosedBeforeClientWillDisconnect()
+		public void ClientConnectsAndDisconnectsNoWait()
+		{
+			using (var server = new TcpServer(Port, 1, Name, Version))
+			using (var client = new TcpClient(new IPEndPoint(IPAddress.Loopback, Port), Version))
+			{
+				server.Start();
+				client.Open(false);
+				Assert.AreEqual(ClientStatus.Welcome, client.Status);
+				while (client.Status == ClientStatus.Welcome) ;
+
+				Assert.AreEqual(ClientStatus.Ok, client.Status);
+				Assert.AreEqual(1, server.Clients.Count);
+				Assert.AreEqual(ClientStatus.Ok, server.Clients[0].Status);
+				Assert.AreEqual(IPAddress.Loopback, server.Clients[0].RemoteEndpoint.Address);
+
+				Assert.AreEqual(client.RemoteEndpoint, server.Clients[0].LocalEndpoint);
+				Assert.AreEqual(client.LocalEndpoint, server.Clients[0].RemoteEndpoint);
+
+				client.Close(false);
+				Assert.AreEqual(ClientStatus.Ok, client.Status);
+				while (client.Status == ClientStatus.Ok) ;
+				Assert.AreEqual(ClientStatus.Closed, client.Status);
+			}
+		}
+
+		[Test]
+		public void ClosingServerDisconnectsClients()
 		{
 			using (var server = new TcpServer(Port, 1, Name, Version))
 			using (var client = new TcpClient(new IPEndPoint(IPAddress.Loopback, Port), Version))
 			{
 				server.Start();
 				client.Open();
-				//while (client.Status == ClientStatus.Welcome)
-				//    client.Prepare();
-
 				Assert.AreEqual(ClientStatus.Ok, client.Status);
 
 				server.Stop();

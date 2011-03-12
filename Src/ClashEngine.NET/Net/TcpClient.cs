@@ -21,31 +21,35 @@ namespace ClashEngine.NET.Net
 		private bool WelcomeSent = false;
 		private Thread ClientThread = null;
 		private bool StopConnection = false;
-		private bool ConnectionOpened = false;
 		#endregion
 
 		#region IClient Members
 		/// <summary>
 		/// Startuje nowy wątek obsługujący połączenie.
 		/// </summary>
-		public override void Open()
+		/// <param name="wait">Określa, czy czekać na otwarcie połączenia i zakończenie sekwencji powitalnej.</param>
+		public override void Open(bool wait = true)
 		{
 			if (this.Status == ClientStatus.Closed)
 			{
+				this.Status = ClientStatus.Welcome;
 				this.ClientThread.Start();
-				while (!this.ConnectionOpened) Thread.Sleep(10);
+				while (wait && this.Status == ClientStatus.Welcome)
+					Thread.Sleep(10);
 			}
 		}
 
 		/// <summary>
 		/// Zamyka dodatkowy wątek.
 		/// </summary>
-		public override void Close()
+		/// <param name="wait">Określa, czy czekać na zakończenie połączenia.</param>
+		public override void Close(bool wait = true)
 		{
 			if (this.Status == ClientStatus.Ok)
 			{
 				this.StopConnection = true;
-				this.ClientThread.Join();
+				if (wait)
+					this.ClientThread.Join();
 			}
 		}
 		#endregion
@@ -110,7 +114,6 @@ namespace ClashEngine.NET.Net
 		private void ClientMain()
 		{
 			#region Opening connection
-			this.ConnectionOpened = false;
 			Logger.Info("Opening connection to {0}:{1}", base.RemoteEndpoint.Address, base.RemoteEndpoint.Port);
 			try
 			{
@@ -122,11 +125,6 @@ namespace ClashEngine.NET.Net
 				Logger.ErrorException("Cannot connect to server", ex);
 				return;
 			}
-			finally
-			{
-				this.ConnectionOpened = true;
-			}
-			this.Status = ClientStatus.Welcome;
 			Logger.Info("Connection opened");
 			#endregion
 

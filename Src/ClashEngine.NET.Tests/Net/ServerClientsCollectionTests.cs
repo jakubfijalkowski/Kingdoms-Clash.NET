@@ -39,11 +39,11 @@ namespace ClashEngine.NET.Tests.Net
 			collection.InternalAdd(obj1.Object);
 			collection.InternalAdd(obj2.Object);
 
-			obj1.Setup(c => c.Close());
-			obj2.Setup(c => c.Close());
+			obj1.Setup(c => c.Close(true));
+			obj2.Setup(c => c.Close(true));
 			collection.RemoveAt(0);
-			obj1.Verify(c => c.Close(), Times.Once());
-			obj2.Verify(c => c.Close(), Times.Never());
+			obj1.Verify(c => c.Close(true), Times.Once());
+			obj2.Verify(c => c.Close(true), Times.Never());
 			Assert.AreEqual(1, collection.Count);
 			Assert.AreEqual(obj2.Object, collection[0]);
 		}
@@ -57,11 +57,11 @@ namespace ClashEngine.NET.Tests.Net
 			collection.InternalAdd(obj1.Object);
 			collection.InternalAdd(obj2.Object);
 
-			obj1.Setup(c => c.Close());
-			obj2.Setup(c => c.Close());
+			obj1.Setup(c => c.Close(true));
+			obj2.Setup(c => c.Close(true));
 			collection.Remove(obj1.Object);
-			obj1.Verify(c => c.Close(), Times.Once());
-			obj2.Verify(c => c.Close(), Times.Never());
+			obj1.Verify(c => c.Close(true), Times.Once());
+			obj2.Verify(c => c.Close(true), Times.Never());
 			Assert.AreEqual(1, collection.Count);
 			Assert.AreEqual(obj2.Object, collection[0]);
 		}

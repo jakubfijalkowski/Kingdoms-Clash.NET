@@ -29,13 +29,15 @@ namespace ClashEngine.NET.Net.Internals
 		/// <summary>
 		/// Otwiera połączenie.
 		/// </summary>
-		public override void Open()
+		/// <param name="wait">Nieużywane.</param>
+		public override void Open(bool wait = true)
 		{ }
 
 		/// <summary>
 		/// Zamyka połączenie z klientem.
 		/// </summary>
-		public override void Close()
+		/// <param name="wait">Nieużywane, zawsze czeka.</param>
+		public override void Close(bool wait = true)
 		{
 			if (this.Status == ClientStatus.Ok)
 			{
