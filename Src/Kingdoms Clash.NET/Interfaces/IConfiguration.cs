@@ -38,21 +38,6 @@ namespace Kingdoms_Clash.NET.Interfaces
 		float CameraSpeed { get; set; }
 
 		/// <summary>
-		/// Margines górny dla map.
-		/// </summary>
-		float MapMargin { get; set; }
-
-		/// <summary>
-		/// Wartość grawitacji.
-		/// </summary>
-		float Gravity { get; set; }
-
-		/// <summary>
-		/// Rozmiary zamku.
-		/// </summary>
-		Vector2 CastleSize { get; set; }
-
-		/// <summary>
 		/// Czas pomiędzy poszczególnymi odnowieniami zasobów.
 		/// </summary>
 		float ResourceRenewalTime { get; set; }

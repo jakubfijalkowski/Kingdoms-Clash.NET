@@ -33,7 +33,7 @@ namespace Kingdoms_Clash.NET.Player
 			//Tworzymy zamek.
 			var pObj = new PhysicalObject();
 			this.Components.Add(pObj);
-			this.Components.Add(new BoundingBox(Configuration.Instance.CastleSize));
+			this.Components.Add(new BoundingBox(Settings.CastleSize));
 			pObj.Body.SetCollisionCategories(FarseerPhysics.Dynamics.Category.Cat20);
 			pObj.Body.UserData = this;
 #if !SERVER
@@ -49,7 +49,7 @@ namespace Kingdoms_Clash.NET.Player
 				this.Attributes.Get<Vector2>("Position").Value = this.GameState.Map.FirstCastle;
 			}
 
-			this.Attributes.Get<Vector2>("Size").Value = Configuration.Instance.CastleSize;
+			this.Attributes.Get<Vector2>("Size").Value = Settings.CastleSize;
 #endif
 		}
 		#endregion

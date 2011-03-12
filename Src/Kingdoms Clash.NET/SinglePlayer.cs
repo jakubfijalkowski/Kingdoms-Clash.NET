@@ -171,7 +171,7 @@ namespace Kingdoms_Clash.NET
 			//    true));
 
 			var cam = new ClashEngine.NET.Graphics.Cameras.Movable2DCamera(Configuration.Instance.ScreenSize,
-				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + Configuration.Instance.MapMargin, Configuration.Instance.ScreenSize.Y)));
+				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + Settings.MapMargin, Configuration.Instance.ScreenSize.Y)));
 			this.Camera = cam;
 			this.StaticEntities.Add(cam.GetCameraEntity(Configuration.Instance.CameraSpeed));
 			

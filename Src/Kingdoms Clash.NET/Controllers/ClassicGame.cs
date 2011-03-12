@@ -78,7 +78,7 @@ namespace Kingdoms_Clash.NET.Controllers
 		public IResourceOnMap RequestNewResource(string id)
 		{
 			return new Maps.ResourceOnMap(id, Configuration.Instance.ResourceRenewalValue,
-				Configuration.Instance.CastleSize.X + (float)(Random.NextDouble() * (this.GameState.Map.Size.X - Configuration.Instance.CastleSize.X * 2f)));
+				Settings.CastleSize.X + (float)(Random.NextDouble() * (this.GameState.Map.Size.X - Settings.CastleSize.X * 2f)));
 		}
 
 		/// <summary>
@@ -223,11 +223,11 @@ namespace Kingdoms_Clash.NET.Controllers
 			//TODO: napisać ładniejszą dedukcje gdzie umieścić jednostkę.
 			if (unit.Owner == this.GameState.Players[0])
 			{
-				unit.Position = this.GameState.Map.FirstCastle + Configuration.Instance.CastleSize - new OpenTK.Vector2(-1f, unit.Description.Height);
+				unit.Position = this.GameState.Map.FirstCastle + Settings.CastleSize - new OpenTK.Vector2(-1f, unit.Description.Height);
 			}
 			else
 			{
-				unit.Position = this.GameState.Map.SecondCastle + new OpenTK.Vector2(-unit.Description.Width - 1f, Configuration.Instance.CastleSize.Y - unit.Description.Height);
+				unit.Position = this.GameState.Map.SecondCastle + new OpenTK.Vector2(-unit.Description.Width - 1f, Settings.CastleSize.Y - unit.Description.Height);
 			}
 			Logger.Info("Player {0} created unit {1}", unit.Owner.Name, unit.Description.Id);
 		}

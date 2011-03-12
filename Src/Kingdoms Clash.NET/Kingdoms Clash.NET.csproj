@@ -118,6 +118,7 @@
     <Compile Include="Resources\ResourceDescription.cs" />
     <Compile Include="Resources\ResourcesCollection.cs" />
     <Compile Include="Resources\ResourcesList.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="SinglePlayer.cs" />
     <Compile Include="Interfaces\Controllers\IGameController.cs" />
     <Compile Include="Interfaces\IConfiguration.cs" />

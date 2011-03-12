@@ -66,21 +66,6 @@ namespace Kingdoms_Clash.NET
 		public float CameraSpeed { get; set; }
 
 		/// <summary>
-		/// Margines górny dla map.
-		/// </summary>
-		public float MapMargin { get; set; }
-
-		/// <summary>
-		/// Wartość grawitacji.
-		/// </summary>
-		public float Gravity { get; set; }
-
-		/// <summary>
-		/// Rozmiary zamku.
-		/// </summary>
-		public Vector2 CastleSize { get; set; }
-
-		/// <summary>
 		/// Czas pomiędzy poszczególnymi odnowieniami zasobów.
 		/// </summary>
 		public float ResourceRenewalTime { get; set; }
@@ -117,15 +102,11 @@ namespace Kingdoms_Clash.NET
 		public void Set(Interfaces.IConfiguration conf)
 		{
 			this.CameraSpeed = conf.CameraSpeed;
-			this.CastleSize = conf.CastleSize;
 			this.Fullscreen = conf.Fullscreen;
-			this.Gravity = conf.Gravity;
-			this.MapMargin = conf.MapMargin;
 			this.Player1Nation = conf.Player1Nation;
 			this.Player2Nation = conf.Player2Nation;
 			this.ResourceRenewalTime = conf.ResourceRenewalTime;
 			this.ResourceRenewalValue = conf.ResourceRenewalValue;
-			this.ScreenSize = conf.ScreenSize;
 			this.StartResources = conf.StartResources;
 			this.UseFPSCounter = conf.UseFPSCounter;
 			this.VSync = conf.VSync;

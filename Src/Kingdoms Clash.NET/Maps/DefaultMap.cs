@@ -42,18 +42,18 @@ namespace Kingdoms_Clash.NET.Maps
 		#region GameEntity Members
 		public override void OnInit()
 		{
-			float margin = Math.Max(Cfg.Instance.MapMargin, Cfg.Instance.ScreenSize.Y - this.Size.Y); //Margines, wyrównujemy mapę tak, by sięgała dołu ekranu ale nie była mniejsza niż margines
+			float margin = Math.Max(Settings.MapMargin, Cfg.Instance.ScreenSize.Y - this.Size.Y); //Margines, wyrównujemy mapę tak, by sięgała dołu ekranu ale nie była mniejsza niż margines
 			float maxH = 20f;
 
-			this.FirstCastle = new Vector2(0f, margin - Cfg.Instance.CastleSize.Y);
-			this.SecondCastle = new Vector2(this.Size.X - Cfg.Instance.CastleSize.X, margin - Cfg.Instance.CastleSize.Y);
+			this.FirstCastle = new Vector2(0f, margin - Settings.CastleSize.Y);
+			this.SecondCastle = new Vector2(this.Size.X - Settings.CastleSize.X, margin - Settings.CastleSize.Y);
 
 			this.Vertices = new Vector2[]
 			{
 				new Vector2(0f, margin + 0f),
-				new Vector2(Cfg.Instance.CastleSize.X, margin + 0f),
-				new Vector2((200f - Cfg.Instance.CastleSize.X - 20f) / 2 + 20f, margin + maxH),
-				new Vector2(200f - Cfg.Instance.CastleSize.X, margin + 0f),
+				new Vector2(Settings.CastleSize.X, margin + 0f),
+				new Vector2((200f - Settings.CastleSize.X - 20f) / 2 + 20f, margin + maxH),
+				new Vector2(200f - Settings.CastleSize.X, margin + 0f),
 				new Vector2(200f, margin + 0f)
 			};
 			this.Components.Add(new ClashEngine.NET.Components.PhysicalObject());

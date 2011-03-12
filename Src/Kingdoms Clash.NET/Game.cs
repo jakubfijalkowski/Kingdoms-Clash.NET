@@ -57,13 +57,13 @@ namespace Kingdoms_Clash.NET
 		public override void OnInit()
 		{
 #if !DEBUG
-            Logger.Info("System information: ");
-            var si = SystemInformation.Instance;
-            Logger.Info("OS: {0}, CLR: {1}", si.System.ToString(), si.CLRVersion.ToString());
-            Logger.Info("RAM size: {0}", si.MemorySize);
-            Logger.Info("Processor: {0} {1}MHz, arch: {2}, cores: {3}", si.ProcessorName, si.ProcessorSpeed, si.ProcessorArchitecture.ToString(), si.NumberOfCores);
-            Logger.Info("Graphics card: {0}, VRAM: {1}, drivers version: {2}", si.GraphicsCardName, si.VRAMSize, si.GraphicsDriverVersion);
-            Logger.Info("OpenGL version: {0}, GLSL version: {1}", si.OpenGLVersion, si.GLSLVersion);
+			Logger.Info("System information: ");
+			var si = SystemInformation.Instance;
+			Logger.Info("OS: {0}, CLR: {1}", si.System.ToString(), si.CLRVersion.ToString());
+			Logger.Info("RAM size: {0}", si.MemorySize);
+			Logger.Info("Processor: {0} {1}MHz, arch: {2}, cores: {3}", si.ProcessorName, si.ProcessorSpeed, si.ProcessorArchitecture.ToString(), si.NumberOfCores);
+			Logger.Info("Graphics card: {0}, VRAM: {1}, drivers version: {2}", si.GraphicsCardName, si.VRAMSize, si.GraphicsDriverVersion);
+			Logger.Info("OpenGL version: {0}, GLSL version: {1}", si.OpenGLVersion, si.GLSLVersion);
 #endif
 			if (SystemInformation.Instance.OpenGLVersion < new System.Version(1, 5))
 			{
@@ -140,7 +140,7 @@ namespace Kingdoms_Clash.NET
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
 			this.Info.Content.ContentDirectory = Defaults.RootDirectory;
-			ClashEngine.NET.PhysicsManager.Instance.Gravity = new OpenTK.Vector2(0f, Configuration.Instance.Gravity);
+			ClashEngine.NET.PhysicsManager.Instance.Gravity = new OpenTK.Vector2(0f, Settings.Gravity);
 		}
 		#endregion
 

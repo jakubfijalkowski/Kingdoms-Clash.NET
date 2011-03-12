@@ -56,11 +56,6 @@ namespace Kingdoms_Clash.NET.UserData
 			var camera = element.OwnerDocument.CreateElement("camera");
 			camera.SetAttribute("speed", this.Configuration.CameraSpeed.ToString());
 			element.AppendChild(camera);
-			
-			var castle = element.OwnerDocument.CreateElement("castle");
-			castle.SetAttribute("width", this.Configuration.CastleSize.X.ToString());
-			castle.SetAttribute("height", this.Configuration.CastleSize.Y.ToString());
-			element.AppendChild(castle);
 		}
 
 		/// <summary>
@@ -119,22 +114,6 @@ namespace Kingdoms_Clash.NET.UserData
 				{
 					this.Configuration.ResourceRenewalValue = uint.Parse(resourceRenewal.GetAttribute("value"));
 				}
-			}
-
-			var castle = element["castle"];
-			if (castle != null)
-			{
-				float x = this.Configuration.CastleSize.X;
-				float y = this.Configuration.CastleSize.Y;
-				if (castle.HasAttribute("width"))
-				{
-					x = float.Parse(castle.GetAttribute("width"));
-				}
-				if (castle.HasAttribute("height"))
-				{
-					y = float.Parse(castle.GetAttribute("height"));
-				}
-				this.Configuration.CastleSize = new OpenTK.Vector2(x, y);
 			}
 
 			var camera = element["camera"];
