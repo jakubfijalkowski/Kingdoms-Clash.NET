@@ -60,33 +60,36 @@ namespace ClashEngine.NET.Net
 		public TimeSpan MaxClientIdleTime { get; set; }
 
 		/// <summary>
-		/// Czy serwer jest uruchomiony.
+		/// Stan serwera.
 		/// </summary>
-		public bool IsRunning
-		{
-			get { return this.ServerThread.IsAlive; }
-		}
+		public ServerState State { get; private set; }
 
 		/// <summary>
-		/// Startuje serwer na nowym wkątku.
+		/// Startuje serwer na nowym wątku.
 		/// </summary>
-		public void Start()
+		/// <param name="wait">Określa, czy czekać do pełnego uruchomienia serwera.</param>
+		public void Start(bool wait = true)
 		{
-			if (!this.IsRunning)
+			if (this.State == ServerState.Stopped)
 			{
+				this.State = ServerState.Starting;
 				this.ServerThread.Start();
+				while (wait && this.State == ServerState.Starting) //Blokujemy aktualny wątek do pełnego uruchomienia serwera.
+					Thread.Sleep(10);
 			}
 		}
 
 		/// <summary>
 		/// Zatrzymuje działanie serwera rozłączając wszystkich klientów i kończąc dodatkowy wątek.
 		/// </summary>
-		public void Stop()
+		/// <param name="wait">Określa, czy czekać do pełnego zatrzymania serwera.</param>
+		public void Stop(bool wait = true)
 		{
-			if (this.IsRunning)
+			if (this.State == ServerState.Running)
 			{
 				this.ServerStop = true;
-				this.ServerThread.Join();
+				if (wait)
+					this.ServerThread.Join();
 			}
 		}
 		#endregion
@@ -139,15 +142,48 @@ namespace ClashEngine.NET.Net
 		{
 			Logger.Info("Starting TcpServer: {0} {1} at {2}:{3}", this.Name, this.Version, this.Endpoint.Address, this.Endpoint.Port);
 			Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-			listenSocket.Blocking = false;
-			listenSocket.Bind(this.Endpoint);
-			listenSocket.Listen(ListenBacklog);
+			try
+			{
+				listenSocket.Blocking = false;
+				listenSocket.Bind(this.Endpoint);
+				listenSocket.Listen(ListenBacklog);
+			}
+			catch (Exception ex)
+			{
+				this.State = ServerState.Error;
+				Logger.ErrorException("Cannot start server", ex);
+				return;
+			}
+			this.State = ServerState.Running;
 
 			while (!this.ServerStop)
 			{
-				if (listenSocket.Poll(0, SelectMode.SelectRead)) //Mamy kogoś do dodania 
+				bool isAnybodyToAccept = false;
+				try
 				{
-					this.HandleNewConnection(listenSocket.Accept());
+					isAnybodyToAccept = listenSocket.Poll(0, SelectMode.SelectRead);
+				}
+				catch (Exception ex)
+				{
+					Logger.WarnException("Cannot check if there is anybody to accept", ex);
+				}
+
+				if (isAnybodyToAccept) //Mamy kogoś do dodania 
+				{
+					Socket socket = null;
+					try
+					{
+						socket = listenSocket.Accept();
+						this.HandleNewConnection(socket);
+					}
+					catch (Exception ex)
+					{
+						Logger.WarnException("Cannot handle new connection", ex);
+						if (socket != null)
+						{
+							socket.Close();
+						}
+					}
 				}
 				for (int i = 0; i < this.Clients.Count; i++)
 				{
@@ -163,7 +199,9 @@ namespace ClashEngine.NET.Net
 				}
 			}
 			this._ClientsCollection.Clear();
+			listenSocket.Close();
 			this.ServerStop = false;
+			this.State = ServerState.Stopped;
 		}
 
 		/// <summary>
@@ -196,7 +234,7 @@ namespace ClashEngine.NET.Net
 			client.Receive();
 			if (client.Messages.Count > 0)
 			{
-				if(client.Messages[0].Type == MessageType.Welcome) //Odebraliśmy wiadomość powitalną
+				if (client.Messages[0].Type == MessageType.Welcome) //Odebraliśmy wiadomość powitalną
 				{
 					Messages.ClientWelcome msg;
 					try
@@ -210,7 +248,7 @@ namespace ClashEngine.NET.Net
 						Logger.Info("Client {0}:{1} rejected, reason: invalid welcome sequence", client.RemoteEndpoint.Address, client.RemoteEndpoint.Port);
 						this._ClientsCollection.RemoveAt(i--);
 						return;
-					} 
+					}
 					client.Messages.RemoveAt(0);
 					if (msg.Version == this.Version) //Wszystko ok
 					{

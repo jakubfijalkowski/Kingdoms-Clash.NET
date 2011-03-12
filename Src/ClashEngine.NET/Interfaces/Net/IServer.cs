@@ -4,6 +4,32 @@ using System.Net;
 namespace ClashEngine.NET.Interfaces.Net
 {
 	/// <summary>
+	/// Stan serwera.
+	/// </summary>
+	public enum ServerState
+	{
+		/// <summary>
+		/// Zatrzymany.
+		/// </summary>
+		Stopped,
+
+		/// <summary>
+		/// W trakcie włączania.
+		/// </summary>
+		Starting,
+
+		/// <summary>
+		/// Działa.
+		/// </summary>
+		Running,
+
+		/// <summary>
+		/// Wystąpił błąd.
+		/// </summary>
+		Error
+	}
+
+	/// <summary>
 	/// Interfejs dla klas serwera.
 	/// </summary>
 	/// <remarks>
@@ -62,18 +88,20 @@ namespace ClashEngine.NET.Interfaces.Net
 		TimeSpan MaxClientIdleTime { get; }
 
 		/// <summary>
-		/// Czy serwer jest uruchomiony.
+		/// Stan serwera.
 		/// </summary>
-		bool IsRunning { get; }
+		ServerState State { get; }
 
 		/// <summary>
-		/// Startuje serwer na nowym wkątku.
+		/// Startuje serwer na nowym wątku.
 		/// </summary>
-		void Start();
+		/// <param name="wait">Określa, czy czekać do pełnego uruchomienia serwera.</param>
+		void Start(bool wait = true);
 
 		/// <summary>
 		/// Zatrzymuje działanie serwera rozłączając wszystkich klientów i kończąc dodatkowy wątek.
 		/// </summary>
-		void Stop();
+		/// <param name="wait">Określa, czy czekać do pełnego zatrzymania serwera.</param>
+		void Stop(bool wait = true);
 	}
 }

@@ -16,19 +16,42 @@ namespace ClashEngine.NET.Tests.Net
 		private static readonly Version Version = new System.Version(1, 0, 0, 0);
 
 		[Test]
-		public void ServerStartsAndStopsWithCorrectInfo()
+		public void ServerStartsAndStopsWithCorrectInfoWait()
 		{
 			using (var server = new TcpServer(Port, 1, Name, Version))
 			{
 				Assert.AreEqual(server.Name, Name);
 				Assert.AreEqual(server.Version, Version);
 				Assert.AreEqual(0, server.Clients.Count);
-				Assert.IsFalse(server.IsRunning);
-				server.Start();
-				Assert.IsTrue(server.IsRunning);
+				Assert.AreEqual(ServerState.Stopped, server.State);
+				server.Start(true);
+				Assert.AreEqual(ServerState.Running, server.State);
 				Assert.AreEqual(0, server.Clients.Count);
-				server.Stop();
-				Assert.IsFalse(server.IsRunning);
+				server.Stop(true);
+				Assert.AreEqual(ServerState.Stopped, server.State);
+			}
+		}
+
+		[Test]
+		public void ServerStartsAndStopsWithCorrectInfoNoWait()
+		{
+			using (var server = new TcpServer(Port, 1, Name, Version))
+			{
+				Assert.AreEqual(server.Name, Name);
+				Assert.AreEqual(server.Version, Version);
+				Assert.AreEqual(0, server.Clients.Count);
+
+				Assert.AreEqual(ServerState.Stopped, server.State);
+				server.Start(false);
+				Assert.AreEqual(ServerState.Starting, server.State);
+				while (server.State == ServerState.Starting) ;
+				Assert.AreEqual(ServerState.Running, server.State);
+
+				Assert.AreEqual(0, server.Clients.Count);
+				server.Stop(false);
+				Assert.AreEqual(ServerState.Running, server.State);
+				while (server.State == ServerState.Running) ;
+				Assert.AreEqual(ServerState.Stopped, server.State);
 			}
 		}
 
