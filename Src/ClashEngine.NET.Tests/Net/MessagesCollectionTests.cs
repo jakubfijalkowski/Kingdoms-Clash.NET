@@ -70,7 +70,6 @@ namespace ClashEngine.NET.Tests.Net
 			Assert.AreEqual(1, messages.IndexOf(Interfaces.Net.MessageType.AllOk));
 			Assert.AreEqual(0, messages.IndexOf(Interfaces.Net.MessageType.InvalidSequence));
 			Assert.AreEqual(-1, messages.IndexOf(Interfaces.Net.MessageType.MessageEnd));
-			Assert.AreEqual(0, 1);
 		}
 	}
 }
