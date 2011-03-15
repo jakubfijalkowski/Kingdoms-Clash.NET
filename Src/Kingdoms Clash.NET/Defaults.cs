@@ -21,12 +21,9 @@ namespace Kingdoms_Clash.NET
 			ScreenSize = new OpenTK.Vector2(100f, 75f),
 			VSync = false,
 			CameraSpeed = 100f,
-			ResourceRenewalTime = 8f,
-			ResourceRenewalValue = 30,
 			UseFPSCounter = true,
 			Player1Nation = "TestNation",
-			Player2Nation = "TestNation",
-			StartResources = 1000
+			Player2Nation = "TestNation"
 		};
 
 		/// <summary>

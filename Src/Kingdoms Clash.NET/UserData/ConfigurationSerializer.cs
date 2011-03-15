@@ -44,15 +44,6 @@ namespace Kingdoms_Clash.NET.UserData
 			player2.SetAttribute("nation", this.Configuration.Player2Nation);
 			element.AppendChild(player2);
 
-			var startResources = element.OwnerDocument.CreateElement("startresources");
-			startResources.SetAttribute("value", this.Configuration.StartResources.ToString());
-			element.AppendChild(startResources);
-
-			var resourcesRenewal = element.OwnerDocument.CreateElement("resourcerenewal");
-			resourcesRenewal.SetAttribute("time", this.Configuration.ResourceRenewalTime.ToString());
-			resourcesRenewal.SetAttribute("value", this.Configuration.ResourceRenewalValue.ToString());
-			element.AppendChild(resourcesRenewal);
-
 			var camera = element.OwnerDocument.CreateElement("camera");
 			camera.SetAttribute("speed", this.Configuration.CameraSpeed.ToString());
 			element.AppendChild(camera);
@@ -95,25 +86,6 @@ namespace Kingdoms_Clash.NET.UserData
 			if (player2 != null && player2.HasAttribute("nation"))
 			{
 				this.Configuration.Player2Nation = player2.GetAttribute("nation");
-			}
-
-			var startResources = element["startresources"];
-			if (startResources != null && startResources.HasAttribute("value"))
-			{
-				this.Configuration.StartResources = uint.Parse(startResources.GetAttribute("value"));
-			}
-
-			var resourceRenewal = element["resourcerenewal"];
-			if (resourceRenewal != null)
-			{
-				if (resourceRenewal.HasAttribute("time"))
-				{
-					this.Configuration.ResourceRenewalTime = float.Parse(resourceRenewal.GetAttribute("time"));
-				}
-				if (resourceRenewal.HasAttribute("value"))
-				{
-					this.Configuration.ResourceRenewalValue = uint.Parse(resourceRenewal.GetAttribute("value"));
-				}
 			}
 
 			var camera = element["camera"];

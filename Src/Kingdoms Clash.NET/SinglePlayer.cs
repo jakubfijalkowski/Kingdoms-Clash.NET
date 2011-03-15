@@ -250,14 +250,14 @@ namespace Kingdoms_Clash.NET
 		private void HandleResources(double delta)
 		{
 			this.ResourceRenewalAccumulator += (float)delta;
-			if (this.ResourceRenewalAccumulator > Configuration.Instance.ResourceRenewalTime)
+			if (this.ResourceRenewalAccumulator > this.Settings.Gameplay.ResourceRenewalTime)
 			{
 				var res = this.Controller.RequestNewResource("wood");
 				if (res != null)
 				{
 					this.Add(res);
 				}
-				this.ResourceRenewalAccumulator -= Configuration.Instance.ResourceRenewalTime;
+				this.ResourceRenewalAccumulator -= this.Settings.Gameplay.ResourceRenewalTime;
 			}
 		}
 

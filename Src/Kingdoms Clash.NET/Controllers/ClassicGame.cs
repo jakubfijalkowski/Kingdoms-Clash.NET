@@ -78,7 +78,7 @@ namespace Kingdoms_Clash.NET.Controllers
 		/// <returns></returns>
 		public IResourceOnMap RequestNewResource(string id)
 		{
-			return new Maps.ResourceOnMap(id, Configuration.Instance.ResourceRenewalValue,
+			return new Maps.ResourceOnMap(id, this.GameState.Settings.Gameplay.ResourceRenewalValue,
 				Settings.CastleSize.X + (float)(Random.NextDouble() * (this.GameState.Map.Size.X - Settings.CastleSize.X * 2f)));
 		}
 
@@ -211,8 +211,8 @@ namespace Kingdoms_Clash.NET.Controllers
 			//Testowe, początkowe zasoby
 			foreach (var res in Resources.ResourcesList.Instance)
 			{
-				this.GameState.Players[0].Resources.Add(res.Id, Configuration.Instance.StartResources);
-				this.GameState.Players[1].Resources.Add(res.Id, Configuration.Instance.StartResources);
+				this.GameState.Players[0].Resources.Add(res.Id, this.GameState.Settings.Gameplay.StartResources);
+				this.GameState.Players[1].Resources.Add(res.Id, this.GameState.Settings.Gameplay.StartResources);
 			}
 		}
 

@@ -32,6 +32,6 @@
 		/// <summary>
 		/// Ustawienia rozgrywki, są one zależne od kontrolera, który grę obsługuje.
 		/// </summary>
-		IGameplaySettings GameplaySettings { get; set; }
+		IGameplaySettings Gameplay { get; set; }
 	}
 }

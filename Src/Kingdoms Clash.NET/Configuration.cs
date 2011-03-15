@@ -66,16 +66,6 @@ namespace Kingdoms_Clash.NET
 		public float CameraSpeed { get; set; }
 
 		/// <summary>
-		/// Czas pomiędzy poszczególnymi odnowieniami zasobów.
-		/// </summary>
-		public float ResourceRenewalTime { get; set; }
-
-		/// <summary>
-		/// Wartość zasobu.
-		/// </summary>
-		public uint ResourceRenewalValue { get; set; }
-
-		/// <summary>
 		/// Czy używać licznika FPS.
 		/// </summary>
 		public bool UseFPSCounter { get; set; }
@@ -89,11 +79,6 @@ namespace Kingdoms_Clash.NET
 		/// Nacja drugiego gracza.
 		/// </summary>
 		public string Player2Nation { get; set; }
-
-		/// <summary>
-		/// Ilość zasobów na start.
-		/// </summary>
-		public uint StartResources { get; set; }
 		#endregion
 
 		internal Configuration()
@@ -105,9 +90,6 @@ namespace Kingdoms_Clash.NET
 			this.Fullscreen = conf.Fullscreen;
 			this.Player1Nation = conf.Player1Nation;
 			this.Player2Nation = conf.Player2Nation;
-			this.ResourceRenewalTime = conf.ResourceRenewalTime;
-			this.ResourceRenewalValue = conf.ResourceRenewalValue;
-			this.StartResources = conf.StartResources;
 			this.UseFPSCounter = conf.UseFPSCounter;
 			this.VSync = conf.VSync;
 			this.WindowSize = conf.WindowSize;

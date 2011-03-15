@@ -36,16 +36,6 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Szybkość poruszania się kamery.
 		/// </summary>
 		float CameraSpeed { get; set; }
-
-		/// <summary>
-		/// Czas pomiędzy poszczególnymi odnowieniami zasobów.
-		/// </summary>
-		float ResourceRenewalTime { get; set; }
-
-		/// <summary>
-		/// Wartość zasobu.
-		/// </summary>
-		uint ResourceRenewalValue { get; set; }
 		#endregion
 
 		#region Others
@@ -63,11 +53,6 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Nacja drugiego gracza.
 		/// </summary>
 		string Player2Nation { get; set; }
-
-		/// <summary>
-		/// Ilość zasobów na start.
-		/// </summary>
-		uint StartResources { get; set; }
 		#endregion
 
 		/// <summary>
