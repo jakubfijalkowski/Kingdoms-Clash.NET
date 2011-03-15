@@ -152,6 +152,8 @@ namespace Kingdoms_Clash.NET
 		#region Screen Members
 		public override void OnInit()
 		{
+			Logger.Info("Starting game with controller {0} and players {1} and {2}", this.Settings.Controller.GetType().Name, this.Players[0].Name, this.Players[1].Name);
+
 			base.OnInit();
 			this.StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager(this.GameInfo);
 
@@ -190,6 +192,7 @@ namespace Kingdoms_Clash.NET
 
 			//Od tej chwili to kontroler jest odpowiedzialny za wszystko.
 			this.Controller.GameStarted();
+			Logger.Info("Game started");
 		}
 
 		public override void Update(double delta)
