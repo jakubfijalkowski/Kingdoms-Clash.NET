@@ -11,6 +11,7 @@ namespace Kingdoms_Clash.NET.Controllers
 	/// <summary>
 	/// Klasyczna gra, zgodna z zasadami oryginału.
 	/// </summary>
+	[ControllerSettings(typeof(DefaultGameplaySettings))]
 	public class ClassicGame
 		: IClassicGame
 	{

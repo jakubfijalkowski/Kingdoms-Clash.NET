@@ -31,6 +31,11 @@
 		/// Kontroler gry.
 		/// </summary>
 		public IGameController Controller { get; set; }
+
+		/// <summary>
+		/// Ustawienia rozgrywki, są one zależne od kontrolera, który grę obsługuje.
+		/// </summary>
+		public IGameplaySettings GameplaySettings { get; set; }
 		#endregion
 	}
 }

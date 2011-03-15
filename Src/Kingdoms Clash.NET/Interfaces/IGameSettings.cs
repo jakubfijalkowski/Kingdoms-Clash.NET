@@ -9,7 +9,6 @@
 	/// </summary>
 	public interface IGameSettings
 	{
-		#region Main settings
 		/// <summary>
 		/// Informacje o graczu A.
 		/// </summary>
@@ -29,23 +28,10 @@
 		/// Kontroler gry.
 		/// </summary>
 		IGameController Controller { get; set; }
-		#endregion
 
-		//#region Gameplay settings
-		///// <summary>
-		///// Czas pomiędzy poszczególnymi odnowieniami zasobów.
-		///// </summary>
-		//float ResourceRenewalTime { get; }
-
-		///// <summary>
-		///// Wartość zasobu.
-		///// </summary>
-		//uint ResourceRenewalValue { get; }
-
-		///// <summary>
-		///// Ilość zasobów na start.
-		///// </summary>
-		//uint StartResources { get; }
-		//#endregion
+		/// <summary>
+		/// Ustawienia rozgrywki, są one zależne od kontrolera, który grę obsługuje.
+		/// </summary>
+		IGameplaySettings GameplaySettings { get; set; }
 	}
 }

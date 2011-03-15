@@ -79,11 +79,15 @@
     <Compile Include="AdditionalScreens\WinnerScreen.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\ClassicGame.cs" />
+    <Compile Include="Controllers\ControllerSettingsAttribute.cs" />
+    <Compile Include="Controllers\DefaultGameplaySettings.cs" />
     <Compile Include="Controllers\Internals\UnitQueueStats.cs" />
     <Compile Include="Controllers\Internals\UnitRequestToken.cs" />
     <Compile Include="Controllers\Internals\UnitQueue.cs" />
     <Compile Include="Defaults.cs" />
     <Compile Include="GameSettings.cs" />
+    <Compile Include="Interfaces\Controllers\IControllerSettingsAttribute.cs" />
+    <Compile Include="Interfaces\IGameplaySettings.cs" />
     <Compile Include="Interfaces\Controllers\IClassicGame.cs" />
     <Compile Include="Interfaces\IGameSettings.cs" />
     <Compile Include="Interfaces\Controllers\IUnitQueue.cs" />
