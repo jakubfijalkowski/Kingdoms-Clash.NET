@@ -55,14 +55,27 @@ namespace Kingdoms_Clash.NET.Controllers
 		/// </remarks>
 		/// <param name="controller">Kontroler.</param>
 		/// <returns>Nowy obiekt ustawień dla klasy.</returns>
-		public static IGameplaySettings GetSettingsFor(IGameController controller)
+		public static IGameplaySettings GetSettingsFor(Type controller)
 		{
-			var attributes = controller.GetType().GetCustomAttributes(typeof(ControllerSettingsAttribute), false);
+			var attributes = controller.GetCustomAttributes(typeof(ControllerSettingsAttribute), false);
 			if (attributes.Length > 0)
 			{
 				return Activator.CreateInstance(((ControllerSettingsAttribute)attributes[0]).SettingsType) as IGameplaySettings;
 			}
 			return new DefaultGameplaySettings();
+		}
+
+		/// <summary>
+		/// Pobiera nowy obiekt ustawień dla kontrolera.
+		/// </summary>
+		/// <remarks>
+		/// Jeśli kontroler nie definiuje tego atrybutu zwracany jest obiekt <see cref="DefaultGameplaySettings"/>.
+		/// </remarks>
+		/// <param name="controller">Kontroler.</param>
+		/// <returns>Nowy obiekt ustawień dla klasy.</returns>
+		public static IGameplaySettings GetSettingsFor(IGameController controller)
+		{
+			return GetSettingsFor(controller.GetType());
 		}
 		#endregion
 	}
