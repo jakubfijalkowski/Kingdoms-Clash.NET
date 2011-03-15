@@ -24,5 +24,14 @@
 		/// </summary>
 		public uint StartResources { get; set; }
 		#endregion
+
+		#region Constructors
+		public DefaultGameplaySettings()
+		{
+			this.ResourceRenewalTime = 8;
+			this.ResourceRenewalValue = 10;
+			this.StartResources = 50;
+		}
+		#endregion
 	}
 }
