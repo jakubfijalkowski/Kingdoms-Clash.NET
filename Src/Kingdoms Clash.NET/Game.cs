@@ -106,7 +106,8 @@ namespace Kingdoms_Clash.NET
 				PlayerA = new Player.PlayerInfo("A", nation1, controlers[0], true),
 				PlayerB = new Player.PlayerInfo("B", nation2, controlers[1], true),
 				Map = new Maps.DefaultMap(),
-				Controller = new Controllers.ClassicGame()
+				Controller = new Controllers.ClassicGame(),
+				Gameplay = Controllers.ControllerSettingsAttribute.GetSettingsFor(typeof(Controllers.ClassicGame))
 			};
 
 			this.Game = new SinglePlayer();

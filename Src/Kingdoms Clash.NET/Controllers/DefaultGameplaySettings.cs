@@ -29,7 +29,7 @@
 		public DefaultGameplaySettings()
 		{
 			this.ResourceRenewalTime = 8;
-			this.ResourceRenewalValue = 10;
+			this.ResourceRenewalValue = 20;
 			this.StartResources = 50;
 		}
 		#endregion
