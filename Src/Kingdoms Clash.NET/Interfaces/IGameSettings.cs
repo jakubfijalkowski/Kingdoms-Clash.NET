@@ -1,6 +1,7 @@
 ﻿namespace Kingdoms_Clash.NET.Interfaces
 {
 	using Controllers;
+	using Controllers.Victory;
 	using Map;
 	using Player;
 
@@ -28,6 +29,11 @@
 		/// Kontroler gry.
 		/// </summary>
 		IGameController Controller { get; set; }
+
+		/// <summary>
+		/// Reguły wygranej dla tej gry.
+		/// </summary>
+		IVictoryRules VictoryRules { get; set; }
 
 		/// <summary>
 		/// Ustawienia rozgrywki, są one zależne od kontrolera, który grę obsługuje.

@@ -19,7 +19,7 @@ namespace Kingdoms_Clash.NET
 		: Screen, IGameState, IGameStateScreen
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
-		
+
 		#region Private Fields
 		/// <summary>
 		/// Manager encji "stałych" - graczy, kamery i mapy.
@@ -174,7 +174,7 @@ namespace Kingdoms_Clash.NET
 				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + NET.Settings.MapMargin, Configuration.Instance.ScreenSize.Y)));
 			this.Camera = cam;
 			this.StaticEntities.Add(cam.GetCameraEntity(Configuration.Instance.CameraSpeed));
-			
+
 
 			this.StaticEntities.Add(this.Map);
 			this.StaticEntities.Add(new Player.PlayerEntity(this.Players[0], this));
@@ -243,21 +243,25 @@ namespace Kingdoms_Clash.NET
 		/// </summary>
 		private void HandleVictory()
 		{
-			if (this.Players[0].Health <= 0)
+			var winner = this.Settings.VictoryRules.Check();
+			AdditionalScreens.WinnerScreen winnerScreen = null;
+			switch (winner)
 			{
-				Logger.Error("User {0} has won the match!", this.Players[1].Name);
-				var winnerScreen = this.OwnerManager["WinnerScreen"] as AdditionalScreens.WinnerScreen;
-				winnerScreen.ChangeWinner(true);
-				winnerScreen.MoveToFront();
-				winnerScreen.Activate();
-			}
-			else if (this.Players[1].Health <= 0)
-			{
-			    Logger.Error("User {0} has won the match!", this.Players[0].Name);
-			    var winnerScreen = this.OwnerManager["WinnerScreen"] as AdditionalScreens.WinnerScreen;
-			    winnerScreen.ChangeWinner(false);
-				winnerScreen.MoveToFront();
-			    winnerScreen.Activate();
+				case PlayerType.First:
+					Logger.Error("User {0} has won the match!", this.Players[0].Name);
+					winnerScreen = this.OwnerManager["WinnerScreen"] as AdditionalScreens.WinnerScreen;
+					winnerScreen.ChangeWinner(false);
+					winnerScreen.MoveToFront();
+					winnerScreen.Activate();
+					break;
+
+				case PlayerType.Second:
+					Logger.Error("User {0} has won the match!", this.Players[1].Name);
+					winnerScreen = this.OwnerManager["WinnerScreen"] as AdditionalScreens.WinnerScreen;
+					winnerScreen.ChangeWinner(true);
+					winnerScreen.MoveToFront();
+					winnerScreen.Activate();
+					break;
 			}
 		}
 		#endregion
