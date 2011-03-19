@@ -86,6 +86,8 @@
     <Compile Include="Defaults.cs" />
     <Compile Include="Interfaces\Controllers\IClassicGame.cs" />
     <Compile Include="Interfaces\Controllers\IControllerSettingsAttribute.cs" />
+    <Compile Include="Interfaces\Controllers\Victory\IKillerWins.cs" />
+    <Compile Include="Interfaces\Controllers\Victory\IVictoryRules.cs" />
     <Compile Include="Interfaces\Controllers\IUnitQueue.cs" />
     <Compile Include="Interfaces\Controllers\IUnitQueueStats.cs" />
     <Compile Include="Interfaces\Factories\IPlayerControllerFactory.cs" />

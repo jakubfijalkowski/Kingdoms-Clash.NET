@@ -87,6 +87,8 @@
     <Compile Include="Defaults.cs" />
     <Compile Include="GameSettings.cs" />
     <Compile Include="Interfaces\Controllers\IControllerSettingsAttribute.cs" />
+    <Compile Include="Interfaces\Controllers\Victory\IKillerWins.cs" />
+    <Compile Include="Interfaces\Controllers\Victory\IVictoryRules.cs" />
     <Compile Include="Interfaces\IGameplaySettings.cs" />
     <Compile Include="Interfaces\Controllers\IClassicGame.cs" />
     <Compile Include="Interfaces\IGameSettings.cs" />

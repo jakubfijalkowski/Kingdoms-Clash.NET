@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashEngine.NET.Tests", "Sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingdoms Clash.NET.Tests", "Src\Kingdoms Clash.NET.Tests\Kingdoms Clash.NET.Tests.csproj", "{2F2A0353-867B-4089-9EE9-68F027730C62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kingdoms Clash.NET.Server", "Src\Kingdoms Clash.NET\Kingdoms Clash.NET.Server.csproj", "{F47E554A-C283-4CD0-BB86-A5A410087EFC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,18 +67,6 @@ Global
 		{2F2A0353-867B-4089-9EE9-68F027730C62}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2F2A0353-867B-4089-9EE9-68F027730C62}.Release|x86.ActiveCfg = Release|Any CPU
 		{2F2A0353-867B-4089-9EE9-68F027730C62}.Release|x86.Build.0 = Release|Any CPU
-		{F47E554A-C283-4CD0-BB86-A5A410087EFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F47E554A-C283-4CD0-BB86-A5A410087EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F47E554A-C283-4CD0-BB86-A5A410087EFC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{F47E554A-C283-4CD0-BB86-A5A410087EFC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{F47E554A-C283-4CD0-BB86-A5A410087EFC}.Debug|x86.ActiveCfg = Debug|x86
-		{F47E554A-C283-4CD0-BB86-A5A410087EFC}.Debug|x86.Build.0 = Debug|x86
-		{F47E554A-C283-4CD0-BB86-A5A410087EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F47E554A-C283-4CD0-BB86-A5A410087EFC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F47E554A-C283-4CD0-BB86-A5A410087EFC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{F47E554A-C283-4CD0-BB86-A5A410087EFC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{F47E554A-C283-4CD0-BB86-A5A410087EFC}.Release|x86.ActiveCfg = Release|x86
-		{F47E554A-C283-4CD0-BB86-A5A410087EFC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

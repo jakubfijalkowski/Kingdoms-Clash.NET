@@ -22,9 +22,9 @@ namespace Kingdoms_Clash.NET.Interfaces.Player
 		Second = 1,
 
 		/// <summary>
-		/// Obserwator.
+		/// Widz.
 		/// </summary>
-		Observer = 0x7FFFFFFF
+		Spectator = 0x7FFFFFFF
 	}
 
 	/// <summary>
