@@ -75,6 +75,11 @@ namespace ClashEngine.NET.Net
 		public ServerState State { get; private set; }
 
 		/// <summary>
+		/// Dane dodatkowe wysyłane razem z informacjami o serwerze.
+		/// </summary>
+		public string AdditionalData { get; set; }
+
+		/// <summary>
 		/// Startuje serwer na nowym wątku.
 		/// </summary>
 		/// <param name="wait">Określa, czy czekać do pełnego uruchomienia serwera.</param>
@@ -386,19 +391,19 @@ namespace ClashEngine.NET.Net
 		private byte[] GetServerInfo()
 		{
 			byte[] data = new byte[
-				2 //Długość
+				2   //Długość
 				+ 2 * this.Name.Length //Nazwa
 				+ 4 //Wersja
 				+ 4 //Aktualna liczba klientów
 				+ 4 //Max. klientów
 				+ 2 //Długość
-				+ 0 //TODO: Dodatkowe dane
+				+ 2 * this.AdditionalData.Length //Dodatkowe dane
 				];
 
-			var nameLen = BitConverter.GetBytes((ushort)this.Name.Length);
+			var nameLen     = BitConverter.GetBytes((ushort)this.Name.Length);
 			var currClients = BitConverter.GetBytes((uint)this.Clients.Count);
-			var maxClients = BitConverter.GetBytes(this.MaxClients);
-			var addDataLen = new byte[] { 0, 0 };
+			var maxClients  = BitConverter.GetBytes(this.MaxClients);
+			var addDataLen  = BitConverter.GetBytes((ushort)this.AdditionalData.Length);
 			if (!BitConverter.IsLittleEndian)
 			{
 				Array.Reverse(nameLen);
@@ -407,16 +412,18 @@ namespace ClashEngine.NET.Net
 				Array.Reverse(addDataLen);
 			}
 			int i = 0;
-			Array.Copy(nameLen, data, i += 2);
+			Array.Copy(nameLen, data, 2);
+			i += 2;
 			System.Text.Encoding.Unicode.GetBytes(this.Name, 0, this.Name.Length, data, 2);
 			i += this.Name.Length * 2;
 			data[i++] = (byte)this.Version.Major;
 			data[i++] = (byte)this.Version.Minor;
 			data[i++] = (byte)this.Version.Build;
 			data[i++] = (byte)this.Version.Revision;
-			Array.Copy(currClients, 0, data, i += 4, 4);
-			Array.Copy(maxClients, 0, data, i += 2, 4);
-			Array.Copy(addDataLen, 0, data, i += 2, 2);
+			Array.Copy(currClients, 0, data, i, 4); i += 4;
+			Array.Copy(maxClients, 0, data, i, 4); i += 4;
+			Array.Copy(addDataLen, 0, data, i, 2); i += 2;
+			System.Text.Encoding.Unicode.GetBytes(this.AdditionalData, 0, this.AdditionalData.Length, data, i);
 			return data;
 		}
 		#endregion

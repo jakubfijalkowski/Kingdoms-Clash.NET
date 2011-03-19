@@ -110,6 +110,11 @@ namespace ClashEngine.NET.Interfaces.Net
 		ServerState State { get; }
 
 		/// <summary>
+		/// Dane dodatkowe wysyłane razem z informacjami o serwerze.
+		/// </summary>
+		string AdditionalData { get; set; }
+
+		/// <summary>
 		/// Startuje serwer na nowym wątku.
 		/// </summary>
 		/// <param name="wait">Określa, czy czekać do pełnego uruchomienia serwera.</param>
