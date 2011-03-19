@@ -107,6 +107,7 @@ namespace Kingdoms_Clash.NET
 				PlayerB = new Player.PlayerInfo("B", nation2, controlers[1], true),
 				Map = new Maps.DefaultMap(),
 				Controller = new Controllers.ClassicGame(),
+				VictoryRules = new Controllers.Victory.KillerWins(),
 				Gameplay = Controllers.ControllerSettingsAttribute.GetSettingsFor(typeof(Controllers.ClassicGame))
 			};
 

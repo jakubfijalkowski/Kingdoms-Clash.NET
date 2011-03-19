@@ -151,6 +151,7 @@ namespace Kingdoms_Clash.NET
 			this.StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager(this.GameInfo);
 
 			this.Controller.GameState = this;
+			this.Settings.VictoryRules.GameState = this;
 
 			this.Controller.PreGameStarted();
 
@@ -164,17 +165,10 @@ namespace Kingdoms_Clash.NET
 			this.PlayerControllers[1].GameState = this;
 			this.PlayerControllers[1].Initialize(this.OwnerManager, this.GameInfo.MainWindow.Input);
 
-			//this.StaticEntities.Add(new ClashEngine.NET.Graphics.Cameras.OrthoCamera(
-			//    new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + Configuration.Instance.MapMargin, Configuration.Instance.ScreenSize.Y)),
-			//    Configuration.Instance.ScreenSize,
-			//    Configuration.Instance.CameraSpeed,
-			//    true));
-
 			var cam = new ClashEngine.NET.Graphics.Cameras.Movable2DCamera(Configuration.Instance.ScreenSize,
 				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + NET.Settings.MapMargin, Configuration.Instance.ScreenSize.Y)));
 			this.Camera = cam;
 			this.StaticEntities.Add(cam.GetCameraEntity(Configuration.Instance.CameraSpeed));
-
 
 			this.StaticEntities.Add(this.Map);
 			this.StaticEntities.Add(new Player.PlayerEntity(this.Players[0], this));

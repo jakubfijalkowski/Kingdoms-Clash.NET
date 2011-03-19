@@ -2,6 +2,7 @@
 {
 	using Interfaces;
 	using Interfaces.Controllers;
+	using Interfaces.Controllers.Victory;
 	using Interfaces.Map;
 	using Interfaces.Player;
 
@@ -31,6 +32,11 @@
 		/// Kontroler gry.
 		/// </summary>
 		public IGameController Controller { get; set; }
+
+		/// <summary>
+		/// Reguły wygranej dla tej gry.
+		/// </summary>
+		public IVictoryRules VictoryRules { get; set; }
 
 		/// <summary>
 		/// Ustawienia rozgrywki, są one zależne od kontrolera, który grę obsługuje.

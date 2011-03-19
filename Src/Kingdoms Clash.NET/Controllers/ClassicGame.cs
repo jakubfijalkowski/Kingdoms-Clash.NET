@@ -290,7 +290,7 @@ namespace Kingdoms_Clash.NET.Controllers
 		{
 			this.ResourceRenewalTime = 8;
 			this.ResourceRenewalValue = 20;
-			this.StartResources = 50;
+			this.StartResources = 1000;
 		}
 		#endregion
 	}

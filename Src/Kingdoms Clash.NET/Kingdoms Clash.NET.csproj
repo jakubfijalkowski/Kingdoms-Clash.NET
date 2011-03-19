@@ -84,6 +84,7 @@
     <Compile Include="Controllers\Internals\UnitQueueStats.cs" />
     <Compile Include="Controllers\Internals\UnitRequestToken.cs" />
     <Compile Include="Controllers\Internals\UnitQueue.cs" />
+    <Compile Include="Controllers\Victory\KillerWins.cs" />
     <Compile Include="Defaults.cs" />
     <Compile Include="GameSettings.cs" />
     <Compile Include="Interfaces\Controllers\IControllerSettingsAttribute.cs" />
