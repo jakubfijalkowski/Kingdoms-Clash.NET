@@ -27,6 +27,7 @@ namespace ClashEngine.NET.Net
 		private Thread ServerThread = null;
 		private bool ServerStop = false;
 		private byte[] InfoportBuffer = new byte[1024];
+		private string _AdditionalData = string.Empty;
 		#endregion
 
 		#region IServer Members
@@ -77,7 +78,11 @@ namespace ClashEngine.NET.Net
 		/// <summary>
 		/// Dane dodatkowe wysyłane razem z informacjami o serwerze.
 		/// </summary>
-		public string AdditionalData { get; set; }
+		public string AdditionalData
+		{
+			get { return this._AdditionalData; }
+			set { this._AdditionalData = (value == null ? string.Empty : value); }
+		}
 
 		/// <summary>
 		/// Startuje serwer na nowym wątku.
@@ -138,9 +143,9 @@ namespace ClashEngine.NET.Net
 		/// <param name="maxClients"><see cref="MaxClients"/></param>
 		/// <param name="name"><see cref="Name"/></param>
 		/// <param name="version"><see cref="Version"/></param>
-		/// <param name="infoPort"><see cref="InfoEndpoint"/></param>
-		public TcpServer(int port, uint maxClients, string name, Version version, int infoPort = 0)
-			: this(new IPEndPoint(IPAddress.Any, port), maxClients, name, version, new IPEndPoint(IPAddress.Any, infoPort))
+		/// <param name="infoPort"><see cref="InfoEndpoint"/>, dla -1 nie uruchamia kanału informacji.</param>
+		public TcpServer(int port, uint maxClients, string name, Version version, int infoPort = -1)
+			: this(new IPEndPoint(IPAddress.Any, port), maxClients, name, version, (infoPort > -1 ? new IPEndPoint(IPAddress.Any, infoPort) : null))
 		{ }
 		#endregion
 
