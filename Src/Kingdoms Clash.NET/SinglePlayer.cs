@@ -32,11 +32,6 @@ namespace Kingdoms_Clash.NET
 		private List<IGameEntity> ToRemove = new List<IGameEntity>();
 
 		/// <summary>
-		/// Czas od ostatniego dodania zasobu.
-		/// </summary>
-		private float ResourceRenewalAccumulator = 0f;
-
-		/// <summary>
 		/// Kontrolery graczy.
 		/// </summary>
 		private IPlayerController[] PlayerControllers = new IPlayerController[2];
@@ -94,8 +89,6 @@ namespace Kingdoms_Clash.NET
 		{
 			this.Controller.Reset();
 			this.Entities.Clear();
-
-			this.ResourceRenewalAccumulator = 0f;
 		}
 
 		/// <summary>
@@ -204,8 +197,6 @@ namespace Kingdoms_Clash.NET
 			this.HandleVictory();
 			this.Controller.Update(delta);
 
-			this.HandleResources(delta);
-
 			foreach (var ent in this.ToRemove)
 			{
 				this.Entities.Remove(ent);
@@ -247,23 +238,6 @@ namespace Kingdoms_Clash.NET
 		#endregion
 
 		#region Private Members
-		/// <summary>
-		/// Obsługuje zasoby.
-		/// </summary>
-		private void HandleResources(double delta)
-		{
-			this.ResourceRenewalAccumulator += (float)delta;
-			if (this.ResourceRenewalAccumulator > this.Settings.Gameplay.ResourceRenewalTime)
-			{
-				var res = this.Controller.RequestNewResource("wood");
-				if (res != null)
-				{
-					this.Add(res);
-				}
-				this.ResourceRenewalAccumulator -= this.Settings.Gameplay.ResourceRenewalTime;
-			}
-		}
-
 		/// <summary>
 		/// Sprawdza, czy ktoś nie wygrał.
 		/// </summary>

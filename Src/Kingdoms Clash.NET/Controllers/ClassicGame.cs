@@ -20,6 +20,13 @@ namespace Kingdoms_Clash.NET.Controllers
 		private static Random Random = new Random();
 		#endregion
 
+		#region Private fields
+		/// <summary>
+		/// Zmienna pomocnicza do określania kiedy dodać zasób.
+		/// </summary>
+		private float ResourceRenewalAccumulator = 0.0f;
+		#endregion
+
 		#region IGameController Members
 		/// <summary>
 		/// Stan aktualnej gry.
@@ -72,17 +79,6 @@ namespace Kingdoms_Clash.NET.Controllers
 		}
 
 		/// <summary>
-		/// Dodaje zasób o wskazanym Id i wartości pobranej z konfiguracji.
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
-		public IResourceOnMap RequestNewResource(string id)
-		{
-			return new Maps.ResourceOnMap(id, this.GameState.Settings.Gameplay.ResourceRenewalValue,
-				Settings.CastleSize.X + (float)(Random.NextDouble() * (this.GameState.Map.Size.X - Settings.CastleSize.X * 2f)));
-		}
-
-		/// <summary>
 		/// </summary>
 		/// <param name="delta"></param>
 		public void Update(double delta)
@@ -97,6 +93,8 @@ namespace Kingdoms_Clash.NET.Controllers
 			{
 				this.HandleUnit(u2);
 			}
+
+			this.HandleResources(delta);
 		}
 
 		/// <summary>
@@ -214,6 +212,8 @@ namespace Kingdoms_Clash.NET.Controllers
 				this.GameState.Players[0].Resources.Add(res.Id, this.GameState.Settings.Gameplay.StartResources);
 				this.GameState.Players[1].Resources.Add(res.Id, this.GameState.Settings.Gameplay.StartResources);
 			}
+
+			this.ResourceRenewalAccumulator = 0.0f;
 		}
 
 		private void HandleUnit(IUnit unit)
@@ -231,6 +231,26 @@ namespace Kingdoms_Clash.NET.Controllers
 				unit.Position = this.GameState.Map.SecondCastle + new OpenTK.Vector2(-unit.Description.Width - 1f, Settings.CastleSize.Y - unit.Description.Height);
 			}
 			Logger.Info("Player {0} created unit {1}", unit.Owner.Name, unit.Description.Id);
+		}
+
+		/// <summary>
+		/// Obsługa zasobów.
+		/// Obsługiwane zasoby: wood.
+		/// </summary>
+		/// <param name="delta"></param>
+		private void HandleResources(double delta)
+		{
+			this.ResourceRenewalAccumulator += (float)delta;
+			if (this.ResourceRenewalAccumulator > this.GameState.Settings.Gameplay.ResourceRenewalTime)
+			{
+				var res = new Maps.ResourceOnMap("wood", this.GameState.Settings.Gameplay.ResourceRenewalValue,
+				Settings.CastleSize.X + (float)(Random.NextDouble() * (this.GameState.Map.Size.X - Settings.CastleSize.X * 2f)));
+				if (res != null)
+				{
+					this.GameState.Add(res);
+				}
+				this.ResourceRenewalAccumulator -= this.GameState.Settings.Gameplay.ResourceRenewalTime;
+			}
 		}
 		#endregion
 	}
