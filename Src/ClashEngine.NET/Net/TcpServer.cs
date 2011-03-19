@@ -10,6 +10,9 @@ namespace ClashEngine.NET.Net
 	/// <summary>
 	/// Serwer oparty na TCP.
 	/// </summary>
+	/// <remarks>
+	/// Port informacji używa UDP.
+	/// </remarks>
 	public class TcpServer
 		: IServer, IDisposable
 	{
@@ -23,6 +26,7 @@ namespace ClashEngine.NET.Net
 		private Internals.ServerClientsCollection _ClientsCollection = new Internals.ServerClientsCollection();
 		private Thread ServerThread = null;
 		private bool ServerStop = false;
+		private byte[] InfoportBuffer = new byte[1024];
 		#endregion
 
 		#region IServer Members
@@ -40,6 +44,12 @@ namespace ClashEngine.NET.Net
 		/// Dane, na których serwer nasłuchuje.
 		/// </summary>
 		public IPEndPoint Endpoint { get; private set; }
+
+		/// <summary>
+		/// Dane, na których otwarty jest kanał informacyjny.
+		/// Null, jeśli taki kanał nie jest otwarty.
+		/// </summary>
+		public IPEndPoint InfoEndpoint { get; private set; }
 
 		/// <summary>
 		/// Maksymalna liczba klientów podłączonych do serwera.
@@ -102,9 +112,10 @@ namespace ClashEngine.NET.Net
 		/// <param name="maxClients"><see cref="MaxClients"/></param>
 		/// <param name="name"><see cref="Name"/></param>
 		/// <param name="version"><see cref="Version"/></param>
-		public TcpServer(IPEndPoint endpoint, uint maxClients, string name, Version version)
+		public TcpServer(IPEndPoint endpoint, uint maxClients, string name, Version version, IPEndPoint infoEndpoint = null)
 		{
 			this.Endpoint = endpoint;
+			this.InfoEndpoint = infoEndpoint;
 			this.MaxClients = maxClients;
 			this.Name = name;
 			this.Version = version;
@@ -122,8 +133,9 @@ namespace ClashEngine.NET.Net
 		/// <param name="maxClients"><see cref="MaxClients"/></param>
 		/// <param name="name"><see cref="Name"/></param>
 		/// <param name="version"><see cref="Version"/></param>
-		public TcpServer(int port, uint maxClients, string name, Version version)
-			: this(new IPEndPoint(IPAddress.Any, port), maxClients, name, version)
+		/// <param name="infoPort"><see cref="InfoEndpoint"/></param>
+		public TcpServer(int port, uint maxClients, string name, Version version, int infoPort = 0)
+			: this(new IPEndPoint(IPAddress.Any, port), maxClients, name, version, new IPEndPoint(IPAddress.Any, infoPort))
 		{ }
 		#endregion
 
@@ -140,6 +152,7 @@ namespace ClashEngine.NET.Net
 		/// </summary>
 		private void ServerMain()
 		{
+			#region Starting
 			Logger.Info("Starting TcpServer: {0} {1} at {2}:{3}", this.Name, this.Version, this.Endpoint.Address, this.Endpoint.Port);
 			Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 			try
@@ -155,7 +168,31 @@ namespace ClashEngine.NET.Net
 				return;
 			}
 			this.State = ServerState.Running;
+			#endregion
 
+			#region Information channel - opening
+			Socket infoSocket = null;
+			if (this.InfoEndpoint != null)
+			{
+				try
+				{
+					Logger.Info("Opening information channel at {0}:{1}", this.InfoEndpoint.Address, this.InfoEndpoint.Port);
+					infoSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+					infoSocket.Blocking = false;
+					infoSocket.Bind(this.InfoEndpoint);
+					Logger.Info("Information channel opened");
+				}
+				catch (Exception ex)
+				{
+					Logger.WarnException("Cannot open information channel", ex);
+					throw;
+				}
+			}
+			#endregion
+
+			Logger.Info("Server started");
+
+			#region Main loop
 			while (!this.ServerStop)
 			{
 				bool isAnybodyToAccept = false;
@@ -197,11 +234,27 @@ namespace ClashEngine.NET.Net
 						this.HandleClient(client);
 					}
 				}
+				if (infoSocket != null)
+				{
+					this.HandleInfoport(infoSocket);
+				}
 			}
+			#endregion
+
+			#region Stopping
+			Logger.Info("Stopping TcpServer: {0} {1} at {2}:{3}", this.Name, this.Version, this.Endpoint.Address, this.Endpoint.Port);
+			if (this.InfoEndpoint != null)
+			{
+				infoSocket.Close();
+				Logger.Info("Information channel closed");
+			}
+
 			this._ClientsCollection.Clear();
 			listenSocket.Close();
 			this.ServerStop = false;
 			this.State = ServerState.Stopped;
+			Logger.Info("Server stopped");
+			#endregion
 		}
 
 		/// <summary>
@@ -298,6 +351,73 @@ namespace ClashEngine.NET.Net
 			{
 				client.Receive();
 			}
+		}
+
+		/// <summary>
+		/// Obsługa kanału informacji.
+		/// </summary>
+		/// <param name="socket"></param>
+		private void HandleInfoport(Socket socket)
+		{
+			if (socket.Available > 0)
+			{
+				EndPoint remote = new IPEndPoint(IPAddress.Any, 0);
+				try
+				{
+					var length = socket.ReceiveFrom(this.InfoportBuffer, ref remote);
+					if (length > 0)
+					{
+						if (new Message(this.InfoportBuffer, 0, length).Type == MessageType.Welcome)
+						{
+							//Wysyłamy informacje o serwerze
+							socket.SendTo(this.GetServerInfo(), remote);
+						}
+					}
+				}
+				catch
+				{ }
+			}
+		}
+
+		/// <summary>
+		/// Formatuje dane o serwerze
+		/// </summary>
+		/// <returns></returns>
+		private byte[] GetServerInfo()
+		{
+			byte[] data = new byte[
+				2 //Długość
+				+ 2 * this.Name.Length //Nazwa
+				+ 4 //Wersja
+				+ 4 //Aktualna liczba klientów
+				+ 4 //Max. klientów
+				+ 2 //Długość
+				+ 0 //TODO: Dodatkowe dane
+				];
+
+			var nameLen = BitConverter.GetBytes((ushort)this.Name.Length);
+			var currClients = BitConverter.GetBytes((uint)this.Clients.Count);
+			var maxClients = BitConverter.GetBytes(this.MaxClients);
+			var addDataLen = new byte[] { 0, 0 };
+			if (!BitConverter.IsLittleEndian)
+			{
+				Array.Reverse(nameLen);
+				Array.Reverse(currClients);
+				Array.Reverse(maxClients);
+				Array.Reverse(addDataLen);
+			}
+			int i = 0;
+			Array.Copy(nameLen, data, i += 2);
+			System.Text.Encoding.Unicode.GetBytes(this.Name, 0, this.Name.Length, data, 2);
+			i += this.Name.Length * 2;
+			data[i++] = (byte)this.Version.Major;
+			data[i++] = (byte)this.Version.Minor;
+			data[i++] = (byte)this.Version.Build;
+			data[i++] = (byte)this.Version.Revision;
+			Array.Copy(currClients, 0, data, i += 4, 4);
+			Array.Copy(maxClients, 0, data, i += 2, 4);
+			Array.Copy(addDataLen, 0, data, i += 2, 2);
+			return data;
 		}
 		#endregion
 	}

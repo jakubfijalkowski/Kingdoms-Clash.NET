@@ -54,6 +54,17 @@ namespace ClashEngine.NET.Interfaces.Net
 	///  
 	/// Zakończenie połączenia:
 	///  * jedna ze stron wysyła wiadomość <see cref="MessageType.Close"/> i kończy połączenie
+	///  
+	/// Kanał informacji:
+	/// Aby otrzymać informacje o serwerze należy wysłać na kanał informacji PUSTĄ wiadomość <see cref="MessageType.Welcome"/>.
+	/// Serwer odpowie wysyłając pakiet zawierający:
+	///  * 2B - długość nazwy
+	///  * (długość nazwy) * 2B - nazwa
+	///  * 4B - wersja serwera
+	///  * 4B - aktualna liczba podłączonych do niego klientów
+	///  * 4B - maksymalna liczba klientów
+	///  * 2B - długość danych dodatkowych
+	///  * (długość danych dodatkowych) * 2B - dane dodatkowe
 	/// </remarks>
 	public interface IServer
 	{
@@ -71,6 +82,12 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// Dane, na których serwer nasłuchuje.
 		/// </summary>
 		IPEndPoint Endpoint { get; }
+
+		/// <summary>
+		/// Dane, na których otwarty jest kanał informacyjny.
+		/// Null, jeśli taki kanał nie jest otwarty.
+		/// </summary>
+		IPEndPoint InfoEndpoint { get; }
 
 		/// <summary>
 		/// Maksymalna liczba klientów podłączonych do serwera.
