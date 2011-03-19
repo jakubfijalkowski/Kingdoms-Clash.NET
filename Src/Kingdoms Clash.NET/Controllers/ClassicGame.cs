@@ -11,7 +11,7 @@ namespace Kingdoms_Clash.NET.Controllers
 	/// <summary>
 	/// Klasyczna gra, zgodna z zasadami oryginału.
 	/// </summary>
-	[ControllerSettings(typeof(DefaultGameplaySettings))]
+	[ControllerSettings(typeof(ClassicGameSettings))]
 	public class ClassicGame
 		: IClassicGame
 	{
@@ -25,6 +25,13 @@ namespace Kingdoms_Clash.NET.Controllers
 		/// Zmienna pomocnicza do określania kiedy dodać zasób.
 		/// </summary>
 		private float ResourceRenewalAccumulator = 0.0f;
+		#endregion
+
+		#region Private properties
+		private IClassicGameSettings Settings
+		{
+			get { return this.GameState.Settings.Gameplay as IClassicGameSettings; }
+		}
 		#endregion
 
 		#region IGameController Members
@@ -209,8 +216,8 @@ namespace Kingdoms_Clash.NET.Controllers
 			//Testowe, początkowe zasoby
 			foreach (var res in Resources.ResourcesList.Instance)
 			{
-				this.GameState.Players[0].Resources.Add(res.Id, this.GameState.Settings.Gameplay.StartResources);
-				this.GameState.Players[1].Resources.Add(res.Id, this.GameState.Settings.Gameplay.StartResources);
+				this.GameState.Players[0].Resources.Add(res.Id, this.Settings.StartResources);
+				this.GameState.Players[1].Resources.Add(res.Id, this.Settings.StartResources);
 			}
 
 			this.ResourceRenewalAccumulator = 0.0f;
@@ -224,11 +231,11 @@ namespace Kingdoms_Clash.NET.Controllers
 			//TODO: napisać ładniejszą dedukcje gdzie umieścić jednostkę.
 			if (unit.Owner == this.GameState.Players[0])
 			{
-				unit.Position = this.GameState.Map.FirstCastle + Settings.CastleSize - new OpenTK.Vector2(-1f, unit.Description.Height);
+				unit.Position = this.GameState.Map.FirstCastle + NET.Settings.CastleSize - new OpenTK.Vector2(-1f, unit.Description.Height);
 			}
 			else
 			{
-				unit.Position = this.GameState.Map.SecondCastle + new OpenTK.Vector2(-unit.Description.Width - 1f, Settings.CastleSize.Y - unit.Description.Height);
+				unit.Position = this.GameState.Map.SecondCastle + new OpenTK.Vector2(-unit.Description.Width - 1f, NET.Settings.CastleSize.Y - unit.Description.Height);
 			}
 			Logger.Info("Player {0} created unit {1}", unit.Owner.Name, unit.Description.Id);
 		}
@@ -241,16 +248,49 @@ namespace Kingdoms_Clash.NET.Controllers
 		private void HandleResources(double delta)
 		{
 			this.ResourceRenewalAccumulator += (float)delta;
-			if (this.ResourceRenewalAccumulator > this.GameState.Settings.Gameplay.ResourceRenewalTime)
+			if (this.ResourceRenewalAccumulator > this.Settings.ResourceRenewalTime)
 			{
-				var res = new Maps.ResourceOnMap("wood", this.GameState.Settings.Gameplay.ResourceRenewalValue,
-				Settings.CastleSize.X + (float)(Random.NextDouble() * (this.GameState.Map.Size.X - Settings.CastleSize.X * 2f)));
+				var res = new Maps.ResourceOnMap("wood", this.Settings.ResourceRenewalValue,
+				NET.Settings.CastleSize.X + (float)(Random.NextDouble() * (this.GameState.Map.Size.X - NET.Settings.CastleSize.X * 2f)));
 				if (res != null)
 				{
 					this.GameState.Add(res);
 				}
-				this.ResourceRenewalAccumulator -= this.GameState.Settings.Gameplay.ResourceRenewalTime;
+				this.ResourceRenewalAccumulator -= this.Settings.ResourceRenewalTime;
 			}
+		}
+		#endregion
+	}
+
+	/// <summary>
+	/// Klasa ustawień dla <see cref="ClassicGame"/>.
+	/// </summary>
+	public class ClassicGameSettings
+		: IClassicGameSettings
+	{		
+		#region IClassicGameSettings Members
+		/// <summary>
+		/// Czas pomiędzy poszczególnymi odnowieniami zasobów.
+		/// </summary>
+		public float ResourceRenewalTime { get; set; }
+
+		/// <summary>
+		/// Wartość zasobu.
+		/// </summary>
+		public uint ResourceRenewalValue { get; set; }
+
+		/// <summary>
+		/// Ilość zasobów na start.
+		/// </summary>
+		public uint StartResources { get; set; }
+		#endregion
+
+		#region Constructors
+		public ClassicGameSettings()
+		{
+			this.ResourceRenewalTime = 8;
+			this.ResourceRenewalValue = 20;
+			this.StartResources = 50;
 		}
 		#endregion
 	}
