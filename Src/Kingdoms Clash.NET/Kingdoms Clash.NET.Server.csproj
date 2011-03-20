@@ -76,6 +76,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalScreens\WinnerScreen.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\ClassicGame.cs" />
     <Compile Include="Controllers\ControllerSettingsAttribute.cs" />
@@ -83,16 +84,18 @@
     <Compile Include="Controllers\Internals\UnitQueueStats.cs" />
     <Compile Include="Controllers\Internals\UnitRequestToken.cs" />
     <Compile Include="Controllers\Internals\UnitQueue.cs" />
+    <Compile Include="Controllers\Victory\KillerWins.cs" />
     <Compile Include="Defaults.cs" />
-    <Compile Include="Interfaces\Controllers\IClassicGame.cs" />
+    <Compile Include="GameSettings.cs" />
     <Compile Include="Interfaces\Controllers\IControllerSettingsAttribute.cs" />
     <Compile Include="Interfaces\Controllers\Victory\IKillerWins.cs" />
     <Compile Include="Interfaces\Controllers\Victory\IVictoryRules.cs" />
+    <Compile Include="Interfaces\IGameplaySettings.cs" />
+    <Compile Include="Interfaces\Controllers\IClassicGame.cs" />
+    <Compile Include="Interfaces\IGameSettings.cs" />
     <Compile Include="Interfaces\Controllers\IUnitQueue.cs" />
     <Compile Include="Interfaces\Controllers\IUnitQueueStats.cs" />
     <Compile Include="Interfaces\Factories\IPlayerControllerFactory.cs" />
-    <Compile Include="Interfaces\IGameplaySettings.cs" />
-    <Compile Include="Interfaces\IGameSettings.cs" />
     <Compile Include="Interfaces\Player\Controllers\IGuiControllerFactory.cs" />
     <Compile Include="Interfaces\Player\Controllers\IGuiController.cs" />
     <Compile Include="Interfaces\Player\Controllers\IKeyboardController.cs" />
@@ -111,6 +114,7 @@
     <Compile Include="Interfaces\Units\IUnitRequestToken.cs" />
     <Compile Include="Interfaces\Units\UnitEvents.cs" />
     <Compile Include="Internals\VelocityLimit.cs" />
+    <Compile Include="Maps\Internals\TerrainObject.cs" />
     <Compile Include="Maps\ResourceOnMap.cs" />
     <Compile Include="Player\Controllers\GuiControllerFactory.cs" />
     <Compile Include="Player\Controllers\Internals\ControlerScreen.cs" />
@@ -129,7 +133,9 @@
     <Compile Include="SinglePlayer.cs" />
     <Compile Include="Interfaces\Controllers\IGameController.cs" />
     <Compile Include="Interfaces\IConfiguration.cs" />
+    <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="Interfaces\IGameState.cs" />
+    <Compile Include="Interfaces\IMenuState.cs" />
     <Compile Include="Interfaces\Map\IMap.cs" />
     <Compile Include="Interfaces\Player\IPlayer.cs" />
     <Compile Include="Interfaces\Units\Components\IMovable.cs" />
@@ -138,6 +144,7 @@
     <Compile Include="Interfaces\Units\IUnit.cs" />
     <Compile Include="Interfaces\Units\IUnitComponent.cs" />
     <Compile Include="Interfaces\Units\IUnitDescription.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="Interfaces\Units\IUnitDescriptionsCollection.cs" />
     <Compile Include="Maps\DefaultMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
