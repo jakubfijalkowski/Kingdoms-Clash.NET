@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdditionalScreens\WinnerScreen.cs" />
+    <Compile Include="Properties\Both.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\ClassicGame.cs" />
     <Compile Include="Controllers\ControllerSettingsAttribute.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\PlayerEntity.cs" />
     <Compile Include="Player\PlayerInfo.cs" />
+    <Compile Include="Properties\Game.cs" />
     <Compile Include="Resources\ResourceDescription.cs" />
     <Compile Include="Resources\ResourcesCollection.cs" />
     <Compile Include="Resources\ResourcesList.cs" />
@@ -146,7 +148,6 @@
     <Compile Include="Game.cs" />
     <Compile Include="Interfaces\Units\IUnitDescriptionsCollection.cs" />
     <Compile Include="Maps\DefaultMap.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Units\Components\Collector.cs" />
     <Compile Include="Units\Components\ContactSoldier.cs" />
     <Compile Include="Units\Components\Movable.cs" />
