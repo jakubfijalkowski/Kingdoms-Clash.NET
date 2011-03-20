@@ -99,7 +99,6 @@ namespace Kingdoms_Clash.NET.UserData
 
 			//Ustawiamy resztę
 			float aspect = (float)this.Configuration.WindowSize.Width / (float)this.Configuration.WindowSize.Height;
-			this.Configuration.ScreenSize = new OpenTK.Vector2(Defaults.DefaultConfiguration.ScreenSize.X, Defaults.DefaultConfiguration.ScreenSize.X / aspect);
 		}
 		#endregion
 

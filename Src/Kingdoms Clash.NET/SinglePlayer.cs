@@ -165,8 +165,8 @@ namespace Kingdoms_Clash.NET
 			this.PlayerControllers[1].GameState = this;
 			this.PlayerControllers[1].Initialize(this.OwnerManager, this.GameInfo.MainWindow.Input);
 
-			var cam = new ClashEngine.NET.Graphics.Cameras.Movable2DCamera(Configuration.Instance.ScreenSize,
-				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + NET.Settings.MapMargin, Configuration.Instance.ScreenSize.Y)));
+			var cam = new ClashEngine.NET.Graphics.Cameras.Movable2DCamera(NET.Settings.ScreenSize,
+				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + NET.Settings.MapMargin, NET.Settings.ScreenSize.Y)));
 			this.Camera = cam;
 			this.StaticEntities.Add(cam.GetCameraEntity(Configuration.Instance.CameraSpeed));
 

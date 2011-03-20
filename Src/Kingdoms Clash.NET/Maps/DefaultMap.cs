@@ -45,7 +45,8 @@ namespace Kingdoms_Clash.NET.Maps
 		#region GameEntity Members
 		public override void OnInit()
 		{
-			float margin = Math.Max(Settings.MapMargin, Cfg.Instance.ScreenSize.Y - this.Size.Y); //Margines, wyrównujemy mapę tak, by sięgała dołu ekranu ale nie była mniejsza niż margines
+			//float margin = Math.Max(Settings.MapMargin, Cfg.Instance.ScreenSize.Y - this.Size.Y); //Margines, wyrównujemy mapę tak, by sięgała dołu ekranu ale nie była mniejsza niż margines
+			float margin = Settings.MapMargin;
 			float maxH = 20f;
 
 			this.FirstCastle = new Vector2(0f, margin - Settings.CastleSize.Y);

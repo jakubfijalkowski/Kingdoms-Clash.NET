@@ -21,5 +21,10 @@ namespace Kingdoms_Clash.NET
 		/// Margines górny dla map.
 		/// </summary>
 		public static readonly float MapMargin = 75f / 2f;
+
+		/// <summary>
+		/// Widoczna część gry.
+		/// </summary>
+		public static readonly Vector2 ScreenSize = new Vector2(100f, 75f);
 	}
 }

@@ -18,7 +18,6 @@ namespace Kingdoms_Clash.NET
 		{
 			WindowSize = new System.Drawing.Size(800, 600),
 			Fullscreen = false,
-			ScreenSize = new OpenTK.Vector2(100f, 75f),
 			VSync = false,
 			CameraSpeed = 100f,
 			UseFPSCounter = true,

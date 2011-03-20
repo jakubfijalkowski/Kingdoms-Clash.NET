@@ -21,11 +21,6 @@ namespace Kingdoms_Clash.NET.Interfaces
 		bool Fullscreen { get; set; }
 
 		/// <summary>
-		/// Rozmiary ekranu.
-		/// </summary>
-		Vector2 ScreenSize { get; set; }
-
-		/// <summary>
 		/// Czy używać synchronizacji pionowej.
 		/// </summary>
 		bool VSync { get; set; }
