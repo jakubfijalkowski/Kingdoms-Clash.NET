@@ -55,7 +55,7 @@ namespace Kingdoms_Clash.NET.UserData
 		/// <param name="element"></param>
 		public void Deserialize(XmlElement element)
 		{
-			this.Configuration.Set(Defaults.DefaultConfiguration);
+			this.Configuration.Set(Defaults.DefaultClientConfiguration);
 
 			var window = element["window"];
 			if (window == null || !window.HasAttribute("width") || !window.HasAttribute("height") || !window.HasAttribute("fullscreen"))

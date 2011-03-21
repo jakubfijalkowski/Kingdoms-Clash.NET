@@ -1,5 +1,4 @@
-﻿#if !SERVER
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ClashEngine.NET;
 using ClashEngine.NET.Interfaces;
 using ClashEngine.NET.Utilities;
@@ -154,7 +153,7 @@ namespace Kingdoms_Clash.NET
 		#region Main
 		static void Main(string[] args)
 		{
-			UserData.Loader loader = new UserData.Loader(Defaults.RootDirectory, Defaults.UserData);
+			UserData.ClientLoader loader = new UserData.ClientLoader(Defaults.RootDirectory, Defaults.UserData);
 
 			loader.LoadConfiguration();
 			loader.LoadNations();
@@ -168,4 +167,3 @@ namespace Kingdoms_Clash.NET
 		#endregion
 	}
 }
-#endif

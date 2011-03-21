@@ -11,10 +11,11 @@ namespace Kingdoms_Clash.NET
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
 
 		#region Basic
+#if !SERVER
 		/// <summary>
 		/// Domyślna konfiguracja.
 		/// </summary>
-		public static readonly Interfaces.IConfiguration DefaultConfiguration = new Configuration()
+		public static readonly Interfaces.IConfiguration DefaultClientConfiguration = new Configuration()
 		{
 			WindowSize = new System.Drawing.Size(800, 600),
 			Fullscreen = false,
@@ -24,6 +25,7 @@ namespace Kingdoms_Clash.NET
 			Player1Nation = "TestNation",
 			Player2Nation = "TestNation"
 		};
+#endif
 
 		/// <summary>
 		/// Zasoby, które są w grze.

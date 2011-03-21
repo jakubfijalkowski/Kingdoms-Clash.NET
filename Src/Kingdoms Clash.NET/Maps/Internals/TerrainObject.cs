@@ -4,7 +4,6 @@ using OpenTK;
 
 namespace Kingdoms_Clash.NET.Maps.Internals
 {
-
 	/// <summary>
 	/// Teren 2D.
 	/// Budowany na podstawie wierzchołków warstwy górnej i wysokości mapy.

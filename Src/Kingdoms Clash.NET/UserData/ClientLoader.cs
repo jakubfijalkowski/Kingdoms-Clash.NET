@@ -13,7 +13,7 @@ namespace Kingdoms_Clash.NET.UserData
 	/// <summary>
 	/// Loader dla danych użytkownika.
 	/// </summary>
-	public class Loader
+	public class ClientLoader
 		: Interfaces.IUserDataLoader
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
@@ -184,7 +184,7 @@ namespace Kingdoms_Clash.NET.UserData
 		/// </summary>
 		/// <param name="rootPath">Główna ścieżka do danych.</param>
 		/// <param name="userDataPath">Ścieżka do danych użytkownika.</param>
-		public Loader(string rootPath, string userDataPath)
+		public ClientLoader(string rootPath, string userDataPath)
 		{
 			this.RootPath = rootPath;
 			this.UserDataPath = userDataPath;

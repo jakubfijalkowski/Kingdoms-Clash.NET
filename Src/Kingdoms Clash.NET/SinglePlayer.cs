@@ -1,5 +1,4 @@
-﻿#if !SERVER
-using System;
+﻿using System;
 using System.Collections.Generic;
 using ClashEngine.NET;
 using ClashEngine.NET.Interfaces.EntitiesManager;
@@ -263,4 +262,3 @@ namespace Kingdoms_Clash.NET
 		#endregion
 	}
 }
-#endif

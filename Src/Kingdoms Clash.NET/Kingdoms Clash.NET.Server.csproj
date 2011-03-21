@@ -76,8 +76,6 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdditionalScreens\WinnerScreen.cs" />
-    <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\ClassicGame.cs" />
     <Compile Include="Controllers\ControllerSettingsAttribute.cs" />
     <Compile Include="Controllers\DefaultGameplaySettings.cs" />
@@ -96,13 +94,13 @@
     <Compile Include="Interfaces\Controllers\IUnitQueue.cs" />
     <Compile Include="Interfaces\Controllers\IUnitQueueStats.cs" />
     <Compile Include="Interfaces\Factories\IPlayerControllerFactory.cs" />
-    <Compile Include="Interfaces\Player\Controllers\IGuiControllerFactory.cs" />
-    <Compile Include="Interfaces\Player\Controllers\IGuiController.cs" />
-    <Compile Include="Interfaces\Player\Controllers\IKeyboardController.cs" />
+    <Compile Include="Interfaces\IGameState.cs" />
+    <Compile Include="Interfaces\Player\IPlayerEntity.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Interfaces\Player\IPlayerInfo.cs" />
     <Compile Include="Interfaces\Map\IResourceOnMap.cs" />
     <Compile Include="Interfaces\Player\IPlayerController.cs" />
-    <Compile Include="Interfaces\Player\IPlayerEntity.cs" />
     <Compile Include="Interfaces\Resources\IResourceDescription.cs" />
     <Compile Include="Interfaces\Resources\IResourcesCollection.cs" />
     <Compile Include="Interfaces\Resources\IResourcesList.cs" />
@@ -114,14 +112,7 @@
     <Compile Include="Interfaces\Units\IUnitRequestToken.cs" />
     <Compile Include="Interfaces\Units\UnitEvents.cs" />
     <Compile Include="Internals\VelocityLimit.cs" />
-    <Compile Include="Maps\Internals\TerrainObject.cs" />
     <Compile Include="Maps\ResourceOnMap.cs" />
-    <Compile Include="Player\Controllers\GuiControllerFactory.cs" />
-    <Compile Include="Player\Controllers\Internals\ControlerScreen.cs" />
-    <Compile Include="Player\Controllers\Internals\GuiController1.cs" />
-    <Compile Include="Player\Controllers\Internals\GuiController2.cs" />
-    <Compile Include="Player\Controllers\KeyboardController.cs" />
-    <Compile Include="Player\Controllers\XAML\PlayersGUIContainer.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\PlayerEntity.cs" />
     <Compile Include="Player\PlayerInfo.cs" />
@@ -132,12 +123,7 @@
     <Compile Include="Resources\ResourcesList.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="SinglePlayer.cs" />
     <Compile Include="Interfaces\Controllers\IGameController.cs" />
-    <Compile Include="Interfaces\IConfiguration.cs" />
-    <Compile Include="Interfaces\IGame.cs" />
-    <Compile Include="Interfaces\IGameState.cs" />
-    <Compile Include="Interfaces\IMenuState.cs" />
     <Compile Include="Interfaces\Map\IMap.cs" />
     <Compile Include="Interfaces\Player\IPlayer.cs" />
     <Compile Include="Interfaces\Units\Components\IMovable.cs" />
@@ -146,7 +132,6 @@
     <Compile Include="Interfaces\Units\IUnit.cs" />
     <Compile Include="Interfaces\Units\IUnitComponent.cs" />
     <Compile Include="Interfaces\Units\IUnitDescription.cs" />
-    <Compile Include="Game.cs" />
     <Compile Include="Interfaces\Units\IUnitDescriptionsCollection.cs" />
     <Compile Include="Maps\DefaultMap.cs" />
     <Compile Include="Units\Components\Collector.cs" />
@@ -162,14 +147,7 @@
     <Compile Include="Units\XAML\Raw.cs" />
     <Compile Include="Units\XAML\ResourcesCollection.cs" />
     <Compile Include="Units\XAML\Wood.cs" />
-    <Compile Include="UserData\ConfigurationSerializer.cs" />
-    <Compile Include="UserData\Loader.cs" />
     <Compile Include="UserData\ResourceSerializer.cs" />
-    <None Include="app.config" />
-    <None Include="NLog.Release.config" />
-    <None Include="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClashEngine.NET\ClashEngine.NET.csproj">
@@ -178,12 +156,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DataSamples\Configuration.xml" />
-    <Content Include="DataSamples\Nation.xml" />
-    <Content Include="DataSamples\Resource.xml" />
-    <Content Include="Guidelines.txt" />
+    <Folder Include="Interfaces\Player\Controllers\" />
+    <Folder Include="Player\Controllers\" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
