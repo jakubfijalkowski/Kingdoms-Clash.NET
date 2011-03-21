@@ -24,7 +24,8 @@ namespace Kingdoms_Clash.NET
 
 		/// <summary>
 		/// Widoczna część gry.
+		/// Jest to tylko szerokość, wysokość należy wyliczyć uwzględniając aspekt okna.
 		/// </summary>
-		public static readonly Vector2 ScreenSize = new Vector2(100f, 75f);
+		public static readonly float ScreenSize = 100f;
 	}
 }

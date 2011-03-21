@@ -1,16 +1,14 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using ClashEngine.NET.EntitiesManager;
+using ClashEngine.NET.Extensions;
+using ClashEngine.NET.Graphics.Components;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using OpenTK;
-using Cfg = Kingdoms_Clash.NET.Configuration;
-using ClashEngine.NET.Extensions;
 
 namespace Kingdoms_Clash.NET.Maps
 {
 	using Interfaces.Map;
-	using ClashEngine.NET.Graphics.Components;
 
 	/// <summary>
 	/// Domyślna mapa.
