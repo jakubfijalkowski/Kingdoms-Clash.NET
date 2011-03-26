@@ -96,9 +96,6 @@ namespace Kingdoms_Clash.NET.UserData
 					this.Configuration.CameraSpeed = float.Parse(camera.GetAttribute("speed"));
 				}
 			}
-
-			//Ustawiamy resztę
-			float aspect = (float)this.Configuration.WindowSize.Width / (float)this.Configuration.WindowSize.Height;
 		}
 		#endregion
 
