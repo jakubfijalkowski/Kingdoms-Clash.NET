@@ -153,7 +153,7 @@ namespace Kingdoms_Clash.NET
 		#region Main
 		static void Main(string[] args)
 		{
-			UserData.ClientLoader loader = new UserData.ClientLoader(Defaults.RootDirectory, Defaults.UserData);
+			UserData.LoaderBase loader = new UserData.ClientLoader(Defaults.RootDirectory, Defaults.UserData);
 
 			loader.LoadConfiguration();
 			loader.LoadNations();

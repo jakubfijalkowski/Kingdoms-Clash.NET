@@ -8,12 +8,12 @@ namespace Kingdoms_Clash.NET.Interfaces
 	public interface IUserDataLoader
 	{
 		/// <summary>
-		/// Ścieżka do głównego folderu z danymi użytkownika.
+		/// Ścieżka do głównego folderu z danymi.
 		/// </summary>
 		string RootPath { get; }
 
 		/// <summary>
-		/// Ścieżka do głównego folderu z danymi użytkownika.
+		/// Ścieżka do folderu z danymi użytkownika.
 		/// </summary>
 		string UserDataPath { get; }
 
@@ -22,6 +22,11 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Dostępne dopiero po wywołaniu LoadNations.
 		/// </summary>
 		IList<Units.INation> Nations { get; }
+
+		/// <summary>
+		/// Sumy kontrolne nacji.
+		/// </summary>
+		IList<byte[]> NationsCheckSums { get; }
 
 		/// <summary>
 		/// Ładuje nacje z folderu Path/Nations.

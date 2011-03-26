@@ -11,14 +11,14 @@ namespace Kingdoms_Clash.NET.UserData
 	/// <summary>
 	/// Serializer dla zasobów.
 	/// </summary>
-	internal class ResourceSerializer
+	internal static  class ResourceSerializer
 	{
 		/// <summary>
 		/// Deserializuje opis zasobu.
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public IResourceDescription Deserialize(string filename)
+		public static IResourceDescription Deserialize(string filename)
 		{
 			var doc = new XmlDocument();
 			doc.Load(filename);

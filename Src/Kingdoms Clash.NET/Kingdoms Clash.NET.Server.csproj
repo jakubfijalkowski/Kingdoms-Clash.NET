@@ -95,6 +95,7 @@
     <Compile Include="Interfaces\Controllers\IUnitQueueStats.cs" />
     <Compile Include="Interfaces\Factories\IPlayerControllerFactory.cs" />
     <Compile Include="Interfaces\IGameState.cs" />
+    <Compile Include="Interfaces\IServerConfiguration.cs" />
     <Compile Include="Interfaces\Player\IPlayerEntity.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -122,6 +123,7 @@
     <Compile Include="Resources\ResourcesCollection.cs" />
     <Compile Include="Resources\ResourcesList.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="ServerConfiguration.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Interfaces\Controllers\IGameController.cs" />
     <Compile Include="Interfaces\Map\IMap.cs" />
@@ -147,7 +149,9 @@
     <Compile Include="Units\XAML\Raw.cs" />
     <Compile Include="Units\XAML\ResourcesCollection.cs" />
     <Compile Include="Units\XAML\Wood.cs" />
+    <Compile Include="UserData\LoaderBase.cs" />
     <Compile Include="UserData\ResourceSerializer.cs" />
+    <Compile Include="UserData\ServerLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClashEngine.NET\ClashEngine.NET.csproj">

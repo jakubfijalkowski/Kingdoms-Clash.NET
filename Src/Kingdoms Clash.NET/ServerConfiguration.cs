@@ -10,6 +10,25 @@ namespace Kingdoms_Clash.NET.Server
 	public class ServerConfiguration
 		: IServerConfiguration
 	{
+		#region Singleton
+		private static IServerConfiguration _Instance;
+
+		/// <summary>
+		/// Globalna instancja konfiguracji.
+		/// </summary>
+		public static IServerConfiguration Instance
+		{
+			get
+			{
+				if (_Instance == null)
+				{
+					_Instance = new ServerConfiguration();
+				}
+				return _Instance;
+			}
+		}
+		#endregion
+
 		#region IServerConfiguration Members
 		/// <summary>
 		/// Port serwera.

@@ -161,8 +161,9 @@
     <Compile Include="Units\XAML\Raw.cs" />
     <Compile Include="Units\XAML\ResourcesCollection.cs" />
     <Compile Include="Units\XAML\Wood.cs" />
-    <Compile Include="UserData\ConfigurationSerializer.cs" />
     <Compile Include="UserData\ClientLoader.cs" />
+    <Compile Include="UserData\ConfigurationSerializer.cs" />
+    <Compile Include="UserData\LoaderBase.cs" />
     <Compile Include="UserData\ResourceSerializer.cs" />
     <None Include="app.config" />
     <None Include="NLog.Release.config" />
