@@ -1,0 +1,10 @@
+<serverConfiguration
+	port="12345"
+	maxSpectators="0">
+	<!-- Nazwa serwera -->
+	<name>My test server</name>
+	<!-- Typ kontrolera -->
+	<controller>Kingdoms_Clash.NET.Controllers.ClassicGame</controller>
+	<!-- Typ reguł zwycięstwa -->
+	<rules>Kingdoms_Clash.NET.Controllers.Victory.KillerWins</rules>
+</serverConfiguration>
