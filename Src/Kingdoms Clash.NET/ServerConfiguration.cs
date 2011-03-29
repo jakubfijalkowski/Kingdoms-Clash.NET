@@ -36,6 +36,11 @@ namespace Kingdoms_Clash.NET.Server
 		public int Port { get; set; }
 
 		/// <summary>
+		/// Port informacji.
+		/// </summary>
+		public int InfoPort { get; set; }
+
+		/// <summary>
 		/// Maksymalna liczba widzów.
 		/// </summary>
 		public uint MaxSpectators { get; set; }

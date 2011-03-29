@@ -13,6 +13,11 @@ namespace Kingdoms_Clash.NET.Server.Interfaces
 		int Port { get; set; }
 
 		/// <summary>
+		/// Port informacji.
+		/// </summary>
+		int InfoPort { get; set; }
+
+		/// <summary>
 		/// Maksymalna liczba widzów.
 		/// </summary>
 		uint MaxSpectators { get; set; }

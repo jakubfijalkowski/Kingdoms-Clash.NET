@@ -43,6 +43,24 @@ namespace Kingdoms_Clash.NET.Server.UserData
 				ServerConfiguration.Instance.Port = tmp;
 				#endregion
 
+				#region InfoPort
+				var infoPortStr = cfg.GetAttribute("infoPort");
+				if (string.IsNullOrWhiteSpace(infoPortStr))
+				{
+					Logger.Info("InfoPort is not specified, assuming default(port+1 or port-1, depending on port value)");
+					tmp = ServerConfiguration.Instance.Port == System.Net.IPEndPoint.MaxPort ? ServerConfiguration.Instance.Port + 1 : ServerConfiguration.Instance.Port - 1;
+					Logger.Info("{0} assumed", tmp);
+				}
+				else
+				{
+					if (!int.TryParse(infoPortStr, out tmp))
+						throw new Exception("Cannot parse 'infoPort' value");
+					if (tmp < System.Net.IPEndPoint.MinPort || tmp > System.Net.IPEndPoint.MaxPort)
+						throw new Exception(string.Format("InfoPort must be from range {0}..{1}", System.Net.IPEndPoint.MinPort, System.Net.IPEndPoint.MaxPort));
+				}
+				ServerConfiguration.Instance.InfoPort = tmp;
+				#endregion
+
 				#region MaxSpectators
 				var maxSpectators = cfg.GetAttribute("maxSpectators");
 				int.TryParse(maxSpectators, out tmp);
@@ -53,7 +71,7 @@ namespace Kingdoms_Clash.NET.Server.UserData
 				var nameElement = cfg["name"];
 				if (nameElement == null || string.IsNullOrWhiteSpace(nameElement.InnerText))
 					throw new XmlException("Element 'name' must be specified");
-				ServerConfiguration.Instance.Name = nameElement.Value; 
+				ServerConfiguration.Instance.Name = nameElement.Value;
 				#endregion
 
 				#region Controller
@@ -63,7 +81,7 @@ namespace Kingdoms_Clash.NET.Server.UserData
 				ServerConfiguration.Instance.GameController = Type.GetType(controllerElement.InnerText);
 				if (ServerConfiguration.Instance.GameController == null)
 					throw new Exception("Cannot find controller");
-				if(!ServerConfiguration.Instance.GameController.GetInterfaces().Any(t => t == typeof(NET.Interfaces.Controllers.IGameController)))
+				if (!ServerConfiguration.Instance.GameController.GetInterfaces().Any(t => t == typeof(NET.Interfaces.Controllers.IGameController)))
 					throw new Exception("Controller must derive from IGameController interface");
 				#endregion
 
