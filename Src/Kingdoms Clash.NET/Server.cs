@@ -1,6 +1,7 @@
 ﻿#if SERVER
 using System;
-using System.Threading;
+using System.Runtime.InteropServices;
+using ClashEngine.NET.Net;
 
 namespace Kingdoms_Clash.NET.Server
 {
@@ -24,6 +25,16 @@ namespace Kingdoms_Clash.NET.Server
 			}
 			loader.LoadNations();
 			loader.LoadResources();
+			TcpServer server = new TcpServer(ServerConfiguration.Instance.Port,
+				ServerConfiguration.Instance.MaxSpectators + 2,
+				ServerConfiguration.Instance.Name, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+			server.Start();
+
+			//Umożliwia prawidłowe zatrzymanie serwera przy naciśnięciu Ctrl+C
+			Console.CancelKeyPress += (s, e) =>
+				{
+					server.Stop();
+				};
 		}
 	}
 }
