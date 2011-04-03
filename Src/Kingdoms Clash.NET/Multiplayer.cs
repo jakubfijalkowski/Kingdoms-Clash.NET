@@ -1,4 +1,5 @@
 ﻿using ClashEngine.NET.Interfaces;
+using ClashEngine.NET.Net;
 
 namespace Kingdoms_Clash.NET.Server
 {
@@ -10,13 +11,28 @@ namespace Kingdoms_Clash.NET.Server
 	public class Multiplayer
 		: IMultiplayer
 	{
+		#region Private fields
+		IGameInfo GameInfo = null;
+		//private bool InGame = false;
+		private bool StopMainLoop = false;
+		#endregion
+
 		#region IMultiplayer Members
 		/// <summary>
 		/// Uruchamia grę.
 		/// </summary>
 		public void Start()
 		{
+			TcpServer server = new TcpServer(ServerConfiguration.Instance.Port, ServerConfiguration.Instance.MaxSpectators + 2,
+				ServerConfiguration.Instance.Name, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version,
+				ServerConfiguration.Instance.InfoPort);
 
+			server.Start();
+			while (!this.StopMainLoop)
+			{
+
+			}
+			server.Stop();
 		}
 
 		/// <summary>
@@ -24,7 +40,7 @@ namespace Kingdoms_Clash.NET.Server
 		/// </summary>
 		public void Stop()
 		{
-
+			this.StopMainLoop = true;
 		}
 		#endregion
 
@@ -35,7 +51,7 @@ namespace Kingdoms_Clash.NET.Server
 		/// <param name="info"></param>
 		public Multiplayer(IGameInfo info)
 		{
-
+			this.GameInfo = info;
 		}
 		#endregion
 	}

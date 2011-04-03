@@ -12,6 +12,15 @@ namespace Kingdoms_Clash.NET.Server
 	{		
 		static void Main(string[] args)
 		{
+			Multiplayer game = null;
+
+			//Umożliwia prawidłowe zatrzymanie serwera przy naciśnięciu Ctrl+C
+			Console.CancelKeyPress += (s, e) =>
+			{
+				game.Stop();
+				e.Cancel = true;
+			};
+
 			Console.ForegroundColor = ConsoleColor.Red;
 			Console.WriteLine("To close server use Ctrl+C combination.");
 			Console.WriteLine("DO NOT use 'X' button!");
@@ -28,14 +37,10 @@ namespace Kingdoms_Clash.NET.Server
 			}
 			loader.LoadNations();
 			loader.LoadResources();
-			Multiplayer game = new Multiplayer(new ServerGameInfo());
+
+			game = new Multiplayer(new ServerGameInfo());
 			game.Start();
 
-			//Umożliwia prawidłowe zatrzymanie serwera przy naciśnięciu Ctrl+C
-			Console.CancelKeyPress += (s, e) =>
-				{
-					game.Stop();
-				};
 		}
 
 		private class ServerGameInfo
