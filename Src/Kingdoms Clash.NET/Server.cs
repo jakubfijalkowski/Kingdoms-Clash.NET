@@ -1,7 +1,5 @@
 ﻿#if SERVER
 using System;
-using System.Runtime.InteropServices;
-using ClashEngine.NET.Net;
 
 namespace Kingdoms_Clash.NET.Server
 {
@@ -10,7 +8,7 @@ namespace Kingdoms_Clash.NET.Server
 	/// <summary>
 	/// Główna klasa dla serwera.
 	/// </summary>
-	public class Server
+	public static class Server
 	{		
 		static void Main(string[] args)
 		{
@@ -30,16 +28,48 @@ namespace Kingdoms_Clash.NET.Server
 			}
 			loader.LoadNations();
 			loader.LoadResources();
-			TcpServer server = new TcpServer(ServerConfiguration.Instance.Port,
-				ServerConfiguration.Instance.MaxSpectators + 2,
-				ServerConfiguration.Instance.Name, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
-			server.Start();
+			Multiplayer game = new Multiplayer(new ServerGameInfo());
+			game.Start();
 
 			//Umożliwia prawidłowe zatrzymanie serwera przy naciśnięciu Ctrl+C
 			Console.CancelKeyPress += (s, e) =>
 				{
-					server.Stop();
+					game.Stop();
 				};
+		}
+
+		private class ServerGameInfo
+			: ClashEngine.NET.Interfaces.IGameInfo
+		{
+			#region IGameInfo Members
+			public ClashEngine.NET.Interfaces.IWindow MainWindow
+			{
+				get { throw new NotImplementedException("That should not occur"); }
+			}
+
+			public ClashEngine.NET.Interfaces.IScreensManager Screens
+			{
+				get { throw new NotImplementedException("That should not occur"); }
+			}
+
+			public ClashEngine.NET.Interfaces.IResourcesManager Content
+			{
+				get;
+				private set;
+			}
+
+			public ClashEngine.NET.Interfaces.Graphics.IRenderer Renderer
+			{
+				get { throw new NotImplementedException("That should not occur"); }
+			}
+			#endregion
+
+			#region Constructors
+			public ServerGameInfo()
+			{
+				this.Content = new ClashEngine.NET.ResourcesManager();
+			}
+			#endregion
 		}
 	}
 }
