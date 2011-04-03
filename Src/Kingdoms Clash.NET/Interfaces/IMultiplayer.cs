@@ -6,7 +6,6 @@
 	/// Interfejs dla gry multiplayer.
 	/// </summary>
 	public interface IMultiplayer
-		: IGameState
 	{
 		/// <summary>
 		/// Uruchamia grę.
