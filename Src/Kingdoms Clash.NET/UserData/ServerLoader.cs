@@ -71,7 +71,7 @@ namespace Kingdoms_Clash.NET.Server.UserData
 				var nameElement = cfg["name"];
 				if (nameElement == null || string.IsNullOrWhiteSpace(nameElement.InnerText))
 					throw new XmlException("Element 'name' must be specified");
-				ServerConfiguration.Instance.Name = nameElement.Value;
+				ServerConfiguration.Instance.Name = nameElement.InnerText;
 				#endregion
 
 				#region Controller

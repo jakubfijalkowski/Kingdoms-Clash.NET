@@ -11,9 +11,14 @@ namespace Kingdoms_Clash.NET.Server
 	/// Główna klasa dla serwera.
 	/// </summary>
 	public class Server
-	{
+	{		
 		static void Main(string[] args)
 		{
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.WriteLine("To close server use Ctrl+C combination.");
+			Console.WriteLine("DO NOT use 'X' button!");
+			Console.ResetColor();
+
 			ServerLoader loader = new ServerLoader(Defaults.RootDirectory, Defaults.UserData);
 			try
 			{
