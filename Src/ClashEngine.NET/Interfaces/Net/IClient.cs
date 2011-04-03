@@ -85,6 +85,11 @@ namespace ClashEngine.NET.Interfaces.Net
 		DateTime LastAction { get; }
 
 		/// <summary>
+		/// Dane użytkownika.
+		/// </summary>
+		object UserData { get; set; }
+
+		/// <summary>
 		/// Otwiera połączenie.
 		/// </summary>
 		/// <param name="wait">Określa, czy czekać na otwarcie połączenia i zakończenie sekwencji powitalnej.</param>
