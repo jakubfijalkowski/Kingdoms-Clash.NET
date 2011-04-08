@@ -93,17 +93,12 @@ namespace ClashEngine.NET.Net
 		{
 			if (this.Socket.Connected)
 			{
-				byte[] messageType = BitConverter.GetBytes((ushort)message.Type);
-				byte[] endMessage = BitConverter.GetBytes(((ushort)MessageType.MessageEnd << 16) | (ushort)MessageType.MessageEnd);
-				if (!BitConverter.IsLittleEndian) //Odwracamy kolejność
-				{
-					Array.Reverse(messageType);
-					Array.Reverse(endMessage);
-				}
+				byte[] messageType = new byte[2];
+				Utilities.NetBinarySerializer.Serialize(messageType, (ushort)message.Type);
 				this.Socket.Send(messageType);
 				if (message.Data != null)
 					this.Socket.Send(message.Data);
-				this.Socket.Send(endMessage);
+				this.Socket.Send(EndMessage);
 			}
 		}
 		#endregion
@@ -116,27 +111,8 @@ namespace ClashEngine.NET.Net
 
 		static TcpClientBase()
 		{
-			if (BitConverter.IsLittleEndian)
-			{
-				EndMessage = new byte[]
-					{
-						((ushort)MessageType.MessageEnd) & 0x00FF,
-						(((ushort)MessageType.MessageEnd) & 0xFF00) >> 8,
-						((ushort)MessageType.MessageEnd) & 0x00FF,
-						(((ushort)MessageType.MessageEnd) & 0xFF00) >> 8
-					};
-			}
-			else
-			{
-				//TODO: to jest poprawna konwersja z big-endian?
-				EndMessage = new byte[]
-					{
-						(((ushort)MessageType.MessageEnd) & 0xFF00) >> 8,
-						((ushort)MessageType.MessageEnd) & 0x00FF,
-						(((ushort)MessageType.MessageEnd) & 0xFF00) >> 8,
-						((ushort)MessageType.MessageEnd) & 0x00FF
-					};
-			}
+			EndMessage = new byte[4];
+			Utilities.NetBinarySerializer.Serialize(EndMessage, ((ushort)MessageType.MessageEnd << 16) | (ushort)MessageType.MessageEnd);
 		}
 		#endregion
 

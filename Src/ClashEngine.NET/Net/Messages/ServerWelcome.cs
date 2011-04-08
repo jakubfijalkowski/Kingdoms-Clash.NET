@@ -77,29 +77,8 @@ namespace ClashEngine.NET.Net.Messages
 		public Message ToMessage()
 		{
 			byte[] data = new byte[4 + 1 + 2 + this.GameName.Length * 2];
-
-			data[0] = (byte)this.ServerVersion.Major;
-			data[1] = (byte)this.ServerVersion.Minor;
-			data[2] = (byte)this.ServerVersion.Build;
-			data[3] = (byte)this.ServerVersion.Revision;
-
-			data[4] = 0; //Flagi
-
-			var gameNameLength = BitConverter.GetBytes((ushort)this.GameName.Length);
-			if (BitConverter.IsLittleEndian)
-			{
-				data[5] = gameNameLength[0];
-				data[6] = gameNameLength[1];
-			}
-			else
-			{
-				data[5] = gameNameLength[1];
-				data[6] = gameNameLength[0];
-			}
-
-			var gameBytes = System.Text.Encoding.Unicode.GetBytes(this.GameName);
-			Array.Copy(gameBytes, 0, data, 7, gameBytes.Length);
-
+			Utilities.NetBinarySerializer.Serialize(data, (byte)this.ServerVersion.Major, (byte)this.ServerVersion.Minor,
+				(byte)this.ServerVersion.Build, (byte)this.ServerVersion.Revision, (byte)0, this.GameName);
 			return new Message(MessageType.Welcome, data);
 		}
 		#endregion

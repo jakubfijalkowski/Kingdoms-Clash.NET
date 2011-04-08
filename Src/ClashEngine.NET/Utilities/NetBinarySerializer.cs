@@ -5,10 +5,17 @@ using System.Text;
 namespace ClashEngine.NET.Utilities
 {
 	/// <summary>
-	/// Helper przy serializowaniu danych binarnych.
+	/// Helper przy serializowaniu danych binarnych do użytku sieciowego.
+	/// Obsługuje wszystkie obiekty, które posiadają <see cref="System.TypeCode"/> z wyłączeniem
+	/// <see cref="System.TypeCode.Object"/> oraz <see cref="System.TypeCode.DateTime"/>.
 	/// </summary>
 	public static class NetBinarySerializer
 	{
+		/// <summary>
+		/// Serializuje obiekty do nowej tablicy.
+		/// </summary>
+		/// <param name="objs">Obiekty.</param>
+		/// <returns></returns>
 		public static byte[] Serialize(params object[] objs)
 		{
 			List<byte> outputList = new List<byte>();
@@ -72,6 +79,14 @@ namespace ClashEngine.NET.Utilities
 			return outputList.ToArray();
 		}
 
+		/// <summary>
+		/// Serializuje obiekty do istniejącej tablicy.
+		/// 
+		/// Tablica musi mieć odpowiedni rozmiar i nie może być nullem!
+		/// </summary>
+		/// <param name="output">Tablica.</param>
+		/// <param name="objs">Obiekty.</param>
+		/// <returns></returns>
 		public static void Serialize(byte[] output, params object[] objs)
 		{
 			for (int i = 0, j = 0; i < objs.Length; i++)
