@@ -8,5 +8,11 @@ namespace ClashEngine.NET.Interfaces.Net
 	/// </summary>
 	public interface IClientsCollection
 		: IList<IClient>
-	{ }
+	{
+		/// <summary>
+		/// Wysyła wiadomość do wszystkich, "prawidłowych", klientów.
+		/// </summary>
+		/// <param name="msg">Wiadomość</param>
+		void SendToAll(Message msg);
+	}
 }

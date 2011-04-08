@@ -1,4 +1,6 @@
-﻿namespace Kingdoms_Clash.NET.Server.Interfaces
+﻿using ClashEngine.NET.Interfaces;
+
+namespace Kingdoms_Clash.NET.Server.Interfaces
 {
 	using NET.Interfaces;
 
@@ -7,6 +9,11 @@
 	/// </summary>
 	public interface IMultiplayer
 	{
+		/// <summary>
+		/// Informacje o grze.
+		/// </summary>
+		IGameInfo GameInfo { get; }
+
 		/// <summary>
 		/// Uruchamia grę.
 		/// </summary>

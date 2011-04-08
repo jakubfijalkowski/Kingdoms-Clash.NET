@@ -135,6 +135,21 @@ namespace ClashEngine.NET.Net.Internals
 		}
 		#endregion
 
+		#region IClientsCollection Members
+		/// <summary>
+		/// Wysyła wiadomość do wszystkich, "prawidłowych", klientów.
+		/// </summary>
+		/// <param name="msg"></param>
+		public void SendToAll(Message msg)
+		{
+			foreach (var client in this.Clients)
+			{
+				if (client.Status == ClientStatus.Ok)
+					client.Send(msg);
+			}
+		}
+		#endregion
+
 		#region IEnumerable<IClient> Members
 		public IEnumerator<IClient> GetEnumerator()
 		{
