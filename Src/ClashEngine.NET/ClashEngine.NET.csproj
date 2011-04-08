@@ -288,6 +288,7 @@
     <Compile Include="Extensions\Vector2Extensions.cs" />
     <Compile Include="Extensions\Vector4Extensions.cs" />
     <Compile Include="Extensions\XNAOpenTKCoverter.cs" />
+    <Compile Include="Utilities\NetBinarySerializer.cs" />
     <Compile Include="Utilities\FPSCounter.cs" />
     <Compile Include="Utilities\VBO.cs" />
     <Compile Include="Window.cs" />
