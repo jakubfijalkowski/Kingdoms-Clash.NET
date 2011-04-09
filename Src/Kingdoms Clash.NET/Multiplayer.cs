@@ -5,6 +5,7 @@ using ClashEngine.NET.Net;
 namespace Kingdoms_Clash.NET.Server
 {
 	using Interfaces;
+	using Interfaces.Player;
 	using NET.Interfaces;
 
 	/// <summary>
@@ -78,19 +79,25 @@ namespace Kingdoms_Clash.NET.Server
 			{
 				if (client.Status != ClientStatus.Ok)
 				{
-					this.PlayerDisconnected(client);
+					if (this.InGame && (client.UserData as Player.PlayerData).InGame)
+					{
+						//TODO: zakończenie gry
+					}
+					this.Server.Clients.Remove(client);
+					this.Server.Clients.SendToAll(new Messages.PlayerDisconnected((client.UserData as IPlayerData).UserId).ToMessage());
 				}
 				else if (client.UserData == null && client.Messages.Contains((MessageType)GameMessageType.PlayersFirstConfiguration))
 				{
+					//Rozpakowanie pierwszej wiadomości
 					var msg = new Messages.PlayersFirstConfiguration(client.Messages.GetFirst((MessageType)GameMessageType.PlayersFirstConfiguration));
-					var userData = new Player.PlayerData(this.NextUserId++); //Dodanie nowego użytkownika
+					var userData = new Player.PlayerData(this.NextUserId++);
 					userData.InGame = false;
 					userData.Nick = msg.Nick;
 
 					var accepted = new Messages.PlayerAccepted(userData.UserId, false);
 					foreach (var c in this.Server.Clients)
 					{
-						accepted.Players.Add(client.UserData as Interfaces.Player.IPlayerData);
+						accepted.Players.Add(client.UserData as IPlayerData);
 					}
 					client.Send(accepted.ToMessage());
 					this.Server.Clients.SendToAll(new Messages.PlayerConnected(userData.UserId, userData.Nick).ToMessage(),
@@ -122,18 +129,6 @@ namespace Kingdoms_Clash.NET.Server
 		private void ProcessOther()
 		{
 
-		}
-		#endregion
-
-		#region Behaviors
-		private void PlayerDisconnected(IClient client)
-		{
-			if (this.InGame && (client.UserData as Player.PlayerData).Player != null)
-			{
-
-			}
-			this.Server.Clients.Remove(client);
-			//this.Server.Clients.SendToAll(new ClientDisconnected(client));
 		}
 		#endregion
 	}
