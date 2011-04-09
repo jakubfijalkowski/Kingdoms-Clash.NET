@@ -148,6 +148,20 @@ namespace ClashEngine.NET.Net.Internals
 					client.Send(msg);
 			}
 		}
+
+		/// <summary>
+		/// Wysyła wiadomość do wszystkich, "prawidłowych", klientów umożliwiając ich filtorwanie.
+		/// </summary>
+		/// <param name="msg">Wiadomość</param>
+		/// <param name="pred">Predykat.</param>
+		public void SendToAll(Message msg, Predicate<IClient> pred)
+		{
+			foreach (var client in this.Clients)
+			{
+				if (client.Status == ClientStatus.Ok && pred(client))
+					client.Send(msg);
+			}
+		}
 		#endregion
 
 		#region IEnumerable<IClient> Members

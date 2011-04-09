@@ -142,6 +142,16 @@ namespace ClashEngine.NET.Net.Internals
 		{
 			return this.Messages.FindIndex(m => m.Type == type);
 		}
+
+		/// <summary>
+		/// Pobiera pierwszą wiadomość o wskazanym typie.
+		/// </summary>
+		/// <param name="type">Typ wiadomości.</param>
+		/// <returns></returns>
+		public Message GetFirst(MessageType type)
+		{
+			return this.Messages.Find(m => m.Type == type);
+		}
 		#endregion
 
 		#region IEnumerable<Message> Members

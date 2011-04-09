@@ -22,5 +22,12 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// <param name="type"></param>
 		/// <returns></returns>
 		int IndexOf(MessageType type);
+
+		/// <summary>
+		/// Pobiera pierwszą wiadomość o wskazanym typie.
+		/// </summary>
+		/// <param name="type">Typ wiadomości.</param>
+		/// <returns></returns>
+		Message GetFirst(MessageType type);
 	}
 }

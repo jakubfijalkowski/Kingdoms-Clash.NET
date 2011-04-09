@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ClashEngine.NET.Interfaces.Net
 {
@@ -14,5 +15,12 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// </summary>
 		/// <param name="msg">Wiadomość</param>
 		void SendToAll(Message msg);
+
+		/// <summary>
+		/// Wysyła wiadomość do wszystkich, "prawidłowych", klientów umożliwiając ich filtorwanie.
+		/// </summary>
+		/// <param name="msg">Wiadomość</param>
+		/// <param name="pred">Predykat.</param>
+		void SendToAll(Message msg, Predicate<IClient> pred);
 	}
 }

@@ -5,6 +5,7 @@ using ClashEngine.NET.Net;
 namespace Kingdoms_Clash.NET.Server
 {
 	using Interfaces;
+	using NET.Interfaces;
 
 	/// <summary>
 	/// Obsługuje grę multiplayer - połączenie z klientami, czas oczekiwania na rozpoczęcie, itp.
@@ -79,9 +80,22 @@ namespace Kingdoms_Clash.NET.Server
 				{
 					this.PlayerDisconnected(client);
 				}
-				else if (client.UserData == null)
+				else if (client.UserData == null && client.Messages.Contains((MessageType)GameMessageType.PlayersFirstConfiguration))
 				{
-					client.UserData = new Player.PlayerData(this.NextUserId++); //Dodanie nowego użytkownika
+					var msg = new Messages.PlayersFirstConfiguration(client.Messages.GetFirst((MessageType)GameMessageType.PlayersFirstConfiguration));
+					var userData = new Player.PlayerData(this.NextUserId++); //Dodanie nowego użytkownika
+					userData.InGame = false;
+					userData.Nick = msg.Nick;
+
+					var accepted = new Messages.PlayerAccepted(userData.UserId, false);
+					foreach (var c in this.Server.Clients)
+					{
+						accepted.Players.Add(client.UserData as Interfaces.Player.IPlayerData);
+					}
+					client.Send(accepted.ToMessage());
+					this.Server.Clients.SendToAll(new Messages.PlayerConnected(userData.UserId, userData.Nick).ToMessage(),
+						c => c != client);
+					client.UserData = userData;
 				}
 			}
 		}
