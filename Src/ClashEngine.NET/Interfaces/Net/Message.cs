@@ -101,15 +101,8 @@ namespace ClashEngine.NET.Interfaces.Net
 			{
 				throw new ArgumentException("Insufficient data");
 			}
-			if (BitConverter.IsLittleEndian)
-			{
-				this.Type = (MessageType)BitConverter.ToUInt16(data, start);
-			}
-			else
-			{
-				byte[] tmp = new byte[] { data[start + 1], data[start] };
-				this.Type = (MessageType)BitConverter.ToUInt16(tmp, 0);
-			}
+			NET.Net.BinarySerializer serializer = new NET.Net.BinarySerializer(data, start);
+			this.Type = (MessageType)serializer.GetUInt16();
 			this.Data = new byte[length - 6];
 			System.Array.Copy(data, start + 2, this.Data, 0, length - 6);
 		}

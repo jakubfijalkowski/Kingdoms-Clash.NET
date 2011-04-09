@@ -47,25 +47,10 @@ namespace ClashEngine.NET.Net.Messages
 			{
 				throw new InvalidCastException("Cannot convert this message to WelcomeMessage");
 			}
-			this.ServerVersion = new Version(msg.Data[0], msg.Data[1], msg.Data[2], msg.Data[3]);
-
-			byte flags = msg.Data[4];
-
-			ushort strLength;
-			if (BitConverter.IsLittleEndian)
-			{
-				strLength = BitConverter.ToUInt16(msg.Data, 5);
-			}
-			else
-			{
-				byte[] tmp = new byte[] { msg.Data[5], msg.Data[6] };
-				strLength = BitConverter.ToUInt16(tmp, 0);
-			}
-			this.GameName = System.Text.Encoding.Unicode.GetString(msg.Data, 7, msg.Data.Length - 7);
-			if (this.GameName.Length != strLength)
-			{
-				throw new InvalidCastException("Source message is invalid");
-			}
+			BinarySerializer s = new BinarySerializer(msg.Data);
+			this.ServerVersion = new Version(s.GetByte(), s.GetByte(), s.GetByte(), s.GetByte());
+			byte flags = s.GetByte();
+			this.GameName = s.GetString();
 		}
 		#endregion
 
