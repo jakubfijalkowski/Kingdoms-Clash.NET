@@ -94,7 +94,7 @@ namespace ClashEngine.NET.Net
 			if (this.Socket.Connected)
 			{
 				byte[] messageType = new byte[2];
-				Utilities.NetBinarySerializer.Serialize(messageType, (ushort)message.Type);
+				BinarySerializer.StaticSerialize(messageType, (ushort)message.Type);
 				this.Socket.Send(messageType);
 				if (message.Data != null)
 					this.Socket.Send(message.Data);
@@ -112,7 +112,7 @@ namespace ClashEngine.NET.Net
 		static TcpClientBase()
 		{
 			EndMessage = new byte[4];
-			Utilities.NetBinarySerializer.Serialize(EndMessage, ((ushort)MessageType.MessageEnd << 16) | (ushort)MessageType.MessageEnd);
+			BinarySerializer.StaticSerialize(EndMessage, ((ushort)MessageType.MessageEnd << 16) | (ushort)MessageType.MessageEnd);
 		}
 		#endregion
 

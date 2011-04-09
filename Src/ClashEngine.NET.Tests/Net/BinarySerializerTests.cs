@@ -1,12 +1,12 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace ClashEngine.NET.Tests.Utilities
+namespace ClashEngine.NET.Tests.Net
 {
-	using NET.Utilities;
+	using NET.Net;
 
 	[TestFixture]
-	public class NetBinarySerializerTests
+	public class BinarySerializerTests
 	{
 		#region Datas
 		private static readonly object[] SimpleData = new object[] { (int)1, (short)2, null, (byte)5 };
@@ -45,7 +45,7 @@ namespace ClashEngine.NET.Tests.Utilities
 		/// <summary>
 		/// Taka customowa inicjalizacja jest o wiele prostsza ;)
 		/// </summary>
-		static NetBinarySerializerTests()
+		static BinarySerializerTests()
 		{
 			TextSerialized = new byte[2 + Text.Length * 2];
 			TextSerialized[0] = (byte)Text.Length;
@@ -57,7 +57,7 @@ namespace ClashEngine.NET.Tests.Utilities
 		[Test]
 		public void SimpleSerializationList()
 		{
-			byte[] output = NetBinarySerializer.Serialize(SimpleData);
+			byte[] output = BinarySerializer.StaticSerialize(SimpleData);
 			CollectionAssert.AreEqual(SimpleDataSerialized, output);
 		}
 
@@ -65,14 +65,14 @@ namespace ClashEngine.NET.Tests.Utilities
 		public void SimpleSerialization()
 		{
 			byte[] output = new byte[SimpleDataSerialized.Length];
-			NetBinarySerializer.Serialize(output, SimpleData);
+			BinarySerializer.StaticSerialize(output, SimpleData);
 			CollectionAssert.AreEqual(SimpleDataSerialized, output);
 		}
 
 		[Test]
 		public void SerializationList()
 		{
-			byte[] output = NetBinarySerializer.Serialize(Data);
+			byte[] output = BinarySerializer.StaticSerialize(Data);
 			CollectionAssert.AreEqual(DataSerialized, output);
 		}
 
@@ -80,14 +80,14 @@ namespace ClashEngine.NET.Tests.Utilities
 		public void Serialization()
 		{
 			byte[] output = new byte[DataSerialized.Length];
-			NetBinarySerializer.Serialize(output, Data);
+			BinarySerializer.StaticSerialize(output, Data);
 			CollectionAssert.AreEqual(DataSerialized, output);
 		}
 
 		[Test]
 		public void StringSerializationList()
 		{
-			byte[] output = NetBinarySerializer.Serialize(Text);
+			byte[] output = BinarySerializer.StaticSerialize(Text);
 			CollectionAssert.AreEqual(TextSerialized, output);
 		}
 
@@ -95,8 +95,36 @@ namespace ClashEngine.NET.Tests.Utilities
 		public void StringSerialization()
 		{
 			byte[] output = new byte[TextSerialized.Length];
-			NetBinarySerializer.Serialize(output, Text);
+			BinarySerializer.StaticSerialize(output, Text);
 			CollectionAssert.AreEqual(TextSerialized, output);
+		}
+
+		[Test]
+		public void Deserialization()
+		{
+			var serializer = new BinarySerializer(DataSerialized);
+			Assert.AreEqual(true, serializer.GetBool());
+			Assert.AreEqual((byte)0, serializer.GetByte());
+			Assert.AreEqual((byte)1, serializer.GetByte());
+			Assert.AreEqual('b', serializer.GetChar());
+			Assert.AreEqual((byte)0, serializer.GetByte());
+			Assert.AreEqual(1d, serializer.GetDouble());
+			Assert.AreEqual(1d, serializer.GetDouble());
+			Assert.AreEqual((short)-5, serializer.GetInt16());
+			Assert.AreEqual(-6, serializer.GetInt32());
+			Assert.AreEqual(7L, serializer.GetInt64());
+			Assert.AreEqual((sbyte)-2, serializer.GetSByte());
+			Assert.AreEqual(1f, serializer.GetFloat());
+			Assert.AreEqual((ushort)9, serializer.GetUInt16());
+			Assert.AreEqual(10U, serializer.GetUInt32());
+			Assert.AreEqual(11UL, serializer.GetUInt64());
+		}
+
+		[Test]
+		public void StringDeserialization()
+		{
+			var serializer = new BinarySerializer(TextSerialized);
+			Assert.AreEqual(Text, serializer.GetString());
 		}
 	}
 }

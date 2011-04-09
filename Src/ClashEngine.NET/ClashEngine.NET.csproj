@@ -251,6 +251,7 @@
     <Compile Include="Interfaces\IScreen.cs" />
     <Compile Include="Interfaces\IScreensManager.cs" />
     <Compile Include="Interfaces\IWindow.cs" />
+    <Compile Include="Interfaces\Net\IBinarySerializer.cs" />
     <Compile Include="Interfaces\Net\IClient.cs" />
     <Compile Include="Interfaces\Net\IClientsCollection.cs" />
     <Compile Include="Interfaces\Net\IMessagesCollection.cs" />
@@ -288,7 +289,7 @@
     <Compile Include="Extensions\Vector2Extensions.cs" />
     <Compile Include="Extensions\Vector4Extensions.cs" />
     <Compile Include="Extensions\XNAOpenTKCoverter.cs" />
-    <Compile Include="Utilities\NetBinarySerializer.cs" />
+    <Compile Include="Net\BinarySerializer.cs" />
     <Compile Include="Utilities\FPSCounter.cs" />
     <Compile Include="Utilities\VBO.cs" />
     <Compile Include="Window.cs" />

@@ -94,7 +94,7 @@
     <Compile Include="TestObjects\GameInfo.cs" />
     <Compile Include="TestObjects\PositionableElement.cs" />
     <Compile Include="TestObjects\Window.cs" />
-    <Compile Include="Utilities\NetBinarySerializerTests.cs" />
+    <Compile Include="Net\BinarySerializerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClashEngine.NET\ClashEngine.NET.csproj">

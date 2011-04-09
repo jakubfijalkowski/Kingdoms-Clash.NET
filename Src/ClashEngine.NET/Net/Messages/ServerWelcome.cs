@@ -77,7 +77,7 @@ namespace ClashEngine.NET.Net.Messages
 		public Message ToMessage()
 		{
 			byte[] data = new byte[4 + 1 + 2 + this.GameName.Length * 2];
-			Utilities.NetBinarySerializer.Serialize(data, (byte)this.ServerVersion.Major, (byte)this.ServerVersion.Minor,
+			BinarySerializer.StaticSerialize(data, (byte)this.ServerVersion.Major, (byte)this.ServerVersion.Minor,
 				(byte)this.ServerVersion.Build, (byte)this.ServerVersion.Revision, (byte)0, this.GameName);
 			return new Message(MessageType.Welcome, data);
 		}
