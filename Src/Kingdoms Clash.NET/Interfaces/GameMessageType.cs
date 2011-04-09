@@ -32,4 +32,26 @@
 		/// </summary>
 		PlayerChangedNick
 	}
+
+	/// <summary>
+	/// Powód rozłączenia gracza.
+	/// </summary>
+	public enum DisconnectionReason
+		: byte
+	{
+		/// <summary>
+		/// Błąd połączenia.
+		/// </summary>
+		ConnectionError = ClashEngine.NET.Interfaces.Net.ClientStatus.Error,
+		
+		/// <summary>
+		/// Przekroczono czas na odpowiedź.
+		/// </summary>
+		TimedOut = ClashEngine.NET.Interfaces.Net.ClientStatus.NotResponding,
+
+		/// <summary>
+		/// Akcja użytkownika.
+		/// </summary>
+		UserAction = ClashEngine.NET.Interfaces.Net.ClientStatus.Closed
+	}
 }

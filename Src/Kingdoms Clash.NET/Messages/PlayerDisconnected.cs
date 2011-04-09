@@ -16,6 +16,11 @@ namespace Kingdoms_Clash.NET.Server.Messages
 		/// Identyfikator gracza.
 		/// </summary>
 		public uint UserId;
+
+		/// <summary>
+		/// Powód rozłączenia się gracza.
+		/// </summary>
+		public DisconnectionReason Reason;
 		#endregion
 
 		#region Constructors
@@ -23,9 +28,10 @@ namespace Kingdoms_Clash.NET.Server.Messages
 		/// Tworzy nową wiadomość.
 		/// </summary>
 		/// <param name="uid">Identyfikator gracza.</param>
-		public PlayerDisconnected(uint uid)
+		public PlayerDisconnected(uint uid, DisconnectionReason reason)
 		{
 			this.UserId = uid;
+			this.Reason = reason;
 		}
 
 		/// <summary>
@@ -40,6 +46,7 @@ namespace Kingdoms_Clash.NET.Server.Messages
 			}
 			BinarySerializer s = new BinarySerializer(msg.Data);
 			this.UserId = s.GetUInt32();
+			this.Reason = (DisconnectionReason)s.GetByte();
 		}
 		#endregion
 
@@ -50,8 +57,8 @@ namespace Kingdoms_Clash.NET.Server.Messages
 		/// <returns></returns>
 		public Message ToMessage()
 		{
-			byte[] data = new byte[4];
-			BinarySerializer.StaticSerialize(data, this.UserId);
+			byte[] data = new byte[5];
+			BinarySerializer.StaticSerialize(data, this.UserId, (byte)this.Reason);
 			return new Message((MessageType)GameMessageType.PlayerDisconnected, data);
 		}
 		#endregion

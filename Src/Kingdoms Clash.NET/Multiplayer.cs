@@ -84,7 +84,10 @@ namespace Kingdoms_Clash.NET.Server
 						//TODO: zakończenie gry
 					}
 					this.Server.Clients.Remove(client);
-					this.Server.Clients.SendToAll(new Messages.PlayerDisconnected((client.UserData as IPlayerData).UserId).ToMessage());
+					if(client.UserData != null) //Zabezpiecza przed ewentualnym rozłączeniem się użytkownika przed 
+						this.Server.Clients.SendToAll(new Messages.PlayerDisconnected(
+							(client.UserData as IPlayerData).UserId, (DisconnectionReason)client.Status
+							).ToMessage());
 				}
 				else if (client.UserData == null && client.Messages.Contains((MessageType)GameMessageType.PlayersFirstConfiguration))
 				{
