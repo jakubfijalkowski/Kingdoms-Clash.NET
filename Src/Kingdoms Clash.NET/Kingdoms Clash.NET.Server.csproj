@@ -97,7 +97,7 @@
     <Compile Include="Interfaces\IGameState.cs" />
     <Compile Include="Interfaces\IMultiplayer.cs" />
     <Compile Include="Interfaces\IServerConfiguration.cs" />
-    <Compile Include="Interfaces\MessageTypes.cs" />
+    <Compile Include="Interfaces\GameMessageType.cs" />
     <Compile Include="Interfaces\Player\IPlayerData.cs" />
     <Compile Include="Interfaces\Player\IPlayerEntity.cs">
       <SubType>Code</SubType>
@@ -117,6 +117,11 @@
     <Compile Include="Interfaces\Units\UnitEvents.cs" />
     <Compile Include="Internals\VelocityLimit.cs" />
     <Compile Include="Maps\ResourceOnMap.cs" />
+    <Compile Include="Messages\PlayerAccepted.cs" />
+    <Compile Include="Messages\PlayerChangedNick.cs" />
+    <Compile Include="Messages\PlayerConnected.cs" />
+    <Compile Include="Messages\PlayerDisconnected.cs" />
+    <Compile Include="Messages\PlayersFirstConfiguration.cs" />
     <Compile Include="Multiplayer.cs" />
     <Compile Include="MultiplayerGameState.cs" />
     <Compile Include="Player\Player.cs" />

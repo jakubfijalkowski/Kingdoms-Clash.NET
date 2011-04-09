@@ -27,6 +27,11 @@ namespace Kingdoms_Clash.NET.Server.Player
 		public string Nick { get; set; }
 
 		/// <summary>
+		/// Czy jest w grze.
+		/// </summary>
+		public bool InGame { get; set; }
+
+		/// <summary>
 		/// Obiekt gracza, jeśli gracz gra.
 		/// </summary>
 		public IPlayer Player { get; set; }

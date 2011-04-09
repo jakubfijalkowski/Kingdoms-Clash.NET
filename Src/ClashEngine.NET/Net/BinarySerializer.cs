@@ -162,7 +162,7 @@ namespace ClashEngine.NET.Net
 							GetAndCopy(BitConverter.GetBytes((UInt16)((string)objs[i]).Length), output, j);
 							j += 2;
 							Array.Copy(Encoding.Unicode.GetBytes((string)objs[i]), 0, output, j, ((string)objs[i]).Length * 2);
-							j += ((string)objs[i]).Length;
+							j += ((string)objs[i]).Length * 2;
 							break;
 					}
 				}
@@ -372,7 +372,7 @@ namespace ClashEngine.NET.Net
 		{
 			ushort len = this.GetUInt16();
 			string tmp = Encoding.Unicode.GetString(this.Data, this.Index, len * 2);
-			this.Index += len;
+			this.Index += len * 2;
 			return tmp;
 		}
 		#endregion

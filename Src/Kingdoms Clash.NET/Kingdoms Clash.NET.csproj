@@ -77,7 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdditionalScreens\WinnerScreen.cs" />
-    <Compile Include="Interfaces\MessageTypes.cs" />
+    <Compile Include="Interfaces\GameMessageType.cs" />
     <Compile Include="Properties\Both.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\ClassicGame.cs" />

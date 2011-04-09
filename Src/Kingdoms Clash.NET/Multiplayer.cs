@@ -37,7 +37,7 @@ namespace Kingdoms_Clash.NET.Server
 			this.Server.Start();
 			while (!this.StopMainLoop)
 			{
-				this.ProcessUsers();
+				this.ProcessClients();
 				this.ProcessOther();
 				if (this.InGame)
 					this.ProcessInGame();
@@ -69,9 +69,9 @@ namespace Kingdoms_Clash.NET.Server
 
 		#region Main methods
 		/// <summary>
-		/// Obsługa nowych użytkowników oraz tych, którzy się odłączyli.
+		/// Obsługa nowych i rozłączonych klientów.
 		/// </summary>
-		private void ProcessUsers()
+		private void ProcessClients()
 		{
 			foreach (var client in this.Server.Clients)
 			{

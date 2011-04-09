@@ -19,6 +19,11 @@
 		string Nick { get; set; }
 
 		/// <summary>
+		/// Czy jest w grze.
+		/// </summary>
+		bool InGame { get; set; }
+
+		/// <summary>
 		/// Obiekt gracza, jeśli gracz gra.
 		/// </summary>
 		IPlayer Player { get; set; }
