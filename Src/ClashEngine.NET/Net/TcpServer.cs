@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -13,6 +14,7 @@ namespace ClashEngine.NET.Net
 	/// <remarks>
 	/// Port informacji używa UDP.
 	/// </remarks>
+	[DebuggerDisplay("{Name,nq} {Version.ToString(),nq} at {Endpoint.ToString(),nq}")]
 	public class TcpServer
 		: IServer, IDisposable
 	{

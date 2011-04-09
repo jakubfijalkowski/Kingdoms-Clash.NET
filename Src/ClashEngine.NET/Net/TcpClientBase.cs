@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 
@@ -9,6 +10,7 @@ namespace ClashEngine.NET.Net
 	/// <summary>
 	/// Bazowa klasa dla klienta TCP - obsługuje odbieranie i wysyłanie danych.
 	/// </summary>
+	[DebuggerDisplay("{RemoteEndpoint.ToString(),nq}, Status: {Status}")]
 	public abstract class TcpClientBase
 		: IClient
 	{

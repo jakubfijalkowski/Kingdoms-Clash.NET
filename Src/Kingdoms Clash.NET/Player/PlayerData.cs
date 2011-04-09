@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics;
 
 namespace Kingdoms_Clash.NET.Server.Player
 {
 	using NET.Interfaces.Player;
-	using Interfaces.Player;
 
 	/// <summary>
 	/// Dane o użytkowniku.
 	/// Są przypisywane do IClient.UserData.
 	/// </summary>
+	[DebuggerDisplay("({UserId}) {Nick,nq}{InGame ? \", in game\" : \"\" ,nq}")]
 	public class PlayerData
 		: Interfaces.Player.IPlayerData
 	{

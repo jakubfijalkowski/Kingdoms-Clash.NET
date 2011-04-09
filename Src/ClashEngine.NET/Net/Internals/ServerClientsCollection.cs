@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace ClashEngine.NET.Net.Internals
 {
@@ -8,10 +9,12 @@ namespace ClashEngine.NET.Net.Internals
 	/// <summary>
 	/// Wewnętrzna kolekcja klientów.
 	/// </summary>
+	[DebuggerDisplay("Count = {Count}")]
 	internal class ServerClientsCollection
 		: IClientsCollection
 	{
 		#region Private fields
+		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 		private List<IClient> Clients = new List<IClient>();
 		#endregion
 
@@ -129,6 +132,7 @@ namespace ClashEngine.NET.Net.Internals
 		/// <summary>
 		/// Klasy nieupoważnione nie mogą zmieniać tej kolekcji.
 		/// </summary>
+		[DebuggerHidden]
 		public bool IsReadOnly
 		{
 			get { return true; }
