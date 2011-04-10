@@ -6,6 +6,7 @@ using ClashEngine.NET.Net;
 namespace Kingdoms_Clash.NET.Server.Messages
 {
 	using NET.Interfaces;
+	using NET.Interfaces.Player;
 
 	/// <summary>
 	/// <see cref="GameMessageType.PlayerAccepted"/>
@@ -27,7 +28,7 @@ namespace Kingdoms_Clash.NET.Server.Messages
 		/// Lista aktualnie podłączonych graczy.
 		/// Przesyłane są tylko trzy pola - UserId, Nick i InGame.
 		/// </summary>
-		public IList<Interfaces.Player.IPlayerData> Players;
+		public IList<IPlayerData> Players;
 		#endregion
 
 		#region Constructors
@@ -38,7 +39,7 @@ namespace Kingdoms_Clash.NET.Server.Messages
 		{
 			this.UserId = uid;
 			this.InGame = inGame;
-			this.Players = new List<Interfaces.Player.IPlayerData>();
+			this.Players = new List<IPlayerData>();
 		}
 
 		/// <summary>
@@ -55,7 +56,7 @@ namespace Kingdoms_Clash.NET.Server.Messages
 			this.UserId = s.GetUInt32();
 			this.InGame = s.GetBool();
 			ushort players = s.GetUInt16();
-			this.Players = new List<Interfaces.Player.IPlayerData>();
+			this.Players = new List<IPlayerData>();
 			for (int i = 0; i < players; i++)
 			{
 				var player = new Player.PlayerData(s.GetUInt32());

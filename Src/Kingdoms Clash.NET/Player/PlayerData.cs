@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Kingdoms_Clash.NET.Server.Player
+namespace Kingdoms_Clash.NET.Player
 {
 	using NET.Interfaces.Player;
 
@@ -10,7 +10,7 @@ namespace Kingdoms_Clash.NET.Server.Player
 	/// </summary>
 	[DebuggerDisplay("({UserId}) {Nick,nq}{InGame ? \", in game\" : \"\" ,nq}")]
 	public class PlayerData
-		: Interfaces.Player.IPlayerData
+		: IPlayerData
 	{
 		#region IPlayerData Members
 		/// <summary>

@@ -1,7 +1,5 @@
-﻿namespace Kingdoms_Clash.NET.Server.Interfaces.Player
+﻿namespace Kingdoms_Clash.NET.Interfaces.Player
 {
-	using NET.Interfaces.Player;
-
 	/// <summary>
 	/// Dane o użytkowniku.
 	/// Są przypisywane do IClient.UserData.

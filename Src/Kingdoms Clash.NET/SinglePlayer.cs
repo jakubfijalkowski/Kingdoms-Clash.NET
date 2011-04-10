@@ -17,7 +17,7 @@ namespace Kingdoms_Clash.NET
 	public class SinglePlayer
 		: Screen, IGameState, IGameStateScreen
 	{
-		private static NLog.Logger Logger = NLog.LogManager.GetLogger("ClashEngine.NET");
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
 
 		#region Private Fields
 		/// <summary>

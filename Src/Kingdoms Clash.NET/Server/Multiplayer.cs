@@ -5,8 +5,8 @@ using ClashEngine.NET.Net;
 namespace Kingdoms_Clash.NET.Server
 {
 	using Interfaces;
-	using Interfaces.Player;
 	using NET.Interfaces;
+	using NET.Interfaces.Player;
 
 	/// <summary>
 	/// Obsługuje grę multiplayer - połączenie z klientami, czas oczekiwania na rozpoczęcie, itp.
