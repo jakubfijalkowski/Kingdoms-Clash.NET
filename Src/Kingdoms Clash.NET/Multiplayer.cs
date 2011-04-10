@@ -134,7 +134,17 @@ namespace Kingdoms_Clash.NET.Server
 		/// </summary>
 		private void ProcessOther()
 		{
-
+			foreach (var client in this.Server.Clients)
+			{
+				if (client.Messages.Count > 0 && client.Messages[0].Type == (MessageType)GameMessageType.PlayerChangedNick) //Zmiana nicku
+				{
+					var msg = new Messages.PlayerChangedNick(client.Messages[0]);
+					msg.UserId = (client.UserData as IPlayerData).UserId;
+					(client.UserData as IPlayerData).Nick = msg.NewNick;
+					this.Server.Clients.SendToAll(msg.ToMessage(), c => c != client);
+					client.Messages.RemoveAt(0);
+				}
+			}
 		}
 		#endregion
 	}
