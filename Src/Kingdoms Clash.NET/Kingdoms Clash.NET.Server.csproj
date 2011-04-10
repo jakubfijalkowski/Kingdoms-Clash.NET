@@ -122,8 +122,8 @@
     <Compile Include="Messages\PlayerConnected.cs" />
     <Compile Include="Messages\PlayerDisconnected.cs" />
     <Compile Include="Messages\PlayersFirstConfiguration.cs" />
-    <Compile Include="Multiplayer.cs" />
-    <Compile Include="MultiplayerGameState.cs" />
+    <Compile Include="Server\Multiplayer.cs" />
+    <Compile Include="Server\MultiplayerGameState.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\PlayerData.cs" />
     <Compile Include="Player\PlayerEntity.cs" />
