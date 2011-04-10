@@ -76,6 +76,13 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\Player\IPlayerData.cs" />
+    <Compile Include="Player\PlayerData.cs" />
+    <Compile Include="Messages\PlayerAccepted.cs" />
+    <Compile Include="Messages\PlayerChangedNick.cs" />
+    <Compile Include="Messages\PlayerConnected.cs" />
+    <Compile Include="Messages\PlayerDisconnected.cs" />
+    <Compile Include="Messages\PlayersFirstConfiguration.cs" />
     <Compile Include="AdditionalScreens\WinnerScreen.cs" />
     <Compile Include="Interfaces\GameMessageType.cs" />
     <Compile Include="Multiplayer.cs" />
