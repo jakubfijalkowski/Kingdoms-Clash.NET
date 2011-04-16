@@ -28,7 +28,7 @@ namespace Kingdoms_Clash.NET.Messages
 		/// Lista aktualnie podłączonych graczy.
 		/// Przesyłane są tylko trzy pola - UserId, Nick i InGame.
 		/// </summary>
-		public IList<IPlayerData> Players;
+		public List<IPlayerData> Players;
 		#endregion
 
 		#region Constructors

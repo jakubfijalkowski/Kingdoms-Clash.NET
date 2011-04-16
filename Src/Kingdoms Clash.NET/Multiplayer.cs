@@ -1,9 +1,10 @@
-﻿using ClashEngine.NET;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using ClashEngine.NET;
 using ClashEngine.NET.Interfaces.Net;
 using ClashEngine.NET.Net;
-using System;
-using System.Diagnostics;
-using System.Collections.Generic;
 
 namespace Kingdoms_Clash.NET
 {
@@ -25,7 +26,7 @@ namespace Kingdoms_Clash.NET
 		private uint UserId;
 		private IClient Client;
 		private IMultiplayerSettings MainSettings;
-		private IList<IPlayerData> PlayersInLobby;
+		private List<IPlayerData> PlayersInLobby;
 		#endregion
 
 		#region IGameState Members
@@ -111,7 +112,7 @@ namespace Kingdoms_Clash.NET
 		{
 			this.Client = new TcpClient(new System.Net.IPEndPoint(this.MainSettings.Address, this.MainSettings.Port),
 				System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
-			
+
 			this.Client.Open();
 			if (this.Client.Status != ClientStatus.Ok)
 			{
@@ -149,6 +150,7 @@ namespace Kingdoms_Clash.NET
 
 		public override void Update(double delta)
 		{
+			this.HandleBasicMessages();
 		}
 
 		public override void Render()
@@ -160,6 +162,36 @@ namespace Kingdoms_Clash.NET
 		public Multiplayer()
 			: base("GameScreen", ClashEngine.NET.Interfaces.ScreenType.Fullscreen)
 		{ }
+		#endregion
+
+		#region Handling
+		private void HandleBasicMessages()
+		{
+			//TODO: błędne wiadomości
+			int msgIdx = -1;
+			if ((msgIdx = this.Client.Messages.IndexOf((MessageType)GameMessageType.PlayerConnected)) > -1)
+			{
+				Messages.PlayerConnected newPlayer = new Messages.PlayerConnected(this.Client.Messages[msgIdx]);
+				this.PlayersInLobby.Add(new Player.PlayerData(newPlayer.UserId) { Nick = newPlayer.Nick });
+				Logger.Info("Player {0} connected", newPlayer.Nick);
+			}
+			else if ((msgIdx = this.Client.Messages.IndexOf((MessageType)GameMessageType.PlayerDisconnected)) > -1)
+			{
+				Messages.PlayerDisconnected disconnected = new Messages.PlayerDisconnected(this.Client.Messages[msgIdx]);
+				int idx = this.PlayersInLobby.FindIndex(p => p.UserId == disconnected.UserId);
+				Logger.Info("Player {0} disconnected, reason: {1}", this.PlayersInLobby[idx].Nick, disconnected.Reason.ToString());
+				this.PlayersInLobby.RemoveAt(idx);
+			}
+			else if ((msgIdx = this.Client.Messages.IndexOf((MessageType)GameMessageType.PlayerChangedNick)) > -1)
+			{
+				Messages.PlayerChangedNick newNick = new Messages.PlayerChangedNick(this.Client.Messages[msgIdx]);
+				int idx = this.PlayersInLobby.FindIndex(p => p.UserId == newNick.UserId);
+				Logger.Info("Player {0} changed the nick to {1}", this.PlayersInLobby[idx].Nick, newNick.NewNick);
+				this.PlayersInLobby[idx].Nick = newNick.NewNick;
+			}
+			if(msgIdx > -1)
+				this.Client.Messages.RemoveAt(msgIdx);
+		}
 		#endregion
 	}
 }
