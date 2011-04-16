@@ -236,14 +236,22 @@ namespace ClashEngine.NET.Net
 				}
 				for (int i = 0; i < this.Clients.Count; i++)
 				{
-					var client = this.Clients[i] as Internals.ServerClient;
-					if (client.Status == ClientStatus.Welcome) //Sekwencja powitalna
+					try
 					{
-						this.HandleWelcomeSequence(client, ref i);
+						var client = this.Clients[i] as Internals.ServerClient;
+						if (client.Status == ClientStatus.Welcome) //Sekwencja powitalna
+						{
+							this.HandleWelcomeSequence(client, ref i);
+						}
+						else if(client.Status == ClientStatus.Ok)
+						{
+							this.HandleClient(client);
+						}
 					}
-					else
+					catch (Exception ex)
 					{
-						this.HandleClient(client);
+						Logger.WarnException("Error occured while handling client", ex);
+						(this._ClientsCollection[i] as Internals.ServerClient).Status = ClientStatus.Error;
 					}
 				}
 				if (infoSocket != null)

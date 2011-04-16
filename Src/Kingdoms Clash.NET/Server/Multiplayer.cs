@@ -141,7 +141,7 @@ namespace Kingdoms_Clash.NET.Server
 			for (int i = 0; i < this.Server.Clients.Count; i++)
 			{
 				var client = this.Server.Clients[i];
-				if (client.Messages.Count > 0 && client.Messages[0].Type == (MessageType)GameMessageType.PlayerChangedNick) //Zmiana nicku
+				if (client.UserData != null && client.Messages.Count > 0 && client.Messages[0].Type == (MessageType)GameMessageType.PlayerChangedNick) //Zmiana nicku
 				{
 					var msg = new Messages.PlayerChangedNick(client.Messages[0]);
 					msg.UserId = (client.UserData as IPlayerData).UserId;
