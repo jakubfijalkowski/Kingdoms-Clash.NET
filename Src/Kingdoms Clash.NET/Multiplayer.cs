@@ -1,5 +1,9 @@
 ﻿using ClashEngine.NET;
 using ClashEngine.NET.Interfaces.Net;
+using ClashEngine.NET.Net;
+using System;
+using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Kingdoms_Clash.NET
 {
@@ -8,8 +12,6 @@ namespace Kingdoms_Clash.NET
 	using Interfaces.Map;
 	using Interfaces.Player;
 	using Interfaces.Units;
-	using ClashEngine.NET.Net;
-	using System;
 
 	/// <summary>
 	/// Stan-ekran gry wieloosobowej.
@@ -20,8 +22,10 @@ namespace Kingdoms_Clash.NET
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
 
 		#region Private
+		private uint UserId;
 		private IClient Client;
 		private IMultiplayerSettings MainSettings;
+		private IList<IPlayerData> PlayersInLobby;
 		#endregion
 
 		#region IGameState Members
@@ -116,6 +120,31 @@ namespace Kingdoms_Clash.NET
 
 			Messages.PlayersFirstConfiguration firstMsg = new Messages.PlayersFirstConfiguration(this.MainSettings.PlayerNick);
 			this.Client.Send(firstMsg.ToMessage());
+
+			Stopwatch wait = new Stopwatch();
+			wait.Start();
+			while (wait.Elapsed.TotalMinutes < 1 && !this.Client.Messages.Contains((MessageType)GameMessageType.PlayerAccepted)) ;
+			wait.Stop();
+			if (this.Client.Messages.Contains((MessageType)GameMessageType.PlayerAccepted))
+			{
+				var msg = new Messages.PlayerAccepted(this.Client.Messages.GetFirst((MessageType)GameMessageType.PlayerAccepted));
+				this.UserId = msg.UserId;
+				this.PlayersInLobby = msg.Players;
+			}
+			else
+			{
+				throw new Exception("Cannot connect to server - " + (this.Client.Status == ClientStatus.Ok ? "not responding" : this.Client.Status.ToString())); //TODO: ładne przedstawienie błędu
+			}
+			Logger.Info("Players in lobby: {0}", this.PlayersInLobby.Count);
+			foreach (var p in this.PlayersInLobby)
+			{
+				Logger.Info("\t{0}", p.Nick);
+			}
+		}
+
+		public override void OnDeinit()
+		{
+			this.Client.Close();
 		}
 
 		public override void Update(double delta)

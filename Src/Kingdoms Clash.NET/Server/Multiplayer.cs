@@ -75,11 +75,12 @@ namespace Kingdoms_Clash.NET.Server
 		/// </summary>
 		private void ProcessClients()
 		{
-			foreach (var client in this.Server.Clients)
+			for (int i = 0; i < this.Server.Clients.Count; i++)
 			{
-				if (client.Status != ClientStatus.Ok)
+				var client = this.Server.Clients[i];
+				if (client.Status != ClientStatus.Ok && client.Status != ClientStatus.Welcome)
 				{
-					this.Server.Clients.Remove(client);
+					this.Server.Clients.RemoveAt(i--);
 					if (client.UserData != null) //Zabezpiecza przed ewentualnym rozłączeniem się użytkownika przed
 					{
 						if (this.InGame && (client.UserData as Player.PlayerData).InGame)
@@ -101,9 +102,12 @@ namespace Kingdoms_Clash.NET.Server
 					userData.Nick = msg.Nick;
 
 					var accepted = new Messages.PlayerAccepted(userData.UserId, false);
-					foreach (var c in this.Server.Clients)
+					for (int j = 0; j < this.Server.Clients.Count; j++)
 					{
-						accepted.Players.Add(client.UserData as IPlayerData);
+						if (this.Server.Clients[j].UserData != null)
+						{
+							accepted.Players.Add(this.Server.Clients[j].UserData as IPlayerData);
+						}
 					}
 					client.Send(accepted.ToMessage());
 					this.Server.Clients.SendToAll(new Messages.PlayerConnected(userData.UserId, userData.Nick).ToMessage(),
@@ -134,8 +138,9 @@ namespace Kingdoms_Clash.NET.Server
 		/// </summary>
 		private void ProcessOther()
 		{
-			foreach (var client in this.Server.Clients)
+			for (int i = 0; i < this.Server.Clients.Count; i++)
 			{
+				var client = this.Server.Clients[i];
 				if (client.Messages.Count > 0 && client.Messages[0].Type == (MessageType)GameMessageType.PlayerChangedNick) //Zmiana nicku
 				{
 					var msg = new Messages.PlayerChangedNick(client.Messages[0]);
