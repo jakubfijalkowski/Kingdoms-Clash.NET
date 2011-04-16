@@ -32,6 +32,11 @@ namespace Kingdoms_Clash.NET.Player
 		/// Obiekt gracza, jeśli gracz gra.
 		/// </summary>
 		public IPlayer Player { get; set; }
+
+		/// <summary>
+		/// Czy gracz jest gotowy do gry.
+		/// </summary>
+		public bool ReadyToPlay { get; set; }
 		#endregion
 
 		#region Constructors

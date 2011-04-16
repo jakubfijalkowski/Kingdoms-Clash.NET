@@ -141,12 +141,30 @@ namespace Kingdoms_Clash.NET.Server
 			for (int i = 0; i < this.Server.Clients.Count; i++)
 			{
 				var client = this.Server.Clients[i];
-				if (client.UserData != null && client.Messages.Count > 0 && client.Messages[0].Type == (MessageType)GameMessageType.PlayerChangedNick) //Zmiana nicku
+				if (client.UserData != null && client.Messages.Count > 0)
 				{
-					var msg = new Messages.PlayerChangedNick(client.Messages[0]);
-					msg.UserId = (client.UserData as IPlayerData).UserId;
-					(client.UserData as IPlayerData).Nick = msg.NewNick;
-					this.Server.Clients.SendToAll(msg.ToMessage(), c => c != client);
+					switch ((GameMessageType)client.Messages[0].Type)
+					{
+						case GameMessageType.PlayerChangedNick: //Zmiana nicku
+							{
+								var msg = new Messages.PlayerChangedNick(client.Messages[0]);
+								msg.UserId = (client.UserData as IPlayerData).UserId;
+								(client.UserData as IPlayerData).Nick = msg.NewNick;
+								this.Server.Clients.SendToAll(msg.ToMessage(), c => c != client);
+							}
+							break;
+
+						case GameMessageType.PlayerChangedState:
+							{
+								(client.UserData as IPlayerData).ReadyToPlay = !(client.UserData as IPlayerData).ReadyToPlay;
+								var msg = new Messages.PlayerChangedState((client.UserData as IPlayerData).UserId);
+								this.Server.Clients.SendToAll(msg.ToMessage(), c => c != client);
+							}
+							break;
+
+						default:
+							continue;
+					}
 					client.Messages.RemoveAt(0);
 				}
 			}

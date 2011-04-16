@@ -168,29 +168,45 @@ namespace Kingdoms_Clash.NET
 		private void HandleBasicMessages()
 		{
 			//TODO: błędne wiadomości
-			int msgIdx = -1;
-			if ((msgIdx = this.Client.Messages.IndexOf((MessageType)GameMessageType.PlayerConnected)) > -1)
+			switch ((GameMessageType)this.Client.Messages[0].Type)
 			{
-				Messages.PlayerConnected newPlayer = new Messages.PlayerConnected(this.Client.Messages[msgIdx]);
-				this.PlayersInLobby.Add(new Player.PlayerData(newPlayer.UserId) { Nick = newPlayer.Nick });
-				Logger.Info("Player {0} connected", newPlayer.Nick);
+
+				case GameMessageType.PlayerConnected:
+					{
+						Messages.PlayerConnected newPlayer = new Messages.PlayerConnected(this.Client.Messages[0]);
+						this.PlayersInLobby.Add(new Player.PlayerData(newPlayer.UserId) { Nick = newPlayer.Nick });
+						Logger.Info("Player {0} connected", newPlayer.Nick);
+						this.Client.Messages.RemoveAt(0);
+					}
+					break;
+				case GameMessageType.PlayerDisconnected:
+					{
+						Messages.PlayerDisconnected disconnected = new Messages.PlayerDisconnected(this.Client.Messages[0]);
+						int idx = this.PlayersInLobby.FindIndex(p => p.UserId == disconnected.UserId);
+						Logger.Info("Player {0} disconnected, reason: {1}", this.PlayersInLobby[idx].Nick, disconnected.Reason.ToString());
+						this.PlayersInLobby.RemoveAt(0);
+					}
+					break;
+				case GameMessageType.PlayerChangedNick:
+					{
+						Messages.PlayerChangedNick newNick = new Messages.PlayerChangedNick(this.Client.Messages[0]);
+						int idx = this.PlayersInLobby.FindIndex(p => p.UserId == newNick.UserId);
+						Logger.Info("Player {0} changed the nick to {1}", this.PlayersInLobby[idx].Nick, newNick.NewNick);
+						this.PlayersInLobby[idx].Nick = newNick.NewNick;
+						this.Client.Messages.RemoveAt(0);
+					}
+					break;
+				case GameMessageType.PlayerChangedState:
+					{
+						Messages.PlayerChangedState newState = new Messages.PlayerChangedState(this.Client.Messages[0]);
+						int idx = this.PlayersInLobby.FindIndex(p => p.UserId == newState.UserId);
+						this.PlayersInLobby[idx].ReadyToPlay = !this.PlayersInLobby[idx].ReadyToPlay;
+						Logger.Info("Player {0} changed his state to {1}", this.PlayersInLobby[idx].Nick,
+							(this.PlayersInLobby[idx].ReadyToPlay ? "ready-to-play" : "spectator"));
+						this.Client.Messages.RemoveAt(0);
+					}
+					break;
 			}
-			else if ((msgIdx = this.Client.Messages.IndexOf((MessageType)GameMessageType.PlayerDisconnected)) > -1)
-			{
-				Messages.PlayerDisconnected disconnected = new Messages.PlayerDisconnected(this.Client.Messages[msgIdx]);
-				int idx = this.PlayersInLobby.FindIndex(p => p.UserId == disconnected.UserId);
-				Logger.Info("Player {0} disconnected, reason: {1}", this.PlayersInLobby[idx].Nick, disconnected.Reason.ToString());
-				this.PlayersInLobby.RemoveAt(idx);
-			}
-			else if ((msgIdx = this.Client.Messages.IndexOf((MessageType)GameMessageType.PlayerChangedNick)) > -1)
-			{
-				Messages.PlayerChangedNick newNick = new Messages.PlayerChangedNick(this.Client.Messages[msgIdx]);
-				int idx = this.PlayersInLobby.FindIndex(p => p.UserId == newNick.UserId);
-				Logger.Info("Player {0} changed the nick to {1}", this.PlayersInLobby[idx].Nick, newNick.NewNick);
-				this.PlayersInLobby[idx].Nick = newNick.NewNick;
-			}
-			if(msgIdx > -1)
-				this.Client.Messages.RemoveAt(msgIdx);
 		}
 		#endregion
 	}

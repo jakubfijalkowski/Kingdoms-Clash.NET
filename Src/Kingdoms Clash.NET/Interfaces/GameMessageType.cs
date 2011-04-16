@@ -30,7 +30,12 @@
 		/// <summary>
 		/// Użytkownik zmienił nick.
 		/// </summary>
-		PlayerChangedNick
+		PlayerChangedNick,
+
+		/// <summary>
+		/// Zmienia stan gracza - obserwator/ready-to-play.
+		/// </summary>
+		PlayerChangedState
 	}
 
 	/// <summary>

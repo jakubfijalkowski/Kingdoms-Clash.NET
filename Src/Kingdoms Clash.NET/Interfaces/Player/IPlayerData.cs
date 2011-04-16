@@ -25,5 +25,10 @@
 		/// Obiekt gracza, jeśli gracz gra.
 		/// </summary>
 		IPlayer Player { get; set; }
+
+		/// <summary>
+		/// Czy gracz jest gotowy do gry.
+		/// </summary>
+		bool ReadyToPlay { get; set; }
 	}
 }

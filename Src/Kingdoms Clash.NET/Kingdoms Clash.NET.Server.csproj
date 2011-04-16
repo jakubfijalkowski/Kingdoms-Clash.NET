@@ -117,6 +117,7 @@
     <Compile Include="Maps\ResourceOnMap.cs" />
     <Compile Include="Messages\PlayerAccepted.cs" />
     <Compile Include="Messages\PlayerChangedNick.cs" />
+    <Compile Include="Messages\PlayerChangedState.cs" />
     <Compile Include="Messages\PlayerConnected.cs" />
     <Compile Include="Messages\PlayerDisconnected.cs" />
     <Compile Include="Messages\PlayersFirstConfiguration.cs" />
