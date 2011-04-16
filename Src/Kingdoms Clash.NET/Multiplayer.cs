@@ -8,6 +8,8 @@ namespace Kingdoms_Clash.NET
 	using Interfaces.Map;
 	using Interfaces.Player;
 	using Interfaces.Units;
+	using ClashEngine.NET.Net;
+	using System;
 
 	/// <summary>
 	/// Stan-ekran gry wieloosobowej.
@@ -18,7 +20,8 @@ namespace Kingdoms_Clash.NET
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
 
 		#region Private
-		private IClient IClient;
+		private IClient Client;
+		private IMultiplayerSettings MainSettings;
 		#endregion
 
 		#region IGameState Members
@@ -95,12 +98,24 @@ namespace Kingdoms_Clash.NET
 		/// <param name="settings">Ustawienia gry.</param>
 		public void Initialize(IMultiplayerSettings settings)
 		{
+			this.MainSettings = settings;
 		}
 		#endregion
 
 		#region Screen Members
 		public override void OnInit()
 		{
+			this.Client = new TcpClient(new System.Net.IPEndPoint(this.MainSettings.Address, this.MainSettings.Port),
+				System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+			
+			this.Client.Open();
+			if (this.Client.Status != ClientStatus.Ok)
+			{
+				throw new Exception("Cannot connect to server - " + this.Client.Status.ToString()); //TODO: ładne przedstawienie błędu
+			}
+
+			Messages.PlayersFirstConfiguration firstMsg = new Messages.PlayersFirstConfiguration(this.MainSettings.PlayerNick);
+			this.Client.Send(firstMsg.ToMessage());
 		}
 
 		public override void Update(double delta)

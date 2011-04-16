@@ -2,7 +2,7 @@
 using ClashEngine.NET.Interfaces.Net;
 using ClashEngine.NET.Net;
 
-namespace Kingdoms_Clash.NET.Server.Messages
+namespace Kingdoms_Clash.NET.Messages
 {
 	using NET.Interfaces;
 

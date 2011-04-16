@@ -1,4 +1,6 @@
-﻿namespace Kingdoms_Clash.NET
+﻿using System.Net;
+
+namespace Kingdoms_Clash.NET
 {
 	using Interfaces;
 	using Interfaces.Controllers;
@@ -7,9 +9,9 @@
 	using Interfaces.Player;
 
 	/// <summary>
-	/// Ustawienia gry.
+	/// Ustawienia gry jednoosobowej.
 	/// </summary>
-	public class GameSettings
+	public class SingleplayerSettings
 		: ISingleplayerSettings
 	{
 		#region IGameSettings Members
@@ -42,6 +44,35 @@
 		/// Ustawienia rozgrywki, są one zależne od kontrolera, który grę obsługuje.
 		/// </summary>
 		public IGameplaySettings Gameplay { get; set; }
+		#endregion
+	}
+
+	/// <summary>
+	/// Ustawienia gry wieloosobowej.
+	/// </summary>
+	public class MultiplayerSettings
+		: IMultiplayerSettings
+	{
+		#region IGameSettings Members
+		/// <summary>
+		/// Adres serwera.
+		/// </summary>
+		public IPAddress Address { get; set; }
+
+		/// <summary>
+		/// Numer portu.
+		/// </summary>
+		public int Port { get; set; }
+
+		/// <summary>
+		/// Kontroler lokalny gracza.
+		/// </summary>
+		public IGameController LocalPlayerController { get; set; }
+
+		/// <summary>
+		/// Nick gracza.
+		/// </summary>
+		public string PlayerNick { get; set; }
 		#endregion
 	}
 }

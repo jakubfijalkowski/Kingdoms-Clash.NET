@@ -76,7 +76,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IMultiplayerGameSettings.cs" />
+    <Compile Include="Interfaces\IMultiplayerSettings.cs" />
     <Compile Include="Interfaces\Player\IPlayerData.cs" />
     <Compile Include="Player\PlayerData.cs" />
     <Compile Include="Messages\PlayerAccepted.cs" />
