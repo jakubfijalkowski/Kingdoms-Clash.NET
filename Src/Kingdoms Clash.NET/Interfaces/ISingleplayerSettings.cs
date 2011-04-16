@@ -6,9 +6,9 @@
 	using Player;
 
 	/// <summary>
-	/// Ustawienia gry.
+	/// Ustawienia gry dla jednego gracza.
 	/// </summary>
-	public interface IGameSettings
+	public interface ISingleplayerSettings
 	{
 		/// <summary>
 		/// Informacje o graczu A.

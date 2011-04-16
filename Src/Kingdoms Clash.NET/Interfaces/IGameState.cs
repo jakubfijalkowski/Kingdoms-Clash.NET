@@ -14,9 +14,9 @@ namespace Kingdoms_Clash.NET.Interfaces
 	{
 		#region Properties
 		/// <summary>
-		/// Ustawienia gry.
+		/// Ustawienia dla kontrolera.
 		/// </summary>
-		IGameSettings Settings { get; }
+		IGameplaySettings Settings { get; }
 
 		/// <summary>
 		/// Tablica dwóch, aktualnie grających, graczy.
@@ -35,12 +35,6 @@ namespace Kingdoms_Clash.NET.Interfaces
 		#endregion
 
 		#region Methods
-		/// <summary>
-		/// Inicjalizuje stan gry.
-		/// </summary>
-		/// <param name="settings">Ustawienia gry.</param>
-		void Initialize(IGameSettings settings);
-
 		/// <summary>
 		/// Resetuje stan gry(zaczyna od początku).
 		/// </summary>
@@ -71,7 +65,32 @@ namespace Kingdoms_Clash.NET.Interfaces
 		void Remove(IResourceOnMap resource);
 		#endregion
 	}
+
 #if !SERVER
+	/// <summary>
+	/// Stan gry przy jednym komputerze(niekoniecznie jednego gracza rzeczywistego).
+	/// </summary>
+	public interface ISingleplayer
+	{
+		/// <summary>
+		/// Inicjalizuje stan gry.
+		/// </summary>
+		/// <param name="settings">Ustawienia gry.</param>
+		void Initialize(ISingleplayerSettings settings);
+	}
+
+	/// <summary>
+	/// Stan gry przez sieć.
+	/// </summary>
+	public interface IMultiplayer
+	{
+		/// <summary>
+		/// Inicjalizuje stan gry.
+		/// </summary>
+		/// <param name="settings">Ustawienia gry.</param>
+		void Initialize(IMultiplayerSettings settings);
+	}
+
 	/// <summary>
 	/// Ekran stanu gry.
 	/// </summary>

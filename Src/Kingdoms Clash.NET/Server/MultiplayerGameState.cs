@@ -43,7 +43,7 @@ namespace Kingdoms_Clash.NET.Server
 		/// <summary>
 		/// Ustawienia gry.
 		/// </summary>
-		public IGameSettings Settings { get; private set; }
+		public IGameplaySettings Settings { get; private set; }
 
 		/// <summary>
 		/// Tablica dwóch, aktualnie grających, graczy.
@@ -62,27 +62,6 @@ namespace Kingdoms_Clash.NET.Server
 		#endregion
 
 		#region Methods
-		/// <summary>
-		/// Inicjalizuje stan gry.
-		/// </summary>
-		/// <param name="settings">Ustawienia gry.</param>
-		public void Initialize(IGameSettings settings)
-		{
-			//this.Settings = settings;
-			//this.Players = new IPlayer[]
-			//{
-			//    new Player.Player(settings.PlayerA.Name, settings.PlayerA.Nation, 100),
-			//    new Player.Player(settings.PlayerB.Name, settings.PlayerB.Nation, 100)
-			//};
-			//this.PlayerControllers[0] = settings.PlayerA.Controller;
-			//this.PlayerControllers[1] = settings.PlayerB.Controller;
-			//this.Map = settings.Map;
-			//this.Controller = settings.Controller;
-
-			//this.PlayerControllers[0].ShowStatistics = false;
-			//this.PlayerControllers[1].ShowStatistics = false;
-		}
-
 		/// <summary>
 		/// Resetuje stan gry(zaczyna od początku).
 		/// </summary>

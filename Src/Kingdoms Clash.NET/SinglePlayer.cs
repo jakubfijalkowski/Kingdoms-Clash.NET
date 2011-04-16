@@ -15,7 +15,7 @@ namespace Kingdoms_Clash.NET
 	/// Stan-ekran gry przy jednym komputerze(niekoniecznie jednego gracza rzeczywistego).
 	/// </summary>
 	public class SinglePlayer
-		: Screen, IGameState, IGameStateScreen
+		: Screen, ISingleplayer, IGameStateScreen
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
 
@@ -34,6 +34,8 @@ namespace Kingdoms_Clash.NET
 		/// Kontrolery graczy.
 		/// </summary>
 		private IPlayerController[] PlayerControllers = new IPlayerController[2];
+
+		private ISingleplayerSettings MainSettings = null;
 		#endregion
 
 		#region IGameState Members
@@ -41,7 +43,10 @@ namespace Kingdoms_Clash.NET
 		/// <summary>
 		/// Ustawienia gry.
 		/// </summary>
-		public IGameSettings Settings { get; private set; }
+		public IGameplaySettings Settings
+		{
+			get { return this.MainSettings.Gameplay; }
+		}
 
 		/// <summary>
 		/// Tablica dwóch, aktualnie grających, graczy.
@@ -64,9 +69,9 @@ namespace Kingdoms_Clash.NET
 		/// Inicjalizuje stan gry.
 		/// </summary>
 		/// <param name="settings">Ustawienia gry.</param>
-		public void Initialize(IGameSettings settings)
+		public void Initialize(ISingleplayerSettings settings)
 		{
-			this.Settings = settings;
+			this.MainSettings = settings;
 			this.Players = new IPlayer[]
 			{
 				new Player.Player(settings.PlayerA.Name, settings.PlayerA.Nation, 100),
@@ -144,13 +149,13 @@ namespace Kingdoms_Clash.NET
 		#region Screen Members
 		public override void OnInit()
 		{
-			Logger.Info("Starting game with controller {0} and players {1} and {2}", this.Settings.Controller.GetType().Name, this.Players[0].Name, this.Players[1].Name);
+			Logger.Info("Starting game with controller {0} and players {1} and {2}", this.MainSettings.Controller.GetType().Name, this.Players[0].Name, this.Players[1].Name);
 
 			base.OnInit();
 			this.StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager(this.GameInfo);
 
 			this.Controller.GameState = this;
-			this.Settings.VictoryRules.GameState = this;
+			this.MainSettings.VictoryRules.GameState = this;
 
 			this.Controller.PreGameStarted();
 
@@ -238,7 +243,7 @@ namespace Kingdoms_Clash.NET
 		/// </summary>
 		private void HandleVictory()
 		{
-			var winner = this.Settings.VictoryRules.Check();
+			var winner = this.MainSettings.VictoryRules.Check();
 			AdditionalScreens.WinnerScreen winnerScreen = null;
 			switch (winner)
 			{

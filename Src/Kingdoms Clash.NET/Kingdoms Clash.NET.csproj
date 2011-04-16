@@ -76,6 +76,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IMultiplayerGameSettings.cs" />
     <Compile Include="Interfaces\Player\IPlayerData.cs" />
     <Compile Include="Player\PlayerData.cs" />
     <Compile Include="Messages\PlayerAccepted.cs" />
@@ -102,7 +103,7 @@
     <Compile Include="Interfaces\Controllers\Victory\IVictoryRules.cs" />
     <Compile Include="Interfaces\IGameplaySettings.cs" />
     <Compile Include="Interfaces\Controllers\IClassicGame.cs" />
-    <Compile Include="Interfaces\IGameSettings.cs" />
+    <Compile Include="Interfaces\ISingleplayerSettings.cs" />
     <Compile Include="Interfaces\Controllers\IUnitQueue.cs" />
     <Compile Include="Interfaces\Controllers\IUnitQueueStats.cs" />
     <Compile Include="Interfaces\Factories\IPlayerControllerFactory.cs" />

@@ -1,6 +1,5 @@
 ﻿using ClashEngine.NET;
 using ClashEngine.NET.Interfaces.Net;
-using ClashEngine.NET.Net;
 
 namespace Kingdoms_Clash.NET
 {
@@ -14,7 +13,7 @@ namespace Kingdoms_Clash.NET
 	/// Stan-ekran gry wieloosobowej.
 	/// </summary>
 	public class Multiplayer
-		: Screen, IGameState, IGameStateScreen
+		: Screen, IMultiplayer, IGameStateScreen
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
 
@@ -27,7 +26,7 @@ namespace Kingdoms_Clash.NET
 		/// <summary>
 		/// Ustawienia gry.
 		/// </summary>
-		public IGameSettings Settings { get; private set; }
+		public IGameplaySettings Settings { get; private set; }
 
 		/// <summary>
 		/// Tablica dwóch, aktualnie grających, graczy.
@@ -46,14 +45,6 @@ namespace Kingdoms_Clash.NET
 		#endregion
 
 		#region Methods
-		/// <summary>
-		/// Inicjalizuje stan gry.
-		/// </summary>
-		/// <param name="settings">Ustawienia gry.</param>
-		public void Initialize(IGameSettings settings)
-		{
-		}
-
 		/// <summary>
 		/// Resetuje stan gry(zaczyna od początku).
 		/// </summary>
@@ -95,6 +86,16 @@ namespace Kingdoms_Clash.NET
 		{
 		}
 		#endregion
+		#endregion
+
+		#region IMultiplayer Members
+		/// <summary>
+		/// Inicjalizuje stan gry.
+		/// </summary>
+		/// <param name="settings">Ustawienia gry.</param>
+		public void Initialize(IMultiplayerSettings settings)
+		{
+		}
 		#endregion
 
 		#region Screen Members

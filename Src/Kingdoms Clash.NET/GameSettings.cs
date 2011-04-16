@@ -10,7 +10,7 @@
 	/// Ustawienia gry.
 	/// </summary>
 	public class GameSettings
-		: IGameSettings
+		: ISingleplayerSettings
 	{
 		#region IGameSettings Members
 		/// <summary>

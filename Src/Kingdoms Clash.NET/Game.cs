@@ -111,7 +111,7 @@ namespace Kingdoms_Clash.NET
 			};
 
 			this.Game = new SinglePlayer();
-			this.Game.Initialize(settings);
+			(this.Game as SinglePlayer).Initialize(settings);
 
 			if (Configuration.Instance.UseFPSCounter)
 			{

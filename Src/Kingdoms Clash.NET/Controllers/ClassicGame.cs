@@ -30,7 +30,7 @@ namespace Kingdoms_Clash.NET.Controllers
 		#region Private properties
 		private IClassicGameSettings Settings
 		{
-			get { return this.GameState.Settings.Gameplay as IClassicGameSettings; }
+			get { return this.GameState.Settings as IClassicGameSettings; }
 		}
 		#endregion
 
