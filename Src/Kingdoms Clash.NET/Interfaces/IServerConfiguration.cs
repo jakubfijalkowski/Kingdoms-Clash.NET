@@ -28,6 +28,11 @@ namespace Kingdoms_Clash.NET.Server.Interfaces
 		string Name { get; set; }
 
 		/// <summary>
+		/// Czas oczekiwania na rozpoczęcie gry.
+		/// </summary>
+		TimeSpan WaitTime { get; set; }
+
+		/// <summary>
 		/// Typ kontrolera gry.
 		/// </summary>
 		Type GameController { get; set; }

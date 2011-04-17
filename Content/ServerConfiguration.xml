@@ -3,6 +3,8 @@
 	maxSpectators="0">
 	<!-- Nazwa serwera -->
 	<name>My test server</name>
+	<!-- Czas oczekiwania na rozpoczęcie rozgrywki -->
+	<waitTime>00:01:00</waitTime>
 	<!-- Typ kontrolera -->
 	<controller>Kingdoms_Clash.NET.Controllers.ClassicGame</controller>
 	<!-- Typ reguł zwycięstwa -->

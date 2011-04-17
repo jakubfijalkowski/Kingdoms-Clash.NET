@@ -170,7 +170,6 @@ namespace Kingdoms_Clash.NET
 			//TODO: błędne wiadomości
 			switch ((GameMessageType)this.Client.Messages[0].Type)
 			{
-
 				case GameMessageType.PlayerConnected:
 					{
 						Messages.PlayerConnected newPlayer = new Messages.PlayerConnected(this.Client.Messages[0]);
@@ -207,6 +206,11 @@ namespace Kingdoms_Clash.NET
 					}
 					break;
 			}
+		}
+
+		private void HandleEndGameClientDisconnected()
+		{
+
 		}
 		#endregion
 	}

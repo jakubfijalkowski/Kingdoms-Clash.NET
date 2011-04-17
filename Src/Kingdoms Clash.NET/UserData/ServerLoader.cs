@@ -74,6 +74,13 @@ namespace Kingdoms_Clash.NET.Server.UserData
 				ServerConfiguration.Instance.Name = nameElement.InnerText;
 				#endregion
 
+				#region Name
+				var waitTime = cfg["waitTime"];
+				if (waitTime == null || string.IsNullOrWhiteSpace(waitTime.InnerText))
+					throw new XmlException("Element 'waitTime' must be specified");
+				ServerConfiguration.Instance.WaitTime = TimeSpan.Parse(waitTime.InnerText);
+				#endregion
+
 				#region Controller
 				var controllerElement = cfg["controller"];
 				if (controllerElement == null || string.IsNullOrWhiteSpace(controllerElement.InnerText))

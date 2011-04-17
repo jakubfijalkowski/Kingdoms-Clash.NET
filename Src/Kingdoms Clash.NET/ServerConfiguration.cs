@@ -51,6 +51,11 @@ namespace Kingdoms_Clash.NET.Server
 		public string Name { get; set; }
 
 		/// <summary>
+		/// Czas oczekiwania na rozpoczęcie gry.
+		/// </summary>
+		public TimeSpan WaitTime { get; set; }
+
+		/// <summary>
 		/// Typ kontrolera gry.
 		/// </summary>
 		public Type GameController { get; set; }
