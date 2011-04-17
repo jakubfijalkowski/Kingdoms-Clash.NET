@@ -1,7 +1,9 @@
-﻿using ClashEngine.NET.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using ClashEngine.NET.Interfaces;
 using ClashEngine.NET.Interfaces.Net;
 using ClashEngine.NET.Net;
-using System.Collections.Generic;
 
 namespace Kingdoms_Clash.NET.Server
 {
@@ -21,6 +23,8 @@ namespace Kingdoms_Clash.NET.Server
 		private IServer Server = null;
 		private uint NextUserId = 0;
 		private List<IPlayerData> ReadyToPlayPlayers = new List<IPlayerData>();
+		private TimeSpan TimeLeft;
+		private TimeSpan TimeLeft2;
 		#endregion
 
 		#region IMultiplayer Members
@@ -39,15 +43,24 @@ namespace Kingdoms_Clash.NET.Server
 				ServerConfiguration.Instance.InfoPort);
 
 			this.Server.Start();
+
+			this.TimeLeft = (this.TimeLeft2 = ServerConfiguration.Instance.WaitTime) + Settings.WaitTimeDelay;
+
+			Stopwatch watch = new Stopwatch();
+			double old = watch.Elapsed.TotalSeconds;
 			while (!this.StopMainLoop)
 			{
-				this.ProcessClients();
-				this.ProcessOther();
+				double delta = watch.Elapsed.TotalSeconds - old;
+				old = watch.Elapsed.TotalSeconds;
+
+				this.ProcessClients(delta);
+				this.ProcessOther(delta);
 				if (this.InGame)
-					this.ProcessInGame();
+					this.ProcessInGame(delta);
 				else
-					this.ProcessNonInGame();
+					this.ProcessNonInGame(delta);
 			}
+			watch.Stop();
 			this.Server.Stop();
 		}
 
@@ -75,7 +88,7 @@ namespace Kingdoms_Clash.NET.Server
 		/// <summary>
 		/// Obsługa nowych i rozłączonych klientów.
 		/// </summary>
-		private void ProcessClients()
+		private void ProcessClients(double delta)
 		{
 			for (int i = 0; i < this.Server.Clients.Count; i++)
 			{
@@ -122,7 +135,7 @@ namespace Kingdoms_Clash.NET.Server
 		/// <summary>
 		/// Obsługa właściwej gry.
 		/// </summary>
-		private void ProcessInGame()
+		private void ProcessInGame(double delta)
 		{
 
 		}
@@ -130,15 +143,31 @@ namespace Kingdoms_Clash.NET.Server
 		/// <summary>
 		/// Obsługa serwera, gdy nie jesteśmy w grze.
 		/// </summary>
-		private void ProcessNonInGame()
+		private void ProcessNonInGame(double delta)
 		{
-
+			if (this.ReadyToPlayPlayers.Count >= 2)
+			{
+				this.TimeLeft2.Subtract(new TimeSpan((long)(delta * TimeSpan.TicksPerSecond)));
+				if (this.TimeLeft2.TotalSeconds == 0.0)
+				{
+					//TODO: start game
+				}
+				else if (this.TimeLeft - this.TimeLeft2 > Settings.WaitTimeDelay)
+				{
+					this.Server.Clients.SendToAll(new Messages.GameWillStartAfter(Settings.WaitTimeDelay).ToMessage());
+					this.TimeLeft = this.TimeLeft2;
+				}
+			}
+			else
+			{
+				this.TimeLeft = ServerConfiguration.Instance.WaitTime;
+			}
 		}
 
 		/// <summary>
 		/// Obsługa innych rzeczy, niezwiązanych z grą.
 		/// </summary>
-		private void ProcessOther()
+		private void ProcessOther(double delta)
 		{
 			for (int i = 0; i < this.Server.Clients.Count; i++)
 			{

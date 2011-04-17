@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 
 namespace Kingdoms_Clash.NET
 {
@@ -27,5 +28,10 @@ namespace Kingdoms_Clash.NET
 		/// Jest to tylko szerokość, wysokość należy wyliczyć uwzględniając aspekt okna.
 		/// </summary>
 		public static readonly float ScreenSize = 100f;
+
+		/// <summary>
+		/// Co ile gra będzie informować o zmianie czasu do rozpoczęcia gry.
+		/// </summary>
+		public static readonly TimeSpan WaitTimeDelay = new TimeSpan(0, 0, 10);
 	}
 }
