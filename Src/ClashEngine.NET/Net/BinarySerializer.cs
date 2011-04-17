@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ClashEngine.NET.Net
 {
+	using System.Reflection;
 	using Interfaces.Net;
 
 	/// <summary>
 	/// Helper przy serializowaniu danych binarnych do użytku sieciowego.
 	/// Obsługuje wszystkie obiekty, które posiadają <see cref="System.TypeCode"/> z wyłączeniem
-	/// <see cref="System.TypeCode.Object"/> oraz <see cref="System.TypeCode.DateTime"/>.
+	/// <see cref="System.TypeCode.Object"/>(tylko dla <see cref="System.Version"/> oraz i <see cref="System.Type"/>) oraz <see cref="System.TypeCode.DateTime"/>.
 	/// </summary>
 	/// <remarks>
 	/// Serializer nie sprawdza poprawności danych.
@@ -83,6 +85,30 @@ namespace ClashEngine.NET.Net
 							outputList.AddRange(Encoding.Unicode.GetBytes((string)obj));
 							break;
 					}
+				}
+				else if (obj is Version)
+				{
+					var ver = obj as Version;
+					outputList.Add((byte)ver.Major);
+					outputList.Add((byte)ver.Minor);
+					outputList.Add((byte)ver.Build);
+					outputList.Add((byte)ver.Revision);
+				}
+				else if (obj is Type)
+				{
+					var type = obj as Type;
+					//Assembly.FullName
+					outputList.AddRange(GetLittleEndian(BitConverter.GetBytes((UInt16)type.Assembly.FullName.Length)));
+					outputList.AddRange(Encoding.Unicode.GetBytes(type.Assembly.FullName));
+					//.FullName
+					outputList.AddRange(GetLittleEndian(BitConverter.GetBytes((UInt16)type.FullName.Length)));
+					outputList.AddRange(Encoding.Unicode.GetBytes(type.FullName));
+					//Assembly.GetName().Version
+					var ver = type.Assembly.GetName().Version;
+					outputList.Add((byte)ver.Major);
+					outputList.Add((byte)ver.Minor);
+					outputList.Add((byte)ver.Build);
+					outputList.Add((byte)ver.Revision);
 				}
 			}
 			return outputList.ToArray();
@@ -166,6 +192,36 @@ namespace ClashEngine.NET.Net
 							break;
 					}
 				}
+				else if (objs[i] is Version)
+				{
+					var ver = objs[i] as Version;
+					output[j++] = (byte)ver.Major;
+					output[j++] = (byte)ver.Minor;
+					output[j++] = (byte)ver.Build;
+					output[j++] = (byte)ver.Revision;
+				}
+				else if (objs[i] is Type)
+				{
+					var type = objs[i] as Type;
+					//Assembly.FullName
+					GetAndCopy(BitConverter.GetBytes((UInt16)type.Assembly.FullName.Length), output, j);
+					j += 2;
+					Array.Copy(Encoding.Unicode.GetBytes(type.Assembly.FullName), 0, output, j, type.Assembly.FullName.Length * 2);
+					j += type.Assembly.FullName.Length * 2;
+
+					//.FullName
+					GetAndCopy(BitConverter.GetBytes((UInt16)type.FullName.Length), output, j);
+					j += 2;
+					Array.Copy(Encoding.Unicode.GetBytes(type.FullName), 0, output, j, type.FullName.Length * 2);
+					j += type.FullName.Length * 2;
+
+					//Assembly.GetName().Version
+					var ver = type.Assembly.GetName().Version;
+					output[j++] = (byte)ver.Major;
+					output[j++] = (byte)ver.Minor;
+					output[j++] = (byte)ver.Build;
+					output[j++] = (byte)ver.Revision;
+				}
 			}
 		}
 
@@ -229,7 +285,7 @@ namespace ClashEngine.NET.Net
 
 		public char GetChar()
 		{
-			if(!BitConverter.IsLittleEndian)
+			if (!BitConverter.IsLittleEndian)
 			{
 				this.TempData[0] = this.Data[this.Index++];
 				this.TempData[1] = this.Data[this.Index++];
@@ -374,6 +430,33 @@ namespace ClashEngine.NET.Net
 			string tmp = Encoding.Unicode.GetString(this.Data, this.Index, len * 2);
 			this.Index += len * 2;
 			return tmp;
+		}
+
+		public Version GetVersion()
+		{
+			return new Version(this.GetByte(), this.GetByte(), this.GetByte(), this.GetByte());
+		}
+
+		public Type GetTypeInfo()
+		{
+			var assemblyName = this.GetString();
+			var typeName = this.GetString();
+			var version = this.GetVersion();
+
+			Assembly a = Assembly.Load(assemblyName);
+			if (a == null)
+				return null;
+			var type = a.GetTypes().First(t => t.FullName == typeName);
+			if (type == null || type.Assembly.GetName().Version != version)
+				return null;
+			return type;
+		}
+
+		public void GetTypeInfo(out string assembly, out string type, out Version version)
+		{
+			assembly = this.GetString();
+			type = this.GetString();
+			version = this.GetVersion();
 		}
 		#endregion
 

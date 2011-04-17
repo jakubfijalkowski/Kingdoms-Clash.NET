@@ -1,4 +1,5 @@
-﻿namespace ClashEngine.NET.Interfaces.Net
+﻿using System;
+namespace ClashEngine.NET.Interfaces.Net
 {
 	/// <summary>
 	/// Serializer - klasa pomocnicza do serializowania danych binarnych do formatu używanego przez moduł sieciowy.
@@ -37,6 +38,9 @@
 		double GetDouble();
 		float GetFloat();
 		string GetString();
+		Version GetVersion();
+		Type GetTypeInfo();
+		void GetTypeInfo(out string assembly, out string type, out Version version);
 		#endregion
 	}
 }

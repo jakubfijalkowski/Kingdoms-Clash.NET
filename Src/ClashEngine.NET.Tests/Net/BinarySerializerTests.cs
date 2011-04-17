@@ -19,7 +19,7 @@ namespace ClashEngine.NET.Tests.Net
 		};
 
 		private static readonly object[] Data = new object[] { true, null, (byte)1, 'b', DBNull.Value, (decimal)1, (double)1, (Int16)(-5), (Int32)(-6), (Int64)7,
-				(SByte)(-2), (Single)1, (UInt16)9, (UInt32)10, (UInt64)11 };
+				(SByte)(-2), (Single)1, (UInt16)9, (UInt32)10, (UInt64)11, new Version(1, 2, 3, 4) };
 		private static readonly byte[] DataSerialized = new byte[]
 		{	 
 			0x01,                                           //1, 0
@@ -36,11 +36,15 @@ namespace ClashEngine.NET.Tests.Net
 			0x00, 0x00, 0x80, 0x3F,                         //12, 37-40
 			0x09, 0x00,                                     //13, 41-42
 			0x0A, 0x00, 0x00, 0x00,                         //14, 43-46
-			0x0B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00  //15, 47-54
+			0x0B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //15, 47-54
+			0x01, 0x02, 0x03, 0x04                          //16, 55-58
 		};
 
 		private static readonly string Text = "Zażółcić gęślą jaźń";
 		private static readonly byte[] TextSerialized;
+
+		private static readonly Type Type = typeof(string);
+		private static readonly byte[] TypeSerialized;
 
 		/// <summary>
 		/// Taka customowa inicjalizacja jest o wiele prostsza ;)
@@ -51,6 +55,19 @@ namespace ClashEngine.NET.Tests.Net
 			TextSerialized[0] = (byte)Text.Length;
 			TextSerialized[1] = 0x00;
 			System.Text.Encoding.Unicode.GetBytes(Text, 0, Text.Length, TextSerialized, 2);
+
+			int j = 0;
+			TypeSerialized = new byte[4 + Type.Assembly.FullName.Length * 2 + Type.FullName.Length * 2 + 4];
+			TypeSerialized[j++] = (byte)Type.Assembly.FullName.Length;
+			TypeSerialized[j++] = 0x00;
+			j += System.Text.Encoding.Unicode.GetBytes(Type.Assembly.FullName, 0, Type.Assembly.FullName.Length, TypeSerialized, j);
+			TypeSerialized[j++] = (byte)Type.FullName.Length;
+			TypeSerialized[j++] = 0x00;
+			j += System.Text.Encoding.Unicode.GetBytes(Type.FullName, 0, Type.FullName.Length, TypeSerialized, j);
+			TypeSerialized[j++] = (byte)Type.Assembly.GetName().Version.Major;
+			TypeSerialized[j++] = (byte)Type.Assembly.GetName().Version.Minor;
+			TypeSerialized[j++] = (byte)Type.Assembly.GetName().Version.Build;
+			TypeSerialized[j++] = (byte)Type.Assembly.GetName().Version.Revision;
 		}
 		#endregion
 
@@ -100,6 +117,21 @@ namespace ClashEngine.NET.Tests.Net
 		}
 
 		[Test]
+		public void TypeSerializationList()
+		{
+			byte[] output = BinarySerializer.StaticSerialize(Type);
+			CollectionAssert.AreEqual(TypeSerialized, output);
+		}
+
+		[Test]
+		public void TypeSerialization()
+		{
+			byte[] output = new byte[TypeSerialized.Length];
+			BinarySerializer.StaticSerialize(output, Type);
+			CollectionAssert.AreEqual(TypeSerialized, output);
+		}
+
+		[Test]
 		public void Deserialization()
 		{
 			var serializer = new BinarySerializer(DataSerialized);
@@ -118,6 +150,7 @@ namespace ClashEngine.NET.Tests.Net
 			Assert.AreEqual((ushort)9, serializer.GetUInt16());
 			Assert.AreEqual(10U, serializer.GetUInt32());
 			Assert.AreEqual(11UL, serializer.GetUInt64());
+			Assert.AreEqual(new Version(1, 2, 3, 4), serializer.GetVersion());
 		}
 
 		[Test]
@@ -125,6 +158,21 @@ namespace ClashEngine.NET.Tests.Net
 		{
 			var serializer = new BinarySerializer(TextSerialized);
 			Assert.AreEqual(Text, serializer.GetString());
+		}
+
+		[Test]
+		public void TypeDeserialization()
+		{
+			var serializer = new BinarySerializer(TypeSerialized);
+			Assert.AreEqual(Type, serializer.GetTypeInfo());
+
+			serializer = new BinarySerializer(TypeSerialized);
+			string assembly, type;
+			Version version;
+			serializer.GetTypeInfo(out assembly, out type, out version);
+			Assert.AreEqual(Type.Assembly.FullName, assembly);
+			Assert.AreEqual(Type.FullName, type);
+			Assert.AreEqual(Type.Assembly.GetName().Version, version);
 		}
 	}
 }
