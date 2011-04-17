@@ -115,6 +115,7 @@
     <Compile Include="Interfaces\Units\UnitEvents.cs" />
     <Compile Include="Internals\VelocityLimit.cs" />
     <Compile Include="Maps\ResourceOnMap.cs" />
+    <Compile Include="Messages\GameWillStartAfter.cs" />
     <Compile Include="Messages\PlayerAccepted.cs" />
     <Compile Include="Messages\PlayerChangedNick.cs" />
     <Compile Include="Messages\PlayerChangedState.cs" />

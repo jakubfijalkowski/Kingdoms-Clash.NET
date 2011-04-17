@@ -35,7 +35,22 @@
 		/// <summary>
 		/// Zmienia stan gracza - obserwator/ready-to-play.
 		/// </summary>
-		PlayerChangedState
+		PlayerChangedState,
+
+		/// <summary>
+		/// Wiadomość określająca za ile rozpocznie się mecz.
+		/// </summary>
+		GameWillStartAfter,
+
+		/// <summary>
+		/// Gra rozpoczęta.
+		/// </summary>
+		GameStarted,
+
+		/// <summary>
+		/// Gra zakończona.
+		/// </summary>
+		GameEnded
 	}
 
 	/// <summary>

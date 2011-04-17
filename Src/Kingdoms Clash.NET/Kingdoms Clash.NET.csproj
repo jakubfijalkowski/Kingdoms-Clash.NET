@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Interfaces\IMultiplayerSettings.cs" />
     <Compile Include="Interfaces\Player\IPlayerData.cs" />
+    <Compile Include="Messages\GameWillStartAfter.cs" />
     <Compile Include="Messages\PlayerChangedState.cs" />
     <Compile Include="Player\PlayerData.cs" />
     <Compile Include="Messages\PlayerAccepted.cs" />
