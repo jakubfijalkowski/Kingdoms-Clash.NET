@@ -51,7 +51,7 @@ namespace Kingdoms_Clash.NET.Messages
 		/// <returns></returns>
 		public Message ToMessage()
 		{
-			byte[] data = new byte[0];
+			byte[] data = new byte[4];
 			BinarySerializer.StaticSerialize(data, this.UserId);
 			return new Message((MessageType)GameMessageType.PlayerChangedNick, data);
 		}

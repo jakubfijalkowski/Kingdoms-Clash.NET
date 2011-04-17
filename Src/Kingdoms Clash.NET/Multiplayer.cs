@@ -27,6 +27,7 @@ namespace Kingdoms_Clash.NET
 		private IClient Client;
 		private IMultiplayerSettings MainSettings;
 		private List<IPlayerData> PlayersInLobby;
+		private bool InGame = false;
 		#endregion
 
 		#region IGameState Members
@@ -131,6 +132,7 @@ namespace Kingdoms_Clash.NET
 				var msg = new Messages.PlayerAccepted(this.Client.Messages.GetFirst((MessageType)GameMessageType.PlayerAccepted));
 				this.UserId = msg.UserId;
 				this.PlayersInLobby = msg.Players;
+				this.Client.Send(new Messages.PlayerChangedState(this.UserId).ToMessage());
 			}
 			else
 			{
@@ -150,7 +152,11 @@ namespace Kingdoms_Clash.NET
 
 		public override void Update(double delta)
 		{
-			this.HandleBasicMessages();
+			this.ProcessOther();
+			if (this.InGame)
+				this.ProcessInGame();
+			else
+				this.ProcessNonInGame();
 		}
 
 		public override void Render()
@@ -165,8 +171,41 @@ namespace Kingdoms_Clash.NET
 		#endregion
 
 		#region Handling
-		private void HandleBasicMessages()
+		/// <summary>
+		/// Obsługa w trakcie gry.
+		/// </summary>
+		private void ProcessInGame()
 		{
+
+		}
+
+		/// <summary>
+		/// Obsługa poza grą.
+		/// </summary>
+		private void ProcessNonInGame()
+		{
+			if (this.Client.Messages.Count == 0)
+				return;
+
+			switch ((GameMessageType)this.Client.Messages[0].Type)
+			{
+				case GameMessageType.GameWillStartAfter:
+					{
+						var msg = new Messages.GameWillStartAfter(this.Client.Messages[0]);
+						this.Client.Messages.RemoveAt(0);
+						Logger.Info("Game will start after {0}", msg.Time.ToString());
+					}
+					break;
+			}
+		}
+
+		/// <summary>
+		/// Obsługa pozostałych.
+		/// </summary>
+		private void ProcessOther()
+		{
+			if (this.Client.Messages.Count == 0)
+				return;
 			//TODO: błędne wiadomości
 			switch ((GameMessageType)this.Client.Messages[0].Type)
 			{
@@ -206,11 +245,6 @@ namespace Kingdoms_Clash.NET
 					}
 					break;
 			}
-		}
-
-		private void HandleEndGameClientDisconnected()
-		{
-
 		}
 		#endregion
 	}

@@ -154,7 +154,8 @@ namespace Kingdoms_Clash.NET.Server
 				}
 				else if (this.TimeLeft - this.TimeLeft2 > Settings.WaitTimeDelay)
 				{
-					this.Server.Clients.SendToAll(new Messages.GameWillStartAfter(Settings.WaitTimeDelay).ToMessage());
+					var secondsLeft = (int)Math.Floor(this.TimeLeft2.TotalSeconds);
+					this.Server.Clients.SendToAll(new Messages.GameWillStartAfter(new TimeSpan(0, 0, secondsLeft)).ToMessage());
 					this.TimeLeft = this.TimeLeft2;
 				}
 			}
