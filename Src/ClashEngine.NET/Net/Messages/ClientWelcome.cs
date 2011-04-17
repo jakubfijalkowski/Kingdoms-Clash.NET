@@ -47,7 +47,7 @@ namespace ClashEngine.NET.Net.Messages
 		public Message ToMessage()
 		{
 			byte[] data = new byte[4];
-			BinarySerializer.StaticSerialize(data, (byte)this.Version.Major, (byte)this.Version.Minor, (byte)this.Version.Build, (byte)this.Version.Revision);
+			BinarySerializer.StaticSerialize(data, this.Version);
 			return new Message(MessageType.Welcome, data);
 		}
 		#endregion

@@ -97,10 +97,18 @@ namespace ClashEngine.NET.Net
 			{
 				byte[] messageType = new byte[2];
 				BinarySerializer.StaticSerialize(messageType, (ushort)message.Type);
-				this.Socket.Send(messageType);
-				if (message.Data != null)
-					this.Socket.Send(message.Data);
-				this.Socket.Send(EndMessage);
+				try
+				{
+					this.Socket.Send(messageType);
+					if (message.Data != null)
+						this.Socket.Send(message.Data);
+					this.Socket.Send(EndMessage);
+				}
+				catch (Exception ex)
+				{
+					Logger.WarnException(string.Format("Cannot send message to client {0}", this.RemoteEndpoint.Address), ex);
+					this.Status = ClientStatus.Error;
+				}
 			}
 		}
 		#endregion

@@ -1,6 +1,7 @@
 ﻿using ClashEngine.NET.Interfaces;
 using ClashEngine.NET.Interfaces.Net;
 using ClashEngine.NET.Net;
+using System.Collections.Generic;
 
 namespace Kingdoms_Clash.NET.Server
 {
@@ -19,6 +20,7 @@ namespace Kingdoms_Clash.NET.Server
 		private bool StopMainLoop = false;
 		private IServer Server = null;
 		private uint NextUserId = 0;
+		private List<IPlayerData> ReadyToPlayPlayers = new List<IPlayerData>();
 		#endregion
 
 		#region IMultiplayer Members
@@ -101,7 +103,7 @@ namespace Kingdoms_Clash.NET.Server
 					userData.InGame = false;
 					userData.Nick = msg.Nick;
 
-					var accepted = new Messages.PlayerAccepted(userData.UserId, false);
+					var accepted = new Messages.PlayerAccepted(userData.UserId, false, ServerConfiguration.Instance.GameController, ServerConfiguration.Instance.VictoryRules);
 					for (int j = 0; j < this.Server.Clients.Count; j++)
 					{
 						if (this.Server.Clients[j].UserData != null)
@@ -159,6 +161,7 @@ namespace Kingdoms_Clash.NET.Server
 								(client.UserData as IPlayerData).ReadyToPlay = !(client.UserData as IPlayerData).ReadyToPlay;
 								var msg = new Messages.PlayerChangedState((client.UserData as IPlayerData).UserId);
 								this.Server.Clients.SendToAll(msg.ToMessage(), c => c != client);
+								this.ReorderPlayersList(client.UserData as IPlayerData);
 							}
 							break;
 
@@ -167,6 +170,20 @@ namespace Kingdoms_Clash.NET.Server
 					}
 					client.Messages.RemoveAt(0);
 				}
+			}
+		}
+		#endregion
+
+		#region Other
+		private void ReorderPlayersList(IPlayerData player)
+		{
+			if (player.ReadyToPlay)
+			{
+				this.ReadyToPlayPlayers.Add(player);
+			}
+			else
+			{
+				this.ReadyToPlayPlayers.Remove(player);
 			}
 		}
 		#endregion
