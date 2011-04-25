@@ -73,6 +73,8 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\SafeCollection.cs" />
+    <Compile Include="Collections\SafeEnumerator.cs" />
     <Compile Include="Components\Internals\PhysicalRotationAttribute.cs" />
     <Compile Include="Converters\FontConverter.cs" />
     <Compile Include="Converters\LayoutConverter.cs" />
@@ -160,6 +162,7 @@
     <Compile Include="Graphics\Resources\SystemFont.cs" />
     <Compile Include="Graphics\Resources\Internals\AtlasTexture.cs" />
     <Compile Include="Graphics\Resources\TexturesAtlas.cs" />
+    <Compile Include="Interfaces\Collections\ISafeCollection.cs" />
     <Compile Include="Interfaces\Data\IDataContext.cs" />
     <Compile Include="Interfaces\Data\IPropertyPath.cs" />
     <Compile Include="Interfaces\Data\IRootObjectExtension.cs" />
@@ -241,6 +244,7 @@
     <Compile Include="Interfaces\EntitiesManager\IGameEntity.cs" />
     <Compile Include="Interfaces\EntitiesManager\IRenderableComponent.cs" />
     <Compile Include="Interfaces\IGame.cs" />
+    <Compile Include="Interfaces\Collections\ISafeList.cs" />
     <Compile Include="Interfaces\ISystemInformation.cs" />
     <Compile Include="Interfaces\Components\IPhysicalObject.cs" />
     <Compile Include="Interfaces\IPhysicsManager.cs" />
