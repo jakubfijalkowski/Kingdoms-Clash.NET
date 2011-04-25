@@ -4,37 +4,22 @@ using System.Diagnostics;
 
 namespace ClashEngine.NET.Net.Internals
 {
+	using Collections;
 	using Interfaces.Net;
 
 	/// <summary>
 	/// Wewnętrzna kolekcja klientów.
 	/// </summary>
-	[DebuggerDisplay("Count = {Count}")]
 	internal class ServerClientsCollection
-		: IClientsCollection
+		: SafeList<IClient>, IClientsCollection
 	{
-		#region Private fields
-		[DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-		private List<IClient> Clients = new List<IClient>();
-		#endregion
-
 		#region IList<IClient> Members
-		/// <summary>
-		/// Pobiera indeks wskazanego elementu.
-		/// </summary>
-		/// <param name="item"></param>
-		/// <returns></returns>
-		public int IndexOf(IClient item)
-		{
-			return this.Clients.IndexOf(item);
-		}
-
 		/// <summary>
 		/// Niewspierane.
 		/// </summary>
 		/// <param name="index"></param>
 		/// <param name="item"></param>
-		public void Insert(int index, IClient item)
+		new public void Insert(int index, IClient item)
 		{
 			throw new NotSupportedException();
 		}
@@ -43,10 +28,18 @@ namespace ClashEngine.NET.Net.Internals
 		/// Usuwa klienta z kolekcji i zamyka połączenie.
 		/// </summary>
 		/// <param name="index"></param>
-		public void RemoveAt(int index)
+		new public void RemoveAt(int index)
 		{
-			this.Clients[index].Close();
-			this.Clients.RemoveAt(index);
+			try
+			{
+				this.RWLock.EnterWriteLock();
+				this.InnerList[index].Close();
+				this.InnerList.RemoveAt(index);
+			}
+			finally
+			{
+				this.RWLock.ExitWriteLock();
+			}
 		}
 
 		/// <summary>
@@ -55,9 +48,9 @@ namespace ClashEngine.NET.Net.Internals
 		/// </summary>
 		/// <param name="index"></param>
 		/// <returns></returns>
-		public IClient this[int index]
+		new public IClient this[int index]
 		{
-			get { return this.Clients[index]; }
+			get { return base[index]; }
 			set { throw new NotSupportedException(); }
 		}
 		#endregion
@@ -67,7 +60,7 @@ namespace ClashEngine.NET.Net.Internals
 		/// Niewspierane.
 		/// </summary>
 		/// <param name="item"></param>
-		public void Add(IClient item)
+		new public void Add(IClient item)
 		{
 			throw new NotSupportedException();
 		}
@@ -77,65 +70,35 @@ namespace ClashEngine.NET.Net.Internals
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		public bool Remove(IClient item)
+		new public bool Remove(IClient item)
 		{
-			int idx = this.Clients.IndexOf(item);
+			bool ret = false;
+			base.RWLock.EnterUpgradeableReadLock();
+			int idx = base.InnerList.IndexOf(item);
 			if (idx > -1)
 			{
-				this.Clients[idx].Close();
-				this.Clients.RemoveAt(idx);
-				return true;
+				base.RWLock.EnterWriteLock();
+				base.InnerList[idx].Close();
+				base.InnerList.RemoveAt(idx);
+				ret = true;
+				base.RWLock.ExitWriteLock();
 			}
-			return false;
+			base.RWLock.ExitUpgradeableReadLock();
+			return ret;
 		}
 
 		/// <summary>
 		/// Zamyka wszystkie połączenia i usuwa klientów z kolekcji.
 		/// </summary>
-		public void Clear()
+		new public void Clear()
 		{
-			foreach (var client in this.Clients)
+			base.RWLock.EnterWriteLock();
+			foreach (var client in base.InnerList)
 			{
 				client.Close();
 			}
-			this.Clients.Clear();
-		}
-
-		/// <summary>
-		/// Sprawdza, czy kolekcja zawiera podaney element.
-		/// </summary>
-		/// <param name="item"></param>
-		/// <returns></returns>
-		public bool Contains(IClient item)
-		{
-			return this.Clients.Contains(item);
-		}
-
-		/// <summary>
-		/// Kopiuje kolekcję do tablicy.
-		/// </summary>
-		/// <param name="array"></param>
-		/// <param name="arrayIndex"></param>
-		public void CopyTo(IClient[] array, int arrayIndex)
-		{
-			this.Clients.CopyTo(array, arrayIndex);
-		}
-
-		/// <summary>
-		/// Pobiera liczbę elementów w kolekcji.
-		/// </summary>
-		public int Count
-		{
-			get { return this.Clients.Count; }
-		}
-
-		/// <summary>
-		/// Klasy nieupoważnione nie mogą zmieniać tej kolekcji.
-		/// </summary>
-		[DebuggerHidden]
-		public bool IsReadOnly
-		{
-			get { return true; }
+			base.InnerList.Clear();
+			base.RWLock.ExitWriteLock();
 		}
 		#endregion
 
@@ -146,7 +109,7 @@ namespace ClashEngine.NET.Net.Internals
 		/// <param name="msg"></param>
 		public void SendToAll(Message msg)
 		{
-			foreach (var client in this.Clients)
+			foreach (var client in this)
 			{
 				if (client.Status == ClientStatus.Ok)
 					client.Send(msg);
@@ -160,7 +123,7 @@ namespace ClashEngine.NET.Net.Internals
 		/// <param name="pred">Predykat.</param>
 		public void SendToAll(Message msg, Predicate<IClient> pred)
 		{
-			foreach (var client in this.Clients)
+			foreach (var client in this)
 			{
 				if (client.Status == ClientStatus.Ok && pred(client))
 					client.Send(msg);
@@ -168,24 +131,10 @@ namespace ClashEngine.NET.Net.Internals
 		}
 		#endregion
 
-		#region IEnumerable<IClient> Members
-		public IEnumerator<IClient> GetEnumerator()
-		{
-			return this.Clients.GetEnumerator();
-		}
-		#endregion
-
-		#region IEnumerable Members
-		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-		{
-			return this.Clients.GetEnumerator();
-		}
-		#endregion
-
 		#region Internals
 		internal void InternalAdd(IClient item)
 		{
-			this.Clients.Add(item);
+			base.Add(item);
 		}
 		#endregion
 	}

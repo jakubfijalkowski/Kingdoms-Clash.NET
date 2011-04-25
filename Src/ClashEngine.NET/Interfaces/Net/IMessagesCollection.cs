@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-
-namespace ClashEngine.NET.Interfaces.Net
+﻿namespace ClashEngine.NET.Interfaces.Net
 {
+	using Collections;
+
 	/// <summary>
 	/// Kolejka wiadomości.
 	/// Nie wspiera dodawania nowych wiadomości z zewnątrz.
 	/// </summary>
 	public interface IMessagesCollection
-		: IList<Message>
+		: ISafeList<Message>
 	{
 		/// <summary>
 		/// Sprawdza, czy w kolekcji znajduje się wiadomość o wskazanym typie.

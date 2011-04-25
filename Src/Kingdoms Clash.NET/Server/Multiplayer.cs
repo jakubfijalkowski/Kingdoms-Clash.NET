@@ -90,6 +90,7 @@ namespace Kingdoms_Clash.NET.Server
 		/// </summary>
 		private void ProcessClients(double delta)
 		{
+			this.Server.Clients.RWLock.EnterUpgradeableReadLock();
 			for (int i = 0; i < this.Server.Clients.Count; i++)
 			{
 				var client = this.Server.Clients[i];
@@ -130,6 +131,7 @@ namespace Kingdoms_Clash.NET.Server
 					client.UserData = userData;
 				}
 			}
+			this.Server.Clients.RWLock.ExitUpgradeableReadLock();
 		}
 
 		/// <summary>
@@ -170,9 +172,9 @@ namespace Kingdoms_Clash.NET.Server
 		/// </summary>
 		private void ProcessOther(double delta)
 		{
-			for (int i = 0; i < this.Server.Clients.Count; i++)
+			foreach (var client in this.Server.Clients)
 			{
-				var client = this.Server.Clients[i];
+				client.Messages.RWLock.EnterUpgradeableReadLock();
 				if (client.UserData != null && client.Messages.Count > 0)
 				{
 					switch ((GameMessageType)client.Messages[0].Type)
@@ -198,8 +200,11 @@ namespace Kingdoms_Clash.NET.Server
 						default:
 							continue;
 					}
+					client.Messages.RWLock.EnterWriteLock();
 					client.Messages.RemoveAt(0);
+					client.Messages.RWLock.ExitWriteLock();
 				}
+				client.Messages.RWLock.ExitUpgradeableReadLock();
 			}
 		}
 		#endregion

@@ -96,7 +96,7 @@ namespace ClashEngine.NET.Collections
 		{
 			this._RWLock.EnterReadLock();
 			var r = this.InnerList.Contains(item);
-			this._RWLock.EnterReadLock();
+			this._RWLock.ExitReadLock();
 			return r;
 		}
 
@@ -134,14 +134,14 @@ namespace ClashEngine.NET.Collections
 		#region IEnumerable<T> Members
 		public IEnumerator<T> GetEnumerator()
 		{
-			return new SafeEnumerator<T>(this.GetEnumerator(), this._RWLock);
+			return new SafeEnumerator<T>(this.InnerList.GetEnumerator(), this._RWLock);
 		}
 		#endregion
 
 		#region IEnumerable Members
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			return new SafeEnumerator<T>(this.GetEnumerator(), this._RWLock);
+			return new SafeEnumerator<T>(this.InnerList.GetEnumerator(), this._RWLock);
 		}
 		#endregion
 	}
