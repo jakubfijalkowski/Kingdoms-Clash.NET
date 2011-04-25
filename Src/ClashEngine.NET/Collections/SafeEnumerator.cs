@@ -4,22 +4,50 @@ using System.Threading;
 
 namespace ClashEngine.NET.Collections
 {
+	using Interfaces.Collections;
+
 	/// <summary>
 	/// Thread-safe enumerator.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public class SafeEnumerator<T>
-		: IEnumerator<T>
+		: ISafeEnumerator<T>
 	{
 		#region Private fields
-		private readonly IEnumerator<T> Original;
-		private readonly object SyncRoot;
+		private readonly IEnumerator<T> _Original;
+		private readonly ReaderWriterLockSlim _RWLock;
+		private readonly bool _Upgradeable;
+		#endregion
+
+		#region ISafeEnumerator<T> Members
+		/// <summary>
+		/// Bazowy enumerator.
+		/// </summary>
+		public IEnumerator<T> Original
+		{
+			get { return this._Original; }
+		}
+
+		/// <summary>
+		/// Lock.
+		/// </summary>
+		public ReaderWriterLockSlim RWLock
+		{
+			get { return this._RWLock; }
+		}
+		/// <summary>
+		/// Czy enumerator jest w trybie "upgradeable".
+		/// </summary>
+		public bool Upgradeable
+		{
+			get { return this._Upgradeable; }
+		}
 		#endregion
 
 		#region IEnumerator<T> Members
 		public T Current
 		{
-			get { return Original.Current; }
+			get { return this.Original.Current; }
 		}
 		#endregion
 
@@ -45,20 +73,52 @@ namespace ClashEngine.NET.Collections
 		/// Inicjalizuje enumerator.
 		/// </summary>
 		/// <param name="original"></param>
-		/// <param name="syncRoot"></param>
-		public SafeEnumerator(IEnumerator<T> original, object syncRoot)
+		/// <param name="rwLock"></param>
+		public SafeEnumerator(IEnumerator<T> original, ReaderWriterLockSlim rwLock)
+			: this(original, rwLock, false)
+		{ }
+
+		/// <summary>
+		/// Inicjalizuje enumerator.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <param name="rwLock"></param>
+		/// <param name="upgradeable">Czy wejść w tryb upgradeable, czy w tryb read.</param>
+		public SafeEnumerator(IEnumerator<T> original, ReaderWriterLockSlim rwLock, bool upgradeable)
 		{
-			this.Original = original;
-			this.SyncRoot = syncRoot;
-			Monitor.Enter(this.SyncRoot);
+			this._Original = original;
+			this._RWLock = rwLock;
+			if (this._Upgradeable = upgradeable)
+				this._RWLock.EnterUpgradeableReadLock();
+			else
+				this._RWLock.EnterReadLock();
 		}
 		#endregion
 
 		#region IDisposable Members
 		public void Dispose()
 		{
-			Monitor.Exit(this.SyncRoot);
+			this._Original.Dispose();
+			if (this._Upgradeable)
+				this._RWLock.ExitUpgradeableReadLock();
+			else
+				this._RWLock.ExitReadLock();
 		}
 		#endregion
+	}
+
+	public static class IEnumerableExt
+	{
+		/// <summary>
+		/// Zwraca kolekcję do enumeracji jako thread-safe.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="original"></param>
+		/// <param name="rwLock"></param>
+		/// <returns></returns>
+		public static IEnumerable<T> AsLocked<T>(this IEnumerable<T> original, ReaderWriterLockSlim rwLock)
+		{
+			return new Internals.UpgradeableEnumerable<T>(original.GetEnumerator(), rwLock);
+		}
 	}
 }

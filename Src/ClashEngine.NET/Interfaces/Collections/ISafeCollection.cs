@@ -7,11 +7,6 @@ namespace ClashEngine.NET.Interfaces.Collections
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public interface ISafeCollection<T>
-		: ICollection<T>
-	{
-		/// <summary>
-		/// Obiekt do synchronizacji.
-		/// </summary>
-		object SyncRoot { get; }
-	}
+		: ISafeEnumerable<T>, ICollection<T>
+	{ }
 }

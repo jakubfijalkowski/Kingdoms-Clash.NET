@@ -73,8 +73,10 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Internals\UpgradeableEnumerable.cs" />
     <Compile Include="Collections\SafeCollection.cs" />
     <Compile Include="Collections\SafeEnumerator.cs" />
+    <Compile Include="Collections\SafeList.cs" />
     <Compile Include="Components\Internals\PhysicalRotationAttribute.cs" />
     <Compile Include="Converters\FontConverter.cs" />
     <Compile Include="Converters\LayoutConverter.cs" />
@@ -163,6 +165,8 @@
     <Compile Include="Graphics\Resources\Internals\AtlasTexture.cs" />
     <Compile Include="Graphics\Resources\TexturesAtlas.cs" />
     <Compile Include="Interfaces\Collections\ISafeCollection.cs" />
+    <Compile Include="Interfaces\Collections\ISafeEnumerable.cs" />
+    <Compile Include="Interfaces\Collections\ISafeEnumerator.cs" />
     <Compile Include="Interfaces\Data\IDataContext.cs" />
     <Compile Include="Interfaces\Data\IPropertyPath.cs" />
     <Compile Include="Interfaces\Data\IRootObjectExtension.cs" />
