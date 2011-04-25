@@ -198,6 +198,7 @@ namespace Kingdoms_Clash.NET.Server
 							break;
 
 						default:
+							client.Messages.RWLock.ExitUpgradeableReadLock();
 							continue;
 					}
 					client.Messages.RWLock.EnterWriteLock();
