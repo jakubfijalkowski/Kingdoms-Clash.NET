@@ -8,28 +8,28 @@ namespace ClashEngine.NET.Collections.Internals
 		: IEnumerable<T>
 	{
 		#region Private fields
-		private readonly IEnumerator<T> Original;
+		private readonly IEnumerable<T> Collection;
 		private readonly ReaderWriterLockSlim RWLock;
 		#endregion
 
 		#region IEnumerable<T> Members
 		public IEnumerator<T> GetEnumerator()
 		{
-			return new SafeEnumerator<T>(this.Original, this.RWLock);
+			return new SafeEnumerator<T>(this.Collection, this.RWLock, true);
 		}
 		#endregion
 
 		#region IEnumerable Members
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return new SafeEnumerator<T>(this.Original, this.RWLock);
+			return new SafeEnumerator<T>(this.Collection, this.RWLock, true);
 		}
 		#endregion
 
 		#region Constructors
-		public UpgradeableEnumerable(IEnumerator<T> original, ReaderWriterLockSlim rwLock)
+		public UpgradeableEnumerable(IEnumerable<T> collection, ReaderWriterLockSlim rwLock)
 		{
-			this.Original = original;
+			this.Collection = collection;
 			this.RWLock = rwLock;
 		}
 		#endregion

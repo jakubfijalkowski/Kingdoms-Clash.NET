@@ -72,26 +72,26 @@ namespace ClashEngine.NET.Collections
 		/// <summary>
 		/// Inicjalizuje enumerator.
 		/// </summary>
-		/// <param name="original"></param>
+		/// <param name="collection"></param>
 		/// <param name="rwLock"></param>
-		public SafeEnumerator(IEnumerator<T> original, ReaderWriterLockSlim rwLock)
-			: this(original, rwLock, false)
+		public SafeEnumerator(IEnumerable<T> collection, ReaderWriterLockSlim rwLock)
+			: this(collection, rwLock, false)
 		{ }
 
 		/// <summary>
 		/// Inicjalizuje enumerator.
 		/// </summary>
-		/// <param name="original"></param>
+		/// <param name="collection"></param>
 		/// <param name="rwLock"></param>
 		/// <param name="upgradeable">Czy wejść w tryb upgradeable, czy w tryb read.</param>
-		public SafeEnumerator(IEnumerator<T> original, ReaderWriterLockSlim rwLock, bool upgradeable)
+		public SafeEnumerator(IEnumerable<T> collection, ReaderWriterLockSlim rwLock, bool upgradeable)
 		{
-			this._Original = original;
 			this._RWLock = rwLock;
 			if (this._Upgradeable = upgradeable)
 				this._RWLock.EnterUpgradeableReadLock();
 			else
 				this._RWLock.EnterReadLock();
+			this._Original = collection.GetEnumerator();
 		}
 		#endregion
 
@@ -118,7 +118,7 @@ namespace ClashEngine.NET.Collections
 		/// <returns></returns>
 		public static IEnumerable<T> AsLocked<T>(this IEnumerable<T> original, ReaderWriterLockSlim rwLock)
 		{
-			return new Internals.UpgradeableEnumerable<T>(original.GetEnumerator(), rwLock);
+			return new Internals.UpgradeableEnumerable<T>(original, rwLock);
 		}
 	}
 }

@@ -39,7 +39,7 @@ namespace ClashEngine.NET.Collections
 		/// <returns></returns>
 		public ISafeEnumerator<T> GetUpgradeableEnumerator()
 		{
-			return new SafeEnumerator<T>(this.GetEnumerator(), this._RWLock, true);
+			return new SafeEnumerator<T>(this.InnerList, this._RWLock, true);
 		}
 
 		/// <summary>
@@ -48,7 +48,7 @@ namespace ClashEngine.NET.Collections
 		/// <returns></returns>
 		public IEnumerable<T> GetUpgradeableEnumerable()
 		{
-			return new Internals.UpgradeableEnumerable<T>(this.GetEnumerator(), this._RWLock);
+			return new Internals.UpgradeableEnumerable<T>(this.InnerList, this._RWLock);
 		}
 		#endregion
 
@@ -134,14 +134,14 @@ namespace ClashEngine.NET.Collections
 		#region IEnumerable<T> Members
 		public IEnumerator<T> GetEnumerator()
 		{
-			return new SafeEnumerator<T>(this.InnerList.GetEnumerator(), this._RWLock);
+			return new SafeEnumerator<T>(this.InnerList, this._RWLock);
 		}
 		#endregion
 
 		#region IEnumerable Members
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			return new SafeEnumerator<T>(this.InnerList.GetEnumerator(), this._RWLock);
+			return new SafeEnumerator<T>(this.InnerList, this._RWLock);
 		}
 		#endregion
 	}
