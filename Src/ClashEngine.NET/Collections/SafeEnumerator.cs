@@ -39,6 +39,7 @@ namespace ClashEngine.NET.Collections
 		{
 			get { return this._RWLock; }
 		}
+
 		/// <summary>
 		/// Czy enumerator jest w trybie "upgradeable".
 		/// </summary>

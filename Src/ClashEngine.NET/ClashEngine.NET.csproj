@@ -73,6 +73,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Internals\SafeEnumerable.cs" />
     <Compile Include="Collections\Internals\UpgradeableEnumerable.cs" />
     <Compile Include="Collections\SafeCollection.cs" />
     <Compile Include="Collections\SafeEnumerator.cs" />
