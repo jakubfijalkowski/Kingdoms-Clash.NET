@@ -68,30 +68,48 @@
 		/// <returns></returns>
 		public T this[int index]
 		{
-			get
+			get { return base.InnerList[index]; }
+			set { base.InnerList[index] = value; }
+		}
+		#endregion
+
+		#region ISafeList<T> Members
+		/// <summary>
+		/// Zwraca obiekt na wskazanym miejscu Z zabezpieczaniem przed odczytem.
+		/// </summary>
+		/// <param name="idx">Indeks.</param>
+		/// <returns>Obiekt.</returns>
+		public T At(int idx)
+		{
+			try
 			{
-				try
-				{
-					base.RWLock.EnterReadLock();
-					return base.InnerList[index];
-				}
-				finally
-				{
-					base.RWLock.ExitReadLock();
-				}
+				base.RWLock.EnterReadLock();
+				return base.InnerList[idx];
 			}
-			set
+			finally
 			{
-				try
-				{
-					base.RWLock.EnterWriteLock();
-					base.InnerList[index] = value;
-				}
-				finally
-				{
-					base.RWLock.ExitWriteLock();
-				}
+				base.RWLock.ExitReadLock();
 			}
+		}
+
+		/// <summary>
+		/// Zmienia obiekt na wskazanej pozycji Z zabezpieczaniem przed zapisem.
+		/// </summary>
+		/// <param name="idx">Indeks.</param>
+		/// <param name="obj">Obiekt do ustawienia.</param>
+		/// <returns>Nowy obiekt.</returns>
+		public T At(int idx, T obj)
+		{
+			try
+			{
+				base.RWLock.EnterWriteLock();
+				return base.InnerList[idx] = obj;
+			}
+			finally
+			{
+				base.RWLock.ExitWriteLock();
+			}
+
 		}
 		#endregion
 	}

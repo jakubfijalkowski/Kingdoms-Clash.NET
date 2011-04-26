@@ -107,9 +107,9 @@ namespace ClashEngine.NET.Collections
 		/// <param name="arrayIndex"></param>
 		public void CopyTo(T[] array, int arrayIndex)
 		{
-			this._RWLock.EnterWriteLock();
+			this._RWLock.EnterReadLock();
 			this.InnerList.CopyTo(array, arrayIndex);
-			this._RWLock.ExitWriteLock();
+			this._RWLock.ExitReadLock();
 		}
 
 		/// <summary>

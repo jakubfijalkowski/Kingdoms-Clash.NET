@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 
 namespace ClashEngine.NET.Collections
@@ -14,8 +15,11 @@ namespace ClashEngine.NET.Collections
 		: ISafeEnumerator<T>
 	{
 		#region Private fields
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly IEnumerator<T> _Original;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly ReaderWriterLockSlim _RWLock;
+		[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 		private readonly bool _Upgradeable;
 		#endregion
 
@@ -113,12 +117,16 @@ namespace ClashEngine.NET.Collections
 		/// Zwraca kolekcję do enumeracji jako thread-safe.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
-		/// <param name="original"></param>
-		/// <param name="rwLock"></param>
+		/// <param name="original">Oryginalna kolekcja.</param>
+		/// <param name="rwLock">Lock, którego mamy użyć.</param>
+		/// <param name="upgradeable">Czy kolekcja ma być w trybie "upgradeable", czy w trybie "read".</param>
 		/// <returns></returns>
-		public static IEnumerable<T> AsLocked<T>(this IEnumerable<T> original, ReaderWriterLockSlim rwLock)
+		public static IEnumerable<T> AsLocked<T>(this IEnumerable<T> original, ReaderWriterLockSlim rwLock, bool upgradeable)
 		{
-			return new Internals.UpgradeableEnumerable<T>(original, rwLock);
+			if (upgradeable)
+				return new Internals.UpgradeableEnumerable<T>(original, rwLock);
+			else
+				return new Internals.SafeEnumerable<T>(original, rwLock);
 		}
 	}
 }
