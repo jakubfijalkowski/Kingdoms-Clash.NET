@@ -115,6 +115,10 @@
     <Compile Include="Interfaces\Units\UnitEvents.cs" />
     <Compile Include="Internals\VelocityLimit.cs" />
     <Compile Include="Maps\ResourceOnMap.cs" />
+    <Compile Include="Messages\PlayerHurt.cs" />
+    <Compile Include="Messages\UnitCreated.cs" />
+    <Compile Include="Messages\UnitDestroyed.cs" />
+    <Compile Include="Messages\UnitQueueAction.cs" />
     <Compile Include="Messages\GameWillStartAfter.cs" />
     <Compile Include="Messages\PlayerAccepted.cs" />
     <Compile Include="Messages\PlayerChangedNick.cs" />
@@ -122,6 +126,7 @@
     <Compile Include="Messages\PlayerConnected.cs" />
     <Compile Include="Messages\PlayerDisconnected.cs" />
     <Compile Include="Messages\PlayersFirstConfiguration.cs" />
+    <Compile Include="Messages\UnitQueued.cs" />
     <Compile Include="Server\Multiplayer.cs" />
     <Compile Include="Server\MultiplayerGameState.cs" />
     <Compile Include="Player\Player.cs" />

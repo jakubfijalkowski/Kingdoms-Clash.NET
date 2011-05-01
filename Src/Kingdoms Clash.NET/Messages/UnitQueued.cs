@@ -7,38 +7,38 @@ namespace Kingdoms_Clash.NET.Messages
 	using NET.Interfaces;
 
 	/// <summary>
-	/// <see cref="GameMessageType.GameWillStartAfter"/>
+	/// <see cref="GameMessageType.UnitQueued"/>
 	/// </summary>
-	public struct GameWillStartAfter
+	public struct UnitQueued
 	{
 		#region Properties
 		/// <summary>
-		/// Czas, za ile się rozpocznie gra.
+		/// Czy serwer zakceptował dodanie jednostki do kolejki.
 		/// </summary>
-		public TimeSpan Time;
+		public bool Accepted;
 		#endregion
 
 		#region Constructors
 		/// <summary>
 		/// Tworzy nową wiadomość.
 		/// </summary>
-		public GameWillStartAfter(TimeSpan time)
+		public UnitQueued(bool accepted)
 		{
-			this.Time = time;
+			this.Accepted = accepted;
 		}
 
 		/// <summary>
 		/// Parsuje wiadomość.
 		/// </summary>
 		/// <param name="msg">Wiadomość.</param>
-		public GameWillStartAfter(Message msg)
+		public UnitQueued(Message msg)
 		{
-			if (msg.Type != (MessageType)GameMessageType.GameWillStartAfter)
+			if (msg.Type != (MessageType)GameMessageType.UnitQueued)
 			{
-				throw new InvalidCastException("Cannot convert this message to GameWillStartAfter");
+				throw new InvalidCastException("Cannot convert this message to UnitQueued");
 			}
 			BinarySerializer s = new BinarySerializer(msg.Data);
-			this.Time = new TimeSpan(s.GetInt64());
+			this.Accepted = s.GetBool();
 		}
 		#endregion
 
@@ -49,9 +49,9 @@ namespace Kingdoms_Clash.NET.Messages
 		/// <returns></returns>
 		public Message ToMessage()
 		{
-			byte[] data = new byte[0];
-			BinarySerializer.StaticSerialize(data, this.Time.Ticks);
-			return new Message((MessageType)GameMessageType.GameWillStartAfter, data);
+			byte[] data = new byte[1];
+			BinarySerializer.StaticSerialize(data, this.Accepted);
+			return new Message((MessageType)GameMessageType.UnitQueued, data);
 		}
 		#endregion
 	}

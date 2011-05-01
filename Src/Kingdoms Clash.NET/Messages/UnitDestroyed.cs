@@ -7,38 +7,45 @@ namespace Kingdoms_Clash.NET.Messages
 	using NET.Interfaces;
 
 	/// <summary>
-	/// <see cref="GameMessageType.GameWillStartAfter"/>
+	/// <see cref="GameMessageType.UnitDestroyed"/>
 	/// </summary>
-	public struct GameWillStartAfter
+	public struct UnitDestroyed
 	{
 		#region Properties
 		/// <summary>
-		/// Czas, za ile się rozpocznie gra.
+		/// Identyfikator gracza.
 		/// </summary>
-		public TimeSpan Time;
+		public byte PlayerId;
+
+		/// <summary>
+		/// Identyfikator jednostki.
+		/// </summary>
+		public uint UnitId;
 		#endregion
 
 		#region Constructors
 		/// <summary>
 		/// Tworzy nową wiadomość.
 		/// </summary>
-		public GameWillStartAfter(TimeSpan time)
+		public UnitDestroyed(byte playerId, uint unitId)
 		{
-			this.Time = time;
+			this.PlayerId = playerId;
+			this.UnitId = unitId;
 		}
 
 		/// <summary>
 		/// Parsuje wiadomość.
 		/// </summary>
 		/// <param name="msg">Wiadomość.</param>
-		public GameWillStartAfter(Message msg)
+		public UnitDestroyed(Message msg)
 		{
-			if (msg.Type != (MessageType)GameMessageType.GameWillStartAfter)
+			if (msg.Type != (MessageType)GameMessageType.UnitDestroyed)
 			{
-				throw new InvalidCastException("Cannot convert this message to GameWillStartAfter");
+				throw new InvalidCastException("Cannot convert this message to UnitDestroyed");
 			}
 			BinarySerializer s = new BinarySerializer(msg.Data);
-			this.Time = new TimeSpan(s.GetInt64());
+			this.PlayerId = s.GetByte();
+			this.UnitId = s.GetUInt32();
 		}
 		#endregion
 
@@ -50,8 +57,8 @@ namespace Kingdoms_Clash.NET.Messages
 		public Message ToMessage()
 		{
 			byte[] data = new byte[0];
-			BinarySerializer.StaticSerialize(data, this.Time.Ticks);
-			return new Message((MessageType)GameMessageType.GameWillStartAfter, data);
+			BinarySerializer.StaticSerialize(data, this.PlayerId, this.UnitId);
+			return new Message((MessageType)GameMessageType.UnitDestroyed, data);
 		}
 		#endregion
 	}

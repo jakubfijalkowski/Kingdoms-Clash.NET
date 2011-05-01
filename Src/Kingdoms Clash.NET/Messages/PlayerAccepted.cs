@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ClashEngine.NET.Interfaces.Net;
 using ClashEngine.NET.Net;
-using System.Linq;
 
 namespace Kingdoms_Clash.NET.Messages
 {

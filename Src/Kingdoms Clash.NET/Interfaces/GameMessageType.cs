@@ -50,7 +50,32 @@
 		/// <summary>
 		/// Gra zakończona.
 		/// </summary>
-		GameEnded
+		GameEnded,
+
+		/// <summary>
+		/// Stworzenia/usunięcie jednostki z kolejki produkcyjnej.
+		/// </summary>
+		UnitQueueAction,
+
+		/// <summary>
+		/// Odpowiedź serwera na tworzenie jednostki - czy udało się ją stworzyć.
+		/// </summary>
+		UnitQueued,
+
+		/// <summary>
+		/// Jednostka została stworzona.
+		/// </summary>
+		UnitCreated,
+
+		/// <summary>
+		/// Jednostka została zniszczona.
+		/// </summary>
+		UnitDestroyed,
+
+		/// <summary>
+		/// Gracz został zraniony - zmniejszyło się HP jego zamku.
+		/// </summary>
+		PlayerHurt
 	}
 
 	/// <summary>

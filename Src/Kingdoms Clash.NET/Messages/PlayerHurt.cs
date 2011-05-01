@@ -7,38 +7,45 @@ namespace Kingdoms_Clash.NET.Messages
 	using NET.Interfaces;
 
 	/// <summary>
-	/// <see cref="GameMessageType.GameWillStartAfter"/>
+	/// <see cref="GameMessageType.PlayerHurt"/>
 	/// </summary>
-	public struct GameWillStartAfter
+	public struct PlayerHurt
 	{
 		#region Properties
 		/// <summary>
-		/// Czas, za ile się rozpocznie gra.
+		/// Identyfikator gracza, który "oberwał".
 		/// </summary>
-		public TimeSpan Time;
+		public byte PlayerId;
+
+		/// <summary>
+		/// Wartość ataku.
+		/// </summary>
+		public int Value;
 		#endregion
 
 		#region Constructors
 		/// <summary>
 		/// Tworzy nową wiadomość.
 		/// </summary>
-		public GameWillStartAfter(TimeSpan time)
+		public PlayerHurt(byte playerId, int value)
 		{
-			this.Time = time;
+			this.PlayerId = playerId;
+			this.Value = value;
 		}
 
 		/// <summary>
 		/// Parsuje wiadomość.
 		/// </summary>
 		/// <param name="msg">Wiadomość.</param>
-		public GameWillStartAfter(Message msg)
+		public PlayerHurt(Message msg)
 		{
-			if (msg.Type != (MessageType)GameMessageType.GameWillStartAfter)
+			if (msg.Type != (MessageType)GameMessageType.PlayerHurt)
 			{
-				throw new InvalidCastException("Cannot convert this message to GameWillStartAfter");
+				throw new InvalidCastException("Cannot convert this message to PlayerHurt");
 			}
 			BinarySerializer s = new BinarySerializer(msg.Data);
-			this.Time = new TimeSpan(s.GetInt64());
+			this.PlayerId = s.GetByte();
+			this.Value = s.GetInt32();
 		}
 		#endregion
 
@@ -49,9 +56,9 @@ namespace Kingdoms_Clash.NET.Messages
 		/// <returns></returns>
 		public Message ToMessage()
 		{
-			byte[] data = new byte[0];
-			BinarySerializer.StaticSerialize(data, this.Time.Ticks);
-			return new Message((MessageType)GameMessageType.GameWillStartAfter, data);
+			byte[] data = new byte[1 + 4];
+			BinarySerializer.StaticSerialize(data, this.PlayerId, this.Value);
+			return new Message((MessageType)GameMessageType.PlayerHurt, data);
 		}
 		#endregion
 	}

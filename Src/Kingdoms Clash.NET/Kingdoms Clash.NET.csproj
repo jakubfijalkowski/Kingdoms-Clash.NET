@@ -80,6 +80,11 @@
     <Compile Include="Interfaces\Player\IPlayerData.cs" />
     <Compile Include="Messages\GameWillStartAfter.cs" />
     <Compile Include="Messages\PlayerChangedState.cs" />
+    <Compile Include="Messages\PlayerHurt.cs" />
+    <Compile Include="Messages\UnitCreated.cs" />
+    <Compile Include="Messages\UnitDestroyed.cs" />
+    <Compile Include="Messages\UnitQueueAction.cs" />
+    <Compile Include="Messages\UnitQueued.cs" />
     <Compile Include="Player\PlayerData.cs" />
     <Compile Include="Messages\PlayerAccepted.cs" />
     <Compile Include="Messages\PlayerChangedNick.cs" />
