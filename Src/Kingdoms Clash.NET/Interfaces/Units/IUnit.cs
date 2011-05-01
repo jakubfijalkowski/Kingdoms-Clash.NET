@@ -17,6 +17,11 @@ namespace Kingdoms_Clash.NET.Interfaces.Units
 		: IGameEntity
 	{
 		/// <summary>
+		/// Identyfikator jednostki nadawany przez grę.
+		/// </summary>
+		uint UnitId { get; set; }
+
+		/// <summary>
 		/// Opis(typ/identyfikator) jednostki.
 		/// </summary>
 		IUnitDescription Description { get; }

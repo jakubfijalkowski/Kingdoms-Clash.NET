@@ -30,6 +30,11 @@ namespace Kingdoms_Clash.NET.Units
 
 		#region IUnit Members
 		/// <summary>
+		/// Identyfikator jednostki nadawany przez grę(tylko Multiplayer).
+		/// </summary>
+		public uint UnitId { get; set; }
+
+		/// <summary>
 		/// Opis(typ/identyfikator) jednostki.
 		/// </summary>
 		public IUnitDescription Description { get; private set; }

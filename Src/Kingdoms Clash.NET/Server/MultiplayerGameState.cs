@@ -36,6 +36,11 @@ namespace Kingdoms_Clash.NET.Server
 		/// Kontrolery graczy.
 		/// </summary>
 		private IPlayerController[] PlayerControllers = new IPlayerController[2];
+
+		/// <summary>
+		/// Licznik identyfikatorów jednostek.
+		/// </summary>
+		private uint[] UnitIds = new uint[2] { 0, 0 };
 		#endregion
 
 		#region IGameState Members
@@ -86,6 +91,8 @@ namespace Kingdoms_Clash.NET.Server
 			}
 			unit.CollisionWithPlayer += this.Controller.HandleCollision;
 			unit.CollisionWithResource += this.Controller.HandleCollision;
+
+			unit.UnitId = this.UnitIds[(int)unit.Owner.Type]++;
 
 			this.Entities.Add(unit);
 		}

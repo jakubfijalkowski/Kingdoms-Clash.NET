@@ -25,6 +25,8 @@ namespace Kingdoms_Clash.NET.Server
 		private List<IPlayerData> ReadyToPlayPlayers = new List<IPlayerData>();
 		private TimeSpan TimeLeft;
 		private TimeSpan TimeLeft2;
+
+		private MultiplayerGameState GameState = null;
 		#endregion
 
 		#region IMultiplayer Members
@@ -152,7 +154,7 @@ namespace Kingdoms_Clash.NET.Server
 				this.TimeLeft2.Subtract(new TimeSpan((long)(delta * TimeSpan.TicksPerSecond)));
 				if (this.TimeLeft2.TotalSeconds == 0.0)
 				{
-					//TODO: start game
+					this.StartGame();
 				}
 				else if (this.TimeLeft - this.TimeLeft2 > Settings.WaitTimeDelay)
 				{
@@ -221,6 +223,12 @@ namespace Kingdoms_Clash.NET.Server
 			{
 				this.ReadyToPlayPlayers.Remove(player);
 			}
+		}
+
+		private void StartGame()
+		{
+			this.GameState = new MultiplayerGameState(this.GameInfo);
+			//this.Server.Clients.SendToAll(new Messages.GameStarted());
 		}
 		#endregion
 	}
