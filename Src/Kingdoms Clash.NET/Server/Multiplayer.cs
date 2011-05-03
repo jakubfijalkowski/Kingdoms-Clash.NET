@@ -10,6 +10,8 @@ namespace Kingdoms_Clash.NET.Server
 	using Interfaces;
 	using NET.Interfaces;
 	using NET.Interfaces.Player;
+	using NET.Interfaces.Units;
+	using NET.Interfaces.Map;
 
 	/// <summary>
 	/// Obsługuje grę multiplayer - połączenie z klientami, czas oczekiwania na rozpoczęcie, itp.
@@ -227,9 +229,42 @@ namespace Kingdoms_Clash.NET.Server
 
 		private void StartGame()
 		{
-			this.GameState = new MultiplayerGameState(this.GameInfo);
+			this.GameState = new MultiplayerGameState(this);
 			//this.Server.Clients.SendToAll(new Messages.GameStarted());
 		}
+		#endregion
+
+		#region Events
+		/// <summary>
+		/// Wywoływane przez <see cref="IGameState"/> przy dodaniu nowej jednostki.
+		/// </summary>
+		/// <param name="unit"></param>
+		public void UnitAdded(IUnit unit)
+		{
+			this.Server.Clients.SendToAll(new Messages.UnitCreated(unit.Owner.Type == PlayerType.First ? (byte)0 : (byte)1,
+				unit.Description.Id, unit.UnitId, unit.Position).ToMessage());
+		}
+
+		/// <summary>
+		/// Wywoływane przy usunięciu jednostki z <see cref="IGameState"/>.
+		/// </summary>
+		/// <param name="unit"></param>
+		public void UnitDestroyed(IUnit unit)
+		{
+			this.Server.Clients.SendToAll(new Messages.UnitDestroyed(unit.Owner.Type == PlayerType.First ? (byte)0 : (byte)1, unit.UnitId).ToMessage());
+		}
+
+		/// <summary>
+		/// Wywoływane przy dodaniu nowego zasobu przez <see cref="IGameState"/>.
+		/// </summary>
+		/// <param name="res"></param>
+		void ResourceAdded(IResourceOnMap res);
+
+		/// <summary>
+		/// Wywoływane przy usunięciu zasobu przez <see cref="IGameState"/>.
+		/// </summary>
+		/// <param name="res"></param>
+		void ResourceRemoved(IResourceOnMap res);
 		#endregion
 	}
 }

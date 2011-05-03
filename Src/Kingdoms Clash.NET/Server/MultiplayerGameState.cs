@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using ClashEngine.NET.Interfaces;
 using ClashEngine.NET.Interfaces.EntitiesManager;
 
 namespace Kingdoms_Clash.NET.Server
 {
+	using Interfaces;
 	using NET.Interfaces;
 	using NET.Interfaces.Controllers;
 	using NET.Interfaces.Map;
@@ -41,6 +41,8 @@ namespace Kingdoms_Clash.NET.Server
 		/// Licznik identyfikatorów jednostek.
 		/// </summary>
 		private uint[] UnitIds = new uint[2] { 0, 0 };
+
+		private IMultiplayer Game;
 		#endregion
 
 		#region IGameState Members
@@ -95,6 +97,7 @@ namespace Kingdoms_Clash.NET.Server
 			unit.UnitId = this.UnitIds[(int)unit.Owner.Type]++;
 
 			this.Entities.Add(unit);
+			this.Game.UnitAdded(unit);
 		}
 
 		/// <summary>
@@ -105,6 +108,7 @@ namespace Kingdoms_Clash.NET.Server
 		{
 			resource.GameState = this;
 			this.Entities.Add(resource);
+			this.Game.ResourceAdded(resource);
 		}
 
 		/// <summary>
@@ -115,6 +119,7 @@ namespace Kingdoms_Clash.NET.Server
 		public void Remove(IUnit unit)
 		{
 			this.ToRemove.Add(unit);
+			this.Game.UnitDestroyed(unit);
 		}
 
 		/// <summary>
@@ -125,6 +130,7 @@ namespace Kingdoms_Clash.NET.Server
 		public void Remove(IResourceOnMap resource)
 		{
 			this.ToRemove.Add(resource);
+			this.Game.ResourceRemoved(resource);
 		}
 		#endregion
 		#endregion
@@ -133,11 +139,12 @@ namespace Kingdoms_Clash.NET.Server
 		/// <summary>
 		/// Inicjalizuje grę.
 		/// </summary>
-		/// <param name="gameInfo"></param>
-		public MultiplayerGameState(IGameInfo gameInfo)
+		/// <param name="mp">Główny obiekt gry.</param>
+		public MultiplayerGameState(IMultiplayer mp)
 		{
-			this.Entities = new ClashEngine.NET.EntitiesManager.EntitiesManager(gameInfo);
-			this.StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager(gameInfo);
+			this.Game = mp;
+			this.Entities = new ClashEngine.NET.EntitiesManager.EntitiesManager(mp.GameInfo);
+			this.StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager(mp.GameInfo);
 		}
 		#endregion
 	}

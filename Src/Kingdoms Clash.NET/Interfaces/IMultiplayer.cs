@@ -3,6 +3,8 @@
 namespace Kingdoms_Clash.NET.Server.Interfaces
 {
 	using NET.Interfaces;
+	using NET.Interfaces.Units;
+	using NET.Interfaces.Map;
 
 	/// <summary>
 	/// Interfejs dla gry multiplayer.
@@ -23,5 +25,29 @@ namespace Kingdoms_Clash.NET.Server.Interfaces
 		/// Kończy grę.
 		/// </summary>
 		void Stop();
+
+		/// <summary>
+		/// Wywoływane przez <see cref="IGameState"/> przy dodaniu nowej jednostki.
+		/// </summary>
+		/// <param name="unit"></param>
+		void UnitAdded(IUnit unit);
+
+		/// <summary>
+		/// Wywoływane przy usunięciu jednostki z <see cref="IGameState"/>.
+		/// </summary>
+		/// <param name="unit"></param>
+		void UnitDestroyed(IUnit unit);
+
+		/// <summary>
+		/// Wywoływane przy dodaniu nowego zasobu przez <see cref="IGameState"/>.
+		/// </summary>
+		/// <param name="res"></param>
+		void ResourceAdded(IResourceOnMap res);
+
+		/// <summary>
+		/// Wywoływane przy usunięciu zasobu przez <see cref="IGameState"/>.
+		/// </summary>
+		/// <param name="res"></param>
+		void ResourceRemoved(IResourceOnMap res);
 	}
 }

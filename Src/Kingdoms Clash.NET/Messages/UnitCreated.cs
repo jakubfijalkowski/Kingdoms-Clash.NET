@@ -1,6 +1,7 @@
 ﻿using System;
 using ClashEngine.NET.Interfaces.Net;
 using ClashEngine.NET.Net;
+using OpenTK;
 
 namespace Kingdoms_Clash.NET.Messages
 {
@@ -26,17 +27,23 @@ namespace Kingdoms_Clash.NET.Messages
 		/// Identyfikator liczbowy jednostki.
 		/// </summary>
 		public uint NumericUnitId;
+
+		/// <summary>
+		/// Pozycja początkowa.
+		/// </summary>
+		public Vector2 Position;
 		#endregion
 
 		#region Constructors
 		/// <summary>
 		/// Tworzy nową wiadomość.
 		/// </summary>
-		public UnitCreated(byte playerId, string unitId, uint nUnitId)
+		public UnitCreated(byte playerId, string unitId, uint nUnitId, Vector2 pos)
 		{
 			this.PlayerId = playerId;
 			this.UnitId = unitId;
 			this.NumericUnitId = nUnitId;
+			this.Position = pos;
 		}
 
 		/// <summary>
@@ -53,6 +60,7 @@ namespace Kingdoms_Clash.NET.Messages
 			this.PlayerId = s.GetByte();
 			this.UnitId = s.GetString();
 			this.NumericUnitId = s.GetUInt32();
+			this.Position = new Vector2(s.GetFloat(), s.GetFloat());
 		}
 		#endregion
 
@@ -64,7 +72,7 @@ namespace Kingdoms_Clash.NET.Messages
 		public Message ToMessage()
 		{
 			byte[] data = new byte[1 + 2 + this.UnitId.Length * 2 + 4];
-			BinarySerializer.StaticSerialize(data, this.PlayerId, this.UnitId, this.NumericUnitId);
+			BinarySerializer.StaticSerialize(data, this.PlayerId, this.UnitId, this.NumericUnitId, (float)this.Position.X, (float)this.Position.Y);
 			return new Message((MessageType)GameMessageType.UnitCreated, data);
 		}
 		#endregion

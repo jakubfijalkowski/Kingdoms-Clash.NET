@@ -71,6 +71,16 @@
 		/// Jednostka została zniszczona.
 		/// </summary>
 		UnitDestroyed,
+		
+		/// <summary>
+		/// Dodano zasób.
+		/// </summary>
+		ResourceAdded,
+
+		/// <summary>
+		/// Usunięto zasób.
+		/// </summary>
+		ResourceRemoved,
 
 		/// <summary>
 		/// Gracz został zraniony - zmniejszyło się HP jego zamku.
