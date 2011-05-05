@@ -85,6 +85,7 @@ namespace Kingdoms_Clash.NET.Server
 		public Multiplayer(IGameInfo info)
 		{
 			this.GameInfo = info;
+			this.GameState = new MultiplayerGameState(this);
 		}
 		#endregion
 
@@ -229,8 +230,10 @@ namespace Kingdoms_Clash.NET.Server
 
 		private void StartGame()
 		{
-			this.GameState = new MultiplayerGameState(this);
-			//this.Server.Clients.SendToAll(new Messages.GameStarted());
+			this.GameState.Reset();
+			//this.GameState.Initialize(new ServerGameConfiguration(
+			//    new Player.PlayerInfo(this.ReadyToPlayPlayers[0].Nick, )
+			//    ));
 		}
 		#endregion
 

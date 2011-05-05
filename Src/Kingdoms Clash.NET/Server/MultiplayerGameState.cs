@@ -9,6 +9,7 @@ namespace Kingdoms_Clash.NET.Server
 	using NET.Interfaces.Map;
 	using NET.Interfaces.Player;
 	using NET.Interfaces.Units;
+	using NET.Interfaces.Controllers.Victory;
 
 	/// <summary>
 	/// Stan gry multiplayer.
@@ -17,11 +18,8 @@ namespace Kingdoms_Clash.NET.Server
 		: IGameState
 	{
 		#region Private Fields
-		/// <summary>
-		/// Manager encji "stałych" - graczy, kamery i mapy.
-		/// </summary>
-		private IEntitiesManager StaticEntities;
-
+		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
+		
 		/// <summary>
 		/// Manager encji gry - jednostki, zasoby.
 		/// </summary>
@@ -33,16 +31,12 @@ namespace Kingdoms_Clash.NET.Server
 		private List<IGameEntity> ToRemove = new List<IGameEntity>();
 
 		/// <summary>
-		/// Kontrolery graczy.
-		/// </summary>
-		private IPlayerController[] PlayerControllers = new IPlayerController[2];
-
-		/// <summary>
 		/// Licznik identyfikatorów.
 		/// </summary>
 		private uint[] Ids = new uint[3] { 0, 0, 0 };
-		
+
 		private IMultiplayer Game;
+		private IVictoryRules VictoryRules;
 		#endregion
 
 		#region IGameState Members
@@ -76,6 +70,7 @@ namespace Kingdoms_Clash.NET.Server
 		{
 			this.Controller.Reset();
 			this.Entities.Clear();
+			//this.StaticEntities.Clear();
 		}
 
 		/// <summary>
@@ -137,6 +132,42 @@ namespace Kingdoms_Clash.NET.Server
 		#endregion
 		#endregion
 
+		#region Internals
+		internal void Initialize(IServerGameConfiguration cfg)
+		{
+			this.Players = new IPlayer[]
+			{
+				new Player.Player(cfg.PlayerA.Name, cfg.PlayerA.Nation, 100),
+				new Player.Player(cfg.PlayerB.Name, cfg.PlayerB.Nation, 100)
+			};
+
+			this.Controller.PreGameStarted();
+
+			this.Players[0].Type = PlayerType.First;
+			this.Players[1].Type = PlayerType.Second;
+
+			this.Entities.Add(this.Map);
+			this.Entities.Add(new Player.PlayerEntity(this.Players[0], this));
+			this.Entities.Add(new Player.PlayerEntity(this.Players[1], this));
+
+			this.Controller.GameStarted();
+		}
+
+		public void Update(double delta)
+		{
+			this.HandleVictory();
+			this.Controller.Update(delta);
+
+			foreach (var ent in this.ToRemove)
+			{
+				this.Entities.Remove(ent);
+			}
+			this.ToRemove.Clear();
+
+			this.Entities.Update(delta);
+		}
+		#endregion
+
 		#region Constructors
 		/// <summary>
 		/// Inicjalizuje grę.
@@ -146,7 +177,31 @@ namespace Kingdoms_Clash.NET.Server
 		{
 			this.Game = mp;
 			this.Entities = new ClashEngine.NET.EntitiesManager.EntitiesManager(mp.GameInfo);
-			this.StaticEntities = new ClashEngine.NET.EntitiesManager.EntitiesManager(mp.GameInfo);
+
+			this.VictoryRules = System.Activator.CreateInstance(ServerConfiguration.Instance.VictoryRules) as IVictoryRules;
+			this.Controller = System.Activator.CreateInstance(ServerConfiguration.Instance.GameController) as IGameController;
+			this.Settings = ServerConfiguration.Instance.ControllerSettings;
+			this.Map = new Maps.DefaultMap();
+		}
+		#endregion
+
+		#region Private
+		/// <summary>
+		/// Sprawdza, czy ktoś nie wygrał.
+		/// </summary>
+		private void HandleVictory()
+		{
+			var winner = this.VictoryRules.Check();
+			switch (winner)
+			{
+				case PlayerType.First:
+					Logger.Error("User {0} has won the match!", this.Players[0].Name);
+					break;
+
+				case PlayerType.Second:
+					Logger.Error("User {0} has won the match!", this.Players[1].Name);
+					break;
+			}
 		}
 		#endregion
 	}

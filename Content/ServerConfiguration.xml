@@ -9,4 +9,9 @@
 	<controller>Kingdoms_Clash.NET.Controllers.ClassicGame</controller>
 	<!-- Typ reguł zwycięstwa -->
 	<rules>Kingdoms_Clash.NET.Controllers.Victory.KillerWins</rules>
+	<gameplaySettings>
+		<ResourceRenewalTime>8</ResourceRenewalTime>
+		<ResourceRenewalValue>10</ResourceRenewalValue>
+		<StartResources>100</StartResources>
+	</gameplaySettings>
 </serverConfiguration>

@@ -102,6 +102,15 @@ namespace Kingdoms_Clash.NET.Server.UserData
 				if (!ServerConfiguration.Instance.VictoryRules.GetInterfaces().Any(t => t == typeof(NET.Interfaces.Controllers.Victory.IVictoryRules)))
 					throw new Exception("Victory rules must derive from IVictoryRules interface");
 				#endregion
+
+				#region GameplaySettings
+				var gameplaySettings = cfg["gameplaySettings"];
+				var settings = Controllers.ControllerSettingsAttribute.GetSettingsFor(ServerConfiguration.Instance.GameController);
+				System.Xml.Serialization.XmlSerializer ser = new System.Xml.Serialization.XmlSerializer(settings.GetType(),
+					new System.Xml.Serialization.XmlRootAttribute("gameplaySettings"));
+				ServerConfiguration.Instance.ControllerSettings = ser.Deserialize(new System.IO.StringReader(gameplaySettings.OuterXml)) as NET.Interfaces.IGameplaySettings;
+				//gameplaySettings.
+				#endregion
 			}
 			catch (Exception ex)
 			{

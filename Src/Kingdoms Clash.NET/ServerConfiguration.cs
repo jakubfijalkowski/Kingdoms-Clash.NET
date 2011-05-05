@@ -3,6 +3,8 @@
 namespace Kingdoms_Clash.NET.Server
 {
 	using Interfaces;
+	using NET.Interfaces;
+	using NET.Interfaces.Player;
 
 	/// <summary>
 	/// Konfiguracja serwera.
@@ -64,6 +66,39 @@ namespace Kingdoms_Clash.NET.Server
 		/// Typ reguł zwycięstwa.
 		/// </summary>
 		public Type VictoryRules { get; set; }
+
+		/// <summary>
+		/// Ustawienia rozgrywki.
+		/// </summary>
+		public IGameplaySettings ControllerSettings { get; set; }
 		#endregion
 	}
+
+	/// <summary>
+	/// Ustawienia rozgrywki.
+	/// </summary>
+	public class ServerGameConfiguration
+		: IServerGameConfiguration
+	{
+		#region IServerGameConfiguration Members
+		/// <summary>
+		/// Informacje o graczu A.
+		/// </summary>
+		public IPlayerInfo PlayerA { get; private set; }
+
+		/// <summary>
+		/// Informacje o graczu B.
+		/// </summary>
+		public IPlayerInfo PlayerB { get; private set; }
+		#endregion
+
+		#region Constructor
+		public ServerGameConfiguration(IPlayerInfo a, IPlayerInfo b)
+		{
+			this.PlayerA = a;
+			this.PlayerB = b;
+		}
+		#endregion
+	}
+
 }

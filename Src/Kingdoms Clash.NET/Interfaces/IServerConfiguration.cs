@@ -2,6 +2,8 @@
 
 namespace Kingdoms_Clash.NET.Server.Interfaces
 {
+	using NET.Interfaces;
+
 	/// <summary>
 	/// Konfiguracja serwera.
 	/// </summary>
@@ -41,5 +43,10 @@ namespace Kingdoms_Clash.NET.Server.Interfaces
 		/// Typ reguł zwycięstwa.
 		/// </summary>
 		Type VictoryRules { get; set; }
+
+		/// <summary>
+		/// Ustawienia rozgrywki.
+		/// </summary>
+		IGameplaySettings ControllerSettings { get; set; }
 	}
 }
