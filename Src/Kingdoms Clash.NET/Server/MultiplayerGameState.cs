@@ -38,10 +38,10 @@ namespace Kingdoms_Clash.NET.Server
 		private IPlayerController[] PlayerControllers = new IPlayerController[2];
 
 		/// <summary>
-		/// Licznik identyfikatorów jednostek.
+		/// Licznik identyfikatorów.
 		/// </summary>
-		private uint[] UnitIds = new uint[2] { 0, 0 };
-
+		private uint[] Ids = new uint[3] { 0, 0, 0 };
+		
 		private IMultiplayer Game;
 		#endregion
 
@@ -94,7 +94,7 @@ namespace Kingdoms_Clash.NET.Server
 			unit.CollisionWithPlayer += this.Controller.HandleCollision;
 			unit.CollisionWithResource += this.Controller.HandleCollision;
 
-			unit.UnitId = this.UnitIds[(int)unit.Owner.Type]++;
+			unit.UnitId = this.Ids[(int)unit.Owner.Type]++;
 
 			this.Entities.Add(unit);
 			this.Game.UnitAdded(unit);
@@ -107,6 +107,7 @@ namespace Kingdoms_Clash.NET.Server
 		public void Add(IResourceOnMap resource)
 		{
 			resource.GameState = this;
+			resource.ResourceId = this.Ids[2]++;
 			this.Entities.Add(resource);
 			this.Game.ResourceAdded(resource);
 		}

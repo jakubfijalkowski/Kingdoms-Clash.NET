@@ -116,6 +116,8 @@
     <Compile Include="Internals\VelocityLimit.cs" />
     <Compile Include="Maps\ResourceOnMap.cs" />
     <Compile Include="Messages\PlayerHurt.cs" />
+    <Compile Include="Messages\ResourceAdded.cs" />
+    <Compile Include="Messages\ResourceGathered.cs" />
     <Compile Include="Messages\UnitCreated.cs" />
     <Compile Include="Messages\UnitDestroyed.cs" />
     <Compile Include="Messages\UnitQueueAction.cs" />

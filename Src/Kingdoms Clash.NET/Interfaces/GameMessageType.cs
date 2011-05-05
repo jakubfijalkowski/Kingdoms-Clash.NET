@@ -78,9 +78,9 @@
 		ResourceAdded,
 
 		/// <summary>
-		/// Usunięto zasób.
+		/// Zebrano zasób.
 		/// </summary>
-		ResourceRemoved,
+		ResourceGathered,
 
 		/// <summary>
 		/// Gracz został zraniony - zmniejszyło się HP jego zamku.

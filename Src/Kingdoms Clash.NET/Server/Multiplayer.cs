@@ -258,13 +258,19 @@ namespace Kingdoms_Clash.NET.Server
 		/// Wywoływane przy dodaniu nowego zasobu przez <see cref="IGameState"/>.
 		/// </summary>
 		/// <param name="res"></param>
-		void ResourceAdded(IResourceOnMap res);
+		public void ResourceAdded(IResourceOnMap res)
+		{
+			this.Server.Clients.SendToAll(new Messages.ResourceAdded(res.Id, res.ResourceId, res.Value, res.Position).ToMessage());
+		}
 
 		/// <summary>
 		/// Wywoływane przy usunięciu zasobu przez <see cref="IGameState"/>.
 		/// </summary>
 		/// <param name="res"></param>
-		void ResourceRemoved(IResourceOnMap res);
+		public void ResourceRemoved(IResourceOnMap res)
+		{
+			//this.Server.Clients.SendToAll(new Messages.ResourceGathered(res.ResourceId, res))
+		}
 		#endregion
 	}
 }

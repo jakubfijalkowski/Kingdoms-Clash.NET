@@ -17,11 +17,6 @@ namespace Kingdoms_Clash.NET.Maps
 	{
 		#region Private Fields
 		/// <summary>
-		/// Pozycja zasobu.
-		/// </summary>
-		private OpenTK.Vector2 Position;
-
-		/// <summary>
 		/// Ciało fizyczne zasobu.
 		/// </summary>
 		private Body Body;
@@ -32,6 +27,16 @@ namespace Kingdoms_Clash.NET.Maps
 		/// Stan gry, do którego przynależy zasób.
 		/// </summary>
 		public Interfaces.IGameState GameState { get; set; }
+
+		/// <summary>
+		/// Pozycja zasobu.
+		/// </summary>
+		public OpenTK.Vector2 Position { get; private set; }
+
+		/// <summary>
+		/// Numeryczny identyfikator zasaobu(wykorzystywany tylko w grze multiplayer).
+		/// </summary>
+		public uint ResourceId { get; set; }
 
 		/// <summary>
 		/// Wartość.
@@ -75,7 +80,7 @@ namespace Kingdoms_Clash.NET.Maps
 				{
 					if (fixture.Body.UserData is IMap)
 					{
-						this.Position.Y = point.Y - desc.Size.Y;
+						this.Position = new OpenTK.Vector2(this.Position.X, point.Y - desc.Size.Y);
 						return 0;
 					}
 					return -1;

@@ -18,6 +18,16 @@ namespace Kingdoms_Clash.NET.Interfaces.Map
 		IGameState GameState { get; set; }
 
 		/// <summary>
+		/// Pozycja zasobu.
+		/// </summary>
+		OpenTK.Vector2 Position { get; }
+
+		/// <summary>
+		/// Numeryczny identyfikator zasaobu(wykorzystywany tylko w grze multiplayer).
+		/// </summary>
+		uint ResourceId { get; set; }
+
+		/// <summary>
 		/// Wartość.
 		/// </summary>
 		uint Value { get; set; }
