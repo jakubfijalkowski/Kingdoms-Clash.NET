@@ -82,7 +82,7 @@ namespace Kingdoms_Clash.NET
 		/// Musimy zapewnić poprawny przebieg encji, więc dodajemy do kolejki oczekujących na usunięcie.
 		/// </summary>
 		/// <param name="unit">Jednostka.</param>
-		public void Remove(IUnit unit)
+		public void Kill(IUnit unit)
 		{
 		}
 
@@ -91,7 +91,7 @@ namespace Kingdoms_Clash.NET
 		/// Musimy zapewnić poprawny przebieg encji, więc dodajemy do kolejki oczekujących na usunięcie.
 		/// </summary>
 		/// <param name="resource">Zasób.</param>
-		public void Remove(IResourceOnMap resource)
+		public void Gather(IResourceOnMap resource, IUnit by)
 		{
 		}
 		#endregion

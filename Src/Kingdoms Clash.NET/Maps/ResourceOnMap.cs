@@ -51,9 +51,6 @@ namespace Kingdoms_Clash.NET.Maps
 			//Usuwamy kolizję, zabezpieczy to nas przed podwójnym zebraniem
 			this.Body.SetCollidesWith(Category.None);
 			this.Body.SetCollisionCategories(Category.None);
-
-			//Usuwamy z gry
-			this.GameState.Remove(this);
 		}
 		#endregion
 

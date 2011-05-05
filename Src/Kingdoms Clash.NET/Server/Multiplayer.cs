@@ -267,9 +267,9 @@ namespace Kingdoms_Clash.NET.Server
 		/// Wywoływane przy usunięciu zasobu przez <see cref="IGameState"/>.
 		/// </summary>
 		/// <param name="res"></param>
-		public void ResourceRemoved(IResourceOnMap res)
+		public void ResourceRemoved(IResourceOnMap res, IUnit by)
 		{
-			//this.Server.Clients.SendToAll(new Messages.ResourceGathered(res.ResourceId, res))
+			this.Server.Clients.SendToAll(new Messages.ResourceGathered(res.ResourceId, by.Owner.Type == PlayerType.First ? (byte)0 : (byte)1, by.UnitId).ToMessage());
 		}
 		#endregion
 	}

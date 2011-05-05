@@ -131,7 +131,7 @@ namespace Kingdoms_Clash.NET.Controllers
 					player.Health -= component.Strength;
 				}
 			}
-			this.GameState.Remove(unit);
+			this.GameState.Kill(unit);
 			unit.Owner.Units.Remove(unit);
 		}
 
@@ -158,19 +158,19 @@ namespace Kingdoms_Clash.NET.Controllers
 
 			if (aStrength == bStrength)
 			{
-				this.GameState.Remove(unitA);
+				this.GameState.Kill(unitA);
 				unitA.Owner.Units.Remove(unitA);
-				this.GameState.Remove(unitB);
+				this.GameState.Kill(unitB);
 				unitB.Owner.Units.Remove(unitB);
 			}
 			else if (aStrength > bStrength)
 			{
-				this.GameState.Remove(unitB);
+				this.GameState.Kill(unitB);
 				unitB.Owner.Units.Remove(unitB);
 			}
 			else
 			{
-				this.GameState.Remove(unitA);
+				this.GameState.Kill(unitA);
 				unitA.Owner.Units.Remove(unitA);
 			}
 		}

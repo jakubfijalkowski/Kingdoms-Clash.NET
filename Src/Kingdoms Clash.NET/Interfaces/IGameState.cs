@@ -56,13 +56,14 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Usuwa jednostkę z gry.
 		/// </summary>
 		/// <param name="unit">Jednostka.</param>
-		void Remove(IUnit unit);
+		void Kill(IUnit unit);
 
 		/// <summary>
 		/// Usuwa zasób z gry.
 		/// </summary>
 		/// <param name="resource">Zasób.</param>
-		void Remove(IResourceOnMap resource);
+		/// <param name="by">Jednostka, która zebrała.</param>
+		void Gather(IResourceOnMap resource, IUnit by);
 		#endregion
 	}
 

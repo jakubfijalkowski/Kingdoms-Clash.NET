@@ -118,6 +118,7 @@ namespace Kingdoms_Clash.NET.Units.Components
 				var body = this.Owner.Attributes.GetOrCreate<Body>("Body");
 				body.Value.RemoveCollidesWith(Category.Cat10);
 				body.Value.RemoveCollisionCategories((Category)((int)Category.Cat11 << (int)(this.Owner as IUnit).Owner.Type));
+				resource.GameState.Gather(resource, unit);
 				return true;
 			}
 

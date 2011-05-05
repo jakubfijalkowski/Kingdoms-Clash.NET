@@ -48,6 +48,6 @@ namespace Kingdoms_Clash.NET.Server.Interfaces
 		/// Wywoływane przy usunięciu zasobu przez <see cref="IGameState"/>.
 		/// </summary>
 		/// <param name="res"></param>
-		void ResourceRemoved(IResourceOnMap res);
+		void ResourceRemoved(IResourceOnMap res, IUnit by);
 	}
 }

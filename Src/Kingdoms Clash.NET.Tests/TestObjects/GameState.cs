@@ -43,13 +43,13 @@ namespace Kingdoms_Clash.NET.Tests.TestObjects
 			this.Resources.Add(resource);
 		}
 
-		public void Remove(Interfaces.Units.IUnit unit)
+		public void Kill(Interfaces.Units.IUnit unit)
 		{
 			this.Entities.Remove(unit);
 			this.Units.Remove(unit);
 		}
 
-		public void Remove(Interfaces.Map.IResourceOnMap resource)
+		public void Gather(Interfaces.Map.IResourceOnMap resource, Interfaces.Units.IUnit by)
 		{
 			this.Resources.Remove(resource);
 		}
