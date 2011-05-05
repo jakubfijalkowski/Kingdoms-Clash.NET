@@ -96,6 +96,7 @@
     <Compile Include="Interfaces\IMultiplayer.cs" />
     <Compile Include="Interfaces\IServerConfiguration.cs" />
     <Compile Include="Interfaces\GameMessageType.cs" />
+    <Compile Include="Interfaces\IServerGameConfiguration.cs" />
     <Compile Include="Interfaces\Player\IPlayerData.cs" />
     <Compile Include="Interfaces\Player\IPlayerEntity.cs">
       <SubType>Code</SubType>
