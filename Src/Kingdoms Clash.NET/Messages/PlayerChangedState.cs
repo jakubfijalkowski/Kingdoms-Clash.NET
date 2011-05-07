@@ -35,7 +35,7 @@ namespace Kingdoms_Clash.NET.Messages
 		/// <param name="msg">Wiadomość.</param>
 		public PlayerChangedState(Message msg)
 		{
-			if (msg.Type != (MessageType)GameMessageType.PlayerChangedNick)
+			if (msg.Type != (MessageType)GameMessageType.PlayerChangedState)
 			{
 				throw new InvalidCastException("Cannot convert this message to PlayerChangedNick");
 			}
@@ -53,7 +53,7 @@ namespace Kingdoms_Clash.NET.Messages
 		{
 			byte[] data = new byte[4];
 			BinarySerializer.StaticSerialize(data, this.UserId);
-			return new Message((MessageType)GameMessageType.PlayerChangedNick, data);
+			return new Message((MessageType)GameMessageType.PlayerChangedState, data);
 		}
 		#endregion
 	}
