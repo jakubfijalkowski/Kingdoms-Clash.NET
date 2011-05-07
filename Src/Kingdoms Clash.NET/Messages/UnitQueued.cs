@@ -13,6 +13,11 @@ namespace Kingdoms_Clash.NET.Messages
 	{
 		#region Properties
 		/// <summary>
+		/// Id jednostki.
+		/// </summary>
+		public string UnitId;
+
+		/// <summary>
 		/// Czy serwer zakceptował dodanie jednostki do kolejki.
 		/// </summary>
 		public bool Accepted;
@@ -22,8 +27,9 @@ namespace Kingdoms_Clash.NET.Messages
 		/// <summary>
 		/// Tworzy nową wiadomość.
 		/// </summary>
-		public UnitQueued(bool accepted)
+		public UnitQueued(string id, bool accepted)
 		{
+			this.UnitId = id;
 			this.Accepted = accepted;
 		}
 
@@ -38,6 +44,7 @@ namespace Kingdoms_Clash.NET.Messages
 				throw new InvalidCastException("Cannot convert this message to UnitQueued");
 			}
 			BinarySerializer s = new BinarySerializer(msg.Data);
+			this.UnitId = s.GetString();
 			this.Accepted = s.GetBool();
 		}
 		#endregion
@@ -49,8 +56,8 @@ namespace Kingdoms_Clash.NET.Messages
 		/// <returns></returns>
 		public Message ToMessage()
 		{
-			byte[] data = new byte[1];
-			BinarySerializer.StaticSerialize(data, this.Accepted);
+			byte[] data = new byte[2 + this.UnitId.Length * 2 + 1];
+			BinarySerializer.StaticSerialize(data, this.UnitId, this.Accepted);
 			return new Message((MessageType)GameMessageType.UnitQueued, data);
 		}
 		#endregion

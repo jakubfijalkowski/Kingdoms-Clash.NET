@@ -9,9 +9,9 @@ namespace Kingdoms_Clash.NET.Server
 {
 	using Interfaces;
 	using NET.Interfaces;
+	using NET.Interfaces.Map;
 	using NET.Interfaces.Player;
 	using NET.Interfaces.Units;
-	using NET.Interfaces.Map;
 
 	/// <summary>
 	/// Obsługuje grę multiplayer - połączenie z klientami, czas oczekiwania na rozpoczęcie, itp.
@@ -24,11 +24,14 @@ namespace Kingdoms_Clash.NET.Server
 		private bool StopMainLoop = false;
 		private IServer Server = null;
 		private uint NextUserId = 0;
-		private List<IPlayerData> ReadyToPlayPlayers = new List<IPlayerData>();
+		private List<IClient> ReadyToPlayPlayers = new List<IClient>();
 		private TimeSpan TimeLeft;
 		private TimeSpan TimeLeft2;
 
 		private MultiplayerGameState GameState = null;
+
+		private Dictionary<GameMessageType, Func<IClient, Message, bool>> Handlers = new Dictionary<GameMessageType, Func<IClient, Message, bool>>();
+		private Dictionary<GameMessageType, Func<IClient, Message, bool>> InGameHandlers = new Dictionary<GameMessageType, Func<IClient, Message, bool>>();
 		#endregion
 
 		#region IMultiplayer Members
@@ -60,7 +63,7 @@ namespace Kingdoms_Clash.NET.Server
 				this.ProcessClients(delta);
 				this.ProcessOther(delta);
 				if (this.InGame)
-					this.ProcessInGame(delta);
+					this.ProcessInGameMessages(delta);
 				else
 					this.ProcessNonInGame(delta);
 			}
@@ -86,6 +89,11 @@ namespace Kingdoms_Clash.NET.Server
 		{
 			this.GameInfo = info;
 			this.GameState = new MultiplayerGameState(this);
+
+			this.Handlers.Add(GameMessageType.PlayerChangedNick, this.HandlePlayerChangedNick);
+			this.Handlers.Add(GameMessageType.PlayerChangedState, this.HandlePlayerChangedState);
+
+			this.InGameHandlers.Add(GameMessageType.UnitQueueAction, this.HandleUnitQueueAction);
 		}
 		#endregion
 
@@ -142,9 +150,19 @@ namespace Kingdoms_Clash.NET.Server
 		/// <summary>
 		/// Obsługa właściwej gry.
 		/// </summary>
-		private void ProcessInGame(double delta)
+		private void ProcessInGameMessages(double delta)
 		{
-
+			for (int i = 0; i < 2; i++)
+			{
+				foreach (var msg in this.ReadyToPlayPlayers[i].Messages.GetUpgradeableEnumerable())
+				{
+					if (this.InGameHandlers.Call(this.ReadyToPlayPlayers[i], msg))
+					{
+						this.ReadyToPlayPlayers[i].Messages.RemoveAt(0);
+					}
+					break;
+				}
+			}
 		}
 
 		/// <summary>
@@ -179,46 +197,61 @@ namespace Kingdoms_Clash.NET.Server
 		{
 			foreach (var client in this.Server.Clients)
 			{
-				client.Messages.RWLock.EnterUpgradeableReadLock();
-				if (client.UserData != null && client.Messages.Count > 0)
+				if (client.UserData != null)
 				{
-					switch ((GameMessageType)client.Messages[0].Type)
+					foreach (var msg in client.Messages.GetUpgradeableEnumerable())
 					{
-						case GameMessageType.PlayerChangedNick: //Zmiana nicku
-							{
-								var msg = new Messages.PlayerChangedNick(client.Messages[0]);
-								msg.UserId = (client.UserData as IPlayerData).UserId;
-								(client.UserData as IPlayerData).Nick = msg.NewNick;
-								this.Server.Clients.SendToAll(msg.ToMessage(), c => c != client);
-							}
-							break;
-
-						case GameMessageType.PlayerChangedState:
-							{
-								(client.UserData as IPlayerData).ReadyToPlay = !(client.UserData as IPlayerData).ReadyToPlay;
-								var msg = new Messages.PlayerChangedState((client.UserData as IPlayerData).UserId);
-								this.Server.Clients.SendToAll(msg.ToMessage(), c => c != client);
-								this.ReorderPlayersList(client.UserData as IPlayerData);
-							}
-							break;
-
-						default:
-							client.Messages.RWLock.ExitUpgradeableReadLock();
-							continue;
+						this.Handlers.Call(client, msg);
+						client.Messages.RemoveAt(0);
+						break;
 					}
-					client.Messages.RWLock.EnterWriteLock();
-					client.Messages.RemoveAt(0);
-					client.Messages.RWLock.ExitWriteLock();
 				}
-				client.Messages.RWLock.ExitUpgradeableReadLock();
 			}
 		}
 		#endregion
 
-		#region Other
-		private void ReorderPlayersList(IPlayerData player)
+		#region Handlers
+		private bool HandleUnitQueueAction(IClient client, Message msg)
 		{
-			if (player.ReadyToPlay)
+			if (!this.InGame)
+				return false;
+
+			var uqa = new Messages.UnitQueueAction(msg);
+			if (uqa.Created)
+			{
+				var token = this.GameState.Controller.Player1Queue.Request(uqa.UnitId);
+				client.Send(new Messages.UnitQueued(uqa.UnitId, token != null).ToMessage());
+			}
+			else
+			{
+				//TODO: dodać usuwanie z listy
+			}
+			return true;
+		}
+
+		private bool HandlePlayerChangedNick(IClient client, Message msg)
+		{
+			var pcn = new Messages.PlayerChangedNick(msg);
+			pcn.UserId = (client.UserData as IPlayerData).UserId;
+			(client.UserData as IPlayerData).Nick = pcn.NewNick;
+			this.Server.Clients.SendToAll(pcn.ToMessage(), c => c != client);
+			return true;
+		}
+
+		private bool HandlePlayerChangedState(IClient client, Message msg)
+		{
+			(client.UserData as IPlayerData).ReadyToPlay = !(client.UserData as IPlayerData).ReadyToPlay;
+			var pcs = new Messages.PlayerChangedState((client.UserData as IPlayerData).UserId);
+			this.Server.Clients.SendToAll(pcs.ToMessage(), c => c != client);
+			this.ReorderPlayersList(client);
+			return true;
+		}
+		#endregion
+
+		#region Other
+		private void ReorderPlayersList(IClient player)
+		{
+			if ((player.UserData as IPlayerData).ReadyToPlay)
 			{
 				this.ReadyToPlayPlayers.Add(player);
 			}
@@ -275,5 +308,18 @@ namespace Kingdoms_Clash.NET.Server
 			this.Server.Clients.SendToAll(new Messages.ResourceGathered(res.ResourceId, by.Owner.Type == PlayerType.First ? (byte)0 : (byte)1, by.UnitId).ToMessage());
 		}
 		#endregion
+	}
+
+	internal static class DictionaryExt
+	{
+		public static bool Call(this Dictionary<GameMessageType, Func<IClient, Message, bool>> dict, IClient client, Message msg)
+		{
+			Func<IClient, Message, bool> func;
+			if (dict.TryGetValue((GameMessageType)msg.Type, out func))
+			{
+				return func(client, msg);
+			}
+			return false;
+		}
 	}
 }
