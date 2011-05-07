@@ -129,6 +129,35 @@ namespace ClashEngine.NET.Net.Internals
 					client.Send(msg);
 			}
 		}
+
+		/// <summary>
+		/// Wysyła wiadomość do wszystkich, "prawidłowych", klientów.
+		/// Nie lockuje kolekcji.
+		/// </summary>
+		/// <param name="msg">Wiadomość</param>
+		public void SendToAllNoLock(Message msg)
+		{
+			for (int i = 0; i < this.Count; i++)
+			{
+				if (this[i].Status == ClientStatus.Ok)
+					this[i].Send(msg);
+			}
+		}
+
+		/// <summary>
+		/// Wysyła wiadomość do wszystkich, "prawidłowych", klientów umożliwiając ich filtorwanie.
+		/// Nie lockuje kolekcji.
+		/// </summary>
+		/// <param name="msg">Wiadomość</param>
+		/// <param name="pred">Predykat.</param>
+		public void SendToAllNoLock(Message msg, Predicate<IClient> pred)
+		{
+			for (int i = 0; i < this.Count; i++)
+			{
+				if (this[i].Status == ClientStatus.Ok && pred(this[i]))
+					this[i].Send(msg);
+			}
+		}
 		#endregion
 
 		#region Internals

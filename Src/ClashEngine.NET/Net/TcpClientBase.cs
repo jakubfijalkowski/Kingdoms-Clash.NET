@@ -147,7 +147,10 @@ namespace ClashEngine.NET.Net
 				int start = 0;
 				int i = this.BufferIndex;
 				this.BufferIndex += this.Socket.Receive(this.Buffer, this.BufferIndex, BufferSize - this.BufferIndex, SocketFlags.None);
-				this.LastAction = DateTime.Now;
+				if (this.BufferIndex != i)
+				{
+					this.LastAction = DateTime.Now;
+				}
 				int messageEnd = -1;
 				do
 				{

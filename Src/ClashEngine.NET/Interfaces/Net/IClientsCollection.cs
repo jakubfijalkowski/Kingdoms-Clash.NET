@@ -23,5 +23,20 @@ namespace ClashEngine.NET.Interfaces.Net
 		/// <param name="msg">Wiadomość</param>
 		/// <param name="pred">Predykat.</param>
 		void SendToAll(Message msg, Predicate<IClient> pred);
+
+		/// <summary>
+		/// Wysyła wiadomość do wszystkich, "prawidłowych", klientów.
+		/// Nie lockuje kolekcji.
+		/// </summary>
+		/// <param name="msg">Wiadomość</param>
+		void SendToAllNoLock(Message msg);
+
+		/// <summary>
+		/// Wysyła wiadomość do wszystkich, "prawidłowych", klientów umożliwiając ich filtorwanie.
+		/// Nie lockuje kolekcji.
+		/// </summary>
+		/// <param name="msg">Wiadomość</param>
+		/// <param name="pred">Predykat.</param>
+		void SendToAllNoLock(Message msg, Predicate<IClient> pred);
 	}
 }

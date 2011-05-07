@@ -234,7 +234,7 @@ namespace Kingdoms_Clash.NET.Server
 			var pcn = new Messages.PlayerChangedNick(msg);
 			pcn.UserId = (client.UserData as IPlayerData).UserId;
 			(client.UserData as IPlayerData).Nick = pcn.NewNick;
-			this.Server.Clients.SendToAll(pcn.ToMessage(), c => c != client);
+			this.Server.Clients.SendToAllNoLock(pcn.ToMessage(), c => c != client);
 			return true;
 		}
 
@@ -242,7 +242,7 @@ namespace Kingdoms_Clash.NET.Server
 		{
 			(client.UserData as IPlayerData).ReadyToPlay = !(client.UserData as IPlayerData).ReadyToPlay;
 			var pcs = new Messages.PlayerChangedState((client.UserData as IPlayerData).UserId);
-			this.Server.Clients.SendToAll(pcs.ToMessage(), c => c != client);
+			this.Server.Clients.SendToAllNoLock(pcs.ToMessage(), c => c != client);
 			this.ReorderPlayersList(client);
 			return true;
 		}
