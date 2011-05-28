@@ -28,6 +28,12 @@ namespace Kingdoms_Clash.NET
 		private IMultiplayerSettings MainSettings;
 		private List<IPlayerData> PlayersInLobby;
 		private bool InGame = false;
+		private PlayerType PlayerType = PlayerType.Spectator;
+		private List<IResourceOnMap> Resources = new List<IResourceOnMap>();
+
+		private Dictionary<GameMessageType, Func<Message, bool>> InGameHandlers = new Dictionary<GameMessageType, Func<Message, bool>>();
+		private Dictionary<GameMessageType, Func<Message, bool>> NonInGameHandlers = new Dictionary<GameMessageType, Func<Message, bool>>();
+		private Dictionary<GameMessageType, Func<Message, bool>> OthersHandlers = new Dictionary<GameMessageType, Func<Message, bool>>();
 		#endregion
 
 		#region IGameState Members
@@ -152,11 +158,11 @@ namespace Kingdoms_Clash.NET
 
 		public override void Update(double delta)
 		{
-			this.ProcessOther();
 			if (this.InGame)
 				this.ProcessInGame();
 			else
 				this.ProcessNonInGame();
+			this.ProcessOther();
 		}
 
 		public override void Render()
@@ -167,7 +173,14 @@ namespace Kingdoms_Clash.NET
 		#region Constructors
 		public Multiplayer()
 			: base("GameScreen", ClashEngine.NET.Interfaces.ScreenType.Fullscreen)
-		{ }
+		{
+			this.NonInGameHandlers.Add(GameMessageType.GameWillStartAfter, this.GameWillStartAfterHandler);
+
+			this.OthersHandlers.Add(GameMessageType.PlayerConnected, this.PlayerConnectedHandler);
+			this.OthersHandlers.Add(GameMessageType.PlayerDisconnected, this.PlayerDisconnectedHandler);
+			this.OthersHandlers.Add(GameMessageType.PlayerChangedNick, this.PlayerChangedNickHandler);
+			this.OthersHandlers.Add(GameMessageType.PlayerChangedState, this.PlayerChangedStateHandler);
+		}
 		#endregion
 
 		#region Handling
@@ -184,18 +197,10 @@ namespace Kingdoms_Clash.NET
 		/// </summary>
 		private void ProcessNonInGame()
 		{
-			if (this.Client.Messages.Count == 0)
-				return;
-
-			switch ((GameMessageType)this.Client.Messages[0].Type)
+			foreach (var msg in this.Client.Messages.GetUpgradeableEnumerable())
 			{
-				case GameMessageType.GameWillStartAfter:
-					{
-						var msg = new Messages.GameWillStartAfter(this.Client.Messages[0]);
-						this.Client.Messages.RemoveAt(0);
-						Logger.Info("Game will start after {0}", msg.Time.ToString());
-					}
-					break;
+				this.NonInGameHandlers.Call(msg);
+				break;
 			}
 		}
 
@@ -204,47 +209,126 @@ namespace Kingdoms_Clash.NET
 		/// </summary>
 		private void ProcessOther()
 		{
-			if (this.Client.Messages.Count == 0)
-				return;
-			//TODO: błędne wiadomości
-			switch ((GameMessageType)this.Client.Messages[0].Type)
+			foreach (var msg in this.Client.Messages.GetUpgradeableEnumerable())
 			{
-				case GameMessageType.PlayerConnected:
-					{
-						Messages.PlayerConnected newPlayer = new Messages.PlayerConnected(this.Client.Messages[0]);
-						this.PlayersInLobby.Add(new Player.PlayerData(newPlayer.UserId) { Nick = newPlayer.Nick });
-						Logger.Info("Player {0} connected", newPlayer.Nick);
-						this.Client.Messages.RemoveAt(0);
-					}
-					break;
-				case GameMessageType.PlayerDisconnected:
-					{
-						Messages.PlayerDisconnected disconnected = new Messages.PlayerDisconnected(this.Client.Messages[0]);
-						int idx = this.PlayersInLobby.FindIndex(p => p.UserId == disconnected.UserId);
-						Logger.Info("Player {0} disconnected, reason: {1}", this.PlayersInLobby[idx].Nick, disconnected.Reason.ToString());
-						this.PlayersInLobby.RemoveAt(0);
-					}
-					break;
-				case GameMessageType.PlayerChangedNick:
-					{
-						Messages.PlayerChangedNick newNick = new Messages.PlayerChangedNick(this.Client.Messages[0]);
-						int idx = this.PlayersInLobby.FindIndex(p => p.UserId == newNick.UserId);
-						Logger.Info("Player {0} changed the nick to {1}", this.PlayersInLobby[idx].Nick, newNick.NewNick);
-						this.PlayersInLobby[idx].Nick = newNick.NewNick;
-						this.Client.Messages.RemoveAt(0);
-					}
-					break;
-				case GameMessageType.PlayerChangedState:
-					{
-						Messages.PlayerChangedState newState = new Messages.PlayerChangedState(this.Client.Messages[0]);
-						int idx = this.PlayersInLobby.FindIndex(p => p.UserId == newState.UserId);
-						this.PlayersInLobby[idx].ReadyToPlay = !this.PlayersInLobby[idx].ReadyToPlay;
-						Logger.Info("Player {0} changed his state to {1}", this.PlayersInLobby[idx].Nick,
-							(this.PlayersInLobby[idx].ReadyToPlay ? "ready-to-play" : "spectator"));
-						this.Client.Messages.RemoveAt(0);
-					}
-					break;
+				this.OthersHandlers.Call(msg);
+				this.Client.Messages.RemoveAt(0);
+				break;
 			}
+		}
+		#endregion
+
+		#region InGame Handlers
+		private bool UnitQueuedHandler(Message msg)
+		{
+			var unitQueued = new Messages.UnitQueued(msg);
+			if (unitQueued.Accepted)
+			{
+				IUnitRequestToken token = null;
+				if (this.PlayerType == PlayerType.First)
+					token = this.Controller.Player1Queue.Request(unitQueued.UnitId);
+				else
+					token = this.Controller.Player2Queue.Request(unitQueued.UnitId);
+
+				if (token == null)
+					Logger.Warn("Something went wrong - player resources are desynchronized");
+				else
+					Logger.Trace("Unit {0} queued", unitQueued.UnitId);
+			}
+			return true;
+		}
+
+		private bool UnitCreatedHandler(Message msg)
+		{
+			var unitCreated = new Messages.UnitCreated(msg);
+			var player = this.Players[unitCreated.PlayerId];
+			var unit = new Units.Unit(player.Nation.AvailableUnits[unitCreated.UnitId], player);
+			unit.UnitId = unitCreated.NumericUnitId;
+			unit.Position = unitCreated.Position;
+			//TODO: this.Add(unit);
+			return true;
+		}
+
+		private bool UnitDestroyedHandler(Message msg)
+		{
+			var unitDestroyed = new Messages.UnitDestroyed(msg);
+			var player = this.Players[unitDestroyed.PlayerId];
+			var unit = (from u in player.Units where u.UnitId == unitDestroyed.UnitId select u).Single();
+			//TODO: this.Kill(unit);
+			return true;
+		}
+
+		private bool ResourceAddedHandler(Message msg)
+		{
+			var resourceAdded = new Messages.ResourceAdded(msg);
+			var res = new Maps.ResourceOnMap(resourceAdded.ResourceId, resourceAdded.Amount, resourceAdded.Position);
+			res.ResourceId = resourceAdded.NumericResourceId;
+			//TODO: this.Add(res);
+			return true;
+		}
+
+		private bool ResourceGatheredHandler(Message msg)
+		{
+			var resourceGathered = new Messages.ResourceGathered(msg);
+			var player = this.Players[resourceGathered.PlayerId];
+			var unit = (from u in player.Units where u.UnitId == resourceGathered.UnitId select u).Single();
+			var res = this.Resources.Find(r => r.ResourceId == resourceGathered.ResourceId);
+			player.Resources[res.Id] += res.Value;
+			//TODO: this.Gather(res, unit);
+			return true;
+		}
+
+		private bool PlayerHurtHandler(Message msg)
+		{
+			var playerHurt = new Messages.PlayerHurt(msg);
+			this.Players[playerHurt.PlayerId].Health -= playerHurt.Value;
+			return true;
+		}
+		#endregion
+
+		#region Non InGame Handlers
+		private bool GameWillStartAfterHandler(Message msg)
+		{
+			var gameWillStartAfter = new Messages.GameWillStartAfter(msg);
+			Logger.Info("Game will start after {0}", gameWillStartAfter.Time.ToString());
+			return true;
+		}
+		#endregion
+
+		#region OtherHandlers
+		private bool PlayerConnectedHandler(Message msg)
+		{
+			Messages.PlayerConnected newPlayer = new Messages.PlayerConnected(msg);
+			this.PlayersInLobby.Add(new Player.PlayerData(newPlayer.UserId) { Nick = newPlayer.Nick });
+			Logger.Info("Player {0} connected", newPlayer.Nick);
+			return true;
+		}
+
+		private bool PlayerDisconnectedHandler(Message msg)
+		{
+			Messages.PlayerDisconnected disconnected = new Messages.PlayerDisconnected(msg);
+			int idx = this.PlayersInLobby.FindIndex(p => p.UserId == disconnected.UserId);
+			Logger.Info("Player {0} disconnected, reason: {1}", this.PlayersInLobby[idx].Nick, disconnected.Reason.ToString());
+			return true;
+		}
+
+		private bool PlayerChangedNickHandler(Message msg)
+		{
+			Messages.PlayerChangedNick newNick = new Messages.PlayerChangedNick(msg);
+			int idx = this.PlayersInLobby.FindIndex(p => p.UserId == newNick.UserId);
+			Logger.Info("Player {0} changed the nick to {1}", this.PlayersInLobby[idx].Nick, newNick.NewNick);
+			this.PlayersInLobby[idx].Nick = newNick.NewNick;
+			return true;
+		}
+
+		private bool PlayerChangedStateHandler(Message msg)
+		{
+			Messages.PlayerChangedState newState = new Messages.PlayerChangedState(msg);
+			int idx = this.PlayersInLobby.FindIndex(p => p.UserId == newState.UserId);
+			this.PlayersInLobby[idx].ReadyToPlay = !this.PlayersInLobby[idx].ReadyToPlay;
+			Logger.Info("Player {0} changed his state to {1}", this.PlayersInLobby[idx].Nick,
+				(this.PlayersInLobby[idx].ReadyToPlay ? "ready-to-play" : "spectator"));
+			return true;
 		}
 		#endregion
 	}

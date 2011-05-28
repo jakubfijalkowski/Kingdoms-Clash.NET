@@ -19,6 +19,7 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 		private Interfaces.Player.IPlayer _Player2;
 		private IUnitQueue _Player1Queue;
 		private IUnitQueue _Player2Queue;
+		private bool Single = true;
 		#endregion
 
 		#region Players
@@ -91,7 +92,7 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 		/// <param name="unit">Jednostka.</param>
 		public void RequestUnit(int playerNo, IUnitDescription unit)
 		{
-			if (playerNo == 1)
+			if (playerNo == 1 || !this.Single)
 			{
 				this.Player1Queue.Request(unit.Id);
 			}
@@ -103,10 +104,10 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 		#endregion
 
 		#region Constructors
-		public PlayersGUIContainer(IGameInfo gameInfo)
+		public PlayersGUIContainer(IGameInfo gameInfo, bool multi = false)
 			: base(gameInfo)
 		{
-
+			this.Single = !multi;
 		}
 		#endregion
 	}

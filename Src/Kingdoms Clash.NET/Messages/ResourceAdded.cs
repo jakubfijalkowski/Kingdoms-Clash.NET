@@ -29,16 +29,16 @@ namespace Kingdoms_Clash.NET.Messages
 		public uint Amount;
 		
 		/// <summary>
-		/// Położenie.
+		/// Położenie(oś X).
 		/// </summary>
-		public Vector2 Position;
+		public float Position;
 		#endregion
 
 		#region Constructors
 		/// <summary>
 		/// Tworzy nową wiadomość.
 		/// </summary>
-		public ResourceAdded(string resId, uint numId, uint amount, Vector2 pos)
+		public ResourceAdded(string resId, uint numId, uint amount, float pos)
 		{
 			this.ResourceId = resId;
 			this.NumericResourceId = numId;
@@ -60,7 +60,7 @@ namespace Kingdoms_Clash.NET.Messages
 			this.ResourceId = s.GetString();
 			this.NumericResourceId = s.GetUInt32();
 			this.Amount = s.GetUInt32();
-			this.Position = new Vector2(s.GetFloat(), s.GetFloat());
+			this.Position = s.GetFloat();
 		}
 		#endregion
 
@@ -72,7 +72,7 @@ namespace Kingdoms_Clash.NET.Messages
 		public Message ToMessage()
 		{
 			byte[] data = new byte[2 + this.ResourceId.Length * 2 + 4 + 4 + 8 + 8];
-			BinarySerializer.StaticSerialize(data, this.ResourceId, this.NumericResourceId, this.Amount, (float)this.Position.X, (float)this.Position.Y);
+			BinarySerializer.StaticSerialize(data, this.ResourceId, this.NumericResourceId, this.Amount, this.Position);
 			return new Message((MessageType)GameMessageType.ResourceAdded, data);
 		}
 		#endregion

@@ -16,6 +16,9 @@ namespace Kingdoms_Clash.NET.Messages
 		/// <summary>
 		/// Identyfikator gracza.
 		/// </summary>
+		/// <remarks>
+		/// Gracz pierwszy = 0, drugi = 1.
+		/// </remarks>
 		public byte PlayerId;
 
 		/// <summary>

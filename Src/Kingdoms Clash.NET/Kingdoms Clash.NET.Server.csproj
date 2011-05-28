@@ -84,6 +84,7 @@
     <Compile Include="Controllers\Internals\UnitQueue.cs" />
     <Compile Include="Controllers\Victory\KillerWins.cs" />
     <Compile Include="Defaults.cs" />
+    <Compile Include="HandlersListExtensions.cs" />
     <Compile Include="Interfaces\Controllers\IControllerSettingsAttribute.cs" />
     <Compile Include="Interfaces\Controllers\Victory\IKillerWins.cs" />
     <Compile Include="Interfaces\Controllers\Victory\IVictoryRules.cs" />

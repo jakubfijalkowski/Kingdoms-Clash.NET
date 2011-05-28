@@ -7,6 +7,7 @@ using ClashEngine.NET.Net;
 
 namespace Kingdoms_Clash.NET.Server
 {
+	using NET;
 	using Interfaces;
 	using NET.Interfaces;
 	using NET.Interfaces.Map;
@@ -298,7 +299,7 @@ namespace Kingdoms_Clash.NET.Server
 		/// <param name="res"></param>
 		public void ResourceAdded(IResourceOnMap res)
 		{
-			this.Server.Clients.SendToAll(new Messages.ResourceAdded(res.Id, res.ResourceId, res.Value, res.Position).ToMessage());
+			this.Server.Clients.SendToAll(new Messages.ResourceAdded(res.Id, res.ResourceId, res.Value, res.Position.X).ToMessage());
 		}
 
 		/// <summary>
@@ -310,18 +311,5 @@ namespace Kingdoms_Clash.NET.Server
 			this.Server.Clients.SendToAll(new Messages.ResourceGathered(res.ResourceId, by.Owner.Type == PlayerType.First ? (byte)0 : (byte)1, by.UnitId).ToMessage());
 		}
 		#endregion
-	}
-
-	internal static class DictionaryExt
-	{
-		public static bool Call(this Dictionary<GameMessageType, Func<IClient, Message, bool>> dict, IClient client, Message msg)
-		{
-			Func<IClient, Message, bool> func;
-			if (dict.TryGetValue((GameMessageType)msg.Type, out func))
-			{
-				return func(client, msg);
-			}
-			return false;
-		}
 	}
 }
