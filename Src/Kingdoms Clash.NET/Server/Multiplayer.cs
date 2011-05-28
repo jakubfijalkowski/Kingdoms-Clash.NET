@@ -219,7 +219,9 @@ namespace Kingdoms_Clash.NET.Server
 			var uqa = new Messages.UnitQueueAction(msg);
 			if (uqa.Created)
 			{
-				var token = this.GameState.Controller.Player1Queue.Request(uqa.UnitId);
+				var token = ((client.UserData as IPlayerData).Player.Type == PlayerType.First ?
+					this.GameState.Controller.Player1Queue :
+					this.GameState.Controller.Player2Queue).Request(uqa.UnitId);
 				client.Send(new Messages.UnitQueued(uqa.UnitId, token != null).ToMessage());
 			}
 			else
