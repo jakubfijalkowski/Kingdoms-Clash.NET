@@ -2,6 +2,7 @@
 using ClashEngine.NET.Extensions;
 using ClashEngine.NET.Graphics.Gui;
 using ClashEngine.NET.Interfaces;
+using System;
 
 namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 {
@@ -19,7 +20,7 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 		private Interfaces.Player.IPlayer _Player2;
 		private IUnitQueue _Player1Queue;
 		private IUnitQueue _Player2Queue;
-		private bool Single = true;
+		private Action<string> RequestUnitHandler = null;
 		#endregion
 
 		#region Players
@@ -92,22 +93,29 @@ namespace Kingdoms_Clash.NET.Player.Controllers.XAML
 		/// <param name="unit">Jednostka.</param>
 		public void RequestUnit(int playerNo, IUnitDescription unit)
 		{
-			if (playerNo == 1 || !this.Single)
+			if (this.RequestUnitHandler == null)
 			{
-				this.Player1Queue.Request(unit.Id);
+				if (playerNo == 1)
+				{
+					this.Player1Queue.Request(unit.Id);
+				}
+				else
+				{
+					this.Player2Queue.Request(unit.Id);
+				}
 			}
 			else
 			{
-				this.Player2Queue.Request(unit.Id);
+				this.RequestUnitHandler(unit.Id);
 			}
 		}
 		#endregion
 
 		#region Constructors
-		public PlayersGUIContainer(IGameInfo gameInfo, bool multi = false)
+		public PlayersGUIContainer(IGameInfo gameInfo, Action<string> requestUnit = null)
 			: base(gameInfo)
 		{
-			this.Single = !multi;
+			this.RequestUnitHandler = requestUnit;
 		}
 		#endregion
 	}

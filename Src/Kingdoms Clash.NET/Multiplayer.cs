@@ -60,6 +60,8 @@ namespace Kingdoms_Clash.NET
 		#endregion
 
 		#region Methods
+		//Nie używamy - kontroler tylko steruje "na bierząco" grą, ale to serwer o wszytkim decyduje
+		//TODO: zastanowić się nad sensem używania kontrolera gry i reguł zwycięstwa w kliencie
 		/// <summary>
 		/// Resetuje stan gry(zaczyna od początku).
 		/// </summary>
@@ -167,6 +169,7 @@ namespace Kingdoms_Clash.NET
 
 		public override void Render()
 		{
+			this.Entities.Render();
 		}
 		#endregion
 
@@ -174,6 +177,13 @@ namespace Kingdoms_Clash.NET
 		public Multiplayer()
 			: base("GameScreen", ClashEngine.NET.Interfaces.ScreenType.Fullscreen)
 		{
+			this.InGameHandlers.Add(GameMessageType.UnitQueued, this.UnitQueuedHandler);
+			this.InGameHandlers.Add(GameMessageType.UnitCreated, this.UnitCreatedHandler);
+			this.InGameHandlers.Add(GameMessageType.UnitDestroyed, this.UnitDestroyedHandler);
+			this.InGameHandlers.Add(GameMessageType.ResourceAdded, this.ResourceAddedHandler);
+			this.InGameHandlers.Add(GameMessageType.ResourceGathered, this.ResourceGatheredHandler);
+			this.InGameHandlers.Add(GameMessageType.PlayerHurt, this.PlayerHurtHandler);
+
 			this.NonInGameHandlers.Add(GameMessageType.GameWillStartAfter, this.GameWillStartAfterHandler);
 
 			this.OthersHandlers.Add(GameMessageType.PlayerConnected, this.PlayerConnectedHandler);
@@ -189,7 +199,12 @@ namespace Kingdoms_Clash.NET
 		/// </summary>
 		private void ProcessInGame()
 		{
-
+			foreach (var msg in this.Client.Messages.GetUpgradeableEnumerable())
+			{
+				if (this.InGameHandlers.Call(msg))
+					this.Client.Messages.RemoveAt(0);
+				break;
+			}
 		}
 
 		/// <summary>
@@ -199,7 +214,8 @@ namespace Kingdoms_Clash.NET
 		{
 			foreach (var msg in this.Client.Messages.GetUpgradeableEnumerable())
 			{
-				this.NonInGameHandlers.Call(msg);
+				if (this.NonInGameHandlers.Call(msg))
+					this.Client.Messages.RemoveAt(0);
 				break;
 			}
 		}
@@ -221,6 +237,9 @@ namespace Kingdoms_Clash.NET
 		#region InGame Handlers
 		private bool UnitQueuedHandler(Message msg)
 		{
+			if (!this.InGame)
+				return false;
+
 			var unitQueued = new Messages.UnitQueued(msg);
 			if (unitQueued.Accepted)
 			{
@@ -240,46 +259,78 @@ namespace Kingdoms_Clash.NET
 
 		private bool UnitCreatedHandler(Message msg)
 		{
+			if (!this.InGame)
+				return false;
+
 			var unitCreated = new Messages.UnitCreated(msg);
 			var player = this.Players[unitCreated.PlayerId];
 			var unit = new Units.Unit(player.Nation.AvailableUnits[unitCreated.UnitId], player);
 			unit.UnitId = unitCreated.NumericUnitId;
 			unit.Position = unitCreated.Position;
-			//TODO: this.Add(unit);
+
+			player.Units.Add(unit);
+			this.Entities.Add(unit);
+
+			Logger.Trace("Unit {0} created(player: {1})", unit.Id, player.Name);
+			
+			//TODO: zdarzenia?
 			return true;
 		}
 
 		private bool UnitDestroyedHandler(Message msg)
 		{
+			if (!this.InGame)
+				return false;
+
 			var unitDestroyed = new Messages.UnitDestroyed(msg);
 			var player = this.Players[unitDestroyed.PlayerId];
 			var unit = (from u in player.Units where u.UnitId == unitDestroyed.UnitId select u).Single();
-			//TODO: this.Kill(unit);
+
+			this.Entities.Remove(unit);
+			player.Units.Remove(unit);
+
+			Logger.Trace("Unit {0} destroyed(player: {1})", unit.Id, player.Name);
+
 			return true;
 		}
 
 		private bool ResourceAddedHandler(Message msg)
 		{
+			if (!this.InGame)
+				return false;
+
 			var resourceAdded = new Messages.ResourceAdded(msg);
 			var res = new Maps.ResourceOnMap(resourceAdded.ResourceId, resourceAdded.Amount, resourceAdded.Position);
+			res.GameState = this;
 			res.ResourceId = resourceAdded.NumericResourceId;
-			//TODO: this.Add(res);
+
+			this.Entities.Add(res);
+			this.Resources.Add(res);
+			
 			return true;
 		}
 
 		private bool ResourceGatheredHandler(Message msg)
 		{
+			if (!this.InGame)
+				return false;
+
 			var resourceGathered = new Messages.ResourceGathered(msg);
 			var player = this.Players[resourceGathered.PlayerId];
 			var unit = (from u in player.Units where u.UnitId == resourceGathered.UnitId select u).Single();
 			var res = this.Resources.Find(r => r.ResourceId == resourceGathered.ResourceId);
 			player.Resources[res.Id] += res.Value;
-			//TODO: this.Gather(res, unit);
+
+			this.Resources.Remove(res);
+			this.Entities.Remove(res);
+
 			return true;
 		}
 
 		private bool PlayerHurtHandler(Message msg)
 		{
+			if (!this.InGame)
+				return false;
 			var playerHurt = new Messages.PlayerHurt(msg);
 			this.Players[playerHurt.PlayerId].Health -= playerHurt.Value;
 			return true;
@@ -289,13 +340,15 @@ namespace Kingdoms_Clash.NET
 		#region Non InGame Handlers
 		private bool GameWillStartAfterHandler(Message msg)
 		{
+			if (this.InGame)
+				return false;
 			var gameWillStartAfter = new Messages.GameWillStartAfter(msg);
 			Logger.Info("Game will start after {0}", gameWillStartAfter.Time.ToString());
 			return true;
 		}
 		#endregion
 
-		#region OtherHandlers
+		#region Other Handlers
 		private bool PlayerConnectedHandler(Message msg)
 		{
 			Messages.PlayerConnected newPlayer = new Messages.PlayerConnected(msg);
@@ -329,6 +382,12 @@ namespace Kingdoms_Clash.NET
 			Logger.Info("Player {0} changed his state to {1}", this.PlayersInLobby[idx].Nick,
 				(this.PlayersInLobby[idx].ReadyToPlay ? "ready-to-play" : "spectator"));
 			return true;
+		}
+
+		private void RequestUnit(string id)
+		{
+			Messages.UnitQueueAction queue = new Messages.UnitQueueAction(id, true);
+			this.Client.Send(queue.ToMessage());
 		}
 		#endregion
 	}

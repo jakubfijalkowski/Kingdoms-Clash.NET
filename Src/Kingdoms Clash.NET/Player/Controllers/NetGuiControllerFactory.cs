@@ -1,4 +1,6 @@
-﻿namespace Kingdoms_Clash.NET.Player.Controllers
+﻿using System;
+
+namespace Kingdoms_Clash.NET.Player.Controllers
 {
 	using Interfaces.Player.Controllers;
 
@@ -11,6 +13,8 @@
 	internal class NetGuiControllerFactory
 		: IGuiControllerFactory
 	{
+		private Action<string> RequestUnit;
+
 		#region IPlayerControllerFactory Members
 		/// <summary>
 		/// Informacje o grze.
@@ -23,7 +27,7 @@
 		/// <returns></returns>
 		public Interfaces.Player.IPlayerController[] Produce()
 		{
-			var container = new XAML.PlayersGUIContainer(this.GameInfo, true);
+			var container = new XAML.PlayersGUIContainer(this.GameInfo, this.RequestUnit);
 			this.GameInfo.Content.Load("Guis/TwoPlayers.xml", container);
 
 			//container.Controls["Player2UnitsPanel"].Visible = false; //TODO: wyłączanie obsługi drugiego gracza
@@ -33,6 +37,13 @@
 					new Internals.GuiController1(container),
 					new Internals.GuiController2(container)
 				};
+		}
+		#endregion
+
+		#region Constructor
+		public NetGuiControllerFactory(Action<string> requestUnit)
+		{
+			this.RequestUnit = requestUnit;
 		}
 		#endregion
 	}
