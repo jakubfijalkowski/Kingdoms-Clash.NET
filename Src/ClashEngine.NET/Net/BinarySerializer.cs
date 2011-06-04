@@ -94,6 +94,12 @@ namespace ClashEngine.NET.Net
 					outputList.Add((byte)ver.Build);
 					outputList.Add((byte)ver.Revision);
 				}
+				else if (obj is byte[])
+				{
+					var arr = obj as byte[];
+					outputList.AddRange(GetLittleEndian(BitConverter.GetBytes((UInt16)arr.Length)));
+					outputList.AddRange(arr);
+				}
 				else if (obj is Type)
 				{
 					var type = obj as Type;
@@ -199,6 +205,14 @@ namespace ClashEngine.NET.Net
 					output[j++] = (byte)ver.Minor;
 					output[j++] = (byte)ver.Build;
 					output[j++] = (byte)ver.Revision;
+				}
+				else if (objs[i] is byte[])
+				{
+					var arr = objs[i] as byte[];
+					GetAndCopy(BitConverter.GetBytes((UInt16)arr.Length), output, j);
+					j += 2;
+					Array.Copy(objs[i] as Array, 0, output, j, (objs[i] as byte[]).Length);
+					j += (objs[i] as byte[]).Length;
 				}
 				else if (objs[i] is Type)
 				{
@@ -430,6 +444,17 @@ namespace ClashEngine.NET.Net
 			string tmp = Encoding.Unicode.GetString(this.Data, this.Index, len * 2);
 			this.Index += len * 2;
 			return tmp;
+		}
+
+		public byte[] GetByteArray()
+		{
+			var len = this.GetUInt16();
+			byte[] arr = new byte[len];
+			for (int i = 0; i < len; i++)
+			{
+				arr[i] = this.GetByte();
+			}
+			return arr;
 		}
 
 		public Version GetVersion()

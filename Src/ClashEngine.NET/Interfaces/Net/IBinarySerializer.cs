@@ -38,6 +38,7 @@ namespace ClashEngine.NET.Interfaces.Net
 		double GetDouble();
 		float GetFloat();
 		string GetString();
+		byte[] GetByteArray();
 		Version GetVersion();
 		Type GetTypeInfo();
 		void GetTypeInfo(out string assembly, out string type, out Version version);
