@@ -21,7 +21,7 @@ namespace Kingdoms_Clash.NET.Interfaces
 		/// Załadowane nacje.
 		/// Dostępne dopiero po wywołaniu LoadNations.
 		/// </summary>
-		IList<Units.INation> Nations { get; }
+		List<Units.INation> Nations { get; }
 
 		/// <summary>
 		/// Sumy kontrolne nacji.

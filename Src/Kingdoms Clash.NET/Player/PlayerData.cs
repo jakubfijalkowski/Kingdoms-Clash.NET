@@ -2,7 +2,8 @@
 
 namespace Kingdoms_Clash.NET.Player
 {
-	using NET.Interfaces.Player;
+	using Interfaces.Player;
+	using Interfaces.Units;
 
 	/// <summary>
 	/// Dane o użytkowniku.
@@ -27,6 +28,11 @@ namespace Kingdoms_Clash.NET.Player
 		/// Czy jest w grze.
 		/// </summary>
 		public bool InGame { get; set; }
+
+		/// <summary>
+		/// Wybrana nacja.
+		/// </summary>
+		public INation Nation { get; set; }
 
 		/// <summary>
 		/// Obiekt gracza, jeśli gracz gra.

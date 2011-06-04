@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using ClashEngine.NET.Interfaces;
 using ClashEngine.NET.Interfaces.Net;
 using ClashEngine.NET.Net;
 
 namespace Kingdoms_Clash.NET.Server
 {
-	using NET;
 	using Interfaces;
+	using NET;
 	using NET.Interfaces;
 	using NET.Interfaces.Map;
 	using NET.Interfaces.Player;
@@ -33,6 +34,8 @@ namespace Kingdoms_Clash.NET.Server
 
 		private Dictionary<GameMessageType, Func<IClient, Message, bool>> Handlers = new Dictionary<GameMessageType, Func<IClient, Message, bool>>();
 		private Dictionary<GameMessageType, Func<IClient, Message, bool>> InGameHandlers = new Dictionary<GameMessageType, Func<IClient, Message, bool>>();
+		
+		private UserData.ServerLoader UserData;
 		#endregion
 
 		#region IMultiplayer Members
@@ -86,9 +89,11 @@ namespace Kingdoms_Clash.NET.Server
 		/// Inicjalizuje.
 		/// </summary>
 		/// <param name="info"></param>
-		public Multiplayer(IGameInfo info)
+		internal Multiplayer(IGameInfo info, UserData.ServerLoader userData)
 		{
 			this.GameInfo = info;
+			this.UserData = userData;
+
 			this.GameState = new MultiplayerGameState(this);
 
 			this.Handlers.Add(GameMessageType.PlayerChangedNick, this.HandlePlayerChangedNick);
@@ -130,8 +135,19 @@ namespace Kingdoms_Clash.NET.Server
 					var userData = new Player.PlayerData(this.NextUserId++);
 					userData.InGame = false;
 					userData.Nick = msg.Nick;
+					userData.Nation = this.UserData.Nations[0];
 
-					var accepted = new Messages.PlayerAccepted(userData.UserId, false, ServerConfiguration.Instance.GameController, ServerConfiguration.Instance.VictoryRules);
+					List<string> availableNations = new List<string>();
+					foreach (var item in msg.Nations)
+					{
+						int nationIdx = this.UserData.Nations.FindIndex(n => n.Name.ToLower() == item.Key.ToLower());
+						if (this.UserData.NationsCheckSums[nationIdx].SequenceEqual(item.Value))
+						{
+							availableNations.Add(item.Key);
+						}
+					}
+
+					var accepted = new Messages.PlayerAccepted(userData.UserId, false, availableNations);
 					for (int j = 0; j < this.Server.Clients.Count; j++)
 					{
 						if (this.Server.Clients[j].UserData != null)
@@ -267,9 +283,16 @@ namespace Kingdoms_Clash.NET.Server
 		private void StartGame()
 		{
 			this.GameState.Reset();
-			//this.GameState.Initialize(new ServerGameConfiguration(
-			//    new Player.PlayerInfo(this.ReadyToPlayPlayers[0].Nick, )
-			//    ));
+			var p1 = this.ReadyToPlayPlayers[0].UserData as IPlayerData;
+			var p2 = this.ReadyToPlayPlayers[1].UserData as IPlayerData;
+
+			this.GameState.Initialize(new ServerGameConfiguration(
+				new Player.PlayerInfo(p1.Nick, p1.Nation, null, false),
+				new Player.PlayerInfo(p1.Nick, p2.Nation, null, false)
+			    ));
+
+			p1.Player = this.GameState.Players[0];
+			p2.Player = this.GameState.Players[1];
 		}
 		#endregion
 

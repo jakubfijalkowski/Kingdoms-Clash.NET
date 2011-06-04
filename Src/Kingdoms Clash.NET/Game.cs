@@ -16,6 +16,7 @@ namespace Kingdoms_Clash.NET
 		: Game, IGame
 	{
 		private static NLog.Logger Logger = NLog.LogManager.GetLogger("KingdomsClash.NET");
+		private UserData.ClientLoader UserData;
 
 		#region IGame Members
 		/// <summary>
@@ -39,16 +40,17 @@ namespace Kingdoms_Clash.NET
 		/// Inicjalizuje obiekt gry.
 		/// </summary>
 		/// <param name="nations">List nacji</param>
-		public KingdomsClashNetGame(IList<INation> nations)
+		internal KingdomsClashNetGame(UserData.ClientLoader userData)
 			: base(Configuration.Instance.WindowSize.Width, Configuration.Instance.WindowSize.Height, "Kingdoms Clash.NET",
 			WindowFlags.Default & (Configuration.Instance.Fullscreen ? ~WindowFlags.Fullscreen : ~WindowFlags.None)
 			& (Configuration.Instance.VSync ? ~WindowFlags.VSync : ~WindowFlags.None))
 		{
-			if (nations == null)
+			if (userData == null)
 			{
-				throw new System.ArgumentNullException("nations");
+				throw new System.ArgumentNullException("userData");
 			}
-			this.Nations = nations;
+			this.UserData = userData;
+			this.Nations = userData.Nations;
 		}
 		#endregion
 
@@ -120,7 +122,7 @@ namespace Kingdoms_Clash.NET
 				PlayerNick = "Test"
 			}; //Testowe dane.
 
-			this.Game = new Multiplayer();
+			this.Game = new Multiplayer(this.UserData);
 			(this.Game as Multiplayer).Initialize(settings);
 
 			if (Configuration.Instance.UseFPSCounter)
@@ -156,20 +158,21 @@ namespace Kingdoms_Clash.NET
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
 			this.Info.Content.ContentDirectory = Defaults.RootDirectory;
-			ClashEngine.NET.PhysicsManager.Instance.Gravity = new OpenTK.Vector2(0f, Settings.Gravity);
+			PhysicsManager.Instance.World.AddController(new Internals.VelocityLimit());
+			PhysicsManager.Instance.Gravity = new OpenTK.Vector2(0f, Settings.Gravity);
 		}
 		#endregion
 
 		#region Main
 		static void Main(string[] args)
 		{
-			UserData.LoaderBase loader = new UserData.ClientLoader(Defaults.RootDirectory, Defaults.UserData);
+			UserData.ClientLoader loader = new UserData.ClientLoader(Defaults.RootDirectory, Defaults.UserData);
 
 			loader.LoadConfiguration();
 			loader.LoadNations();
 			loader.LoadResources();
 
-			using (var game = new KingdomsClashNetGame(loader.Nations))
+			using (var game = new KingdomsClashNetGame(loader))
 			{
 				game.Run();
 			}

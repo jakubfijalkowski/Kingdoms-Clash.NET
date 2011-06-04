@@ -38,7 +38,8 @@ namespace Kingdoms_Clash.NET.Server
 			loader.LoadNations();
 			loader.LoadResources();
 
-			game = new Multiplayer(new ServerGameInfo());
+			ClashEngine.NET.PhysicsManager.Instance.World.AddController(new Internals.VelocityLimit());
+			game = new Multiplayer(new ServerGameInfo(), loader);
 			game.Start();
 
 		}

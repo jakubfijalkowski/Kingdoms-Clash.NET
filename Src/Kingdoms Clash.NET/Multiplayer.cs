@@ -34,6 +34,8 @@ namespace Kingdoms_Clash.NET
 		private Dictionary<GameMessageType, Func<Message, bool>> InGameHandlers = new Dictionary<GameMessageType, Func<Message, bool>>();
 		private Dictionary<GameMessageType, Func<Message, bool>> NonInGameHandlers = new Dictionary<GameMessageType, Func<Message, bool>>();
 		private Dictionary<GameMessageType, Func<Message, bool>> OthersHandlers = new Dictionary<GameMessageType, Func<Message, bool>>();
+
+		private UserData.ClientLoader UserData;
 		#endregion
 
 		#region IGameState Members
@@ -128,7 +130,11 @@ namespace Kingdoms_Clash.NET
 				throw new Exception("Cannot connect to server - " + this.Client.Status.ToString()); //TODO: ładne przedstawienie błędu
 			}
 
-			Messages.PlayersFirstConfiguration firstMsg = new Messages.PlayersFirstConfiguration(this.MainSettings.PlayerNick);
+			List<KeyValuePair<string, byte[]>> nations = (from nation in this.UserData.Nations let nationName = nation.Name
+														 from checkSum in this.UserData.NationsCheckSums let cs = checkSum
+														 select new KeyValuePair<string, byte[]>(nationName, cs)).ToList();
+
+			Messages.PlayersFirstConfiguration firstMsg = new Messages.PlayersFirstConfiguration(this.MainSettings.PlayerNick, nations);
 			this.Client.Send(firstMsg.ToMessage());
 
 			Stopwatch wait = new Stopwatch();
@@ -174,7 +180,7 @@ namespace Kingdoms_Clash.NET
 		#endregion
 
 		#region Constructors
-		public Multiplayer()
+		internal Multiplayer(UserData.ClientLoader userData)
 			: base("GameScreen", ClashEngine.NET.Interfaces.ScreenType.Fullscreen)
 		{
 			this.InGameHandlers.Add(GameMessageType.UnitQueued, this.UnitQueuedHandler);
@@ -183,13 +189,17 @@ namespace Kingdoms_Clash.NET
 			this.InGameHandlers.Add(GameMessageType.ResourceAdded, this.ResourceAddedHandler);
 			this.InGameHandlers.Add(GameMessageType.ResourceGathered, this.ResourceGatheredHandler);
 			this.InGameHandlers.Add(GameMessageType.PlayerHurt, this.PlayerHurtHandler);
+			this.InGameHandlers.Add(GameMessageType.GameEnded, this.GameEndedHandler);
 
 			this.NonInGameHandlers.Add(GameMessageType.GameWillStartAfter, this.GameWillStartAfterHandler);
+			this.NonInGameHandlers.Add(GameMessageType.GameStarted, this.GameStartedHandler);
 
 			this.OthersHandlers.Add(GameMessageType.PlayerConnected, this.PlayerConnectedHandler);
 			this.OthersHandlers.Add(GameMessageType.PlayerDisconnected, this.PlayerDisconnectedHandler);
 			this.OthersHandlers.Add(GameMessageType.PlayerChangedNick, this.PlayerChangedNickHandler);
 			this.OthersHandlers.Add(GameMessageType.PlayerChangedState, this.PlayerChangedStateHandler);
+
+			this.UserData = userData;
 		}
 		#endregion
 
@@ -272,7 +282,7 @@ namespace Kingdoms_Clash.NET
 			this.Entities.Add(unit);
 
 			Logger.Trace("Unit {0} created(player: {1})", unit.Id, player.Name);
-			
+
 			//TODO: zdarzenia?
 			return true;
 		}
@@ -306,7 +316,7 @@ namespace Kingdoms_Clash.NET
 
 			this.Entities.Add(res);
 			this.Resources.Add(res);
-			
+
 			return true;
 		}
 
@@ -335,6 +345,16 @@ namespace Kingdoms_Clash.NET
 			this.Players[playerHurt.PlayerId].Health -= playerHurt.Value;
 			return true;
 		}
+
+		private bool GameEndedHandler(Message msg)
+		{
+			if (!this.InGame)
+				return false;
+
+			this.Entities.Clear();
+
+			return true;
+		}
 		#endregion
 
 		#region Non InGame Handlers
@@ -344,6 +364,37 @@ namespace Kingdoms_Clash.NET
 				return false;
 			var gameWillStartAfter = new Messages.GameWillStartAfter(msg);
 			Logger.Info("Game will start after {0}", gameWillStartAfter.Time.ToString());
+			return true;
+		}
+
+		private bool GameStartedHandler(Message msg)
+		{
+			if (this.InGame)
+				return false;
+
+			this.Players = new Player.Player[]
+			{
+				new Player.Player("A", null, 0)
+				{
+					Type = Interfaces.Player.PlayerType.First
+				},
+				new Player.Player("B", null, 0)
+				{
+					Type = Interfaces.Player.PlayerType.Second
+				}
+			};
+
+			this.Map = new Maps.DefaultMap();
+
+			float h = NET.Settings.ScreenSize * (Configuration.Instance.WindowSize.Height / (float)Configuration.Instance.WindowSize.Width);
+			var cam = new ClashEngine.NET.Graphics.Cameras.Movable2DCamera(new OpenTK.Vector2(NET.Settings.ScreenSize, h),
+				new System.Drawing.RectangleF(0f, 0f, this.Map.Size.X, Math.Max(this.Map.Size.Y + NET.Settings.MapMargin, h)));
+			this.Camera = cam;
+			this.Entities.Add(cam.GetCameraEntity(Configuration.Instance.CameraSpeed));
+			this.Entities.Add(this.Map);
+			this.Entities.Add(new Player.PlayerEntity(this.Players[0], this));
+			this.Entities.Add(new Player.PlayerEntity(this.Players[1], this));
+
 			return true;
 		}
 		#endregion

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using ClashEngine.NET.Interfaces.Net;
 using ClashEngine.NET.Net;
 
@@ -32,27 +31,21 @@ namespace Kingdoms_Clash.NET.Messages
 		public List<IPlayerData> Players;
 
 		/// <summary>
-		/// Kontroler gry.
+		/// Dostępne nacje.
 		/// </summary>
-		public Type Controller;
-
-		/// <summary>
-		/// Reguły zwycięstwa.
-		/// </summary>
-		public Type VictoryRules;
+		public List<string> AvailableNations;
 		#endregion
 
 		#region Constructors
 		/// <summary>
 		/// Tworzy nową wiadomość.
 		/// </summary>
-		public PlayerAccepted(uint uid, bool inGame, Type controller, Type victoryRules)
+		public PlayerAccepted(uint uid, bool inGame, List<string> availableNations)
 		{
 			this.UserId = uid;
 			this.InGame = inGame;
 			this.Players = new List<IPlayerData>();
-			this.Controller = controller;
-			this.VictoryRules = victoryRules;
+			this.AvailableNations = availableNations;
 		}
 
 		/// <summary>
@@ -69,17 +62,6 @@ namespace Kingdoms_Clash.NET.Messages
 			this.UserId = s.GetUInt32();
 			this.InGame = s.GetBool();
 
-			//Customowe ładowanie typów - obsługujemy tylko wbudowane
-			var curA = System.Reflection.Assembly.GetExecutingAssembly();
-			string assembly, type;
-			Version ver;
-
-			s.GetTypeInfo(out assembly, out type, out ver);
-			this.Controller = (ver == curA.GetName().Version ? curA.GetTypes().First(t => t.FullName == type) : null);
-
-			s.GetTypeInfo(out assembly, out type, out ver);
-			this.VictoryRules = (ver == curA.GetName().Version ? curA.GetTypes().First(t => t.FullName == type) : null);
-
 			ushort players = s.GetUInt16();
 			this.Players = new List<IPlayerData>();
 			for (int i = 0; i < players; i++)
@@ -88,6 +70,13 @@ namespace Kingdoms_Clash.NET.Messages
 				player.Nick = s.GetString();
 				player.InGame = s.GetBool();
 				this.Players.Add(player);
+			}
+
+			ushort nations = s.GetUInt16();
+			this.AvailableNations = new List<string>();
+			for (int i = 0; i < nations; i++)
+			{
+				this.AvailableNations.Add(s.GetString());
 			}
 		}
 		#endregion
@@ -99,18 +88,22 @@ namespace Kingdoms_Clash.NET.Messages
 		/// <returns></returns>
 		public Message ToMessage()
 		{
-			object[] objs = new object[3 + 2 + 3 * this.Players.Count];
+			object[] objs = new object[3 + 3 * this.Players.Count + 1 + this.AvailableNations.Count];
 			objs[0] = this.UserId;
 			objs[1] = this.InGame;
-			objs[2] = this.Controller;
-			objs[3] = this.VictoryRules;
 
-			objs[4] = (ushort)this.Players.Count;
-			for (int i = 0, j = 5; i < this.Players.Count; i++)
+			objs[2] = (ushort)this.Players.Count;
+			for (int i = 0, j = 3; i < this.Players.Count; i++)
 			{
 				objs[j++] = this.Players[i].UserId;
 				objs[j++] = this.Players[i].Nick;
 				objs[j++] = this.Players[i].InGame;
+			}
+
+			objs[2 + this.Players.Count * 3] = this.AvailableNations.Count;
+			for (int i = 0, j = 3 + this.Players.Count * 3; i < this.AvailableNations.Count; i++, j++)
+			{
+				objs[j] = this.AvailableNations[i];
 			}
 			byte[] data = BinarySerializer.StaticSerialize(objs);
 			return new Message((MessageType)GameMessageType.PlayerAccepted, data);

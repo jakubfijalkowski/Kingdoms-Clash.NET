@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ClashEngine.NET.Interfaces.Net;
 using ClashEngine.NET.Net;
 
@@ -16,6 +17,11 @@ namespace Kingdoms_Clash.NET.Messages
 		/// Nick.
 		/// </summary>
 		public string Nick;
+
+		/// <summary>
+		/// Dostęne nacje i ich sumy kontrolne.
+		/// </summary>
+		public List<KeyValuePair<string, byte[]>> Nations;
 		#endregion
 
 		#region Constructors
@@ -23,9 +29,10 @@ namespace Kingdoms_Clash.NET.Messages
 		/// Tworzy nową wiadomość.
 		/// </summary>
 		/// <param name="nick">Nick</param>
-		public PlayersFirstConfiguration(string nick)
+		public PlayersFirstConfiguration(string nick, List<KeyValuePair<string, byte[]>> nations)
 		{
 			this.Nick = nick;
+			this.Nations = nations;
 		}
 
 		/// <summary>
@@ -40,6 +47,13 @@ namespace Kingdoms_Clash.NET.Messages
 			}
 			BinarySerializer s = new BinarySerializer(msg.Data);
 			this.Nick = s.GetString();
+
+			this.Nations = new List<KeyValuePair<string, byte[]>>();
+			ushort nations = s.GetUInt16();
+			for (int i = 0; i < nations; i++)
+			{
+				this.Nations.Add(new KeyValuePair<string, byte[]>(s.GetString(), s.GetByteArray()));
+			}
 		}
 		#endregion
 
@@ -50,8 +64,17 @@ namespace Kingdoms_Clash.NET.Messages
 		/// <returns></returns>
 		public Message ToMessage()
 		{
-			byte[] data = new byte[2 + this.Nick.Length * 2];
-			BinarySerializer.StaticSerialize(data, this.Nick);
+			object[] objs = new object[2 + this.Nations.Count * 2];
+			objs[0] = this.Nick;
+			objs[1] = (UInt16)this.Nations.Count;
+
+			for (int i = 0, j = 2; i < this.Nations.Count; i++)
+			{
+				objs[j++] = this.Nations[i].Key;
+				objs[j++] = this.Nations[i].Value;
+			}
+
+			byte[] data = BinarySerializer.StaticSerialize(objs);
 			return new Message((MessageType)GameMessageType.PlayersFirstConfiguration, data);
 		}
 		#endregion

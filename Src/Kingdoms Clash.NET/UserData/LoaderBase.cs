@@ -33,7 +33,7 @@ namespace Kingdoms_Clash.NET.UserData
 		/// Załadowane nacje.
 		/// Dostępne dopiero po wywołaniu LoadNations.
 		/// </summary>
-		public IList<Interfaces.Units.INation> Nations { get; private set; }
+		public List<Interfaces.Units.INation> Nations { get; private set; }
 
 		/// <summary>
 		/// Sumy kontrolne nacji.
