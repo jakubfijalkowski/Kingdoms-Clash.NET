@@ -194,7 +194,7 @@ namespace ClashEngine.NET
 			this.Is64BitOS = Environment.Is64BitOperatingSystem;
 			this.Is64BitProcess = Environment.Is64BitProcess;
 			this.CLRVersion = Environment.Version;
-
+#if DEBUG
 			foreach (var item in this.Get("Win32_PhysicalMemoryArray", "Use = 3"))
 			{
 				this.MemorySize = (uint)item["MaxCapacity"];
@@ -217,6 +217,7 @@ namespace ClashEngine.NET
 				this.NumberOfCores = (uint)item["NumberOfCores"];
 				break;
 			}
+#endif
 
 			//this.OpenGLVersion = GL.GetString(StringName.Version);
 			//this.GLSLVersion = GL.GetString(StringName.ShadingLanguageVersion);

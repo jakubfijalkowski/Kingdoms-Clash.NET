@@ -80,6 +80,7 @@
     <Compile Include="Interfaces\IMultiplayerSettings.cs" />
     <Compile Include="Interfaces\Player\Controllers\INetGuiController.cs" />
     <Compile Include="Interfaces\Player\IPlayerData.cs" />
+    <Compile Include="Messages\GameStarted.cs" />
     <Compile Include="Messages\GameWillStartAfter.cs" />
     <Compile Include="Messages\PlayerChangedState.cs" />
     <Compile Include="Messages\PlayerHurt.cs" />

@@ -77,53 +77,53 @@ namespace Kingdoms_Clash.NET
 
 			this.SetGlobals();
 
-			//INation nation1 = null, nation2 = null;
-			//foreach (var nation in this.Nations)
-			//{
-			//    if (nation.Name == Configuration.Instance.Player1Nation)
-			//    {
-			//        nation1 = nation;
-			//    }
-			//    if (nation.Name == Configuration.Instance.Player2Nation)
-			//    {
-			//        nation2 = nation;
-			//    }
-			//}
-			//if (nation1 == null || nation2 == null)
-			//{
-			//    Logger.Fatal("Cannot find nation for player 1 or 2");
-			//    System.Windows.Forms.MessageBox.Show("Cannot find nation for player 1 or 2", "Error",
-			//        System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-			//    this.Exit();
-			//    return;
-			//}
-
-			//Player.Controllers.GuiControllerFactory factory = new Player.Controllers.GuiControllerFactory();
-			//factory.GameInfo = this.Info;
-			//var controlers = factory.Produce();
-
-			//GameSettings settings = new GameSettings
-			//{
-			//    PlayerA = new Player.PlayerInfo("A", nation1, controlers[0], true),
-			//    PlayerB = new Player.PlayerInfo("B", nation2, controlers[1], true),
-			//    Map = new Maps.DefaultMap(),
-			//    Controller = new Controllers.ClassicGame(),
-			//    VictoryRules = new Controllers.Victory.KillerWins(),
-			//    Gameplay = Controllers.ControllerSettingsAttribute.GetSettingsFor(typeof(Controllers.ClassicGame))
-			//};
-
-			//this.Game = new SinglePlayer();
-			//(this.Game as SinglePlayer).Initialize(settings);
-
-			MultiplayerSettings settings = new MultiplayerSettings
+			INation nation1 = null, nation2 = null;
+			foreach (var nation in this.Nations)
 			{
-				Address = System.Net.IPAddress.Loopback,
-				Port = 12345,
-				PlayerNick = "Test"
-			}; //Testowe dane.
+				if (nation.Name == Configuration.Instance.Player1Nation)
+				{
+					nation1 = nation;
+				}
+				if (nation.Name == Configuration.Instance.Player2Nation)
+				{
+					nation2 = nation;
+				}
+			}
+			if (nation1 == null || nation2 == null)
+			{
+				Logger.Fatal("Cannot find nation for player 1 or 2");
+				System.Windows.Forms.MessageBox.Show("Cannot find nation for player 1 or 2", "Error",
+					System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+				this.Exit();
+				return;
+			}
 
-			this.Game = new Multiplayer(this.UserData);
-			(this.Game as Multiplayer).Initialize(settings);
+			Player.Controllers.GuiControllerFactory factory = new Player.Controllers.GuiControllerFactory();
+			factory.GameInfo = this.Info;
+			var controlers = factory.Produce();
+
+			SingleplayerSettings settings = new SingleplayerSettings
+			{
+				PlayerA = new Player.PlayerInfo("A", nation1, controlers[0], true),
+				PlayerB = new Player.PlayerInfo("B", nation2, controlers[1], true),
+				Map = new Maps.DefaultMap(),
+				Controller = new Controllers.ClassicGame(),
+				VictoryRules = new Controllers.Victory.KillerWins(),
+				Gameplay = Controllers.ControllerSettingsAttribute.GetSettingsFor(typeof(Controllers.ClassicGame))
+			};
+
+			this.Game = new SinglePlayer();
+			(this.Game as SinglePlayer).Initialize(settings);
+
+			//MultiplayerSettings settings = new MultiplayerSettings
+			//{
+			//    Address = System.Net.IPAddress.Loopback,
+			//    Port = 12345,
+			//    PlayerNick = "Test"
+			//}; //Testowe dane.
+
+			//this.Game = new Multiplayer(this.UserData);
+			//(this.Game as Multiplayer).Initialize(settings);
 
 			if (Configuration.Instance.UseFPSCounter)
 			{
@@ -166,8 +166,10 @@ namespace Kingdoms_Clash.NET
 		#region Main
 		static void Main(string[] args)
 		{
-			UserData.ClientLoader loader = new UserData.ClientLoader(Defaults.RootDirectory, Defaults.UserData);
+			System.AppDomain.CurrentDomain.UnhandledException += new System.UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
+			UserData.ClientLoader loader = new UserData.ClientLoader(Defaults.RootDirectory, Defaults.UserData);
+			
 			loader.LoadConfiguration();
 			loader.LoadNations();
 			loader.LoadResources();
@@ -176,6 +178,12 @@ namespace Kingdoms_Clash.NET
 			{
 				game.Run();
 			}
+		}
+
+		static void CurrentDomain_UnhandledException(object sender, System.UnhandledExceptionEventArgs e)
+		{
+			Logger.FatalException("Unhandled exception", e.ExceptionObject as System.Exception);
+			//e.IsTerminating = true;
 		}
 		#endregion
 	}

@@ -27,6 +27,7 @@ namespace Kingdoms_Clash.NET
 		private IClient Client;
 		private IMultiplayerSettings MainSettings;
 		private List<IPlayerData> PlayersInLobby;
+		private List<string> AvailableNations;
 		private bool InGame = false;
 		private PlayerType PlayerType = PlayerType.Spectator;
 		private List<IResourceOnMap> Resources = new List<IResourceOnMap>();
@@ -146,6 +147,9 @@ namespace Kingdoms_Clash.NET
 				var msg = new Messages.PlayerAccepted(this.Client.Messages.GetFirst((MessageType)GameMessageType.PlayerAccepted));
 				this.UserId = msg.UserId;
 				this.PlayersInLobby = msg.Players;
+				this.AvailableNations = msg.AvailableNations;
+				//TODO: tmp
+				this.Client.Send(new Messages.PlayerChangedNick(this.UserId, this.MainSettings.PlayerNick + this.UserId).ToMessage());
 				this.Client.Send(new Messages.PlayerChangedState(this.UserId).ToMessage());
 			}
 			else
@@ -171,11 +175,7 @@ namespace Kingdoms_Clash.NET
 			else
 				this.ProcessNonInGame();
 			this.ProcessOther();
-		}
-
-		public override void Render()
-		{
-			this.Entities.Render();
+			base.Update(delta);
 		}
 		#endregion
 
@@ -372,13 +372,17 @@ namespace Kingdoms_Clash.NET
 			if (this.InGame)
 				return false;
 
+			Messages.GameStarted gameStarted = new Messages.GameStarted(msg);
+
+			var p1 = this.PlayersInLobby.Find(p => p.UserId == gameStarted.PlayerA);
+			var p2 = this.PlayersInLobby.Find(p => p.UserId == gameStarted.PlayerB);
 			this.Players = new Player.Player[]
 			{
-				new Player.Player("A", null, 0)
+				new Player.Player(p1.Nick, p1.Nation, 100)
 				{
 					Type = Interfaces.Player.PlayerType.First
 				},
-				new Player.Player("B", null, 0)
+				new Player.Player(p2.Nick, p2.Nation, 100)
 				{
 					Type = Interfaces.Player.PlayerType.Second
 				}
@@ -394,6 +398,19 @@ namespace Kingdoms_Clash.NET
 			this.Entities.Add(this.Map);
 			this.Entities.Add(new Player.PlayerEntity(this.Players[0], this));
 			this.Entities.Add(new Player.PlayerEntity(this.Players[1], this));
+
+			if (this.UserId == gameStarted.PlayerA)
+			{
+				//TODO: GUI dla gracza A
+			}
+			else if (this.UserId == gameStarted.PlayerB)
+			{
+				//TODO: GUI dla gracza B
+			}
+			else
+			{
+				//TODO: GUI obserwatora
+			}
 
 			return true;
 		}

@@ -67,7 +67,7 @@ namespace Kingdoms_Clash.NET.Server
 				this.ProcessClients(delta);
 				this.ProcessOther(delta);
 				if (this.InGame)
-					this.ProcessInGameMessages(delta);
+					this.ProcessInGame(delta);
 				else
 					this.ProcessNonInGame(delta);
 			}
@@ -167,7 +167,7 @@ namespace Kingdoms_Clash.NET.Server
 		/// <summary>
 		/// Obsługa właściwej gry.
 		/// </summary>
-		private void ProcessInGameMessages(double delta)
+		private void ProcessInGame(double delta)
 		{
 			for (int i = 0; i < 2; i++)
 			{
@@ -286,6 +286,8 @@ namespace Kingdoms_Clash.NET.Server
 			var p1 = this.ReadyToPlayPlayers[0].UserData as IPlayerData;
 			var p2 = this.ReadyToPlayPlayers[1].UserData as IPlayerData;
 
+			//this.ReadyToPlayPlayers.Shuffle
+
 			this.GameState.Initialize(new ServerGameConfiguration(
 				new Player.PlayerInfo(p1.Nick, p1.Nation, null, false),
 				new Player.PlayerInfo(p1.Nick, p2.Nation, null, false)
@@ -293,6 +295,8 @@ namespace Kingdoms_Clash.NET.Server
 
 			p1.Player = this.GameState.Players[0];
 			p2.Player = this.GameState.Players[1];
+
+			this.Server.Clients.SendToAll(new Messages.GameStarted(p1.UserId, p2.UserId).ToMessage());
 		}
 		#endregion
 

@@ -15,8 +15,8 @@ param(
 	[switch]$appendArch = $true,
 	[string]$msBuildPath = "C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe",
 	[string]$buildConfiguration = "Release",
-	[string]$buildArch = "x86",
-	[string]$7z = "7z"
+	[string]$buildArch = "Any CPU",
+	[string]$7z = "C:\Program Files\7-Zip\7z.exe"
 	);
 	
 if($version -eq $null)
@@ -46,7 +46,7 @@ Write-Host;
 
 #Budujemy
 Write-Host "Building..."
-&$msBuildPath /nologo /noconlog /fl /flp:"LogFile=Deploy/build errors.log;errorsonly" /p:"Configuration=$buildConfiguration" -p:"Architecture=""$buildArch"""
+&$msBuildPath "Kingdoms Clash.NET.sln" /nologo /noconlog /fl /flp:"LogFile=Deploy/build errors.log;errorsonly" /p:"Configuration=$buildConfiguration" -p:"Architecture=""$buildArch"""
 if($LastExitCode -ne 0)
 {
 	Write-Host "Errors occured, see Deploy/build errors.log";
